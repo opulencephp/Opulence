@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers;
 
 use InvalidArgumentException;
 use Opulence\Views\IView;
 
 /**
- * Tests the compiler dispatcher
+ * Tests the compiler dispatcher.
  */
 class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,7 +22,7 @@ class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
     private $registry = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -28,7 +30,7 @@ class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a view that does not have a compiler
+     * Tests compiling a view that does not have a compiler.
      */
     public function testCompilingViewThatDoesNotHaveCompiler()
     {
@@ -42,7 +44,7 @@ class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering a compiler
+     * Tests registering a compiler.
      */
     public function testRegisteringCompiler()
     {

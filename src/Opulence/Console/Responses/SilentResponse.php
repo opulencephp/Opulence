@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses;
 
 use Opulence\Console\Responses\Compilers\MockCompiler;
 
 /**
- * Defines the silent response, which does not write anything
+ * Defines the silent response, which does not write anything.
  */
 class SilentResponse extends Response
 {
@@ -21,7 +23,7 @@ class SilentResponse extends Response
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function clear()
     {
@@ -29,7 +31,7 @@ class SilentResponse extends Response
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function write($messages)
     {
@@ -37,7 +39,7 @@ class SilentResponse extends Response
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function writeln($messages)
     {
@@ -45,7 +47,7 @@ class SilentResponse extends Response
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doWrite(string $message, bool $includeNewLine)
     {

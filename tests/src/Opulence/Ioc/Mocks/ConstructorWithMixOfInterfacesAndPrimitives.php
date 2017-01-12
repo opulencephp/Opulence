@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Ioc\Mocks;
 
 /**
- * Defines a class with a mix of interfaces and primitives in its constructor
+ * Defines a class with a mix of interfaces and primitives in its constructor.
  */
 class ConstructorWithMixOfInterfacesAndPrimitives
 {
@@ -21,8 +23,8 @@ class ConstructorWithMixOfInterfacesAndPrimitives
     private $person = null;
 
     /**
-     * @param IFoo $foo A dependency
-     * @param int $id A primitive
+     * @param IFoo    $foo    A dependency
+     * @param int     $id     A primitive
      * @param IPerson $person A dependency
      */
     public function __construct(IFoo $foo, $id, IPerson $person)

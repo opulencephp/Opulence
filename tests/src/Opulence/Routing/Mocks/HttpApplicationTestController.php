@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Routing\Mocks;
 
 use DateTime;
@@ -18,12 +20,12 @@ use Opulence\Routing\Controller as BaseController;
 use Opulence\Views\View;
 
 /**
- * Defines the controller used by the HTTP application test
+ * Defines the controller used by the HTTP application test.
  */
 class HttpApplicationTestController extends BaseController
 {
     /**
-     * Creates a redirect response
+     * Creates a redirect response.
      *
      * @return RedirectResponse The response
      */
@@ -33,7 +35,7 @@ class HttpApplicationTestController extends BaseController
     }
 
     /**
-     * Sets a bad gateway status code in the response
+     * Sets a bad gateway status code in the response.
      *
      * @return Response The response
      */
@@ -43,7 +45,7 @@ class HttpApplicationTestController extends BaseController
     }
 
     /**
-     * Sets a cookie in the response
+     * Sets a cookie in the response.
      *
      * @return Response The response
      */
@@ -56,7 +58,7 @@ class HttpApplicationTestController extends BaseController
     }
 
     /**
-     * Sets a header in the response
+     * Sets a header in the response.
      *
      * @return Response The response
      */
@@ -69,7 +71,7 @@ class HttpApplicationTestController extends BaseController
     }
 
     /**
-     * Sets an internal server error in the response
+     * Sets an internal server error in the response.
      *
      * @return Response The response
      */
@@ -79,7 +81,7 @@ class HttpApplicationTestController extends BaseController
     }
 
     /**
-     * Sets an OK response
+     * Sets an OK response.
      *
      * @return Response The response
      */
@@ -89,7 +91,7 @@ class HttpApplicationTestController extends BaseController
     }
 
     /**
-     * Sets an unauthorized response
+     * Sets an unauthorized response.
      *
      * @return Response The response
      */
@@ -99,7 +101,7 @@ class HttpApplicationTestController extends BaseController
     }
 
     /**
-     * Sets a variable in the view
+     * Sets a variable in the view.
      *
      * @return Response The response
      */
@@ -112,7 +114,7 @@ class HttpApplicationTestController extends BaseController
     }
 
     /**
-     * Shows "FooBar" in the response content
+     * Shows "FooBar" in the response content.
      *
      * @return Response The response
      */
@@ -122,7 +124,7 @@ class HttpApplicationTestController extends BaseController
     }
 
     /**
-     * Shows a JSON response
+     * Shows a JSON response.
      *
      * @return JsonResponse The response
      */

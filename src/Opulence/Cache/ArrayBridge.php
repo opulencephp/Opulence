@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cache;
 
 /**
- * Defines the array bridge
+ * Defines the array bridge.
  */
 class ArrayBridge implements ICacheBridge
 {
@@ -17,7 +19,7 @@ class ArrayBridge implements ICacheBridge
     private $storage = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function decrement(string $key, int $by = 1) : int
     {
@@ -27,7 +29,7 @@ class ArrayBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete(string $key)
     {
@@ -35,7 +37,7 @@ class ArrayBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -43,19 +45,17 @@ class ArrayBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get(string $key)
     {
         if (array_key_exists($key, $this->storage)) {
             return $this->storage[$key];
         }
-
-        return null;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function has(string $key) : bool
     {
@@ -63,7 +63,7 @@ class ArrayBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function increment(string $key, int $by = 1) : int
     {
@@ -73,7 +73,7 @@ class ArrayBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function set(string $key, $value, int $lifetime)
     {

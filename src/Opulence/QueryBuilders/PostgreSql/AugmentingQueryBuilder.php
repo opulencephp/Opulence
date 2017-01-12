@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\PostgreSql;
 
 use Opulence\QueryBuilders\AugmentingQueryBuilder as BaseAugmentingQueryBuilder;
 
 /**
- * Adds PostgreSQL-specific functionality for augmenting queries
+ * Adds PostgreSQL-specific functionality for augmenting queries.
  */
 class AugmentingQueryBuilder extends BaseAugmentingQueryBuilder
 {
@@ -19,9 +21,10 @@ class AugmentingQueryBuilder extends BaseAugmentingQueryBuilder
     protected $returningExpressions = [];
 
     /**
-     * Adds to a "RETURNING" clause
+     * Adds to a "RETURNING" clause.
      *
      * @param string[] $expression,... A variable list of expressions to add to the "RETURNING" clause
+     *
      * @return self For method chaining
      */
     public function addReturning(string ...$expression) : self
@@ -32,14 +35,14 @@ class AugmentingQueryBuilder extends BaseAugmentingQueryBuilder
     }
 
     /**
-     * Gets the SQL that makes up the "RETURNING" clause, if one was specified
+     * Gets the SQL that makes up the "RETURNING" clause, if one was specified.
      *
      * @return string The SQL making up the "RETURNING" clause
      */
     public function getReturningClauseSql() : string
     {
         if (count($this->returningExpressions) > 0) {
-            return ' RETURNING ' . implode(', ', $this->returningExpressions);
+            return ' RETURNING '.implode(', ', $this->returningExpressions);
         }
 
         return '';
@@ -47,9 +50,10 @@ class AugmentingQueryBuilder extends BaseAugmentingQueryBuilder
 
     /**
      * Starts a "RETURNING" clause
-     * Only call this method once per query because it will overwrite any previously-set "RETURNING" expressions
+     * Only call this method once per query because it will overwrite any previously-set "RETURNING" expressions.
      *
      * @param string[] $expression,... A variable list of expressions to add to the "RETURNING" clause
+     *
      * @return self For method chaining
      */
     public function returning(string ...$expression) : self

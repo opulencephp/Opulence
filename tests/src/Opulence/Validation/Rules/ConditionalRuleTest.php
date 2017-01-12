@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
 use LogicException;
 
 /**
- * Tests the conditional rule
+ * Tests the conditional rule.
  */
 class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests that it fails when the condition is true and an extra rule fails
+     * Tests that it fails when the condition is true and an extra rule fails.
      */
     public function TestFailsWhenConditionTrueAndExtraRuleFails()
     {
@@ -36,7 +38,7 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the slug
+     * Tests getting the slug.
      */
     public function testGettingSlug()
     {
@@ -45,7 +47,7 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting sub-rules
+     * Tests getting sub-rules.
      */
     public function testGettingSubRules()
     {
@@ -60,7 +62,7 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not setting the args before passes
+     * Tests not setting the args before passes.
      */
     public function testNotSettingArgBeforePasses()
     {
@@ -70,7 +72,7 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that it a rule always passes with no extra rules
+     * Tests that it a rule always passes with no extra rules.
      */
     public function testPassesWithNoExtraRules()
     {
@@ -89,7 +91,7 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an empty arg array
+     * Tests passing an empty arg array.
      */
     public function testPassingEmptyArgArray()
     {
@@ -99,7 +101,7 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an invalid arg
+     * Tests passing an invalid arg.
      */
     public function testPassingInvalidArg()
     {
@@ -109,7 +111,7 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that rules always pass when the condition returns false
+     * Tests that rules always pass when the condition returns false.
      */
     public function testRulesAwaysPassWhenConditionReturnsFalse()
     {

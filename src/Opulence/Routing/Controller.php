@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing;
 
 use Opulence\Http\Requests\Request;
@@ -15,7 +17,7 @@ use Opulence\Views\Factories\IViewFactory;
 use Opulence\Views\IView;
 
 /**
- * Defines a base controller
+ * Defines a base controller.
  */
 class Controller
 {
@@ -30,10 +32,11 @@ class Controller
 
     /**
      * Actually calls the method in the controller
-     * Rather than calling the method directly from the route dispatcher, call this method
+     * Rather than calling the method directly from the route dispatcher, call this method.
      *
      * @param string $methodName The name of the method in $this to call
-     * @param array $parameters The list of parameters to pass into the action method
+     * @param array  $parameters The list of parameters to pass into the action method
+     *
      * @return Response The HTTP response returned by the method
      */
     public function callMethod(string $methodName, array $parameters) : Response
@@ -87,7 +90,7 @@ class Controller
 
     /**
      * Sets up the view
-     * Useful for setting up a view's components that are the same across controller methods
+     * Useful for setting up a view's components that are the same across controller methods.
      */
     protected function setUpView()
     {

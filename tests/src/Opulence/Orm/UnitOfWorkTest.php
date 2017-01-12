@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm;
 
 use Opulence\Orm\ChangeTracking\ChangeTracker;
@@ -21,7 +23,7 @@ use Opulence\Tests\Orm\DataMappers\Mocks\SqlDataMapper;
 use Opulence\Tests\Orm\Mocks\UnitOfWork as MockUnitOfWork;
 
 /**
- * Tests the unit of work
+ * Tests the unit of work.
  */
 class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
 {
@@ -39,7 +41,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     private $entity3 = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -47,11 +49,11 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $idAccessorRegistry->registerIdAccessors(
             User::class,
             function ($user) {
-                /** @var User $user */
+                /* @var User $user */
                 return $user->getId();
             },
             function ($user, $id) {
-                /** @var User $user */
+                /* @var User $user */
                 $user->setId($id);
             }
         );
@@ -73,7 +75,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
             $connection
         );
         $this->dataMapper = new SqlDataMapper();
-        /**
+        /*
          * The Ids are purposely unique so that we can identify them as such without having to first insert them to
          * assign unique Ids
          * They are also purposely set to 724, 1987, and 345 so that they won't potentially overlap with any default
@@ -85,7 +87,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests seeing if the unit of work picks up on an update made outside of it
+     * Tests seeing if the unit of work picks up on an update made outside of it.
      */
     public function testCheckingIfEntityUpdateIsDetected()
     {
@@ -103,7 +105,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if an entity update is detected after copying its pointer to another variable
+     * Tests checking if an entity update is detected after copying its pointer to another variable.
      */
     public function testCheckingIfEntityUpdateIsDetectedAfterCopyingPointer()
     {
@@ -115,7 +117,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if an entity update is detected after it is returned by a function
+     * Tests checking if an entity update is detected after it is returned by a function.
      */
     public function testCheckingIfEntityUpdateIsDetectedAfterReturningFromFunction()
     {
@@ -126,7 +128,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests detaching a registered entity after scheduling it for deletion, insertion, and update
+     * Tests detaching a registered entity after scheduling it for deletion, insertion, and update.
      */
     public function testDetachingEntityAfterSchedulingForDeletionInsertionUpdate()
     {
@@ -143,7 +145,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests disposing of the unit of work
+     * Tests disposing of the unit of work.
      */
     public function testDisposing()
     {
@@ -157,7 +159,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the entity registry
+     * Tests getting the entity registry.
      */
     public function testGettingEntityRegistry()
     {
@@ -165,7 +167,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the Id is not generated and set when no generator is registered
+     * Tests that the Id is not generated and set when no generator is registered.
      */
     public function testIdNotGeneratedNorSetWhenGeneratorNotRegistered()
     {
@@ -173,11 +175,11 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $idAccessorRegistry->registerIdAccessors(
             User::class,
             function ($user) {
-                /** @var User $user */
+                /* @var User $user */
                 return $user->getId();
             },
             function ($user, $id) {
-                /** @var User $user */
+                /* @var User $user */
                 $user->setId($id);
             }
         );
@@ -197,7 +199,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
             $connection
         );
         $this->entity1 = new User(123, 'foo');
-        /** @var IDataMapper|\PHPUnit_Framework_MockObject_MockObject dataMapper */
+        /* @var IDataMapper|\PHPUnit_Framework_MockObject_MockObject dataMapper */
         $this->dataMapper = $this->createMock(IDataMapper::class);
         $this->dataMapper->expects($this->once())
             ->method('add')
@@ -210,7 +212,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the Id is not generated and set when no generator is registered
+     * Tests that the Id is not generated and set when no generator is registered.
      */
     public function testIdNotResetOnRollbackWhenGeneratorNotRegistered()
     {
@@ -218,11 +220,11 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $idAccessorRegistry->registerIdAccessors(
             User::class,
             function ($user) {
-                /** @var User $user */
+                /* @var User $user */
                 return $user->getId();
             },
             function ($user, $id) {
-                /** @var User $user */
+                /* @var User $user */
                 $user->setId($id);
             }
         );
@@ -244,7 +246,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
 
         try {
             $this->entity1 = new User(123, 'foo');
-            /** @var IDataMapper|\PHPUnit_Framework_MockObject_MockObject dataMapper */
+            /* @var IDataMapper|\PHPUnit_Framework_MockObject_MockObject dataMapper */
             $this->dataMapper = $this->createMock(IDataMapper::class);
             $className = $this->entityRegistry->getClassName($this->entity1);
             $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
@@ -258,7 +260,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests inserting and deleting an entity in a single transaction
+     * Tests inserting and deleting an entity in a single transaction.
      */
     public function testInsertingAndDeletingEntity()
     {
@@ -275,7 +277,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests making sure an unchanged registered entity isn't scheduled for update
+     * Tests making sure an unchanged registered entity isn't scheduled for update.
      */
     public function testMakingSureUnchangedEntityIsNotScheduledForUpdate()
     {
@@ -291,7 +293,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not setting the connection
+     * Tests not setting the connection.
      */
     public function testNotSettingConnection()
     {
@@ -312,7 +314,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the post-commit hook for a cached data mapper
+     * Tests the post-commit hook for a cached data mapper.
      */
     public function testPostCommitOnCachedDataMapper()
     {
@@ -327,7 +329,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests scheduling a deletion for an entity
+     * Tests scheduling a deletion for an entity.
      */
     public function testSchedulingDeletionEntity()
     {
@@ -347,7 +349,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests scheduling an insertion for an entity
+     * Tests scheduling an insertion for an entity.
      */
     public function testSchedulingInsertionEntity()
     {
@@ -370,7 +372,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests scheduling an update for an entity
+     * Tests scheduling an update for an entity.
      */
     public function testSchedulingUpdate()
     {
@@ -391,7 +393,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the aggregate root on inserted entities
+     * Tests setting the aggregate root on inserted entities.
      */
     public function testSettingAggregateRootOnInsertedEntities()
     {
@@ -402,8 +404,8 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->unitOfWork->scheduleForInsertion($this->entity2);
         $this->unitOfWork->getEntityRegistry()->registerAggregateRootCallback($this->entity1, $this->entity2,
             function ($aggregateRoot, $child) {
-                /** @var User $aggregateRoot */
-                /** @var User $child */
+                /* @var User $aggregateRoot */
+                /* @var User $child */
                 $child->setAggregateRootId($aggregateRoot->getId());
             });
         $this->unitOfWork->commit();
@@ -412,7 +414,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the aggregate root on updated entities
+     * Tests setting the aggregate root on updated entities.
      */
     public function testSettingAggregateRootOnUpdatedEntities()
     {
@@ -423,8 +425,8 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->unitOfWork->scheduleForUpdate($this->entity2);
         $this->unitOfWork->getEntityRegistry()->registerAggregateRootCallback($this->entity1, $this->entity2,
             function ($aggregateRoot, $child) {
-                /** @var User $aggregateRoot */
-                /** @var User $child */
+                /* @var User $aggregateRoot */
+                /* @var User $child */
                 $child->setAggregateRootId($aggregateRoot->getId());
             });
         $this->unitOfWork->commit();
@@ -433,7 +435,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests to make sure that an entity's Id is being set after it's committed
+     * Tests to make sure that an entity's Id is being set after it's committed.
      */
     public function testThatEntityIdIsBeingSetAfterCommit()
     {
@@ -442,7 +444,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests an unsuccessful commit
+     * Tests an unsuccessful commit.
      */
     public function testUnsuccessfulCommit()
     {
@@ -451,11 +453,11 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $idAccessorRegistry->registerIdAccessors(
             User::class,
             function ($user) {
-                /** @var User $user */
+                /* @var User $user */
                 return $user->getId();
             },
             function ($user, $id) {
-                /** @var User $user */
+                /* @var User $user */
                 $user->setId($id);
             }
         );
@@ -501,10 +503,11 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Gets the entity after committing it
+     * Gets the entity after committing it.
+     *
+     * @throws OrmException Thrown if there was an error committing the transaction
      *
      * @return User The entity from the data mapper
-     * @throws OrmException Thrown if there was an error committing the transaction
      */
     private function getInsertedEntity()
     {

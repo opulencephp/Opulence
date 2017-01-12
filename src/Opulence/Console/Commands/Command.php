@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Commands;
 
 use InvalidArgumentException;
@@ -16,7 +18,7 @@ use Opulence\Console\Responses\IResponse;
 use RuntimeException;
 
 /**
- * Defines a basic command
+ * Defines a basic command.
  */
 abstract class Command implements ICommand
 {
@@ -41,7 +43,7 @@ abstract class Command implements ICommand
 
     /**
      * To ensure that the command is properly instantiated, be sure to
-     * always call parent::__construct() in child command classes
+     * always call parent::__construct() in child command classes.
      *
      * @throws InvalidArgumentException Thrown if the name is not set
      */
@@ -66,7 +68,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function addArgument(Argument $argument) : ICommand
     {
@@ -76,7 +78,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function addOption(Option $option) : ICommand
     {
@@ -86,7 +88,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function argumentValueIsSet(string $name) : bool
     {
@@ -94,19 +96,19 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     final public function execute(IResponse $response)
     {
         if (!$this->constructorCalled) {
-            throw new RuntimeException("Command class \"" . static::class . "\" does not call parent::__construct()");
+            throw new RuntimeException('Command class "'.static::class.'" does not call parent::__construct()');
         }
 
         return $this->doExecute($response);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getArgument(string $name) : Argument
     {
@@ -118,7 +120,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getArgumentValue(string $name)
     {
@@ -130,7 +132,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getArguments() : array
     {
@@ -138,7 +140,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDescription() : string
     {
@@ -146,7 +148,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getHelpText() : string
     {
@@ -154,7 +156,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName() : string
     {
@@ -162,7 +164,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getOption(string $name) : Option
     {
@@ -174,7 +176,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getOptionValue(string $name)
     {
@@ -183,14 +185,14 @@ abstract class Command implements ICommand
         }
 
         if (!isset($this->optionValues[$name])) {
-            return null;
+            return;
         }
 
         return $this->optionValues[$name];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getOptions() : array
     {
@@ -198,7 +200,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function optionIsSet(string $name) : bool
     {
@@ -207,7 +209,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setArgumentValue(string $name, $value)
     {
@@ -215,7 +217,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setCommandCollection(CommandCollection &$commandCollection)
     {
@@ -223,7 +225,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setOptionValue(string $name, $value)
     {
@@ -232,22 +234,24 @@ abstract class Command implements ICommand
 
     /**
      * Sets the arguments and options for this command
-     * Provides a convenient place to write down the definition for a command
+     * Provides a convenient place to write down the definition for a command.
      */
     abstract protected function define();
 
     /**
-     * Actually executes the command
+     * Actually executes the command.
      *
      * @param IResponse $response The console response to write to
+     *
      * @return int|null Null or the status code of the command
      */
     abstract protected function doExecute(IResponse $response);
 
     /**
-     * Sets the description of the command
+     * Sets the description of the command.
      *
      * @param string $description The description to use
+     *
      * @return self For method chaining
      */
     protected function setDescription(string $description) : self
@@ -258,9 +262,10 @@ abstract class Command implements ICommand
     }
 
     /**
-     * Sets the help text
+     * Sets the help text.
      *
      * @param string $helpText The help text
+     *
      * @return self for method chaining
      */
     protected function setHelpText(string $helpText) : self
@@ -271,9 +276,10 @@ abstract class Command implements ICommand
     }
 
     /**
-     * Sets the name of the command
+     * Sets the name of the command.
      *
      * @param string $name The name to use
+     *
      * @return self For method chaining
      */
     protected function setName(string $name) : self

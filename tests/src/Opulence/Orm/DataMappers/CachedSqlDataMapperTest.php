@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm\DataMappers;
 
 use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
@@ -14,7 +16,7 @@ use Opulence\Tests\Mocks\User;
 use Opulence\Tests\Orm\DataMappers\Mocks\CachedSqlDataMapper;
 
 /**
- * Tests the cached SQL data mapper
+ * Tests the cached SQL data mapper.
  */
 class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
 {
@@ -30,13 +32,13 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
     private $entity4 = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
         $idAccessorRegistry = new IdAccessorRegistry();
         $idAccessorRegistry->registerIdAccessors(User::class, function ($user) {
-            /** @var User $user */
+            /* @var User $user */
             return $user->getId();
         });
         $this->dataMapper = new CachedSqlDataMapper(null, null, $idAccessorRegistry);
@@ -47,7 +49,7 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an entity and committing to cache
+     * Tests adding an entity and committing to cache.
      */
     public function testAddingEntityAndCommittingCache()
     {
@@ -58,7 +60,7 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an entity without synchronizing to cache
+     * Tests adding an entity without synchronizing to cache.
      */
     public function testAddingEntityWithoutCommittingCache()
     {
@@ -68,7 +70,7 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests deleting an entity and committing to cache
+     * Tests deleting an entity and committing to cache.
      */
     public function testDeletingEntityAndCommittingCache()
     {
@@ -79,7 +81,7 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests deleting an entity without committing to cache
+     * Tests deleting an entity without committing to cache.
      */
     public function testDeletingEntityWithoutCommittingCache()
     {
@@ -90,7 +92,7 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the cache data mapper
+     * Tests getting the cache data mapper.
      */
     public function testGettingCacheDataMapper()
     {
@@ -98,7 +100,7 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the SQL data mapper
+     * Tests getting the SQL data mapper.
      */
     public function testGettingSqlDataMapper()
     {
@@ -106,7 +108,7 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting unsynced entities
+     * Tests getting unsynced entities.
      */
     public function testGettingUnsyncedEntities()
     {
@@ -126,9 +128,9 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
         // This should synchronize cache and SQL
         $unsyncedEntities = $this->dataMapper->getUnsyncedEntities();
         $this->assertEquals([
-            'missing' => [$this->entity2],
-            'differing' => [$this->entity3],
-            'additional' => [$this->entity4]
+            'missing'    => [$this->entity2],
+            'differing'  => [$this->entity3],
+            'additional' => [$this->entity4],
         ], $unsyncedEntities);
         // This should be the exact same instance because it was already in sync
         $this->assertSame($this->entity1, $this->dataMapper->getCacheDataMapper()->getById($this->entity1->getId()));
@@ -141,7 +143,7 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests refreshing the cache
+     * Tests refreshing the cache.
      */
     public function testRefreshingCache()
     {
@@ -161,9 +163,9 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
         // This should synchronize cache and SQL
         $unsyncedEntities = $this->dataMapper->refreshCache();
         $this->assertEquals([
-            'missing' => [$this->entity2],
-            'differing' => [$this->entity3],
-            'additional' => [$this->entity4]
+            'missing'    => [$this->entity2],
+            'differing'  => [$this->entity3],
+            'additional' => [$this->entity4],
         ], $unsyncedEntities);
         // This should be the exact same instance because it was already in sync
         $this->assertSame($this->entity1, $this->dataMapper->getCacheDataMapper()->getById($this->entity1->getId()));
@@ -176,12 +178,12 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests refreshing an entity
+     * Tests refreshing an entity.
      */
     public function testRefreshingEntity()
     {
         $this->dataMapper->add($this->entity1);
-        /**
+        /*
          * Manually delete the entity from cache in case there's a bug in the refresh code that prevents it from
          * being automatically deleted from cache
          */
@@ -191,7 +193,7 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests attempting to refresh an entity that returns null from SQL
+     * Tests attempting to refresh an entity that returns null from SQL.
      */
     public function testRefreshingNullEntity()
     {
@@ -200,7 +202,7 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests updating an entity and committing to cache
+     * Tests updating an entity and committing to cache.
      */
     public function testUpdatingEntityAndCommittingCache()
     {
@@ -214,7 +216,7 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests updating an entity without committing to cache
+     * Tests updating an entity without committing to cache.
      */
     public function testUpdatingEntityWithoutCommittingCache()
     {
@@ -222,7 +224,7 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
         $this->dataMapper->getCacheDataMapper()->add($this->entity1);
         /**
          * We have to clone the original entity so that when we set a property on it, it doesn't update the object
-         * referenced by the mock data mappers
+         * referenced by the mock data mappers.
          */
         $entityClone = clone $this->entity1;
         $entityClone->setUsername('bar');

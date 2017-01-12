@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cache;
 
 /**
- * Defines the file-based cache bridge
+ * Defines the file-based cache bridge.
  */
 class FileBridge implements ICacheBridge
 {
@@ -29,19 +31,19 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function decrement(string $key, int $by = 1) : int
     {
         $parsedData = $this->parseData($key);
-        $incrementedValue = (int)$parsedData['d'] - $by;
+        $incrementedValue = (int) $parsedData['d'] - $by;
         $this->set($key, $incrementedValue, $parsedData['t']);
 
         return $incrementedValue;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete(string $key)
     {
@@ -49,7 +51,7 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -61,7 +63,7 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get(string $key)
     {
@@ -69,7 +71,7 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function has(string $key) : bool
     {
@@ -81,19 +83,19 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function increment(string $key, int $by = 1) : int
     {
         $parsedData = $this->parseData($key);
-        $incrementedValue = (int)$parsedData['d'] + $by;
+        $incrementedValue = (int) $parsedData['d'] + $by;
         $this->set($key, $incrementedValue, $parsedData['t']);
 
         return $incrementedValue;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function set(string $key, $value, int $lifetime)
     {
@@ -101,20 +103,22 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * Gets the path for a given key
+     * Gets the path for a given key.
      *
      * @param string $key The key to get
+     *
      * @return string The path to the key
      */
     protected function getPath(string $key) : string
     {
-        return $this->path . '/' . md5($key);
+        return $this->path.'/'.md5($key);
     }
 
     /**
-     * Runs garbage collection on a key, if necessary
+     * Runs garbage collection on a key, if necessary.
      *
      * @param string $key The key to run garbage collection on
+     *
      * @return array The array of data after running any garbage collection
      */
     protected function parseData(string $key) : array
@@ -136,10 +140,11 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * Serializes the data with lifetime information
+     * Serializes the data with lifetime information.
      *
-     * @param mixed $data The data to serialize
-     * @param int $lifetime The lifetime in seconds
+     * @param mixed $data     The data to serialize
+     * @param int   $lifetime The lifetime in seconds
+     *
      * @return string The serialized data
      */
     protected function serialize($data, int $lifetime) : string
@@ -150,9 +155,10 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * Unserializes the data from storage
+     * Unserializes the data from storage.
      *
      * @param string $data The data to unserialize
+     *
      * @return mixed The serialized data
      */
     protected function unserialize(string $data)

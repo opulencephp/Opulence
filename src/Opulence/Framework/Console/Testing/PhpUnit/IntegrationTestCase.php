@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Testing\PhpUnit;
 
 use Opulence\Applications\Application;
@@ -28,7 +30,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
 /**
- * Defines the console integration test
+ * Defines the console integration test.
  */
 abstract class IntegrationTestCase extends TestCase
 {
@@ -56,9 +58,10 @@ abstract class IntegrationTestCase extends TestCase
     protected $prompt = null;
 
     /**
-     * Creates a command builder
+     * Creates a command builder.
      *
      * @param string $commandName The name of the command to build
+     *
      * @return CommandBuilder The command builder
      */
     public function command(string $commandName) : CommandBuilder
@@ -67,13 +70,14 @@ abstract class IntegrationTestCase extends TestCase
     }
 
     /**
-     * Executes a command to test
+     * Executes a command to test.
      *
-     * @param string $commandName The name of the command to run
-     * @param array $arguments The list of arguments
-     * @param array $options The list of options
+     * @param string       $commandName   The name of the command to run
+     * @param array        $arguments     The list of arguments
+     * @param array        $options       The list of options
      * @param array|string $promptAnswers The answer or list of answers to use in any prompts
-     * @param bool $isStyled Whether or not the output should be styled
+     * @param bool         $isStyled      Whether or not the output should be styled
+     *
      * @return self For method chaining
      */
     public function execute(
@@ -83,7 +87,7 @@ abstract class IntegrationTestCase extends TestCase
         $promptAnswers = [],
         bool $isStyled = true
     ) : self {
-        $promptAnswers = (array)$promptAnswers;
+        $promptAnswers = (array) $promptAnswers;
 
         if (count($promptAnswers) > 0) {
             $this->setPromptAnswers($commandName, $promptAnswers);
@@ -100,7 +104,7 @@ abstract class IntegrationTestCase extends TestCase
     }
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -126,7 +130,7 @@ abstract class IntegrationTestCase extends TestCase
     }
 
     /**
-     * Tears down the tests
+     * Tears down the tests.
      */
     public function tearDown()
     {
@@ -134,10 +138,10 @@ abstract class IntegrationTestCase extends TestCase
     }
 
     /**
-     * Sets up the prompt to output pre-determined answers when asked
+     * Sets up the prompt to output pre-determined answers when asked.
      *
      * @param string $commandName The name of the command
-     * @param array $answers The list of answers to return for each question
+     * @param array  $answers     The list of answers to return for each question
      */
     private function setPromptAnswers(string $commandName, array $answers)
     {

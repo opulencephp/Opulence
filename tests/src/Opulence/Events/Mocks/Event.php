@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Events\Mocks;
 
 /**
- * Defines a mock event
+ * Defines a mock event.
  */
 class Event
 {

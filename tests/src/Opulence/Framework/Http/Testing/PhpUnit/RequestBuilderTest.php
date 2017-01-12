@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Http\Testing\PhpUnit;
 
 use InvalidArgumentException;
@@ -13,7 +15,7 @@ use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\UploadedFile;
 
 /**
- * Tests the request builder
+ * Tests the request builder.
  */
 class RequestBuilderTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +23,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     private $integrationTest = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -29,7 +31,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building an HTTPS request
+     * Tests building an HTTPS request.
      */
     public function testBuildingHttpsRequest()
     {
@@ -43,7 +45,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a JSON request
+     * Tests building a JSON request.
      */
     public function testBuildingJsonRequest()
     {
@@ -67,7 +69,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a request with content
+     * Tests building a request with content.
      */
     public function testBuildingRequestWithContent()
     {
@@ -81,7 +83,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a request with cookies
+     * Tests building a request with cookies.
      */
     public function testBuildingRequestWithCookies()
     {
@@ -96,7 +98,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a request with env vars
+     * Tests building a request with env vars.
      */
     public function testBuildingRequestWithEnvVars()
     {
@@ -111,7 +113,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a request with files
+     * Tests building a request with files.
      */
     public function testBuildingRequestWithFiles()
     {
@@ -131,7 +133,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a request with a port
+     * Tests building a request with a port.
      */
     public function testBuildingRequestWithPort()
     {
@@ -145,7 +147,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a request with server vars
+     * Tests building a request with server vars.
      */
     public function testBuildingRequestWithServerVars()
     {
@@ -160,7 +162,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that from() sets the Url in the request
+     * Tests that from() sets the Url in the request.
      */
     public function testFromSetsUrlInRequest()
     {
@@ -174,7 +176,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that headers are prefixed with HTTP_
+     * Tests that headers are prefixed with HTTP_.
      */
     public function testHeadersArePrefixedWithHTTP()
     {
@@ -188,7 +190,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that not setting the method throws an exception
+     * Tests that not setting the method throws an exception.
      */
     public function testNotSettingMethodThrowsException()
     {
@@ -198,7 +200,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that not setting the URL throws an exception
+     * Tests that not setting the URL throws an exception.
      */
     public function testNotSettingUrlThrowsException()
     {
@@ -208,7 +210,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that parameters in GET request are assigned to query
+     * Tests that parameters in GET request are assigned to query.
      */
     public function testParametersInGetRequestAreAssignedToQuery()
     {
@@ -223,7 +225,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that parameters in POST request are assigned to post
+     * Tests that parameters in POST request are assigned to post.
      */
     public function testParametersInPostRequestAreAssignedToPost()
     {
@@ -238,7 +240,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that to() sets the URL in the request
+     * Tests that to() sets the URL in the request.
      */
     public function testToSetsUrlInRequest()
     {
@@ -252,7 +254,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that URL is set in constructor
+     * Tests that URL is set in constructor.
      */
     public function testUrlSetInConstructor()
     {

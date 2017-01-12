@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Credentials\Factories;
 
 use DateInterval;
@@ -19,7 +21,7 @@ use Opulence\Authentication\Users\IUser;
 use Opulence\Authentication\Users\Orm\IUserRepository;
 
 /**
- * Tests the access credential factory
+ * Tests the access credential factory.
  */
 class AccessTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -35,7 +37,7 @@ class AccessTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
     private $subject = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -78,7 +80,7 @@ class AccessTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the claims are added
+     * Tests that the claims are added.
      */
     public function testClaimsAdded()
     {
@@ -90,9 +92,9 @@ class AccessTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo', $payload->getIssuer());
         $this->assertEquals(['bar', 'baz'], $payload->getAudience());
         $this->assertEquals('principalId', $payload->getSubject());
-        $this->assertEquals((new DateTimeImmutable)->format('Y'), $payload->getValidFrom()->format('Y'));
+        $this->assertEquals((new DateTimeImmutable())->format('Y'), $payload->getValidFrom()->format('Y'));
         $this->assertEquals((new DateTimeImmutable('+1 year'))->format('Y'), $payload->getValidTo()->format('Y'));
-        $this->assertEquals((new DateTimeImmutable)->format('Y'), $payload->getIssuedAt()->format('Y'));
+        $this->assertEquals((new DateTimeImmutable())->format('Y'), $payload->getIssuedAt()->format('Y'));
         $this->assertEquals(['role1', 'role2'], $payload->get('roles'));
         $this->assertEquals('Dave', $payload->get('user')['username']);
     }

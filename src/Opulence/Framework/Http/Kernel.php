@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Http;
 
 use Exception;
@@ -23,7 +25,7 @@ use Opulence\Views\Factories\IViewFactory;
 use Throwable;
 
 /**
- * Defines the HTTP kernel
+ * Defines the HTTP kernel.
  */
 class Kernel
 {
@@ -45,9 +47,9 @@ class Kernel
     private $disabledMiddleware = [];
 
     /**
-     * @param IContainer $container The dependency injection container
-     * @param Router $router The router to use
-     * @param IExceptionHandler $exceptionHandler The exception handler used by the kernel
+     * @param IContainer         $container         The dependency injection container
+     * @param Router             $router            The router to use
+     * @param IExceptionHandler  $exceptionHandler  The exception handler used by the kernel
      * @param IExceptionRenderer $exceptionRenderer The exception renderer used by the kernel
      */
     public function __construct(
@@ -63,7 +65,7 @@ class Kernel
     }
 
     /**
-     * Adds middleware to the kernel
+     * Adds middleware to the kernel.
      *
      * @param string|object|array $middleware The middleware object, class, or list of middleware classes to add
      */
@@ -77,7 +79,7 @@ class Kernel
     }
 
     /**
-     * Disables all middleware
+     * Disables all middleware.
      */
     public function disableAllMiddleware()
     {
@@ -121,15 +123,16 @@ class Kernel
     }
 
     /**
-     * Handles an HTTP request
+     * Handles an HTTP request.
      *
      * @param Request $request The HTTP request to handle
+     *
      * @return Response The HTTP response
      */
     public function handle(Request $request) : Response
     {
         try {
-            return (new Pipeline)
+            return (new Pipeline())
                 ->send($request)
                 ->through($this->convertMiddlewareToPipelineStages($this->getMiddleware()), 'handle')
                 ->then(function ($request) {
@@ -150,7 +153,7 @@ class Kernel
     }
 
     /**
-     * Disables the argument middleware
+     * Disables the argument middleware.
      *
      * @param array $middleware The list of middleware classes to disable
      */
@@ -160,7 +163,7 @@ class Kernel
     }
 
     /**
-     * Enables only the argument middleware
+     * Enables only the argument middleware.
      *
      * @param array $middleware The list of middleware classes to enable
      */
@@ -170,9 +173,10 @@ class Kernel
     }
 
     /**
-     * Converts middleware to pipeline stages
+     * Converts middleware to pipeline stages.
      *
      * @param array $middleware The middleware to convert to pipeline stages
+     *
      * @return callable[] The list of pipeline stages
      */
     protected function convertMiddlewareToPipelineStages(array $middleware) : array
@@ -197,7 +201,7 @@ class Kernel
     }
 
     /**
-     * Sets the variables in the exception renderer
+     * Sets the variables in the exception renderer.
      *
      * @param Request $request The current HTTP request
      */

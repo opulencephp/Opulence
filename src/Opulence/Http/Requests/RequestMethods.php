@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Requests;
 
 /**
- * Defines the list of request methods
+ * Defines the list of request methods.
  */
 class RequestMethods
 {

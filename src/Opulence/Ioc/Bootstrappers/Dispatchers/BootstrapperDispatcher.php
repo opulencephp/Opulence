@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc\Bootstrappers\Dispatchers;
 
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
@@ -15,7 +17,7 @@ use Opulence\Ioc\IContainer;
 use RuntimeException;
 
 /**
- * Defines the bootstrapper dispatcher
+ * Defines the bootstrapper dispatcher.
  */
 class BootstrapperDispatcher implements IBootstrapperDispatcher
 {
@@ -31,7 +33,7 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     private $bootstrapperObjects = [];
 
     /**
-     * @param IContainer $container The IoC container
+     * @param IContainer            $container            The IoC container
      * @param IBootstrapperRegistry $bootstrapperRegistry The bootstrapper registry
      * @param IBootstrapperResolver $bootstrapperResolver The bootstrapper resolver
      */
@@ -46,7 +48,7 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function shutDownBootstrappers()
     {
@@ -56,7 +58,7 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function startBootstrappers(bool $forceEagerLoading)
     {
@@ -79,9 +81,10 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     }
 
     /**
-     * Dispatches the registry eagerly
+     * Dispatches the registry eagerly.
      *
      * @param array $bootstrapperClasses The list of bootstrapper classes to dispatch
+     *
      * @throws RuntimeException Thrown if there was a problem dispatching the bootstrappers
      */
     private function dispatchEagerly(array $bootstrapperClasses)
@@ -99,9 +102,10 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     }
 
     /**
-     * Dispatches the registry lazily
+     * Dispatches the registry lazily.
      *
      * @param array $boundClassesToBindingData The mapping of bound classes to their targets and bootstrappers
+     *
      * @throws RuntimeException Thrown if there was a problem dispatching the bootstrappers
      */
     private function dispatchLazily(array $boundClassesToBindingData)

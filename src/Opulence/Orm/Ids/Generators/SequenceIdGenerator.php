@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm\Ids\Generators;
 
 use Opulence\Databases\IConnection;
 
 /**
- * Defines a sequence Id generator
+ * Defines a sequence Id generator.
  */
 abstract class SequenceIdGenerator implements IIdGenerator
 {
@@ -21,8 +23,8 @@ abstract class SequenceIdGenerator implements IIdGenerator
     protected $sequenceName = '';
 
     /**
-     * @param string $sequenceName The name of the sequence
-     * @param IConnection|null $connection The connection to use
+     * @param string           $sequenceName The name of the sequence
+     * @param IConnection|null $connection   The connection to use
      */
     public function __construct(string $sequenceName, IConnection $connection = null)
     {
@@ -34,7 +36,7 @@ abstract class SequenceIdGenerator implements IIdGenerator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isPostInsert() : bool
     {
@@ -42,7 +44,7 @@ abstract class SequenceIdGenerator implements IIdGenerator
     }
 
     /**
-     * Sets the connection to use to generate the sequence Id
+     * Sets the connection to use to generate the sequence Id.
      *
      * @param IConnection $connection The connection to use
      */

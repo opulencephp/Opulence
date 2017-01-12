@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Dispatchers;
 
 use Opulence\Ioc\IContainer;
 use Opulence\Ioc\IocException;
 
 /**
- * Defines the dependency resolver that uses the IoC container
+ * Defines the dependency resolver that uses the IoC container.
  */
 class ContainerDependencyResolver implements IDependencyResolver
 {
@@ -28,7 +30,7 @@ class ContainerDependencyResolver implements IDependencyResolver
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function resolve(string $interface)
     {

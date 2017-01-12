@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Middleware;
 
 /**
- * Defines a middleware's parameters
+ * Defines a middleware's parameters.
  */
 class MiddlewareParameters
 {
@@ -20,7 +22,7 @@ class MiddlewareParameters
 
     /**
      * @param string $middlewareClassName The middleware class name
-     * @param array $parameters The middleware parameters
+     * @param array  $parameters          The middleware parameters
      */
     public function __construct(string $middlewareClassName, array $parameters)
     {

@@ -1,25 +1,28 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests\Parsers;
 
 use Opulence\Console\Requests\Request;
 use RuntimeException;
 
 /**
- * Defines a base request parser
+ * Defines a base request parser.
  */
 abstract class Parser implements IParser
 {
     /**
-     * Parses an argument value
+     * Parses an argument value.
      *
      * @param string $token The token to parse
+     *
      * @return string The parsed argument
      */
     protected function parseArgument(string $token) : string
@@ -28,12 +31,14 @@ abstract class Parser implements IParser
     }
 
     /**
-     * Parses a long option token and returns an array of data
+     * Parses a long option token and returns an array of data.
      *
-     * @param string $token The token to parse
-     * @param array $remainingTokens The list of remaining tokens
-     * @return array The name of the option mapped to its value
+     * @param string $token           The token to parse
+     * @param array  $remainingTokens The list of remaining tokens
+     *
      * @throws RuntimeException Thrown if the option could not be parsed
+     *
+     * @return array The name of the option mapped to its value
      */
     protected function parseLongOption(string $token, array &$remainingTokens) : array
     {
@@ -47,7 +52,7 @@ abstract class Parser implements IParser
         if (mb_strpos($option, '=') === false) {
             /**
              * The option is either of the form "--foo" or "--foo bar" or "--foo -b" or "--foo --bar"
-             * So, we need to determine if the option has a value
+             * So, we need to determine if the option has a value.
              */
             $nextToken = array_shift($remainingTokens);
 
@@ -60,7 +65,7 @@ abstract class Parser implements IParser
             }
 
             // Make it "--foo=bar"
-            $option .= '=' . $nextToken;
+            $option .= '='.$nextToken;
         }
 
         list($name, $value) = explode('=', $option);
@@ -70,11 +75,13 @@ abstract class Parser implements IParser
     }
 
     /**
-     * Parses a short option token and returns an array of data
+     * Parses a short option token and returns an array of data.
      *
      * @param string $token The token to parse
-     * @return array The name of the option mapped to its value
+     *
      * @throws RuntimeException Thrown if the option could not be parsed
+     *
+     * @return array The name of the option mapped to its value
      */
     protected function parseShortOption(string $token) : array
     {
@@ -98,11 +105,13 @@ abstract class Parser implements IParser
     }
 
     /**
-     * Parses a list of tokens into a request
+     * Parses a list of tokens into a request.
      *
      * @param array $tokens The tokens to parse
-     * @return Request The parsed request
+     *
      * @throws RuntimeException Thrown if there is an invalid token
+     *
+     * @return Request The parsed request
      */
     protected function parseTokens(array $tokens) : Request
     {
@@ -135,9 +144,10 @@ abstract class Parser implements IParser
     }
 
     /**
-     * Trims the outer-most quotes from a token
+     * Trims the outer-most quotes from a token.
      *
      * @param string $token Trims quotes off of a token
+     *
      * @return string The trimmed token
      */
     protected function trimQuotes(string $token) : string

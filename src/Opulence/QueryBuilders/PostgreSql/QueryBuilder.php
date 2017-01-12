@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\PostgreSql;
 
 use Opulence\QueryBuilders\QueryBuilder as BaseQueryBuilder;
 use ReflectionClass;
 
 /**
- * Programmatically builds up a PostgreSQL query
+ * Programmatically builds up a PostgreSQL query.
  */
 class QueryBuilder extends BaseQueryBuilder
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete(string $tableName, string $alias = '') : DeleteQuery
     {
@@ -25,7 +27,7 @@ class QueryBuilder extends BaseQueryBuilder
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function insert(string $tableName, array $columnNamesToValues) : InsertQuery
     {
@@ -33,7 +35,8 @@ class QueryBuilder extends BaseQueryBuilder
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @return SelectQuery
      */
     public function select(...$expression) : SelectQuery
@@ -45,7 +48,7 @@ class QueryBuilder extends BaseQueryBuilder
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function update(string $tableName, string $alias, array $columnNamesToValues) : UpdateQuery
     {

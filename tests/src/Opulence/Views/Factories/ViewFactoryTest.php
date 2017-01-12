@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Factories;
 
 use InvalidArgumentException;
@@ -16,7 +18,7 @@ use Opulence\Views\Factories\IO\IViewReader;
 use Opulence\Views\IView;
 
 /**
- * Tests the view factory
+ * Tests the view factory.
  */
 class ViewFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -28,7 +30,7 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
     private $viewFactory = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -44,7 +46,7 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if views exist
+     * Tests checking if views exist.
      */
     public function testCheckingIfViewExists()
     {
@@ -59,7 +61,7 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering a builder
+     * Tests registering a builder.
      */
     public function testRegisteringBuilder()
     {
@@ -68,13 +70,13 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         });
         $this->viewNameResolver->expects($this->any())
             ->method('resolve')
-            ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
+            ->willReturn(__DIR__.'/../files/TestWithDefaultTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters');
         $this->assertEquals('bar', $view->getVar('foo'));
     }
 
     /**
-     * Tests registering builders to multiple paths
+     * Tests registering builders to multiple paths.
      */
     public function testRegisteringBuilderToMultiplePaths()
     {
@@ -84,10 +86,10 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
             });
         $this->viewNameResolver->expects($this->at(0))
             ->method('resolve')
-            ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
+            ->willReturn(__DIR__.'/../files/TestWithDefaultTagDelimiters.html');
         $this->viewNameResolver->expects($this->at(1))
             ->method('resolve')
-            ->willReturn(__DIR__ . '/../files/TestWithCustomTagDelimiters.html');
+            ->willReturn(__DIR__.'/../files/TestWithCustomTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters');
         $this->assertEquals('bar', $view->getVar('foo'));
         $view = $this->viewFactory->createView('TestWithCustomTagDelimiters');
@@ -95,7 +97,7 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering a builder for a view name and then creating that view with the exact same view name
+     * Tests registering a builder for a view name and then creating that view with the exact same view name.
      */
     public function testRegisteringBuilderWithExactSameNameAsView()
     {
@@ -104,13 +106,13 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         });
         $this->viewNameResolver->expects($this->any())
             ->method('resolve')
-            ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
+            ->willReturn(__DIR__.'/../files/TestWithDefaultTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters.html');
         $this->assertEquals('bar', $view->getVar('foo'));
     }
 
     /**
-     * Tests registering a builder for a view with an extension and then creating that view without an extension
+     * Tests registering a builder for a view with an extension and then creating that view without an extension.
      */
     public function testRegisteringBuilderWithExtensionAndCreatingSameViewWithoutExtension()
     {
@@ -119,13 +121,13 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         });
         $this->viewNameResolver->expects($this->any())
             ->method('resolve')
-            ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
+            ->willReturn(__DIR__.'/../files/TestWithDefaultTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters');
         $this->assertEquals('bar', $view->getVar('foo'));
     }
 
     /**
-     * Tests registering a builder with the same basename as a view, but resolves to a different view file
+     * Tests registering a builder with the same basename as a view, but resolves to a different view file.
      */
     public function testRegisteringBuilderWithSameBasenameAsViewButResolvesToDifferentViewFile()
     {
@@ -134,16 +136,16 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         });
         $this->viewNameResolver->expects($this->at(0))
             ->method('resolve')
-            ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
+            ->willReturn(__DIR__.'/../files/TestWithDefaultTagDelimiters.html');
         $this->viewNameResolver->expects($this->at(0))
             ->method('resolve')
-            ->willReturn(__DIR__ . '/../files/TestWithCustomTagDelimiters.html');
+            ->willReturn(__DIR__.'/../files/TestWithCustomTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters.foo.html');
         $this->assertEquals([], $view->getVars());
     }
 
     /**
-     * Tests registering a builder with the same filename as a view, but resolves to a different view file
+     * Tests registering a builder with the same filename as a view, but resolves to a different view file.
      */
     public function testRegisteringBuilderWithSameFilenameAsViewButResolvesToDifferentViewFile()
     {
@@ -152,16 +154,16 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         });
         $this->viewNameResolver->expects($this->at(0))
             ->method('resolve')
-            ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
+            ->willReturn(__DIR__.'/../files/TestWithDefaultTagDelimiters.html');
         $this->viewNameResolver->expects($this->at(0))
             ->method('resolve')
-            ->willReturn(__DIR__ . '/../files/TestWithCustomTagDelimiters.html');
+            ->willReturn(__DIR__.'/../files/TestWithCustomTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters.bar');
         $this->assertEquals([], $view->getVars());
     }
 
     /**
-     * Tests registering a builder for a view without an extension and then creating that view with an extension
+     * Tests registering a builder for a view without an extension and then creating that view with an extension.
      */
     public function testRegisteringBuilderWithoutExtensionAndCreatingSameViewWithExtension()
     {
@@ -170,13 +172,13 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         });
         $this->viewNameResolver->expects($this->any())
             ->method('resolve')
-            ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
+            ->willReturn(__DIR__.'/../files/TestWithDefaultTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters.html');
         $this->assertEquals('bar', $view->getVar('foo'));
     }
 
     /**
-     * Tests registering a closure builder
+     * Tests registering a closure builder.
      */
     public function testRegisteringClosureBuilder()
     {
@@ -187,13 +189,13 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         });
         $this->viewNameResolver->expects($this->any())
             ->method('resolve')
-            ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
+            ->willReturn(__DIR__.'/../files/TestWithDefaultTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters');
         $this->assertEquals('bar', $view->getVar('foo'));
     }
 
     /**
-     * Tests registering multiple builders
+     * Tests registering multiple builders.
      */
     public function testRegisteringMultipleBuilders()
     {
@@ -205,7 +207,7 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         });
         $this->viewNameResolver->expects($this->any())
             ->method('resolve')
-            ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
+            ->willReturn(__DIR__.'/../files/TestWithDefaultTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters');
         $this->assertEquals('bar', $view->getVar('foo'));
         $this->assertEquals('baz', $view->getVar('bar'));

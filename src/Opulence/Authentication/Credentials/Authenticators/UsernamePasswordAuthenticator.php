@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Credentials\Authenticators;
 
 use Opulence\Authentication\Credentials\ICredential;
@@ -18,7 +20,7 @@ use Opulence\Authentication\Users\IUser;
 use Opulence\Authentication\Users\Orm\IUserRepository;
 
 /**
- * Defines the username/password authenticator
+ * Defines the username/password authenticator.
  */
 class UsernamePasswordAuthenticator implements IAuthenticator
 {
@@ -32,7 +34,7 @@ class UsernamePasswordAuthenticator implements IAuthenticator
     /**
      * @param IUserRepository $userRepository The user repository
      * @param IRoleRepository $roleRepository The role repository
-     * @param string $pepper The pepper used for hashing
+     * @param string          $pepper         The pepper used for hashing
      */
     public function __construct(IUserRepository $userRepository, IRoleRepository $roleRepository, string $pepper = '')
     {
@@ -42,7 +44,7 @@ class UsernamePasswordAuthenticator implements IAuthenticator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null) : bool
     {
@@ -63,7 +65,7 @@ class UsernamePasswordAuthenticator implements IAuthenticator
             return false;
         }
 
-        if (!\password_verify($password . $this->pepper, $user->getHashedPassword())) {
+        if (!\password_verify($password.$this->pepper, $user->getHashedPassword())) {
             $error = AuthenticatorErrorTypes::CREDENTIAL_INCORRECT;
 
             return false;
@@ -75,10 +77,11 @@ class UsernamePasswordAuthenticator implements IAuthenticator
     }
 
     /**
-     * Gets a subject from a user
+     * Gets a subject from a user.
      *
-     * @param IUser $user The user
+     * @param IUser       $user       The user
      * @param ICredential $credential The credential
+     *
      * @return ISubject The subject
      */
     protected function getSubjectFromUser(IUser $user, ICredential $credential) : ISubject

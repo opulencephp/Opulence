@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Credentials\Authenticators;
 
 use InvalidArgumentException;
 
 /**
- * Tests the authenticator registry
+ * Tests the authenticator registry.
  */
 class AuthenticatorRegistryTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class AuthenticatorRegistryTest extends \PHPUnit\Framework\TestCase
     private $registry = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,7 +29,7 @@ class AuthenticatorRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the correct authenticator is returned
+     * Tests that the correct authenticator is returned.
      */
     public function testCorrectAuthenticatorReturned()
     {
@@ -38,7 +40,7 @@ class AuthenticatorRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown with a non-existent authenticator
+     * Tests that an exception is thrown with a non-existent authenticator.
      */
     public function testExceptionThrownOnNonExistentAuthenticator()
     {

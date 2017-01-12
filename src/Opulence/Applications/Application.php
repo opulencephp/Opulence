@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Applications;
 
 use Exception;
@@ -13,7 +15,7 @@ use Opulence\Applications\Tasks\Dispatchers\ITaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 
 /**
- * Defines an application
+ * Defines an application.
  */
 class Application
 {
@@ -28,7 +30,7 @@ class Application
 
     /**
      * @param ITaskDispatcher $taskDispatcher The task dispatcher
-     * @param string $version The version of the application
+     * @param string          $version        The version of the application
      */
     public function __construct(ITaskDispatcher $taskDispatcher, string $version = null)
     {
@@ -53,11 +55,13 @@ class Application
     }
 
     /**
-     * Shuts down this application
+     * Shuts down this application.
      *
      * @param callable $shutdownTask The task to perform on shutdown
-     * @return mixed|null The return value of the task if there was one, otherwise null
+     *
      * @throws Exception Thrown if there was an error shutting down the application
+     *
+     * @return mixed|null The return value of the task if there was one, otherwise null
      */
     public function shutDown(callable $shutdownTask = null)
     {
@@ -85,11 +89,13 @@ class Application
     }
 
     /**
-     * Starts this application
+     * Starts this application.
      *
      * @param callable $startTask The task to perform on startup
-     * @return mixed|null The return value of the task if there was one, otherwise null
+     *
      * @throws Exception Thrown if there was a problem starting the application
+     *
+     * @return mixed|null The return value of the task if there was one, otherwise null
      */
     public function start(callable $startTask = null)
     {

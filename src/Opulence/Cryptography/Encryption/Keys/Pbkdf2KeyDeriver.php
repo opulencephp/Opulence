@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cryptography\Encryption\Keys;
 
 use InvalidArgumentException;
 
 /**
- * Defines the PBKDF2 key deriver
+ * Defines the PBKDF2 key deriver.
  */
 class Pbkdf2KeyDeriver implements IKeyDeriver
 {
@@ -29,7 +31,7 @@ class Pbkdf2KeyDeriver implements IKeyDeriver
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function deriveKeysFromKey(string $key, string $salt, int $keyByteLength) : DerivedKeys
     {
@@ -42,7 +44,7 @@ class Pbkdf2KeyDeriver implements IKeyDeriver
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function deriveKeysFromPassword(string $password, string $salt, int $keyByteLength) : DerivedKeys
     {
@@ -57,15 +59,16 @@ class Pbkdf2KeyDeriver implements IKeyDeriver
     }
 
     /**
-     * Verifies the salt length
+     * Verifies the salt length.
      *
      * @param string $salt The salt to validate
+     *
      * @throws InvalidArgumentException Thrown if the salt is not the correct length
      */
     private function validateSaltLength(string $salt)
     {
         if (\mb_strlen($salt, '8bit') !== self::KEY_SALT_BYTE_LENGTH) {
-            throw new InvalidArgumentException('Salt must be ' . self::KEY_SALT_BYTE_LENGTH . ' bytes long');
+            throw new InvalidArgumentException('Salt must be '.self::KEY_SALT_BYTE_LENGTH.' bytes long');
         }
     }
 }

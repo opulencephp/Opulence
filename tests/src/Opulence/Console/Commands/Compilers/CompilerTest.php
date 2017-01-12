@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Commands\Compilers;
 
 use Opulence\Console\Commands\Command;
@@ -19,7 +21,7 @@ use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 use RuntimeException;
 
 /**
- * Tests the command compiler
+ * Tests the command compiler.
  */
 class CompilerTest extends \PHPUnit\Framework\TestCase
 {
@@ -33,7 +35,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     private $request = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -44,7 +46,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling an array argument
+     * Tests compiling an array argument.
      */
     public function testCompilingArrayArgument()
     {
@@ -57,7 +59,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling an array argument with an optional argument after it
+     * Tests compiling an array argument with an optional argument after it.
      */
     public function testCompilingArrayArgumentWitOptionalArgumentAfter()
     {
@@ -73,7 +75,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling an array argument with a required argument after it
+     * Tests compiling an array argument with a required argument after it.
      */
     public function testCompilingArrayArgumentWitRequiredArgumentAfter()
     {
@@ -88,7 +90,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a no value option
+     * Tests compiling a no value option.
      */
     public function testCompilingNoValueOption()
     {
@@ -99,7 +101,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a no value option with a value
+     * Tests compiling a no value option with a value.
      */
     public function testCompilingNoValueOptionWithAValue()
     {
@@ -111,7 +113,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling an option with a null short name still compiles
+     * Tests compiling an option with a null short name still compiles.
      */
     public function testCompilingOptionWithNullShortNameStillCompiles()
     {
@@ -123,7 +125,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling an optional argument
+     * Tests compiling an optional argument.
      */
     public function testCompilingOptionalArgument()
     {
@@ -135,7 +137,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling an optional argument with a default value
+     * Tests compiling an optional argument with a default value.
      */
     public function testCompilingOptionalArgumentWithDefaultValue()
     {
@@ -146,7 +148,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling optional arguments without any values
+     * Tests compiling optional arguments without any values.
      */
     public function testCompilingOptionalArgumentsWithoutAnyValues()
     {
@@ -160,7 +162,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling an optional value option with a default value
+     * Tests compiling an optional value option with a default value.
      */
     public function testCompilingOptionalValueOptionWithDefaultValue()
     {
@@ -172,7 +174,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a required and optional argument
+     * Tests compiling a required and optional argument.
      */
     public function testCompilingRequiredAndOptionalArgument()
     {
@@ -187,7 +189,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a required argument
+     * Tests compiling a required argument.
      */
     public function testCompilingRequiredArgument()
     {
@@ -199,7 +201,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a required argument without a value
+     * Tests compiling a required argument without a value.
      */
     public function testCompilingRequiredArgumentWithoutValue()
     {
@@ -210,7 +212,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling required arguments without specifying all values
+     * Tests compiling required arguments without specifying all values.
      */
     public function testCompilingRequiredArgumentsWithoutSpecifyingAllValues()
     {
@@ -224,7 +226,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling an required value option
+     * Tests compiling an required value option.
      */
     public function testCompilingRequiredValueOption()
     {
@@ -236,7 +238,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a required value option without a value
+     * Tests compiling a required value option without a value.
      */
     public function testCompilingRequiredValueOptionWithoutValue()
     {
@@ -248,7 +250,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing too many arguments
+     * Tests passing too many arguments.
      */
     public function testPassingTooManyArguments()
     {
@@ -261,7 +263,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking that short and long options in a request point to the same option in a command
+     * Tests checking that short and long options in a request point to the same option in a command.
      */
     public function testThatShortAndLongOptionsPointToSameOption()
     {

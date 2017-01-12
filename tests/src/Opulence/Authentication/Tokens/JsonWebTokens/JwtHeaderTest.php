@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
 use InvalidArgumentException;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
 
 /**
- * Tests the JWT header
+ * Tests the JWT header.
  */
 class JwtHeaderTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,7 +22,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     private $header = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -28,7 +30,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the default algorithm is SHA256
+     * Tests that the default algorithm is SHA256.
      */
     public function testDefaultAlgorithmIsSha256()
     {
@@ -37,7 +39,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the algorithm
+     * Tests getting the algorithm.
      */
     public function testGettingAlgorithm()
     {
@@ -45,13 +47,13 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting all values
+     * Tests getting all values.
      */
     public function testGettingAllValues()
     {
         $expected = [
             'typ' => 'JWT',
-            'alg' => 'HS512'
+            'alg' => 'HS512',
         ];
         $this->assertEquals($expected, $this->header->getAll());
         $this->header->add('foo', 'bar');
@@ -60,7 +62,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the content type
+     * Tests getting the content type.
      */
     public function testGettingContentType()
     {
@@ -69,13 +71,13 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the encoded string
+     * Tests getting the encoded string.
      */
     public function testGettingEncodedString()
     {
         $headers = [
             'typ' => 'JWT',
-            'alg' => 'HS512'
+            'alg' => 'HS512',
         ];
         $this->assertEquals(
             rtrim(strtr(base64_encode(json_encode($headers)), '+/', '-_'), '='),
@@ -90,7 +92,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the token type
+     * Tests getting the token type.
      */
     public function testGettingTokenType()
     {
@@ -98,7 +100,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the value for an extra header
+     * Tests getting the value for an extra header.
      */
     public function testGettingValue()
     {
@@ -110,7 +112,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an invalid algorithm in the constructor throws an exception
+     * Tests that an invalid algorithm in the constructor throws an exception.
      */
     public function testInvalidAlgorithmInConstructorThrowsException()
     {
@@ -119,7 +121,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the "none" algorithm
+     * Tests setting the "none" algorithm.
      */
     public function testSettingNoneAlgorithm()
     {

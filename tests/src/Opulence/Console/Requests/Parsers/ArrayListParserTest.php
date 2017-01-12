@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests\Parsers;
 
 use InvalidArgumentException;
 
 /**
- * Tests the array list parser
+ * Tests the array list parser.
  */
 class ArrayListParserTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     private $parser = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,25 +29,25 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that backslashes are respected
+     * Tests that backslashes are respected.
      */
     public function testBackslashesAreRespected()
     {
         $request = $this->parser->parse([
-            'name' => 'foo',
-            'arguments' => ["bar\\baz"]
+            'name'      => 'foo',
+            'arguments' => ['bar\\baz'],
         ]);
-        $this->assertEquals(["bar\\baz"], $request->getArgumentValues());
+        $this->assertEquals(['bar\\baz'], $request->getArgumentValues());
     }
 
     /**
-     * Test not passing arguments
+     * Test not passing arguments.
      */
     public function testNotPassingArguments()
     {
         $request = $this->parser->parse([
-            'name' => 'foo',
-            'options' => ['--name=dave', '-r']
+            'name'    => 'foo',
+            'options' => ['--name=dave', '-r'],
         ]);
         $this->assertEquals('foo', $request->getCommandName());
         $this->assertEquals([], $request->getArgumentValues());
@@ -54,13 +56,13 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test not passing options
+     * Test not passing options.
      */
     public function testNotPassingOptions()
     {
         $request = $this->parser->parse([
-            'name' => 'foo',
-            'arguments' => ['bar']
+            'name'      => 'foo',
+            'arguments' => ['bar'],
         ]);
         $this->assertEquals('foo', $request->getCommandName());
         $this->assertEquals(['bar'], $request->getArgumentValues());
@@ -68,14 +70,14 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing arguments and options
+     * Tests parsing arguments and options.
      */
     public function testParsingArgumentsAndOptions()
     {
         $request = $this->parser->parse([
-            'name' => 'foo',
+            'name'      => 'foo',
             'arguments' => ['bar'],
-            'options' => ['--name=dave', '-r']
+            'options'   => ['--name=dave', '-r'],
         ]);
         $this->assertEquals('foo', $request->getCommandName());
         $this->assertEquals(['bar'], $request->getArgumentValues());
@@ -84,18 +86,18 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test passing the command name
+     * Test passing the command name.
      */
     public function testPassingCommandName()
     {
         $request = $this->parser->parse([
-            'name' => 'mycommand'
+            'name' => 'mycommand',
         ]);
         $this->assertEquals('mycommand', $request->getCommandName());
     }
 
     /**
-     * Tests passing in an invalid input type
+     * Tests passing in an invalid input type.
      */
     public function testPassingInvalidInputType()
     {

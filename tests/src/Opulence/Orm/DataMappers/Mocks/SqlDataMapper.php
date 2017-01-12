@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Orm\DataMappers\Mocks;
 
 use Opulence\Orm\DataMappers\SqlDataMapper as BaseSqlDataMapper;
 use Opulence\Orm\OrmException;
 
 /**
- * Mocks the data mapper class for use in testing
+ * Mocks the data mapper class for use in testing.
  */
 class SqlDataMapper extends BaseSqlDataMapper
 {
@@ -27,7 +29,7 @@ class SqlDataMapper extends BaseSqlDataMapper
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function add($entity)
     {
@@ -37,7 +39,7 @@ class SqlDataMapper extends BaseSqlDataMapper
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete($entity)
     {
@@ -45,7 +47,7 @@ class SqlDataMapper extends BaseSqlDataMapper
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAll() : array
     {
@@ -60,12 +62,12 @@ class SqlDataMapper extends BaseSqlDataMapper
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getById($id)
     {
         if (!isset($this->entities[$id])) {
-            throw new OrmException('No entity found with Id ' . $id);
+            throw new OrmException('No entity found with Id '.$id);
         }
 
         return clone $this->entities[$id];
@@ -80,7 +82,7 @@ class SqlDataMapper extends BaseSqlDataMapper
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function update($entity)
     {
@@ -88,7 +90,7 @@ class SqlDataMapper extends BaseSqlDataMapper
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function loadEntity(array $hash)
     {

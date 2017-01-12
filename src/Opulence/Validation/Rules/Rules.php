@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use BadMethodCallException;
@@ -16,7 +18,7 @@ use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
 
 /**
- * Defines the rules for validation
+ * Defines the rules for validation.
  */
 class Rules
 {
@@ -38,7 +40,7 @@ class Rules
     /**
      * @param RuleExtensionRegistry $ruleExtensionRegistry The rule extension registry
      * @param ErrorTemplateRegistry $errorTemplateRegistry The error template registry
-     * @param ICompiler $errorTemplateCompiler The error template compiler
+     * @param ICompiler             $errorTemplateCompiler The error template compiler
      */
     public function __construct(
         RuleExtensionRegistry $ruleExtensionRegistry,
@@ -51,12 +53,14 @@ class Rules
     }
 
     /**
-     * Attempts to call a rule extension
+     * Attempts to call a rule extension.
      *
      * @param string $methodName The method to call
-     * @param array $args The arguments to pass
-     * @return self For method chaining
+     * @param array  $args       The arguments to pass
+     *
      * @throws BadMethodCallException Thrown if no extension exists with the method name
+     *
+     * @return self For method chaining
      */
     public function __call(string $methodName, array $args) : self
     {
@@ -76,7 +80,7 @@ class Rules
     }
 
     /**
-     * Marks a field as having to contain only alphabetic characters
+     * Marks a field as having to contain only alphabetic characters.
      *
      * @return self For method chaining
      */
@@ -88,7 +92,7 @@ class Rules
     }
 
     /**
-     * Marks a field as having to contain only alpha-numeric characters
+     * Marks a field as having to contain only alpha-numeric characters.
      *
      * @return self For method chaining
      */
@@ -100,11 +104,12 @@ class Rules
     }
 
     /**
-     * Marks a field as having to be between values
+     * Marks a field as having to be between values.
      *
-     * @param int|float $min The minimum value to compare against
-     * @param int|float $max The maximum value to compare against
-     * @param bool $isInclusive Whether or not the extremes are inclusive
+     * @param int|float $min         The minimum value to compare against
+     * @param int|float $max         The maximum value to compare against
+     * @param bool      $isInclusive Whether or not the extremes are inclusive
+     *
      * @return self For method chaining
      */
     public function between($min, $max, bool $isInclusive = true) : self
@@ -115,12 +120,14 @@ class Rules
     }
 
     /**
-     * Specifies conditions that must be met for certain rules to be set
+     * Specifies conditions that must be met for certain rules to be set.
      *
      * @param callable $callback The callback to evaluate The variable list of rules
-     *      It must accept an array of all values
-     * @return self For method chaining
+     *                           It must accept an array of all values
+     *
      * @throws LogicException Thrown if we were already in a condition
+     *
+     * @return self For method chaining
      */
     public function condition($callback) : self
     {
@@ -136,9 +143,10 @@ class Rules
     }
 
     /**
-     * Marks a field as having to be a date in the input format(s)
+     * Marks a field as having to be a date in the input format(s).
      *
      * @param string|array $formats The expected formats
+     *
      * @return self For method chaining
      */
     public function date($formats) : self
@@ -149,7 +157,7 @@ class Rules
     }
 
     /**
-     * Marks a field as having to be an email
+     * Marks a field as having to be an email.
      *
      * @return self For method chaining
      */
@@ -161,7 +169,7 @@ class Rules
     }
 
     /**
-     * Ends the condition stack
+     * Ends the condition stack.
      *
      * @return self For method chaining
      */
@@ -173,9 +181,10 @@ class Rules
     }
 
     /**
-     * Marks a field as having to equal a value
+     * Marks a field as having to equal a value.
      *
      * @param mixed $value The value that the field must equal
+     *
      * @return self For method chaining
      */
     public function equals($value) : self
@@ -186,9 +195,10 @@ class Rules
     }
 
     /**
-     * Marks a field as having to equal another field
+     * Marks a field as having to equal another field.
      *
      * @param string $name The other field to equal
+     *
      * @return self For method chaining
      */
     public function equalsField(string $name) : self
@@ -199,9 +209,10 @@ class Rules
     }
 
     /**
-     * Gets the error messages
+     * Gets the error messages.
      *
      * @param string $field The name of the field whose errors we're getting
+     *
      * @return array The list of errors
      */
     public function getErrors(string $field) : array
@@ -220,9 +231,10 @@ class Rules
     }
 
     /**
-     * Marks a field as having to be in a list of approved values
+     * Marks a field as having to be in a list of approved values.
      *
      * @param array $array The list of approved values
+     *
      * @return self For method chaining
      */
     public function in(array $array) : self
@@ -233,7 +245,7 @@ class Rules
     }
 
     /**
-     * Marks a field as having to be an integer
+     * Marks a field as having to be an integer.
      *
      * @return self For method chaining
      */
@@ -245,7 +257,7 @@ class Rules
     }
 
     /**
-     * Marks a field as having to be an IP address
+     * Marks a field as having to be an IP address.
      *
      * @return self For method chaining
      */
@@ -257,10 +269,11 @@ class Rules
     }
 
     /**
-     * Marks a field as having a maximum acceptable value
+     * Marks a field as having a maximum acceptable value.
      *
-     * @param int|float $max The maximum value to compare against
-     * @param bool $isInclusive Whether or not the maximum is inclusive
+     * @param int|float $max         The maximum value to compare against
+     * @param bool      $isInclusive Whether or not the maximum is inclusive
+     *
      * @return self For method chaining
      */
     public function max($max, bool $isInclusive = true) : self
@@ -271,10 +284,11 @@ class Rules
     }
 
     /**
-     * Marks a field as having a minimum acceptable value
+     * Marks a field as having a minimum acceptable value.
      *
-     * @param int|float $min The minimum value to compare against
-     * @param bool $isInclusive Whether or not the minimum is inclusive
+     * @param int|float $min         The minimum value to compare against
+     * @param bool      $isInclusive Whether or not the minimum is inclusive
+     *
      * @return self For method chaining
      */
     public function min($min, bool $isInclusive = true) : self
@@ -285,9 +299,10 @@ class Rules
     }
 
     /**
-     * Marks a field as having to not be in a list of unapproved values
+     * Marks a field as having to not be in a list of unapproved values.
      *
      * @param array $array The list of unapproved values
+     *
      * @return self For method chaining
      */
     public function notIn(array $array) : self
@@ -298,7 +313,7 @@ class Rules
     }
 
     /**
-     * Marks a field as having to be numeric
+     * Marks a field as having to be numeric.
      *
      * @return self For method chaining
      */
@@ -310,12 +325,13 @@ class Rules
     }
 
     /**
-     * Gets whether or not all the rules pass
+     * Gets whether or not all the rules pass.
      *
-     * @param mixed $value The value to validate
-     * @param array $allValues The list of all values
-     * @param bool $haltFieldValidationOnFailure True if we want to not check any other rules for a field
-     *      once one fails, otherwise false
+     * @param mixed $value                        The value to validate
+     * @param array $allValues                    The list of all values
+     * @param bool  $haltFieldValidationOnFailure True if we want to not check any other rules for a field
+     *                                            once one fails, otherwise false
+     *
      * @return bool True if all the rules pass, otherwise false
      */
     public function pass($value, array $allValues = [], bool $haltFieldValidationOnFailure = false) : bool
@@ -354,9 +370,10 @@ class Rules
     }
 
     /**
-     * Marks a field as having to match a regular expression
+     * Marks a field as having to match a regular expression.
      *
      * @param string $regex The regex to match
+     *
      * @return self For method chaining
      */
     public function regex(string $regex) : self
@@ -367,7 +384,7 @@ class Rules
     }
 
     /**
-     * Marks a field as required
+     * Marks a field as required.
      *
      * @return self For method chaining
      */
@@ -380,7 +397,7 @@ class Rules
     }
 
     /**
-     * Adds an error
+     * Adds an error.
      *
      * @param IRule $rule The rule that failed
      */
@@ -394,14 +411,14 @@ class Rules
 
         foreach ($rules as $singleRule) {
             $this->errorSlugsAndPlaceholders[] = [
-                'slug' => $singleRule->getSlug(),
-                'placeholders' => $singleRule instanceof IRuleWithErrorPlaceholders ? $singleRule->getErrorPlaceholders() : []
+                'slug'         => $singleRule->getSlug(),
+                'placeholders' => $singleRule instanceof IRuleWithErrorPlaceholders ? $singleRule->getErrorPlaceholders() : [],
             ];
         }
     }
 
     /**
-     * Adds a rule to the list
+     * Adds a rule to the list.
      *
      * @param IRule $rule The rule to add
      */
@@ -417,10 +434,11 @@ class Rules
     }
 
     /**
-     * Adds a rule with the input name and arguments
+     * Adds a rule with the input name and arguments.
      *
      * @param string $className The fully name of the rule class, eg "Opulence\...\RequiredRule"
-     * @param array $args The extra arguments
+     * @param array  $args      The extra arguments
+     *
      * @throws InvalidArgumentException Thrown if no rule exists with the input name
      */
     protected function createRule(string $className, array $args = [])
@@ -430,7 +448,7 @@ class Rules
         }
 
         /** @var IRule|IRuleWithArgs $rule */
-        $rule = new $className;
+        $rule = new $className();
 
         if ($rule instanceof IRuleWithArgs) {
             $rule->setArgs($args);

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules\Models;
 
 use Opulence\Tests\Validation\Rules\Models\Mocks\User;
@@ -16,7 +18,7 @@ use Opulence\Validation\Rules\Errors\ErrorCollection;
 use Opulence\Validation\Rules\Rules;
 
 /**
- * Tests the model state
+ * Tests the model state.
  */
 class ModelStateTest extends \PHPUnit\Framework\TestCase
 {
@@ -28,7 +30,7 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     private $rules = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -46,7 +48,7 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests an invalid model
+     * Tests an invalid model.
      */
     public function testInvalidModel()
     {
@@ -63,9 +65,9 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
         $this->validator->expects($this->once())
             ->method('isValid')
             ->with([
-                'id' => 1,
-                'name' => 'Dave',
-                'email' => 'foo'
+                'id'    => 1,
+                'name'  => 'Dave',
+                'email' => 'foo',
             ])
             ->willReturn(false);
         $errorCollection = $this->getMockBuilder(ErrorCollection::class)
@@ -80,7 +82,7 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a valid model
+     * Tests a valid model.
      */
     public function testValidModel()
     {
@@ -97,9 +99,9 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
         $this->validator->expects($this->once())
             ->method('isValid')
             ->with([
-                'id' => 1,
-                'name' => 'Dave',
-                'email' => 'foo@bar.com'
+                'id'    => 1,
+                'name'  => 'Dave',
+                'email' => 'foo@bar.com',
             ])
             ->willReturn(true);
         $errorCollection = $this->getMockBuilder(ErrorCollection::class)

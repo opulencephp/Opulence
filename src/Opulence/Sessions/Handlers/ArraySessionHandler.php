@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Sessions\Handlers;
 
 /**
- * Defines the array session handler, which is useful for testing
+ * Defines the array session handler, which is useful for testing.
  */
 class ArraySessionHandler extends SessionHandler
 {
@@ -17,7 +19,7 @@ class ArraySessionHandler extends SessionHandler
     private $storage = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function close() : bool
     {
@@ -25,7 +27,7 @@ class ArraySessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function destroy($sessionId) : bool
     {
@@ -35,7 +37,7 @@ class ArraySessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function gc($maxLifetime) : bool
     {
@@ -43,7 +45,7 @@ class ArraySessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function open($savePath, $sessionId) : bool
     {
@@ -51,7 +53,7 @@ class ArraySessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doRead(string $sessionId) : string
     {
@@ -63,7 +65,7 @@ class ArraySessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doWrite(string $sessionId, string $sessionData) : bool
     {

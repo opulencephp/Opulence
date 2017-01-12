@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http;
 
 use Exception;
 
 /**
- * Tests the HTTP exception
+ * Tests the HTTP exception.
  */
 class HttpExceptionTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +23,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     private $previousException = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -36,7 +38,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the code
+     * Tests getting the code.
      */
     public function testGettingCode()
     {
@@ -44,7 +46,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the headers
+     * Tests getting the headers.
      */
     public function testGettingHeaders()
     {
@@ -52,7 +54,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the message
+     * Tests getting the message.
      */
     public function testGettingMessage()
     {
@@ -60,7 +62,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the previous exception
+     * Tests getting the previous exception.
      */
     public function testGettingPreviousException()
     {
@@ -68,7 +70,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the status code
+     * Tests getting the status code.
      */
     public function testGettingStatusCode()
     {

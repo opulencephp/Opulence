@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers\Parsers\Nodes;
 
 /**
- * Tests the word node
+ * Tests the word node.
  */
 class WordNodeTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests checking if a root node is a tag
+     * Tests checking if a root node is a tag.
      */
     public function testIsTag()
     {

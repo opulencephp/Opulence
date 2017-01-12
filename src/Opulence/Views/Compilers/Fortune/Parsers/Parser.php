@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune\Parsers;
 
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
@@ -19,12 +21,12 @@ use Opulence\Views\Compilers\Fortune\Parsers\Nodes\UnsanitizedTagNode;
 use RuntimeException;
 
 /**
- * Defines a view parser
+ * Defines a view parser.
  */
 class Parser implements IParser
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function parse(array $tokens) : AbstractSyntaxTree
     {
@@ -146,9 +148,10 @@ class Parser implements IParser
     }
 
     /**
-     * Throws an exception for an improperly nested node
+     * Throws an exception for an improperly nested node.
      *
      * @param Token $token The invalid token
+     *
      * @throws RuntimeException Always thrown
      */
     private function throwImproperlyNestedNodeException(Token $token)
@@ -163,9 +166,10 @@ class Parser implements IParser
     }
 
     /**
-     * Throws an exception for an unopened delimiter
+     * Throws an exception for an unopened delimiter.
      *
      * @param Token $token The invalid token
+     *
      * @throws RuntimeException Always thrown
      */
     private function throwUnopenedDelimiterException(Token $token)

@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Responses;
 
 use DateTime;
 
 /**
- * Tests the response headers
+ * Tests the response headers.
  */
 class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     private $headers = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,7 +29,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests deleting a cookie
+     * Tests deleting a cookie.
      */
     public function testDeletingCookie()
     {
@@ -39,7 +41,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests deleting multiple cookies
+     * Tests deleting multiple cookies.
      */
     public function testDeletingMultipleCookies()
     {
@@ -56,7 +58,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting all the cookies
+     * Tests getting all the cookies.
      */
     public function testGettingCookies()
     {
@@ -70,7 +72,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a cookie
+     * Tests setting a cookie.
      */
     public function testSettingCookie()
     {
@@ -80,7 +82,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting multiple cookies
+     * Tests setting multiple cookies.
      */
     public function testSettingMultipleCookies()
     {

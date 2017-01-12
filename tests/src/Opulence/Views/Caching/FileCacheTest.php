@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Caching;
 
 use Opulence\Files\FileSystem;
 use Opulence\Views\IView;
 
 /**
- * Tests the view cache
+ * Tests the view cache.
  */
 class FileCacheTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,45 +26,45 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     private $view = null;
 
     /**
-     * Does some setup before any tests
+     * Does some setup before any tests.
      */
     public static function setUpBeforeClass()
     {
-        if (!is_dir(__DIR__ . '/tmp')) {
-            mkdir(__DIR__ . '/tmp');
+        if (!is_dir(__DIR__.'/tmp')) {
+            mkdir(__DIR__.'/tmp');
         }
     }
 
     /**
-     * Performs some garbage collection
+     * Performs some garbage collection.
      */
     public static function tearDownAfterClass()
     {
-        $files = glob(__DIR__ . '/tmp/*');
+        $files = glob(__DIR__.'/tmp/*');
 
         foreach ($files as $file) {
             is_dir($file) ? rmdir($file) : unlink($file);
         }
 
-        rmdir(__DIR__ . '/tmp');
+        rmdir(__DIR__.'/tmp');
     }
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
         $this->fileSystem = new FileSystem();
-        $this->cache = new FileCache(__DIR__ . '/tmp', 3600);
+        $this->cache = new FileCache(__DIR__.'/tmp', 3600);
         $this->view = $this->createMock(IView::class);
     }
 
     /**
-     * Tests caching a view with a non-positive lifetime
+     * Tests caching a view with a non-positive lifetime.
      */
     public function testCachingWithNonPositiveLifetime()
     {
-        $this->cache = new FileCache(__DIR__ . '/tmp', 0);
+        $this->cache = new FileCache(__DIR__.'/tmp', 0);
         $this->setViewContentsAndVars('foo', ['bar' => 'baz']);
         $this->cache->set($this->view, 'compiled', true);
         $this->assertFalse($this->cache->has($this->view, true));
@@ -70,7 +72,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking for a view that does exist
+     * Tests checking for a view that does exist.
      */
     public function testCheckingForExistingView()
     {
@@ -81,7 +83,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking for a view that exists but doesn't match on variables
+     * Tests checking for a view that exists but doesn't match on variables.
      */
     public function testCheckingForExistingViewWithNoVariableMatches()
     {
@@ -99,7 +101,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking for a view that exists but doesn't match on variables when ignoring view variables' values
+     * Tests checking for a view that exists but doesn't match on variables when ignoring view variables' values.
      */
     public function testCheckingForExistingViewWithNoVariableMatchesWhenIgnoringViewVariablesValues()
     {
@@ -117,12 +119,12 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking for an expired view
+     * Tests checking for an expired view.
      */
     public function testCheckingForExpiredView()
     {
         // The negative expiration is a way of forcing everything to expire right away
-        $cache = new FileCache(__DIR__ . '/tmp', -1);
+        $cache = new FileCache(__DIR__.'/tmp', -1);
         $this->setViewContentsAndVars('foo', ['bar' => 'baz']);
         $cache->set($this->view, 'compiled');
         $this->assertFalse($cache->has($this->view, true));
@@ -130,7 +132,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking for a non-existent view
+     * Tests checking for a non-existent view.
      */
     public function testCheckingForNonExistentView()
     {
@@ -140,7 +142,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests flushing cache
+     * Tests flushing cache.
      */
     public function testFlushingCache()
     {
@@ -167,22 +169,22 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests running garbage collection
+     * Tests running garbage collection.
      */
     public function testGarbageCollection()
     {
-        $this->fileSystem->write(__DIR__ . '/tmp/foo', 'compiled');
-        $this->cache = new FileCache(__DIR__ . '/tmp', -1);
+        $this->fileSystem->write(__DIR__.'/tmp/foo', 'compiled');
+        $this->cache = new FileCache(__DIR__.'/tmp', -1);
         $this->cache->gc();
-        $this->assertEquals([], $this->fileSystem->getFiles(__DIR__ . '/tmp'));
+        $this->assertEquals([], $this->fileSystem->getFiles(__DIR__.'/tmp'));
     }
 
     /**
-     * Tests not creating a directory before attempting to cache views in it
+     * Tests not creating a directory before attempting to cache views in it.
      */
     public function testNotCreatingDirectoryBeforeCaching()
     {
-        $this->cache = new FileCache(__DIR__ . '/verytemporarytmp', 3600);
+        $this->cache = new FileCache(__DIR__.'/verytemporarytmp', 3600);
         $this->setViewContentsAndVars('foo', ['bar' => 'baz']);
         $this->cache->set($this->view, 'compiled');
         $this->assertTrue($this->cache->has($this->view));
@@ -191,20 +193,20 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a path and checking for a view
+     * Tests setting a path and checking for a view.
      */
     public function testSettingPathCheckingForExistingView()
     {
         // I know this is also done in setUp(), but we're specifically testing that it works after setting the path
-        $this->cache->setPath(__DIR__ . '/tmp');
+        $this->cache->setPath(__DIR__.'/tmp');
         $this->testCheckingForExistingView();
     }
 
     /**
-     * Sets the contents and vars in a view
+     * Sets the contents and vars in a view.
      *
      * @param string $contents The contents to set
-     * @param array $vars The vars to set
+     * @param array  $vars     The vars to set
      */
     private function setViewContentsAndVars($contents, array $vars)
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune\Parsers;
 
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
@@ -19,7 +21,7 @@ use Opulence\Views\Compilers\Fortune\Parsers\Nodes\UnsanitizedTagNode;
 use RuntimeException;
 
 /**
- * Tests the view parser
+ * Tests the view parser.
  */
 class ParserTest extends \PHPUnit\Framework\TestCase
 {
@@ -29,7 +31,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     private $ast = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -38,7 +40,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown with an invalid token type
+     * Tests that an exception is thrown with an invalid token type.
      */
     public function testExceptionThrownWithInvalidTokenType()
     {
@@ -47,7 +49,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown nested comment
+     * Tests that an exception is thrown nested comment.
      */
     public function testExceptionThrownWithNestedComment()
     {
@@ -58,13 +60,13 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_COMMENT_OPEN, '{#', 1),
             new Token(TokenTypes::T_EXPRESSION, 'bar', 1),
             new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 1),
-            new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 1)
+            new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 1),
         ];
         $this->parser->parse($tokens);
     }
 
     /**
-     * Tests that an exception is thrown nested directive
+     * Tests that an exception is thrown nested directive.
      */
     public function testExceptionThrownWithNestedDirective()
     {
@@ -75,13 +77,13 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
             new Token(TokenTypes::T_DIRECTIVE_NAME, 'bar', 1),
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1),
-            new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1)
+            new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1),
         ];
         $this->parser->parse($tokens);
     }
 
     /**
-     * Tests that an exception is thrown nested sanitized tag
+     * Tests that an exception is thrown nested sanitized tag.
      */
     public function testExceptionThrownWithNestedSanitizedTag()
     {
@@ -92,13 +94,13 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_SANITIZED_TAG_OPEN, '{{', 1),
             new Token(TokenTypes::T_EXPRESSION, 'bar', 1),
             new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, '}}', 1),
-            new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, '}}', 1)
+            new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, '}}', 1),
         ];
         $this->parser->parse($tokens);
     }
 
     /**
-     * Tests that an exception is thrown nested unsanitized tag
+     * Tests that an exception is thrown nested unsanitized tag.
      */
     public function testExceptionThrownWithNestedUnsanitizedTag()
     {
@@ -109,13 +111,13 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, '{{!', 1),
             new Token(TokenTypes::T_EXPRESSION, 'bar', 1),
             new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1),
-            new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1)
+            new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1),
         ];
         $this->parser->parse($tokens);
     }
 
     /**
-     * Tests that an exception is thrown with an unclosed comment
+     * Tests that an exception is thrown with an unclosed comment.
      */
     public function testExceptionThrownWithUnclosedComment()
     {
@@ -124,7 +126,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown with an unclosed directive
+     * Tests that an exception is thrown with an unclosed directive.
      */
     public function testExceptionThrownWithUnclosedDirective()
     {
@@ -133,7 +135,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown with an unclosed sanitized tag
+     * Tests that an exception is thrown with an unclosed sanitized tag.
      */
     public function testExceptionThrownWithUnclosedSanitizedTag()
     {
@@ -142,7 +144,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown with an unclosed unsanitized tag
+     * Tests that an exception is thrown with an unclosed unsanitized tag.
      */
     public function testExceptionThrownWithUnclosedUnsanitizedTag()
     {
@@ -151,7 +153,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown with an unopened comment
+     * Tests that an exception is thrown with an unopened comment.
      */
     public function testExceptionThrownWithUnopenedComment()
     {
@@ -160,7 +162,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown with an unopened directive
+     * Tests that an exception is thrown with an unopened directive.
      */
     public function testExceptionThrownWithUnopenedDirective()
     {
@@ -169,7 +171,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown with an unopened sanitized tag
+     * Tests that an exception is thrown with an unopened sanitized tag.
      */
     public function testExceptionThrownWithUnopenedSanitizedTag()
     {
@@ -178,7 +180,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown with an unopened unsanitized tag
+     * Tests that an exception is thrown with an unopened unsanitized tag.
      */
     public function testExceptionThrownWithUnopenedUnsanitizedTag()
     {
@@ -187,7 +189,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing a comment
+     * Tests parsing a comment.
      */
     public function testParsingComment()
     {
@@ -204,7 +206,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing a directive with an expression
+     * Tests parsing a directive with an expression.
      */
     public function testParsingDirectiveWithExpression()
     {
@@ -223,7 +225,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing a directive with no expression
+     * Tests parsing a directive with no expression.
      */
     public function testParsingDirectiveWithNoExpression()
     {
@@ -240,7 +242,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing empty tokens
+     * Tests parsing empty tokens.
      */
     public function testParsingEmptyTokens()
     {
@@ -248,12 +250,12 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing an expression
+     * Tests parsing an expression.
      */
     public function testParsingExpression()
     {
         $tokens = [
-            new Token(TokenTypes::T_EXPRESSION, 'foo', 1)
+            new Token(TokenTypes::T_EXPRESSION, 'foo', 1),
         ];
         $this->ast->getCurrentNode()
             ->addChild(new ExpressionNode('foo'));
@@ -261,14 +263,14 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing a PHP expression
+     * Tests parsing a PHP expression.
      */
     public function testParsingPhpExpression()
     {
         $tokens = [
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
             new Token(TokenTypes::T_EXPRESSION, 'echo "foo";', 1),
-            new Token(TokenTypes::T_PHP_TAG_CLOSE, '?>', 1)
+            new Token(TokenTypes::T_PHP_TAG_CLOSE, '?>', 1),
         ];
         $this->ast->getCurrentNode()
             ->addChild(new ExpressionNode('<?php'))
@@ -278,7 +280,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing a sanitized tag
+     * Tests parsing a sanitized tag.
      */
     public function testParsingSanitizedTag()
     {
@@ -295,7 +297,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing statements surrounded by expressions
+     * Tests parsing statements surrounded by expressions.
      */
     public function testParsingStatementsSurroundedByExpressions()
     {
@@ -341,7 +343,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing an unsanitized tag
+     * Tests parsing an unsanitized tag.
      */
     public function testParsingUnsanitizedTag()
     {

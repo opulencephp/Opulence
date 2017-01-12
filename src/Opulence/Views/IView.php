@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views;
 
 /**
- * Defines the interface for all views to implement
+ * Defines the interface for all views to implement.
  */
 interface IView
 {
@@ -23,83 +25,86 @@ interface IView
     const DELIMITER_TYPE_COMMENT = 4;
 
     /**
-     * Gets the uncompiled contents
+     * Gets the uncompiled contents.
      *
      * @return string The uncompiled contents
      */
     public function getContents() : string;
 
     /**
-     * Gets the open and close delimiters for a particular type
+     * Gets the open and close delimiters for a particular type.
      *
      * @param mixed $type The type of delimiter to get
+     *
      * @return array An array containing the open and close delimiters
      */
     public function getDelimiters($type) : array;
 
     /**
-     * Gets the path of the raw view
+     * Gets the path of the raw view.
      *
      * @return string The path of the raw view
      */
     public function getPath() : string;
 
     /**
-     * Gets the value for a variable
+     * Gets the value for a variable.
      *
      * @param string $name The name of the variable to get
+     *
      * @return mixed|null The value of the variable if it exists, otherwise null
      */
     public function getVar(string $name);
 
     /**
-     * Gets the list of variables defined in this view
+     * Gets the list of variables defined in this view.
      *
      * @return array The variable name => value mappings
      */
     public function getVars() : array;
 
     /**
-     * Gets whether or not a variable is set in the view
+     * Gets whether or not a variable is set in the view.
      *
      * @param string $name The name of the variable to search for
+     *
      * @return bool True if the view as the variable, otherwise false
      */
     public function hasVar(string $name) : bool;
 
     /**
-     * Sets the uncompiled contents of the view
+     * Sets the uncompiled contents of the view.
      *
      * @param string $contents The uncompiled contents
      */
     public function setContents(string $contents);
 
     /**
-     * Sets the values for a delimiter type
+     * Sets the values for a delimiter type.
      *
-     * @param mixed $type The type of delimiter to set
+     * @param mixed $type   The type of delimiter to set
      * @param array $values An array containing the open and close delimiter values
      */
     public function setDelimiters($type, array $values);
 
     /**
-     * Sets the path of the raw view
+     * Sets the path of the raw view.
      *
      * @param string $path The path of the raw view
      */
     public function setPath(string $path);
 
     /**
-     * Sets the value for a variable in the view
+     * Sets the value for a variable in the view.
      *
-     * @param string $name The name of the variable whose value we're setting
-     *      For example, if we are setting the value of a variable named "$email" in the view, pass in "email"
-     * @param mixed $value The value of the variable
+     * @param string $name  The name of the variable whose value we're setting
+     *                      For example, if we are setting the value of a variable named "$email" in the view, pass in "email"
+     * @param mixed  $value The value of the variable
      */
     public function setVar(string $name, $value);
 
     /**
-     * Sets multiple variables' values in the view
+     * Sets multiple variables' values in the view.
      *
      * @param array $namesToValues The mapping of variable names to their respective values
      */

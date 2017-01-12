@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc;
 
 /**
- * Tests the factory binding
+ * Tests the factory binding.
  */
 class FactoryBindingTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests checking if we should resolve as a singleton
+     * Tests checking if we should resolve as a singleton.
      */
     public function testCheckingIfResolvedAsSingleton()
     {
@@ -27,7 +29,7 @@ class FactoryBindingTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the factory
+     * Tests getting the factory.
      */
     public function testGettingFactory()
     {

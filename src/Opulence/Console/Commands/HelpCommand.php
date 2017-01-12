@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Commands;
 
 use Opulence\Console\Requests\Argument;
@@ -16,12 +18,12 @@ use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\IResponse;
 
 /**
- * Defines the help command
+ * Defines the help command.
  */
 class HelpCommand extends Command
 {
     /** @var string The template for the output */
-    private static $template = <<<EOF
+    private static $template = <<<'EOF'
 -----------------------------
 Command: <info>{{name}}</info>
 -----------------------------
@@ -54,7 +56,7 @@ EOF;
     }
 
     /**
-     * Sets the command to help with
+     * Sets the command to help with.
      *
      * @param ICommand $command The command to help with
      */
@@ -64,7 +66,7 @@ EOF;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function define()
     {
@@ -78,7 +80,7 @@ EOF;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doExecute(IResponse $response)
     {
@@ -93,7 +95,7 @@ EOF;
             }
 
             if ($this->command->getHelpText() !== '') {
-                $helpText = PHP_EOL . '<comment>Help:</comment>' . PHP_EOL . '  ' . $this->command->getHelpText();
+                $helpText = PHP_EOL.'<comment>Help:</comment>'.PHP_EOL.'  '.$this->command->getHelpText();
             }
 
             // Compile the template
@@ -111,7 +113,7 @@ EOF;
     }
 
     /**
-     * Converts the command arguments to text
+     * Converts the command arguments to text.
      *
      * @return string The arguments as text
      */
@@ -133,9 +135,10 @@ EOF;
     }
 
     /**
-     * Gets the option names as a formatted string
+     * Gets the option names as a formatted string.
      *
      * @param Option $option The option to convert to text
+     *
      * @return string The option names as text
      */
     private function getOptionNames(Option $option) : string
@@ -150,7 +153,7 @@ EOF;
     }
 
     /**
-     * Gets the options as text
+     * Gets the options as text.
      *
      * @return string The options as text
      */

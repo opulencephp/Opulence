@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication;
 
 /**
- * Defines the current authentication context
+ * Defines the current authentication context.
  */
 class AuthenticationContext implements IAuthenticationContext
 {
@@ -20,7 +22,7 @@ class AuthenticationContext implements IAuthenticationContext
 
     /**
      * @param ISubject|null $subject The current subject
-     * @param string $status The current authentication status
+     * @param string        $status  The current authentication status
      */
     public function __construct(
         ISubject $subject = null,
@@ -34,7 +36,7 @@ class AuthenticationContext implements IAuthenticationContext
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getStatus() : string
     {
@@ -42,7 +44,7 @@ class AuthenticationContext implements IAuthenticationContext
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSubject()
     {
@@ -50,7 +52,7 @@ class AuthenticationContext implements IAuthenticationContext
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isAuthenticated() : bool
     {
@@ -58,7 +60,7 @@ class AuthenticationContext implements IAuthenticationContext
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setStatus(string $status)
     {
@@ -66,7 +68,7 @@ class AuthenticationContext implements IAuthenticationContext
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setSubject(ISubject $subject)
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Debug\Exceptions\Handlers;
 
 use Exception;
@@ -14,7 +16,7 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 /**
- * Defines the exception handler
+ * Defines the exception handler.
  */
 class ExceptionHandler implements IExceptionHandler
 {
@@ -26,9 +28,9 @@ class ExceptionHandler implements IExceptionHandler
     protected $exceptionsNotLogged = [];
 
     /**
-     * @param LoggerInterface $logger The logger
-     * @param IExceptionRenderer $exceptionRenderer The exception renderer
-     * @param string|array $exceptionsNotLogged The exception or list of exceptions to not log when thrown
+     * @param LoggerInterface    $logger              The logger
+     * @param IExceptionRenderer $exceptionRenderer   The exception renderer
+     * @param string|array       $exceptionsNotLogged The exception or list of exceptions to not log when thrown
      */
     public function __construct(
         LoggerInterface $logger,
@@ -37,11 +39,11 @@ class ExceptionHandler implements IExceptionHandler
     ) {
         $this->logger = $logger;
         $this->exceptionRenderer = $exceptionRenderer;
-        $this->exceptionsNotLogged = (array)$exceptionsNotLogged;
+        $this->exceptionsNotLogged = (array) $exceptionsNotLogged;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handle($ex)
     {
@@ -58,7 +60,7 @@ class ExceptionHandler implements IExceptionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function register()
     {
@@ -66,9 +68,10 @@ class ExceptionHandler implements IExceptionHandler
     }
 
     /**
-     * Determines whether or not an exception should be logged
+     * Determines whether or not an exception should be logged.
      *
      * @param Throwable|Exception $ex The exception to check
+     *
      * @return bool True if the exception should be logged, otherwise false
      */
     protected function shouldLog($ex) : bool

@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http;
 
 /**
- * Tests the request collection
+ * Tests the request collection.
  */
 class CollectionTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     private $parameters = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a parameter
+     * Tests adding a parameter.
      */
     public function testAdding()
     {
@@ -34,7 +36,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if an offset exists
+     * Tests checking if an offset exists.
      */
     public function testCheckingOffsetExists()
     {
@@ -43,7 +45,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests counting
+     * Tests counting.
      */
     public function testCount()
     {
@@ -54,7 +56,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests exchanging the array
+     * Tests exchanging the array.
      */
     public function testExchangingArray()
     {
@@ -64,7 +66,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a parameter
+     * Tests getting a parameter.
      */
     public function testGetting()
     {
@@ -73,7 +75,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an absent variable with a default
+     * Tests getting an absent variable with a default.
      */
     public function testGettingAbsentVariableWithDefault()
     {
@@ -81,7 +83,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an absent variable with no default
+     * Tests getting an absent variable with no default.
      */
     public function testGettingAbsentVariableWithNoDefault()
     {
@@ -89,7 +91,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting all the parameters
+     * Tests getting all the parameters.
      */
     public function testGettingAll()
     {
@@ -97,12 +99,12 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
         $this->parameters->add('bar', 'foo');
         $this->assertEquals([
             'foo' => 'bar',
-            'bar' => 'foo'
+            'bar' => 'foo',
         ], $this->parameters->getAll());
     }
 
     /**
-     * Tests getting as array
+     * Tests getting as array.
      */
     public function testGettingAsArray()
     {
@@ -111,7 +113,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests whether the parameters has a certain parameter
+     * Tests whether the parameters has a certain parameter.
      */
     public function testHas()
     {
@@ -121,7 +123,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing parameters through the constructor
+     * Tests passing parameters through the constructor.
      */
     public function testPassingParametersInConstructor()
     {
@@ -131,7 +133,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests removing a parameter
+     * Tests removing a parameter.
      */
     public function testRemove()
     {
@@ -141,7 +143,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a parameter
+     * Tests setting a parameter.
      */
     public function testSetting()
     {
@@ -150,7 +152,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting an item
+     * Tests setting an item.
      */
     public function testSettingItem()
     {
@@ -159,7 +161,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests unsetting a parameter
+     * Tests unsetting a parameter.
      */
     public function testUnsetting()
     {
@@ -169,7 +171,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests unsetting an item
+     * Tests unsetting an item.
      */
     public function testUnsettingItem()
     {

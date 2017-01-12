@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Testing\PhpUnit\Assertions;
 
 use Opulence\Console\Responses\StreamResponse;
 use Opulence\Console\StatusCodes;
 
 /**
- * Tests the response assertions
+ * Tests the response assertions.
  */
 class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +24,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     private $mockResponse = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -33,7 +35,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that the status code is an error
+     * Tests asserting that the status code is an error.
      */
     public function testAssertStatusCodeIsError()
     {
@@ -42,7 +44,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that the status code is fatal
+     * Tests asserting that the status code is fatal.
      */
     public function testAssertStatusCodeIsFatal()
     {
@@ -51,7 +53,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that the status code is OK
+     * Tests asserting that the status code is OK.
      */
     public function testAssertStatusCodeIsOK()
     {
@@ -60,7 +62,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that the status code is a warning
+     * Tests asserting that the status code is a warning.
      */
     public function testAssertStatusCodeIsWarning()
     {
@@ -69,7 +71,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that the status code equals the right value
+     * Tests asserting that the status code equals the right value.
      */
     public function testAssertingStatusCodeEquals()
     {

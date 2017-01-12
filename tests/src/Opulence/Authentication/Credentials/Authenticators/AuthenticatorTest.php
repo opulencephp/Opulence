@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Credentials\Authenticators;
 
 use InvalidArgumentException;
 use Opulence\Authentication\Credentials\ICredential;
 
 /**
- * Tests the authenticator
+ * Tests the authenticator.
  */
 class AuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +24,7 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
     private $authenticatorRegistry = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -31,7 +33,7 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests an authenticator that successfully authenticates a credential
+     * Tests an authenticator that successfully authenticates a credential.
      */
     public function testAuthenticatorThatSuccessfullyAuthenticatesCredential()
     {
@@ -54,7 +56,7 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests an authenticator that unsuccessfully authenticates a credential
+     * Tests an authenticator that unsuccessfully authenticates a credential.
      */
     public function testAuthenticatorThatUnsuccessfullyAuthenticatesCredential()
     {
@@ -77,7 +79,7 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown with no authenticator for a credential
+     * Tests that an exception is thrown with no authenticator for a credential.
      */
     public function testExceptionThrownWithNoAuthenticatorForCredential()
     {
@@ -91,7 +93,7 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
         $this->authenticatorRegistry->expects($this->once())
             ->method('getAuthenticators')
             ->with('foo')
-            ->willThrowException(new InvalidArgumentException);
+            ->willThrowException(new InvalidArgumentException());
         $this->authenticator->authenticate($credential, $subject);
     }
 }

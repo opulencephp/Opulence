@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Sessions\Handlers;
 
 use Opulence\Cryptography\Encryption\EncryptionException;
 use Opulence\Cryptography\Encryption\IEncrypter;
 
 /**
- * Tests the session encrypter
+ * Tests the session encrypter.
  */
 class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +24,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     private $opulenceEncrypter = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -31,7 +33,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the Opulence encrypter's exceptions are converted when decrypting
+     * Tests that the Opulence encrypter's exceptions are converted when decrypting.
      */
     public function testOpulenceEncrypterExceptionIsConvertedWhenDecrypting()
     {
@@ -44,7 +46,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the Opulence encrypter's exceptions are converted when encrypting
+     * Tests that the Opulence encrypter's exceptions are converted when encrypting.
      */
     public function testOpulenceEncrypterExceptionIsConvertedWhenEncrypting()
     {
@@ -57,7 +59,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the Opulence encrypter is used to decrypt data
+     * Tests that the Opulence encrypter is used to decrypt data.
      */
     public function testOpulenceEncrypterUsedToDecryptData()
     {
@@ -69,7 +71,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the Opulence encrypter is used to encrypt data
+     * Tests that the Opulence encrypter is used to encrypt data.
      */
     public function testOpulenceEncrypterUsedToEncryptData()
     {

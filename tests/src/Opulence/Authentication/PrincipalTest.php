@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication;
 
 /**
- * Tests the principal
+ * Tests the principal.
  */
 class PrincipalTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
     private $principal = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if a principal has roles
+     * Tests checking if a principal has roles.
      */
     public function testCheckingRoles()
     {
@@ -34,7 +36,7 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the Id
+     * Tests getting the Id.
      */
     public function testGettingId()
     {
@@ -42,7 +44,7 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the roles
+     * Tests getting the roles.
      */
     public function testGettingRoles()
     {
@@ -50,7 +52,7 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the type
+     * Tests getting the type.
      */
     public function testGettingType()
     {

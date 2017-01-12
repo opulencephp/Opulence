@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Requests;
 
 use finfo;
 use SplFileInfo;
 
 /**
- * Defines an uploaded file
+ * Defines an uploaded file.
  */
 class UploadedFile extends SplFileInfo
 {
@@ -26,11 +28,11 @@ class UploadedFile extends SplFileInfo
     private $error = UPLOAD_ERR_OK;
 
     /**
-     * @param string $path The path to the file
+     * @param string $path        The path to the file
      * @param string $tmpFilename The temporary filename
-     * @param int $tmpSize The size of the temporary file in bytes
+     * @param int    $tmpSize     The size of the temporary file in bytes
      * @param string $tmpMimeType The mime type of the temporary file
-     * @param int $error The error message, if there was any
+     * @param int    $error       The error message, if there was any
      */
     public function __construct(
         string $path,
@@ -56,7 +58,7 @@ class UploadedFile extends SplFileInfo
     }
 
     /**
-     * Gets the actual mime type of the file
+     * Gets the actual mime type of the file.
      *
      * @return string The actual mime type
      */
@@ -68,7 +70,7 @@ class UploadedFile extends SplFileInfo
     }
 
     /**
-     * Gets the temporary file's extension
+     * Gets the temporary file's extension.
      *
      * @return string The temporary file's extension
      */
@@ -102,7 +104,7 @@ class UploadedFile extends SplFileInfo
     }
 
     /**
-     * Gets whether or not this file has errors
+     * Gets whether or not this file has errors.
      *
      * @return bool True if the file has errors, otherwise false
      */
@@ -112,10 +114,11 @@ class UploadedFile extends SplFileInfo
     }
 
     /**
-     * Moves the file to the target path
+     * Moves the file to the target path.
      *
-     * @param string $targetDirectory The target directory
-     * @param string|null $name The new name
+     * @param string      $targetDirectory The target directory
+     * @param string|null $name            The new name
+     *
      * @throws UploadException Thrown if the file could not be moved
      */
     public function move(string $targetDirectory, string $name = null)
@@ -126,14 +129,14 @@ class UploadedFile extends SplFileInfo
 
         if (!is_dir($targetDirectory)) {
             if (!mkdir($targetDirectory, 0777, true)) {
-                throw new UploadException('Could not create directory ' . $targetDirectory);
+                throw new UploadException('Could not create directory '.$targetDirectory);
             }
         } elseif (!is_writable($targetDirectory)) {
-            throw new UploadException($targetDirectory . ' is not writable');
+            throw new UploadException($targetDirectory.' is not writable');
         }
 
         $name = $name ?: $this->getBasename();
-        $targetPath = rtrim($targetDirectory, "\\/") . '/' . $name;
+        $targetPath = rtrim($targetDirectory, '\\/').'/'.$name;
 
         if (!$this->doMove($this->getPathname(), $targetPath)) {
             throw new UploadException('Could not move the uploaded file');
@@ -142,10 +145,11 @@ class UploadedFile extends SplFileInfo
 
     /**
      * Moves a file from one location to another
-     * This is split into its own method so that it can be overridden for testing purposes
+     * This is split into its own method so that it can be overridden for testing purposes.
      *
      * @param string $source The path to move from
      * @param string $target The path to move to
+     *
      * @return bool True if the move was successful, otherwise false
      */
     protected function doMove(string $source, string $target) : bool

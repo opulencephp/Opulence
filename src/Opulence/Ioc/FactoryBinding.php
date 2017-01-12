@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc;
 
 /**
- * Defines a factory binding
+ * Defines a factory binding.
  */
 class FactoryBinding implements IBinding
 {
@@ -19,8 +21,8 @@ class FactoryBinding implements IBinding
     private $resolveAsSingleton = false;
 
     /**
-     * @param callable $factory The factory
-     * @param bool $resolveAsSingleton Whether or not the factory should be resolved as a singleton
+     * @param callable $factory            The factory
+     * @param bool     $resolveAsSingleton Whether or not the factory should be resolved as a singleton
      */
     public function __construct(callable $factory, bool $resolveAsSingleton)
     {

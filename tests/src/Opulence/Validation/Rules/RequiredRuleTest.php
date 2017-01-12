@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use Countable;
 
 /**
- * Tests the required rule
+ * Tests the required rule.
  */
 class RequiredRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests that an empty array fails
+     * Tests that an empty array fails.
      */
     public function testEmptyArrayFails()
     {
@@ -30,7 +32,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the slug
+     * Tests getting the slug.
      */
     public function testGettingSlug()
     {
@@ -39,7 +41,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a set value passes
+     * Tests that a set value passes.
      */
     public function testSetValuePasses()
     {
@@ -51,7 +53,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an unset value fails
+     * Tests that an unset value fails.
      */
     public function testUnsetValueFails()
     {

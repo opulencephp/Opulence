@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\ConnectionPools;
 
 use Opulence\Databases\ConnectionPools\Strategies\ServerSelection\IServerSelectionStrategy;
@@ -14,22 +16,23 @@ use Opulence\Databases\IDriver;
 use Opulence\Databases\Server;
 
 /**
- * Defines a pool of master/slave servers
+ * Defines a pool of master/slave servers.
  */
 class MasterSlaveConnectionPool extends ConnectionPool
 {
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected $servers = [
         'master' => null,
         'slaves' => [],
-        'custom' => []
+        'custom' => [],
     ];
     /** @var IServerSelectionStrategy The slave selection strategy */
     protected $slaveSelectionStrategy = null;
 
     /**
-     * @inheritdoc
-     * @param Server[] $slaves The list of slave servers to use
+     * {@inheritdoc}
+     *
+     * @param Server[]                 $slaves                 The list of slave servers to use
      * @param IServerSelectionStrategy $slaveSelectionStrategy The selection strategy to use to select slave servers
      */
     public function __construct(
@@ -54,7 +57,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     }
 
     /**
-     * Adds a slave to the list of slaves
+     * Adds a slave to the list of slaves.
      *
      * @param Server $slave The slave to add
      */
@@ -64,7 +67,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     }
 
     /**
-     * Adds slaves to the list
+     * Adds slaves to the list.
      *
      * @param Server[] $slaves The slaves to add
      */
@@ -84,7 +87,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     }
 
     /**
-     * Removes the input slave if it is in the list of slaves
+     * Removes the input slave if it is in the list of slaves.
      *
      * @param Server $slave The slave to remove
      */
@@ -98,7 +101,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function setReadConnection(Server $preferredServer = null)
     {
@@ -113,7 +116,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function setWriteConnection(Server $preferredServer = null)
     {

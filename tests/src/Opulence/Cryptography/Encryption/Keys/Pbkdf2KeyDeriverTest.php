@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cryptography\Encryption\Keys;
 
 use InvalidArgumentException;
 
 /**
- * Tests the PBKDF2 key deriver
+ * Tests the PBKDF2 key deriver.
  */
 class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     private $keyDeriver = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,7 +29,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test deriving keys from a key
+     * Test deriving keys from a key.
      */
     public function testDerivingKeysFromKey()
     {
@@ -44,7 +46,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test deriving keys from a password
+     * Test deriving keys from a password.
      */
     public function testDerivingKeysFromPassword()
     {
@@ -60,7 +62,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an invalid salt length throws an exception
+     * Tests that an invalid salt length throws an exception.
      */
     public function testInvalidSaltLengthThrowsException()
     {

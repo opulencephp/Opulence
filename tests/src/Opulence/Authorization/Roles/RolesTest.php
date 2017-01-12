@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authorization\Roles;
 
 use InvalidArgumentException;
@@ -13,7 +15,7 @@ use Opulence\Authorization\Roles\Orm\IRoleMembershipRepository;
 use Opulence\Authorization\Roles\Orm\IRoleRepository;
 
 /**
- * Tests the roles
+ * Tests the roles.
  */
 class RolesTest extends \PHPUnit\Framework\TestCase
 {
@@ -25,7 +27,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     private $roleMembershipRepository = null;
 
     /**
-     * Tests up the tests
+     * Tests up the tests.
      */
     public function setUp()
     {
@@ -35,7 +37,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that assigning a non-existent role throws an exception
+     * Tests that assigning a non-existent role throws an exception.
      */
     public function testAssigningNonExistentRoleThrowsException()
     {
@@ -48,7 +50,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking for existing role
+     * Tests checking for existing role.
      */
     public function testCheckingForExistingRole()
     {
@@ -60,7 +62,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking for non-existent role
+     * Tests checking for non-existent role.
      */
     public function testCheckingForNonExistentRole()
     {
@@ -72,7 +74,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that creating a role adds it to the repository
+     * Tests that creating a role adds it to the repository.
      */
     public function testCreatingRoleAddsToRepository()
     {
@@ -84,7 +86,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests deleting an existing role
+     * Tests deleting an existing role.
      */
     public function testDeletingExistingRole()
     {
@@ -97,7 +99,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests deleting a non-existent role
+     * Tests deleting a non-existent role.
      */
     public function testDeletingNonExistentRole()
     {
@@ -109,7 +111,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the user Ids with a non-existent role
+     * Tests getting the user Ids with a non-existent role.
      */
     public function testGettingUserIdsWithNonExistentRole()
     {
@@ -121,13 +123,13 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the user Ids with a role
+     * Tests getting the user Ids with a role.
      */
     public function testGettingUserIdsWithRole()
     {
         $memberships = [
             new RoleMembership(1, 2, new Role(3, 'foo')),
-            new RoleMembership(2, 4, new Role(3, 'foo'))
+            new RoleMembership(2, 4, new Role(3, 'foo')),
         ];
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -141,7 +143,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a membership is added on assignment
+     * Tests that a membership is added on assignment.
      */
     public function testMembershipIsAddedOnAssignment()
     {
@@ -158,14 +160,14 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests all removing roles from a user
+     * Tests all removing roles from a user.
      */
     public function testRemovingAllRolesFromUser()
     {
         $memberships = [
             new RoleMembership(1, 2, new Role(3, 'foo')),
             new RoleMembership(4, 2, new Role(5, 'bar')),
-            new RoleMembership(6, 2, new Role(7, 'baz'))
+            new RoleMembership(6, 2, new Role(7, 'baz')),
         ];
         $this->roleMembershipRepository->expects($this->at(0))
             ->method('getBySubjectId')
@@ -184,14 +186,14 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests removing roles from a user
+     * Tests removing roles from a user.
      */
     public function testRemovingRolesFromUser()
     {
         $memberships = [
             new RoleMembership(1, 2, new Role(3, 'foo')),
             new RoleMembership(4, 2, new Role(5, 'bar')),
-            new RoleMembership(6, 2, new Role(7, 'baz'))
+            new RoleMembership(6, 2, new Role(7, 'baz')),
         ];
         $this->roleMembershipRepository->expects($this->at(0))
             ->method('getBySubjectId')
@@ -207,7 +209,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a user does not have a non-existent role
+     * Tests that a user does not have a non-existent role.
      */
     public function testUserDoesNotHaveNonExistentRole()
     {
@@ -219,7 +221,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a user does not have a role
+     * Tests that a user does not have a role.
      */
     public function testUserDoesNotHaveRole()
     {
@@ -235,7 +237,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a user has a role
+     * Tests that a user has a role.
      */
     public function testUserHasRole()
     {
@@ -251,7 +253,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the user roles are returned
+     * Tests that the user roles are returned.
      */
     public function testUserRolesAreReturned()
     {

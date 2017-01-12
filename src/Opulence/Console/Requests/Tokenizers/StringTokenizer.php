@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests\Tokenizers;
 
 use RuntimeException;
 
 /**
- * Defines the string tokenizer
+ * Defines the string tokenizer.
  */
 class StringTokenizer implements ITokenizer
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function tokenize($input) : array
     {
@@ -67,7 +69,7 @@ class StringTokenizer implements ITokenizer
         }
 
         if ($inDoubleQuotes || $inSingleQuotes) {
-            throw new RuntimeException('Unclosed ' . ($inDoubleQuotes ? 'double' : 'single') . ' quote');
+            throw new RuntimeException('Unclosed '.($inDoubleQuotes ? 'double' : 'single').' quote');
         }
 
         return $tokens;

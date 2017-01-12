@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\Providers;
 
 /**
- * Defines the base provider for RDBMS providers to extend
+ * Defines the base provider for RDBMS providers to extend.
  */
 class Provider
 {
@@ -25,30 +27,32 @@ class Provider
     protected $timestampWithoutTimeZoneFormat = 'Y-m-d H:i:s';
 
     /**
-     * Converts an SQL boolean to a PHP boolean
+     * Converts an SQL boolean to a PHP boolean.
      *
      * @param mixed $value The value to convert
+     *
      * @return bool|null The boolean value if the input was not null, otherwise null
      */
     public function convertFromSqlBoolean($value)
     {
         if ($value === null) {
-            return null;
+            return;
         }
 
-        return (bool)$value;
+        return (bool) $value;
     }
 
     /**
-     * Converts a PHP boolean to an SQL boolean
+     * Converts a PHP boolean to an SQL boolean.
      *
      * @param bool $value The boolean value to convert
+     *
      * @return int The boolean in an SQL boolean format
      */
     public function convertToSqlBoolean(bool $value)
     {
         if (is_bool($value)) {
-            return (int)$value;
+            return (int) $value;
         }
 
         return $value;

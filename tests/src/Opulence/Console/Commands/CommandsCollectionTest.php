@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Commands;
 
 use InvalidArgumentException;
@@ -19,7 +21,7 @@ use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 use Opulence\Tests\Console\Responses\Mocks\Response;
 
 /**
- * Tests the command collection class
+ * Tests the command collection class.
  */
 class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
 {
@@ -27,7 +29,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     private $collection = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -35,7 +37,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a command
+     * Tests adding a command.
      */
     public function testAdd()
     {
@@ -45,7 +47,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a command that already exists
+     * Tests adding a command that already exists.
      */
     public function testAddingDuplicateNames()
     {
@@ -55,7 +57,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling a command
+     * Tests calling a command.
      */
     public function testCallingCommand()
     {
@@ -67,7 +69,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests trying to call a non-existent command
+     * Tests trying to call a non-existent command.
      */
     public function testCallingNonExistentCommand()
     {
@@ -76,7 +78,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if a command exists
+     * Tests checking if a command exists.
      */
     public function testCheckingIfCommandExists()
     {
@@ -86,7 +88,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting all commands
+     * Tests getting all commands.
      */
     public function testGettingAll()
     {
@@ -98,7 +100,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a command that does not exists
+     * Tests getting a command that does not exists.
      */
     public function testGettingCommandThatDoesNotExists()
     {
@@ -107,7 +109,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests overwriting a command that already exists
+     * Tests overwriting a command that already exists.
      */
     public function testOverwritingExistingCommand()
     {

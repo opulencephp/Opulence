@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Http\Testing\PhpUnit;
 
 use Opulence\Applications\Application;
@@ -22,7 +24,7 @@ use Opulence\Routing\Router;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Defines the HTTP integration test
+ * Defines the HTTP integration test.
  */
 abstract class IntegrationTestCase extends TestCase
 {
@@ -44,9 +46,10 @@ abstract class IntegrationTestCase extends TestCase
     protected $assertView = null;
 
     /**
-     * Creates a request builder for a DELETE request
+     * Creates a request builder for a DELETE request.
      *
      * @param string|null $url The URL to request
+     *
      * @return RequestBuilder The request builder
      */
     public function delete(string $url = null) : RequestBuilder
@@ -55,9 +58,10 @@ abstract class IntegrationTestCase extends TestCase
     }
 
     /**
-     * Creates a request builder for a GET request
+     * Creates a request builder for a GET request.
      *
      * @param string|null $url The URL to request
+     *
      * @return RequestBuilder The request builder
      */
     public function get(string $url = null) : RequestBuilder
@@ -66,9 +70,10 @@ abstract class IntegrationTestCase extends TestCase
     }
 
     /**
-     * Creates a request builder for a HEAD request
+     * Creates a request builder for a HEAD request.
      *
      * @param string|null $url The URL to request
+     *
      * @return RequestBuilder The request builder
      */
     public function head(string $url = null) : RequestBuilder
@@ -77,9 +82,10 @@ abstract class IntegrationTestCase extends TestCase
     }
 
     /**
-     * Creates a request builder for an OPTIONS request
+     * Creates a request builder for an OPTIONS request.
      *
      * @param string|null $url The URL to request
+     *
      * @return RequestBuilder The request builder
      */
     public function options(string $url = null) : RequestBuilder
@@ -88,9 +94,10 @@ abstract class IntegrationTestCase extends TestCase
     }
 
     /**
-     * Creates a request builder for a PATCH request
+     * Creates a request builder for a PATCH request.
      *
      * @param string|null $url The URL to request
+     *
      * @return RequestBuilder The request builder
      */
     public function patch(string $url = null) : RequestBuilder
@@ -99,9 +106,10 @@ abstract class IntegrationTestCase extends TestCase
     }
 
     /**
-     * Creates a request builder for a POST request
+     * Creates a request builder for a POST request.
      *
      * @param string|null $url The URL to request
+     *
      * @return RequestBuilder The request builder
      */
     public function post(string $url = null) : RequestBuilder
@@ -110,9 +118,10 @@ abstract class IntegrationTestCase extends TestCase
     }
 
     /**
-     * Creates a request builder for a PUT request
+     * Creates a request builder for a PUT request.
      *
      * @param string|null $url The URL to request
+     *
      * @return RequestBuilder The request builder
      */
     public function put(string $url = null) : RequestBuilder
@@ -121,9 +130,10 @@ abstract class IntegrationTestCase extends TestCase
     }
 
     /**
-     * Simulates a route for use in testing
+     * Simulates a route for use in testing.
      *
      * @param Request|null $request The request to use
+     *
      * @return self For method chaining
      */
     public function route(Request $request = null) : self
@@ -140,7 +150,7 @@ abstract class IntegrationTestCase extends TestCase
     }
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -156,7 +166,7 @@ abstract class IntegrationTestCase extends TestCase
     }
 
     /**
-     * Tears down the tests
+     * Tears down the tests.
      */
     public function tearDown()
     {
@@ -164,21 +174,21 @@ abstract class IntegrationTestCase extends TestCase
     }
 
     /**
-     * Gets the kernel exception handler
+     * Gets the kernel exception handler.
      *
      * @return IExceptionHandler The exception handler used in the kernel
      */
     abstract protected function getExceptionHandler() : IExceptionHandler;
 
     /**
-     * Gets the exception renderer
+     * Gets the exception renderer.
      *
      * @return IExceptionRenderer The exception renderer
      */
     abstract protected function getExceptionRenderer() : IExceptionRenderer;
 
     /**
-     * Gets the list of global middleware
+     * Gets the list of global middleware.
      *
      * @return array The list of global middleware classes
      */

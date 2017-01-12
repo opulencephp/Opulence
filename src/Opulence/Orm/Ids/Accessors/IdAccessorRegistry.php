@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm\Ids\Accessors;
 
 use Opulence\Orm\IEntity;
@@ -14,7 +16,7 @@ use ReflectionClass;
 use ReflectionException;
 
 /**
- * Defines the Id accessor registry
+ * Defines the Id accessor registry.
  */
 class IdAccessorRegistry implements IIdAccessorRegistry
 {
@@ -23,25 +25,25 @@ class IdAccessorRegistry implements IIdAccessorRegistry
 
     public function __construct()
     {
-        /**
+        /*
          * To reduce boilerplate code, users can implement the entity interface
          * We'll automatically register Id accessors for classes that implement this interface
          */
         $this->registerIdAccessors(
             IEntity::class,
             function ($entity) {
-                /** @var IEntity $entity */
+                /* @var IEntity $entity */
                 return $entity->getId();
             },
             function ($entity, $id) {
-                /** @var IEntity $entity */
+                /* @var IEntity $entity */
                 $entity->setId($id);
             }
         );
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getEntityId($entity)
     {
@@ -63,24 +65,24 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerIdAccessors($classNames, callable $getter, callable $setter = null)
     {
-        foreach ((array)$classNames as $className) {
+        foreach ((array) $classNames as $className) {
             $this->idAccessorFunctions[$className] = [
                 'getter' => $getter,
-                'setter' => $setter
+                'setter' => $setter,
             ];
         }
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerReflectionIdAccessors($classNames, string $idPropertyName)
     {
-        foreach ((array)$classNames as $className) {
+        foreach ((array) $classNames as $className) {
             try {
                 $reflectionClass = new ReflectionClass($className);
                 $property = $reflectionClass->getProperty($idPropertyName);
@@ -100,7 +102,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setEntityId($entity, $id)
     {

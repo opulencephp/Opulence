@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm\DataMappers;
 
 use Opulence\Redis\Redis;
 
 /**
- * Defines a data mapper that maps domain data to and from Redis
+ * Defines a data mapper that maps domain data to and from Redis.
  */
 abstract class RedisDataMapper implements ICacheDataMapper
 {
@@ -34,72 +36,78 @@ abstract class RedisDataMapper implements ICacheDataMapper
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getById($id)
     {
         $entityHash = $this->getEntityHashById($id);
 
         if ($entityHash === null || $entityHash === []) {
-            return null;
+            return;
         }
 
         return $this->loadEntity($entityHash);
     }
 
     /**
-     * Gets the hash representation of an entity
+     * Gets the hash representation of an entity.
      *
      * @param int|string $id The Id of the entity whose hash we're searching for
+     *
      * @return array|null The entity's hash if successful, otherwise null
      */
     abstract protected function getEntityHashById($id);
 
     /**
      * Gets the list of members of the set at the given key
-     * We need this to know how to get the set members from the concrete Redis cache object this mapper uses
+     * We need this to know how to get the set members from the concrete Redis cache object this mapper uses.
      *
      * @param string $key The key whose members we want
+     *
      * @return array|bool The list of members if successful, otherwise false
      */
     abstract protected function getSetMembersFromRedis(string $key);
 
     /**
      * Gets the list of members of the sorted set at the given key
-     * We need this to know how to get the sorted set members from the concrete Redis cache object this mapper uses
+     * We need this to know how to get the sorted set members from the concrete Redis cache object this mapper uses.
      *
      * @param string $key The key whose members we want
+     *
      * @return array|bool The list of members if successful, otherwise false
      */
     abstract protected function getSortedSetMembersFromRedis(string $key);
 
     /**
      * Gets the item at the given key
-     * We need this to know how to get the value from the concrete Redis cache object this mapper uses
+     * We need this to know how to get the value from the concrete Redis cache object this mapper uses.
      *
      * @param string $key The key whose value we want
+     *
      * @return mixed|bool The value of the key
      */
     abstract protected function getValueFromRedis(string $key);
 
     /**
-     * Loads an entity from a hash of data
+     * Loads an entity from a hash of data.
      *
      * @param array $hash The hash of data to load the entity from
+     *
      * @return object The entity
      */
     abstract protected function loadEntity(array $hash);
 
     /**
-     * Loads multiple entities from their Ids
+     * Loads multiple entities from their Ids.
      *
      * @param array $entityIds The list of Ids of entities to load
+     *
      * @return array|null The list of entities if they were all found in cache, otherwise null
      */
     protected function loadEntities(array $entityIds)
     {
         if (count($entityIds) === 0) {
-            return null;
+            return;
         }
 
         $entities = [];
@@ -109,7 +117,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
             $hash = $this->getEntityHashById($entityId);
 
             if ($hash === null) {
-                return null;
+                return;
             }
 
             $entities[] = $this->loadEntity($hash);
@@ -120,10 +128,11 @@ abstract class RedisDataMapper implements ICacheDataMapper
 
     /**
      * Performs the read query for entity(ies) and returns any results
-     * This assumes that the Ids for all the entities are stored in a set, sorted set, or a string
+     * This assumes that the Ids for all the entities are stored in a set, sorted set, or a string.
      *
      * @param string $keyOfEntityIds The key that contains the Id(s) of the entities we're searching for
-     * @param int $valueType The constant indicating the type of value at the key
+     * @param int    $valueType      The constant indicating the type of value at the key
+     *
      * @return array|mixed|null The list of entities or an individual entity if successful, otherwise null
      */
     protected function read(string $keyOfEntityIds, int $valueType)
@@ -133,7 +142,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
                 $entityIds = $this->getValueFromRedis($keyOfEntityIds);
 
                 if ($entityIds === false) {
-                    return null;
+                    return;
                 }
 
                 // To be compatible with the rest of this method, we'll convert the Id to an array containing that Id
@@ -144,7 +153,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
                 $entityIds = $this->getSetMembersFromRedis($keyOfEntityIds);
 
                 if (count($entityIds) === 0) {
-                    return null;
+                    return;
                 }
 
                 break;
@@ -152,12 +161,12 @@ abstract class RedisDataMapper implements ICacheDataMapper
                 $entityIds = $this->getSortedSetMembersFromRedis($keyOfEntityIds);
 
                 if (count($entityIds) === 0) {
-                    return null;
+                    return;
                 }
 
                 break;
             default:
-                return null;
+                return;
         }
 
         $entities = $this->loadEntities($entityIds);

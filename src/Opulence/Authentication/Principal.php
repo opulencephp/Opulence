@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication;
 
 /**
- * Defines a principal identity
+ * Defines a principal identity.
  */
 class Principal implements IPrincipal
 {
@@ -21,9 +23,9 @@ class Principal implements IPrincipal
     protected $roles = [];
 
     /**
-     * @param string $type The type of principal this is
-     * @param mixed $id The identity of the principal
-     * @param array $roles The list of roles this principal has
+     * @param string $type  The type of principal this is
+     * @param mixed  $id    The identity of the principal
+     * @param array  $roles The list of roles this principal has
      */
     public function __construct(string $type, $id, array $roles)
     {
@@ -33,7 +35,7 @@ class Principal implements IPrincipal
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -41,7 +43,7 @@ class Principal implements IPrincipal
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getRoles() : array
     {
@@ -49,7 +51,7 @@ class Principal implements IPrincipal
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getType() : string
     {
@@ -57,7 +59,7 @@ class Principal implements IPrincipal
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hasRole(string $roleName) : bool
     {

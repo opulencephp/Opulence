@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cache;
 
 use Opulence\Memcached\Memcached;
 
 /**
- * Defines the Memcached bridge
+ * Defines the Memcached bridge.
  */
 class MemcachedBridge implements ICacheBridge
 {
@@ -23,9 +25,9 @@ class MemcachedBridge implements ICacheBridge
     protected $keyPrefix = '';
 
     /**
-     * @param Memcached $memcached The Memcached driver
-     * @param string $clientName The name of the client to connect to
-     * @param string $keyPrefix The prefix to use on all keys
+     * @param Memcached $memcached  The Memcached driver
+     * @param string    $clientName The name of the client to connect to
+     * @param string    $keyPrefix  The prefix to use on all keys
      */
     public function __construct(Memcached $memcached, string $clientName = 'default', string $keyPrefix = '')
     {
@@ -35,7 +37,7 @@ class MemcachedBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function decrement(string $key, int $by = 1) : int
     {
@@ -43,7 +45,7 @@ class MemcachedBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete(string $key)
     {
@@ -51,7 +53,7 @@ class MemcachedBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -59,7 +61,7 @@ class MemcachedBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get(string $key)
     {
@@ -69,7 +71,7 @@ class MemcachedBridge implements ICacheBridge
     }
 
     /**
-     * Gets the underlying Memcached instance
+     * Gets the underlying Memcached instance.
      *
      * @return Memcached The memcached instance
      */
@@ -79,7 +81,7 @@ class MemcachedBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function has(string $key) : bool
     {
@@ -87,7 +89,7 @@ class MemcachedBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function increment(string $key, int $by = 1) : int
     {
@@ -95,7 +97,7 @@ class MemcachedBridge implements ICacheBridge
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function set(string $key, $value, int $lifetime)
     {
@@ -103,18 +105,19 @@ class MemcachedBridge implements ICacheBridge
     }
 
     /**
-     * Gets the key with the prefix
+     * Gets the key with the prefix.
      *
      * @param string $key The key to prefix
+     *
      * @return string The prefixed key
      */
     protected function getPrefixedKey(string $key) : string
     {
-        return $this->keyPrefix . $key;
+        return $this->keyPrefix.$key;
     }
 
     /**
-     * Gets the selected client
+     * Gets the selected client.
      *
      * @return mixed The client
      */

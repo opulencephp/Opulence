@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Cryptography\Console\Commands;
 
 use Opulence\Console\Commands\Command;
@@ -15,12 +17,12 @@ use Opulence\Console\Responses\IResponse;
 use Opulence\Framework\Configuration\Config;
 
 /**
- * Defines the encryption key generator command
+ * Defines the encryption key generator command.
  */
 class EncryptionKeyGenerationCommand extends Command
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function define()
     {
@@ -35,17 +37,17 @@ class EncryptionKeyGenerationCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doExecute(IResponse $response)
     {
         // Create a suitably-long key that can be used with sha512
         $key = \bin2hex(\random_bytes(32));
-        $environmentConfigPath = Config::get('paths', 'config') . '/environment/.env.app.php';
+        $environmentConfigPath = Config::get('paths', 'config').'/environment/.env.app.php';
 
         if (!$this->optionIsSet('show') && file_exists($environmentConfigPath)) {
             $contents = file_get_contents($environmentConfigPath);
-            $newContents = preg_replace("/\"ENCRYPTION_KEY\",\s*\"[^\"]*\"/U", '"ENCRYPTION_KEY", "' . $key . '"',
+            $newContents = preg_replace("/\"ENCRYPTION_KEY\",\s*\"[^\"]*\"/U", '"ENCRYPTION_KEY", "'.$key.'"',
                 $contents);
             file_put_contents($environmentConfigPath, $newContents);
         }

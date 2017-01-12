@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication;
 
 use Opulence\Authentication\Credentials\ICredential;
 
 /**
- * Defines an authentication subject
+ * Defines an authentication subject.
  */
 class Subject implements ISubject
 {
@@ -21,7 +23,7 @@ class Subject implements ISubject
     protected $credentials = [];
 
     /**
-     * @param array $principals The list of principals
+     * @param array $principals  The list of principals
      * @param array $credentials The list of credentials
      */
     public function __construct(array $principals = [], array $credentials = [])
@@ -36,7 +38,7 @@ class Subject implements ISubject
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function addCredential(ICredential $credential)
     {
@@ -44,7 +46,7 @@ class Subject implements ISubject
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function addPrincipal(IPrincipal $principal)
     {
@@ -52,19 +54,19 @@ class Subject implements ISubject
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getCredential(string $type)
     {
         if (!isset($this->credentials[$type])) {
-            return null;
+            return;
         }
 
         return $this->credentials[$type];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getCredentials() : array
     {
@@ -72,31 +74,31 @@ class Subject implements ISubject
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPrimaryPrincipal()
     {
         if (!isset($this->principals[PrincipalTypes::PRIMARY])) {
-            return null;
+            return;
         }
 
         return $this->principals[PrincipalTypes::PRIMARY];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPrincipal(string $type)
     {
         if (!isset($this->principals[$type])) {
-            return null;
+            return;
         }
 
         return $this->principals[$type];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPrincipals() : array
     {
@@ -104,7 +106,7 @@ class Subject implements ISubject
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getRoles() : array
     {
@@ -118,7 +120,7 @@ class Subject implements ISubject
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hasRole(string $roleName) : bool
     {

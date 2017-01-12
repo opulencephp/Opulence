@@ -1,27 +1,29 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http;
 
 /**
- * Defines the list of headers
+ * Defines the list of headers.
  */
 class Headers extends Collection
 {
     /** @var array The list of HTTP request headers that don't begin with "HTTP_" */
     protected static $specialCaseHeaders = [
-        'AUTH_TYPE' => true,
-        'CONTENT_LENGTH' => true,
-        'CONTENT_TYPE' => true,
+        'AUTH_TYPE'       => true,
+        'CONTENT_LENGTH'  => true,
+        'CONTENT_TYPE'    => true,
         'PHP_AUTH_DIGEST' => true,
-        'PHP_AUTH_PW' => true,
-        'PHP_AUTH_TYPE' => true,
-        'PHP_AUTH_USER' => true
+        'PHP_AUTH_PW'     => true,
+        'PHP_AUTH_TYPE'   => true,
+        'PHP_AUTH_USER'   => true,
     ];
 
     /**
@@ -38,7 +40,7 @@ class Headers extends Collection
             }
         }
 
-        /**
+        /*
          * Headers allow multiple values
          * The parent class does not have this feature, which is why we took care of it in this constructor
          * To satisfy the parent constructor, we'll simply send it an empty array
@@ -47,11 +49,12 @@ class Headers extends Collection
     }
 
     /**
-     * Headers are allowed to have multiple values, so we must add support for that
+     * Headers are allowed to have multiple values, so we must add support for that.
      *
-     * @inheritdoc
-     * @param string|array $values The value or values
-     * @param bool $shouldReplace Whether or not to replace the value
+     * {@inheritdoc}
+     *
+     * @param string|array $values        The value or values
+     * @param bool         $shouldReplace Whether or not to replace the value
      */
     public function add(string $name, $values, bool $shouldReplace = true)
     {
@@ -59,7 +62,8 @@ class Headers extends Collection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @param bool $onlyReturnFirst True if we only want the first header, otherwise we'll return all of them
      */
     public function get(string $name, $default = null, bool $onlyReturnFirst = true)
@@ -78,7 +82,7 @@ class Headers extends Collection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function has(string $name) : bool
     {
@@ -86,7 +90,7 @@ class Headers extends Collection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function remove(string $name)
     {
@@ -94,16 +98,17 @@ class Headers extends Collection
     }
 
     /**
-     * Headers are allowed to have multiple values, so we must add support for that
+     * Headers are allowed to have multiple values, so we must add support for that.
      *
-     * @inheritdoc
-     * @param string|array $values The value or values
-     * @param bool $shouldReplace Whether or not to replace the value
+     * {@inheritdoc}
+     *
+     * @param string|array $values        The value or values
+     * @param bool         $shouldReplace Whether or not to replace the value
      */
     public function set(string $name, $values, bool $shouldReplace = true)
     {
         $name = $this->normalizeName($name);
-        $values = (array)$values;
+        $values = (array) $values;
 
         if ($shouldReplace || !$this->has($name)) {
             parent::set($name, $values);
@@ -113,9 +118,10 @@ class Headers extends Collection
     }
 
     /**
-     * Normalizes a name
+     * Normalizes a name.
      *
      * @param string $name The name to normalize
+     *
      * @return string The normalized name
      */
     protected function normalizeName(string $name) : string

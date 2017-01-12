@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders;
 
 use Opulence\QueryBuilders\Conditions\ICondition;
 use PDO;
 
 /**
- * Tests the delete query
+ * Tests the delete query.
  */
 class DeleteQueryTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,7 +22,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     private $condition = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -34,7 +36,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "USING" expression
+     * Tests adding a "USING" expression.
      */
     public function testAddingUsing()
     {
@@ -48,7 +50,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an "AND" where condition
+     * Tests adding an "AND" where condition.
      */
     public function testAndWhere()
     {
@@ -59,7 +61,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an "AND" where condition object
+     * Tests adding an "AND" where condition object.
      */
     public function testAndWhereConditionObject()
     {
@@ -71,7 +73,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the most basic query we can run
+     * Tests the most basic query we can run.
      */
     public function testBasicQuery()
     {
@@ -80,7 +82,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests all the methods in a single, complicated query
+     * Tests all the methods in a single, complicated query.
      */
     public function testEverything()
     {
@@ -96,7 +98,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an "OR" where condition
+     * Tests adding an "OR" where condition.
      */
     public function testOrWhere()
     {
@@ -107,7 +109,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an "OR" where condition
+     * Tests adding an "OR" where condition.
      */
     public function testOrWhereConditionObject()
     {
@@ -119,7 +121,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests using an alias on the table name
+     * Tests using an alias on the table name.
      */
     public function testTableAlias()
     {
@@ -128,7 +130,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the "USING" expression
+     * Tests the "USING" expression.
      */
     public function testUsing()
     {
@@ -140,7 +142,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a simple where clause
+     * Tests adding a simple where clause.
      */
     public function testWhere()
     {
@@ -150,7 +152,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a simple where clause with a condition object
+     * Tests adding a simple where clause with a condition object.
      */
     public function testWhereConditionObject()
     {

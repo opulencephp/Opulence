@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Credentials\Authenticators;
 
 use Opulence\Authentication\Credentials\ICredential;
@@ -15,7 +17,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContext;
 
 /**
- * Defines the refresh token authenticator
+ * Defines the refresh token authenticator.
  */
 class RefreshTokenAuthenticator extends JwtAuthenticator
 {
@@ -23,7 +25,8 @@ class RefreshTokenAuthenticator extends JwtAuthenticator
     protected $refreshTokenRepository = null;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @param IJwtRepository $refreshTokenRepository
      */
     public function __construct(
@@ -37,7 +40,7 @@ class RefreshTokenAuthenticator extends JwtAuthenticator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null) : bool
     {

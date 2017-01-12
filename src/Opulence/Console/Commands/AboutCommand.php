@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Commands;
 
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\IResponse;
 
 /**
- * Defines the about command
+ * Defines the about command.
  */
 class AboutCommand extends Command
 {
     /** @var string The template for the output */
-    private static $template = <<<EOF
+    private static $template = <<<'EOF'
 -----------------------------
 About <b>Apex</b> {{version}}
 -----------------------------
@@ -29,9 +31,9 @@ EOF;
     private $applicationVersion = 'Unknown';
 
     /**
-     * @param CommandCollection $commands The list of commands
-     * @param PaddingFormatter $paddingFormatter The space padding formatter to use
-     * @param string $applicationVersion The version number of the application
+     * @param CommandCollection $commands           The list of commands
+     * @param PaddingFormatter  $paddingFormatter   The space padding formatter to use
+     * @param string            $applicationVersion The version number of the application
      */
     public function __construct(
         CommandCollection &$commands,
@@ -46,7 +48,7 @@ EOF;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function define()
     {
@@ -55,7 +57,7 @@ EOF;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doExecute(IResponse $response)
     {
@@ -68,7 +70,7 @@ EOF;
     }
 
     /**
-     * Converts commands to text
+     * Converts commands to text.
      *
      * @return string The commands as text
      */
@@ -80,10 +82,11 @@ EOF;
 
         /**
          * Sorts the commands by name
-         * Uncategorized (commands without ":" in their names) always come first
+         * Uncategorized (commands without ":" in their names) always come first.
          *
          * @param ICommand $a
          * @param ICommand $b
+         *
          * @return int The result of the comparison
          */
         $sort = function ($a, $b) {
@@ -135,10 +138,10 @@ EOF;
                 if (in_array(trim($row[0]),
                         $categorizedCommandNames) && isset($firstCommandNamesToCategories[trim($row[0])])
                 ) {
-                    $output .= "<comment>{$firstCommandNamesToCategories[trim($row[0])]}</comment>" . PHP_EOL;
+                    $output .= "<comment>{$firstCommandNamesToCategories[trim($row[0])]}</comment>".PHP_EOL;
                 }
 
-                return $output . "  <info>{$row[0]}</info> - {$row[1]}";
+                return $output."  <info>{$row[0]}</info> - {$row[1]}";
             });
     }
 }

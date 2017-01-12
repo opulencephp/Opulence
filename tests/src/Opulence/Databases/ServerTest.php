@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases;
 
 use Opulence\Tests\Databases\Mocks\Server;
 
 /**
- * Tests the relational database server
+ * Tests the relational database server.
  */
 class ServerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests setting the character set
+     * Tests setting the character set.
      */
     public function testSettingCharset()
     {
@@ -27,7 +29,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the data in the constructor
+     * Tests setting the data in the constructor.
      */
     public function testSettingDataInConstructor()
     {
@@ -48,7 +50,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the database name
+     * Tests setting the database name.
      */
     public function testSettingDatabaseName()
     {
@@ -59,7 +61,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the host
+     * Tests setting the host.
      */
     public function testSettingHost()
     {
@@ -69,7 +71,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the password
+     * Tests setting the password.
      */
     public function testSettingPassword()
     {
@@ -80,7 +82,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the port
+     * Tests setting the port.
      */
     public function testSettingPort()
     {
@@ -90,7 +92,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the username
+     * Tests setting the username.
      */
     public function testSettingUsername()
     {

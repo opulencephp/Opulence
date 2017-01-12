@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Routing\Dispatchers\Mocks;
 
 use Opulence\Http\Requests\Request;
@@ -15,7 +17,7 @@ use Opulence\Routing\Dispatchers\RouteDispatcher as BaseDispatcher;
 use Opulence\Routing\Routes\CompiledRoute;
 
 /**
- * Mocks the dispatcher for use in testing
+ * Mocks the dispatcher for use in testing.
  */
 class RouteDispatcher extends BaseDispatcher
 {
@@ -24,9 +26,9 @@ class RouteDispatcher extends BaseDispatcher
 
     /**
      * For the sake of testing the router, simply store the dispatched route rather than its output
-     * This makes it easy to test that the router is selecting the correct route
+     * This makes it easy to test that the router is selecting the correct route.
      *
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function dispatch(CompiledRoute $route, Request $request, &$controller = null) : Response
     {
@@ -37,7 +39,7 @@ class RouteDispatcher extends BaseDispatcher
     }
 
     /**
-     * Gets the last route for testing purposes
+     * Gets the last route for testing purposes.
      *
      * @return CompiledRoute
      */

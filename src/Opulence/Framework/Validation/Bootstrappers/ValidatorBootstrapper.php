@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Validation\Bootstrappers;
 
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
@@ -20,7 +22,7 @@ use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 
 /**
- * Defines the validator bootstrapper
+ * Defines the validator bootstrapper.
  */
 abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
@@ -36,7 +38,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
     protected $validatorFactory = null;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBindings() : array
     {
@@ -45,12 +47,12 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
             ICompiler::class,
             RuleExtensionRegistry::class,
             RulesFactory::class,
-            IValidatorFactory::class
+            IValidatorFactory::class,
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBindings(IContainer $container)
     {
@@ -69,16 +71,17 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
     }
 
     /**
-     * Registers the error templates
+     * Registers the error templates.
      *
      * @param ErrorTemplateRegistry $errorTemplateRegistry The registry to register to
      */
     abstract protected function registerErrorTemplates(ErrorTemplateRegistry $errorTemplateRegistry);
 
     /**
-     * Gets the error template compiler
+     * Gets the error template compiler.
      *
      * @param IContainer $container The IoC container
+     *
      * @return ICompiler The error template compiler
      */
     protected function getErrorTemplateCompiler(IContainer $container) : ICompiler
@@ -87,9 +90,10 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
     }
 
     /**
-     * Gets the error template registry
+     * Gets the error template registry.
      *
      * @param IContainer $container The IoC container
+     *
      * @return ErrorTemplateRegistry The error template registry
      */
     protected function getErrorTemplateRegistry(IContainer $container) : ErrorTemplateRegistry
@@ -98,9 +102,10 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
     }
 
     /**
-     * Gets the rule extension registry
+     * Gets the rule extension registry.
      *
      * @param IContainer $container The IoC container
+     *
      * @return RuleExtensionRegistry The rule extension registry
      */
     protected function getRuleExtensionRegistry(IContainer $container) : RuleExtensionRegistry
@@ -109,9 +114,10 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
     }
 
     /**
-     * Gets the rules factory
+     * Gets the rules factory.
      *
      * @param IContainer $container The IoC container
+     *
      * @return RulesFactory The rules factory
      */
     protected function getRulesFactory(IContainer $container) : RulesFactory
@@ -124,9 +130,10 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
     }
 
     /**
-     * Gets the validator factory
+     * Gets the validator factory.
      *
      * @param IContainer $container The IoC container
+     *
      * @return IValidatorFactory The validator factory
      */
     protected function getValidatorFactory(IContainer $container) : IValidatorFactory
@@ -135,7 +142,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
     }
 
     /**
-     * Registers any custom rule extensions
+     * Registers any custom rule extensions.
      *
      * @param RuleExtensionRegistry $ruleExtensionRegistry The registry to register rules to
      */

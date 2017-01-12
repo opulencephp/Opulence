@@ -1,16 +1,18 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes;
 
 /**
  * Defines a parsed route
- * This is different than a compiled route because this does not have the context of a particular request
+ * This is different than a compiled route because this does not have the context of a particular request.
  */
 class ParsedRoute extends Route
 {
@@ -36,9 +38,10 @@ class ParsedRoute extends Route
     }
 
     /**
-     * Gets the default value for a variable
+     * Gets the default value for a variable.
      *
      * @param string $variableName The name of the variable whose default value we want
+     *
      * @return mixed|null The default value for the variable if it exists, otherwise null
      */
     public function getDefaultValue(string $variableName)
@@ -46,8 +49,6 @@ class ParsedRoute extends Route
         if (isset($this->defaultValues[$variableName])) {
             return $this->defaultValues[$variableName];
         }
-
-        return null;
     }
 
     /**
@@ -56,7 +57,7 @@ class ParsedRoute extends Route
     public function getHostRegex() : string
     {
         // Default to matching everything if it isn't set
-        return $this->hostRegex === null ? "#^.*$#" : $this->hostRegex;
+        return $this->hostRegex === null ? '#^.*$#' : $this->hostRegex;
     }
 
     /**
@@ -68,10 +69,10 @@ class ParsedRoute extends Route
     }
 
     /**
-     * Sets a default value for a variable
+     * Sets a default value for a variable.
      *
      * @param string $variableName The name of the variable whose default value we're setting
-     * @param mixed $defaultValue The default value for the variable
+     * @param mixed  $defaultValue The default value for the variable
      */
     public function setDefaultValue(string $variableName, $defaultValue)
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes\Compilers\Parsers;
 
 use Opulence\Routing\RouteException;
@@ -13,7 +15,7 @@ use Opulence\Routing\Routes\ParsedRoute;
 use Opulence\Routing\Routes\Route;
 
 /**
- * Defines the route parser
+ * Defines the route parser.
  */
 class Parser implements IParser
 {
@@ -32,7 +34,7 @@ class Parser implements IParser
     private $variableNames = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function parse(Route $route) : ParsedRoute
     {
@@ -44,17 +46,19 @@ class Parser implements IParser
     }
 
     /**
-     * Converts a raw string with variables to a regex
+     * Converts a raw string with variables to a regex.
      *
      * @param ParsedRoute $parsedRoute The route whose string we're converting
-     * @param string $rawString The raw string to convert
-     * @return string The regex
+     * @param string      $rawString   The raw string to convert
+     *
      * @throws RouteException Thrown if the route variables are not correctly defined
+     *
+     * @return string The regex
      */
     private function convertRawStringToRegex(ParsedRoute &$parsedRoute, string $rawString) : string
     {
         if (empty($rawString)) {
-            return "#^.*$#";
+            return '#^.*$#';
         }
 
         $this->variableNames = [];
@@ -92,16 +96,18 @@ class Parser implements IParser
             );
         }
 
-        return sprintf("#^%s$#", $regex);
+        return sprintf('#^%s$#', $regex);
     }
 
     /**
-     * Parses a variable and returns the regex
+     * Parses a variable and returns the regex.
      *
      * @param ParsedRoute $parsedRoute The route being parsed
-     * @param string $segment The segment being parsed
-     * @return string The variable regex
+     * @param string      $segment     The segment being parsed
+     *
      * @throws RouteException Thrown if the variable definition is invalid
+     *
+     * @return string The variable regex
      */
     private function getVarRegex(ParsedRoute $parsedRoute, string $segment) : string
     {

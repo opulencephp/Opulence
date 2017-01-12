@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders;
 
 use Opulence\QueryBuilders\Conditions\ICondition;
 use PDO;
 
 /**
- * Tests the update query
+ * Tests the update query.
  */
 class UpdateQueryTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,7 +22,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     private $condition = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -34,7 +36,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding more columns
+     * Tests adding more columns.
      */
     public function testAddingMoreColumns()
     {
@@ -43,24 +45,24 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('UPDATE users SET name = ?, email = ?', $query->getSql());
         $this->assertEquals([
             ['david', PDO::PARAM_STR],
-            ['bar@foo.com', PDO::PARAM_STR]
+            ['bar@foo.com', PDO::PARAM_STR],
         ], $query->getParameters());
     }
 
     /**
-     * Tests a basic query
+     * Tests a basic query.
      */
     public function testBasicQuery()
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $this->assertEquals('UPDATE users SET name = ?', $query->getSql());
         $this->assertEquals([
-            ['david', PDO::PARAM_STR]
+            ['david', PDO::PARAM_STR],
         ], $query->getParameters());
     }
 
     /**
-     * Tests all the methods in a single, complicated query
+     * Tests all the methods in a single, complicated query.
      */
     public function testEverything()
     {
@@ -77,12 +79,12 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
             ['bar@foo.com', PDO::PARAM_STR],
             [18175, PDO::PARAM_INT],
             ['foo@bar.com', PDO::PARAM_STR],
-            ['dave', PDO::PARAM_STR]
+            ['dave', PDO::PARAM_STR],
         ], $query->getParameters());
     }
 
     /**
-     * Tests adding a "WHERE" clause
+     * Tests adding a "WHERE" clause.
      */
     public function testWhere()
     {
@@ -92,12 +94,12 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('UPDATE users SET name = ? WHERE (id = ?)', $query->getSql());
         $this->assertEquals([
             ['david', PDO::PARAM_STR],
-            [18175, PDO::PARAM_INT]
+            [18175, PDO::PARAM_INT],
         ], $query->getParameters());
     }
 
     /**
-     * Tests adding a "WHERE" clause condition object
+     * Tests adding a "WHERE" clause condition object.
      */
     public function testWhereConditionObject()
     {
@@ -108,7 +110,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([
             ['david', PDO::PARAM_STR],
             [1, PDO::PARAM_INT],
-            [18175, PDO::PARAM_INT]
+            [18175, PDO::PARAM_INT],
         ], $query->getParameters());
     }
 }

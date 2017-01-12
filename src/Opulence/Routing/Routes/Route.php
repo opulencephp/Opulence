@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes;
 
 use InvalidArgumentException;
 use RuntimeException;
 
 /**
- * Defines an individual route
+ * Defines an individual route.
  */
 class Route
 {
@@ -40,16 +42,17 @@ class Route
     protected $middleware = [];
 
     /**
-     * @param string|array $methods The HTTP method or list of methods this route matches on
-     * @param string $rawPath The raw path to match on
+     * @param string|array    $methods    The HTTP method or list of methods this route matches on
+     * @param string          $rawPath    The raw path to match on
      * @param string|callable $controller The name of the controller/method or the callback
-     * @param array $options The list of options
-     * @throws RuntimeException Thrown if there is no controller specified in the options
+     * @param array           $options    The list of options
+     *
+     * @throws RuntimeException         Thrown if there is no controller specified in the options
      * @throws InvalidArgumentException Thrown if the controller name/method is incorrectly formatted
      */
     public function __construct($methods, string $rawPath, $controller, array $options = [])
     {
-        $this->methods = (array)$methods;
+        $this->methods = (array) $methods;
         $this->rawPath = $rawPath;
 
         $this->setControllerVars($controller);
@@ -76,10 +79,10 @@ class Route
     }
 
     /**
-     * Adds middleware to this route
+     * Adds middleware to this route.
      *
      * @param string|array $middleware The middleware or list of middleware to add
-     * @param bool $prepend True if we want to prepend the middleware (give them higher priority), otherwise false
+     * @param bool         $prepend    True if we want to prepend the middleware (give them higher priority), otherwise false
      */
     public function addMiddleware($middleware, bool $prepend = false)
     {
@@ -161,9 +164,10 @@ class Route
     }
 
     /**
-     * Gets the regex for a path parameter
+     * Gets the regex for a path parameter.
      *
      * @param string $name The name of the parameter whose regex we want
+     *
      * @return string|null The regex for the parameter if there are any, otherwise null
      */
     public function getVarRegex(string $name)
@@ -172,7 +176,7 @@ class Route
     }
 
     /**
-     * Gets the regexes for path parameters
+     * Gets the regexes for path parameters.
      *
      * @return array The mapping of variable names to regexes
      */
@@ -249,9 +253,9 @@ class Route
     }
 
     /**
-     * Sets the regex a variable must satisfy
+     * Sets the regex a variable must satisfy.
      *
-     * @param string $name The name of the variable whose regex we're setting
+     * @param string $name  The name of the variable whose regex we're setting
      * @param string $regex The regex to set
      */
     public function setVarRegex(string $name, string $regex)
@@ -260,7 +264,7 @@ class Route
     }
 
     /**
-     * Sets regexes variables must satisfy
+     * Sets regexes variables must satisfy.
      *
      * @param array $regexes The mapping of variable names to their regexes
      */
@@ -280,9 +284,10 @@ class Route
     }
 
     /**
-     * Sets the controller name and method from the raw string
+     * Sets the controller name and method from the raw string.
      *
      * @param string|callable $controller The name of the controller/method or the callback
+     *
      * @throws InvalidArgumentException Thrown if the controller string is not formatted correctly
      */
     protected function setControllerVars($controller)

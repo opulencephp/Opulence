@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Http;
 
 use Opulence\Http\Headers;
@@ -14,7 +16,7 @@ use Opulence\Http\Requests\RequestMethods;
 use Opulence\Sessions\ISession;
 
 /**
- * Tests the CSRF token checker
+ * Tests the CSRF token checker.
  */
 class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
 {
@@ -26,7 +28,7 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
     private $session = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -38,7 +40,7 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking an invalid token from the input
+     * Tests checking an invalid token from the input.
      */
     public function testCheckingInvalidTokenFromInput()
     {
@@ -48,7 +50,7 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking an invalid token from the X-CSRF header
+     * Tests checking an invalid token from the X-CSRF header.
      */
     public function testCheckingInvalidTokenFromXCSRFHeader()
     {
@@ -61,7 +63,7 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking an invalid token from the X-XSRF header
+     * Tests checking an invalid token from the X-XSRF header.
      */
     public function testCheckingInvalidTokenFromXXsrfHeader()
     {
@@ -75,7 +77,7 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking a valid token from the input
+     * Tests checking a valid token from the input.
      */
     public function testCheckingValidTokenFromInput()
     {
@@ -85,7 +87,7 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking a valid token from the X-CSRF header
+     * Tests checking a valid token from the X-CSRF header.
      */
     public function testCheckingValidTokenFromXCsrfHeader()
     {
@@ -98,7 +100,7 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking a valid token from the X-XSRF header
+     * Tests checking a valid token from the X-XSRF header.
      */
     public function testCheckingValidTokenFromXXsrfHeader()
     {
@@ -112,7 +114,7 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the CSRF token is set in the session when it is not already there
+     * Tests that the CSRF token is set in the session when it is not already there.
      */
     public function testCsrfTokenIsSetInSessionWhenItIsNotAlreadyThere()
     {
@@ -122,7 +124,7 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the token is marked as valid for read HTTP GET method
+     * Tests that the token is marked as valid for read HTTP GET method.
      */
     public function testTokenIsValidForReadHttpGetPMethod()
     {
@@ -131,7 +133,7 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the token is marked as valid for read HTTP HEAD method
+     * Tests that the token is marked as valid for read HTTP HEAD method.
      */
     public function testTokenIsValidForReadHttpHeadPMethod()
     {
@@ -140,7 +142,7 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the token is marked as valid for read HTTP OPTIONS method
+     * Tests that the token is marked as valid for read HTTP OPTIONS method.
      */
     public function testTokenIsValidForReadHttpOptionsMethod()
     {

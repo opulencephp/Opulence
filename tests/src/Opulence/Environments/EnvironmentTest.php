@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Environments;
 
 /**
- * Tests the environment
+ * Tests the environment.
  */
 class EnvironmentTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests getting a non-existent variable
+     * Tests getting a non-existent variable.
      */
     public function testGettingNonExistentVariable()
     {
@@ -22,7 +24,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a variable
+     * Tests getting a variable.
      */
     public function testGettingVariable()
     {
@@ -33,7 +35,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if the application is running in a console
+     * Tests checking if the application is running in a console.
      */
     public function testIsRunningInConsole()
     {
@@ -41,7 +43,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a variable
+     * Tests setting a variable.
      */
     public function testSettingVariable()
     {
@@ -52,7 +54,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a variable in environment global array()
+     * Tests setting a variable in environment global array().
      */
     public function testSettingVariableInEnvironmentGlobalArray()
     {
@@ -61,7 +63,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a variable in putenv()
+     * Tests setting a variable in putenv().
      */
     public function testSettingVariableInPutenv()
     {
@@ -70,7 +72,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a variable in server global array()
+     * Tests setting a variable in server global array().
      */
     public function testSettingVariableInServerGlobalArray()
     {
@@ -79,7 +81,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that environment variables are not overwritten
+     * Tests that environment variables are not overwritten.
      */
     public function testVariablesNotOverwritten()
     {

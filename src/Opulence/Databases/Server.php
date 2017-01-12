@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases;
 
 /**
- * Defines a database server
+ * Defines a database server.
  */
 class Server
 {
@@ -27,12 +29,12 @@ class Server
     protected $charset = 'utf8';
 
     /**
-     * @param string $host The server host
-     * @param string $username The username to log in to the server
-     * @param string $password The password to log in to the server
+     * @param string $host         The server host
+     * @param string $username     The username to log in to the server
+     * @param string $password     The password to log in to the server
      * @param string $databaseName The name of the database to connect to
-     * @param int $port The port of this server
-     * @param string $charset The character set used by this server
+     * @param int    $port         The port of this server
+     * @param string $charset      The character set used by this server
      */
     public function __construct(
         string $host = null,

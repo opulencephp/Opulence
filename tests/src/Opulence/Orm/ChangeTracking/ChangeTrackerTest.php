@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm\ChangeTracking;
 
 use Opulence\Orm\OrmException;
 use Opulence\Tests\Mocks\User;
 
 /**
- * Tests the change tracker
+ * Tests the change tracker.
  */
 class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,12 +26,12 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     private $entity2 = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
         $this->changeTracker = new ChangeTracker();
-        /**
+        /*
          * The Ids are purposely unique so that we can identify them as such without having to first insert them to
          * assign unique Ids
          * They are also purposely set to 724 and 1987 so that they won't potentially overlap with any default values
@@ -40,7 +42,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests seeing if a change is detected with a comparison function
+     * Tests seeing if a change is detected with a comparison function.
      */
     public function testCheckingForChangeWithComparisonFunction()
     {
@@ -49,15 +51,15 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
         $this->changeTracker->startTracking($this->entity2);
         $this->entity1->setUsername("not entity 1's username");
         $this->changeTracker->registerComparator($className, function ($a, $b) {
-            /** @var User $a */
-            /** @var User $b */
+            /* @var User $a */
+            /* @var User $b */
             return $a->getId() == $b->getId();
         });
         $this->assertFalse($this->changeTracker->hasChanged($this->entity1));
     }
 
     /**
-     * Tests seeing if a change is detected without a comparison function
+     * Tests seeing if a change is detected without a comparison function.
      */
     public function testCheckingForChangeWithoutComparisonFunction()
     {
@@ -67,7 +69,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking for changes on an unregistered entity
+     * Tests checking for changes on an unregistered entity.
      */
     public function testCheckingForChangesOnUnregisteredEntity()
     {
@@ -76,7 +78,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking that nothing has changed with a comparison function
+     * Tests checking that nothing has changed with a comparison function.
      */
     public function testCheckingForNoChangeWithComparisonFunction()
     {
@@ -89,7 +91,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking that nothing has changed without a comparison function
+     * Tests checking that nothing has changed without a comparison function.
      */
     public function testCheckingForNoChangeWithoutComparisonFunction()
     {

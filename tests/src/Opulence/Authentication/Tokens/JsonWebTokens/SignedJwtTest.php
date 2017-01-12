@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
 use InvalidArgumentException;
@@ -14,7 +16,7 @@ use Opulence\Authentication\Tokens\Signatures\HmacSigner;
 use Opulence\Authentication\Tokens\Signatures\RsaSsaPkcsSigner;
 
 /**
- * Tests the signed JWT
+ * Tests the signed JWT.
  */
 class SignedJwtTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,7 +26,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     private $payload = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -33,7 +35,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a signed JWT from an unsigned JWT
+     * Tests creating a signed JWT from an unsigned JWT.
      */
     public function testCreatingFromUnsignedToken()
     {
@@ -44,7 +46,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a JWT from a string with the "none" algorithm
+     * Tests creating a JWT from a string with the "none" algorithm.
      */
     public function testCreatingJwtFromStringWithNoneAlgorithm()
     {
@@ -56,7 +58,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating token from string
+     * Tests creating token from string.
      */
     public function testDecodingEncodedToken()
     {
@@ -69,22 +71,22 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests encoding and decoding RSA algorithms
+     * Tests encoding and decoding RSA algorithms.
      */
     public function testEncodingDecodingRsaAlgorithms()
     {
         $algorithms = [
             Algorithms::RSA_SHA256 => 'sha256',
             Algorithms::RSA_SHA384 => 'sha384',
-            Algorithms::RSA_SHA512 => 'sha512'
+            Algorithms::RSA_SHA512 => 'sha512',
         ];
 
         foreach ($algorithms as $algorithm => $digestAlgorithm) {
             $privateKey = openssl_pkey_new(
                 [
-                    'digest_alg' => $digestAlgorithm,
+                    'digest_alg'       => $digestAlgorithm,
                     'private_key_bits' => 1024,
-                    'private_key_type' => OPENSSL_KEYTYPE_RSA
+                    'private_key_type' => OPENSSL_KEYTYPE_RSA,
                 ]
             );
             $publicKey = openssl_pkey_get_details($privateKey);
@@ -99,7 +101,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown with an invalid number of segments
+     * Tests that an exception is thrown with an invalid number of segments.
      */
     public function testExceptionThrownWithInvalidNumberSegments()
     {
@@ -108,16 +110,16 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown with no algorithm set
+     * Tests that an exception is thrown with no algorithm set.
      */
     public function testExceptionThrownWithNoAlgorithmSet()
     {
         $this->expectException(InvalidArgumentException::class);
-        SignedJwt::createFromString(base64_encode('foo') . '.' . base64_encode('bar') . '.' . base64_encode('baz'));
+        SignedJwt::createFromString(base64_encode('foo').'.'.base64_encode('bar').'.'.base64_encode('baz'));
     }
 
     /**
-     * Tests getting the signature
+     * Tests getting the signature.
      */
     public function testGettingSignature()
     {
@@ -126,11 +128,11 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Asserts whether two tokens are equal
+     * Asserts whether two tokens are equal.
      *
-     * @param SignedJwt $a The first token
-     * @param SignedJwt $b The second token
-     * @param bool $checkSignature Whether or not to check the signatures
+     * @param SignedJwt $a              The first token
+     * @param SignedJwt $b              The second token
+     * @param bool      $checkSignature Whether or not to check the signatures
      */
     private function assertTokensEqual(SignedJwt $a, SignedJwt $b, bool $checkSignature)
     {

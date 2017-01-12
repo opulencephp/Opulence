@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm;
 
 use Opulence\Orm\ChangeTracking\ChangeTracker;
@@ -14,7 +16,7 @@ use Opulence\Tests\Mocks\User;
 use RuntimeException;
 
 /**
- * Tests the entity registry
+ * Tests the entity registry.
  */
 class EntityRegistryTest extends \PHPUnit\Framework\TestCase
 {
@@ -34,7 +36,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     private $entity3HashId;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -42,16 +44,16 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
         $idAccessorRegistry->registerIdAccessors(
             User::class,
             function ($user) {
-                /** @var User $user */
+                /* @var User $user */
                 return $user->getId();
             },
             function ($user, $id) {
-                /** @var User $user */
+                /* @var User $user */
                 $user->setId($id);
             }
         );
         $this->entityRegistry = new EntityRegistry($idAccessorRegistry, new ChangeTracker());
-        /**
+        /*
          * The Ids are purposely unique so that we can identify them as such without having to first insert them to
          * assign unique Ids
          * They are also purposely set to 724, 1987, and 345 so that they won't potentially overlap with any default
@@ -66,7 +68,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if an entity is still marked as registered after making changes to it
+     * Tests checking if an entity is still marked as registered after making changes to it.
      */
     public function testCheckingIfEntityIsRegisteredAfterMakingChangesToIt()
     {
@@ -76,7 +78,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if an entity is registered without registering an Id getter
+     * Tests checking if an entity is registered without registering an Id getter.
      */
     public function testCheckingIfEntityIsRegisteredWithoutRegisteringIdGetter()
     {
@@ -88,7 +90,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests clearing the registry
+     * Tests clearing the registry.
      */
     public function testClear()
     {
@@ -102,7 +104,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests clearing the registry also clears aggregate root child functions
+     * Tests clearing the registry also clears aggregate root child functions.
      */
     public function testClearingAlsoClearsAggregateRootChildFunctions()
     {
@@ -114,7 +116,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests deregestering also removes aggregate root child function
+     * Tests deregestering also removes aggregate root child function.
      */
     public function testDeregesteringAlsoRemovesAggregateRootChildFunction()
     {
@@ -126,7 +128,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests deregistering a registered entity
+     * Tests deregistering a registered entity.
      */
     public function testDeregisteringEntity()
     {
@@ -137,7 +139,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests deregistering an entity without registering an Id getter
+     * Tests deregistering an entity without registering an Id getter.
      */
     public function testDeregisteringEntityWithoutRegisteringIdGetter()
     {
@@ -151,7 +153,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an object's class name
+     * Tests getting an object's class name.
      */
     public function testGettingClassName()
     {
@@ -159,7 +161,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the entities
+     * Tests getting the entities.
      */
     public function testGettingEntities()
     {
@@ -169,7 +171,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the entities when there isn't one
+     * Tests getting the entities when there isn't one.
      */
     public function testGettingEntitiesWhenThereIsNotOne()
     {
@@ -177,7 +179,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the entity state for a registered entity
+     * Tests getting the entity state for a registered entity.
      */
     public function testGettingEntityStateForRegisteredEntity()
     {
@@ -186,7 +188,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the entity state for an unregistered entity
+     * Tests getting the entity state for an unregistered entity.
      */
     public function testGettingEntityStateForUnregisteredEntity()
     {
@@ -194,7 +196,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an entity that isn't registered
+     * Tests getting an entity that isn't registered.
      */
     public function testGettingEntityThatIsNotRegistered()
     {
@@ -203,7 +205,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the object hash Id
+     * Tests getting the object hash Id.
      */
     public function testGettingObjectHashId()
     {
@@ -211,7 +213,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering an entity without registering an Id getter
+     * Tests registering an entity without registering an Id getter.
      */
     public function testRegisteringEntityWithoutRegisteringIdGetter()
     {
@@ -224,7 +226,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting an entity's state
+     * Tests setting an entity's state.
      */
     public function testSettingState()
     {
@@ -234,20 +236,20 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting two aggregate roots for a single child
+     * Tests setting two aggregate roots for a single child.
      */
     public function testSettingTwoAggregateRootsForChild()
     {
         $this->entityRegistry->registerAggregateRootCallback($this->entity1, $this->entity3,
             function ($aggregateRoot, $child) {
-                /** @var User $aggregateRoot */
-                /** @var User $child */
+                /* @var User $aggregateRoot */
+                /* @var User $child */
                 $child->setAggregateRootId($aggregateRoot->getId());
             });
         $this->entityRegistry->registerAggregateRootCallback($this->entity2, $this->entity3,
             function ($aggregateRoot, $child) {
-                /** @var User $aggregateRoot */
-                /** @var User $child */
+                /* @var User $aggregateRoot */
+                /* @var User $child */
                 $child->setSecondAggregateRootId($aggregateRoot->getId());
             });
         $this->entityRegistry->runAggregateRootCallbacks($this->entity3);

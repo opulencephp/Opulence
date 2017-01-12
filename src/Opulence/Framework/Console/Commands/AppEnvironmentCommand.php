@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Commands;
 
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
 
 /**
- * Defines the application environment command
+ * Defines the application environment command.
  */
 class AppEnvironmentCommand extends Command
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function define()
     {
@@ -26,10 +28,10 @@ class AppEnvironmentCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doExecute(IResponse $response)
     {
-        $response->writeln('<info>' . getenv('ENV_NAME') . '</info>');
+        $response->writeln('<info>'.getenv('ENV_NAME').'</info>');
     }
 }

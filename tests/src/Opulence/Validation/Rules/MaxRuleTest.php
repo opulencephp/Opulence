@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
 use LogicException;
 
 /**
- * Tests the max rule
+ * Tests the max rule.
  */
 class MaxRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests a failing rule
+     * Tests a failing rule.
      */
     public function testFailingRule()
     {
@@ -28,7 +30,7 @@ class MaxRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting error placeholders
+     * Tests getting error placeholders.
      */
     public function testGettingErrorPlaceholders()
     {
@@ -38,7 +40,7 @@ class MaxRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the slug
+     * Tests getting the slug.
      */
     public function testGettingSlug()
     {
@@ -47,7 +49,7 @@ class MaxRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not setting the args before passes
+     * Tests not setting the args before passes.
      */
     public function testNotSettingArgBeforePasses()
     {
@@ -57,7 +59,7 @@ class MaxRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an empty arg array
+     * Tests passing an empty arg array.
      */
     public function testPassingEmptyArgArray()
     {
@@ -67,7 +69,7 @@ class MaxRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an invalid arg
+     * Tests passing an invalid arg.
      */
     public function testPassingInvalidArg()
     {
@@ -75,12 +77,12 @@ class MaxRuleTest extends \PHPUnit\Framework\TestCase
         $rule = new MaxRule();
         $rule->setArgs([
             function () {
-            }
+            },
         ]);
     }
 
     /**
-     * Tests a passing value
+     * Tests a passing value.
      */
     public function testPassingValue()
     {
@@ -92,7 +94,7 @@ class MaxRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a value that is not inclusive
+     * Tests a value that is not inclusive.
      */
     public function testValueThatIsNotInclusive()
     {

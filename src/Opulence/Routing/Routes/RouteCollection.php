@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes;
 
 use Opulence\Http\Requests\RequestMethods;
@@ -13,7 +15,7 @@ use SuperClosure\Analyzer\AstAnalyzer;
 use SuperClosure\Serializer;
 
 /**
- * Defines a list of routes that can be used by a router
+ * Defines a list of routes that can be used by a router.
  */
 class RouteCollection
 {
@@ -25,7 +27,7 @@ class RouteCollection
         RequestMethods::PUT,
         RequestMethods::HEAD,
         RequestMethods::OPTIONS,
-        RequestMethods::PATCH
+        RequestMethods::PATCH,
     ];
     /** @var array The list of methods to their various routes */
     private $routes = [];
@@ -40,7 +42,7 @@ class RouteCollection
     }
 
     /**
-     * Gets the list of methods
+     * Gets the list of methods.
      *
      * @return array The list of methods
      */
@@ -50,7 +52,7 @@ class RouteCollection
     }
 
     /**
-     * Performs a deep clone of the routes
+     * Performs a deep clone of the routes.
      */
     public function __clone()
     {
@@ -62,7 +64,7 @@ class RouteCollection
     }
 
     /**
-     * Prepares the controller closures to be serialized
+     * Prepares the controller closures to be serialized.
      *
      * @return array The list of properties to store
      */
@@ -83,7 +85,7 @@ class RouteCollection
     }
 
     /**
-     * Prepares the controller closures to be unserialized
+     * Prepares the controller closures to be unserialized.
      */
     public function __wakeup()
     {
@@ -100,7 +102,7 @@ class RouteCollection
     }
 
     /**
-     * Adds a route to the collection
+     * Adds a route to the collection.
      *
      * @param ParsedRoute $route The route to add
      */
@@ -110,16 +112,17 @@ class RouteCollection
             $this->routes[$method][] = $route;
 
             if (!empty($route->getName())) {
-                $this->namedRoutes[$route->getName()] =& $route;
+                $this->namedRoutes[$route->getName()] = &$route;
             }
         }
     }
 
     /**
-     * Gets all the routes
+     * Gets all the routes.
      *
      * @param string|null $method If specified, the list of routes for that method will be returned
-     *      If null, all routes will be returned, keyed by method
+     *                            If null, all routes will be returned, keyed by method
+     *
      * @return ParsedRoute[] The list of routes
      */
     public function get(string $method = null) : array
@@ -134,9 +137,10 @@ class RouteCollection
     }
 
     /**
-     * Gets the route with the input name
+     * Gets the route with the input name.
      *
      * @param string $name The name to search for
+     *
      * @return ParsedRoute|null The route with the input name if one existed, otherwise null
      */
     public function getNamedRoute(string $name)
@@ -144,7 +148,5 @@ class RouteCollection
         if (isset($this->namedRoutes[$name])) {
             return $this->namedRoutes[$name];
         }
-
-        return null;
     }
 }

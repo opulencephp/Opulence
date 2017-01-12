@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\PostgreSql;
 
 use PDO;
 
 /**
- * Tests the update query
+ * Tests the update query.
  */
 class UpdateQueryTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests adding to a "RETURNING" clause
+     * Tests adding to a "RETURNING" clause.
      */
     public function testAddReturning()
     {
@@ -25,12 +27,12 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
             ->addReturning('name');
         $this->assertEquals('UPDATE users SET name = ? RETURNING id, name', $query->getSql());
         $this->assertEquals([
-            ['david', PDO::PARAM_STR]
+            ['david', PDO::PARAM_STR],
         ], $query->getParameters());
     }
 
     /**
-     * Tests all the methods in a single, complicated query
+     * Tests all the methods in a single, complicated query.
      */
     public function testEverything()
     {
@@ -49,12 +51,12 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
             ['bar@foo.com', PDO::PARAM_STR],
             [18175, PDO::PARAM_INT],
             ['foo@bar.com', PDO::PARAM_STR],
-            ['dave', PDO::PARAM_STR]
+            ['dave', PDO::PARAM_STR],
         ], $query->getParameters());
     }
 
     /**
-     * Tests adding a "RETURNING" clause
+     * Tests adding a "RETURNING" clause.
      */
     public function testReturning()
     {
@@ -62,7 +64,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
         $query->returning('id');
         $this->assertEquals('UPDATE users SET name = ? RETURNING id', $query->getSql());
         $this->assertEquals([
-            ['david', PDO::PARAM_STR]
+            ['david', PDO::PARAM_STR],
         ], $query->getParameters());
     }
 }

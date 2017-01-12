@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
 use LogicException;
 
 /**
- * Defines the not-in-array rule
+ * Defines the not-in-array rule.
  */
 class NotInRule implements IRuleWithArgs
 {
@@ -20,7 +22,7 @@ class NotInRule implements IRuleWithArgs
     protected $array = null;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSlug() : string
     {
@@ -28,7 +30,7 @@ class NotInRule implements IRuleWithArgs
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function passes($value, array $allValues = []) : bool
     {
@@ -40,7 +42,7 @@ class NotInRule implements IRuleWithArgs
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setArgs(array $args)
     {

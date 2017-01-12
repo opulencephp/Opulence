@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Commands;
 
 use InvalidArgumentException;
@@ -25,7 +27,7 @@ use Opulence\Tests\Console\Responses\Mocks\Response;
 use RuntimeException;
 
 /**
- * Tests the console command
+ * Tests the console command.
  */
 class CommandTest extends \PHPUnit\Framework\TestCase
 {
@@ -35,7 +37,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     private $commandCollection = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -45,7 +47,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an argument
+     * Tests adding an argument.
      */
     public function testAddingArgument()
     {
@@ -58,7 +60,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an option
+     * Tests adding an option.
      */
     public function testAddingOption()
     {
@@ -69,7 +71,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if an argument has a value
+     * Tests checking if an argument has a value.
      */
     public function testCheckingIfArgumentHasValue()
     {
@@ -83,7 +85,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if a set option is set
+     * Tests checking if a set option is set.
      */
     public function testCheckingIfSetOptionIsSet()
     {
@@ -94,7 +96,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if a set option without a value is set
+     * Tests checking if a set option without a value is set.
      */
     public function testCheckingIfSetOptionWithoutValueIsSet()
     {
@@ -105,7 +107,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if an unset option is set
+     * Tests checking if an unset option is set.
      */
     public function testCheckingIfUnsetOptionIsSet()
     {
@@ -113,7 +115,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a command that does not construct its parent
+     * Tests creating a command that does not construct its parent.
      */
     public function testCreatingCommandThatDoesNotConstructParent()
     {
@@ -123,7 +125,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the description
+     * Tests getting the description.
      */
     public function testGettingDescription()
     {
@@ -131,7 +133,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests Getting the help text
+     * Tests Getting the help text.
      */
     public function testGettingHelpText()
     {
@@ -139,7 +141,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the name
+     * Tests getting the name.
      */
     public function testGettingName()
     {
@@ -147,7 +149,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent argument
+     * Tests getting a non-existent argument.
      */
     public function testGettingNonExistentArgument()
     {
@@ -156,7 +158,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent argument value
+     * Tests getting a non-existent argument value.
      */
     public function testGettingNonExistentArgumentValue()
     {
@@ -165,7 +167,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent option
+     * Tests getting a non-existent option.
      */
     public function testGettingNonExistentOption()
     {
@@ -174,7 +176,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the value of a non-existent option
+     * Tests getting the value of a non-existent option.
      */
     public function testGettingValueOfNonExistentOption()
     {
@@ -183,7 +185,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the value of an option with a default value
+     * Tests getting the value of an option with a default value.
      */
     public function testGettingValueOfOptionWithDefaultValue()
     {
@@ -193,7 +195,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not setting the command name in the constructor
+     * Tests not setting the command name in the constructor.
      */
     public function testNotSettingNameInConstructor()
     {
@@ -202,7 +204,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting an argument value
+     * Tests setting an argument value.
      */
     public function testSettingArgumentValue()
     {
@@ -211,7 +213,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting an option value
+     * Tests setting an option value.
      */
     public function testSettingOptionValue()
     {

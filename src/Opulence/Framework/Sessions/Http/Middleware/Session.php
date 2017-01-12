@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Sessions\Http\Middleware;
 
 use Closure;
@@ -17,7 +19,7 @@ use Opulence\Sessions\ISession;
 use SessionHandlerInterface;
 
 /**
- * Defines the session middleware
+ * Defines the session middleware.
  */
 abstract class Session implements IMiddleware
 {
@@ -30,7 +32,7 @@ abstract class Session implements IMiddleware
     protected $sessionHandler = null;
 
     /**
-     * @param ISession $session The session used by the application
+     * @param ISession                $session        The session used by the application
      * @param SessionHandlerInterface $sessionHandler The session handler used by the application
      */
     public function __construct(ISession $session, SessionHandlerInterface $sessionHandler)
@@ -40,7 +42,7 @@ abstract class Session implements IMiddleware
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handle(Request $request, Closure $next) : Response
     {
@@ -64,20 +66,21 @@ abstract class Session implements IMiddleware
     }
 
     /**
-     * Runs garbage collection, if necessary
+     * Runs garbage collection, if necessary.
      */
     abstract protected function gc();
 
     /**
-     * Writes any session data needed in the response
+     * Writes any session data needed in the response.
      *
      * @param Response $response The response to write to
+     *
      * @return Response The response with data written to it
      */
     abstract protected function writeToResponse(Response $response) : Response;
 
     /**
-     * Starts the session
+     * Starts the session.
      *
      * @param Request $request The current request
      */
@@ -96,7 +99,7 @@ abstract class Session implements IMiddleware
     }
 
     /**
-     * Writes the session data to the response
+     * Writes the session data to the response.
      *
      * @param Response $response The response
      */

@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cryptography\Encryption\Keys;
 
 /**
- * Tests the derived keys
+ * Tests the derived keys.
  */
 class DerivedKeysTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class DerivedKeysTest extends \PHPUnit\Framework\TestCase
     private $derivedKeys = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class DerivedKeysTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the authentication key
+     * Tests getting the authentication key.
      */
     public function testGettingAuthenticationKey()
     {
@@ -33,7 +35,7 @@ class DerivedKeysTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the encryption key
+     * Tests getting the encryption key.
      */
     public function testGettingEncryptionKey()
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Dispatchers;
 
 use Opulence\Http\Requests\Request;
@@ -14,7 +16,7 @@ use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Tests\Routing\Middleware\Mocks\ReturnsSomethingMiddleware;
 
 /**
- * Tests the pipeline middleware pipeline
+ * Tests the pipeline middleware pipeline.
  */
 class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +24,7 @@ class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
     private $middlewarePipeline = null;
 
     /**
-     * Sets up tests
+     * Sets up tests.
      */
     public function setUp()
     {
@@ -30,7 +32,7 @@ class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an empty response is returned when no response is otherwise returned
+     * Tests that an empty response is returned when no response is otherwise returned.
      */
     public function testEmptyResponseReturnedWhenNoResponseIsOtherwiseReturned()
     {
@@ -38,20 +40,20 @@ class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
             // Don't do anything
         };
         $response = $this->middlewarePipeline->send(Request::createFromGlobals(), [], $controller);
-        /** @var Response $response */
+        /* @var Response $response */
         $this->assertInstanceOf(Response::class, $response);
         $this->assertEmpty($response->getContent());
         $this->assertEquals(ResponseHeaders::HTTP_OK, $response->getStatusCode());
     }
 
     /**
-     * Tests that middleware can affect the response
+     * Tests that middleware can affect the response.
      */
     public function testMiddlewareCanAffectResponse()
     {
         $middleware = [
             new ReturnsSomethingMiddleware(),
-            new ReturnsSomethingMiddleware()
+            new ReturnsSomethingMiddleware(),
         ];
         $controller = function () {
             return new Response('foo');

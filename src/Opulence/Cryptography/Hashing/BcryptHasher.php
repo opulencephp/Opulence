@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cryptography\Hashing;
 
 /**
- * Defines the Bcrypt cryptographic hasher
+ * Defines the Bcrypt cryptographic hasher.
  */
 class BcryptHasher extends Hasher
 {
@@ -17,7 +19,7 @@ class BcryptHasher extends Hasher
     const DEFAULT_COST = 10;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hash(string $unhashedValue, array $options = [], string $pepper = '') : string
     {
@@ -29,7 +31,7 @@ class BcryptHasher extends Hasher
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function needsRehash(string $hashedValue, array $options = []) : bool
     {
@@ -41,7 +43,7 @@ class BcryptHasher extends Hasher
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function setHashAlgorithm()
     {

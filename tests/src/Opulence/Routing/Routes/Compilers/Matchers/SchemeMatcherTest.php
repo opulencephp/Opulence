@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes\Compilers\Matchers;
 
 use Opulence\Http\Requests\Request;
 use Opulence\Routing\Routes\ParsedRoute;
 
 /**
- * Tests the scheme matcher
+ * Tests the scheme matcher.
  */
 class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,7 +26,7 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
     private $route = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -38,7 +40,7 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that there is a match when on an HTTP scheme with an insecure route
+     * Tests that there is a match when on an HTTP scheme with an insecure route.
      */
     public function testMatchOnHttpWithInsecureRoute()
     {
@@ -48,7 +50,7 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that there is a match when on an HTTPS scheme with a secure route
+     * Tests that there is a match when on an HTTPS scheme with a secure route.
      */
     public function testMatchOnHttpsWithSecureRoute()
     {
@@ -58,7 +60,7 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that there is no match when on an HTTP scheme with a secure route
+     * Tests that there is no match when on an HTTP scheme with a secure route.
      */
     public function testNoMatchOnHttpWithSecureRoute()
     {

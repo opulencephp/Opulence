@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Ioc\Bootstrappers\Mocks;
 
 use Opulence\Ioc\Bootstrappers\Bootstrapper as BaseBootstrapper;
@@ -13,12 +15,12 @@ use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
- * Defines a bootstrapper that depends on a binding from a lazy bootstrapper
+ * Defines a bootstrapper that depends on a binding from a lazy bootstrapper.
  */
 class LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper extends BaseBootstrapper implements ILazyBootstrapper
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBindings() : array
     {
@@ -26,7 +28,7 @@ class LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper extends BaseBoots
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBindings(IContainer $container)
     {
@@ -34,7 +36,7 @@ class LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper extends BaseBoots
     }
 
     /**
-     * Runs this bootstrapper
+     * Runs this bootstrapper.
      *
      * @param LazyFooInterface $foo The dependency set in a lazy bootstrapper
      */

@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\Conditions;
 
 use PDO;
 
 /**
- * Tests the BETWEEN condition
+ * Tests the BETWEEN condition.
  */
 class BetweenConditionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests getting parameters for BETWEEN condition with a data type
+     * Tests getting parameters for BETWEEN condition with a data type.
      */
     public function testGettingParametersWithDataType()
     {
@@ -28,7 +30,7 @@ class BetweenConditionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting parameters for BETWEEN condition with no data type
+     * Tests getting parameters for BETWEEN condition with no data type.
      */
     public function testGettingParametersWithNoDataType()
     {
@@ -40,7 +42,7 @@ class BetweenConditionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the SQL
+     * Tests getting the SQL.
      */
     public function testGettingSql()
     {

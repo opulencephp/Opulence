@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Debug\Exceptions\Handlers\Http;
 
 use Exception;
@@ -14,7 +16,7 @@ use Opulence\Http\HttpException;
 use Throwable;
 
 /**
- * Defines the HTTP exception renderer
+ * Defines the HTTP exception renderer.
  */
 class ExceptionRenderer implements IExceptionRenderer
 {
@@ -30,7 +32,7 @@ class ExceptionRenderer implements IExceptionRenderer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function render($ex)
     {
@@ -59,7 +61,7 @@ class ExceptionRenderer implements IExceptionRenderer
             }
 
             foreach ($headers as $name => $values) {
-                $values = (array)$values;
+                $values = (array) $values;
 
                 foreach ($values as $value) {
                     header("$name:$value", false, $statusCode);
@@ -73,10 +75,11 @@ class ExceptionRenderer implements IExceptionRenderer
     }
 
     /**
-     * Gets the default response content
+     * Gets the default response content.
      *
-     * @param Exception $ex The exception
-     * @param int $statusCode The HTTP status code
+     * @param Exception $ex         The exception
+     * @param int       $statusCode The HTTP status code
+     *
      * @return string The content of the response
      */
     protected function getDefaultResponseContent(Exception $ex, int $statusCode) : string
@@ -91,10 +94,11 @@ class ExceptionRenderer implements IExceptionRenderer
     }
 
     /**
-     * Gets the page contents for the default production exception page
+     * Gets the page contents for the default production exception page.
      *
-     * @param Exception $ex The exception
-     * @param int $statusCode The HTTP status code
+     * @param Exception $ex         The exception
+     * @param int       $statusCode The HTTP status code
+     *
      * @return string The contents of the page
      */
     protected function getDevelopmentEnvironmentContent(Exception $ex, int $statusCode) : string
@@ -102,19 +106,20 @@ class ExceptionRenderer implements IExceptionRenderer
         ob_start();
 
         if ($statusCode === 503) {
-            require __DIR__ . "/templates/{$this->getRequestFormat()}/MaintenanceMode.php";
+            require __DIR__."/templates/{$this->getRequestFormat()}/MaintenanceMode.php";
         } else {
-            require __DIR__ . "/templates/{$this->getRequestFormat()}/DevelopmentException.php";
+            require __DIR__."/templates/{$this->getRequestFormat()}/DevelopmentException.php";
         }
 
         return ob_get_clean();
     }
 
     /**
-     * Gets the page contents for the default production exception page
+     * Gets the page contents for the default production exception page.
      *
-     * @param Exception $ex The exception
-     * @param int $statusCode The HTTP status code
+     * @param Exception $ex         The exception
+     * @param int       $statusCode The HTTP status code
+     *
      * @return string The contents of the page
      */
     protected function getProductionEnvironmentContent(Exception $ex, int $statusCode) : string
@@ -122,16 +127,16 @@ class ExceptionRenderer implements IExceptionRenderer
         ob_start();
 
         if ($statusCode === 503) {
-            require __DIR__ . "/templates/{$this->getRequestFormat()}/MaintenanceMode.php";
+            require __DIR__."/templates/{$this->getRequestFormat()}/MaintenanceMode.php";
         } else {
-            require __DIR__ . "/templates/{$this->getRequestFormat()}/ProductionException.php";
+            require __DIR__."/templates/{$this->getRequestFormat()}/ProductionException.php";
         }
 
         return ob_get_clean();
     }
 
     /**
-     * Gets the request format
+     * Gets the request format.
      *
      * @return string The request format, eg "html" (default), "json"
      */
@@ -145,11 +150,12 @@ class ExceptionRenderer implements IExceptionRenderer
     }
 
     /**
-     * Gets the content for the response
+     * Gets the content for the response.
      *
-     * @param Throwable|Exception $ex The exception
-     * @param int $statusCode The HTTP status code
-     * @param array $headers The HTTP headers
+     * @param Throwable|Exception $ex         The exception
+     * @param int                 $statusCode The HTTP status code
+     * @param array               $headers    The HTTP headers
+     *
      * @return string The response content
      */
     protected function getResponseContent($ex, int $statusCode, array $headers) : string

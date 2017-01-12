@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\Conditions;
 
 use InvalidArgumentException;
 
 /**
- * Defines the IN condition
+ * Defines the IN condition.
  */
 class InCondition extends Condition
 {
@@ -23,8 +25,10 @@ class InCondition extends Condition
     protected $usingParameters = true;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @param array|string $parametersOrExpression Either the parameters or the sub-expression
+     *
      * @throws InvalidArgumentException Thrown if the parameters are not in the correct format
      */
     public function __construct(string $column, $parametersOrExpression)
@@ -43,7 +47,7 @@ class InCondition extends Condition
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getParameters() : array
     {
@@ -51,7 +55,7 @@ class InCondition extends Condition
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSql() : string
     {

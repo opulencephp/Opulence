@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console;
 
 use Opulence\Console\Commands\CommandCollection;
@@ -20,7 +22,7 @@ use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 use Opulence\Tests\Console\Responses\Mocks\Response;
 
 /**
- * Tests the console kernel
+ * Tests the console kernel.
  */
 class KernelTest extends \PHPUnit\Framework\TestCase
 {
@@ -36,7 +38,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     private $kernel = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -55,7 +57,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests handling an exception
+     * Tests handling an exception.
      */
     public function testHandlingException()
     {
@@ -66,7 +68,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests handling a help command
+     * Tests handling a help command.
      */
     public function testHandlingHelpCommand()
     {
@@ -96,7 +98,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests handling help command with non-existent command
+     * Tests handling help command with non-existent command.
      */
     public function testHandlingHelpCommandWithNonExistentCommand()
     {
@@ -107,7 +109,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests handling command with arguments and options
+     * Tests handling command with arguments and options.
      */
     public function testHandlingHolidayCommand()
     {
@@ -125,7 +127,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests handling in a missing command
+     * Tests handling in a missing command.
      */
     public function testHandlingMissingCommand()
     {
@@ -136,7 +138,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests handling in a simple command
+     * Tests handling in a simple command.
      */
     public function testHandlingSimpleCommand()
     {
@@ -147,7 +149,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests handling a version command
+     * Tests handling a version command.
      */
     public function testHandlingVersionCommand()
     {

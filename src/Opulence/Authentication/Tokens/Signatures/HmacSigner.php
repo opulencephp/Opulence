@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\Signatures;
 
 use InvalidArgumentException;
 
 /**
- * Defines the HMAC signer
+ * Defines the HMAC signer.
  */
 class HmacSigner implements ISigner
 {
@@ -21,7 +23,7 @@ class HmacSigner implements ISigner
     private $publicKey = null;
 
     /**
-     * @param string $algorithm The algorithm to use
+     * @param string          $algorithm The algorithm to use
      * @param string|resource $publicKey The public key
      */
     public function __construct(string $algorithm, $publicKey)
@@ -31,7 +33,7 @@ class HmacSigner implements ISigner
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAlgorithm() : string
     {
@@ -39,7 +41,7 @@ class HmacSigner implements ISigner
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function sign(string $data) : string
     {
@@ -52,7 +54,7 @@ class HmacSigner implements ISigner
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function verify(string $data, string $signature) : bool
     {
@@ -72,11 +74,13 @@ class HmacSigner implements ISigner
     }
 
     /**
-     * Gets the hash algorithm for an algorithm
+     * Gets the hash algorithm for an algorithm.
      *
      * @param string $algorithm The algorithm whose hash algorithm we want
-     * @return string The algorithm to use in a hash function
+     *
      * @throws InvalidArgumentException Thrown if the algorithm is not an OpenSSL algorithm
+     *
+     * @return string The algorithm to use in a hash function
      */
     private function getHashAlgorithm(string $algorithm) : string
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
 use Exception;
@@ -20,7 +22,7 @@ use Opulence\Views\Factories\IViewFactory;
 use Opulence\Views\IView;
 
 /**
- * Tests the HTTP exception renderer
+ * Tests the HTTP exception renderer.
  */
 class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
 {
@@ -32,7 +34,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     private $viewCompiler = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -45,7 +47,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Does some housekeeping before ending the tests
+     * Does some housekeeping before ending the tests.
      */
     public function tearDown()
     {
@@ -53,7 +55,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the response is null before being rendered
+     * Tests that the response is null before being rendered.
      */
     public function testExceptionThrownWhenGettingResponseBeforeItIsRendered()
     {
@@ -62,7 +64,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests rendering an HTTP exception with an HTML view
+     * Tests rendering an HTTP exception with an HTML view.
      */
     public function testRenderingHttpExceptionWithView()
     {
@@ -88,7 +90,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests rendering an HTTP exception without setting view compiler and factory
+     * Tests rendering an HTTP exception without setting view compiler and factory.
      */
     public function testRenderingHttpExceptionWithoutSettingViewCompilerAndFactory()
     {
@@ -101,7 +103,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests rendering an HTTP exception without a view in the development environment
+     * Tests rendering an HTTP exception without a view in the development environment.
      */
     public function testRenderingHttpExceptionWithoutViewInDevelopmentEnvironment()
     {
@@ -117,7 +119,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests rendering an HTTP exception without a view in the production environment
+     * Tests rendering an HTTP exception without a view in the production environment.
      */
     public function testRenderingHttpExceptionWithoutViewInProductionEnvironment()
     {
@@ -134,7 +136,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests rendering a JSON view
+     * Tests rendering a JSON view.
      */
     public function testRenderingJsonView()
     {
@@ -171,7 +173,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests rendering a non-HTTP exception with a view
+     * Tests rendering a non-HTTP exception with a view.
      */
     public function testRenderingNonHttpExceptionWithView()
     {
@@ -196,7 +198,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests rendering a non-HTTP exception without a view in the development environment
+     * Tests rendering a non-HTTP exception without a view in the development environment.
      */
     public function testRenderingNonHttpExceptionWithoutViewInDevelopmentEnvironment()
     {
@@ -212,7 +214,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests rendering a non-HTTP exception without a view in the production environment
+     * Tests rendering a non-HTTP exception without a view in the production environment.
      */
     public function testRenderingNonHttpExceptionWithoutViewInProductionEnvironment()
     {
@@ -229,7 +231,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Sets view components in the renderer
+     * Sets view components in the renderer.
      */
     private function setViewComponents()
     {

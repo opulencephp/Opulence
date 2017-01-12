@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
 use Exception;
@@ -19,7 +21,7 @@ use Opulence\Views\Factories\IViewFactory;
 use Throwable;
 
 /**
- * Defines the HTTP exception handler
+ * Defines the HTTP exception handler.
  */
 class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
 {
@@ -33,7 +35,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     protected $viewFactory = null;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getResponse() : Response
     {
@@ -45,7 +47,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setRequest(Request $request)
     {
@@ -53,7 +55,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setViewCompiler(ICompiler $viewCompiler)
     {
@@ -61,7 +63,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setViewFactory(IViewFactory $viewFactory)
     {
@@ -69,7 +71,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getRequestFormat() : string
     {
@@ -85,7 +87,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getResponseContent($ex, int $statusCode, array $headers) : string
     {
@@ -117,11 +119,12 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     }
 
     /**
-     * Gets the name of the view file for the input exception and status code
+     * Gets the name of the view file for the input exception and status code.
      *
-     * @param Throwable|Exception $ex The throwable
-     * @param int $statusCode The status code
-     * @param array $headers The headers for the exception
+     * @param Throwable|Exception $ex         The throwable
+     * @param int                 $statusCode The status code
+     * @param array               $headers    The headers for the exception
+     *
      * @return string The view name
      */
     protected function getViewName($ex, int $statusCode, array $headers) : string

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Authorization\Bootstrappers;
 
 use Opulence\Authorization\Authority;
@@ -21,12 +23,12 @@ use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
- * Defines the authorization bootstrapper
+ * Defines the authorization bootstrapper.
  */
 abstract class AuthorizationBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBindings() : array
     {
@@ -35,12 +37,12 @@ abstract class AuthorizationBootstrapper extends Bootstrapper implements ILazyBo
             IRoleMembershipRepository::class,
             IRoleRepository::class,
             IRoles::class,
-            IAuthority::class
+            IAuthority::class,
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBindings(IContainer $container)
     {
@@ -48,25 +50,28 @@ abstract class AuthorizationBootstrapper extends Bootstrapper implements ILazyBo
     }
 
     /**
-     * Gets the role membership repository
+     * Gets the role membership repository.
      *
      * @param IContainer $container The IoC container
+     *
      * @return IRoleMembershipRepository The role membership repository
      */
     abstract protected function getRoleMembershipRepository(IContainer $container) : IRoleMembershipRepository;
 
     /**
-     * Gets the role repository
+     * Gets the role repository.
      *
      * @param IContainer $container The IoC container
+     *
      * @return IRoleRepository The role repository
      */
     abstract protected function getRoleRepository(IContainer $container) : IRoleRepository;
 
     /**
-     * Gets the authority
+     * Gets the authority.
      *
      * @param IContainer $container The IoC container
+     *
      * @return IAuthority The authority
      */
     protected function getAuthority(IContainer $container) : IAuthority
@@ -79,9 +84,10 @@ abstract class AuthorizationBootstrapper extends Bootstrapper implements ILazyBo
     }
 
     /**
-     * Gets the permission registry
+     * Gets the permission registry.
      *
      * @param IContainer $container The IoC container
+     *
      * @return IPermissionRegistry The permission registry
      */
     protected function getPermissionRegistry(IContainer $container) : IPermissionRegistry
@@ -90,9 +96,10 @@ abstract class AuthorizationBootstrapper extends Bootstrapper implements ILazyBo
     }
 
     /**
-     * Gets the roles
+     * Gets the roles.
      *
      * @param IContainer $container The IoC container
+     *
      * @return IRoles The roles
      */
     protected function getRoles(IContainer $container) : IRoles

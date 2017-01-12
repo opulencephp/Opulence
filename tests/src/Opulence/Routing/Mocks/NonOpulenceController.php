@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Routing\Mocks;
 
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 
 /**
- * Mocks a non-Opulence controller
+ * Mocks a non-Opulence controller.
  */
 class NonOpulenceController
 {
@@ -28,9 +30,10 @@ class NonOpulenceController
     }
 
     /**
-     * Gets a custom HTTP error response
+     * Gets a custom HTTP error response.
      *
      * @param int $statusCode The status code
+     *
      * @return Response The response
      */
     public function customHttpError($statusCode)
@@ -39,9 +42,10 @@ class NonOpulenceController
     }
 
     /**
-     * Gets the index response
+     * Gets the index response.
      *
      * @param string $id The Id from the path
+     *
      * @return Response The response
      */
     public function index($id)
@@ -50,7 +54,7 @@ class NonOpulenceController
     }
 
     /**
-     * Gets a response with "foo"
+     * Gets a response with "foo".
      *
      * @return Response The response
      */

@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Memcached;
 
 use InvalidArgumentException;
 use Memcached as Client;
 
 /**
- * Tests the Memcached wrapper
+ * Tests the Memcached wrapper.
  */
 class MemcachedTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests that commands go to the default client
+     * Tests that commands go to the default client.
      */
     public function testCommandsGoToDefaultClient()
     {
@@ -39,14 +41,14 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
         $memcached = new Memcached(
             [
                 'default' => $default,
-                'foo' => $foo
+                'foo'     => $foo,
             ]
         );
         $this->assertEquals('foo', $memcached->get('baz'));
     }
 
     /**
-     * Tests not passing a default
+     * Tests not passing a default.
      */
     public function testNotPassingDefault()
     {
@@ -55,7 +57,7 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an array of clients
+     * Tests passing an array of clients.
      */
     public function testPassingArrayOfClients()
     {
@@ -64,7 +66,7 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
         $memcached = new Memcached(
             [
                 'default' => $default,
-                'foo' => $foo
+                'foo'     => $foo,
             ]
         );
         $this->assertSame($default, $memcached->getClient());
@@ -73,7 +75,7 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing a single client
+     * Tests passing a single client.
      */
     public function testPassingSingleClient()
     {

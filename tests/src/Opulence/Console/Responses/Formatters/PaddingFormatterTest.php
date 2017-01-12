@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Formatters;
 
 /**
- * Tests the padding formatter
+ * Tests the padding formatter.
  */
 class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     private $formatter = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a custom padding string with array rows
+     * Tests a custom padding string with array rows.
      */
     public function testCustomPaddingStringWithArrayRows()
     {
@@ -33,18 +35,18 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
             ['a', 'b '],
             ['cd', ' ee'],
             [' fg ', 'hhh'],
-            ['ijk', 'll ']
+            ['ijk', 'll '],
         ];
         $this->formatter->setPaddingString('+');
         $formattedText = $this->formatter->format($rows, function ($row) {
-            return $row[0] . '-' . $row[1];
+            return $row[0].'-'.$row[1];
         });
-        $this->assertEquals('a++-b++' . PHP_EOL . 'cd+-ee+' . PHP_EOL . 'fg+-hhh' . PHP_EOL . 'ijk-ll+',
+        $this->assertEquals('a++-b++'.PHP_EOL.'cd+-ee+'.PHP_EOL.'fg+-hhh'.PHP_EOL.'ijk-ll+',
             $formattedText);
     }
 
     /**
-     * Tests a custom padding string with string rows
+     * Tests a custom padding string with string rows.
      */
     public function testCustomPaddingStringWithStringRows()
     {
@@ -52,17 +54,17 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
             'a',
             'cd',
             ' fg ',
-            'ijk'
+            'ijk',
         ];
         $this->formatter->setPaddingString('+');
         $formattedText = $this->formatter->format($rows, function ($row) {
             return $row[0];
         });
-        $this->assertEquals('a++' . PHP_EOL . 'cd+' . PHP_EOL . 'fg+' . PHP_EOL . 'ijk', $formattedText);
+        $this->assertEquals('a++'.PHP_EOL.'cd+'.PHP_EOL.'fg+'.PHP_EOL.'ijk', $formattedText);
     }
 
     /**
-     * Tests a custom row separator with row arrays
+     * Tests a custom row separator with row arrays.
      */
     public function testCustomRowSeparatorWithRowArrays()
     {
@@ -70,17 +72,17 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
             ['a', '  b'],
             ['cd', ' ee'],
             [' fg ', 'hhh'],
-            ['ijk', ' ll']
+            ['ijk', ' ll'],
         ];
         $this->formatter->setEolChar('<br>');
         $formattedText = $this->formatter->format($rows, function ($row) {
-            return $row[0] . '-' . $row[1];
+            return $row[0].'-'.$row[1];
         });
         $this->assertEquals('a  -b  <br>cd -ee <br>fg -hhh<br>ijk-ll ', $formattedText);
     }
 
     /**
-     * Tests a custom row separator with string rows
+     * Tests a custom row separator with string rows.
      */
     public function testCustomRowSeparatorWithStringRows()
     {
@@ -88,7 +90,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
             'a',
             'cd',
             ' fg ',
-            'ijk'
+            'ijk',
         ];
         $this->formatter->setEolChar('<br>');
         $formattedText = $this->formatter->format($rows, function ($row) {
@@ -98,7 +100,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the EOL char
+     * Tests getting the EOL char.
      */
     public function testGettingEOLChar()
     {
@@ -107,7 +109,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests normalizing the columns
+     * Tests normalizing the columns.
      */
     public function testNormalizingColumns()
     {
@@ -115,20 +117,20 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
             ['a'],
             ['aa', 'bbbb'],
             ['aaa', 'bbb', 'ccc'],
-            ['aaa', 'bbb', 'ccc', 'ddddd']
+            ['aaa', 'bbb', 'ccc', 'ddddd'],
         ];
         $expected = [
             ['a', '', '', ''],
             ['aa', 'bbbb', '', ''],
             ['aaa', 'bbb', 'ccc', ''],
-            ['aaa', 'bbb', 'ccc', 'ddddd']
+            ['aaa', 'bbb', 'ccc', 'ddddd'],
         ];
         $this->assertEquals([3, 4, 3, 5], $this->formatter->normalizeColumns($rows));
         $this->assertEquals($expected, $rows);
     }
 
     /**
-     * Tests padding array rows
+     * Tests padding array rows.
      */
     public function testPaddingArrayRows()
     {
@@ -136,26 +138,26 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
             ['a', 'b'],
             ['cd', 'ee '],
             [' fg ', 'hhh'],
-            ['ijk', ' ll']
+            ['ijk', ' ll'],
         ];
         // Format with the padding after the string
         $this->formatter->setPadAfter(true);
         $formattedRows = $this->formatter->format($rows, function ($row) {
-            return $row[0] . '-' . $row[1];
+            return $row[0].'-'.$row[1];
         });
-        $this->assertEquals('a  -b  ' . PHP_EOL . 'cd -ee ' . PHP_EOL . 'fg -hhh' . PHP_EOL . 'ijk-ll ',
+        $this->assertEquals('a  -b  '.PHP_EOL.'cd -ee '.PHP_EOL.'fg -hhh'.PHP_EOL.'ijk-ll ',
             $formattedRows);
         // Format with the padding before the string
         $this->formatter->setPadAfter(false);
         $formattedRows = $this->formatter->format($rows, function ($row) {
-            return $row[0] . '-' . $row[1];
+            return $row[0].'-'.$row[1];
         });
-        $this->assertEquals('  a-  b' . PHP_EOL . ' cd- ee' . PHP_EOL . ' fg-hhh' . PHP_EOL . 'ijk- ll',
+        $this->assertEquals('  a-  b'.PHP_EOL.' cd- ee'.PHP_EOL.' fg-hhh'.PHP_EOL.'ijk- ll',
             $formattedRows);
     }
 
     /**
-     * Tests padding empty array
+     * Tests padding empty array.
      */
     public function testPaddingEmptyArray()
     {
@@ -165,17 +167,17 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests padding a single array
+     * Tests padding a single array.
      */
     public function testPaddingSingleArray()
     {
-        $this->assertEquals('foo' . PHP_EOL . 'bar', $this->formatter->format(['  foo  ', 'bar'], function ($row) {
+        $this->assertEquals('foo'.PHP_EOL.'bar', $this->formatter->format(['  foo  ', 'bar'], function ($row) {
             return $row[0];
         }));
     }
 
     /**
-     * Tests padding a single string
+     * Tests padding a single string.
      */
     public function testPaddingSingleString()
     {
@@ -185,7 +187,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests padding string rows
+     * Tests padding string rows.
      */
     public function testPaddingStringRows()
     {
@@ -193,19 +195,19 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
             'a',
             'cd',
             ' fg ',
-            'ijk'
+            'ijk',
         ];
         // Format with the padding after the string
         $this->formatter->setPadAfter(true);
         $formattedRows = $this->formatter->format($rows, function ($row) {
             return $row[0];
         });
-        $this->assertEquals('a  ' . PHP_EOL . 'cd ' . PHP_EOL . 'fg ' . PHP_EOL . 'ijk', $formattedRows);
+        $this->assertEquals('a  '.PHP_EOL.'cd '.PHP_EOL.'fg '.PHP_EOL.'ijk', $formattedRows);
         // Format with the padding before the string
         $this->formatter->setPadAfter(false);
         $formattedRows = $this->formatter->format($rows, function ($row) {
             return $row[0];
         });
-        $this->assertEquals('  a' . PHP_EOL . ' cd' . PHP_EOL . ' fg' . PHP_EOL . 'ijk', $formattedRows);
+        $this->assertEquals('  a'.PHP_EOL.' cd'.PHP_EOL.' fg'.PHP_EOL.'ijk', $formattedRows);
     }
 }

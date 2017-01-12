@@ -1,19 +1,21 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\Providers;
 
 /**
- * Defines settings for the PostgreSQL provider
+ * Defines settings for the PostgreSQL provider.
  */
 class PostgreSqlProvider extends Provider
 {
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected $timestampWithTimeZoneFormat = 'Y-m-d H:i:s O';
     /** @var array The list of acceptable "true" values in PostgreSQL */
     private $trueBooleanValues = [
@@ -22,7 +24,7 @@ class PostgreSqlProvider extends Provider
         '1',
         'y',
         'yes',
-        'on'
+        'on',
     ];
     /** @var array The list of acceptable "false" values in PostgreSQL */
     private $falseBooleanValues = [
@@ -31,11 +33,11 @@ class PostgreSqlProvider extends Provider
         '0',
         'n',
         'no',
-        'off'
+        'off',
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function convertFromSqlBoolean($value)
     {
@@ -49,7 +51,7 @@ class PostgreSqlProvider extends Provider
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function convertToSqlBoolean(bool $value)
     {

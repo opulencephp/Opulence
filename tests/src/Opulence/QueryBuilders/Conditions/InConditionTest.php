@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\Conditions;
 
 use InvalidArgumentException;
 use PDO;
 
 /**
- * Tests the IN condition
+ * Tests the IN condition.
  */
 class InConditionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests getting parameters for IN condition with parameters
+     * Tests getting parameters for IN condition with parameters.
      */
     public function testGettingParametersForInConditionWithParameters()
     {
@@ -29,7 +31,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting parameters for IN condition with a sub-expression
+     * Tests getting parameters for IN condition with a sub-expression.
      */
     public function testGettingParametersForInConditionWithSubExpression()
     {
@@ -38,7 +40,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting SQL for IN condition with parameters
+     * Tests getting SQL for IN condition with parameters.
      */
     public function testGettingSqlForInConditionWithParameters()
     {
@@ -47,7 +49,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting SQL for IN condition with a sub-expression
+     * Tests getting SQL for IN condition with a sub-expression.
      */
     public function testGettingSqlForInConditionWithSubExpression()
     {
@@ -56,7 +58,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an invalid argument throws an exception
+     * Tests passing an invalid argument throws an exception.
      */
     public function testPassingInvalidArgumentThrowsException()
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Console\Commands\Mocks;
 
 use Opulence\Console\Commands\Command;
@@ -14,7 +16,7 @@ use Opulence\Console\Prompts\Questions\Question;
 use Opulence\Console\Responses\IResponse;
 
 /**
- * Mocks a command with multiple prompts
+ * Mocks a command with multiple prompts.
  */
 class MultiplePromptsCommand extends Command
 {
@@ -32,7 +34,7 @@ class MultiplePromptsCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function define()
     {
@@ -41,7 +43,7 @@ class MultiplePromptsCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doExecute(IResponse $response)
     {

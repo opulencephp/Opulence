@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Urls;
 
 use Opulence\Routing\Routes\ParsedRoute;
 use Opulence\Routing\Routes\RouteCollection;
 
 /**
- * Defines a URL generator
+ * Defines a URL generator.
  */
 class UrlGenerator
 {
@@ -33,12 +35,14 @@ class UrlGenerator
 
     /**
      * Creates a URL for the named route
-     * This function accepts variable-length arguments after the name
+     * This function accepts variable-length arguments after the name.
      *
-     * @param string $name The named of the route whose URL we're generating
-     * @param array $args,... The list of arguments to pass in
-     * @return string The generated URL if the route exists, otherwise an empty string
+     * @param string $name     The named of the route whose URL we're generating
+     * @param array  $args,... The list of arguments to pass in
+     *
      * @throws URLException Thrown if there was an error generating the URL
+     *
+     * @return string The generated URL if the route exists, otherwise an empty string
      */
     public function createFromName(string $name, ...$args) : string
     {
@@ -48,22 +52,24 @@ class UrlGenerator
             return '';
         }
 
-        return $this->generateHost($route, $args) . $this->generatePath($route, $args);
+        return $this->generateHost($route, $args).$this->generatePath($route, $args);
     }
 
     /**
-     * Creates a URL regex for the named route
+     * Creates a URL regex for the named route.
      *
      * @param string $name The named of the route whose URL regex we're generating
-     * @return string The generated URL regex
+     *
      * @throws URLException Thrown if there was an error generating the URL regex
+     *
+     * @return string The generated URL regex
      */
     public function createRegexFromName(string $name) : string
     {
         $route = $this->routeCollection->getNamedRoute($name);
 
         if ($route === null) {
-            return "#^.*$#";
+            return '#^.*$#';
         }
 
         $strippedPathRegex = substr($route->getPathRegex(), 2, -2);
@@ -72,19 +78,21 @@ class UrlGenerator
             return "#^$strippedPathRegex$#";
         }
 
-        $protocolRegex = preg_quote('http' . ($route->isSecure() ? 's' : '') . '://', '#');
+        $protocolRegex = preg_quote('http'.($route->isSecure() ? 's' : '').'://', '#');
         $strippedHostRegex = substr($route->getHostRegex(), 2, -2);
 
         return "#^$protocolRegex$strippedHostRegex$strippedPathRegex$#";
     }
 
     /**
-     * Generates the host portion of a URL for a route
+     * Generates the host portion of a URL for a route.
      *
-     * @param ParsedRoute $route The route whose URL we're generating
+     * @param ParsedRoute $route  The route whose URL we're generating
      * @param mixed|array $values The value or list of values to fill the route with
-     * @return string The generated host value
+     *
      * @throws URLException Thrown if the generated host is not valid
+     *
+     * @return string The generated host value
      */
     private function generateHost(ParsedRoute $route, &$values) : string
     {
@@ -93,19 +101,21 @@ class UrlGenerator
         if (!empty($route->getRawHost())) {
             $host = $this->generateUrlPart($route->getRawHost(), $route->getHostRegex(), $route->getName(), $values);
             // Prefix the URL with the protocol
-            $host = 'http' . ($route->isSecure() ? 's' : '') . '://' . $host;
+            $host = 'http'.($route->isSecure() ? 's' : '').'://'.$host;
         }
 
         return $host;
     }
 
     /**
-     * Generates the path portion of a URL for a route
+     * Generates the path portion of a URL for a route.
      *
-     * @param ParsedRoute $route The route whose URL we're generating
+     * @param ParsedRoute $route  The route whose URL we're generating
      * @param mixed|array $values The value or list of values to fill the route with
-     * @return string The generated path value
+     *
      * @throws URLException Thrown if the generated path is not valid
+     *
+     * @return string The generated path value
      */
     private function generatePath(ParsedRoute $route, &$values) : string
     {
@@ -113,14 +123,16 @@ class UrlGenerator
     }
 
     /**
-     * Generates a part of a URL for a route
+     * Generates a part of a URL for a route.
      *
-     * @param string $rawPart The raw part to generate
-     * @param string $regex The regex to match against
-     * @param string $routeName The route name
-     * @param mixed|array $values The value or list of values to fill the route with
-     * @return string The generated URL part
+     * @param string      $rawPart   The raw part to generate
+     * @param string      $regex     The regex to match against
+     * @param string      $routeName The route name
+     * @param mixed|array $values    The value or list of values to fill the route with
+     *
      * @throws UrlException Thrown if the generated path is not valid
+     *
+     * @return string The generated URL part
      */
     private function generateUrlPart(string $rawPart, string $regex, string $routeName, &$values) : string
     {

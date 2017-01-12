@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests\Parsers;
 
 use Opulence\Console\Requests\IRequest;
 use Opulence\Console\Requests\Tokenizers\StringTokenizer;
 
 /**
- * Defines the string parser
+ * Defines the string parser.
  */
 class StringParser extends Parser
 {
@@ -25,7 +27,7 @@ class StringParser extends Parser
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function parse($input) : IRequest
     {

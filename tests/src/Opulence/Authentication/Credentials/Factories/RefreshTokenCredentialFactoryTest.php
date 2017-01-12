@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Credentials\Factories;
 
 use DateInterval;
@@ -16,7 +18,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
 
 /**
- * Tests the refresh credential factory
+ * Tests the refresh credential factory.
  */
 class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -28,7 +30,7 @@ class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
     private $subject = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -54,7 +56,7 @@ class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the claims are added
+     * Tests that the claims are added.
      */
     public function testClaimsAdded()
     {
@@ -66,8 +68,8 @@ class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo', $payload->getIssuer());
         $this->assertEquals('bar', $payload->getAudience());
         $this->assertEquals('principalId', $payload->getSubject());
-        $this->assertEquals((new DateTimeImmutable)->format('Y'), $payload->getValidFrom()->format('Y'));
+        $this->assertEquals((new DateTimeImmutable())->format('Y'), $payload->getValidFrom()->format('Y'));
         $this->assertEquals((new DateTimeImmutable('+1 year'))->format('Y'), $payload->getValidTo()->format('Y'));
-        $this->assertEquals((new DateTimeImmutable)->format('Y'), $payload->getIssuedAt()->format('Y'));
+        $this->assertEquals((new DateTimeImmutable())->format('Y'), $payload->getIssuedAt()->format('Y'));
     }
 }

@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc;
 
 use stdClass;
 
 /**
- * Tests the instance binding
+ * Tests the instance binding.
  */
 class InstanceBindingTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests that the binding is always resolved as a singleton
+     * Tests that the binding is always resolved as a singleton.
      */
     public function testAlwaysResolvedAsSingleton()
     {
@@ -25,7 +27,7 @@ class InstanceBindingTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the correct instance is returned
+     * Tests that the correct instance is returned.
      */
     public function testCorrectInstanceIsReturned()
     {

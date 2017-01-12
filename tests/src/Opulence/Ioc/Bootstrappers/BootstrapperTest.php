@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc\Bootstrappers;
 
 use BadMethodCallException;
 use Opulence\Tests\Ioc\Bootstrappers\Mocks\Bootstrapper;
 
 /**
- * Tests the bootstrapper
+ * Tests the bootstrapper.
  */
 class BootstrapperTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,7 +22,7 @@ class BootstrapperTest extends \PHPUnit\Framework\TestCase
     private $bootstrapper = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -28,7 +30,7 @@ class BootstrapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling a bad method
+     * Tests calling a bad method.
      */
     public function testCallingBadMethod()
     {
@@ -37,7 +39,7 @@ class BootstrapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling run
+     * Tests calling run.
      */
     public function testCallingRun()
     {
@@ -45,7 +47,7 @@ class BootstrapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling shutdown
+     * Tests calling shutdown.
      */
     public function testCallingShutdown()
     {

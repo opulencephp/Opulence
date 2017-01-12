@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Ioc\Mocks;
 
 /**
- * Defines an interface to implement
+ * Defines an interface to implement.
  */
 interface IPerson
 {
     /**
-     * Gets the last name of the person
+     * Gets the last name of the person.
      *
      * @return string The last name
      */

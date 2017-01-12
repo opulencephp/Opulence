@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Bootstrappers;
 
 use Opulence\Console\Commands\CommandCollection;
@@ -34,7 +36,7 @@ use Opulence\Routing\Routes\Caching\ICache as RouteCache;
 use Opulence\Views\Caching\ICache as ViewCache;
 
 /**
- * Defines the command bootstrapper
+ * Defines the command bootstrapper.
  */
 class CommandsBootstrapper extends Bootstrapper
 {
@@ -54,13 +56,13 @@ class CommandsBootstrapper extends Bootstrapper
         MakeEntityCommand::class,
         MakeHttpMiddlewareCommand::class,
         RenameAppCommand::class,
-        UuidGenerationCommand::class
+        UuidGenerationCommand::class,
     ];
     /** @var CommandCollection The list of console commands */
     private $commandCollection = null;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBindings(IContainer $container)
     {
@@ -70,8 +72,8 @@ class CommandsBootstrapper extends Bootstrapper
         $container->bindInstance(CommandCollection::class, $this->commandCollection);
         $container->bindFactory(FlushFrameworkCacheCommand::class, function () use ($container) {
             return new FlushFrameworkCacheCommand(
-                new FileCache(Config::get('paths', 'tmp.framework.http') . '/cachedBootstrapperRegistry.json'),
-                new FileCache(Config::get('paths', 'tmp.framework.console') . '/cachedBootstrapperRegistry.json'),
+                new FileCache(Config::get('paths', 'tmp.framework.http').'/cachedBootstrapperRegistry.json'),
+                new FileCache(Config::get('paths', 'tmp.framework.console').'/cachedBootstrapperRegistry.json'),
                 $container->resolve(RouteCache::class),
                 $container->resolve(ViewCache::class)
             );
@@ -79,7 +81,7 @@ class CommandsBootstrapper extends Bootstrapper
     }
 
     /**
-     * Adds built-in commands to our list
+     * Adds built-in commands to our list.
      *
      * @param IContainer $container The dependency injection container to use
      */
@@ -93,9 +95,10 @@ class CommandsBootstrapper extends Bootstrapper
 
     /**
      * Gets the command compiler
-     * To use a different command compiler than the one returned here, extend this class and override this method
+     * To use a different command compiler than the one returned here, extend this class and override this method.
      *
      * @param IContainer $container The dependency injection container
+     *
      * @return ICompiler The command compiler
      */
     protected function getCommandCompiler(IContainer $container) : ICompiler

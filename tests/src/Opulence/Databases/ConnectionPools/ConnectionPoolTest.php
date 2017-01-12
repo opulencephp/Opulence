@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\ConnectionPools;
 
 use Opulence\Tests\Databases\ConnectionPools\Mocks\ConnectionPool;
@@ -13,12 +15,12 @@ use Opulence\Tests\Databases\Mocks\Driver;
 use Opulence\Tests\Databases\Mocks\Server as MockServer;
 
 /**
- * Tests the connection pool
+ * Tests the connection pool.
  */
 class ConnectionPoolTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests getting the list of driver names
+     * Tests getting the list of driver names.
      */
     public function testGettingDriverNames()
     {
@@ -26,7 +28,7 @@ class ConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the master
+     * Tests setting the master.
      */
     public function testSettingMaster()
     {

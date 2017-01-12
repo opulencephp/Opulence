@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Configuration;
 
 /**
- * Tests the config reader
+ * Tests the config reader.
  */
 class ConfigTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests getting a non-existent value
+     * Tests getting a non-existent value.
      */
     public function testGettingNonExistentValue()
     {
@@ -24,7 +26,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting many settings by category
+     * Tests setting many settings by category.
      */
     public function testSettingCategory()
     {
@@ -37,7 +39,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a single setting
+     * Tests setting a single setting.
      */
     public function testSettingSingleSetting()
     {

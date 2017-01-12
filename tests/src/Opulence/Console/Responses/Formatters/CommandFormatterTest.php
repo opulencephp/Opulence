@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Formatters;
 
 use Opulence\Console\Commands\CommandCollection;
@@ -17,7 +19,7 @@ use Opulence\Console\Requests\OptionTypes;
 use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 
 /**
- * Tests the command formatter
+ * Tests the command formatter.
  */
 class CommandFormatterTest extends \PHPUnit\Framework\TestCase
 {
@@ -27,7 +29,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     private $commandCollection = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -36,7 +38,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting a command with mix of arguments
+     * Tests formatting a command with mix of arguments.
      */
     public function testFormattingCommandWithMixOfArguments()
     {
@@ -60,7 +62,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting a command with multiple arguments
+     * Tests formatting a command with multiple arguments.
      */
     public function testFormattingCommandWithMultipleArguments()
     {
@@ -79,7 +81,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting a command with no arguments or options
+     * Tests formatting a command with no arguments or options.
      */
     public function testFormattingCommandWithNoArgumentsOrOptions()
     {
@@ -88,7 +90,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting a command with one argument
+     * Tests formatting a command with one argument.
      */
     public function testFormattingCommandWithOneArgument()
     {
@@ -102,7 +104,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting a command with one option with a default value
+     * Tests formatting a command with one option with a default value.
      */
     public function testFormattingCommandWithOneOptionWithDefaultValue()
     {
@@ -118,7 +120,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting a command with one option with default value but no short name
+     * Tests formatting a command with one option with default value but no short name.
      */
     public function testFormattingCommandWithOneOptionWithDefaultValueButNoShortName()
     {
@@ -134,7 +136,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting a command with one option with no short name
+     * Tests formatting a command with one option with no short name.
      */
     public function testFormattingCommandWithOneOptionWithoutShortName()
     {
@@ -149,7 +151,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting a command with one optional argument
+     * Tests formatting a command with one optional argument.
      */
     public function testFormattingCommandWithOneOptionalArgument()
     {
@@ -163,7 +165,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting a command with an optional array argument
+     * Tests formatting a command with an optional array argument.
      */
     public function testFormattingCommandWithOptionalArrayArgument()
     {

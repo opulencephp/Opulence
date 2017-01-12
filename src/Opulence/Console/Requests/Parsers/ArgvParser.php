@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests\Parsers;
 
 use InvalidArgumentException;
@@ -13,7 +15,7 @@ use Opulence\Console\Requests\IRequest;
 use Opulence\Console\Requests\Tokenizers\ArgvTokenizer;
 
 /**
- * Defines the argv parser
+ * Defines the argv parser.
  */
 class ArgvParser extends Parser
 {
@@ -26,7 +28,7 @@ class ArgvParser extends Parser
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function parse($input) : IRequest
     {

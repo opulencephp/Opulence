@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Configuration;
 
 /**
- * Defines the config reader
+ * Defines the config reader.
  */
 class Config
 {
@@ -17,11 +19,12 @@ class Config
     private static $settings = [];
 
     /**
-     * Gets a setting
+     * Gets a setting.
      *
      * @param string $category The category of setting to get
-     * @param string $setting The name of the setting to get
-     * @param null $default The default value if one does not exist
+     * @param string $setting  The name of the setting to get
+     * @param null   $default  The default value if one does not exist
+     *
      * @return mixed The value of the setting
      */
     public static function get(string $category, string $setting, $default = null)
@@ -34,10 +37,11 @@ class Config
     }
 
     /**
-     * Gets whether or not a setting has a value
+     * Gets whether or not a setting has a value.
      *
      * @param string $category The category whose setting we're checking
-     * @param string $setting The setting to check for
+     * @param string $setting  The setting to check for
+     *
      * @return bool True if the setting exists, otherwise false
      */
     public static function has(string $category, string $setting) : bool
@@ -46,11 +50,11 @@ class Config
     }
 
     /**
-     * Sets a setting
+     * Sets a setting.
      *
      * @param string $category The category whose setting we're changing
-     * @param string $setting The name of the setting to set
-     * @param mixed $value The value of the setting
+     * @param string $setting  The name of the setting to set
+     * @param mixed  $value    The value of the setting
      */
     public static function set(string $category, string $setting, $value)
     {
@@ -62,10 +66,10 @@ class Config
     }
 
     /**
-     * Sets an entire category's settings (overwrites previous settings)
+     * Sets an entire category's settings (overwrites previous settings).
      *
      * @param string $category The category whose settings we're changing
-     * @param array $settings The array of settings
+     * @param array  $settings The array of settings
      */
     public static function setCategory(string $category, array $settings)
     {

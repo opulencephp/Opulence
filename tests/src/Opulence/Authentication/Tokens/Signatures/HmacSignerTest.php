@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\Signatures;
 
 use Opulence\Authentication\Tokens\ISignedToken;
 use Opulence\Authentication\Tokens\IUnsignedToken;
 
 /**
- * Tests the HMAC signer
+ * Tests the HMAC signer.
  */
 class HmacSignerTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +24,7 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
     private $signedToken = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -37,7 +39,7 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the algorithm
+     * Tests getting the algorithm.
      */
     public function testGettingAlgorithm()
     {
@@ -46,14 +48,14 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests signing with symmetric algorithms
+     * Tests signing with symmetric algorithms.
      */
     public function testSigningWithSymmetricAlgorithms()
     {
         $algorithms = [
             Algorithms::SHA256 => 'sha256',
             Algorithms::SHA384 => 'sha384',
-            Algorithms::SHA512 => 'sha512'
+            Algorithms::SHA512 => 'sha512',
         ];
 
         foreach ($algorithms as $jwtAlgorithm => $hashAlgorithm) {
@@ -66,7 +68,7 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that verifying an empty signature returns false
+     * Tests that verifying an empty signature returns false.
      */
     public function testVerifyingEmptySignatureReturnsFalse()
     {
@@ -75,14 +77,14 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests verifying symmetric algorithms
+     * Tests verifying symmetric algorithms.
      */
     public function testVerifyingSymmetricAlgorithms()
     {
         $algorithms = [
             Algorithms::SHA256 => 'sha256',
             Algorithms::SHA384 => 'sha384',
-            Algorithms::SHA512 => 'sha512'
+            Algorithms::SHA512 => 'sha512',
         ];
         $numVerified = 0;
         $numUnverified = 0;

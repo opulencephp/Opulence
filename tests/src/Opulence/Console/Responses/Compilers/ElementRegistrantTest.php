@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers;
 
 use Opulence\Console\Responses\Compilers\Elements\Colors;
@@ -13,7 +15,7 @@ use Opulence\Console\Responses\Compilers\Elements\Style;
 use Opulence\Console\Responses\Compilers\Elements\TextStyles;
 
 /**
- * Tests the element registrant
+ * Tests the element registrant.
  */
 class ElementRegistrantTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +23,7 @@ class ElementRegistrantTest extends \PHPUnit\Framework\TestCase
     private $registrant = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -29,7 +31,7 @@ class ElementRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the correct elements are registered
+     * Tests that the correct elements are registered.
      */
     public function testCorrectElementsAreRegistered()
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune;
 
 use InvalidArgumentException;
@@ -26,7 +28,7 @@ use Opulence\Views\View;
 use RuntimeException;
 
 /**
- * Tests the Fortune transpiler
+ * Tests the Fortune transpiler.
  */
 class TranspilerTest extends \PHPUnit\Framework\TestCase
 {
@@ -46,7 +48,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     private $xssFilter = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -65,7 +67,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that adjacent expressions have spaces between them
+     * Tests that adjacent expressions have spaces between them.
      */
     public function testAdjacentExpressionHaveSpacesBetweenThem()
     {
@@ -80,7 +82,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that cache is used when it has a view
+     * Tests that cache is used when it has a view.
      */
     public function testCacheIsUsedWhenItHasView()
     {
@@ -100,7 +102,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling a view function that takes no parameters
+     * Tests calling a view function that takes no parameters.
      */
     public function testCallingViewFunctionThatTakesNoParameters()
     {
@@ -111,18 +113,18 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling a view function that takes parameters
+     * Tests calling a view function that takes parameters.
      */
     public function testCallingViewFunctionThatTakesParameters()
     {
         $this->transpiler->registerViewFunction('foo', function ($input) {
-            return 'foo' . $input;
+            return 'foo'.$input;
         });
         $this->assertEquals('foobar', $this->transpiler->callViewFunction('foo', 'bar'));
     }
 
     /**
-     * Tests defining a part
+     * Tests defining a part.
      */
     public function testDefiningPart()
     {
@@ -133,7 +135,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown with an invalid node type
+     * Tests that an exception is thrown with an invalid node type.
      */
     public function testExceptionIsThrownWithInvalidNodeType()
     {
@@ -146,7 +148,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown when there's no transpiler for a directive
+     * Tests that an exception is thrown when there's no transpiler for a directive.
      */
     public function testExceptionThrownWhenNoTranspilerRegisteredForDirective()
     {
@@ -160,7 +162,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown with an invalid view function name
+     * Tests that an exception is thrown with an invalid view function name.
      */
     public function testExceptionThrownWithInvalidViewFunctionName()
     {
@@ -169,7 +171,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the first value of a variable that is inherited twice is used
+     * Tests that the first value of a variable that is inherited twice is used.
      */
     public function testFirstValueOfVariableThatIsInheritedTwiceIsUsed()
     {
@@ -191,7 +193,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing a variable that was already defined
+     * Tests passing a variable that was already defined.
      */
     public function testPassingVariableThatWasAlreadyDefined()
     {
@@ -211,7 +213,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing a variable that was not defined
+     * Tests passing a variable that was not defined.
      */
     public function testPassingVariableThatWasNotDefined()
     {
@@ -232,7 +234,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering a directive transpiler
+     * Tests registering a directive transpiler.
      */
     public function testRegisteringDirectiveTranspiler()
     {
@@ -251,7 +253,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests sanitizing text
+     * Tests sanitizing text.
      */
     public function testSanitizingText()
     {
@@ -260,7 +262,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests showing latest part
+     * Tests showing latest part.
      */
     public function testShowingLatestPart()
     {
@@ -270,7 +272,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests showing a parent part
+     * Tests showing a parent part.
      */
     public function testShowingParentPart()
     {
@@ -285,7 +287,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests showing parts from three generations of parents
+     * Tests showing parts from three generations of parents.
      */
     public function testShowingPartsFromThreeGenerationsOfParents()
     {
@@ -304,7 +306,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the transpiled contents are cached
+     * Tests that the transpiled contents are cached.
      */
     public function testTranspiledContentsAreCached()
     {
@@ -326,7 +328,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling a comment whose contents are an expression
+     * Tests transpiling a comment whose contents are an expression.
      */
     public function testTranspilingCommentWhoseContentsAreExpression()
     {
@@ -341,7 +343,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an expression
+     * Tests transpiling an expression.
      */
     public function testTranspilingExpression()
     {
@@ -355,7 +357,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling a sanitized tag whose contents are an expression
+     * Tests transpiling a sanitized tag whose contents are an expression.
      */
     public function testTranspilingSanitizedTagWhoseContentsAreExpression()
     {
@@ -370,7 +372,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an unsanitized tag whose contents are an expression
+     * Tests transpiling an unsanitized tag whose contents are an expression.
      */
     public function testTranspilingUnsanitizedTagWhoseContentsAreExpression()
     {

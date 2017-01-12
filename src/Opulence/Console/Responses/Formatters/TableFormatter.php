@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Formatters;
 
 /**
- * Defines a table formatter
+ * Defines a table formatter.
  */
 class TableFormatter
 {
@@ -33,10 +35,11 @@ class TableFormatter
     }
 
     /**
-     * Formats the table into a string
+     * Formats the table into a string.
      *
-     * @param array $rows The list of rows
+     * @param array $rows    The list of rows
      * @param array $headers The list of headers
+     *
      * @return string The formatted table
      */
     public function format(array $rows, array $headers = []) : string
@@ -46,7 +49,7 @@ class TableFormatter
         }
 
         foreach ($rows as &$row) {
-            $row = (array)$row;
+            $row = (array) $row;
         }
 
         unset($row);
@@ -61,7 +64,7 @@ class TableFormatter
                 '%s%s%s%s%s',
                 $this->verticalBorderChar,
                 $this->cellPaddingString,
-                implode($this->cellPaddingString . $this->verticalBorderChar . $this->cellPaddingString, $row),
+                implode($this->cellPaddingString.$this->verticalBorderChar.$this->cellPaddingString, $row),
                 $this->cellPaddingString,
                 $this->verticalBorderChar
             );
@@ -74,10 +77,10 @@ class TableFormatter
             $borders[] = str_repeat($this->horizontalBorderChar, $maxLength + 2 * mb_strlen($this->cellPaddingString));
         }
 
-        $borderText = $this->intersectionChar . implode($this->intersectionChar, $borders) . $this->intersectionChar;
-        $headerText = count($headers) > 0 ? array_shift($rowText) . $eolChar . $borderText . $eolChar : '';
+        $borderText = $this->intersectionChar.implode($this->intersectionChar, $borders).$this->intersectionChar;
+        $headerText = count($headers) > 0 ? array_shift($rowText).$eolChar.$borderText.$eolChar : '';
 
-        return $borderText . $eolChar . $headerText . implode($eolChar, $rowText) . $eolChar . $borderText;
+        return $borderText.$eolChar.$headerText.implode($eolChar, $rowText).$eolChar.$borderText;
     }
 
     /**

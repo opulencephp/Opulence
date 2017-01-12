@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use LogicException;
 
 /**
- * Defines the conditional rule
+ * Defines the conditional rule.
  */
 class ConditionalRule extends CallbackRule
 {
@@ -19,7 +21,7 @@ class ConditionalRule extends CallbackRule
     protected $rules = [];
 
     /**
-     * Adds a rule to evaluate if the condition is true
+     * Adds a rule to evaluate if the condition is true.
      *
      * @param IRule $rule
      */
@@ -29,7 +31,7 @@ class ConditionalRule extends CallbackRule
     }
 
     /**
-     * Gets the sub-rules in this condition
+     * Gets the sub-rules in this condition.
      *
      * @return IRule[] The list of rules
      */
@@ -39,7 +41,7 @@ class ConditionalRule extends CallbackRule
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSlug() : string
     {
@@ -47,7 +49,7 @@ class ConditionalRule extends CallbackRule
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function passes($value, array $allValues = []) : bool
     {

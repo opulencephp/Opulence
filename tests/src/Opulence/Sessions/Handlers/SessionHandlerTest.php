@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Sessions\Handlers;
 
 use LogicException;
 
 /**
- * Tests the base session handler
+ * Tests the base session handler.
  */
 class SessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +23,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     private $encrypter = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -30,7 +32,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an empty string is written when the encrypter fails
+     * Tests that an empty string is written when the encrypter fails.
      */
     public function testEmptyStringIsWrittenWhenEncrypterFails()
     {
@@ -43,7 +45,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown when reading and the encrypter is not set
+     * Tests that an exception is thrown when reading and the encrypter is not set.
      */
     public function testExceptionIsThrownWhenReadingWithEncrypterNotSet()
     {
@@ -54,7 +56,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown when writing and the encrypter is not set
+     * Tests that an exception is thrown when writing and the encrypter is not set.
      */
     public function testExceptionIsThrownWhenWritingWithEncrypterNotSet()
     {
@@ -65,7 +67,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that data being read is not decrypted when not using an encrypter
+     * Tests that data being read is not decrypted when not using an encrypter.
      */
     public function testReadDataIsNotDecryptedWhenNotUsingEncrypter()
     {
@@ -74,7 +76,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests reading encrypted data
+     * Tests reading encrypted data.
      */
     public function testReadingEncryptedData()
     {
@@ -86,7 +88,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a serialized empty array is returned when the encrypter fails to read the data
+     * Tests that a serialized empty array is returned when the encrypter fails to read the data.
      */
     public function testSerializedEmptyArrayReturnedWhenEncrypterFailsToReadData()
     {
@@ -99,7 +101,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests writing encrypted data
+     * Tests writing encrypted data.
      */
     public function testWritingEncryptedData()
     {
@@ -111,7 +113,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that data being written is not encrypted when not using an encrypter
+     * Tests that data being written is not encrypted when not using an encrypter.
      */
     public function testWrittenDataIsNotEncryptedWhenNotUsingEncrypter()
     {

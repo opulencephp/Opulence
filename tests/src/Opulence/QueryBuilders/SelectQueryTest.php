@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders;
 
 use Opulence\QueryBuilders\Conditions\ICondition;
 use PDO;
 
 /**
- * Tests the select query
+ * Tests the select query.
  */
 class SelectQueryTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,7 +22,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     private $condition = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -34,7 +36,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "GROUP BY" statement to one that was already started
+     * Tests adding a "GROUP BY" statement to one that was already started.
      */
     public function testAddingGroupBy()
     {
@@ -46,7 +48,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an "AND"ed and an "OR"ed "WHERE" clause
+     * Tests adding an "AND"ed and an "OR"ed "WHERE" clause.
      */
     public function testAddingOrWhereAndWhere()
     {
@@ -60,7 +62,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an "ORDER BY" statement to one that was already started
+     * Tests adding an "ORDER BY" statement to one that was already started.
      */
     public function testAddingOrderBy()
     {
@@ -80,7 +82,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "HAVING" condition that will be "AND"ed
+     * Tests adding a "HAVING" condition that will be "AND"ed.
      */
     public function testAndHaving()
     {
@@ -94,7 +96,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "HAVING" condition object that will be "AND"ed
+     * Tests adding a "HAVING" condition object that will be "AND"ed.
      */
     public function testAndHavingConditionObject()
     {
@@ -109,7 +111,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "WHERE" condition that will be "AND"ed
+     * Tests adding a "WHERE" condition that will be "AND"ed.
      */
     public function testAndWhere()
     {
@@ -121,7 +123,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "WHERE" condition object that will be "AND"ed
+     * Tests adding a "WHERE" condition object that will be "AND"ed.
      */
     public function testAndWhereConditionObject()
     {
@@ -134,7 +136,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a basic query
+     * Tests a basic query.
      */
     public function testBasicQuery()
     {
@@ -144,7 +146,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a basic query with a table alias
+     * Tests a basic query with a table alias.
      */
     public function testBasicQueryWithAlias()
     {
@@ -154,7 +156,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests all the methods in a single, complicated query
+     * Tests all the methods in a single, complicated query.
      */
     public function testEverything()
     {
@@ -182,13 +184,13 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
             $query->getSql());
         $this->assertEquals([
             'notAllowedName' => ['dave', PDO::PARAM_STR],
-            'allowedName' => ['brian', PDO::PARAM_STR],
-            'minCount' => [1, PDO::PARAM_INT]
+            'allowedName'    => ['brian', PDO::PARAM_STR],
+            'minCount'       => [1, PDO::PARAM_INT],
         ], $query->getParameters());
     }
 
     /**
-     * Tests adding a "GROUP BY" statement
+     * Tests adding a "GROUP BY" statement.
      */
     public function testGroupBy()
     {
@@ -199,7 +201,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "HAVING" condition
+     * Tests adding a "HAVING" condition.
      */
     public function testHaving()
     {
@@ -211,7 +213,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "HAVING" condition object
+     * Tests adding a "HAVING" condition object.
      */
     public function testHavingConditionObject()
     {
@@ -224,7 +226,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an "INNER JOIN" statement
+     * Tests adding an "INNER JOIN" statement.
      */
     public function testInnerJoin()
     {
@@ -235,7 +237,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "JOIN" statement
+     * Tests adding a "JOIN" statement.
      */
     public function testJoin()
     {
@@ -246,7 +248,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an "LEFT JOIN" statement
+     * Tests adding an "LEFT JOIN" statement.
      */
     public function testLeftJoin()
     {
@@ -257,7 +259,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "LIMIT" statement
+     * Tests adding a "LIMIT" statement.
      */
     public function testLimit()
     {
@@ -268,7 +270,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "LIMIT" statement with a named placeholder
+     * Tests adding a "LIMIT" statement with a named placeholder.
      */
     public function testLimitWithNamedPlaceholder()
     {
@@ -279,7 +281,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests mixing a WHERE expression and a WHERE condition object
+     * Tests mixing a WHERE expression and a WHERE condition object.
      */
     public function testMixingWhereExpessionAndObject()
     {
@@ -292,7 +294,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding multiple "JOIN" statements
+     * Tests adding multiple "JOIN" statements.
      */
     public function testMultipleJoins()
     {
@@ -305,7 +307,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "OFFSET" statement
+     * Tests adding a "OFFSET" statement.
      */
     public function testOffset()
     {
@@ -316,7 +318,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "OFFSET" statement with a named placeholder
+     * Tests adding a "OFFSET" statement with a named placeholder.
      */
     public function testOffsetWithNamedPlaceholder()
     {
@@ -327,7 +329,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "HAVING" condition that will be "OR"ed
+     * Tests adding a "HAVING" condition that will be "OR"ed.
      */
     public function testOrHaving()
     {
@@ -341,7 +343,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "HAVING" condition object that will be "OR"ed
+     * Tests adding a "HAVING" condition object that will be "OR"ed.
      */
     public function testOrHavingConditionObject()
     {
@@ -356,7 +358,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "WHERE" condition that will be "OR"ed
+     * Tests adding a "WHERE" condition that will be "OR"ed.
      */
     public function testOrWhere()
     {
@@ -368,7 +370,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "WHERE" condition object that will be "OR"ed
+     * Tests adding a "WHERE" condition object that will be "OR"ed.
      */
     public function testOrWhereConditionObject()
     {
@@ -381,7 +383,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an "ORDER BY" statement
+     * Tests adding an "ORDER BY" statement.
      */
     public function testOrderBy()
     {
@@ -392,7 +394,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a really basic query
+     * Tests a really basic query.
      */
     public function testReallyBasicQuery()
     {
@@ -401,7 +403,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an "RIGHT JOIN" statement
+     * Tests adding an "RIGHT JOIN" statement.
      */
     public function testRightJoin()
     {
@@ -412,7 +414,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a "HAVING" condition, then resetting it
+     * Tests setting a "HAVING" condition, then resetting it.
      */
     public function testSettingHavingConditionWhenItWasAlreadySet()
     {
@@ -425,7 +427,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a "WHERE" condition, then resetting it
+     * Tests setting a "WHERE" condition, then resetting it.
      */
     public function testSettingWhereConditionWhenItWasAlreadySet()
     {
@@ -437,7 +439,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "WHERE" condition
+     * Tests adding a "WHERE" condition.
      */
     public function testWhere()
     {
@@ -448,7 +450,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "WHERE" condition object
+     * Tests adding a "WHERE" condition object.
      */
     public function testWhereConditionObject()
     {

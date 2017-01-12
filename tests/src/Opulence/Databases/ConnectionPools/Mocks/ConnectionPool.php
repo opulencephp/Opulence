@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Databases\ConnectionPools\Mocks;
 
 use Opulence\Databases\ConnectionPools\ConnectionPool as BaseConnectionPool;
 use Opulence\Databases\Server;
 
 /**
- * Mocks the connection pool class for use in testing
+ * Mocks the connection pool class for use in testing.
  */
 class ConnectionPool extends BaseConnectionPool
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function setReadConnection(Server $preferredServer = null)
     {
@@ -29,7 +31,7 @@ class ConnectionPool extends BaseConnectionPool
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function setWriteConnection(Server $preferredServer = null)
     {

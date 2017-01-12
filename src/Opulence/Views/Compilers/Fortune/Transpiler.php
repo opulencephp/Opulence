@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune;
 
 use InvalidArgumentException;
@@ -24,7 +26,7 @@ use Opulence\Views\IView;
 use RuntimeException;
 
 /**
- * Defines the Fortune transpiler
+ * Defines the Fortune transpiler.
  */
 class Transpiler implements ITranspiler
 {
@@ -52,9 +54,9 @@ class Transpiler implements ITranspiler
     protected $appendedText = [];
 
     /**
-     * @param ILexer $lexer The view lexer
-     * @param IParser $parser The view parser
-     * @param ICache $cache The view cache
+     * @param ILexer    $lexer     The view lexer
+     * @param IParser   $parser    The view parser
+     * @param ICache    $cache     The view cache
      * @param XssFilter $xssFilter The XSS filter
      */
     public function __construct(ILexer $lexer, IParser $parser, ICache $cache, XssFilter $xssFilter)
@@ -66,11 +68,11 @@ class Transpiler implements ITranspiler
         // Register built-in view functions
         (new ViewFunctionRegistrant())->registerViewFunctions($this);
         // Register built-in directives' transpilers
-        (new DirectiveTranspilerRegistrant)->registerDirectiveTranspilers($this);
+        (new DirectiveTranspilerRegistrant())->registerDirectiveTranspilers($this);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function addParent(IView $parent, IView $child)
     {
@@ -82,7 +84,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function append(string $text)
     {
@@ -90,7 +92,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function callViewFunction(string $functionName, ...$args)
     {
@@ -102,7 +104,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function endPart()
     {
@@ -119,7 +121,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function prepend(string $text)
     {
@@ -127,7 +129,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerDirectiveTranspiler(string $name, callable $transpiler)
     {
@@ -135,7 +137,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerViewFunction(string $functionName, callable $function)
     {
@@ -143,7 +145,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function sanitize($value) : string
     {
@@ -151,7 +153,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function showPart(string $name = '') : string
     {
@@ -169,7 +171,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function startPart(string $name)
     {
@@ -181,7 +183,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function transpile(IView $view) : string
     {
@@ -198,12 +200,12 @@ class Transpiler implements ITranspiler
 
         if (count($this->prependedText) > 0) {
             // Format the content nicely
-            $transpiledContent = trim(implode(PHP_EOL, $this->prependedText), PHP_EOL) . PHP_EOL . $transpiledContent;
+            $transpiledContent = trim(implode(PHP_EOL, $this->prependedText), PHP_EOL).PHP_EOL.$transpiledContent;
         }
 
         if (count($this->appendedText) > 0) {
             // Format the content nicely
-            $transpiledContent = trim($transpiledContent, PHP_EOL) . PHP_EOL . implode(PHP_EOL, $this->appendedText);
+            $transpiledContent = trim($transpiledContent, PHP_EOL).PHP_EOL.implode(PHP_EOL, $this->appendedText);
         }
 
         $this->cache->set($view, $transpiledContent, false);
@@ -212,9 +214,10 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * Transpiles a comment node
+     * Transpiles a comment node.
      *
      * @param Node $node The node to transpile
+     *
      * @return string The transpiled node
      */
     protected function transpileCommentNode(Node $node) : string
@@ -222,18 +225,20 @@ class Transpiler implements ITranspiler
         $code = '';
 
         foreach ($node->getChildren() as $childNode) {
-            $code .= '<?php /* ' . $childNode->getValue() . ' */ ?>';
+            $code .= '<?php /* '.$childNode->getValue().' */ ?>';
         }
 
         return $code;
     }
 
     /**
-     * Transpiles a directive node
+     * Transpiles a directive node.
      *
      * @param Node $node The node to transpile
-     * @return string The transpiled node
+     *
      * @throws RuntimeException Thrown if the directive could not be transpiled
+     *
+     * @return string The transpiled node
      */
     protected function transpileDirectiveNode(Node $node) : string
     {
@@ -259,9 +264,10 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * Transpiles an expression node
+     * Transpiles an expression node.
      *
      * @param Node $node The node to transpile
+     *
      * @return string The transpiled node
      */
     protected function transpileExpressionNode(Node $node) : string
@@ -270,11 +276,13 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * Transpiles all nodes in an abstract syntax tree
+     * Transpiles all nodes in an abstract syntax tree.
      *
      * @param AbstractSyntaxTree $ast The abstract syntax tree to transpile
-     * @return string The view with transpiled nodes
+     *
      * @throws RuntimeException Thrown if the nodes could not be transpiled
+     *
+     * @return string The view with transpiled nodes
      */
     protected function transpileNodes(AbstractSyntaxTree $ast) : string
     {
@@ -328,9 +336,10 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * Transpiles a sanitized tag node
+     * Transpiles a sanitized tag node.
      *
      * @param Node $node The node to transpile
+     *
      * @return string The transpiled node
      */
     protected function transpileSanitizedTagNode(Node $node) : string
@@ -338,16 +347,17 @@ class Transpiler implements ITranspiler
         $code = '';
 
         foreach ($node->getChildren() as $childNode) {
-            $code .= '<?php echo $__opulenceFortuneTranspiler->sanitize(' . $childNode->getValue() . '); ?>';
+            $code .= '<?php echo $__opulenceFortuneTranspiler->sanitize('.$childNode->getValue().'); ?>';
         }
 
         return $code;
     }
 
     /**
-     * Transpiles an unsanitized tag node
+     * Transpiles an unsanitized tag node.
      *
      * @param Node $node The node to transpile
+     *
      * @return string The transpiled node
      */
     protected function transpileUnsanitizedTagNode(Node $node) : string
@@ -355,7 +365,7 @@ class Transpiler implements ITranspiler
         $code = '';
 
         foreach ($node->getChildren() as $childNode) {
-            $code .= '<?php echo ' . $childNode->getValue() . '; ?>';
+            $code .= '<?php echo '.$childNode->getValue().'; ?>';
         }
 
         return $code;

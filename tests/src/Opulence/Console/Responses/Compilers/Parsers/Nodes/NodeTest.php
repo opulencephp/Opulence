@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers\Parsers\Nodes;
 
 use Opulence\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks\Node;
 
 /**
- * Tests the response node
+ * Tests the response node.
  */
 class NodeTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests adding a child
+     * Tests adding a child.
      */
     public function testAddingChild()
     {
@@ -28,7 +30,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if nodes are leaves
+     * Tests checking if nodes are leaves.
      */
     public function testCheckingIfLeaves()
     {
@@ -40,7 +42,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if nodes are roots
+     * Tests checking if nodes are roots.
      */
     public function testCheckingIfRoots()
     {
@@ -52,7 +54,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the value
+     * Tests getting the value.
      */
     public function testGettingValue()
     {

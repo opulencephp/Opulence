@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses;
 
 /**
- * Tests the silent response
+ * Tests the silent response.
  */
 class SilentResponseTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class SilentResponseTest extends \PHPUnit\Framework\TestCase
     private $response = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class SilentResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests writing without a new line
+     * Tests writing without a new line.
      */
     public function testWrite()
     {
@@ -35,7 +37,7 @@ class SilentResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests writing with a new line
+     * Tests writing with a new line.
      */
     public function testWriteln()
     {

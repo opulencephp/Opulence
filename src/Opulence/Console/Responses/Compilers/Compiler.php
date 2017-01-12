@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers;
 
 use InvalidArgumentException;
@@ -16,7 +18,7 @@ use Opulence\Console\Responses\Compilers\Parsers\Nodes\Node;
 use RuntimeException;
 
 /**
- * Defines an element compiler
+ * Defines an element compiler.
  */
 class Compiler implements ICompiler
 {
@@ -30,7 +32,7 @@ class Compiler implements ICompiler
     private $isStyled = true;
 
     /**
-     * @param ILexer $lexer The lexer to use
+     * @param ILexer  $lexer  The lexer to use
      * @param IParser $parser The parser to use
      */
     public function __construct(ILexer $lexer, IParser $parser)
@@ -42,7 +44,7 @@ class Compiler implements ICompiler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function compile(string $message) : string
     {
@@ -61,7 +63,7 @@ class Compiler implements ICompiler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerElement(string $name, Style $style)
     {
@@ -69,7 +71,7 @@ class Compiler implements ICompiler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setStyled(bool $isStyled)
     {
@@ -77,12 +79,14 @@ class Compiler implements ICompiler
     }
 
     /**
-     * Recursively compiles a node and its children
+     * Recursively compiles a node and its children.
      *
      * @param Node $node The node to compile
-     * @return string The compiled node
-     * @throws RuntimeException Thrown if there was an error compiling the node
+     *
+     * @throws RuntimeException         Thrown if there was an error compiling the node
      * @throws InvalidArgumentException Thrown if there is no matching element for a particular tag
+     *
+     * @return string The compiled node
      */
     private function compileNode(Node $node) : string
     {

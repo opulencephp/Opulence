@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Commands;
 
 use Opulence\Console\Responses\IResponse;
 
 /**
- * Defines the version command
+ * Defines the version command.
  */
 class VersionCommand extends Command
 {
     /** @var string The template for the output */
-    private static $template = <<<EOF
+    private static $template = <<<'EOF'
 <info>Opulence Console {{version}}</info>
 EOF;
     /** @var string The version number of the application */
@@ -33,7 +35,7 @@ EOF;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function define()
     {
@@ -42,7 +44,7 @@ EOF;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doExecute(IResponse $response)
     {

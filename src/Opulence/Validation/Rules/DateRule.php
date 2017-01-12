@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use DateTime;
 use InvalidArgumentException;
 
 /**
- * Defines the date rule
+ * Defines the date rule.
  */
 class DateRule implements IRuleWithArgs
 {
@@ -20,7 +22,7 @@ class DateRule implements IRuleWithArgs
     protected $formats = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSlug() : string
     {
@@ -28,7 +30,7 @@ class DateRule implements IRuleWithArgs
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function passes($value, array $allValues = []) : bool
     {
@@ -44,7 +46,7 @@ class DateRule implements IRuleWithArgs
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setArgs(array $args)
     {
@@ -52,6 +54,6 @@ class DateRule implements IRuleWithArgs
             throw new InvalidArgumentException('Must pass an expected date format');
         }
 
-        $this->formats = (array)$args[0];
+        $this->formats = (array) $args[0];
     }
 }

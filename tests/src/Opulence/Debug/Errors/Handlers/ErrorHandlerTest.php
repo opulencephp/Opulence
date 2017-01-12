@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Debug\Errors\Handlers;
 
 use ErrorException;
@@ -13,7 +15,7 @@ use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
 use Psr\Log\LoggerInterface;
 
 /**
- * Tests the error handler
+ * Tests the error handler.
  */
 class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
 {
@@ -23,7 +25,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     private $logger = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -34,7 +36,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Does some housekeeping before ending the tests
+     * Does some housekeeping before ending the tests.
      */
     public function tearDown()
     {
@@ -42,7 +44,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that default levels are not thrown
+     * Tests that default levels are not thrown.
      */
     public function testDefaultLevelsAreNotThrown()
     {
@@ -52,7 +54,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the error handler is set
+     * Tests that the error handler is set.
      */
     public function testErrorHandlerIsSet()
     {
@@ -63,7 +65,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an error is converted to an exception
+     * Tests that an error is converted to an exception.
      */
     public function testErrorIsConvertedToException()
     {
@@ -85,7 +87,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the logger is never used by default
+     * Tests that the logger is never used by default.
      */
     public function testLoggerIsNeverUsedByDefault()
     {
@@ -97,7 +99,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that specified levels are logged
+     * Tests that specified levels are logged.
      */
     public function testSpecifiedLevelsAreLogged()
     {
@@ -109,7 +111,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that specified levels are thrown
+     * Tests that specified levels are thrown.
      */
     public function testSpecifiedLevelsAreThrown()
     {
@@ -119,10 +121,11 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Gets the error handler
+     * Gets the error handler.
      *
      * @param int|null $loggedErrors The logged errors
      * @param int|null $thrownErrors The errors that are converted to exceptions
+     *
      * @return ErrorHandler The handler to use in tests
      */
     private function getErrorHandler($loggedErrors = null, $thrownErrors = null)

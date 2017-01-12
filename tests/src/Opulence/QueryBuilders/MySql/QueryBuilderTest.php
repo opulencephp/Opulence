@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\MySql;
 
 /**
- * Tests the query builder
+ * Tests the query builder.
  */
 class QueryBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests that the query builder returns a DeleteQuery when we call delete()
+     * Tests that the query builder returns a DeleteQuery when we call delete().
      */
     public function testThatDeleteReturnsDeleteQueryBuilder()
     {
@@ -26,7 +28,7 @@ class QueryBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the query builder returns a InsertQuery when we call insert()
+     * Tests that the query builder returns a InsertQuery when we call insert().
      */
     public function testThatInsertReturnsInsertQueryBuilder()
     {
@@ -38,7 +40,7 @@ class QueryBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the query builder returns a SelectQuery when we call select()
+     * Tests that the query builder returns a SelectQuery when we call select().
      */
     public function testThatSelectReturnsSelectQueryBuilder()
     {
@@ -50,7 +52,7 @@ class QueryBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the query builder returns a UpdateQuery when we call update()
+     * Tests that the query builder returns a UpdateQuery when we call update().
      */
     public function testThatUpdateReturnsUpdateQueryBuilder()
     {

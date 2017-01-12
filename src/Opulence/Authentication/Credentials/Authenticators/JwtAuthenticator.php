@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Credentials\Authenticators;
 
 use Opulence\Authentication\Credentials\ICredential;
@@ -19,7 +21,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContext;
 
 /**
- * Defines the JWT authenticator
+ * Defines the JWT authenticator.
  */
 class JwtAuthenticator implements IAuthenticator
 {
@@ -31,7 +33,7 @@ class JwtAuthenticator implements IAuthenticator
     protected $signedJwt = null;
 
     /**
-     * @param JwtVerifier $jwtVerifier The JWT verifier
+     * @param JwtVerifier         $jwtVerifier         The JWT verifier
      * @param VerificationContext $verificationContext The verification context to use
      */
     public function __construct(JwtVerifier $jwtVerifier, VerificationContext $verificationContext)
@@ -41,7 +43,7 @@ class JwtAuthenticator implements IAuthenticator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null) : bool
     {
@@ -74,10 +76,11 @@ class JwtAuthenticator implements IAuthenticator
     }
 
     /**
-     * Gets a subject from a JWT
+     * Gets a subject from a JWT.
      *
-     * @param SignedJwt $jwt The signed JWT
+     * @param SignedJwt   $jwt        The signed JWT
      * @param ICredential $credential The credential
+     *
      * @return ISubject The subject
      */
     protected function getSubjectFromJwt(SignedJwt $jwt, ICredential $credential) : ISubject

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\Signatures\Factories;
 
 use InvalidArgumentException;
@@ -15,18 +17,20 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 use Opulence\Authentication\Tokens\Signatures\RsaSsaPkcsSigner;
 
 /**
- * Defines a signer factory
+ * Defines a signer factory.
  */
 class SignerFactory
 {
     /**
-     * Creates a signer with the input algorithm
+     * Creates a signer with the input algorithm.
      *
-     * @param string $algorithm The algorithm to use (one of the Algorithms constants)
-     * @param string|resource $publicKey The public key to sign data with
+     * @param string               $algorithm  The algorithm to use (one of the Algorithms constants)
+     * @param string|resource      $publicKey  The public key to sign data with
      * @param string|resource|null $privateKey The private key to sign data with (required for asymmetric algorithms)
-     * @return ISigner The signer
+     *
      * @throws InvalidArgumentException Thrown if the keys are not in a valid format
+     *
+     * @return ISigner The signer
      */
     public function createSigner(string $algorithm, $publicKey, $privateKey = null) : ISigner
     {
@@ -46,9 +50,10 @@ class SignerFactory
     }
 
     /**
-     * Gets whether or not an algorithm is symmetric
+     * Gets whether or not an algorithm is symmetric.
      *
      * @param string $algorithm The algorithm to check
+     *
      * @return bool True if the algorithm is symmetric, otherwise false
      */
     private function algorithmIsSymmetric(string $algorithm) : bool

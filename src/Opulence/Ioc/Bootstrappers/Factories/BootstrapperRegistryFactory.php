@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc\Bootstrappers\Factories;
 
 use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
@@ -14,7 +16,7 @@ use Opulence\Ioc\Bootstrappers\IBootstrapperResolver;
 use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
 
 /**
- * Defines the bootstrapper registry factory
+ * Defines the bootstrapper registry factory.
  */
 class BootstrapperRegistryFactory implements IBootstrapperRegistryFactory
 {
@@ -30,7 +32,7 @@ class BootstrapperRegistryFactory implements IBootstrapperRegistryFactory
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createBootstrapperRegistry(array $bootstrapperClasses) : IBootstrapperRegistry
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Console\Commands\Mocks;
 
 use Opulence\Console\Commands\Command;
@@ -15,12 +17,12 @@ use Opulence\Console\Responses\IResponse;
 use Opulence\Console\StatusCodes;
 
 /**
- * Mocks a command that returns a different status code depending on the options
+ * Mocks a command that returns a different status code depending on the options.
  */
 class StatusCodeCommand extends Command
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function define()
     {
@@ -36,10 +38,10 @@ class StatusCodeCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doExecute(IResponse $response)
     {
-        return (int)$this->getOptionValue('code');
+        return (int) $this->getOptionValue('code');
     }
 }

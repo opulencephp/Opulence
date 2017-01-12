@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm\ChangeTracking;
 
 use Opulence\Orm\OrmException;
 use ReflectionClass;
 
 /**
- * Defines the change tracker
+ * Defines the change tracker.
  */
 class ChangeTracker implements IChangeTracker
 {
@@ -20,14 +22,14 @@ class ChangeTracker implements IChangeTracker
     protected $objectHashIdsToOriginalData = [];
     /**
      * The mapping of class names to comparison functions
-     * Each function should return true if the entities are the same, otherwise false
+     * Each function should return true if the entities are the same, otherwise false.
      *
      * @var callable[]
      */
     protected $comparators = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hasChanged($entity) : bool
     {
@@ -48,7 +50,7 @@ class ChangeTracker implements IChangeTracker
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerComparator(string $className, callable $comparator)
     {
@@ -56,7 +58,7 @@ class ChangeTracker implements IChangeTracker
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function startTracking($entity)
     {
@@ -65,7 +67,7 @@ class ChangeTracker implements IChangeTracker
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function stopTracking($entity)
     {
@@ -73,7 +75,7 @@ class ChangeTracker implements IChangeTracker
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function stopTrackingAll()
     {
@@ -81,9 +83,10 @@ class ChangeTracker implements IChangeTracker
     }
 
     /**
-     * Checks to see if an entity has changed using a comparison function
+     * Checks to see if an entity has changed using a comparison function.
      *
      * @param object $entity The entity to check for changes
+     *
      * @return bool True if the entity has changed, otherwise false
      */
     protected function hasChangedUsingComparisonFunction($entity) : bool
@@ -95,9 +98,10 @@ class ChangeTracker implements IChangeTracker
     }
 
     /**
-     * Checks to see if an entity has changed using reflection
+     * Checks to see if an entity has changed using reflection.
      *
      * @param object $entity The entity to check for changes
+     *
      * @return bool True if the entity has changed, otherwise false
      */
     protected function hasChangedUsingReflection($entity) : bool

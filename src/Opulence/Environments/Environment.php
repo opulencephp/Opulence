@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Environments;
 
 /**
- * Defines an environment
+ * Defines an environment.
  */
 class Environment
 {
@@ -23,10 +25,11 @@ class Environment
     const DEVELOPMENT = 'development';
 
     /**
-     * Gets the value of an environment variable
+     * Gets the value of an environment variable.
      *
-     * @param string $name The name of the environment variable to get
-     * @param mixed $default The default value if none existed
+     * @param string $name    The name of the environment variable to get
+     * @param mixed  $default The default value if none existed
+     *
      * @return string|null The value of the environment value if one was set, otherwise null
      */
     public static function getVar(string $name, $default = null)
@@ -47,7 +50,7 @@ class Environment
     }
 
     /**
-     * Gets whether or not the application is running in a console
+     * Gets whether or not the application is running in a console.
      *
      * @return bool True if the application is running in a console, otherwise false
      */
@@ -57,10 +60,10 @@ class Environment
     }
 
     /**
-     * Sets an environment variable, but does not overwrite existing variables
+     * Sets an environment variable, but does not overwrite existing variables.
      *
-     * @param string $name The name of the environment variable to set
-     * @param mixed $value The value
+     * @param string $name  The name of the environment variable to set
+     * @param mixed  $value The value
      */
     public static function setVar(string $name, $value)
     {

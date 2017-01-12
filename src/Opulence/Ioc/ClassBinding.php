@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc;
 
 /**
- * Defines a class binding
+ * Defines a class binding.
  */
 class ClassBinding implements IBinding
 {
@@ -21,9 +23,9 @@ class ClassBinding implements IBinding
     private $resolveAsSingleton = false;
 
     /**
-     * @param string $concreteClass The name of the concrete class
-     * @param array $constructorPrimitives The list of constructor primitives
-     * @param bool $resolveAsSingleton Whether or not to resolve as a singleton
+     * @param string $concreteClass         The name of the concrete class
+     * @param array  $constructorPrimitives The list of constructor primitives
+     * @param bool   $resolveAsSingleton    Whether or not to resolve as a singleton
      */
     public function __construct(string $concreteClass, array $constructorPrimitives, bool $resolveAsSingleton)
     {

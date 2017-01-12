@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers;
 
 /**
- * Tests the mock compiler
+ * Tests the mock compiler.
  */
 class MockCompilerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests compiling a styled message
+     * Tests compiling a styled message.
      */
     public function testCompilingStyledMessage()
     {
@@ -24,7 +26,7 @@ class MockCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling an unstyled message
+     * Tests compiling an unstyled message.
      */
     public function testCompilingUnstyledMessage()
     {

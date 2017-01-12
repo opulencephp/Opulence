@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Debug\Exceptions\Handlers;
 
 use Exception;
@@ -13,7 +15,7 @@ use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 /**
- * Tests the exception handler
+ * Tests the exception handler.
  */
 class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
 {
@@ -25,7 +27,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     private $renderer = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -36,7 +38,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Does some housekeeping before ending the tests
+     * Does some housekeeping before ending the tests.
      */
     public function tearDown()
     {
@@ -44,7 +46,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that exception is reported and rendered
+     * Tests that exception is reported and rendered.
      */
     public function testExceptionIsReportedAndRendered()
     {
@@ -59,7 +61,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that exceptions are not logged when told not to
+     * Tests that exceptions are not logged when told not to.
      */
     public function testExceptionNotLoggedWhenToldNotTo()
     {

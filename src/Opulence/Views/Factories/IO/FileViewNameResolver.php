@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Factories\IO;
 
 use InvalidArgumentException;
 
 /**
- * Defines the view name resolver that uses file system files to store views
+ * Defines the view name resolver that uses file system files to store views.
  */
 class FileViewNameResolver implements IViewNameResolver
 {
@@ -21,7 +23,7 @@ class FileViewNameResolver implements IViewNameResolver
     protected $extensions = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerExtension(string $extension, int $priority = -1)
     {
@@ -29,7 +31,7 @@ class FileViewNameResolver implements IViewNameResolver
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerPath(string $path, int $priority = -1)
     {
@@ -37,7 +39,7 @@ class FileViewNameResolver implements IViewNameResolver
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function resolve(string $name) : string
     {
@@ -68,10 +70,11 @@ class FileViewNameResolver implements IViewNameResolver
     }
 
     /**
-     * Gets whether or not a name has an extension
+     * Gets whether or not a name has an extension.
      *
-     * @param string $name The name to check
-     * @param array $sortedExtensions The list of sorted extensions to check against
+     * @param string $name             The name to check
+     * @param array  $sortedExtensions The list of sorted extensions to check against
+     *
      * @return bool True if the name has an extension, otherwise false
      */
     protected function nameHasExtension(string $name, array $sortedExtensions) : bool
@@ -88,9 +91,10 @@ class FileViewNameResolver implements IViewNameResolver
     }
 
     /**
-     * Sorts a list whose values are priorities
+     * Sorts a list whose values are priorities.
      *
      * @param array $list The list to sort
+     *
      * @return array The sorted list
      */
     protected function sortByPriority(array $list) : array

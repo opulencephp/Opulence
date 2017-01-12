@@ -1,21 +1,23 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm\Ids\Accessors;
 
 use Opulence\Orm\IEntity;
 use Opulence\Orm\OrmException;
 use Opulence\Tests\Mocks\User;
-use Opulence\Tests\Orm\Ids\Accessors\Mocks\Foo;
 use Opulence\Tests\Orm\Ids\Accessors\Mocks\Bar;
+use Opulence\Tests\Orm\Ids\Accessors\Mocks\Foo;
 
 /**
- * Tests the Id accessor registry
+ * Tests the Id accessor registry.
  */
 class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
 {
@@ -25,7 +27,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     private $entity1 = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -33,11 +35,11 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
         $this->registry->registerIdAccessors(
             User::class,
             function ($user) {
-                /** @var User $user */
+                /* @var User $user */
                 return $user->getId();
             },
             function ($user, $id) {
-                /** @var User $user */
+                /* @var User $user */
                 $user->setId($id);
             }
         );
@@ -45,7 +47,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the entity interface's accessors are automatically set
+     * Tests that the entity interface's accessors are automatically set.
      */
     public function testEntityInterfaceAccessorsAutomaticallySet()
     {
@@ -65,7 +67,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an entity Id
+     * Tests getting an entity Id.
      */
     public function testGettingEntityId()
     {
@@ -73,7 +75,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an entity Id without registering a getter
+     * Tests getting an entity Id without registering a getter.
      */
     public function testGettingEntityIdWithoutRegisteringGetter()
     {
@@ -86,7 +88,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the Id with reflection for a non-existent property
+     * Tests getting the Id with reflection for a non-existent property.
      */
     public function testGettingIdWithReflectionForNonExistentProperty()
     {
@@ -96,7 +98,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests reflection accessors
+     * Tests reflection accessors.
      */
     public function testReflectionAccessors()
     {
@@ -107,7 +109,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests reflection accessors
+     * Tests reflection accessors.
      */
     public function testReflectionAccessorsWithTwoClasses()
     {
@@ -121,7 +123,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering an array of class names
+     * Tests registering an array of class names.
      */
     public function testRegisteringArrayOfClassNames()
     {
@@ -143,7 +145,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
             return 123;
         };
         $setter = function ($entity, $id) {
-            /** @var User $entity */
+            /* @var User $entity */
             $entity->setId($id);
         };
         $this->registry->registerIdAccessors(['FooEntity', 'BarEntity'], $getter, $setter);
@@ -154,7 +156,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting an entity Id
+     * Tests setting an entity Id.
      */
     public function testSettingEntityId()
     {
@@ -163,7 +165,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting an entity Id without registering a setter
+     * Tests setting an entity Id without registering a setter.
      */
     public function testSettingEntityIdWithoutRegisteringGetter()
     {
@@ -176,7 +178,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the Id with reflection for a non-existent property
+     * Tests setting the Id with reflection for a non-existent property.
      */
     public function testSettingIdWithReflectionForNonExistentProperty()
     {

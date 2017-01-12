@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Applications\Tasks\Dispatchers;
 
 use Opulence\Applications\Tasks\TaskTypes;
 
 /**
- * Tests the task dispatcher
+ * Tests the task dispatcher.
  */
 class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
     private $dispatcher = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -37,7 +39,7 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering post-shutdown tasks
+     * Tests registering post-shutdown tasks.
      */
     public function testRegisteringPostShutdownTask()
     {
@@ -50,7 +52,7 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering post-start tasks
+     * Tests registering post-start tasks.
      */
     public function testRegisteringPostStartTask()
     {
@@ -63,7 +65,7 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering pre-shutdown tasks
+     * Tests registering pre-shutdown tasks.
      */
     public function testRegisteringPreShutdownTask()
     {
@@ -76,7 +78,7 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering pre-start tasks
+     * Tests registering pre-start tasks.
      */
     public function testRegisteringPreStartTask()
     {

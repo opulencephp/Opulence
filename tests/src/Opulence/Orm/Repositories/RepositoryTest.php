@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm\Repositories;
 
 use Opulence\Orm\ChangeTracking\ChangeTracker;
@@ -21,7 +23,7 @@ use Opulence\Tests\Mocks\User;
 use Opulence\Tests\Orm\DataMappers\Mocks\SqlDataMapper;
 
 /**
- * Tests the repository class
+ * Tests the repository class.
  */
 class RepositoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -37,7 +39,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     private $repo = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -45,11 +47,11 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         $idAccessorRegistry->registerIdAccessors(
             User::class,
             function ($user) {
-                /** @var User $user */
+                /* @var User $user */
                 return $user->getId();
             },
             function ($user, $id) {
-                /** @var User $user */
+                /* @var User $user */
                 $user->setId($id);
             }
         );
@@ -77,7 +79,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an entity
+     * Tests adding an entity.
      */
     public function testAddingEntity()
     {
@@ -87,7 +89,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests deleting an entity
+     * Tests deleting an entity.
      */
     public function testDeletingEntity()
     {
@@ -100,7 +102,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting all the entities
+     * Tests getting all the entities.
      */
     public function testGettingAll()
     {
@@ -111,7 +113,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting all the entities after adding them in different transactions
+     * Tests getting all the entities after adding them in different transactions.
      */
     public function testGettingAllAfterAddingEntitiesInDifferentTransactions()
     {
@@ -123,7 +125,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an entity by Id
+     * Tests getting an entity by Id.
      */
     public function testGettingById()
     {
@@ -133,7 +135,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the repo and unit of work to make sure the same instance of an already-managed entity is returned by getAll
+     * Tests the repo and unit of work to make sure the same instance of an already-managed entity is returned by getAll.
      */
     public function testGettingEntityByIdAndThenAllEntities()
     {
@@ -163,7 +165,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an entity that doesn't exist by Id
+     * Tests getting an entity that doesn't exist by Id.
      */
     public function testGettingEntityThatDoesNotExistById()
     {
@@ -172,7 +174,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an entity that's in the data mapper but not the repo
+     * Tests getting an entity that's in the data mapper but not the repo.
      */
     public function testGettingEntityThatExistsInDataMapperButNotRepo()
     {

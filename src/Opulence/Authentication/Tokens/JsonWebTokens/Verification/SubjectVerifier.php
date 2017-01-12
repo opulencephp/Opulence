@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 
 /**
- * Defines the subject verifier
+ * Defines the subject verifier.
  */
 class SubjectVerifier implements IVerifier
 {
@@ -27,7 +29,7 @@ class SubjectVerifier implements IVerifier
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function verify(SignedJwt $jwt, string &$error = null) : bool
     {

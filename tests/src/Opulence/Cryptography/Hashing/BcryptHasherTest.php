@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cryptography\Hashing;
 
 /**
- * Tests the Bcrypt hasher
+ * Tests the Bcrypt hasher.
  */
 class BcryptHasherTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class BcryptHasherTest extends \PHPUnit\Framework\TestCase
     private $hasher = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class BcryptHasherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the default cost
+     * Tests getting the default cost.
      */
     public function testGettingDefaultCost()
     {
@@ -33,7 +35,7 @@ class BcryptHasherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a hash that doesn't need to be rehashed
+     * Tests a hash that doesn't need to be rehashed.
      */
     public function testHashThatDoesNotNeedToBeRehashed()
     {
@@ -42,7 +44,7 @@ class BcryptHasherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a hash that needs to be rehashed
+     * Tests a hash that needs to be rehashed.
      */
     public function testHashThatNeedsToBeRehashed()
     {
@@ -51,7 +53,7 @@ class BcryptHasherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests verifying a correct hash
+     * Tests verifying a correct hash.
      */
     public function testVerifyingCorrectHash()
     {
@@ -60,7 +62,7 @@ class BcryptHasherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests verifying a correct hash with a pepper
+     * Tests verifying a correct hash with a pepper.
      */
     public function testVerifyingCorrectHashWithPepper()
     {
@@ -69,7 +71,7 @@ class BcryptHasherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests verifying an incorrect hash
+     * Tests verifying an incorrect hash.
      */
     public function testVerifyingIncorrectHash()
     {
@@ -78,7 +80,7 @@ class BcryptHasherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests verifying an incorrect hash with a pepper
+     * Tests verifying an incorrect hash with a pepper.
      */
     public function testVerifyingIncorrectHashWithPepper()
     {

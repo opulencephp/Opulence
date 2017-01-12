@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\Adapters\Pdo;
 
 use Opulence\Tests\Databases\Adapters\Pdo\Mocks\Statement;
 use PDO;
 
 /**
- * Tests the PDO statement
+ * Tests the PDO statement.
  */
 class StatementTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests binding an invalid associative array
+     * Tests binding an invalid associative array.
      */
     public function testBindingInvalidAssociativeArray()
     {
@@ -27,7 +29,7 @@ class StatementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests binding an invalid indexed array
+     * Tests binding an invalid indexed array.
      */
     public function testBindingInvalidIndexedArray()
     {
@@ -37,7 +39,7 @@ class StatementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests binding a valid associative array
+     * Tests binding a valid associative array.
      */
     public function testBindingValidAssociativeArray()
     {
@@ -47,7 +49,7 @@ class StatementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests binding a valid indexed array
+     * Tests binding a valid indexed array.
      */
     public function testBindingValidIndexedArray()
     {

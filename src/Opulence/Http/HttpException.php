@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http;
 
 use Exception;
 
 /**
- * Defines an exception that is thrown by an HTTP component
+ * Defines an exception that is thrown by an HTTP component.
  */
 class HttpException extends Exception
 {
@@ -21,9 +23,10 @@ class HttpException extends Exception
     private $headers = [];
 
     /**
-     * @inheritdoc
-     * @param int $statusCode The HTTP status code
-     * @param array $headers The HTTP headers
+     * {@inheritdoc}
+     *
+     * @param int   $statusCode The HTTP status code
+     * @param array $headers    The HTTP headers
      */
     public function __construct(
         int $statusCode,

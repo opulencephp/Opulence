@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Caching;
 
 use DateTime;
@@ -14,7 +16,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
 /**
- * Defines the file cache for compiled views
+ * Defines the file cache for compiled views.
  */
 class FileCache implements ICache
 {
@@ -28,10 +30,10 @@ class FileCache implements ICache
     private $gcDivisor = self::DEFAULT_GC_DIVISOR;
 
     /**
-     * @param string|null $path The path to store the cached views at, or null if the path is not yet set
-     * @param int $lifetime The number of seconds cached views should live
-     * @param int $gcChance The chance (out of the total) that garbage collection will be run
-     * @param int $gcDivisor The number the chance will be divided by to calculate the probability
+     * @param string|null $path      The path to store the cached views at, or null if the path is not yet set
+     * @param int         $lifetime  The number of seconds cached views should live
+     * @param int         $gcChance  The chance (out of the total) that garbage collection will be run
+     * @param int         $gcDivisor The number the chance will be divided by to calculate the probability
      */
     public function __construct(
         string $path = null,
@@ -48,7 +50,7 @@ class FileCache implements ICache
     }
 
     /**
-     * Performs some garbage collection
+     * Performs some garbage collection.
      */
     public function __destruct()
     {
@@ -58,7 +60,7 @@ class FileCache implements ICache
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -68,7 +70,7 @@ class FileCache implements ICache
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function gc()
     {
@@ -80,19 +82,19 @@ class FileCache implements ICache
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get(IView $view, bool $checkVars = false)
     {
         if (!$this->has($view, $checkVars)) {
-            return null;
+            return;
         }
 
         return file_get_contents($this->getViewPath($view, $checkVars));
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function has(IView $view, bool $checkVars = false) : bool
     {
@@ -118,7 +120,7 @@ class FileCache implements ICache
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function set(IView $view, string $compiledContents, bool $checkVars = false)
     {
@@ -128,7 +130,7 @@ class FileCache implements ICache
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setGCChance(int $chance, int $divisor = 100)
     {
@@ -151,7 +153,7 @@ class FileCache implements ICache
     }
 
     /**
-     * Gets whether or not caching is enabled
+     * Gets whether or not caching is enabled.
      *
      * @return bool True if caching is enabled, otherwise false
      */
@@ -161,9 +163,10 @@ class FileCache implements ICache
     }
 
     /**
-     * Gets a list of view file paths that appear
+     * Gets a list of view file paths that appear.
      *
      * @param string $path The path to search
+     *
      * @return array The list of view paths
      */
     private function getCompiledViewPaths(string $path) : array
@@ -190,10 +193,11 @@ class FileCache implements ICache
     }
 
     /**
-     * Gets path to cached view
+     * Gets path to cached view.
      *
-     * @param IView $view The view whose cached file path we want
-     * @param bool $checkVars Whether or not we want to also check for variable value equivalence when looking up cached views
+     * @param IView $view      The view whose cached file path we want
+     * @param bool  $checkVars Whether or not we want to also check for variable value equivalence when looking up cached views
+     *
      * @return string The path to the cached view
      */
     private function getViewPath(IView $view, bool $checkVars) : string
@@ -204,19 +208,20 @@ class FileCache implements ICache
             $data['v'] = $view->getVars();
         }
 
-        return $this->path . '/' . md5(http_build_query($data));
+        return $this->path.'/'.md5(http_build_query($data));
     }
 
     /**
-     * Checks whether or not a view path is expired
+     * Checks whether or not a view path is expired.
      *
      * @param string $viewPath The view path to check
+     *
      * @return bool True if the path is expired, otherwise false
      */
     private function isExpired(string $viewPath) : bool
     {
         $lastModified = DateTime::createFromFormat('U', filemtime($viewPath));
 
-        return $lastModified < new DateTime('-' . $this->lifetime . ' seconds');
+        return $lastModified < new DateTime('-'.$this->lifetime.' seconds');
     }
 }

@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests\Parsers;
 
 use Opulence\Console\Requests\Tokenizers\StringTokenizer;
 
 /**
- * Tests the string parser
+ * Tests the string parser.
  */
 class StringParserTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     private $parser = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,16 +29,16 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that backslashes are respected
+     * Tests that backslashes are respected.
      */
     public function testBackslashesAreRespected()
     {
-        $request = $this->parser->parse("foo bar\\baz");
-        $this->assertEquals(["bar\\baz"], $request->getArgumentValues());
+        $request = $this->parser->parse('foo bar\\baz');
+        $this->assertEquals(['bar\\baz'], $request->getArgumentValues());
     }
 
     /**
-     * Tests parsing argument and short option and long option
+     * Tests parsing argument and short option and long option.
      */
     public function testParsingArgumentShortOptionLongOption()
     {
@@ -48,7 +50,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing an array long option with an equals sign
+     * Tests parsing an array long option with an equals sign.
      */
     public function testParsingArrayLongOptionWithEqualsSign()
     {
@@ -59,7 +61,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing an array long option without an equals sign
+     * Tests parsing an array long option without an equals sign.
      */
     public function testParsingArrayLongOptionWithoutEqualsSign()
     {
@@ -70,7 +72,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing just a command name
+     * Tests parsing just a command name.
      */
     public function testParsingCommandName()
     {
@@ -81,7 +83,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing long option with equals sign
+     * Tests parsing long option with equals sign.
      */
     public function testParsingLongOptionWithEqualsSign()
     {
@@ -92,7 +94,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing long option without an equals sign
+     * Tests parsing long option without an equals sign.
      */
     public function testParsingLongOptionWithoutEqualsSign()
     {
@@ -103,7 +105,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing long option without an equals sign with an argument after
+     * Tests parsing long option without an equals sign with an argument after.
      */
     public function testParsingLongOptionWithoutEqualsSignWithArgumentAfter()
     {
@@ -114,7 +116,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing long option without an equals sign with quoted value
+     * Tests parsing long option without an equals sign with quoted value.
      */
     public function testParsingLongOptionWithoutEqualsSignWithQuotedValue()
     {
@@ -126,7 +128,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing multiple arguments
+     * Tests parsing multiple arguments.
      */
     public function testParsingMultipleArgument()
     {
@@ -137,7 +139,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing multiple separate short options
+     * Tests parsing multiple separate short options.
      */
     public function testParsingMultipleSeparateShortOptions()
     {
@@ -150,7 +152,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing multiple short options
+     * Tests parsing multiple short options.
      */
     public function testParsingMultipleShortOptions()
     {
@@ -163,7 +165,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing a single argument
+     * Tests parsing a single argument.
      */
     public function testParsingSingleArgument()
     {
@@ -174,7 +176,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing a single short option
+     * Tests parsing a single short option.
      */
     public function testParsingSingleShortOption()
     {
@@ -185,7 +187,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing two consecutive long options
+     * Tests parsing two consecutive long options.
      */
     public function testParsingTwoConsecutiveLongOptions()
     {

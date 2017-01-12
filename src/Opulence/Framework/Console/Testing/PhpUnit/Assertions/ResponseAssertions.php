@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Testing\PhpUnit\Assertions;
 
 use LogicException;
@@ -14,7 +16,7 @@ use Opulence\Console\StatusCodes;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Defines the console response assertions
+ * Defines the console response assertions.
  */
 class ResponseAssertions extends TestCase
 {
@@ -24,7 +26,7 @@ class ResponseAssertions extends TestCase
     protected $statusCode = -1;
 
     /**
-     * Asserts that the status code is an error
+     * Asserts that the status code is an error.
      *
      * @return self For method chaining
      */
@@ -36,7 +38,7 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the status code is fatal
+     * Asserts that the status code is fatal.
      *
      * @return self For method chaining
      */
@@ -48,7 +50,7 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the status code is OK
+     * Asserts that the status code is OK.
      *
      * @return self For method chaining
      */
@@ -60,7 +62,7 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the status code is a warning
+     * Asserts that the status code is a warning.
      *
      * @return self For method chaining
      */
@@ -72,9 +74,10 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the output is an expected value
+     * Asserts that the output is an expected value.
      *
      * @param string $expected The expected output
+     *
      * @return self For method chaining
      */
     public function outputEquals(string $expected) : self
@@ -86,10 +89,10 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Sets the response
+     * Sets the response.
      *
-     * @param StreamResponse $response The response
-     * @param int $statusCode The status code
+     * @param StreamResponse $response   The response
+     * @param int            $statusCode The status code
      */
     public function setResponse(StreamResponse $response, int $statusCode)
     {
@@ -98,9 +101,10 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the status code equals an expected value
+     * Asserts that the status code equals an expected value.
      *
      * @param int $expected The expected status code
+     *
      * @return self For method chaining
      */
     public function statusCodeEquals(int $expected) : self
@@ -113,7 +117,7 @@ class ResponseAssertions extends TestCase
 
     /**
      * Checks if the response was set
-     * Useful for making sure the response was set before making any assertions on it
+     * Useful for making sure the response was set before making any assertions on it.
      */
     private function checkResponseIsSet()
     {
@@ -123,10 +127,11 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Gets the output of the previous command
+     * Gets the output of the previous command.
+     *
+     * @throws LogicException Thrown if the response is not set
      *
      * @return string The output
-     * @throws LogicException Thrown if the response is not set
      */
     private function getOutput() : string
     {

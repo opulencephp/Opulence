@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\Signatures;
 
 use Opulence\Authentication\Tokens\ISignedToken;
 use Opulence\Authentication\Tokens\IUnsignedToken;
 
 /**
- * Tests the RSA SSA PKCS signer
+ * Tests the RSA SSA PKCS signer.
  */
 class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +24,7 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
     private $signedToken = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -37,7 +39,7 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the algorithm
+     * Tests getting the algorithm.
      */
     public function testGettingAlgorithm()
     {
@@ -46,22 +48,22 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests signing with asymmetric algorithms
+     * Tests signing with asymmetric algorithms.
      */
     public function testSigningWithAsymmetricAlgorithms()
     {
         $algorithms = [
             Algorithms::RSA_SHA256 => [OPENSSL_ALGO_SHA256, 'sha256'],
             Algorithms::RSA_SHA384 => [OPENSSL_ALGO_SHA384, 'sha384'],
-            Algorithms::RSA_SHA512 => [OPENSSL_ALGO_SHA512, 'sha512']
+            Algorithms::RSA_SHA512 => [OPENSSL_ALGO_SHA512, 'sha512'],
         ];
 
         foreach ($algorithms as $algorithm => $algorithmData) {
             $privateKey = openssl_pkey_new(
                 [
-                    'digest_alg' => $algorithmData[1],
+                    'digest_alg'       => $algorithmData[1],
                     'private_key_bits' => 1024,
-                    'private_key_type' => OPENSSL_KEYTYPE_RSA
+                    'private_key_type' => OPENSSL_KEYTYPE_RSA,
                 ]
             );
             $publicKey = openssl_pkey_get_details($privateKey);
@@ -73,14 +75,14 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests verifying asymmetric algorithms
+     * Tests verifying asymmetric algorithms.
      */
     public function testVerifyingAsymmetricAlgorithms()
     {
         $algorithms = [
             Algorithms::RSA_SHA256 => [OPENSSL_ALGO_SHA256, 'sha256'],
             Algorithms::RSA_SHA384 => [OPENSSL_ALGO_SHA384, 'sha384'],
-            Algorithms::RSA_SHA512 => [OPENSSL_ALGO_SHA512, 'sha512']
+            Algorithms::RSA_SHA512 => [OPENSSL_ALGO_SHA512, 'sha512'],
         ];
         $numVerified = 0;
         $numUnverified = 0;
@@ -88,9 +90,9 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
         foreach ($algorithms as $jwtAlgorithm => $algorithmData) {
             $privateKey = openssl_pkey_new(
                 [
-                    'digest_alg' => $algorithmData[1],
+                    'digest_alg'       => $algorithmData[1],
                     'private_key_bits' => 1024,
-                    'private_key_type' => OPENSSL_KEYTYPE_RSA
+                    'private_key_type' => OPENSSL_KEYTYPE_RSA,
                 ]
             );
             $publicKey = openssl_pkey_get_details($privateKey);
@@ -112,7 +114,7 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that verifying an empty signature returns false
+     * Tests that verifying an empty signature returns false.
      */
     public function testVerifyingEmptySignatureReturnsFalse()
     {

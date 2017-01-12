@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 /**
- * Defines the numeric rule
+ * Defines the numeric rule.
  */
 class NumericRule implements IRule
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSlug() : string
     {
@@ -22,7 +24,7 @@ class NumericRule implements IRule
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function passes($value, array $allValues = []) : bool
     {

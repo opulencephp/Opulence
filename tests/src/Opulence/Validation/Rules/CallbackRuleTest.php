@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
 use LogicException;
 
 /**
- * Tests the callback rule
+ * Tests the callback rule.
  */
 class CallbackRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests that the callback is executed
+     * Tests that the callback is executed.
      */
     public function testCallbackIsExecuted()
     {
@@ -34,7 +36,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the callback's return value is respected
+     * Tests that the callback's return value is respected.
      */
     public function testCallbackReturnValueIsRespected()
     {
@@ -53,7 +55,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the slug
+     * Tests getting the slug.
      */
     public function testGettingSlug()
     {
@@ -62,7 +64,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not setting the args before passes
+     * Tests not setting the args before passes.
      */
     public function testNotSettingArgBeforePasses()
     {
@@ -72,7 +74,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an empty arg array
+     * Tests passing an empty arg array.
      */
     public function testPassingEmptyArgArray()
     {
@@ -82,7 +84,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an invalid arg
+     * Tests passing an invalid arg.
      */
     public function testPassingInvalidArg()
     {

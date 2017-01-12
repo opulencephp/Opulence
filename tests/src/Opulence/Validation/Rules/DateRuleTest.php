@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use DateTime;
 use InvalidArgumentException;
 
 /**
- * Tests the date rule
+ * Tests the date rule.
  */
 class DateRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests that equal values pass
+     * Tests that equal values pass.
      */
     public function testEqualValuesPass()
     {
@@ -25,13 +27,13 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
         $format1 = 'F j';
         $format2 = 's:i:H d-m-Y';
         $rule->setArgs([$format1]);
-        $this->assertTrue($rule->passes((new DateTime)->format($format1)));
+        $this->assertTrue($rule->passes((new DateTime())->format($format1)));
         $rule->setArgs([[$format1, $format2]]);
-        $this->assertTrue($rule->passes((new DateTime)->format($format2)));
+        $this->assertTrue($rule->passes((new DateTime())->format($format2)));
     }
 
     /**
-     * Tests getting the slug
+     * Tests getting the slug.
      */
     public function testGettingSlug()
     {
@@ -40,7 +42,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an invalid arg type
+     * Tests passing an invalid arg type.
      */
     public function testInvalidArgType()
     {
@@ -50,7 +52,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an empty arg array
+     * Tests passing an empty arg array.
      */
     public function testPassingEmptyArgArray()
     {
@@ -60,7 +62,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that unequal values fail
+     * Tests that unequal values fail.
      */
     public function testUnequalValuesFail()
     {
@@ -68,8 +70,8 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
         $format1 = 'F j';
         $format2 = 's:i:H d-m-Y';
         $rule->setArgs([$format1]);
-        $this->assertFalse($rule->passes((new DateTime)->format('His')));
+        $this->assertFalse($rule->passes((new DateTime())->format('His')));
         $rule->setArgs([[$format1, $format2]]);
-        $this->assertFalse($rule->passes((new DateTime)->format('Y')));
+        $this->assertFalse($rule->passes((new DateTime())->format('Y')));
     }
 }

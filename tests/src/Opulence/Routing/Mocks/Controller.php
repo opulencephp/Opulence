@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Routing\Mocks;
 
 use Opulence\Http\HttpException;
@@ -13,16 +15,17 @@ use Opulence\Http\Responses\Response;
 use Opulence\Routing\Controller as BaseController;
 
 /**
- * Defines a mock controller for use in testing
+ * Defines a mock controller for use in testing.
  */
 class Controller extends BaseController
 {
     /**
-     * Mocks a method that takes in multiple parameters with some default values
+     * Mocks a method that takes in multiple parameters with some default values.
      *
-     * @param mixed $foo The first parameter
-     * @param mixed $bar The second parameter
+     * @param mixed $foo  The first parameter
+     * @param mixed $bar  The second parameter
      * @param mixed $blah The optional third parameter
+     *
      * @return Response The parameter names to their values
      */
     public function multipleParametersWithDefaultValues($foo, $bar, $blah = '724')
@@ -31,7 +34,7 @@ class Controller extends BaseController
     }
 
     /**
-     * Mocks a method that takes in no parameters
+     * Mocks a method that takes in no parameters.
      *
      * @return Response An empty string
      */
@@ -41,9 +44,10 @@ class Controller extends BaseController
     }
 
     /**
-     * Mocks a method that takes in a single parameter
+     * Mocks a method that takes in a single parameter.
      *
      * @param mixed $foo The parameter
+     *
      * @return Response The parameter name to its value
      */
     public function oneParameter($foo)
@@ -52,7 +56,7 @@ class Controller extends BaseController
     }
 
     /**
-     * Mocks a method that does not return anything
+     * Mocks a method that does not return anything.
      */
     public function returnsNothing()
     {
@@ -60,7 +64,7 @@ class Controller extends BaseController
     }
 
     /**
-     * Mocks a method that returns text
+     * Mocks a method that returns text.
      */
     public function returnsText()
     {
@@ -68,12 +72,13 @@ class Controller extends BaseController
     }
 
     /**
-     * Mocks a method that takes in several parameters
+     * Mocks a method that takes in several parameters.
      *
-     * @param mixed $foo The first parameter
-     * @param mixed $bar The second parameter
-     * @param mixed $baz The third parameter
+     * @param mixed $foo  The first parameter
+     * @param mixed $bar  The second parameter
+     * @param mixed $baz  The third parameter
      * @param mixed $blah The fourth parameter
+     *
      * @return Response The parameter names to their values
      */
     public function severalParameters($foo, $bar, $baz, $blah)
@@ -82,7 +87,7 @@ class Controller extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function showHttpError($statusCode)
     {
@@ -90,7 +95,7 @@ class Controller extends BaseController
     }
 
     /**
-     * Mocks a method that throws an HTTP exception
+     * Mocks a method that throws an HTTP exception.
      */
     public function throwsHttpException()
     {
@@ -98,10 +103,11 @@ class Controller extends BaseController
     }
 
     /**
-     * Mocks a method that takes in two parameters
+     * Mocks a method that takes in two parameters.
      *
      * @param mixed $foo The first parameter
      * @param mixed $bar The second parameter
+     *
      * @return Response The parameter names to their values
      */
     public function twoParameters($foo, $bar)
@@ -110,7 +116,7 @@ class Controller extends BaseController
     }
 
     /**
-     * Mocks a protected method for use in testing
+     * Mocks a protected method for use in testing.
      *
      * @return Response The name of the method
      */
@@ -120,7 +126,7 @@ class Controller extends BaseController
     }
 
     /**
-     * Mocks a private method for use in testing
+     * Mocks a private method for use in testing.
      *
      * @return Response The name of the method
      */

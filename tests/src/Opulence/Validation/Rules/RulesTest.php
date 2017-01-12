@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use BadMethodCallException;
@@ -16,7 +18,7 @@ use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
 
 /**
- * Tests the rules
+ * Tests the rules.
  */
 class RulesTest extends \PHPUnit\Framework\TestCase
 {
@@ -30,7 +32,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     private $errorTemplateCompiler = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -45,7 +47,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the alpha-numeric rule
+     * Tests the alpha-numeric rule.
      */
     public function testAlphaNumericRule()
     {
@@ -55,7 +57,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the alpha rule
+     * Tests the alpha rule.
      */
     public function testAlphaRule()
     {
@@ -65,7 +67,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the between rule
+     * Tests the between rule.
      */
     public function testBetweenRule()
     {
@@ -76,7 +78,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling an extension
+     * Tests calling an extension.
      */
     public function testCallingExtension()
     {
@@ -97,7 +99,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling an extension with args
+     * Tests calling an extension with args.
      */
     public function testCallingExtensionWithArgs()
     {
@@ -121,7 +123,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling non-existent extension
+     * Tests calling non-existent extension.
      */
     public function testCallingNonExistentExtension()
     {
@@ -134,7 +136,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that checking rules twice does not append errors
+     * Tests that checking rules twice does not append errors.
      */
     public function testCheckingRulesTwiceDoesNotAppendErrors()
     {
@@ -154,7 +156,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test that a conditional rule's rules' errors are added
+     * Test that a conditional rule's rules' errors are added.
      */
     public function testConditionalRulesErrorsAreAdded()
     {
@@ -194,12 +196,12 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $format1 = 'Y-m-d';
         $format2 = 'F j';
         $this->assertSame($this->rules, $this->rules->date([$format1, $format2]));
-        $this->assertTrue($this->rules->pass((new DateTime)->format($format1)));
-        $this->assertTrue($this->rules->pass((new DateTime)->format($format2)));
+        $this->assertTrue($this->rules->pass((new DateTime())->format($format1)));
+        $this->assertTrue($this->rules->pass((new DateTime())->format($format2)));
     }
 
     /**
-     * Tests the email rule
+     * Tests the email rule.
      */
     public function testEmailRule()
     {
@@ -208,7 +210,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the equals field rule
+     * Tests the equals field rule.
      */
     public function testEqualsFieldRule()
     {
@@ -226,7 +228,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown when nesting conditions
+     * Tests that an exception is thrown when nesting conditions.
      */
     public function testExceptionThrownWhenNestingConditions()
     {
@@ -238,7 +240,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the errors when there are none
+     * Tests getting the errors when there are none.
      */
     public function testGettingErrorsWhenThereAreNone()
     {
@@ -249,7 +251,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests halting the field validation does nothing on passing rules
+     * Tests halting the field validation does nothing on passing rules.
      */
     public function testHaltingFieldValidationDoesNothingOnPassingRules()
     {
@@ -285,7 +287,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests halting the field validation on failure
+     * Tests halting the field validation on failure.
      */
     public function testHaltingFieldValidationOnFailure()
     {
@@ -320,7 +322,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the IP address rule
+     * Tests the IP address rule.
      */
     public function testIPAddressRule()
     {
@@ -329,7 +331,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the in rule
+     * Tests the in rule.
      */
     public function testInRule()
     {
@@ -338,7 +340,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the integer rule
+     * Tests the integer rule.
      */
     public function testIntegerRule()
     {
@@ -347,7 +349,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the maximum rule
+     * Tests the maximum rule.
      */
     public function testMaxRule()
     {
@@ -357,7 +359,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the minimum rule
+     * Tests the minimum rule.
      */
     public function testMinRule()
     {
@@ -367,7 +369,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a non-required field passes all rules when empty
+     * Tests that a non-required field passes all rules when empty.
      */
     public function testNonRequiredFieldPassesAllRulesWhenEmpty()
     {
@@ -384,7 +386,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the not-in rule
+     * Tests the not-in rule.
      */
     public function testNotInRule()
     {
@@ -393,7 +395,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the numeric rule
+     * Tests the numeric rule.
      */
     public function testNumericRule()
     {
@@ -402,16 +404,16 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the regex rule
+     * Tests the regex rule.
      */
     public function testRegexRule()
     {
-        $this->assertSame($this->rules, $this->rules->regex("/^[a-z]{3}$/"));
+        $this->assertSame($this->rules, $this->rules->regex('/^[a-z]{3}$/'));
         $this->assertTrue($this->rules->pass('baz'));
     }
 
     /**
-     * Tests the required rule
+     * Tests the required rule.
      */
     public function testRequiredRule()
     {
@@ -420,7 +422,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that rule extensions in a condition are respected
+     * Tests that rule extensions in a condition are respected.
      */
     public function testRuleExtensionsInConditionAreRespected()
     {
@@ -443,7 +445,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that rules added after conditions are always respected
+     * Tests that rules added after conditions are always respected.
      */
     public function testRulesAddedAfterConditionAreAlwaysRespected()
     {
@@ -458,7 +460,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that rules added before conditions are always respected
+     * Tests that rules added before conditions are always respected.
      */
     public function testRulesAddedBeforeConditionAreAlwaysRespected()
     {
@@ -471,7 +473,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that rules in condition are respected
+     * Tests that rules in condition are respected.
      */
     public function testRulesInConditionAreRespected()
     {
@@ -484,7 +486,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that it passes with no rules
+     * Tests that it passes with no rules.
      */
     public function testsPassesWithNoRules()
     {

@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\ConnectionPools;
 
 use Opulence\Databases\Server;
 
 /**
- * Defines a single server implementation of the connection pool, which can be used for basic, non-master/slave setups
+ * Defines a single server implementation of the connection pool, which can be used for basic, non-master/slave setups.
  */
 class SingleServerConnectionPool extends ConnectionPool
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function setReadConnection(Server $preferredServer = null)
     {
@@ -28,7 +30,7 @@ class SingleServerConnectionPool extends ConnectionPool
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function setWriteConnection(Server $preferredServer = null)
     {

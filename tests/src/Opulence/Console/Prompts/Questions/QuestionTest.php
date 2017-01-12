@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Prompts\Questions;
 
 /**
- * Tests the console prompt question
+ * Tests the console prompt question.
  */
 class QuestionTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class QuestionTest extends \PHPUnit\Framework\TestCase
     private $question = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class QuestionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting the answer
+     * Tests formatting the answer.
      */
     public function testFormattingAnswer()
     {
@@ -33,7 +35,7 @@ class QuestionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the default response
+     * Tests getting the default response.
      */
     public function testGettingDefaultResponse()
     {
@@ -41,7 +43,7 @@ class QuestionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the question
+     * Tests getting the question.
      */
     public function testGettingQuestion()
     {

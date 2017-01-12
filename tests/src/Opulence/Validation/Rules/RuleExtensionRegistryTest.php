@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
 
 /**
- * Tests the rule extension registry
+ * Tests the rule extension registry.
  */
 class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     private $registry = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,21 +29,21 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a callback is converted to a rule
+     * Tests that a callback is converted to a rule.
      */
     public function testCallbackGetsConvertedToRule()
     {
         $rule = function () {
             return true;
         };
-        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
+        /* @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
         $this->registry->registerRuleExtension($rule, 'foo');
         $this->assertInstanceOf(CallbackRule::class, $this->registry->getRule('foo'));
         $this->assertTrue($this->registry->getRule('foo')->passes('bar'));
     }
 
     /**
-     * Tests checking if the registry has a rule
+     * Tests checking if the registry has a rule.
      */
     public function testCheckingIfRegistryHasRule()
     {
@@ -56,7 +58,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests an exception is thrown when no extension is found
+     * Tests an exception is thrown when no extension is found.
      */
     public function testExceptionThrownWhenNoExtensionExists()
     {
@@ -65,7 +67,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests an exception is thrown when registering an invalid rule
+     * Tests an exception is thrown when registering an invalid rule.
      */
     public function testExceptionThrownWhenRegisteringAnInvalidRule()
     {
@@ -74,7 +76,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a rule object
+     * Tests getting a rule object.
      */
     public function testGettingRuleObject()
     {
@@ -88,7 +90,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the slug is ignored if registering a rule object
+     * Tests that the slug is ignored if registering a rule object.
      */
     public function testSlugIgnoredIfRegisteringRuleObject()
     {

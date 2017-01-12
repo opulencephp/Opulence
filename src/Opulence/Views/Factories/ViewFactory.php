@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Factories;
 
 use InvalidArgumentException;
@@ -15,7 +17,7 @@ use Opulence\Views\IView;
 use Opulence\Views\View;
 
 /**
- * Defines the view factory
+ * Defines the view factory.
  */
 class ViewFactory implements IViewFactory
 {
@@ -28,7 +30,7 @@ class ViewFactory implements IViewFactory
 
     /**
      * @param IViewNameResolver $viewNameResolver The view name resolver used to get paths to views
-     * @param IViewReader $viewReader The view reader
+     * @param IViewReader       $viewReader       The view reader
      */
     public function __construct(IViewNameResolver $viewNameResolver, IViewReader $viewReader)
     {
@@ -37,7 +39,7 @@ class ViewFactory implements IViewFactory
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createView(string $name) : IView
     {
@@ -49,7 +51,7 @@ class ViewFactory implements IViewFactory
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hasView(string $name) : bool
     {
@@ -63,11 +65,11 @@ class ViewFactory implements IViewFactory
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBuilder($names, callable $callback)
     {
-        foreach ((array)$names as $name) {
+        foreach ((array) $names as $name) {
             if (!isset($this->builders[$name])) {
                 $this->builders[$name] = [];
             }
@@ -77,11 +79,12 @@ class ViewFactory implements IViewFactory
     }
 
     /**
-     * Runs the builders for a view (if there any)
+     * Runs the builders for a view (if there any).
      *
-     * @param string $name The name of the view file
+     * @param string $name         The name of the view file
      * @param string $resolvedPath The resolved path to the view file
-     * @param IView $view The view to run builders on
+     * @param IView  $view         The view to run builders on
+     *
      * @return IView The built view
      */
     protected function runBuilders(string $name, string $resolvedPath, IView $view) : IView
@@ -96,7 +99,7 @@ class ViewFactory implements IViewFactory
             $filename = $pathInfo['filename'];
             $basename = $pathInfo['basename'];
 
-            /**
+            /*
              * If there's a builder registered without the extension and it resolves to the correct view file path
              * Else if there's a builder registered with the extension and it resolves to the correct view file path
              */

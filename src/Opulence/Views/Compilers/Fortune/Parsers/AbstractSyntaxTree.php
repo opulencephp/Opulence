@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune\Parsers;
 
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\Node;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\RootNode;
 
 /**
- * Defines a view abstract syntax tree
+ * Defines a view abstract syntax tree.
  */
 class AbstractSyntaxTree
 {
@@ -27,7 +29,7 @@ class AbstractSyntaxTree
     }
 
     /**
-     * Clears all the non-root nodes
+     * Clears all the non-root nodes.
      */
     public function clearNodes()
     {
@@ -36,7 +38,7 @@ class AbstractSyntaxTree
     }
 
     /**
-     * Gets the current node
+     * Gets the current node.
      *
      * @return Node The current node
      */
@@ -46,7 +48,7 @@ class AbstractSyntaxTree
     }
 
     /**
-     * Gets the root node
+     * Gets the root node.
      *
      * @return RootNode The root node
      */
@@ -56,9 +58,10 @@ class AbstractSyntaxTree
     }
 
     /**
-     * Sets the current node
+     * Sets the current node.
      *
      * @param Node $node The node to set
+     *
      * @return Node The current node
      */
     public function setCurrentNode(Node $node) : Node

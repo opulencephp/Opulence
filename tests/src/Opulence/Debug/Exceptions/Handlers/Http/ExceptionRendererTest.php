@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Debug\Exceptions\Handlers\Http;
 
 use Exception;
 use Opulence\Tests\Debug\Exceptions\Handlers\Http\Mocks\ExceptionRenderer as MockRenderer;
 
 /**
- * Overrides the native function for use in testing
+ * Overrides the native function for use in testing.
  *
  * @param string $string The header string
  */
@@ -22,7 +24,7 @@ function header($string)
 }
 
 /**
- * Overrides the native function for use in testing
+ * Overrides the native function for use in testing.
  *
  * @return bool Whether or not the headers were sent
  */
@@ -32,7 +34,7 @@ function headers_sent()
 }
 
 /**
- * Tests the HTTP exception renderer
+ * Tests the HTTP exception renderer.
  */
 class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
 {
@@ -40,7 +42,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     private $renderer = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -48,7 +50,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that JSON headers are set
+     * Tests that JSON headers are set.
      */
     public function testJsonHeadersSet()
     {
@@ -64,7 +66,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests rendering an exception without a view in the development environment
+     * Tests rendering an exception without a view in the development environment.
      */
     public function testRenderingExceptionWithoutViewInDevelopmentEnvironment()
     {
@@ -77,7 +79,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests rendering an exception without a view in the production environment
+     * Tests rendering an exception without a view in the production environment.
      */
     public function testRenderingExceptionWithoutViewInProductionEnvironment()
     {
@@ -91,21 +93,23 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Gets the content without the headers
+     * Gets the content without the headers.
      *
      * @param string $rawContents The raw contents
+     *
      * @return string The content without the headers
      */
     private function getContentWithoutHeaders($rawContents)
     {
-        return preg_replace("/header::.*\\$\\$/", '', $rawContents);
+        return preg_replace('/header::.*\$\$/', '', $rawContents);
     }
 
     /**
-     * Gets whether or not a header string was set
+     * Gets whether or not a header string was set.
      *
      * @param string $rawContents The raw contents
-     * @param string $string The string to search for
+     * @param string $string      The string to search for
+     *
      * @return bool Whether or not the header string exists
      */
     private function hasHeaderString($rawContents, $string)

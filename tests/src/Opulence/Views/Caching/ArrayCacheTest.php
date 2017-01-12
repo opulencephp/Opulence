@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Caching;
 
 use Opulence\Views\IView;
 
 /**
- * Tests the view array cache
+ * Tests the view array cache.
  */
 class ArrayCacheTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +23,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     private $view = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -30,7 +32,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests flushing the cache removes views
+     * Tests flushing the cache removes views.
      */
     public function testFlushingCacheRemovesViews()
     {
@@ -41,7 +43,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an existing view
+     * Tests getting an existing view.
      */
     public function testGettingExistingView()
     {
@@ -51,7 +53,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent view
+     * Tests getting a non-existent view.
      */
     public function testGettingNonExistentView()
     {
@@ -60,7 +62,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting views with the same content but different view variables
+     * Tests getting views with the same content but different view variables.
      */
     public function testGettingViewsWithSameContentButDifferentViewVariables()
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Applications;
 
 use InvalidArgumentException;
@@ -14,7 +16,7 @@ use Opulence\Applications\Tasks\TaskTypes;
 use ReflectionClass;
 
 /**
- * Tests the application class
+ * Tests the application class.
  */
 class ApplicationTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,7 +26,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     private $dispatcher = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -33,7 +35,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that our application only attempts to shutdown once when it's already shutdown
+     * Tests that our application only attempts to shutdown once when it's already shutdown.
      */
     public function testApplicationIsNotShutdownTwice()
     {
@@ -55,7 +57,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that our application only attempts to start up once when it's already running
+     * Tests that our application only attempts to start up once when it's already running.
      */
     public function testApplicationIsNotStartedTwice()
     {
@@ -70,7 +72,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering a bad post-shutdown task
+     * Tests registering a bad post-shutdown task.
      */
     public function testBadPostShutdownTask()
     {
@@ -85,7 +87,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering a bad post-start task
+     * Tests registering a bad post-start task.
      */
     public function testBadPostStartTask()
     {
@@ -98,7 +100,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering a bad pre-shutdown task
+     * Tests registering a bad pre-shutdown task.
      */
     public function testBadPreShutdownTask()
     {
@@ -113,7 +115,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering a bad shutdown task
+     * Tests registering a bad shutdown task.
      */
     public function testBadShutdownTask()
     {
@@ -127,7 +129,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering a bad start task
+     * Tests registering a bad start task.
      */
     public function testBadStartTask()
     {
@@ -140,7 +142,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if a shutdown application is no longer running
+     * Tests checking if a shutdown application is no longer running.
      */
     public function testCheckingIfAShutdownApplicationIsNotRunning()
     {
@@ -150,7 +152,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if a started application is running
+     * Tests checking if a started application is running.
      */
     public function testCheckingIfAStartedApplicationIsRunning()
     {
@@ -159,7 +161,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if an application that wasn't ever started is running
+     * Tests checking if an application that wasn't ever started is running.
      */
     public function testCheckingIfUnstartedApplicationIsRunning()
     {
@@ -167,7 +169,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the custom application version
+     * Tests getting the custom application version.
      */
     public function testGettingCustomVersion()
     {
@@ -176,7 +178,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the default application version
+     * Tests getting the default application version.
      */
     public function testGettingDefaultVersion()
     {
@@ -187,7 +189,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering post-shutdown tasks
+     * Tests registering post-shutdown tasks.
      */
     public function testRegisteringPostShutdownTask()
     {
@@ -208,7 +210,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering post-start tasks
+     * Tests registering post-start tasks.
      */
     public function testRegisteringPostStartTask()
     {
@@ -222,7 +224,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering pre- and post-shutdown tasks
+     * Tests registering pre- and post-shutdown tasks.
      */
     public function testRegisteringPreAndPostShutdownTasks()
     {
@@ -243,7 +245,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering pre- and post-start tasks
+     * Tests registering pre- and post-start tasks.
      */
     public function testRegisteringPreAndPostStartTasks()
     {
@@ -257,7 +259,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering pre-shutdown tasks
+     * Tests registering pre-shutdown tasks.
      */
     public function testRegisteringPreShutdownTask()
     {
@@ -278,7 +280,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering pre-start tasks
+     * Tests registering pre-start tasks.
      */
     public function testRegisteringPreStartTask()
     {
@@ -292,7 +294,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering a shutdown task
+     * Tests registering a shutdown task.
      */
     public function testRegisteringShutdownTask()
     {
@@ -317,7 +319,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering a start task
+     * Tests registering a start task.
      */
     public function testRegisteringStartTask()
     {
@@ -335,7 +337,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a shutdown task that returns something
+     * Tests a shutdown task that returns something.
      */
     public function testShutdownTaskThatReturnsSomething()
     {
@@ -346,7 +348,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a start task that returns something
+     * Tests a start task that returns something.
      */
     public function testStartTaskThatReturnsSomething()
     {

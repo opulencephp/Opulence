@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm\Ids\Generators;
 
 /**
- * Defines a UUID V4 generator
+ * Defines a UUID V4 generator.
  */
 class UuidV4Generator implements IIdGenerator
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function generate($entity)
     {
@@ -26,7 +28,7 @@ class UuidV4Generator implements IIdGenerator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getEmptyValue($entity)
     {
@@ -34,7 +36,7 @@ class UuidV4Generator implements IIdGenerator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isPostInsert() : bool
     {

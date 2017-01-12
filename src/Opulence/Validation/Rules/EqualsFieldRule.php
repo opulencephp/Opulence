@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
 use LogicException;
 
 /**
- * Defines the equals field rule
+ * Defines the equals field rule.
  */
 class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
 {
@@ -20,7 +22,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     protected $fieldName = null;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getErrorPlaceholders() : array
     {
@@ -28,7 +30,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSlug() : string
     {
@@ -36,7 +38,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function passes($value, array $allValues = []) : bool
     {
@@ -50,7 +52,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setArgs(array $args)
     {

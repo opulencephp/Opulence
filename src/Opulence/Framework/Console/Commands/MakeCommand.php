@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Commands;
 
 use Opulence\Console\Commands\Command;
@@ -18,7 +20,7 @@ use Opulence\Files\FileSystem;
 use Opulence\Framework\Composer\Composer;
 
 /**
- * Defines the base class for "make:" commands to extend
+ * Defines the base class for "make:" commands to extend.
  */
 abstract class MakeCommand extends Command
 {
@@ -30,9 +32,9 @@ abstract class MakeCommand extends Command
     protected $composer = null;
 
     /**
-     * @param Prompt $prompt The console prompt
+     * @param Prompt     $prompt     The console prompt
      * @param FileSystem $fileSystem The file system
-     * @param Composer $composer The Composer wrapper
+     * @param Composer   $composer   The Composer wrapper
      */
     public function __construct(Prompt $prompt, FileSystem $fileSystem, Composer $composer)
     {
@@ -44,23 +46,24 @@ abstract class MakeCommand extends Command
     }
 
     /**
-     * Gets the path to the template
+     * Gets the path to the template.
      *
      * @return string The template path
      */
     abstract protected function getFileTemplatePath() : string;
 
     /**
-     * Compiles a template
+     * Compiles a template.
      *
-     * @param string $templateContents The template to compile
+     * @param string $templateContents        The template to compile
      * @param string $fullyQualifiedClassName The fully-qualified class name
+     *
      * @return string the compiled template
      */
     protected function compile(string $templateContents, string $fullyQualifiedClassName) : string
     {
-        $explodedClass = explode("\\", $fullyQualifiedClassName);
-        $namespace = implode("\\", array_slice($explodedClass, 0, -1));
+        $explodedClass = explode('\\', $fullyQualifiedClassName);
+        $namespace = implode('\\', array_slice($explodedClass, 0, -1));
         $className = end($explodedClass);
         $compiledTemplate = str_replace('{{namespace}}', $namespace, $templateContents);
         $compiledTemplate = str_replace('{{class}}', $className, $compiledTemplate);
@@ -69,7 +72,7 @@ abstract class MakeCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function define()
     {
@@ -81,7 +84,7 @@ abstract class MakeCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doExecute(IResponse $response)
     {
@@ -110,9 +113,10 @@ abstract class MakeCommand extends Command
 
     /**
      * Gets the default namespace for a class
-     * Let extending classes override this if they need to
+     * Let extending classes override this if they need to.
      *
      * @param string $rootNamespace The root namespace
+     *
      * @return string The default namespace
      */
     protected function getDefaultNamespace(string $rootNamespace) : string
@@ -121,7 +125,7 @@ abstract class MakeCommand extends Command
     }
 
     /**
-     * Makes the necessary directories for a class
+     * Makes the necessary directories for a class.
      *
      * @param string $path The fully-qualified class name
      */

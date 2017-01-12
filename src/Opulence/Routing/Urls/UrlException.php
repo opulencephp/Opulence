@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Urls;
 
 use Exception;
 
 /**
- * Defines a URL exception
+ * Defines a URL exception.
  */
 class UrlException extends Exception
 {

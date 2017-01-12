@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
 use LogicException;
 
 /**
- * Tests the in-array rule
+ * Tests the in-array rule.
  */
 class InRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests getting the slug
+     * Tests getting the slug.
      */
     public function testGettingSlug()
     {
@@ -26,7 +28,7 @@ class InRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that matching values pass
+     * Tests that matching values pass.
      */
     public function testMatchingValuesPass()
     {
@@ -36,7 +38,7 @@ class InRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that non-matching values fail
+     * Tests that non-matching values fail.
      */
     public function testNonMatchingValuesFail()
     {
@@ -46,7 +48,7 @@ class InRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not setting the args before passes
+     * Tests not setting the args before passes.
      */
     public function testNotSettingArgBeforePasses()
     {
@@ -56,7 +58,7 @@ class InRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an empty arg array
+     * Tests passing an empty arg array.
      */
     public function testPassingEmptyArgArray()
     {
@@ -66,7 +68,7 @@ class InRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing invalid args
+     * Tests passing invalid args.
      */
     public function testPassingInvalidArgs()
     {

@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests\Tokenizers;
 
 use RuntimeException;
 
 /**
- * Tests the array list tokenizer
+ * Tests the array list tokenizer.
  */
 class ArrayListTokenizerTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class ArrayListTokenizerTest extends \PHPUnit\Framework\TestCase
     private $tokenizer = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,25 +29,25 @@ class ArrayListTokenizerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test not passing the command name
+     * Test not passing the command name.
      */
     public function testNotPassingCommandName()
     {
         $this->expectException(RuntimeException::class);
         $this->tokenizer->tokenize([
-            'foo' => 'bar'
+            'foo' => 'bar',
         ]);
     }
 
     /**
-     * Tests tokenizing arguments and options
+     * Tests tokenizing arguments and options.
      */
     public function testTokenizingArgumentsAndOptions()
     {
         $tokens = $this->tokenizer->tokenize([
-            'name' => 'foo',
+            'name'      => 'foo',
             'arguments' => ['bar'],
-            'options' => ['--name=dave', '-r']
+            'options'   => ['--name=dave', '-r'],
         ]);
         $this->assertEquals(['foo', 'bar', '--name=dave', '-r'], $tokens);
     }

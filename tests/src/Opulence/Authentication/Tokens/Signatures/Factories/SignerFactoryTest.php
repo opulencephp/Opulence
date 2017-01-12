@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\Signatures\Factories;
 
 use InvalidArgumentException;
@@ -14,7 +16,7 @@ use Opulence\Authentication\Tokens\Signatures\HmacSigner;
 use Opulence\Authentication\Tokens\Signatures\RsaSsaPkcsSigner;
 
 /**
- * Tests the signer factory
+ * Tests the signer factory.
  */
 class SignerFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +24,7 @@ class SignerFactoryTest extends \PHPUnit\Framework\TestCase
     private $factory = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -30,7 +32,7 @@ class SignerFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating asymmetric signers
+     * Tests creating asymmetric signers.
      */
     public function testCreatingAsymmetricSigners()
     {
@@ -44,7 +46,7 @@ class SignerFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating symmetric signers
+     * Tests creating symmetric signers.
      */
     public function testCreatingSymmetricSigners()
     {
@@ -58,7 +60,7 @@ class SignerFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown when no private key is specified for an asymmetric algorithm
+     * Tests that an exception is thrown when no private key is specified for an asymmetric algorithm.
      */
     public function testExceptionThrownWhenNoPrivateKeySpecifiedForAsymmetricAlgorithm()
     {
@@ -67,7 +69,7 @@ class SignerFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown when the public key is in the incorrect format
+     * Tests that an exception is thrown when the public key is in the incorrect format.
      */
     public function testExceptionThrownWhenPublicKeyIsInIncorrectFormat()
     {

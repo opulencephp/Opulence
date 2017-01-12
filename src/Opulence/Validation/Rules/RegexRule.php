@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
 use LogicException;
 
 /**
- * Defines a regular expression rule
+ * Defines a regular expression rule.
  */
 class RegexRule implements IRuleWithArgs
 {
@@ -20,7 +22,7 @@ class RegexRule implements IRuleWithArgs
     protected $regex = null;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSlug() : string
     {
@@ -28,7 +30,7 @@ class RegexRule implements IRuleWithArgs
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function passes($value, array $allValues = []) : bool
     {
@@ -40,7 +42,7 @@ class RegexRule implements IRuleWithArgs
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setArgs(array $args)
     {

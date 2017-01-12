@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Routing\Bootstrappers;
 
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
@@ -28,7 +30,7 @@ use Opulence\Routing\Routes\Compilers\Parsers\Parser;
 use Opulence\Routing\Urls\UrlGenerator;
 
 /**
- * Defines the routing bootstrapper
+ * Defines the routing bootstrapper.
  */
 class RouterBootstrapper extends Bootstrapper
 {
@@ -38,7 +40,7 @@ class RouterBootstrapper extends Bootstrapper
     protected $parser = null;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBindings(IContainer $container)
     {
@@ -57,7 +59,7 @@ class RouterBootstrapper extends Bootstrapper
     }
 
     /**
-     * Configures the router, which is useful for things like caching
+     * Configures the router, which is useful for things like caching.
      *
      * @param Router $router The router to configure
      */
@@ -68,9 +70,10 @@ class RouterBootstrapper extends Bootstrapper
 
     /**
      * Gets the route cache
-     * To use a different route cache than the one returned here, extend this class and override this method
+     * To use a different route cache than the one returned here, extend this class and override this method.
      *
      * @param IContainer $container The dependency injection container
+     *
      * @return ICache The route cache
      */
     protected function getRouteCache(IContainer $container) : ICache
@@ -80,9 +83,10 @@ class RouterBootstrapper extends Bootstrapper
 
     /**
      * Gets the route compiler
-     * To use a different route compiler than the one returned here, extend this class and override this method
+     * To use a different route compiler than the one returned here, extend this class and override this method.
      *
      * @param IContainer $container The dependency injection container
+     *
      * @return ICompiler The route compiler
      */
     protected function getRouteCompiler(IContainer $container) : ICompiler
@@ -92,9 +96,10 @@ class RouterBootstrapper extends Bootstrapper
 
     /**
      * Gets the route dispatcher
-     * To use a different route dispatcher than the one returned here, extend this class and override this method
+     * To use a different route dispatcher than the one returned here, extend this class and override this method.
      *
      * @param IContainer $container The dependency injection container
+     *
      * @return IRouteDispatcher The route dispatcher
      */
     protected function getRouteDispatcher(IContainer $container) : IRouteDispatcher
@@ -103,9 +108,10 @@ class RouterBootstrapper extends Bootstrapper
     }
 
     /**
-     * Gets the list of route matchers
+     * Gets the list of route matchers.
      *
      * @param IContainer $container The dependency injection container
+     *
      * @return IRouteMatcher[] The list of route matchers
      */
     protected function getRouteMatchers(IContainer $container) : array
@@ -113,15 +119,16 @@ class RouterBootstrapper extends Bootstrapper
         return [
             new PathMatcher(),
             new HostMatcher(),
-            new SchemeMatcher()
+            new SchemeMatcher(),
         ];
     }
 
     /**
      * Gets the route parser
-     * To use a different route parser than the one returned here, extend this class and override this method
+     * To use a different route parser than the one returned here, extend this class and override this method.
      *
      * @param IContainer $container The dependency injection container
+     *
      * @return IParser The route parser
      */
     protected function getRouteParser(IContainer $container) : IParser

@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\ConnectionPools\Strategies\ServerSelection;
 
 use InvalidArgumentException;
 use Opulence\Databases\Server;
 
 /**
- * Tests the random server selection strategy
+ * Tests the random server selection strategy.
  */
 class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,7 +22,7 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     private $strategy = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -28,7 +30,7 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown when passing an empty list of servers
+     * Tests that an exception is thrown when passing an empty list of servers.
      */
     public function testExceptionThrownWithEmptyListOfServers()
     {
@@ -37,7 +39,7 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests selecting from a list of a servers
+     * Tests selecting from a list of a servers.
      */
     public function testSelectingFromListOfServers()
     {
@@ -47,7 +49,7 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests selecting from a list of a single server
+     * Tests selecting from a list of a single server.
      */
     public function testSelectingFromListOfSingleServer()
     {
@@ -56,7 +58,7 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests selecting from a single server
+     * Tests selecting from a single server.
      */
     public function testSelectingFromSingleServer()
     {
@@ -65,7 +67,7 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Gets a mock server
+     * Gets a mock server.
      *
      * @return Server|\PHPUnit_Framework_MockObject_MockObject
      */

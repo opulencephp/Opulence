@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Views\Bootstrappers;
 
 use Opulence\Framework\Http\CsrfTokenChecker;
@@ -16,17 +18,17 @@ use Opulence\Sessions\ISession;
 use Opulence\Views\Compilers\Fortune\ITranspiler;
 
 /**
- * Defines the view functions bootstrapper
+ * Defines the view functions bootstrapper.
  */
 class ViewFunctionsBootstrapper extends Bootstrapper
 {
     /**
-     * Registers view functions
+     * Registers view functions.
      *
-     * @param Request $request The current request
-     * @param ITranspiler $transpiler The transpiler to register to
+     * @param Request      $request      The current request
+     * @param ITranspiler  $transpiler   The transpiler to register to
      * @param UrlGenerator $urlGenerator What generates URLs from routes
-     * @param ISession $session The current session
+     * @param ISession     $session      The current session
      */
     public function run(Request $request, ITranspiler $transpiler, UrlGenerator $urlGenerator, ISession $session)
     {

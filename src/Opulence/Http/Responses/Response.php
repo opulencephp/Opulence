@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Responses;
 
 use DateTime;
 
 /**
- * Defines an HTTP response
+ * Defines an HTTP response.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTTP/Response_codes
  */
@@ -29,9 +31,9 @@ class Response
     protected $httpVersion = '1.1';
 
     /**
-     * @param mixed $content The content of the response
-     * @param int $statusCode The HTTP status code
-     * @param array $headers The headers to set
+     * @param mixed $content    The content of the response
+     * @param int   $statusCode The HTTP status code
+     * @param array $headers    The headers to set
      */
     public function __construct($content = '', int $statusCode = ResponseHeaders::HTTP_OK, array $headers = [])
     {
@@ -73,7 +75,7 @@ class Response
     }
 
     /**
-     * Gets whether or not the headers have been sent
+     * Gets whether or not the headers have been sent.
      *
      * @return bool True if they've been sent, otherwise false
      */
@@ -83,7 +85,7 @@ class Response
     }
 
     /**
-     * Sends the headers and content
+     * Sends the headers and content.
      */
     public function send()
     {
@@ -94,7 +96,7 @@ class Response
     }
 
     /**
-     * Sends the content
+     * Sends the content.
      */
     public function sendContent()
     {
@@ -104,7 +106,7 @@ class Response
     }
 
     /**
-     * Sends the headers if they haven't already been sent
+     * Sends the headers if they haven't already been sent.
      */
     public function sendHeaders()
     {
@@ -153,7 +155,7 @@ class Response
     }
 
     /**
-     * Sets the expiration time of the page
+     * Sets the expiration time of the page.
      *
      * @param DateTime $expiration The expiration time
      */
@@ -171,11 +173,11 @@ class Response
     }
 
     /**
-     * Sets the status code
+     * Sets the status code.
      *
-     * @param int $statusCode The HTTP status code
+     * @param int         $statusCode The HTTP status code
      * @param string|null $statusText The status text
-     *      If null, the default text is used for the input code
+     *                                If null, the default text is used for the input code
      */
     public function setStatusCode(int $statusCode, string $statusText = null)
     {

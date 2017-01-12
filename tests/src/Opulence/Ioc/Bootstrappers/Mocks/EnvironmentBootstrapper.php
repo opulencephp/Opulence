@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Ioc\Bootstrappers\Mocks;
 
 use Opulence\Ioc\Bootstrappers\Bootstrapper as BaseBootstrapper;
@@ -13,12 +15,12 @@ use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
- * Defines a bootstrapper that manipulates the environment
+ * Defines a bootstrapper that manipulates the environment.
  */
 class EnvironmentBootstrapper extends BaseBootstrapper implements ILazyBootstrapper
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBindings() : array
     {
@@ -26,7 +28,7 @@ class EnvironmentBootstrapper extends BaseBootstrapper implements ILazyBootstrap
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBindings(IContainer $container)
     {
@@ -34,7 +36,7 @@ class EnvironmentBootstrapper extends BaseBootstrapper implements ILazyBootstrap
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function run()
     {
@@ -42,7 +44,7 @@ class EnvironmentBootstrapper extends BaseBootstrapper implements ILazyBootstrap
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function shutdown()
     {

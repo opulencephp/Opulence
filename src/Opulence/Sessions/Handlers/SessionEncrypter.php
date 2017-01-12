@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Sessions\Handlers;
 
 use Opulence\Cryptography\Encryption\EncryptionException;
 use Opulence\Cryptography\Encryption\IEncrypter;
 
 /**
- * Defines a session encrypter that uses Opulence's cryptography library
+ * Defines a session encrypter that uses Opulence's cryptography library.
  */
 class SessionEncrypter implements ISessionEncrypter
 {
@@ -28,7 +30,7 @@ class SessionEncrypter implements ISessionEncrypter
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function decrypt(string $data) : string
     {
@@ -40,7 +42,7 @@ class SessionEncrypter implements ISessionEncrypter
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function encrypt(string $data) : string
     {

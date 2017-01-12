@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Files;
 
 use DateTime;
@@ -15,17 +17,19 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
 /**
- * Defines methods for interacting with the file system
+ * Defines methods for interacting with the file system.
  */
 class FileSystem
 {
     /**
-     * Appends contents to a file
+     * Appends contents to a file.
      *
      * @param string $path The path to the file to append to
-     * @param mixed $data The string, array, or stream source to write to the file
-     * @return int|bool The number of bytes written if successful, otherwise false
+     * @param mixed  $data The string, array, or stream source to write to the file
+     *
      * @throws FileSystemException Thrown if there was a problem appending to the file
+     *
+     * @return int|bool The number of bytes written if successful, otherwise false
      */
     public function append(string $path, $data)
     {
@@ -33,11 +37,12 @@ class FileSystem
     }
 
     /**
-     * Copies directories to a new path
+     * Copies directories to a new path.
      *
-     * @param string $source The path to copy from
-     * @param string $target The path to copy to
-     * @param null|int $flags The file permissions to use for the new directory(ies)
+     * @param string   $source The path to copy from
+     * @param string   $target The path to copy to
+     * @param null|int $flags  The file permissions to use for the new directory(ies)
+     *
      * @return bool True if successful, otherwise false
      */
     public function copyDirectory(string $source, string $target, int $flags = null) : bool
@@ -58,11 +63,11 @@ class FileSystem
 
         foreach ($items as $item) {
             if ($item->isDir()) {
-                if (!$this->copyDirectory($item->getRealPath(), $target . '/' . $item->getBasename(), $flags)) {
+                if (!$this->copyDirectory($item->getRealPath(), $target.'/'.$item->getBasename(), $flags)) {
                     return false;
                 }
             } elseif ($item->isFile()) {
-                if (!$this->copyFile($item->getRealPath(), $target . '/' . $item->getBasename())) {
+                if (!$this->copyFile($item->getRealPath(), $target.'/'.$item->getBasename())) {
                     return false;
                 }
             }
@@ -72,10 +77,11 @@ class FileSystem
     }
 
     /**
-     * Copies a file to a new location
+     * Copies a file to a new location.
      *
      * @param string $source The path to copy from
      * @param string $target The path to copy to
+     *
      * @return bool True if successful, otherwise false
      */
     public function copyFile(string $source, string $target) : bool
@@ -84,10 +90,11 @@ class FileSystem
     }
 
     /**
-     * Recursively deletes a directory
+     * Recursively deletes a directory.
      *
-     * @param string $path The path to the directory to delete
-     * @param bool $keepDirectoryStructure True if we want to keep the directory structure, otherwise false
+     * @param string $path                   The path to the directory to delete
+     * @param bool   $keepDirectoryStructure True if we want to keep the directory structure, otherwise false
+     *
      * @return bool True if successful, otherwise false
      */
     public function deleteDirectory(string $path, bool $keepDirectoryStructure = false) : bool
@@ -118,9 +125,10 @@ class FileSystem
     }
 
     /**
-     * Deletes a file
+     * Deletes a file.
      *
      * @param string $path The file to delete
+     *
      * @return bool True if successful, otherwise false
      */
     public function deleteFile(string $path) : bool
@@ -129,9 +137,10 @@ class FileSystem
     }
 
     /**
-     * Gets whether or not a file/directory exists
+     * Gets whether or not a file/directory exists.
      *
      * @param string $path The path to check
+     *
      * @return bool Whether or not the file/directory exists
      */
     public function exists(string $path) : bool
@@ -140,11 +149,13 @@ class FileSystem
     }
 
     /**
-     * Gets the basename of a path
+     * Gets the basename of a path.
      *
      * @param string $path The path to check
-     * @return string The basename of the path
+     *
      * @throws FileSystemException Thrown if the path does not exist
+     *
+     * @return string The basename of the path
      */
     public function getBasename(string $path) : string
     {
@@ -156,10 +167,11 @@ class FileSystem
     }
 
     /**
-     * Gets all of the directories at the input path
+     * Gets all of the directories at the input path.
      *
-     * @param string $path The path to check
-     * @param bool $isRecursive Whether or not we should recurse through child directories
+     * @param string $path        The path to check
+     * @param bool   $isRecursive Whether or not we should recurse through child directories
+     *
      * @return array All of the directories at the path
      */
     public function getDirectories(string $path, bool $isRecursive = false) : array
@@ -189,11 +201,13 @@ class FileSystem
     }
 
     /**
-     * Gets the directory name of a file
+     * Gets the directory name of a file.
      *
      * @param string $path The path to check
-     * @return string The directory name of the file
+     *
      * @throws FileSystemException Thrown if the file does not exist
+     *
+     * @return string The directory name of the file
      */
     public function getDirectoryName(string $path) : string
     {
@@ -205,11 +219,13 @@ class FileSystem
     }
 
     /**
-     * Gets the extension of a file
+     * Gets the extension of a file.
      *
      * @param string $path The path to check
-     * @return string The extension of the file
+     *
      * @throws FileSystemException Thrown if the file does not exist
+     *
+     * @return string The extension of the file
      */
     public function getExtension(string $path) : string
     {
@@ -221,11 +237,13 @@ class FileSystem
     }
 
     /**
-     * Gets the file name of a file
+     * Gets the file name of a file.
      *
      * @param string $path The path to check
-     * @return string The file name
+     *
      * @throws FileSystemException Thrown if the file does not exist
+     *
+     * @return string The file name
      */
     public function getFileName(string $path) : string
     {
@@ -237,11 +255,13 @@ class FileSystem
     }
 
     /**
-     * Gets the size of a file
+     * Gets the size of a file.
      *
      * @param string $path The path to check
-     * @return int The number of bytes the file has
+     *
      * @throws FileSystemException Thrown if the file does not exist
+     *
+     * @return int The number of bytes the file has
      */
     public function getFileSize(string $path) : int
     {
@@ -259,10 +279,11 @@ class FileSystem
     }
 
     /**
-     * Gets all of the files at the input path
+     * Gets all of the files at the input path.
      *
-     * @param string $path The path to check
-     * @param bool $isRecursive Whether or not we should recurse through child directories
+     * @param string $path        The path to check
+     * @param bool   $isRecursive Whether or not we should recurse through child directories
+     *
      * @return array All of the files at the path
      */
     public function getFiles(string $path, bool $isRecursive = false) : array
@@ -292,11 +313,13 @@ class FileSystem
     }
 
     /**
-     * Gets the last modified time
+     * Gets the last modified time.
      *
      * @param string $path The path to check
-     * @return DateTime The last modified time
+     *
      * @throws FileSystemException Thrown if the file was not found or if the modified time was not readable
+     *
+     * @return DateTime The last modified time
      */
     public function getLastModified(string $path) : DateTime
     {
@@ -320,14 +343,16 @@ class FileSystem
     }
 
     /**
-     * Finds files that match a pattern
+     * Finds files that match a pattern.
      *
      * @link http://php.net/manual/function.glob.php
      *
      * @param string $pattern The pattern to match on
-     * @param int $flags The glob flags to use
-     * @return array The list of matched files
+     * @param int    $flags   The glob flags to use
+     *
      * @throws FileSystemException Thrown if the search failed
+     *
+     * @return array The list of matched files
      */
     public function glob(string $pattern, int $flags = 0) : array
     {
@@ -341,9 +366,10 @@ class FileSystem
     }
 
     /**
-     * Gets whether or not a path points to a directory
+     * Gets whether or not a path points to a directory.
      *
      * @param string $path The path to check
+     *
      * @return bool True if the path points a directory, otherwise false
      */
     public function isDirectory(string $path) : bool
@@ -352,9 +378,10 @@ class FileSystem
     }
 
     /**
-     * Gets whether or not a path points to a file
+     * Gets whether or not a path points to a file.
      *
      * @param string $path The path to check
+     *
      * @return bool True if the path points to a file, otherwise false
      */
     public function isFile(string $path) : bool
@@ -363,9 +390,10 @@ class FileSystem
     }
 
     /**
-     * Gets whether or not a path is readable
+     * Gets whether or not a path is readable.
      *
      * @param string $path The path to check
+     *
      * @return bool True if the path is readable, otherwise false
      */
     public function isReadable(string $path) : bool
@@ -374,9 +402,10 @@ class FileSystem
     }
 
     /**
-     * Gets whether or not a path is writable
+     * Gets whether or not a path is writable.
      *
      * @param string $path The path to check
+     *
      * @return bool True if the path is writable, otherwise false
      */
     public function isWritable(string $path) : bool
@@ -385,11 +414,12 @@ class FileSystem
     }
 
     /**
-     * Makes a directory at the input path
+     * Makes a directory at the input path.
      *
-     * @param string $path The path to the directory to make
-     * @param int $mode The chmod permissions
-     * @param bool $isRecursive Whether or not we create nested directories
+     * @param string $path        The path to the directory to make
+     * @param int    $mode        The chmod permissions
+     * @param bool   $isRecursive Whether or not we create nested directories
+     *
      * @return bool True if successful, otherwise false
      */
     public function makeDirectory(string $path, int $mode = 0777, bool $isRecursive = false) : bool
@@ -403,10 +433,11 @@ class FileSystem
 
     /**
      * Moves a file from one location to another
-     * Analogous to "cutting" the file as opposed to "copying"
+     * Analogous to "cutting" the file as opposed to "copying".
      *
      * @param string $source The path to move from
      * @param string $target The path to move to
+     *
      * @return bool True if successful, otherwise false
      */
     public function move(string $source, string $target) : bool
@@ -415,12 +446,14 @@ class FileSystem
     }
 
     /**
-     * Reads the contents of a file
+     * Reads the contents of a file.
      *
      * @param string $path The path of the file whose contents we want
-     * @return string The contents of the file
-     * @throws FileSystemException Thrown if the path was not a valid path
+     *
+     * @throws FileSystemException      Thrown if the path was not a valid path
      * @throws InvalidArgumentException Thrown if the path was not a string
+     *
+     * @return string The contents of the file
      */
     public function read(string $path) : string
     {
@@ -432,13 +465,15 @@ class FileSystem
     }
 
     /**
-     * Writes data to a file
+     * Writes data to a file.
      *
-     * @param string $path The path to the file to write to
-     * @param mixed $data The string, array, or stream source to write to the file
-     * @param int $flags The bitwise-OR'd flags to use (identical to PHP's file_put_contents() flags)
-     * @return int The number of bytes written
+     * @param string $path  The path to the file to write to
+     * @param mixed  $data  The string, array, or stream source to write to the file
+     * @param int    $flags The bitwise-OR'd flags to use (identical to PHP's file_put_contents() flags)
+     *
      * @throws FileSystemException Thrown if there was a problem writing to the file
+     *
+     * @return int The number of bytes written
      */
     public function write(string $path, $data, int $flags = 0) : int
     {

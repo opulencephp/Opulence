@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\MySql;
 
 use PDO;
 
 /**
- * Tests the insert query
+ * Tests the insert query.
  */
 class InsertQueryTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests adding columns to the update portion of an INSERT/UPDATE
+     * Tests adding columns to the update portion of an INSERT/UPDATE.
      */
     public function testAddingColumnsToUpdate()
     {
@@ -27,12 +29,12 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
             $query->getSql());
         $this->assertEquals([
             ['dave', PDO::PARAM_STR],
-            ['foo@bar.com', PDO::PARAM_STR]
+            ['foo@bar.com', PDO::PARAM_STR],
         ], $query->getParameters());
     }
 
     /**
-     * Tests a basic query
+     * Tests a basic query.
      */
     public function testBasicQuery()
     {
@@ -40,12 +42,12 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('INSERT INTO users (name, email) VALUES (?, ?)', $query->getSql());
         $this->assertEquals([
             ['dave', PDO::PARAM_STR],
-            ['foo@bar.com', PDO::PARAM_STR]
+            ['foo@bar.com', PDO::PARAM_STR],
         ], $query->getParameters());
     }
 
     /**
-     * Tests all the methods in a single, complicated query
+     * Tests all the methods in a single, complicated query.
      */
     public function testEverything()
     {
@@ -56,12 +58,12 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
             $query->getSql());
         $this->assertEquals([
             ['dave', PDO::PARAM_STR],
-            ['foo@bar.com', PDO::PARAM_STR]
+            ['foo@bar.com', PDO::PARAM_STR],
         ], $query->getParameters());
     }
 
     /**
-     * Tests the INSERT/UPDATE ability
+     * Tests the INSERT/UPDATE ability.
      */
     public function testInsertUpdate()
     {
@@ -71,7 +73,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
             $query->getSql());
         $this->assertEquals([
             ['dave', PDO::PARAM_STR],
-            ['foo@bar.com', PDO::PARAM_STR]
+            ['foo@bar.com', PDO::PARAM_STR],
         ], $query->getParameters());
     }
 }

@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Ioc\Mocks;
 
 /**
- * Mocks a simple interface for use in testing
+ * Mocks a simple interface for use in testing.
  */
 interface IFoo
 {
     /**
-     * Gets the name of the concrete class
+     * Gets the name of the concrete class.
      *
      * @return string The name of the concrete class
      */

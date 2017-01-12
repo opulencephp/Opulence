@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Commands;
 
 /**
- * Makes a command class
+ * Makes a command class.
  */
 class MakeCommandCommand extends MakeCommand
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function define()
     {
@@ -25,18 +27,18 @@ class MakeCommandCommand extends MakeCommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getDefaultNamespace(string $rootNamespace) : string
     {
-        return $rootNamespace . "\\Application\\Console\\Commands";
+        return $rootNamespace.'\\Application\\Console\\Commands';
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getFileTemplatePath() : string
     {
-        return __DIR__ . '/templates/ConsoleCommand.template';
+        return __DIR__.'/templates/ConsoleCommand.template';
     }
 }

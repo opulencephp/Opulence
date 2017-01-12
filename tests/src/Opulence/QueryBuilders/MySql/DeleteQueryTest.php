@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\MySql;
 
 use PDO;
 
 /**
- * Tests the delete query
+ * Tests the delete query.
  */
 class DeleteQueryTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests all the methods in a single, complicated query
+     * Tests all the methods in a single, complicated query.
      */
     public function testEverything()
     {
@@ -31,12 +33,12 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
             $query->getSql());
         $this->assertEquals([
             'userId' => [18175, PDO::PARAM_INT],
-            'name' => ['dave', PDO::PARAM_STR]
+            'name'   => ['dave', PDO::PARAM_STR],
         ], $query->getParameters());
     }
 
     /**
-     * Tests the limit clause
+     * Tests the limit clause.
      */
     public function testLimit()
     {
@@ -46,7 +48,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the limit clause with a named placeholder
+     * Tests the limit clause with a named placeholder.
      */
     public function testLimitWithNamedPlaceholder()
     {

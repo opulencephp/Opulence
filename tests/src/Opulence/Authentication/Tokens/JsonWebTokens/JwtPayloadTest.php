@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
 
 /**
- * Tests the JWT payload
+ * Tests the JWT payload.
  */
 class JwtPayloadTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,7 +22,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     private $payload = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -28,7 +30,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting all values
+     * Tests getting all values.
      */
     public function testGettingAllValues()
     {
@@ -39,7 +41,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
             'exp' => null,
             'nbf' => null,
             'iat' => null,
-            'jti' => $this->payload->getId()
+            'jti' => $this->payload->getId(),
         ];
         $this->assertEquals($claims, $this->payload->getAll());
         $this->payload->setIssuer('foo');
@@ -78,7 +80,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the audience
+     * Tests getting the audience.
      */
     public function testGettingAudience()
     {
@@ -88,7 +90,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the encoded string
+     * Tests getting the encoded string.
      */
     public function testGettingEncodedString()
     {
@@ -100,7 +102,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
             'exp' => null,
             'nbf' => null,
             'iat' => null,
-            'jti' => $this->payload->getId()
+            'jti' => $this->payload->getId(),
         ];
         $this->assertEquals(
             rtrim(strtr(base64_encode(json_encode($claims)), '+/', '-_'), '='),
@@ -116,7 +118,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the Id
+     * Tests getting the Id.
      */
     public function testGettingId()
     {
@@ -125,7 +127,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the issued at
+     * Tests getting the issued at.
      */
     public function testGettingIssuedAt()
     {
@@ -136,7 +138,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the issuer
+     * Tests getting the issuer.
      */
     public function testGettingIssuer()
     {
@@ -146,7 +148,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the subject
+     * Tests getting the subject.
      */
     public function testGettingSubject()
     {
@@ -156,7 +158,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the valid from
+     * Tests getting the valid from.
      */
     public function testGettingValidFrom()
     {
@@ -167,7 +169,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the valid to
+     * Tests getting the valid to.
      */
     public function testGettingValidTo()
     {
@@ -178,7 +180,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the value for an extra claim
+     * Tests getting the value for an extra claim.
      */
     public function testGettingValue()
     {
@@ -190,7 +192,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the Id changes with new claims
+     * Tests that the Id changes with new claims.
      */
     public function testIdChangesWithNewClaims()
     {
@@ -204,7 +206,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the Id does not change with new claims when manually set
+     * Tests that the Id does not change with new claims when manually set.
      */
     public function testIdDoesNotChangeWithNewClaimsWhenManuallySet()
     {
@@ -221,7 +223,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the audience with an invalid type throws an exception
+     * Tests setting the audience with an invalid type throws an exception.
      */
     public function testInvalidAudienceThrowsException()
     {
@@ -230,7 +232,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the Id
+     * Tests setting the Id.
      */
     public function testSettingId()
     {
@@ -240,7 +242,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting multiple audiences
+     * Tests setting multiple audiences.
      */
     public function testSettingMultipleAudiences()
     {

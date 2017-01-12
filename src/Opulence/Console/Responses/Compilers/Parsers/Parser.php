@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers\Parsers;
 
 use Opulence\Console\Responses\Compilers\Lexers\Tokens\Token;
@@ -15,12 +17,13 @@ use Opulence\Console\Responses\Compilers\Parsers\Nodes\WordNode;
 use RuntimeException;
 
 /**
- * Defines the response parser
+ * Defines the response parser.
  */
 class Parser implements IParser
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @param Token[] $tokens The list of tokens to parse
      */
     public function parse(array $tokens) : AbstractSyntaxTree
@@ -43,7 +46,7 @@ class Parser implements IParser
                     if ($ast->getCurrentNode()->getValue() != $token->getValue()) {
                         throw new RuntimeException(
                             sprintf(
-                                "Improperly nested tag \"%s\" near character #%d",
+                                'Improperly nested tag "%s" near character #%d',
                                 $token->getValue(),
                                 $token->getPosition()
                             )
@@ -58,7 +61,7 @@ class Parser implements IParser
                     if (!$ast->getCurrentNode()->isRoot()) {
                         throw new RuntimeException(
                             sprintf(
-                                "Unclosed %s \"%s\"",
+                                'Unclosed %s "%s"',
                                 $ast->getCurrentNode()->isTag() ? 'tag' : 'node',
                                 $ast->getCurrentNode()->getValue()
                             )
@@ -69,7 +72,7 @@ class Parser implements IParser
                 default:
                     throw new RuntimeException(
                         sprintf(
-                            "Unknown token type \"%s\" with value \"%s\" near character #%d",
+                            'Unknown token type "%s" with value "%s" near character #%d',
                             $token->getType(),
                             $token->getValue(),
                             $token->getPosition()

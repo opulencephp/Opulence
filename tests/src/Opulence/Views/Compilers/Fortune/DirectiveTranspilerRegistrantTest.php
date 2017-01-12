@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune;
 
 use Opulence\Views\Caching\ICache;
@@ -15,7 +17,7 @@ use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\View;
 
 /**
- * Test the Fortune directive transpiler registrant
+ * Test the Fortune directive transpiler registrant.
  */
 class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
 {
@@ -27,7 +29,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     private $view = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -42,7 +44,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an else directive
+     * Tests transpiling an else directive.
      */
     public function testTranspilingElse()
     {
@@ -54,7 +56,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an else-if directive
+     * Tests transpiling an else-if directive.
      */
     public function testTranspilingElseIf()
     {
@@ -66,7 +68,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an end-for directive
+     * Tests transpiling an end-for directive.
      */
     public function testTranspilingEndFor()
     {
@@ -78,7 +80,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an end-foreach directive
+     * Tests transpiling an end-foreach directive.
      */
     public function testTranspilingEndForeach()
     {
@@ -90,7 +92,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an end-if directive
+     * Tests transpiling an end-if directive.
      */
     public function testTranspilingEndIf()
     {
@@ -102,7 +104,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an end-part directive
+     * Tests transpiling an end-part directive.
      */
     public function testTranspilingEndPart()
     {
@@ -114,7 +116,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an end-while directive
+     * Tests transpiling an end-while directive.
      */
     public function testTranspilingEndWhile()
     {
@@ -126,7 +128,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an extend directive
+     * Tests transpiling an extend directive.
      */
     public function testTranspilingExtend()
     {
@@ -135,7 +137,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
             '<?php $__opulenceViewParent = $__opulenceViewFactory->createView("foo.php");$__opulenceFortuneTranspiler->addParent($__opulenceViewParent, $__opulenceView);extract($__opulenceView->getVars()); ?>',
             '<?php $__opulenceParentContents = isset($__opulenceParentContents) ? $__opulenceParentContents : [];$__opulenceParentContents[] = $__opulenceFortuneTranspiler->transpile($__opulenceViewParent); ?>',
             'bar',
-            '<?php echo eval("?>" . array_shift($__opulenceParentContents)); ?>'
+            '<?php echo eval("?>" . array_shift($__opulenceParentContents)); ?>',
         ];
         $this->assertEquals(
             implode(PHP_EOL, $expected),
@@ -144,7 +146,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling a for directive
+     * Tests transpiling a for directive.
      */
     public function testTranspilingFor()
     {
@@ -156,7 +158,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling a for-else directive
+     * Tests transpiling a for-else directive.
      */
     public function testTranspilingForElse()
     {
@@ -168,21 +170,21 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling a for-if directive
+     * Tests transpiling a for-if directive.
      */
     public function testTranspilingForIf()
     {
         $this->view->setContents('<% forif($foo as $bar) %>');
         $this->assertEquals(
-            '<?php if(!isset($__opulenceForElseEmpty)): $__opulenceForElseEmpty = []; endif;$__opulenceForElseEmpty[] = true;' .
-            'foreach($foo as $bar):' .
+            '<?php if(!isset($__opulenceForElseEmpty)): $__opulenceForElseEmpty = []; endif;$__opulenceForElseEmpty[] = true;'.
+            'foreach($foo as $bar):'.
             '$__opulenceForElseEmpty[count($__opulenceForElseEmpty) - 1] = false; ?>',
             $this->transpiler->transpile($this->view)
         );
     }
 
     /**
-     * Tests transpiling a foreach directive
+     * Tests transpiling a foreach directive.
      */
     public function testTranspilingForeach()
     {
@@ -194,7 +196,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an if directive
+     * Tests transpiling an if directive.
      */
     public function testTranspilingIf()
     {
@@ -206,7 +208,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an include directive
+     * Tests transpiling an include directive.
      */
     public function testTranspilingInclude()
     {
@@ -225,7 +227,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an include directive with passed variables
+     * Tests transpiling an include directive with passed variables.
      */
     public function testTranspilingIncludeWithPassedVariables()
     {
@@ -244,7 +246,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an include directive with passed variables that contain a comma
+     * Tests transpiling an include directive with passed variables that contain a comma.
      */
     public function testTranspilingIncludeWithPassedVariablesThatContainComma()
     {
@@ -263,7 +265,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling an include directive with a variable view name and passed variables
+     * Tests transpiling an include directive with a variable view name and passed variables.
      */
     public function testTranspilingIncludeWithVariableViewNameAndPassedVariables()
     {
@@ -282,7 +284,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling a parent directive
+     * Tests transpiling a parent directive.
      */
     public function testTranspilingParent()
     {
@@ -294,7 +296,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling a part directive
+     * Tests transpiling a part directive.
      */
     public function testTranspilingPart()
     {
@@ -306,7 +308,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling a show directive
+     * Tests transpiling a show directive.
      */
     public function testTranspilingShow()
     {
@@ -318,7 +320,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling a show directive without an expression
+     * Tests transpiling a show directive without an expression.
      */
     public function testTranspilingShowWithoutExpression()
     {
@@ -330,7 +332,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests transpiling a while directive
+     * Tests transpiling a while directive.
      */
     public function testTranspilingWhile()
     {

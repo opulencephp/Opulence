@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Authentication\Http\Middleware;
 
 use Closure;
@@ -20,7 +22,7 @@ use Opulence\Http\Responses\Response;
 use Opulence\Routing\Middleware\IMiddleware;
 
 /**
- * Defines the authentication and authorization middleware
+ * Defines the authentication and authorization middleware.
  */
 class Authenticate implements IMiddleware
 {
@@ -34,10 +36,10 @@ class Authenticate implements IMiddleware
     protected $credentialIO = null;
 
     /**
-     * @param IAuthenticator $authenticator The authenticator
+     * @param IAuthenticator         $authenticator         The authenticator
      * @param IAuthenticationContext $authenticationContext The authentication context
-     * @param IAuthority $authority The authority
-     * @param IHttpCredentialIO $credentialIO The credential IO
+     * @param IAuthority             $authority             The authority
+     * @param IHttpCredentialIO      $credentialIO          The credential IO
      */
     public function __construct(
         IAuthenticator $authenticator,
@@ -52,7 +54,7 @@ class Authenticate implements IMiddleware
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handle(Request $request, Closure $next) : Response
     {
@@ -62,7 +64,7 @@ class Authenticate implements IMiddleware
             throw new HttpException(403);
         }
 
-        /** @var ISubject $subject */
+        /* @var ISubject $subject */
         $this->authenticationContext->setSubject($subject);
         $this->authority->setSubject($subject->getPrimaryPrincipal()->getId(), $subject->getRoles());
 

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune;
 
 use Opulence\Views\Caching\ICache;
@@ -18,7 +20,7 @@ use Opulence\Views\IView;
 use Opulence\Views\View;
 
 /**
- * Tests the Fortune compiler
+ * Tests the Fortune compiler.
  */
 class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
 {
@@ -32,7 +34,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     private $view = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -54,7 +56,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a child inherits parent's variables
+     * Tests that a child inherits parent's variables.
      */
     public function testChildInheritsParentsVariables()
     {
@@ -72,7 +74,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a custom view function
+     * Tests compiling a custom view function.
      */
     public function testCompilingCustomViewFunction()
     {
@@ -84,7 +86,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling an else-if statement
+     * Tests compiling an else-if statement.
      */
     public function testCompilingElseIfStatement()
     {
@@ -101,7 +103,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling an else statement
+     * Tests compiling an else statement.
      */
     public function testCompilingElseStatement()
     {
@@ -113,7 +115,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling escaped structures
+     * Tests compiling escaped structures.
      */
     public function testCompilingEscapedStructures()
     {
@@ -125,7 +127,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a for-if loop
+     * Tests compiling a for-if loop.
      */
     public function testCompilingForIfLoop()
     {
@@ -142,7 +144,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a for loop
+     * Tests compiling a for loop.
      */
     public function testCompilingForLoop()
     {
@@ -154,7 +156,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a foreach loop
+     * Tests compiling a foreach loop.
      */
     public function testCompilingForeachLoop()
     {
@@ -166,7 +168,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling an if statement
+     * Tests compiling an if statement.
      */
     public function testCompilingIfStatement()
     {
@@ -183,7 +185,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling an include statement
+     * Tests compiling an include statement.
      */
     public function testCompilingIncludeStatement()
     {
@@ -199,7 +201,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling nested for-if loops
+     * Tests compiling nested for-if loops.
      */
     public function testCompilingNestedForIfLoops()
     {
@@ -221,7 +223,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling nested include statements
+     * Tests compiling nested include statements.
      */
     public function testCompilingNestedIncludeStatements()
     {
@@ -241,7 +243,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling nested parent statements
+     * Tests compiling nested parent statements.
      */
     public function testCompilingNestedParentStatements()
     {
@@ -263,7 +265,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a parent statement
+     * Tests compiling a parent statement.
      */
     public function testCompilingParentStatement()
     {
@@ -280,7 +282,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling part and show statements
+     * Tests compiling part and show statements.
      */
     public function testCompilingPartAndShowStatements()
     {
@@ -302,12 +304,12 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a view that uses custom tag delimiters
+     * Tests compiling a view that uses custom tag delimiters.
      */
     public function testCompilingViewWithCustomTags()
     {
         $this->view->setContents('^^"A&W"$$ ++"A&W"-- (* if(true) *)foo(* endif *)');
-        $this->view->setDelimiters(IView::DELIMITER_TYPE_UNSANITIZED_TAG, ['^^', "$$"]);
+        $this->view->setDelimiters(IView::DELIMITER_TYPE_UNSANITIZED_TAG, ['^^', '$$']);
         $this->view->setDelimiters(IView::DELIMITER_TYPE_SANITIZED_TAG, ['++', '--']);
         $this->view->setDelimiters(IView::DELIMITER_TYPE_DIRECTIVE, ['(*', '*)']);
         $this->assertTrue(
@@ -319,7 +321,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a while loop
+     * Tests compiling a while loop.
      */
     public function testCompilingWhileLoop()
     {
@@ -331,7 +333,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that included view's vars are isolated
+     * Tests that included view's vars are isolated.
      */
     public function testIncludedViewVarsAreIsolated()
     {
@@ -348,7 +350,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that included view vars are isolated from outside view vars
+     * Tests that included view vars are isolated from outside view vars.
      */
     public function testIncludedViewVarsAreIsolatedFromOutsideViewVars()
     {
@@ -365,16 +367,16 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that line breaks are trimmed after compiling
+     * Tests that line breaks are trimmed after compiling.
      */
     public function testLineBreaksAreTrimmedAfterCompiling()
     {
-        $this->view->setContents(PHP_EOL . PHP_EOL . "\r\nfoo\r\n" . PHP_EOL . PHP_EOL);
+        $this->view->setContents(PHP_EOL.PHP_EOL."\r\nfoo\r\n".PHP_EOL.PHP_EOL);
         $this->assertEquals('foo', $this->fortuneCompiler->compile($this->view));
     }
 
     /**
-     * Tests overriding a grandparent's part
+     * Tests overriding a grandparent's part.
      */
     public function testOverridingGrandparentPart()
     {
@@ -396,7 +398,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests overriding a grandparent's variable
+     * Tests overriding a grandparent's variable.
      */
     public function testOverridingGrandparentVariable()
     {
@@ -420,7 +422,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests overriding a parent's variable
+     * Tests overriding a parent's variable.
      */
     public function testOverridingParentVariable()
     {
@@ -439,7 +441,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests overriding a parent's part
+     * Tests overriding a parent's part.
      */
     public function testOverwritingParentPart()
     {
@@ -456,7 +458,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that PHP user input is not evaluated
+     * Tests that PHP user input is not evaluated.
      */
     public function testPhpInputIsNotEvaluated()
     {
@@ -469,7 +471,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that shared vars override included view's vars
+     * Tests that shared vars override included view's vars.
      */
     public function testSharedVarsOverrideIncludedViewVars()
     {
@@ -486,7 +488,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the transpiler is called
+     * Tests that the transpiler is called.
      */
     public function testTranspilerIsCalled()
     {
@@ -506,7 +508,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that view comments are not displayed
+     * Tests that view comments are not displayed.
      */
     public function testViewCommentsAreNotDisplayed()
     {
@@ -517,10 +519,11 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Checks if two strings with encoded characters are equal
      * This is necessary because, for example, HHVM encodes "&" to "&#38;" whereas PHP 5.6 encodes to "&amp;"
-     * This method makes those two alternate characters equivalent
+     * This method makes those two alternate characters equivalent.
      *
      * @param string $string1 The first string to compare
      * @param string $string2 The second string to compare
+     *
      * @return bool True if the strings are equal, otherwise false
      */
     protected function stringsWithEncodedCharactersEqual($string1, $string2)

@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers;
 
 use InvalidArgumentException;
 use Opulence\Views\IView;
 
 /**
- * Defines the compiler dispatcher
+ * Defines the compiler dispatcher.
  */
 class CompilerRegistry implements ICompilerRegistry
 {
@@ -20,7 +22,7 @@ class CompilerRegistry implements ICompilerRegistry
     protected $compilers = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getCompiler(IView $view) : ICompiler
     {
@@ -34,7 +36,7 @@ class CompilerRegistry implements ICompilerRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerCompiler(string $extension, ICompiler $compiler)
     {
@@ -42,11 +44,13 @@ class CompilerRegistry implements ICompilerRegistry
     }
 
     /**
-     * Gets the extension for a view
+     * Gets the extension for a view.
      *
      * @param IView $view The view whose extension we're getting
-     * @return string The view's extension
+     *
      * @throws InvalidArgumentException Thrown if no extension was found
+     *
+     * @return string The view's extension
      */
     protected function getExtension(IView $view) : string
     {

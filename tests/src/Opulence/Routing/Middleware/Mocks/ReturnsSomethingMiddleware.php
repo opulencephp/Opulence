@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Routing\Middleware\Mocks;
 
 use Closure;
@@ -14,18 +16,18 @@ use Opulence\Http\Responses\Response;
 use Opulence\Routing\Middleware\IMiddleware;
 
 /**
- * Mocks middleware that returns something
+ * Mocks middleware that returns something.
  */
 class ReturnsSomethingMiddleware implements IMiddleware
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handle(Request $request, Closure $next) : Response
     {
         /** @var Response $response */
         $response = $next($request);
-        $response->setContent($response->getContent() . ':something');
+        $response->setContent($response->getContent().':something');
 
         return $response;
     }

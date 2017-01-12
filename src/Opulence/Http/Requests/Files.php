@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Requests;
 
 use Opulence\Http\Collection;
 
 /**
- * Defines the file parameters
+ * Defines the file parameters.
  */
 class Files extends Collection
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function add(string $name, $value)
     {
@@ -30,7 +32,8 @@ class Files extends Collection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @return UploadedFile|mixed
      */
     public function get(string $name, $default = null)
@@ -39,7 +42,8 @@ class Files extends Collection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @return UploadedFile[]
      */
     public function getAll() : array

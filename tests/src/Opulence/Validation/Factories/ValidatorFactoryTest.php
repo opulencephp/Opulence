@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Factories;
 
 use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Validator;
 
 /**
- * Tests the validator factory
+ * Tests the validator factory.
  */
 class ValidatorFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +24,7 @@ class ValidatorFactoryTest extends \PHPUnit\Framework\TestCase
     private $rulesFactory = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -33,7 +35,7 @@ class ValidatorFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the validator is set up correctly
+     * Tests that the validator is set up correctly.
      */
     public function testValidatorIsSetUpCorrectly()
     {

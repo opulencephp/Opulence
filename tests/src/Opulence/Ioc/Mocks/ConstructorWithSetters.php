@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Ioc\Mocks;
 
 /**
- * Mocks a class with setters for use in IoC tests
+ * Mocks a class with setters for use in IoC tests.
  */
 class ConstructorWithSetters
 {
@@ -45,7 +47,7 @@ class ConstructorWithSetters
     }
 
     /**
-     * @param IFoo $interface The dependency to set
+     * @param IFoo  $interface The dependency to set
      * @param mixed $primitive The primitive to set
      */
     public function setBoth(IFoo $interface, $primitive)

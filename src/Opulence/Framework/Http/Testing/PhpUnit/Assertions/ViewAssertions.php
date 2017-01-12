@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Http\Testing\PhpUnit\Assertions;
 
 use LogicException;
@@ -13,7 +15,7 @@ use Opulence\Routing\Controller;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Defines the HTTP view assertions
+ * Defines the HTTP view assertions.
  */
 class ViewAssertions extends TestCase
 {
@@ -21,18 +23,20 @@ class ViewAssertions extends TestCase
     protected $controller = null;
 
     /**
-     * Asserts that the view has a variable
+     * Asserts that the view has a variable.
      *
      * @param string $name The name of the variable to search for
-     * @return self For method chaining
+     *
      * @throws LogicException Thrown if the controller does not extend the base controller
+     *
+     * @return self For method chaining
      */
     public function hasVar(string $name) : self
     {
         $this->checkControllerSet();
 
         if (!$this->controller instanceof Controller) {
-            throw new LogicException('Controller does not extend ' . Controller::class);
+            throw new LogicException('Controller does not extend '.Controller::class);
         }
 
         $this->assertNotNull($this->controller->getView()->getVar($name));
@@ -49,19 +53,21 @@ class ViewAssertions extends TestCase
     }
 
     /**
-     * Asserts that the view has a variable with a certain value
+     * Asserts that the view has a variable with a certain value.
      *
-     * @param string $name The name of the tag to search for
-     * @param mixed $expected The expected value
-     * @return self For method chaining
+     * @param string $name     The name of the tag to search for
+     * @param mixed  $expected The expected value
+     *
      * @throws LogicException Thrown if the controller does not extend the base controller
+     *
+     * @return self For method chaining
      */
     public function varEquals(string $name, $expected) : self
     {
         $this->checkControllerSet();
 
         if (!$this->controller instanceof Controller) {
-            throw new LogicException('Controller does not extend ' . Controller::class);
+            throw new LogicException('Controller does not extend '.Controller::class);
         }
 
         $this->assertEquals($expected, $this->controller->getView()->getVar($name));
@@ -71,7 +77,7 @@ class ViewAssertions extends TestCase
 
     /**
      * Checks if the controller was set
-     * Useful for making sure the controller was set before making any assertions on it
+     * Useful for making sure the controller was set before making any assertions on it.
      */
     private function checkControllerSet()
     {

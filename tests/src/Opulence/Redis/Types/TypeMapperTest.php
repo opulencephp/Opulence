@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Redis\Types;
 
 use DateTime;
 use DateTimeImmutable;
 
 /**
- * Tests the Redis type mapper class
+ * Tests the Redis type mapper class.
  */
 class TypeMapperTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,7 +22,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     private $typeMapper = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -28,7 +30,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from a false Redis boolean
+     * Tests converting from a false Redis boolean.
      */
     public function testConvertingFromFalseRedisBoolean()
     {
@@ -36,7 +38,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from a Redis timestamp
+     * Tests converting from a Redis timestamp.
      */
     public function testConvertingFromRedisTimestamp()
     {
@@ -46,7 +48,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from a true Redis boolean
+     * Tests converting from a true Redis boolean.
      */
     public function testConvertingFromTrueRedisBoolean()
     {
@@ -54,7 +56,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to a false Redis boolean
+     * Tests converting to a false Redis boolean.
      */
     public function testConvertingToFalseRedisBoolean()
     {
@@ -62,7 +64,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to a Redis timestamp
+     * Tests converting to a Redis timestamp.
      */
     public function testConvertingToRedisTimestamp()
     {
@@ -71,7 +73,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to a Redis timestamp from an immutable date time
+     * Tests converting to a Redis timestamp from an immutable date time.
      */
     public function testConvertingToRedisTimestampFromImmutable()
     {
@@ -80,7 +82,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to a true Redis boolean
+     * Tests converting to a true Redis boolean.
      */
     public function testConvertingToTrueRedisBoolean()
     {
@@ -88,7 +90,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the timezone is set
+     * Tests that the timezone is set.
      */
     public function testTimezoneSet()
     {

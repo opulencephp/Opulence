@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes;
 
 /**
- * Defines a compiled route
+ * Defines a compiled route.
  */
 class CompiledRoute extends ParsedRoute
 {
@@ -20,8 +22,8 @@ class CompiledRoute extends ParsedRoute
 
     /**
      * @param ParsedRoute $parsedRoute The parsed route that was compiled
-     * @param bool $isMatch Whether or not this route is a match for the request
-     * @param array $pathVars The mapping of path variable names to values
+     * @param bool        $isMatch     Whether or not this route is a match for the request
+     * @param array       $pathVars    The mapping of path variable names to values
      */
     public function __construct(ParsedRoute $parsedRoute, bool $isMatch, array $pathVars = [])
     {
@@ -35,9 +37,10 @@ class CompiledRoute extends ParsedRoute
     }
 
     /**
-     * Gets the value of a path variable
+     * Gets the value of a path variable.
      *
      * @param string $name The name of the variable to get
+     *
      * @return mixed|null The value of the variable if it exists, otherwise null
      */
     public function getPathVar(string $name)
@@ -45,8 +48,6 @@ class CompiledRoute extends ParsedRoute
         if (isset($this->pathVars[$name])) {
             return $this->pathVars[$name];
         }
-
-        return null;
     }
 
     /**

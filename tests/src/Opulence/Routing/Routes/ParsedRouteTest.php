@@ -1,28 +1,30 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes;
 
 /**
- * Tests the parsed route
+ * Tests the parsed route.
  */
 class ParsedRouteTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests creating a parsed route
+     * Tests creating a parsed route.
      */
     public function testCreatingParsedRoute()
     {
         $route = new Route('GET', '/foo/{bar}', 'foo@bar', [
             'https' => true,
-            'vars' => [
-                'bar' => "\d+"
-            ]
+            'vars'  => [
+                'bar' => "\d+",
+            ],
         ]);
         $parsedRoute = new ParsedRoute($route);
         $this->assertEquals($route->getMethods(), $parsedRoute->getMethods());
@@ -39,7 +41,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the default value for a variable without a default value
+     * Tests getting the default value for a variable without a default value.
      */
     public function testGettingDefaultValueForVariableWithoutDefaultValue()
     {
@@ -49,17 +51,17 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the host regex when it's not set
+     * Tests getting the host regex when it's not set.
      */
     public function testGettingHostRegexWhenNotSet()
     {
         $route = new Route('get', '/foo', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
-        $this->assertEquals("#^.*$#", $parsedRoute->getHostRegex());
+        $this->assertEquals('#^.*$#', $parsedRoute->getHostRegex());
     }
 
     /**
-     * Tests setting a default value
+     * Tests setting a default value.
      */
     public function testSettingADefaultValue()
     {
@@ -70,7 +72,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the host regex
+     * Tests setting the host regex.
      */
     public function testSettingHostRegex()
     {
@@ -81,7 +83,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the path regex
+     * Tests setting the path regex.
      */
     public function testSettingPathRegex()
     {
