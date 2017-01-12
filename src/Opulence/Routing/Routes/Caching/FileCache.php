@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes\Caching;
 
 use Opulence\Routing\Router;
@@ -29,7 +31,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function get(string $cacheFilePath, Router &$router, string $rawFilePath) : RouteCollection
+    public function get(string $cacheFilePath, Router $router, string $rawFilePath) : RouteCollection
     {
         if (file_exists($cacheFilePath)) {
             return unserialize(base64_decode(file_get_contents($cacheFilePath)));

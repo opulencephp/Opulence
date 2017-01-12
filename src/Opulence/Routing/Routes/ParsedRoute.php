@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes;
 
 /**
@@ -56,7 +58,7 @@ class ParsedRoute extends Route
     public function getHostRegex() : string
     {
         // Default to matching everything if it isn't set
-        return $this->hostRegex === null ? "#^.*$#" : $this->hostRegex;
+        return $this->hostRegex === null ? '#^.*$#' : $this->hostRegex;
     }
 
     /**

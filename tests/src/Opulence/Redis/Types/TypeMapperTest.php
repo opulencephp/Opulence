@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Redis\Types;
 
 use DateTime;
@@ -32,7 +34,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingFromFalseRedisBoolean()
     {
-        $this->assertSame(false, $this->typeMapper->fromRedisBoolean(0));
+        $this->assertFalse($this->typeMapper->fromRedisBoolean(0));
     }
 
     /**
@@ -50,7 +52,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingFromTrueRedisBoolean()
     {
-        $this->assertSame(true, $this->typeMapper->fromRedisBoolean(1));
+        $this->assertTrue($this->typeMapper->fromRedisBoolean(1));
     }
 
     /**

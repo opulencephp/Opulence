@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Http\Testing\PhpUnit\Assertions;
 
 use Opulence\Http\Responses\RedirectResponse;
@@ -200,7 +202,7 @@ class ResponseAssertions extends TestCase
             }
         }
 
-        $this->assertTrue(count($expected) === 0, 'Failed asserting JSON contains ' . json_encode($expected));
+        $this->assertCount(0, $expected, 'Failed asserting JSON contains ' . json_encode($expected));
 
         return $this;
     }

@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Responses;
 
 use DateTime;
@@ -35,7 +37,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
         $this->headers->setCookie($cookie);
         $this->headers->deleteCookie($cookie->getName(), $cookie->getPath(), $cookie->getDomain());
         $this->assertEmpty($this->headers->getCookies());
-        $this->assertEquals(1, count($this->headers->getCookies(true)));
+        $this->assertCount(1, $this->headers->getCookies(true));
     }
 
     /**
@@ -50,7 +52,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
         $this->headers->deleteCookie('foo');
         $this->headers->deleteCookie('bar');
         $deletedCookies = $this->headers->getCookies(true);
-        $this->assertEquals(2, count($deletedCookies));
+        $this->assertCount(2, $deletedCookies);
         $this->assertEquals('foo', $deletedCookies[0]->getName());
         $this->assertEquals('bar', $deletedCookies[1]->getName());
     }

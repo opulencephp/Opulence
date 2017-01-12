@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cache;
 
 /**
@@ -142,7 +144,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     {
         $bridge = new FileBridge(__DIR__ . '/tmp/');
         $bridge->set('foo', 'bar', 60);
-        $this->assertTrue(file_exists(__DIR__ . '/tmp/' . md5('foo')));
+        $this->assertFileExists(__DIR__ . '/tmp/' . md5('foo'));
         $this->assertEquals('bar', $bridge->get('foo'));
     }
 }

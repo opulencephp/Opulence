@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes\Caching;
 
 use Opulence\Routing\Router;
@@ -34,7 +36,7 @@ interface ICache
      * @param string $rawFilePath The path to the raw route collection in case of a cache miss
      * @return RouteCollection The route collection
      */
-    public function get(string $cacheFilePath, Router &$router, string $rawFilePath) : RouteCollection;
+    public function get(string $cacheFilePath, Router $router, string $rawFilePath) : RouteCollection;
 
     /**
      * Sets the route collection in cache

@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing;
 
 use Opulence\Http\HttpException;
@@ -343,8 +345,8 @@ class Router
         foreach ($this->groupOptionsStack as $groupOptions) {
             if (isset($groupOptions['controllerNamespace'])) {
                 // Add trailing slashes if they're not there already
-                if (mb_substr($groupOptions['controllerNamespace'], -1) !== "\\") {
-                    $groupOptions['controllerNamespace'] .= "\\";
+                if (mb_substr($groupOptions['controllerNamespace'], -1) !== '\\') {
+                    $groupOptions['controllerNamespace'] .= '\\';
                 }
 
                 $controllerNamespace .= $groupOptions['controllerNamespace'];

@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc\Bootstrappers\Caching;
 
 use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
@@ -86,7 +88,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     {
         file_put_contents($this->cachedRegistryFilePath, 'foo');
         $this->cache->flush();
-        $this->assertFalse(file_exists($this->cachedRegistryFilePath));
+        $this->assertFileNotExists($this->cachedRegistryFilePath);
     }
 
     /**
@@ -101,7 +103,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
             'lazy' => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
         ]);
         $this->assertNull($cache->get());
-        $this->assertFalse(file_exists($this->cachedRegistryFilePath));
+        $this->assertFileNotExists($this->cachedRegistryFilePath);
     }
 
     /**

@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc\Bootstrappers;
 
 use InvalidArgumentException;
@@ -57,7 +59,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
             if (is_array($boundClass)) {
                 if (count($boundClass) !== 1) {
                     throw new InvalidArgumentException(
-                        "Targeted bindings must be in format \"BoundClass => TargetClass\""
+                        'Targeted bindings must be in format "BoundClass => TargetClass"'
                     );
                 }
 

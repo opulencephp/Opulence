@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use BadMethodCallException;
@@ -406,7 +408,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegexRule()
     {
-        $this->assertSame($this->rules, $this->rules->regex("/^[a-z]{3}$/"));
+        $this->assertSame($this->rules, $this->rules->regex('/^[a-z]{3}$/'));
         $this->assertTrue($this->rules->pass('baz'));
     }
 

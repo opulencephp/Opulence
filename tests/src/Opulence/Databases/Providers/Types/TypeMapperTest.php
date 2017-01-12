@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\Providers\Types;
 
 use DateTime;
@@ -49,8 +51,8 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     public function testConvertingFromFalseSqlBoolean()
     {
         $sqlBoolean = 0;
-        $this->assertSame(false, $this->typeMapperWithNoProvider->fromSqlBoolean($sqlBoolean, $this->provider));
-        $this->assertSame(false, $this->typeMapperWithProvider->fromSqlBoolean($sqlBoolean));
+        $this->assertFalse($this->typeMapperWithNoProvider->fromSqlBoolean($sqlBoolean, $this->provider));
+        $this->assertFalse($this->typeMapperWithProvider->fromSqlBoolean($sqlBoolean));
     }
 
     /**
@@ -195,8 +197,8 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     public function testConvertingFromTrueSqlBoolean()
     {
         $sqlBoolean = 1;
-        $this->assertSame(true, $this->typeMapperWithNoProvider->fromSqlBoolean($sqlBoolean, $this->provider));
-        $this->assertSame(true, $this->typeMapperWithProvider->fromSqlBoolean($sqlBoolean));
+        $this->assertTrue($this->typeMapperWithNoProvider->fromSqlBoolean($sqlBoolean, $this->provider));
+        $this->assertTrue($this->typeMapperWithProvider->fromSqlBoolean($sqlBoolean));
     }
 
     /**

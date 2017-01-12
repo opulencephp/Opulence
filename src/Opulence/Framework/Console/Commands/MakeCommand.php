@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Commands;
 
 use Opulence\Console\Commands\Command;
@@ -59,8 +61,8 @@ abstract class MakeCommand extends Command
      */
     protected function compile(string $templateContents, string $fullyQualifiedClassName) : string
     {
-        $explodedClass = explode("\\", $fullyQualifiedClassName);
-        $namespace = implode("\\", array_slice($explodedClass, 0, -1));
+        $explodedClass = explode('\\', $fullyQualifiedClassName);
+        $namespace = implode('\\', array_slice($explodedClass, 0, -1));
         $className = end($explodedClass);
         $compiledTemplate = str_replace('{{namespace}}', $namespace, $templateContents);
         $compiledTemplate = str_replace('{{class}}', $className, $compiledTemplate);

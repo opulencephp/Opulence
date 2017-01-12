@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers\Lexers;
 
 use Opulence\Console\Responses\Compilers\Lexers\Tokens\Token;
@@ -73,7 +75,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_WORD, '<bar>', 1),
             new Token(TokenTypes::T_EOF, null, 6)
         ];
-        $this->assertEquals($expectedOutput, $this->lexer->lex("\\<bar>"));
+        $this->assertEquals($expectedOutput, $this->lexer->lex('\\<bar>'));
     }
 
     /**
@@ -87,7 +89,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_TAG_CLOSE, 'foo', 11),
             new Token(TokenTypes::T_EOF, null, 17)
         ];
-        $this->assertEquals($expectedOutput, $this->lexer->lex("<foo>\\<bar></foo>"));
+        $this->assertEquals($expectedOutput, $this->lexer->lex('<foo>\\<bar></foo>'));
     }
 
     /**

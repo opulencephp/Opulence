@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Sessions\Ids\Generators;
 
 /**
@@ -38,7 +40,7 @@ class IdGenerator implements IIdGenerator
     public function idIsValid($id) : bool
     {
         $regex = \sprintf(
-            "/^[a-z0-9]{%d,%d}$/i",
+            '/^[a-z0-9]{%d,%d}$/i',
             self::MIN_LENGTH,
             self::MAX_LENGTH
         );

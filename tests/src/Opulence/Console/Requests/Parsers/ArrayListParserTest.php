@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests\Parsers;
 
 use InvalidArgumentException;
@@ -33,9 +35,9 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     {
         $request = $this->parser->parse([
             'name' => 'foo',
-            'arguments' => ["bar\\baz"]
+            'arguments' => ['bar\\baz']
         ]);
-        $this->assertEquals(["bar\\baz"], $request->getArgumentValues());
+        $this->assertEquals(['bar\\baz'], $request->getArgumentValues());
     }
 
     /**

@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing;
 
 use InvalidArgumentException;
@@ -275,10 +277,10 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     {
         $outerGroupOptions = [
             'path' => '/foo',
-            'controllerNamespace' => "Opulence\\Tests\\Routing",
+            'controllerNamespace' => 'Opulence\\Tests\\Routing',
             'middleware' => ['foo1', 'foo2']
         ];
-        $outerRouteController = "Mocks\\Controller@noParameters";
+        $outerRouteController = 'Mocks\\Controller@noParameters';
         $innerRouteController = 'Controller@noParameters';
         $this->router->group($outerGroupOptions,
             function (Router $router) use ($outerRouteController, $innerRouteController) {
@@ -337,10 +339,10 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $controller = MockController::class . '@noParameters';
         $this->router->any('/foo', $controller);
         $allRoutes = $this->router->getRouteCollection()->get();
-        $this->assertEquals(1, count($allRoutes[RequestMethods::GET]));
-        $this->assertEquals(1, count($allRoutes[RequestMethods::POST]));
-        $this->assertEquals(1, count($allRoutes[RequestMethods::DELETE]));
-        $this->assertEquals(1, count($allRoutes[RequestMethods::PUT]));
+        $this->assertCount(1, $allRoutes[RequestMethods::GET]);
+        $this->assertCount(1, $allRoutes[RequestMethods::POST]);
+        $this->assertCount(1, $allRoutes[RequestMethods::DELETE]);
+        $this->assertCount(1, $allRoutes[RequestMethods::PUT]);
     }
 
     /**
@@ -388,13 +390,13 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $controller = MockController::class . '@noParameters';
         $this->router->multiple([RequestMethods::GET, RequestMethods::POST], '/foo', $controller);
         $allRoutes = $this->router->getRouteCollection()->get();
-        $this->assertEquals(1, count($allRoutes[RequestMethods::GET]));
-        $this->assertEquals(1, count($allRoutes[RequestMethods::POST]));
-        $this->assertEquals(0, count($allRoutes[RequestMethods::DELETE]));
-        $this->assertEquals(0, count($allRoutes[RequestMethods::PUT]));
-        $this->assertEquals(0, count($allRoutes[RequestMethods::HEAD]));
-        $this->assertEquals(0, count($allRoutes[RequestMethods::OPTIONS]));
-        $this->assertEquals(0, count($allRoutes[RequestMethods::PATCH]));
+        $this->assertCount(1, $allRoutes[RequestMethods::GET]);
+        $this->assertCount(1, $allRoutes[RequestMethods::POST]);
+        $this->assertCount(0, $allRoutes[RequestMethods::DELETE]);
+        $this->assertCount(0, $allRoutes[RequestMethods::PUT]);
+        $this->assertCount(0, $allRoutes[RequestMethods::HEAD]);
+        $this->assertCount(0, $allRoutes[RequestMethods::OPTIONS]);
+        $this->assertCount(0, $allRoutes[RequestMethods::PATCH]);
     }
 
     /**
@@ -498,7 +500,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testSpecifyingNamespacePrefix()
     {
-        $this->router->group(['controllerNamespace' => "MyApp\\Controllers\\"], function (Router $router) {
+        $this->router->group(['controllerNamespace' => 'MyApp\\Controllers\\'], function (Router $router) {
             $router->get('/foo', 'ControllerA@myMethod');
             $router->post('/foo', 'ControllerB@myMethod');
         });
@@ -506,8 +508,8 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $postRoutes */
         $postRoutes = $this->router->getRouteCollection()->get(RequestMethods::POST);
-        $this->assertEquals("MyApp\\Controllers\\ControllerA", $getRoutes[0]->getControllerName());
-        $this->assertEquals("MyApp\\Controllers\\ControllerB", $postRoutes[0]->getControllerName());
+        $this->assertEquals('MyApp\\Controllers\\ControllerA', $getRoutes[0]->getControllerName());
+        $this->assertEquals('MyApp\\Controllers\\ControllerB', $postRoutes[0]->getControllerName());
     }
 
     /**
@@ -515,7 +517,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testSpecifyingNamespacePrefixWithNoTrailingSlash()
     {
-        $this->router->group(['controllerNamespace' => "MyApp\\Controllers"], function () {
+        $this->router->group(['controllerNamespace' => 'MyApp\\Controllers'], function () {
             $this->router->get('/foo', 'ControllerA@myMethod');
             $this->router->post('/foo', 'ControllerB@myMethod');
         });
@@ -523,8 +525,8 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $postRoutes */
         $postRoutes = $this->router->getRouteCollection()->get(RequestMethods::POST);
-        $this->assertEquals("MyApp\\Controllers\\ControllerA", $getRoutes[0]->getControllerName());
-        $this->assertEquals("MyApp\\Controllers\\ControllerB", $postRoutes[0]->getControllerName());
+        $this->assertEquals('MyApp\\Controllers\\ControllerA', $getRoutes[0]->getControllerName());
+        $this->assertEquals('MyApp\\Controllers\\ControllerB', $postRoutes[0]->getControllerName());
     }
 
     /**

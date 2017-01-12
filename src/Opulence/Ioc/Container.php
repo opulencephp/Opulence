@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc;
 
 use InvalidArgumentException;
@@ -29,7 +31,7 @@ class Container implements IContainer
     protected $targetStack = [];
     /** @var IBinding[][] The list of bindings */
     protected $bindings = [];
-    /** @var array */
+    /** @var array The cache of reflection constructors and their parameters */
     protected $constructorReflectionCache = [];
 
     /**

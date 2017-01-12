@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Commands;
 
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
@@ -34,7 +36,7 @@ EOF;
      * @param string $applicationVersion The version number of the application
      */
     public function __construct(
-        CommandCollection &$commands,
+        CommandCollection $commands,
         PaddingFormatter $paddingFormatter,
         string $applicationVersion
     ) {

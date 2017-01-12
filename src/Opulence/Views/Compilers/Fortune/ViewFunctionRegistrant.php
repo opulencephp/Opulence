@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune;
 
 /**
@@ -18,7 +20,7 @@ class ViewFunctionRegistrant
      *
      * @param ITranspiler $transpiler The transpiler to register to
      */
-    public function registerViewFunctions(ITranspiler &$transpiler)
+    public function registerViewFunctions(ITranspiler $transpiler)
     {
         // Register the charset function
         $transpiler->registerViewFunction('charset', function ($charset) {

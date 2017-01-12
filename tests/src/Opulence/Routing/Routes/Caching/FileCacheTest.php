@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes\Caching;
 
 use Opulence\Routing\Dispatchers\MiddlewarePipeline;
@@ -54,7 +56,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     {
         file_put_contents($this->cachedRouteFilePath, 'foo');
         $this->cache->flush($this->cachedRouteFilePath);
-        $this->assertFalse(file_exists($this->cachedRouteFilePath));
+        $this->assertFileNotExists($this->cachedRouteFilePath);
     }
 
     /**
@@ -63,9 +65,9 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     public function testRoutesAreCachedAfterMiss()
     {
         $router = $this->getRouter();
-        $this->assertFalse(file_exists($this->cachedRouteFilePath));
+        $this->assertFileNotExists($this->cachedRouteFilePath);
         $routes = $this->cache->get($this->cachedRouteFilePath, $router, $this->rawRouteFilePath);
-        $this->assertTrue(file_exists($this->cachedRouteFilePath));
+        $this->assertFileExists($this->cachedRouteFilePath);
         $this->assertEquals(base64_encode(serialize($routes)), file_get_contents($this->cachedRouteFilePath));
     }
 
@@ -79,7 +81,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $routes = $router->getRouteCollection();
         file_put_contents($this->cachedRouteFilePath, base64_encode(serialize($routes)));
         $routes = $this->cache->get($this->cachedRouteFilePath, $router, $this->rawRouteFilePath);
-        $this->assertTrue(file_exists($this->cachedRouteFilePath));
+        $this->assertFileExists($this->cachedRouteFilePath);
         $this->assertEquals(base64_encode(serialize($routes)), file_get_contents($this->cachedRouteFilePath));
     }
 
@@ -93,7 +95,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $setRoutes = $router->getRouteCollection();
         $this->cache->set($this->cachedRouteFilePath, $setRoutes);
         $this->assertEquals(base64_encode(serialize($setRoutes)), file_get_contents($this->cachedRouteFilePath));
-        $this->assertTrue(file_exists($this->cachedRouteFilePath));
+        $this->assertFileExists($this->cachedRouteFilePath);
         $getRoutes = $this->cache->get($this->cachedRouteFilePath, $router, $this->rawRouteFilePath);
         $this->assertEquals($getRoutes, $setRoutes);
     }

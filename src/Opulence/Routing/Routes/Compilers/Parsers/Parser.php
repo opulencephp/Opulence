@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes\Compilers\Parsers;
 
 use Opulence\Routing\RouteException;
@@ -51,10 +53,10 @@ class Parser implements IParser
      * @return string The regex
      * @throws RouteException Thrown if the route variables are not correctly defined
      */
-    private function convertRawStringToRegex(ParsedRoute &$parsedRoute, string $rawString) : string
+    private function convertRawStringToRegex(ParsedRoute $parsedRoute, string $rawString) : string
     {
         if (empty($rawString)) {
-            return "#^.*$#";
+            return '#^.*$#';
         }
 
         $this->variableNames = [];
@@ -92,7 +94,7 @@ class Parser implements IParser
             );
         }
 
-        return sprintf("#^%s$#", $regex);
+        return sprintf('#^%s$#', $regex);
     }
 
     /**

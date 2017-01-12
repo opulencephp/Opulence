@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\Signatures;
 
 use Opulence\Authentication\Tokens\ISignedToken;
@@ -103,7 +105,7 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
             }
         }
 
-        $this->assertEquals(count($algorithms), $numVerified);
-        $this->assertEquals(count($algorithms), $numUnverified);
+        $this->assertCount($numVerified, $algorithms);
+        $this->assertCount($numUnverified, $algorithms);
     }
 }

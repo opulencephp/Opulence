@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers;
 
 use Opulence\Console\Responses\Compilers\Elements\Colors;
@@ -22,7 +24,7 @@ class ElementRegistrant
      *
      * @param ICompiler $compiler The compiler to register to
      */
-    public function registerElements(ICompiler &$compiler)
+    public function registerElements(ICompiler $compiler)
     {
         $compiler->registerElement('success', new Style(Colors::BLACK, Colors::GREEN));
         $compiler->registerElement('info', new Style(Colors::GREEN));

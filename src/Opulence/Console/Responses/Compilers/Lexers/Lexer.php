@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers\Lexers;
 
 use Opulence\Console\Responses\Compilers\Lexers\Tokens\Token;
@@ -33,14 +35,14 @@ class Lexer implements ILexer
         foreach ($charArray as $charIter => $char) {
             switch ($char) {
                 case '<':
-                    if ($this->lookBehind($charArray, $charIter) === "\\") {
+                    if ($this->lookBehind($charArray, $charIter) === '\\') {
                         // This tag was escaped
                         // Don't include the preceding slash
                         $wordBuffer = mb_substr($wordBuffer, 0, -1) . $char;
                     } elseif ($inOpenTag || $inCloseTag) {
                         throw new RuntimeException(
                             sprintf(
-                                "Invalid tags near \"%s\", character #%d",
+                                'Invalid tags near "%s", character #%d',
                                 $this->getSurroundingText($charArray, $charIter),
                                 $charIter
                             )
