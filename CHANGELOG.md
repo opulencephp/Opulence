@@ -2,6 +2,7 @@
 
 <h3>Console</h3>
 * Fixed #52 (improperly iterating over string when it contains multibyte chars)
+* Fixed #62 (`php apex app:rename` was allowing bad namespaces)
 
 <h3>Framework</h3>
 * Fixed #55 (`Authority` was being instantiated with incorrect parameters)
