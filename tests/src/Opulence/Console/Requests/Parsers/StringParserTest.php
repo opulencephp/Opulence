@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests\Parsers;
 
 use Opulence\Console\Requests\Tokenizers\StringTokenizer;
@@ -31,8 +33,8 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
      */
     public function testBackslashesAreRespected()
     {
-        $request = $this->parser->parse("foo bar\\baz");
-        $this->assertEquals(["bar\\baz"], $request->getArgumentValues());
+        $request = $this->parser->parse('foo bar\\baz');
+        $this->assertEquals(['bar\\baz'], $request->getArgumentValues());
     }
 
     /**

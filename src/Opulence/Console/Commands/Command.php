@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Commands;
 
 use InvalidArgumentException;
@@ -99,7 +101,7 @@ abstract class Command implements ICommand
     final public function execute(IResponse $response)
     {
         if (!$this->constructorCalled) {
-            throw new RuntimeException("Command class \"" . static::class . "\" does not call parent::__construct()");
+            throw new RuntimeException('Command class "' . static::class . '" does not call parent::__construct()');
         }
 
         return $this->doExecute($response);

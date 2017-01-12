@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Debug\Exceptions\Handlers\Http;
 
 use Exception;
@@ -98,7 +100,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
      */
     private function getContentWithoutHeaders($rawContents)
     {
-        return preg_replace("/header::.*\\$\\$/", '', $rawContents);
+        return preg_replace('/header::.*\$\$/', '', $rawContents);
     }
 
     /**

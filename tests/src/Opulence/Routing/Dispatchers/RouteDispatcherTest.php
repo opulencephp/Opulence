@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Dispatchers;
 
 use InvalidArgumentException;
@@ -134,7 +136,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(RouteException::class);
         $route = $this->getCompiledRoute(
-            new Route(['GET'], '/foo', "Opulence\\Controller\\That\\Does\\Not\\Exist@foo")
+            new Route(['GET'], '/foo', 'Opulence\\Controller\\That\\Does\\Not\\Exist@foo')
         );
         $this->dispatcher->dispatch($route, $this->request);
     }

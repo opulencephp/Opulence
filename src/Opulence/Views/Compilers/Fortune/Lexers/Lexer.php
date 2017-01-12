@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune\Lexers;
 
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
@@ -407,7 +409,7 @@ class Lexer implements ILexer
 
                     // Now that we've matched, we want to reset the loop so that longest delimiters are matched first
                     reset($statementMethods);
-                } elseif ($this->getCurrentChar() === "\\") {
+                } elseif ($this->getCurrentChar() === '\\') {
                     // Now that we know we're on an escape character, spend the resources to check for a match
                     if ($this->matches("\\$statementOpenDelimiter")) {
                         // This is an escaped statement

@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Orm\Console\Commands;
 
 use Opulence\Console\Prompts\Questions\MultipleChoice;
@@ -57,7 +59,7 @@ class MakeDataMapperCommand extends MakeCommand
      */
     protected function getDefaultNamespace(string $rootNamespace) : string
     {
-        return $rootNamespace . "\\Infrastructure\\Orm";
+        return $rootNamespace . '\\Infrastructure\\Orm';
     }
 
     /**
