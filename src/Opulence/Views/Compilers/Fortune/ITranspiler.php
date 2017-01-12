@@ -86,7 +86,7 @@ interface ITranspiler
      * @param string $name The name of the part to show, or empty if we should show the last part in the stack
      * @return string The content of the part
      */
-    public function showPart(string $name = "") : string;
+    public function showPart(string $name = '') : string;
 
     /**
      * Starts a view part

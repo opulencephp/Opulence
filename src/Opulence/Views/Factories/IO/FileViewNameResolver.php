@@ -25,7 +25,7 @@ class FileViewNameResolver implements IViewNameResolver
      */
     public function registerExtension(string $extension, int $priority = -1)
     {
-        $this->extensions[ltrim($extension, ".")] = $priority;
+        $this->extensions[ltrim($extension, '.')] = $priority;
     }
 
     /**
@@ -33,7 +33,7 @@ class FileViewNameResolver implements IViewNameResolver
      */
     public function registerPath(string $path, int $priority = -1)
     {
-        $this->paths[rtrim($path, "/")] = $priority;
+        $this->paths[rtrim($path, '/')] = $priority;
     }
 
     /**

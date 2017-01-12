@@ -62,7 +62,7 @@ class ExceptionHandler implements IExceptionHandler
      */
     public function register()
     {
-        set_exception_handler([$this, "handle"]);
+        set_exception_handler([$this, 'handle']);
     }
 
     /**

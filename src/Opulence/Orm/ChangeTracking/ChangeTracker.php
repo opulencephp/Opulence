@@ -32,7 +32,7 @@ class ChangeTracker implements IChangeTracker
     public function hasChanged($entity) : bool
     {
         if (!isset($this->objectHashIdsToOriginalData[spl_object_hash($entity)])) {
-            throw new OrmException("Entity is not registered");
+            throw new OrmException('Entity is not registered');
         }
 
         // If a comparison function was specified, we don't bother using reflection to check for updates

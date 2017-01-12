@@ -34,17 +34,17 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     public function testLexingAdjacentElements()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_TAG_OPEN, "foo", 0),
-            new Token(TokenTypes::T_WORD, "baz", 5),
-            new Token(TokenTypes::T_TAG_CLOSE, "foo", 8),
-            new Token(TokenTypes::T_TAG_OPEN, "bar", 14),
-            new Token(TokenTypes::T_WORD, "blah", 19),
-            new Token(TokenTypes::T_TAG_CLOSE, "bar", 23),
+            new Token(TokenTypes::T_TAG_OPEN, 'foo', 0),
+            new Token(TokenTypes::T_WORD, 'baz', 5),
+            new Token(TokenTypes::T_TAG_CLOSE, 'foo', 8),
+            new Token(TokenTypes::T_TAG_OPEN, 'bar', 14),
+            new Token(TokenTypes::T_WORD, 'blah', 19),
+            new Token(TokenTypes::T_TAG_CLOSE, 'bar', 23),
             new Token(TokenTypes::T_EOF, null, 29)
         ];
         $this->assertEquals(
             $expectedOutput,
-            $this->lexer->lex("<foo>baz</foo><bar>blah</bar>")
+            $this->lexer->lex('<foo>baz</foo><bar>blah</bar>')
         );
     }
 
@@ -54,13 +54,13 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     public function testLexingElementWithNoChildren()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_TAG_OPEN, "foo", 0),
-            new Token(TokenTypes::T_TAG_CLOSE, "foo", 5),
+            new Token(TokenTypes::T_TAG_OPEN, 'foo', 0),
+            new Token(TokenTypes::T_TAG_CLOSE, 'foo', 5),
             new Token(TokenTypes::T_EOF, null, 11)
         ];
         $this->assertEquals(
             $expectedOutput,
-            $this->lexer->lex("<foo></foo>")
+            $this->lexer->lex('<foo></foo>')
         );
     }
 
@@ -70,7 +70,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     public function testLexingEscapedTagAtBeginning()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_WORD, "<bar>", 1),
+            new Token(TokenTypes::T_WORD, '<bar>', 1),
             new Token(TokenTypes::T_EOF, null, 6)
         ];
         $this->assertEquals($expectedOutput, $this->lexer->lex("\\<bar>"));
@@ -82,9 +82,9 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     public function testLexingEscapedTagInBetweenTags()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_TAG_OPEN, "foo", 0),
-            new Token(TokenTypes::T_WORD, "<bar>", 6),
-            new Token(TokenTypes::T_TAG_CLOSE, "foo", 11),
+            new Token(TokenTypes::T_TAG_OPEN, 'foo', 0),
+            new Token(TokenTypes::T_WORD, '<bar>', 6),
+            new Token(TokenTypes::T_TAG_CLOSE, 'foo', 11),
             new Token(TokenTypes::T_EOF, null, 17)
         ];
         $this->assertEquals($expectedOutput, $this->lexer->lex("<foo>\\<bar></foo>"));
@@ -97,12 +97,12 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     {
         // We record the EOL length because it differs on OSs
         $eolLength = strlen(PHP_EOL);
-        $text = "<foo>" . PHP_EOL . "bar" . PHP_EOL . "</foo>" . PHP_EOL . "baz";
+        $text = '<foo>' . PHP_EOL . 'bar' . PHP_EOL . '</foo>' . PHP_EOL . 'baz';
         $expectedOutput = [
-            new Token(TokenTypes::T_TAG_OPEN, "foo", 0),
-            new Token(TokenTypes::T_WORD, PHP_EOL . "bar" . PHP_EOL, 5),
-            new Token(TokenTypes::T_TAG_CLOSE, "foo", 5 + 3 + (2 * $eolLength)),
-            new Token(TokenTypes::T_WORD, PHP_EOL . "baz", 5 + 3 + (2 * $eolLength) + 6),
+            new Token(TokenTypes::T_TAG_OPEN, 'foo', 0),
+            new Token(TokenTypes::T_WORD, PHP_EOL . 'bar' . PHP_EOL, 5),
+            new Token(TokenTypes::T_TAG_CLOSE, 'foo', 5 + 3 + (2 * $eolLength)),
+            new Token(TokenTypes::T_WORD, PHP_EOL . 'baz', 5 + 3 + (2 * $eolLength) + 6),
             new Token(TokenTypes::T_EOF, null, 5 + 3 + (3 * $eolLength) + 6 + 3)
         ];
         $this->assertEquals(
@@ -117,18 +117,18 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     public function testLexingNestedElements()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_TAG_OPEN, "foo", 0),
-            new Token(TokenTypes::T_WORD, "bar", 5),
-            new Token(TokenTypes::T_TAG_OPEN, "bar", 8),
-            new Token(TokenTypes::T_WORD, "blah", 13),
-            new Token(TokenTypes::T_TAG_CLOSE, "bar", 17),
-            new Token(TokenTypes::T_WORD, "baz", 23),
-            new Token(TokenTypes::T_TAG_CLOSE, "foo", 26),
+            new Token(TokenTypes::T_TAG_OPEN, 'foo', 0),
+            new Token(TokenTypes::T_WORD, 'bar', 5),
+            new Token(TokenTypes::T_TAG_OPEN, 'bar', 8),
+            new Token(TokenTypes::T_WORD, 'blah', 13),
+            new Token(TokenTypes::T_TAG_CLOSE, 'bar', 17),
+            new Token(TokenTypes::T_WORD, 'baz', 23),
+            new Token(TokenTypes::T_TAG_CLOSE, 'foo', 26),
             new Token(TokenTypes::T_EOF, null, 32)
         ];
         $this->assertEquals(
             $expectedOutput,
-            $this->lexer->lex("<foo>bar<bar>blah</bar>baz</foo>")
+            $this->lexer->lex('<foo>bar<bar>blah</bar>baz</foo>')
         );
     }
 
@@ -138,15 +138,15 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     public function testLexingNestedElementsWithNoChildren()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_TAG_OPEN, "foo", 0),
-            new Token(TokenTypes::T_TAG_OPEN, "bar", 5),
-            new Token(TokenTypes::T_TAG_CLOSE, "bar", 10),
-            new Token(TokenTypes::T_TAG_CLOSE, "foo", 16),
+            new Token(TokenTypes::T_TAG_OPEN, 'foo', 0),
+            new Token(TokenTypes::T_TAG_OPEN, 'bar', 5),
+            new Token(TokenTypes::T_TAG_CLOSE, 'bar', 10),
+            new Token(TokenTypes::T_TAG_CLOSE, 'foo', 16),
             new Token(TokenTypes::T_EOF, null, 22)
         ];
         $this->assertEquals(
             $expectedOutput,
-            $this->lexer->lex("<foo><bar></bar></foo>")
+            $this->lexer->lex('<foo><bar></bar></foo>')
         );
     }
 
@@ -156,7 +156,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     public function testLexingOpenTagInsideOfCloseTag()
     {
         $this->expectException(RuntimeException::class);
-        $this->lexer->lex("<foo></<bar>foo>");
+        $this->lexer->lex('<foo></<bar>foo>');
     }
 
     /**
@@ -165,7 +165,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     public function testLexingOpenTagInsideOfOpenTag()
     {
         $this->expectException(RuntimeException::class);
-        $this->lexer->lex("<foo<bar>>");
+        $this->lexer->lex('<foo<bar>>');
     }
 
     /**
@@ -174,12 +174,12 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     public function testLexingPlainText()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_WORD, "foobar", 0),
+            new Token(TokenTypes::T_WORD, 'foobar', 0),
             new Token(TokenTypes::T_EOF, null, 6)
         ];
         $this->assertEquals(
             $expectedOutput,
-            $this->lexer->lex("foobar")
+            $this->lexer->lex('foobar')
         );
     }
 
@@ -189,12 +189,12 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     public function testLexingSingleElement()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_TAG_OPEN, "foo", 0),
-            new Token(TokenTypes::T_WORD, "bar", 5),
-            new Token(TokenTypes::T_TAG_CLOSE, "foo", 8),
+            new Token(TokenTypes::T_TAG_OPEN, 'foo', 0),
+            new Token(TokenTypes::T_WORD, 'bar', 5),
+            new Token(TokenTypes::T_TAG_CLOSE, 'foo', 8),
             new Token(TokenTypes::T_EOF, null, 14)
         ];
-        $this->assertEquals($expectedOutput, $this->lexer->lex("<foo>bar</foo>"));
+        $this->assertEquals($expectedOutput, $this->lexer->lex('<foo>bar</foo>'));
     }
 
     /**
@@ -203,10 +203,10 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     public function testLexingUnopenedTag()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_WORD, "foo", 0),
-            new Token(TokenTypes::T_TAG_CLOSE, "bar", 3),
+            new Token(TokenTypes::T_WORD, 'foo', 0),
+            new Token(TokenTypes::T_TAG_CLOSE, 'bar', 3),
             new Token(TokenTypes::T_EOF, null, 9)
         ];
-        $this->assertEquals($expectedOutput, $this->lexer->lex("foo</bar>"));
+        $this->assertEquals($expectedOutput, $this->lexer->lex('foo</bar>'));
     }
 }

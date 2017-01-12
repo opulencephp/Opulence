@@ -39,9 +39,9 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdd()
     {
-        $command = new SimpleCommand("foo", "The foo command");
+        $command = new SimpleCommand('foo', 'The foo command');
         $this->collection->add($command);
-        $this->assertSame($command, $this->collection->get("foo"));
+        $this->assertSame($command, $this->collection->get('foo'));
     }
 
     /**
@@ -50,8 +50,8 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     public function testAddingDuplicateNames()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->collection->add(new SimpleCommand("foo", "The foo command"));
-        $this->collection->add(new SimpleCommand("foo", "The foo command copy"));
+        $this->collection->add(new SimpleCommand('foo', 'The foo command'));
+        $this->collection->add(new SimpleCommand('foo', 'The foo command copy'));
     }
 
     /**
@@ -62,8 +62,8 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
         $this->collection->add(new HappyHolidayCommand());
         $response = new Response(new Compiler(new Lexer(), new Parser()));
         ob_start();
-        $this->collection->call("holiday", $response, ["Easter"], ["-y"]);
-        $this->assertEquals("Happy Easter!", ob_get_clean());
+        $this->collection->call('holiday', $response, ['Easter'], ['-y']);
+        $this->assertEquals('Happy Easter!', ob_get_clean());
     }
 
     /**
@@ -72,7 +72,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     public function testCallingNonExistentCommand()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->collection->call("fake", new SilentResponse(), [], []);
+        $this->collection->call('fake', new SilentResponse(), [], []);
     }
 
     /**
@@ -80,9 +80,9 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfCommandExists()
     {
-        $this->collection->add(new SimpleCommand("foo", "The foo command"));
-        $this->assertTrue($this->collection->has("foo"));
-        $this->assertFalse($this->collection->has("bar"));
+        $this->collection->add(new SimpleCommand('foo', 'The foo command'));
+        $this->assertTrue($this->collection->has('foo'));
+        $this->assertFalse($this->collection->has('bar'));
     }
 
     /**
@@ -90,8 +90,8 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAll()
     {
-        $fooCommand = new SimpleCommand("foo", "The foo command");
-        $barCommand = new SimpleCommand("bar", "The bar command");
+        $fooCommand = new SimpleCommand('foo', 'The foo command');
+        $barCommand = new SimpleCommand('bar', 'The bar command');
         $this->collection->add($fooCommand);
         $this->collection->add($barCommand);
         $this->assertEquals([$fooCommand, $barCommand], $this->collection->getAll());
@@ -103,7 +103,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     public function testGettingCommandThatDoesNotExists()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->collection->get("foo");
+        $this->collection->get('foo');
     }
 
     /**
@@ -111,10 +111,10 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testOverwritingExistingCommand()
     {
-        $originalCommand = new SimpleCommand("foo", "The foo command");
-        $overwritingCommand = new SimpleCommand("foo", "The foo command copy");
+        $originalCommand = new SimpleCommand('foo', 'The foo command');
+        $overwritingCommand = new SimpleCommand('foo', 'The foo command copy');
         $this->collection->add($originalCommand);
         $this->collection->add($overwritingCommand, true);
-        $this->assertSame($overwritingCommand, $this->collection->get("foo"));
+        $this->assertSame($overwritingCommand, $this->collection->get('foo'));
     }
 }

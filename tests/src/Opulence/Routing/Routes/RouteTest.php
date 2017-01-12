@@ -23,9 +23,9 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingMultipleMiddleware()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
-        $route->addMiddleware(["foo", "bar"]);
-        $this->assertEquals(["foo", "bar"], $route->getMiddleware());
+        $route = new Route('get', '/{foo}', 'foo@bar');
+        $route->addMiddleware(['foo', 'bar']);
+        $this->assertEquals(['foo', 'bar'], $route->getMiddleware());
     }
 
     /**
@@ -33,10 +33,10 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingNonUniqueMiddleware()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
-        $route->addMiddleware("foo");
-        $route->addMiddleware("foo");
-        $this->assertEquals(["foo"], $route->getMiddleware());
+        $route = new Route('get', '/{foo}', 'foo@bar');
+        $route->addMiddleware('foo');
+        $route->addMiddleware('foo');
+        $this->assertEquals(['foo'], $route->getMiddleware());
     }
 
     /**
@@ -44,10 +44,10 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingNonUniqueParameterizedMiddleware()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
-        $route->addMiddleware(ParameterizedMiddleware::withParameters(["foo" => "bar"]));
-        $route->addMiddleware(ParameterizedMiddleware::withParameters(["foo" => "bar"]));
-        $this->assertEquals([ParameterizedMiddleware::withParameters(["foo" => "bar"])], $route->getMiddleware());
+        $route = new Route('get', '/{foo}', 'foo@bar');
+        $route->addMiddleware(ParameterizedMiddleware::withParameters(['foo' => 'bar']));
+        $route->addMiddleware(ParameterizedMiddleware::withParameters(['foo' => 'bar']));
+        $this->assertEquals([ParameterizedMiddleware::withParameters(['foo' => 'bar'])], $route->getMiddleware());
     }
 
     /**
@@ -55,9 +55,9 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingSingleMiddleware()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
-        $route->addMiddleware("foo");
-        $this->assertEquals(["foo"], $route->getMiddleware());
+        $route = new Route('get', '/{foo}', 'foo@bar');
+        $route->addMiddleware('foo');
+        $this->assertEquals(['foo'], $route->getMiddleware());
     }
 
     /**
@@ -65,9 +65,9 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testControllerRouteDoesNotSayItsUsingClosure()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
+        $route = new Route('get', '/{foo}', 'foo@bar');
         $this->assertFalse($route->usesCallable());
-        $this->assertEquals("foo@bar", $route->getController());
+        $this->assertEquals('foo@bar', $route->getController());
     }
 
     /**
@@ -75,8 +75,8 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingControllerMethod()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
-        $this->assertEquals("bar", $route->getControllerMethod());
+        $route = new Route('get', '/{foo}', 'foo@bar');
+        $this->assertEquals('bar', $route->getControllerMethod());
     }
 
     /**
@@ -84,9 +84,9 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingControllerName()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
-        $this->assertEquals("foo", $route->getControllerName());
-        $this->assertEquals("foo@bar", $route->getController());
+        $route = new Route('get', '/{foo}', 'foo@bar');
+        $this->assertEquals('foo', $route->getControllerName());
+        $this->assertEquals('foo@bar', $route->getController());
     }
 
     /**
@@ -94,8 +94,8 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingMethods()
     {
-        $route = new Route("get", "/foo", "foo@bar");
-        $this->assertEquals(["get"], $route->getMethods());
+        $route = new Route('get', '/foo', 'foo@bar');
+        $this->assertEquals(['get'], $route->getMethods());
     }
 
     /**
@@ -104,10 +104,10 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     public function testGettingMiddlewareWhenItIsAString()
     {
         $options = [
-            "middleware" => "foo"
+            'middleware' => 'foo'
         ];
-        $route = new Route("get", "/foo", "foo@bar", $options);
-        $this->assertEquals(["foo"], $route->getMiddleware());
+        $route = new Route('get', '/foo', 'foo@bar', $options);
+        $this->assertEquals(['foo'], $route->getMiddleware());
     }
 
     /**
@@ -116,10 +116,10 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     public function testGettingMiddlewareWhenItIsAnObject()
     {
         $options = [
-            "middleware" => new MiddlewareParameters("foo", ["bar" => "baz"])
+            'middleware' => new MiddlewareParameters('foo', ['bar' => 'baz'])
         ];
-        $route = new Route("get", "/foo", "foo@bar", $options);
-        $this->assertEquals([$options["middleware"]], $route->getMiddleware());
+        $route = new Route('get', '/foo', 'foo@bar', $options);
+        $this->assertEquals([$options['middleware']], $route->getMiddleware());
     }
 
     /**
@@ -128,10 +128,10 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     public function testGettingMiddlewareWhenTheyAreAnArray()
     {
         $options = [
-            "middleware" => ["foo", "bar"]
+            'middleware' => ['foo', 'bar']
         ];
-        $route = new Route("get", "/foo", "foo@bar", $options);
-        $this->assertEquals(["foo", "bar"], $route->getMiddleware());
+        $route = new Route('get', '/foo', 'foo@bar', $options);
+        $this->assertEquals(['foo', 'bar'], $route->getMiddleware());
     }
 
     /**
@@ -139,8 +139,8 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingRawPath()
     {
-        $route = new Route("get", "/foo/{id}", "foo@bar");
-        $this->assertEquals("/foo/{id}", $route->getRawPath());
+        $route = new Route('get', '/foo/{id}', 'foo@bar');
+        $this->assertEquals('/foo/{id}', $route->getRawPath());
     }
 
     /**
@@ -148,7 +148,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingUnsetName()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
+        $route = new Route('get', '/{foo}', 'foo@bar');
         $this->assertEmpty($route->getName());
     }
 
@@ -158,10 +158,10 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     public function testGettingVariableRegex()
     {
         $options = [
-            "vars" => ["bar" => "\d+"]
+            'vars' => ['bar' => "\d+"]
         ];
-        $route = new Route("get", "/foo", "foo@bar", $options);
-        $this->assertEquals("\d+", $route->getVarRegex("bar"));
+        $route = new Route('get', '/foo', 'foo@bar', $options);
+        $this->assertEquals("\d+", $route->getVarRegex('bar'));
     }
 
     /**
@@ -169,8 +169,8 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingVariableRegexForParameterWithNoRegex()
     {
-        $route = new Route("get", "/foo", "foo@bar");
-        $this->assertNull($route->getVarRegex("bar"));
+        $route = new Route('get', '/foo', 'foo@bar');
+        $this->assertNull($route->getVarRegex('bar'));
     }
 
     /**
@@ -178,7 +178,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testNotSettingHttps()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
+        $route = new Route('get', '/{foo}', 'foo@bar');
         $this->assertFalse($route->isSecure());
     }
 
@@ -188,7 +188,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     public function testPassingControllerWithNoMethod()
     {
         $this->expectException(InvalidArgumentException::class);
-        new Route("get", "/{foo}", "foo@");
+        new Route('get', '/{foo}', 'foo@');
     }
 
     /**
@@ -197,7 +197,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     public function testPassingControllerWithNoName()
     {
         $this->expectException(InvalidArgumentException::class);
-        new Route("get", "/{foo}", "@bar");
+        new Route('get', '/{foo}', '@bar');
     }
 
     /**
@@ -206,7 +206,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     public function testPassingIncorrectlyFormattedController()
     {
         $this->expectException(InvalidArgumentException::class);
-        new Route("get", "/{foo}", "foo");
+        new Route('get', '/{foo}', 'foo');
     }
 
     /**
@@ -214,8 +214,8 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testPassingMultipleMethodsToConstructor()
     {
-        $route = new Route(["get", "post"], "/foo", "foo@bar");
-        $this->assertEquals(["get", "post"], $route->getMethods());
+        $route = new Route(['get', 'post'], '/foo', 'foo@bar');
+        $this->assertEquals(['get', 'post'], $route->getMethods());
     }
 
     /**
@@ -223,8 +223,8 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testPassingSingleMethodToConstructor()
     {
-        $route = new Route("get", "/foo", "foo@bar");
-        $this->assertEquals(["get"], $route->getMethods());
+        $route = new Route('get', '/foo', 'foo@bar');
+        $this->assertEquals(['get'], $route->getMethods());
     }
 
     /**
@@ -232,10 +232,10 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testPrependingMiddleware()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
-        $route->addMiddleware("foo", false);
-        $route->addMiddleware("bar", true);
-        $this->assertEquals(["bar", "foo"], $route->getMiddleware());
+        $route = new Route('get', '/{foo}', 'foo@bar');
+        $route->addMiddleware('foo', false);
+        $route->addMiddleware('bar', true);
+        $this->assertEquals(['bar', 'foo'], $route->getMiddleware());
     }
 
     /**
@@ -243,7 +243,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingControllerClosure()
     {
-        $route = new Route("get", "/", "foo@bar");
+        $route = new Route('get', '/', 'foo@bar');
         $route->setControllerCallable(function () {
         });
         $this->assertInstanceOf(Closure::class, $route->getController());
@@ -255,10 +255,10 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingControllerMethod()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
-        $route->setControllerMethod("blah");
-        $this->assertEquals("blah", $route->getControllerMethod());
-        $this->assertEquals("foo@blah", $route->getController());
+        $route = new Route('get', '/{foo}', 'foo@bar');
+        $route->setControllerMethod('blah');
+        $this->assertEquals('blah', $route->getControllerMethod());
+        $this->assertEquals('foo@blah', $route->getController());
     }
 
     /**
@@ -266,10 +266,10 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingControllerName()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
-        $route->setControllerName("blah");
-        $this->assertEquals("blah", $route->getControllerName());
-        $this->assertEquals("blah@bar", $route->getController());
+        $route = new Route('get', '/{foo}', 'foo@bar');
+        $route->setControllerName('blah');
+        $this->assertEquals('blah', $route->getControllerName());
+        $this->assertEquals('blah@bar', $route->getController());
     }
 
     /**
@@ -278,14 +278,14 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     public function testSettingHttps()
     {
         $options = [
-            "https" => false
+            'https' => false
         ];
-        $route = new Route("get", "/{foo}", "foo@bar", $options);
+        $route = new Route('get', '/{foo}', 'foo@bar', $options);
         $this->assertFalse($route->isSecure());
         $options = [
-            "https" => true
+            'https' => true
         ];
-        $route = new Route("get", "/{foo}", "foo@bar", $options);
+        $route = new Route('get', '/{foo}', 'foo@bar', $options);
         $this->assertTrue($route->isSecure());
     }
 
@@ -294,8 +294,8 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingMultipleVariableRegexes()
     {
-        $route = new Route("get", "/{foo}/{bar}", "foo@bar");
-        $regexes = ["foo" => "\d+", "bar" => "\w+"];
+        $route = new Route('get', '/{foo}/{bar}', 'foo@bar');
+        $regexes = ['foo' => "\d+", 'bar' => "\w+"];
         $route->setVarRegexes($regexes);
         $this->assertEquals($regexes, $route->getVarRegexes());
     }
@@ -305,9 +305,9 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingName()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
-        $route->setName("blah");
-        $this->assertEquals("blah", $route->getName());
+        $route = new Route('get', '/{foo}', 'foo@bar');
+        $route->setName('blah');
+        $this->assertEquals('blah', $route->getName());
     }
 
     /**
@@ -316,10 +316,10 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     public function testSettingNameInConstructor()
     {
         $options = [
-            "name" => "blah"
+            'name' => 'blah'
         ];
-        $route = new Route("get", "/{foo}", "foo@bar", $options);
-        $this->assertEquals("blah", $route->getName());
+        $route = new Route('get', '/{foo}', 'foo@bar', $options);
+        $this->assertEquals('blah', $route->getName());
     }
 
     /**
@@ -327,9 +327,9 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingRawHost()
     {
-        $route = new Route("get", "/foo", "foo@bar");
-        $route->setRawHost("google.com");
-        $this->assertEquals("google.com", $route->getRawHost());
+        $route = new Route('get', '/foo', 'foo@bar');
+        $route->setRawHost('google.com');
+        $this->assertEquals('google.com', $route->getRawHost());
     }
 
     /**
@@ -338,10 +338,10 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     public function testSettingRawHostInConstructor()
     {
         $options = [
-            "host" => "google.com"
+            'host' => 'google.com'
         ];
-        $route = new Route("get", "/foo", "foo@bar", $options);
-        $this->assertEquals("google.com", $route->getRawHost());
+        $route = new Route('get', '/foo', 'foo@bar', $options);
+        $this->assertEquals('google.com', $route->getRawHost());
     }
 
     /**
@@ -349,9 +349,9 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingRawPath()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
-        $route->setRawPath("blah");
-        $this->assertEquals("blah", $route->getRawPath());
+        $route = new Route('get', '/{foo}', 'foo@bar');
+        $route->setRawPath('blah');
+        $this->assertEquals('blah', $route->getRawPath());
     }
 
     /**
@@ -359,10 +359,10 @@ class RouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingVariableRegex()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
-        $route->setVarRegex("foo", "\d+");
-        $this->assertEquals(["foo" => "\d+"], $route->getVarRegexes());
-        $this->assertEquals("\d+", $route->getVarRegex("foo"));
+        $route = new Route('get', '/{foo}', 'foo@bar');
+        $route->setVarRegex('foo', "\d+");
+        $this->assertEquals(['foo' => "\d+"], $route->getVarRegexes());
+        $this->assertEquals("\d+", $route->getVarRegex('foo'));
     }
 
     /**
@@ -371,9 +371,9 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     public function testUsingClosure()
     {
         $closure = function () {
-            return "foo";
+            return 'foo';
         };
-        $route = new Route("get", "/{foo}", $closure);
+        $route = new Route('get', '/{foo}', $closure);
         $this->assertTrue($route->usesCallable());
         $this->assertEquals($closure, $route->getController());
     }

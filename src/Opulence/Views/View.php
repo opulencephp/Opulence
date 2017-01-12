@@ -14,26 +14,26 @@ namespace Opulence\Views;
 class View implements IView
 {
     /** The default open tag for unsanitized delimiter  */
-    const DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER = "{{!";
+    const DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER = '{{!';
     /** The default close tag for unsanitized delimiter  */
-    const DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER = "!}}";
+    const DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER = '!}}';
     /** The default open tag for sanitized delimiter  */
-    const DEFAULT_OPEN_SANITIZED_TAG_DELIMITER = "{{";
+    const DEFAULT_OPEN_SANITIZED_TAG_DELIMITER = '{{';
     /** The default close tag for sanitized delimiter */
-    const DEFAULT_CLOSE_SANITIZED_TAG_DELIMITER = "}}";
+    const DEFAULT_CLOSE_SANITIZED_TAG_DELIMITER = '}}';
     /** The default open tag for directive delimiter  */
-    const DEFAULT_OPEN_DIRECTIVE_DELIMITER = "<%";
+    const DEFAULT_OPEN_DIRECTIVE_DELIMITER = '<%';
     /** The default close tag for directive delimiter */
-    const DEFAULT_CLOSE_DIRECTIVE_DELIMITER = "%>";
+    const DEFAULT_CLOSE_DIRECTIVE_DELIMITER = '%>';
     /** The default open tag for comment delimiter  */
-    const DEFAULT_OPEN_COMMENT_DELIMITER = "{#";
+    const DEFAULT_OPEN_COMMENT_DELIMITER = '{#';
     /** The default close tag for comment delimiter */
-    const DEFAULT_CLOSE_COMMENT_DELIMITER = "#}";
+    const DEFAULT_CLOSE_COMMENT_DELIMITER = '#}';
 
     /** @var string The uncompiled contents of the view */
-    protected $contents = "";
+    protected $contents = '';
     /** @var string The path to the raw view */
-    protected $path = "";
+    protected $path = '';
     /** @var array The mapping of PHP variable names to their values */
     protected $vars = [];
     /** @var array The stack of parent delimiter types to values */
@@ -60,7 +60,7 @@ class View implements IView
      * @param string $path The path to the raw view
      * @param string $contents The contents of the view
      */
-    public function __construct(string $path = "", string $contents = "")
+    public function __construct(string $path = '', string $contents = '')
     {
         $this->setPath($path);
         $this->setContents($contents);

@@ -20,7 +20,7 @@ class JsonRequest extends Request
      */
     public function getRawBody() : string
     {
-        return json_encode(["foo" => "bar"]);
+        return json_encode(['foo' => 'bar']);
     }
 
     /**

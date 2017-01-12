@@ -22,27 +22,27 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
     public function testCommandsGoToDefaultClient()
     {
         $default = $this->getMockBuilder(Client::class)
-            ->setMethods(["get"])
+            ->setMethods(['get'])
             ->disableOriginalConstructor()
             ->getMock();
         $default->expects($this->any())
-            ->method("get")
-            ->with("baz")
-            ->willReturn("foo");
+            ->method('get')
+            ->with('baz')
+            ->willReturn('foo');
         $foo = $this->getMockBuilder(Client::class)
-            ->setMethods(["get"])
+            ->setMethods(['get'])
             ->disableOriginalConstructor()
             ->getMock();
         $foo->expects($this->any())
-            ->method("get")
-            ->willReturn("bar");
+            ->method('get')
+            ->willReturn('bar');
         $memcached = new Memcached(
             [
-                "default" => $default,
-                "foo" => $foo
+                'default' => $default,
+                'foo' => $foo
             ]
         );
-        $this->assertEquals("foo", $memcached->get("baz"));
+        $this->assertEquals('foo', $memcached->get('baz'));
     }
 
     /**
@@ -51,7 +51,7 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
     public function testNotPassingDefault()
     {
         $this->expectException(InvalidArgumentException::class);
-        new Memcached(["foo" => "bar"]);
+        new Memcached(['foo' => 'bar']);
     }
 
     /**
@@ -63,13 +63,13 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
         $foo = $this->createMock(Client::class);
         $memcached = new Memcached(
             [
-                "default" => $default,
-                "foo" => $foo
+                'default' => $default,
+                'foo' => $foo
             ]
         );
         $this->assertSame($default, $memcached->getClient());
-        $this->assertSame($default, $memcached->getClient("default"));
-        $this->assertSame($foo, $memcached->getClient("foo"));
+        $this->assertSame($default, $memcached->getClient('default'));
+        $this->assertSame($foo, $memcached->getClient('foo'));
     }
 
     /**
@@ -80,6 +80,6 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
         $default = $this->createMock(Client::class);
         $memcached = new Memcached($default);
         $this->assertSame($default, $memcached->getClient());
-        $this->assertSame($default, $memcached->getClient("default"));
+        $this->assertSame($default, $memcached->getClient('default'));
     }
 }

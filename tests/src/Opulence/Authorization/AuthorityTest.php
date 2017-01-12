@@ -28,7 +28,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     {
         $this->permissionRegistry = new PermissionRegistry();
         $this->roles = $this->createMock(IRoles::class);
-        $this->authority = new Authority(23, ["foo", "bar"], $this->permissionRegistry);
+        $this->authority = new Authority(23, ['foo', 'bar'], $this->permissionRegistry);
     }
 
     /**
@@ -36,11 +36,11 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
      */
     public function testFalseCallback()
     {
-        $this->permissionRegistry->registerCallback("foo", function () {
+        $this->permissionRegistry->registerCallback('foo', function () {
             return false;
         });
-        $this->assertFalse($this->authority->can("foo"));
-        $this->assertTrue($this->authority->cannot("foo"));
+        $this->assertFalse($this->authority->can('foo'));
+        $this->assertTrue($this->authority->cannot('foo'));
     }
 
     /**
@@ -58,9 +58,9 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
      */
     public function testNoRoles()
     {
-        $this->permissionRegistry->registerRoles("foo", "bar");
-        $this->assertFalse($this->authority->can("baz"));
-        $this->assertTrue($this->authority->cannot("baz"));
+        $this->permissionRegistry->registerRoles('foo', 'bar');
+        $this->assertFalse($this->authority->can('baz'));
+        $this->assertTrue($this->authority->cannot('baz'));
     }
 
     /**
@@ -70,16 +70,16 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     {
         $this->permissionRegistry->registerOverrideCallback(function ($userId, string $permission, $argument) {
             $this->assertEquals(23, $userId);
-            $this->assertEquals("foo", $permission);
-            $this->assertEquals("bar", $argument);
+            $this->assertEquals('foo', $permission);
+            $this->assertEquals('bar', $argument);
 
             return true;
         });
-        $this->permissionRegistry->registerCallback("foo", function () {
+        $this->permissionRegistry->registerCallback('foo', function () {
             return false;
         });
-        $this->assertTrue($this->authority->can("foo", "bar"));
-        $this->assertFalse($this->authority->cannot("foo", "bar"));
+        $this->assertTrue($this->authority->can('foo', 'bar'));
+        $this->assertFalse($this->authority->cannot('foo', 'bar'));
     }
 
     /**
@@ -87,11 +87,11 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
      */
     public function testTrueCallback()
     {
-        $this->permissionRegistry->registerCallback("foo", function () {
+        $this->permissionRegistry->registerCallback('foo', function () {
             return true;
         });
-        $this->assertTrue($this->authority->can("foo"));
-        $this->assertFalse($this->authority->cannot("foo"));
+        $this->assertTrue($this->authority->can('foo'));
+        $this->assertFalse($this->authority->cannot('foo'));
     }
 
     /**
@@ -99,8 +99,8 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
      */
     public function testWithRoles()
     {
-        $this->permissionRegistry->registerRoles("foo", "bar");
-        $this->assertTrue($this->authority->can("foo"));
-        $this->assertFalse($this->authority->cannot("foo"));
+        $this->permissionRegistry->registerRoles('foo', 'bar');
+        $this->assertTrue($this->authority->can('foo'));
+        $this->assertFalse($this->authority->cannot('foo'));
     }
 }

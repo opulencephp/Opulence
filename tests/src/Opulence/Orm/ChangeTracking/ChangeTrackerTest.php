@@ -35,8 +35,8 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
          * They are also purposely set to 724 and 1987 so that they won't potentially overlap with any default values
          * set to the Ids
          */
-        $this->entity1 = new User(724, "foo");
-        $this->entity2 = new User(1987, "bar");
+        $this->entity1 = new User(724, 'foo');
+        $this->entity2 = new User(1987, 'bar');
     }
 
     /**
@@ -62,7 +62,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     public function testCheckingForChangeWithoutComparisonFunction()
     {
         $this->changeTracker->startTracking($this->entity1);
-        $this->entity1->setUsername("blah");
+        $this->entity1->setUsername('blah');
         $this->assertTrue($this->changeTracker->hasChanged($this->entity1));
     }
 

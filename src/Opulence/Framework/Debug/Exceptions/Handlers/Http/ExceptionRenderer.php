@@ -38,7 +38,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     public function getResponse() : Response
     {
         if ($this->response === null) {
-            throw new LogicException("Response not set yet");
+            throw new LogicException('Response not set yet');
         }
 
         return $this->response;
@@ -74,13 +74,13 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     protected function getRequestFormat() : string
     {
         if ($this->request === null) {
-            return "html";
+            return 'html';
         }
 
         if ($this->request->isJson()) {
-            return "json";
+            return 'json';
         } else {
-            return "html";
+            return 'html';
         }
     }
 
@@ -93,15 +93,15 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
 
         if ($this->viewFactory !== null && $this->viewCompiler !== null && $this->viewFactory->hasView($viewName)) {
             $view = $this->viewFactory->createView($viewName);
-            $view->setVar("__exception", $ex);
-            $view->setVar("__inDevelopmentEnvironment", $this->inDevelopmentEnvironment);
+            $view->setVar('__exception', $ex);
+            $view->setVar('__inDevelopmentEnvironment', $this->inDevelopmentEnvironment);
             $content = $this->viewCompiler->compile($view);
         } else {
             $content = $this->getDefaultResponseContent($ex, $statusCode);
         }
 
         switch ($this->getRequestFormat()) {
-            case "json":
+            case 'json':
                 // The response will be JSON-encoded, but JsonResponse requires a decoded array
                 $this->response = new JsonResponse(json_decode($content, true), $statusCode);
                 break;

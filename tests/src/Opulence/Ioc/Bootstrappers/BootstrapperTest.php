@@ -33,7 +33,7 @@ class BootstrapperTest extends \PHPUnit\Framework\TestCase
     public function testCallingBadMethod()
     {
         $this->expectException(BadMethodCallException::class);
-        $this->bootstrapper->foo("bar");
+        $this->bootstrapper->foo('bar');
     }
 
     /**

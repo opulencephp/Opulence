@@ -45,8 +45,8 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingAudience()
     {
-        $this->context->setAudience(["foo"]);
-        $this->assertEquals(["foo"], $this->context->getAudience());
+        $this->context->setAudience(['foo']);
+        $this->assertEquals(['foo'], $this->context->getAudience());
     }
 
     /**
@@ -54,8 +54,8 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingIssuer()
     {
-        $this->context->setIssuer("foo");
-        $this->assertEquals("foo", $this->context->getIssuer());
+        $this->context->setIssuer('foo');
+        $this->assertEquals('foo', $this->context->getIssuer());
     }
 
     /**
@@ -74,7 +74,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingSubject()
     {
-        $this->context->setSubject("foo");
-        $this->assertEquals("foo", $this->context->getSubject());
+        $this->context->setSubject('foo');
+        $this->assertEquals('foo', $this->context->getSubject());
     }
 }

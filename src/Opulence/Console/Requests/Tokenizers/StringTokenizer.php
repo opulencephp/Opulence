@@ -24,8 +24,8 @@ class StringTokenizer implements ITokenizer
         $inDoubleQuotes = false;
         $inSingleQuotes = false;
         $charArray = preg_split('//u', $input, -1, PREG_SPLIT_NO_EMPTY);
-        $previousChar = "";
-        $buffer = "";
+        $previousChar = '';
+        $buffer = '';
         $tokens = [];
 
         foreach ($charArray as $charIter => $char) {
@@ -49,12 +49,12 @@ class StringTokenizer implements ITokenizer
 
                     break;
                 default:
-                    if ($inDoubleQuotes || $inSingleQuotes || $char !== " ") {
+                    if ($inDoubleQuotes || $inSingleQuotes || $char !== ' ') {
                         $buffer .= $char;
-                    } elseif ($char === " " && $previousChar !== " " && mb_strlen($buffer) > 0) {
+                    } elseif ($char === ' ' && $previousChar !== ' ' && mb_strlen($buffer) > 0) {
                         // We've hit a space outside a quoted string, so flush the buffer
                         $tokens[] = $buffer;
-                        $buffer = "";
+                        $buffer = '';
                     }
             }
 
@@ -67,7 +67,7 @@ class StringTokenizer implements ITokenizer
         }
 
         if ($inDoubleQuotes || $inSingleQuotes) {
-            throw new RuntimeException("Unclosed " . ($inDoubleQuotes ? "double" : "single") . " quote");
+            throw new RuntimeException('Unclosed ' . ($inDoubleQuotes ? 'double' : 'single') . ' quote');
         }
 
         return $tokens;

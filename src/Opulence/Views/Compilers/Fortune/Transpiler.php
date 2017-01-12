@@ -111,7 +111,7 @@ class Transpiler implements ITranspiler
 
         if ($this->inParentPart) {
             // Now that we know the value of the parent, replace the placeholder
-            $this->parts[$partName] = str_replace("__opulenceParentPlaceholder", $content, $this->parts[$partName]);
+            $this->parts[$partName] = str_replace('__opulenceParentPlaceholder', $content, $this->parts[$partName]);
             $this->inParentPart = false;
         } else {
             $this->parts[$partName] = $content;
@@ -153,7 +153,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function showPart(string $name = "") : string
+    public function showPart(string $name = '') : string
     {
         if (empty($name)) {
             $name = end($this->partStack);
@@ -162,7 +162,7 @@ class Transpiler implements ITranspiler
         }
 
         if (!isset($this->parts[$name])) {
-            return "";
+            return '';
         }
 
         return $this->parts[$name];
@@ -219,7 +219,7 @@ class Transpiler implements ITranspiler
      */
     protected function transpileCommentNode(Node $node) : string
     {
-        $code = "";
+        $code = '';
 
         foreach ($node->getChildren() as $childNode) {
             $code .= '<?php /* ' . $childNode->getValue() . ' */ ?>';
@@ -240,11 +240,11 @@ class Transpiler implements ITranspiler
         $children = $node->getChildren();
 
         if (count($children) === 0) {
-            return "";
+            return '';
         }
 
         $directiveName = $children[0]->getValue();
-        $expression = count($children) === 2 ? $children[1]->getValue() : "";
+        $expression = count($children) === 2 ? $children[1]->getValue() : '';
 
         if (!isset($this->directiveTranspilers[$directiveName])) {
             throw new RuntimeException(
@@ -278,7 +278,7 @@ class Transpiler implements ITranspiler
      */
     protected function transpileNodes(AbstractSyntaxTree $ast) : string
     {
-        $transpiledView = "";
+        $transpiledView = '';
         $rootNode = $ast->getRootNode();
         $previousNodeWasExpression = false;
 
@@ -317,7 +317,7 @@ class Transpiler implements ITranspiler
                 default:
                     throw new RuntimeException(
                         sprintf(
-                            "Unknown node class %s",
+                            'Unknown node class %s',
                             get_class($childNode)
                         )
                     );
@@ -335,7 +335,7 @@ class Transpiler implements ITranspiler
      */
     protected function transpileSanitizedTagNode(Node $node) : string
     {
-        $code = "";
+        $code = '';
 
         foreach ($node->getChildren() as $childNode) {
             $code .= '<?php echo $__opulenceFortuneTranspiler->sanitize(' . $childNode->getValue() . '); ?>';
@@ -352,7 +352,7 @@ class Transpiler implements ITranspiler
      */
     protected function transpileUnsanitizedTagNode(Node $node) : string
     {
-        $code = "";
+        $code = '';
 
         foreach ($node->getChildren() as $childNode) {
             $code .= '<?php echo ' . $childNode->getValue() . '; ?>';

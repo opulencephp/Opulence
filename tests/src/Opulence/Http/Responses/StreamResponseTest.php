@@ -21,14 +21,14 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     public function testContentsAreOutputOnce()
     {
         $response = new StreamResponse(function () {
-            echo "foo";
+            echo 'foo';
         });
         ob_start();
         $response->sendContent();
-        $this->assertEquals("foo", ob_get_clean());
+        $this->assertEquals('foo', ob_get_clean());
         ob_start();
         $response->sendContent();
-        $this->assertEquals("", ob_get_clean());
+        $this->assertEquals('', ob_get_clean());
     }
 
     /**
@@ -39,7 +39,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
         $response = new StreamResponse();
         ob_start();
         $response->sendContent();
-        $this->assertEquals("", ob_get_clean());
+        $this->assertEquals('', ob_get_clean());
     }
 
     /**
@@ -49,7 +49,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(LogicException::class);
         $response = new StreamResponse();
-        $response->setContent("foo");
+        $response->setContent('foo');
     }
 
     /**
@@ -59,10 +59,10 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     {
         $response = new StreamResponse();
         $response->setStreamCallback(function () {
-            echo "foo";
+            echo 'foo';
         });
         ob_start();
         $response->sendContent();
-        $this->assertEquals("foo", ob_get_clean());
+        $this->assertEquals('foo', ob_get_clean());
     }
 }

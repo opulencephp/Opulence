@@ -14,7 +14,7 @@ namespace Opulence\Cryptography\Encryption\Keys;
 class SecretTypes
 {
     /** A cryptographic key */
-    const KEY = "key";
+    const KEY = 'key';
     /** A cryptographic password */
-    const PASSWORD = "password";
+    const PASSWORD = 'password';
 }

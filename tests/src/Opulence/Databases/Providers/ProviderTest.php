@@ -37,8 +37,8 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingFromSqlBoolean()
     {
-        $this->assertTrue($this->provider->convertFromSqlBoolean("1"));
-        $this->assertFalse($this->provider->convertFromSqlBoolean("0"));
+        $this->assertTrue($this->provider->convertFromSqlBoolean('1'));
+        $this->assertFalse($this->provider->convertFromSqlBoolean('0'));
     }
 
     /**

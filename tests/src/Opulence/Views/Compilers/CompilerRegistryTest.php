@@ -36,8 +36,8 @@ class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->createMock(IView::class);
         $view->expects($this->any())
-            ->method("getPath")
-            ->willReturn("foo");
+            ->method('getPath')
+            ->willReturn('foo');
         $this->registry->getCompiler($view);
     }
 
@@ -51,9 +51,9 @@ class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->createMock(IView::class);
         $view->expects($this->any())
-            ->method("getPath")
-            ->willReturn("php");
-        $this->registry->registerCompiler("php", $compiler);
+            ->method('getPath')
+            ->willReturn('php');
+        $this->registry->registerCompiler('php', $compiler);
         $this->assertSame($compiler, $this->registry->getCompiler($view));
     }
 }

@@ -22,8 +22,8 @@ class AppDownCommand extends Command
      */
     protected function define()
     {
-        $this->setName("app:down")
-            ->setDescription("Puts the application into maintenance mode");
+        $this->setName('app:down')
+            ->setDescription('Puts the application into maintenance mode');
     }
 
     /**
@@ -31,10 +31,10 @@ class AppDownCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        if (file_put_contents(Config::get("paths", "tmp.framework.http") . "/down", "down") === false) {
-            $response->writeln("<error>Failed to put application into maintenance mode</error>");
+        if (file_put_contents(Config::get('paths', 'tmp.framework.http') . '/down', 'down') === false) {
+            $response->writeln('<error>Failed to put application into maintenance mode</error>');
         } else {
-            $response->writeln("<success>Application in maintenance mode</success>");
+            $response->writeln('<success>Application in maintenance mode</success>');
         }
     }
 }

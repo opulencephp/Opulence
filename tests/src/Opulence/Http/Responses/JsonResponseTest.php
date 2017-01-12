@@ -22,7 +22,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     public function testGettingContentType()
     {
         $response = new JsonResponse();
-        $this->assertEquals(ResponseHeaders::CONTENT_TYPE_JSON, $response->getHeaders()->get("Content-Type"));
+        $this->assertEquals(ResponseHeaders::CONTENT_TYPE_JSON, $response->getHeaders()->get('Content-Type'));
     }
 
     /**
@@ -58,7 +58,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingContentToArrayInConstructor()
     {
-        $content = ["foo" => "bar"];
+        $content = ['foo' => 'bar'];
         $response = new JsonResponse($content);
         $this->assertSame(json_encode($content), $response->getContent());
     }
@@ -68,7 +68,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingContentToArrayInSetter()
     {
-        $content = ["foo" => "bar"];
+        $content = ['foo' => 'bar'];
         $response = new JsonResponse();
         $response->setContent($content);
         $this->assertEquals(json_encode($content), $response->getContent());
@@ -79,7 +79,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingContentToArrayObjectInConstructor()
     {
-        $content = new ArrayObject(["foo" => "bar"]);
+        $content = new ArrayObject(['foo' => 'bar']);
         $response = new JsonResponse($content);
         $this->assertEquals(json_encode($content->getArrayCopy()), $response->getContent());
     }
@@ -89,7 +89,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingContentToArrayObjectInSetter()
     {
-        $content = new ArrayObject(["foo" => "bar"]);
+        $content = new ArrayObject(['foo' => 'bar']);
         $response = new JsonResponse();
         $response->setContent($content);
         $this->assertEquals(json_encode($content->getArrayCopy()), $response->getContent());
@@ -100,7 +100,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingHeadersInConstructor()
     {
-        $response = new JsonResponse([], ResponseHeaders::HTTP_OK, ["HTTP_FOO" => "bar"]);
-        $this->assertEquals("bar", $response->getHeaders()->get("FOO"));
+        $response = new JsonResponse([], ResponseHeaders::HTTP_OK, ['HTTP_FOO' => 'bar']);
+        $this->assertEquals('bar', $response->getHeaders()->get('FOO'));
     }
 }

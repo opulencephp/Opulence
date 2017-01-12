@@ -29,111 +29,111 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
         $namedRoutes = [
             new Route(
                 RequestMethods::GET,
-                "/users",
-                "foo@bar",
-                ["name" => "pathNoParameters"]
+                '/users',
+                'foo@bar',
+                ['name' => 'pathNoParameters']
             ),
             new Route(
                 RequestMethods::GET,
-                "/users/:userId",
-                "foo@bar",
-                ["name" => "pathOneParameter"]
+                '/users/:userId',
+                'foo@bar',
+                ['name' => 'pathOneParameter']
             ),
             new Route(
                 RequestMethods::GET,
-                "/users/:userId/profile/:mode",
-                "foo@bar",
-                ["name" => "pathTwoParameters"]
+                '/users/:userId/profile/:mode',
+                'foo@bar',
+                ['name' => 'pathTwoParameters']
             ),
             new Route(
                 RequestMethods::GET,
-                "/users[:foo]",
-                "foo@bar",
-                ["name" => "pathOptionalVariable"]
+                '/users[:foo]',
+                'foo@bar',
+                ['name' => 'pathOptionalVariable']
             ),
             new Route(
                 RequestMethods::GET,
-                "/users[/:foo]",
-                "foo@bar",
-                ["name" => "pathOptionalSlashAndVariable"]
+                '/users[/:foo]',
+                'foo@bar',
+                ['name' => 'pathOptionalSlashAndVariable']
             ),
             new Route(
                 RequestMethods::GET,
-                "/users[/:foo[/:bar]]",
-                "foo@bar",
-                ["name" => "pathOptionalNestedSlashesAndVariables"]
+                '/users[/:foo[/:bar]]',
+                'foo@bar',
+                ['name' => 'pathOptionalNestedSlashesAndVariables']
             ),
             new Route(
                 RequestMethods::GET,
-                "/users/:userId",
-                "foo@bar",
+                '/users/:userId',
+                'foo@bar',
                 [
-                    "vars" => ["userId" => "\d+"],
-                    "name" => "pathVariableRegex"
+                    'vars' => ['userId' => "\d+"],
+                    'name' => 'pathVariableRegex'
                 ]
             ),
             new Route(
                 RequestMethods::GET,
-                "/users",
-                "foo@bar",
+                '/users',
+                'foo@bar',
                 [
-                    "host" => "example.com",
-                    "name" => "hostNoParameters"
+                    'host' => 'example.com',
+                    'name' => 'hostNoParameters'
                 ]
             ),
             new Route(
                 RequestMethods::GET,
-                "/users",
-                "foo@bar",
+                '/users',
+                'foo@bar',
                 [
-                    "host" => ":subdomain.example.com",
-                    "name" => "hostOneParameter"
+                    'host' => ':subdomain.example.com',
+                    'name' => 'hostOneParameter'
                 ]
             ),
             new Route(
                 RequestMethods::GET,
-                "/users",
-                "foo@bar",
+                '/users',
+                'foo@bar',
                 [
-                    "host" => ":subdomain1.:subdomain2.example.com",
-                    "name" => "hostTwoParameters"
+                    'host' => ':subdomain1.:subdomain2.example.com',
+                    'name' => 'hostTwoParameters'
                 ]
             ),
             new Route(
                 RequestMethods::GET,
-                "/users",
-                "foo@bar",
+                '/users',
+                'foo@bar',
                 [
-                    "host" => "[:subdomain]example.com",
-                    "name" => "hostOptionalVariable"
+                    'host' => '[:subdomain]example.com',
+                    'name' => 'hostOptionalVariable'
                 ]
             ),
             new Route(
                 RequestMethods::GET,
-                "/users/:userId/profile/:mode",
-                "foo@bar",
+                '/users/:userId/profile/:mode',
+                'foo@bar',
                 [
-                    "host" => ":subdomain1.:subdomain2.example.com",
-                    "name" => "hostAndPathMultipleParameters"
+                    'host' => ':subdomain1.:subdomain2.example.com',
+                    'name' => 'hostAndPathMultipleParameters'
                 ]
             ),
             new Route(
                 RequestMethods::GET,
-                "/users[:foo]",
-                "foo@bar",
+                '/users[:foo]',
+                'foo@bar',
                 [
-                    "host" => "[:subdomain]example.com",
-                    "name" => "hostAndPathOptionalParameters"
+                    'host' => '[:subdomain]example.com',
+                    'name' => 'hostAndPathOptionalParameters'
                 ]
             ),
             new Route(
                 RequestMethods::GET,
-                "/users",
-                "foo@bar",
+                '/users',
+                'foo@bar',
                 [
-                    "host" => "foo.example.com",
-                    "https" => true,
-                    "name" => "secureHostNoParameters"
+                    'host' => 'foo.example.com',
+                    'https' => true,
+                    'name' => 'secureHostNoParameters'
                 ]
             )
         ];
@@ -153,12 +153,12 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testGeneratingHttpsUrl()
     {
         $this->assertEquals(
-            "https://foo.example.com/users",
-            $this->generator->createFromName("secureHostNoParameters")
+            'https://foo.example.com/users',
+            $this->generator->createFromName('secureHostNoParameters')
         );
         $this->assertEquals(
-            "#^" . preg_quote("https://foo.example.com/users", "#") . "$#",
-            $this->generator->createRegexFromName("secureHostNoParameters")
+            '#^' . preg_quote('https://foo.example.com/users', '#') . "$#",
+            $this->generator->createRegexFromName('secureHostNoParameters')
         );
     }
 
@@ -167,8 +167,8 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGeneratingUrlForNonExistentRoute()
     {
-        $this->assertEmpty($this->generator->createFromName("foo"));
-        $this->assertEquals("#^.*$#", $this->generator->createRegexFromName("foo"));
+        $this->assertEmpty($this->generator->createFromName('foo'));
+        $this->assertEquals("#^.*$#", $this->generator->createRegexFromName('foo'));
     }
 
     /**
@@ -177,12 +177,12 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testGeneratingUrlWithMultipleHostAndPathValues()
     {
         $this->assertEquals(
-            "http://foo.bar.example.com/users/23/profile/edit",
-            $this->generator->createFromName("hostAndPathMultipleParameters", "foo", "bar", 23, "edit")
+            'http://foo.bar.example.com/users/23/profile/edit',
+            $this->generator->createFromName('hostAndPathMultipleParameters', 'foo', 'bar', 23, 'edit')
         );
         $this->assertEquals(
             "#^http\://(?P<subdomain1>[^\/:]+)\.(?P<subdomain2>[^\/:]+)\.example\.com/users/(?P<userId>[^\/:]+)/profile/(?P<mode>[^\/:]+)$#",
-            $this->generator->createRegexFromName("hostAndPathMultipleParameters")
+            $this->generator->createRegexFromName('hostAndPathMultipleParameters')
         );
     }
 
@@ -191,11 +191,11 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGeneratingUrlWithNoValues()
     {
-        $this->assertEquals("/users", $this->generator->createFromName("pathNoParameters"));
-        $this->assertEquals("http://example.com/users", $this->generator->createFromName("hostNoParameters"));
-        $this->assertEquals("#^/users$#", $this->generator->createRegexFromName("pathNoParameters"));
+        $this->assertEquals('/users', $this->generator->createFromName('pathNoParameters'));
+        $this->assertEquals('http://example.com/users', $this->generator->createFromName('hostNoParameters'));
+        $this->assertEquals("#^/users$#", $this->generator->createRegexFromName('pathNoParameters'));
         $this->assertEquals("#^http\://example\.com/users$#",
-            $this->generator->createRegexFromName("hostNoParameters"));
+            $this->generator->createRegexFromName('hostNoParameters'));
     }
 
     /**
@@ -203,16 +203,16 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGeneratingUrlWithOneValue()
     {
-        $this->assertEquals("/users/23", $this->generator->createFromName("pathOneParameter", 23));
+        $this->assertEquals('/users/23', $this->generator->createFromName('pathOneParameter', 23));
         $this->assertEquals(
-            "http://foo.example.com/users",
-            $this->generator->createFromName("hostOneParameter", "foo")
+            'http://foo.example.com/users',
+            $this->generator->createFromName('hostOneParameter', 'foo')
         );
         $this->assertEquals("#^/users/(?P<userId>[^\/:]+)$#",
-            $this->generator->createRegexFromName("pathOneParameter"));
+            $this->generator->createRegexFromName('pathOneParameter'));
         $this->assertEquals(
             "#^http\://(?P<subdomain>[^\/:]+)\.example\.com/users$#",
-            $this->generator->createRegexFromName("hostOneParameter")
+            $this->generator->createRegexFromName('hostOneParameter')
         );
     }
 
@@ -222,12 +222,12 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testGeneratingUrlWithOptionalHostVariable()
     {
         $this->assertEquals(
-            "http://example.com/users",
-            $this->generator->createFromName("hostOptionalVariable")
+            'http://example.com/users',
+            $this->generator->createFromName('hostOptionalVariable')
         );
         $this->assertEquals(
             "#^http\://(?:(?P<subdomain>[^\/:]+))?example\.com/users$#",
-            $this->generator->createRegexFromName("hostOptionalVariable")
+            $this->generator->createRegexFromName('hostOptionalVariable')
         );
     }
 
@@ -237,16 +237,16 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testGeneratingUrlWithOptionalNestedSlashesAndPathVariables()
     {
         $this->assertEquals(
-            "/users",
-            $this->generator->createFromName("pathOptionalNestedSlashesAndVariables")
+            '/users',
+            $this->generator->createFromName('pathOptionalNestedSlashesAndVariables')
         );
         $this->assertEquals(
-            "/users/bar",
-            $this->generator->createFromName("pathOptionalNestedSlashesAndVariables", "bar")
+            '/users/bar',
+            $this->generator->createFromName('pathOptionalNestedSlashesAndVariables', 'bar')
         );
         $this->assertEquals(
-            "/users/bar/baz",
-            $this->generator->createFromName("pathOptionalNestedSlashesAndVariables", "bar", "baz")
+            '/users/bar/baz',
+            $this->generator->createFromName('pathOptionalNestedSlashesAndVariables', 'bar', 'baz')
         );
     }
 
@@ -256,12 +256,12 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testGeneratingUrlWithOptionalPathVariable()
     {
         $this->assertEquals(
-            "/users",
-            $this->generator->createFromName("pathOptionalVariable")
+            '/users',
+            $this->generator->createFromName('pathOptionalVariable')
         );
         $this->assertEquals(
             "#^/users(?:(?P<foo>[^\/:]+))?$#",
-            $this->generator->createRegexFromName("pathOptionalVariable")
+            $this->generator->createRegexFromName('pathOptionalVariable')
         );
     }
 
@@ -271,12 +271,12 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testGeneratingUrlWithOptionalSlashAndPathVariable()
     {
         $this->assertEquals(
-            "/users",
-            $this->generator->createFromName("pathOptionalSlashAndVariable")
+            '/users',
+            $this->generator->createFromName('pathOptionalSlashAndVariable')
         );
         $this->assertEquals(
-            "/users/bar",
-            $this->generator->createFromName("pathOptionalSlashAndVariable", "bar")
+            '/users/bar',
+            $this->generator->createFromName('pathOptionalSlashAndVariable', 'bar')
         );
     }
 
@@ -286,8 +286,8 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testGeneratingUrlWithOptionalVariablesInPathAndHost()
     {
         $this->assertEquals(
-            "http://example.com/users",
-            $this->generator->createFromName("hostAndPathOptionalParameters")
+            'http://example.com/users',
+            $this->generator->createFromName('hostAndPathOptionalParameters')
         );
     }
 
@@ -296,11 +296,11 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGeneratingUrlWithTwoValues()
     {
-        $this->assertEquals("/users/23/profile/edit",
-            $this->generator->createFromName("pathTwoParameters", 23, "edit"));
+        $this->assertEquals('/users/23/profile/edit',
+            $this->generator->createFromName('pathTwoParameters', 23, 'edit'));
         $this->assertEquals(
-            "http://foo.bar.example.com/users",
-            $this->generator->createFromName("hostTwoParameters", "foo", "bar")
+            'http://foo.bar.example.com/users',
+            $this->generator->createFromName('hostTwoParameters', 'foo', 'bar')
         );
     }
 
@@ -310,7 +310,7 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testGeneratingUrlWithVariableThatDoesNotSatisfyRegex()
     {
         $this->expectException(UrlException::class);
-        $this->generator->createFromName("pathVariableRegex", "notANumber");
+        $this->generator->createFromName('pathVariableRegex', 'notANumber');
     }
 
     /**
@@ -319,7 +319,7 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testNotFillingAllHostValues()
     {
         $this->expectException(UrlException::class);
-        $this->generator->createFromName("hostOneParameter");
+        $this->generator->createFromName('hostOneParameter');
     }
 
     /**
@@ -328,7 +328,7 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testNotFillingAllPathValues()
     {
         $this->expectException(UrlException::class);
-        $this->generator->createFromName("pathOneParameter");
+        $this->generator->createFromName('pathOneParameter');
     }
 
     /**
@@ -336,6 +336,6 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testPassingNonArrayValue()
     {
-        $this->assertEquals("/users/23", $this->generator->createFromName("pathOneParameter", 23));
+        $this->assertEquals('/users/23', $this->generator->createFromName('pathOneParameter', 23));
     }
 }

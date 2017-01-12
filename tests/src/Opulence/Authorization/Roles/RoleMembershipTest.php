@@ -23,7 +23,7 @@ class RoleMembershipTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->role = new Role(1, "foo");
+        $this->role = new Role(1, 'foo');
         $this->membership = new RoleMembership(1, 2, $this->role);
     }
 

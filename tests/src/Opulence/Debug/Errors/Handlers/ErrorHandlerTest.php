@@ -47,8 +47,8 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     public function testDefaultLevelsAreNotThrown()
     {
         $handler = $this->getErrorHandler();
-        $handler->handle(E_DEPRECATED, "foo");
-        $handler->handle(E_USER_DEPRECATED, "foo");
+        $handler->handle(E_DEPRECATED, 'foo');
+        $handler->handle(E_USER_DEPRECATED, 'foo');
     }
 
     /**
@@ -59,7 +59,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
         $this->expectException(ErrorException::class);
         $handler = $this->getErrorHandler();
         $handler->register();
-        trigger_error("foo", E_USER_NOTICE);
+        trigger_error('foo', E_USER_NOTICE);
     }
 
     /**
@@ -71,12 +71,12 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
 
         try {
             $handler = $this->getErrorHandler();
-            $handler->handle(1, "foo", "bar", 2, ["baz"]);
+            $handler->handle(1, 'foo', 'bar', 2, ['baz']);
         } catch (ErrorException $ex) {
             $exceptionCaught = true;
             $this->assertEquals(1, $ex->getSeverity());
-            $this->assertEquals("foo", $ex->getMessage());
-            $this->assertEquals("bar", $ex->getFile());
+            $this->assertEquals('foo', $ex->getMessage());
+            $this->assertEquals('bar', $ex->getFile());
             $this->assertEquals(2, $ex->getLine());
             $this->assertEquals(0, $ex->getCode());
         }
@@ -92,8 +92,8 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
         $this->expectException(ErrorException::class);
         $handler = $this->getErrorHandler();
         $this->logger->expects($this->never())
-            ->method("log");
-        $handler->handle(E_USER_NOTICE, "foo");
+            ->method('log');
+        $handler->handle(E_USER_NOTICE, 'foo');
     }
 
     /**
@@ -103,9 +103,9 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $handler = $this->getErrorHandler(E_NOTICE, 0);
         $this->logger->expects($this->once())
-            ->method("log")
-            ->with(E_NOTICE, "foo", []);
-        $handler->handle(E_NOTICE, "foo");
+            ->method('log')
+            ->with(E_NOTICE, 'foo', []);
+        $handler->handle(E_NOTICE, 'foo');
     }
 
     /**
@@ -115,7 +115,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(ErrorException::class);
         $handler = $this->getErrorHandler(null, E_DEPRECATED);
-        $handler->handle(E_DEPRECATED, "foo");
+        $handler->handle(E_DEPRECATED, 'foo');
     }
 
     /**

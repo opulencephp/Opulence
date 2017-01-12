@@ -21,9 +21,9 @@ use RuntimeException;
 abstract class Command implements ICommand
 {
     /** @var string The name of the command */
-    protected $name = "";
+    protected $name = '';
     /** @var string A brief description of the command */
-    protected $description = "";
+    protected $description = '';
     /** @var Argument[] The list of arguments */
     protected $arguments = [];
     /** @var Option[] The list of options */
@@ -33,7 +33,7 @@ abstract class Command implements ICommand
     /** @var array The mapping of option names to values */
     protected $optionValues = [];
     /** @var string The help text to be displayed in the help command */
-    protected $helpText = "";
+    protected $helpText = '';
     /** @var CommandCollection The list of registered commands */
     protected $commandCollection = null;
     /** @var bool Whether or not the base class' constructor was called */
@@ -53,15 +53,15 @@ abstract class Command implements ICommand
         $this->define();
 
         if (empty($this->name)) {
-            throw new InvalidArgumentException("Command name cannot be empty");
+            throw new InvalidArgumentException('Command name cannot be empty');
         }
 
         // This adds a help option to all commands
         $this->addOption(new Option(
-            "help",
-            "h",
+            'help',
+            'h',
             OptionTypes::NO_VALUE,
-            "Displays info about the command"
+            'Displays info about the command'
         ));
     }
 

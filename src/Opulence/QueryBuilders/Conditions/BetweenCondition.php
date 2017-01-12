@@ -16,9 +16,9 @@ use PDO;
 class BetweenCondition extends Condition
 {
     /** @var mixed The min value */
-    protected $min = "";
+    protected $min = '';
     /** @var mixed The min value */
-    protected $max = "";
+    protected $max = '';
     /** @var int The data type of the min/max */
     protected $dataType = PDO::PARAM_STR;
 

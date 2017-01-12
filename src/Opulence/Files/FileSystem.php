@@ -58,11 +58,11 @@ class FileSystem
 
         foreach ($items as $item) {
             if ($item->isDir()) {
-                if (!$this->copyDirectory($item->getRealPath(), $target . "/" . $item->getBasename(), $flags)) {
+                if (!$this->copyDirectory($item->getRealPath(), $target . '/' . $item->getBasename(), $flags)) {
                     return false;
                 }
             } elseif ($item->isFile()) {
-                if (!$this->copyFile($item->getRealPath(), $target . "/" . $item->getBasename())) {
+                if (!$this->copyFile($item->getRealPath(), $target . '/' . $item->getBasename())) {
                     return false;
                 }
             }
@@ -310,10 +310,10 @@ class FileSystem
             throw new FileSystemException("Failed to get last modified time of $path");
         }
 
-        $modifiedDateTime = DateTime::createFromFormat("U", $modifiedTimestamp);
+        $modifiedDateTime = DateTime::createFromFormat('U', $modifiedTimestamp);
 
         if ($modifiedDateTime === false) {
-            throw new FileSystemException("Failed to convert last modified time to DateTime object");
+            throw new FileSystemException('Failed to convert last modified time to DateTime object');
         }
 
         return $modifiedDateTime;

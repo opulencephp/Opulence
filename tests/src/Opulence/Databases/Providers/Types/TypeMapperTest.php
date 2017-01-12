@@ -61,13 +61,13 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         $exceptionsThrown = false;
 
         try {
-            $this->typeMapperWithNoProvider->fromSqlTimestampWithoutTimeZone("not a real timestamp", $this->provider);
+            $this->typeMapperWithNoProvider->fromSqlTimestampWithoutTimeZone('not a real timestamp', $this->provider);
         } catch (\InvalidArgumentException $ex) {
             $exceptionsThrown = true;
         }
 
         try {
-            $this->typeMapperWithProvider->fromSqlTimestampWithoutTimeZone("not a real timestamp");
+            $this->typeMapperWithProvider->fromSqlTimestampWithoutTimeZone('not a real timestamp');
         } catch (\InvalidArgumentException $ex) {
             $exceptionsThrown = $exceptionsThrown && true;
         }
@@ -80,22 +80,22 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingFromSqlDate()
     {
-        $phpDate = new DateTime("now");
+        $phpDate = new DateTime('now');
         $sqlDate = $phpDate->format($this->provider->getDateFormat());
         // Compare the formatted string because testing sometimes leads to the type mapper's date to be one second later
         $this->assertEquals(
-            $phpDate->format("Ymd"),
-            $this->typeMapperWithNoProvider->fromSqlDate($sqlDate, $this->provider)->format("Ymd")
+            $phpDate->format('Ymd'),
+            $this->typeMapperWithNoProvider->fromSqlDate($sqlDate, $this->provider)->format('Ymd')
         );
         // Make sure the hour, minutes, and seconds are zeroed out
-        $this->assertEquals("000",
-            $this->typeMapperWithNoProvider->fromSqlDate($sqlDate, $this->provider)->format("His"));
+        $this->assertEquals('000',
+            $this->typeMapperWithNoProvider->fromSqlDate($sqlDate, $this->provider)->format('His'));
         $this->assertEquals(
-            $phpDate->format("Ymd"),
-            $this->typeMapperWithProvider->fromSqlDate($sqlDate)->format("Ymd")
+            $phpDate->format('Ymd'),
+            $this->typeMapperWithProvider->fromSqlDate($sqlDate)->format('Ymd')
         );
         // Make sure the hour, minutes, and seconds are zeroed out
-        $this->assertEquals("000", $this->typeMapperWithProvider->fromSqlDate($sqlDate)->format("His"));
+        $this->assertEquals('000', $this->typeMapperWithProvider->fromSqlDate($sqlDate)->format('His'));
     }
 
     /**
@@ -103,13 +103,13 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingFromSqlTimeWithTimeZone()
     {
-        $phpTimeWithMicroseconds = new DateTime("now");
-        $sqlTimeWithMicroseconds = $phpTimeWithMicroseconds->format("H:i:s.uP");
+        $phpTimeWithMicroseconds = new DateTime('now');
+        $sqlTimeWithMicroseconds = $phpTimeWithMicroseconds->format('H:i:s.uP');
         $this->assertEquals($phpTimeWithMicroseconds->getTimestamp(), $this->typeMapperWithNoProvider
             ->fromSqlTimestampWithTimeZone($sqlTimeWithMicroseconds, $this->provider)->getTimestamp());
         $this->assertEquals($phpTimeWithMicroseconds->getTimestamp(), $this->typeMapperWithProvider
             ->fromSqlTimestampWithTimeZone($sqlTimeWithMicroseconds)->getTimestamp());
-        $phpTime = new DateTime("now");
+        $phpTime = new DateTime('now');
         $sqlTime = $phpTime->format($this->provider->getTimeWithTimeZoneFormat());
         $this->assertEquals($phpTime->getTimestamp(),
             $this->typeMapperWithNoProvider->fromSqlTimeWithTimeZone($sqlTime, $this->provider)->getTimestamp());
@@ -122,13 +122,13 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingFromSqlTimeWithoutTimeZone()
     {
-        $phpTimeWithMicroseconds = new DateTime("now");
-        $sqlTimeWithMicroseconds = $phpTimeWithMicroseconds->format("H:i:s.u");
+        $phpTimeWithMicroseconds = new DateTime('now');
+        $sqlTimeWithMicroseconds = $phpTimeWithMicroseconds->format('H:i:s.u');
         $this->assertEquals($phpTimeWithMicroseconds, $this->typeMapperWithNoProvider
             ->fromSqlTimestampWithTimeZone($sqlTimeWithMicroseconds, $this->provider));
         $this->assertEquals($phpTimeWithMicroseconds, $this->typeMapperWithProvider
             ->fromSqlTimestampWithTimeZone($sqlTimeWithMicroseconds));
-        $phpTime = new DateTime("now");
+        $phpTime = new DateTime('now');
         $sqlTime = $phpTime->format($this->provider->getTimeWithoutTimeZoneFormat());
         // We do the flooring of the timestamp because, since PHP 7.1, new DateTime("now") contains microseconds
         $this->assertEquals(
@@ -147,13 +147,13 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingFromSqlTimestampWithTimeZone()
     {
-        $phpTimestampWithMicroseconds = new DateTime("now");
-        $sqlTimestampWithMicroseconds = $phpTimestampWithMicroseconds->format("Y-m-d H:i:s.uP");
+        $phpTimestampWithMicroseconds = new DateTime('now');
+        $sqlTimestampWithMicroseconds = $phpTimestampWithMicroseconds->format('Y-m-d H:i:s.uP');
         $this->assertEquals($phpTimestampWithMicroseconds->getTimestamp(), $this->typeMapperWithNoProvider
             ->fromSqlTimestampWithTimeZone($sqlTimestampWithMicroseconds, $this->provider)->getTimestamp());
         $this->assertEquals($phpTimestampWithMicroseconds->getTimestamp(), $this->typeMapperWithProvider
             ->fromSqlTimestampWithTimeZone($sqlTimestampWithMicroseconds)->getTimestamp());
-        $phpTimestamp = new DateTime("now");
+        $phpTimestamp = new DateTime('now');
         $sqlTimestamp = $phpTimestamp->format($this->provider->getTimestampWithTimeZoneFormat());
         // We do the flooring of the timestamp because, since PHP 7.1, new DateTime("now") contains microseconds
         $this->assertEquals(
@@ -170,13 +170,13 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingFromSqlTimestampWithoutTimeZone()
     {
-        $phpTimestampWithMicroseconds = new DateTime("now");
-        $sqlTimestampWithMicroseconds = $phpTimestampWithMicroseconds->format("Y-m-d H:i:s.u");
+        $phpTimestampWithMicroseconds = new DateTime('now');
+        $sqlTimestampWithMicroseconds = $phpTimestampWithMicroseconds->format('Y-m-d H:i:s.u');
         $this->assertEquals($phpTimestampWithMicroseconds, $this->typeMapperWithNoProvider
             ->fromSqlTimestampWithTimeZone($sqlTimestampWithMicroseconds, $this->provider));
         $this->assertEquals($phpTimestampWithMicroseconds, $this->typeMapperWithProvider
             ->fromSqlTimestampWithTimeZone($sqlTimestampWithMicroseconds));
-        $phpTimestamp = new DateTime("now");
+        $phpTimestamp = new DateTime('now');
         $sqlTimestamp = $phpTimestamp->format($this->provider->getTimestampWithoutTimeZoneFormat());
         // We do the flooring of the timestamp because, since PHP 7.1, new DateTime("now") contains microseconds
         $this->assertEquals(
@@ -214,9 +214,9 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     public function testConvertingJsonFromSql()
     {
         $jsonArray = [
-            "foo" => "bar",
-            "baz" => [
-                "blah" => "dave"
+            'foo' => 'bar',
+            'baz' => [
+                'blah' => 'dave'
             ]
         ];
         $jsonString = json_encode($jsonArray);
@@ -274,7 +274,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingToSqlDate()
     {
-        $date = new DateTime("now");
+        $date = new DateTime('now');
         $this->assertEquals($date->format($this->provider->getDateFormat()),
             $this->typeMapperWithNoProvider->toSqlDate($date, $this->provider));
         $this->assertEquals($date->format($this->provider->getDateFormat()),
@@ -287,9 +287,9 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     public function testConvertingToSqlJson()
     {
         $jsonArray = [
-            "foo" => "bar",
-            "baz" => [
-                "blah" => "dave"
+            'foo' => 'bar',
+            'baz' => [
+                'blah' => 'dave'
             ]
         ];
         $jsonString = json_encode($jsonArray);
@@ -302,7 +302,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingToSqlTimeWithTimeZone()
     {
-        $time = new DateTime("now");
+        $time = new DateTime('now');
         $this->assertEquals($time->format($this->provider->getTimeWithTimeZoneFormat()),
             $this->typeMapperWithNoProvider->toSqlTimeWithTimeZone($time, $this->provider));
         $this->assertEquals($time->format($this->provider->getTimeWithTimeZoneFormat()),
@@ -314,7 +314,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingToSqlTimeWithoutTimeZone()
     {
-        $time = new DateTime("now");
+        $time = new DateTime('now');
         $this->assertEquals($time->format($this->provider->getTimeWithoutTimeZoneFormat()),
             $this->typeMapperWithNoProvider->toSqlTimeWithoutTimeZone($time, $this->provider));
         $this->assertEquals($time->format($this->provider->getTimeWithoutTimeZoneFormat()),
@@ -326,7 +326,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingToSqlTimestampWithTimeZone()
     {
-        $timestamp = new DateTime("now");
+        $timestamp = new DateTime('now');
         $this->assertEquals($timestamp->format($this->provider->getTimestampWithTimeZoneFormat()),
             $this->typeMapperWithNoProvider->toSqlTimestampWithTimeZone($timestamp, $this->provider));
         $this->assertEquals($timestamp->format($this->provider->getTimestampWithTimeZoneFormat()),
@@ -338,7 +338,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingToSqlTimestampWithoutTimeZone()
     {
-        $timestamp = new DateTime("now");
+        $timestamp = new DateTime('now');
         $this->assertEquals($timestamp->format($this->provider->getTimestampWithoutTimeZoneFormat()),
             $this->typeMapperWithNoProvider->toSqlTimestampWithoutTimeZone($timestamp, $this->provider));
         $this->assertEquals($timestamp->format($this->provider->getTimestampWithoutTimeZoneFormat()),

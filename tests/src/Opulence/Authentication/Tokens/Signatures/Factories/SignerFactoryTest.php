@@ -37,7 +37,7 @@ class SignerFactoryTest extends \PHPUnit\Framework\TestCase
         $algorithms = [Algorithms::RSA_SHA256, Algorithms::RSA_SHA384, Algorithms::RSA_SHA512];
 
         foreach ($algorithms as $algorithm) {
-            $signer = $this->factory->createSigner($algorithm, "public", "private");
+            $signer = $this->factory->createSigner($algorithm, 'public', 'private');
             $this->assertInstanceOf(RsaSsaPkcsSigner::class, $signer);
             $this->assertEquals($algorithm, $signer->getAlgorithm());
         }
@@ -51,7 +51,7 @@ class SignerFactoryTest extends \PHPUnit\Framework\TestCase
         $algorithms = [Algorithms::SHA256, Algorithms::SHA384, Algorithms::SHA512];
 
         foreach ($algorithms as $algorithm) {
-            $signer = $this->factory->createSigner($algorithm, "public");
+            $signer = $this->factory->createSigner($algorithm, 'public');
             $this->assertInstanceOf(HmacSigner::class, $signer);
             $this->assertEquals($algorithm, $signer->getAlgorithm());
         }
@@ -63,7 +63,7 @@ class SignerFactoryTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWhenNoPrivateKeySpecifiedForAsymmetricAlgorithm()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->factory->createSigner(Algorithms::RSA_SHA256, "public");
+        $this->factory->createSigner(Algorithms::RSA_SHA256, 'public');
     }
 
     /**
@@ -72,6 +72,6 @@ class SignerFactoryTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWhenPublicKeyIsInIncorrectFormat()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->factory->createSigner(Algorithms::SHA256, ["foo"]);
+        $this->factory->createSigner(Algorithms::SHA256, ['foo']);
     }
 }

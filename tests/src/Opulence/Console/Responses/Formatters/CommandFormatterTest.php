@@ -40,23 +40,23 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingCommandWithMixOfArguments()
     {
-        $command = new SimpleCommand("foo", "Foo command");
+        $command = new SimpleCommand('foo', 'Foo command');
         $command->addArgument(new Argument(
-            "bar",
+            'bar',
             ArgumentTypes::REQUIRED,
-            "Bar argument"
+            'Bar argument'
         ));
         $command->addArgument(new Argument(
-            "baz",
+            'baz',
             ArgumentTypes::OPTIONAL,
-            "Baz argument"
+            'Baz argument'
         ));
         $command->addArgument(new Argument(
-            "blah",
+            'blah',
             ArgumentTypes::IS_ARRAY,
-            "Blah argument"
+            'Blah argument'
         ));
-        $this->assertEquals("foo [--help|-h] bar [baz] blah1...blahN", $this->formatter->format($command));
+        $this->assertEquals('foo [--help|-h] bar [baz] blah1...blahN', $this->formatter->format($command));
     }
 
     /**
@@ -64,18 +64,18 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingCommandWithMultipleArguments()
     {
-        $command = new SimpleCommand("foo", "Foo command");
+        $command = new SimpleCommand('foo', 'Foo command');
         $command->addArgument(new Argument(
-            "bar",
+            'bar',
             ArgumentTypes::REQUIRED,
-            "Bar argument"
+            'Bar argument'
         ));
         $command->addArgument(new Argument(
-            "baz",
+            'baz',
             ArgumentTypes::REQUIRED,
-            "Baz argument"
+            'Baz argument'
         ));
-        $this->assertEquals("foo [--help|-h] bar baz", $this->formatter->format($command));
+        $this->assertEquals('foo [--help|-h] bar baz', $this->formatter->format($command));
     }
 
     /**
@@ -83,8 +83,8 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingCommandWithNoArgumentsOrOptions()
     {
-        $command = new SimpleCommand("foo", "Foo command");
-        $this->assertEquals("foo [--help|-h]", $this->formatter->format($command));
+        $command = new SimpleCommand('foo', 'Foo command');
+        $this->assertEquals('foo [--help|-h]', $this->formatter->format($command));
     }
 
     /**
@@ -92,13 +92,13 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingCommandWithOneArgument()
     {
-        $command = new SimpleCommand("foo", "Foo command");
+        $command = new SimpleCommand('foo', 'Foo command');
         $command->addArgument(new Argument(
-            "bar",
+            'bar',
             ArgumentTypes::REQUIRED,
-            "Bar argument"
+            'Bar argument'
         ));
-        $this->assertEquals("foo [--help|-h] bar", $this->formatter->format($command));
+        $this->assertEquals('foo [--help|-h] bar', $this->formatter->format($command));
     }
 
     /**
@@ -106,15 +106,15 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingCommandWithOneOptionWithDefaultValue()
     {
-        $command = new SimpleCommand("foo", "Foo command");
+        $command = new SimpleCommand('foo', 'Foo command');
         $command->addOption(new Option(
-            "bar",
-            "b",
+            'bar',
+            'b',
             OptionTypes::OPTIONAL_VALUE,
-            "Bar option",
-            "yes"
+            'Bar option',
+            'yes'
         ));
-        $this->assertEquals("foo [--help|-h] [--bar=yes|-b]", $this->formatter->format($command));
+        $this->assertEquals('foo [--help|-h] [--bar=yes|-b]', $this->formatter->format($command));
     }
 
     /**
@@ -122,15 +122,15 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingCommandWithOneOptionWithDefaultValueButNoShortName()
     {
-        $command = new SimpleCommand("foo", "Foo command");
+        $command = new SimpleCommand('foo', 'Foo command');
         $command->addOption(new Option(
-            "bar",
+            'bar',
             null,
             OptionTypes::OPTIONAL_VALUE,
-            "Bar option",
-            "yes"
+            'Bar option',
+            'yes'
         ));
-        $this->assertEquals("foo [--help|-h] [--bar=yes]", $this->formatter->format($command));
+        $this->assertEquals('foo [--help|-h] [--bar=yes]', $this->formatter->format($command));
     }
 
     /**
@@ -138,14 +138,14 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingCommandWithOneOptionWithoutShortName()
     {
-        $command = new SimpleCommand("foo", "Foo command");
+        $command = new SimpleCommand('foo', 'Foo command');
         $command->addOption(new Option(
-            "bar",
+            'bar',
             null,
             OptionTypes::NO_VALUE,
-            "Bar option"
+            'Bar option'
         ));
-        $this->assertEquals("foo [--help|-h] [--bar]", $this->formatter->format($command));
+        $this->assertEquals('foo [--help|-h] [--bar]', $this->formatter->format($command));
     }
 
     /**
@@ -153,13 +153,13 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingCommandWithOneOptionalArgument()
     {
-        $command = new SimpleCommand("foo", "Foo command");
+        $command = new SimpleCommand('foo', 'Foo command');
         $command->addArgument(new Argument(
-            "bar",
+            'bar',
             ArgumentTypes::OPTIONAL,
-            "Bar argument"
+            'Bar argument'
         ));
-        $this->assertEquals("foo [--help|-h] [bar]", $this->formatter->format($command));
+        $this->assertEquals('foo [--help|-h] [bar]', $this->formatter->format($command));
     }
 
     /**
@@ -167,12 +167,12 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingCommandWithOptionalArrayArgument()
     {
-        $command = new SimpleCommand("foo", "Foo command");
+        $command = new SimpleCommand('foo', 'Foo command');
         $command->addArgument(new Argument(
-            "blah",
+            'blah',
             ArgumentTypes::IS_ARRAY | ArgumentTypes::OPTIONAL,
-            "Blah argument"
+            'Blah argument'
         ));
-        $this->assertEquals("foo [--help|-h] [blah1]...[blahN]", $this->formatter->format($command));
+        $this->assertEquals('foo [--help|-h] [blah1]...[blahN]', $this->formatter->format($command));
     }
 }

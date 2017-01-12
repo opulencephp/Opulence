@@ -15,13 +15,13 @@ class Headers extends Collection
 {
     /** @var array The list of HTTP request headers that don't begin with "HTTP_" */
     protected static $specialCaseHeaders = [
-        "AUTH_TYPE" => true,
-        "CONTENT_LENGTH" => true,
-        "CONTENT_TYPE" => true,
-        "PHP_AUTH_DIGEST" => true,
-        "PHP_AUTH_PW" => true,
-        "PHP_AUTH_TYPE" => true,
-        "PHP_AUTH_USER" => true
+        'AUTH_TYPE' => true,
+        'CONTENT_LENGTH' => true,
+        'CONTENT_TYPE' => true,
+        'PHP_AUTH_DIGEST' => true,
+        'PHP_AUTH_PW' => true,
+        'PHP_AUTH_TYPE' => true,
+        'PHP_AUTH_USER' => true
     ];
 
     /**
@@ -33,7 +33,7 @@ class Headers extends Collection
         foreach ($values as $name => $value) {
             $name = strtoupper($name);
 
-            if (isset(self::$specialCaseHeaders[$name]) || strpos($name, "HTTP_") === 0) {
+            if (isset(self::$specialCaseHeaders[$name]) || strpos($name, 'HTTP_') === 0) {
                 $this->set($name, $value);
             }
         }
@@ -120,9 +120,9 @@ class Headers extends Collection
      */
     protected function normalizeName(string $name) : string
     {
-        $name = strtr(strtolower($name), "_", "-");
+        $name = strtr(strtolower($name), '_', '-');
 
-        if (strpos($name, "http-") === 0) {
+        if (strpos($name, 'http-') === 0) {
             $name = substr($name, 5);
         }
 

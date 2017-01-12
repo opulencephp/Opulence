@@ -50,10 +50,10 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $exception = new Exception();
         $this->logger->expects($this->once())
-            ->method("error")
+            ->method('error')
             ->with($exception);
         $this->renderer->expects($this->once())
-            ->method("render")
+            ->method('render')
             ->with($exception);
         $this->handler->handle($exception);
     }
@@ -70,9 +70,9 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $handler = new ExceptionHandler($logger, $renderer, RuntimeException::class);
         $exception = new RuntimeException();
         $logger->expects($this->never())
-            ->method("error");
+            ->method('error');
         $renderer->expects($this->exactly(2))
-            ->method("render")
+            ->method('render')
             ->with($exception);
         $handler->handle($exception);
         // Try an array

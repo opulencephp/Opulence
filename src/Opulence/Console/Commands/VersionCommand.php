@@ -20,7 +20,7 @@ class VersionCommand extends Command
 <info>Opulence Console {{version}}</info>
 EOF;
     /** @var string The version number of the application */
-    private $applicationVersion = "Unknown";
+    private $applicationVersion = 'Unknown';
 
     /**
      * @param string $applicationVersion The version number of the application
@@ -37,8 +37,8 @@ EOF;
      */
     protected function define()
     {
-        $this->setName("version")
-            ->setDescription("Displays the application version");
+        $this->setName('version')
+            ->setDescription('Displays the application version');
     }
 
     /**
@@ -48,7 +48,7 @@ EOF;
     {
         // Compile the template
         $compiledTemplate = self::$template;
-        $compiledTemplate = str_replace("{{version}}", $this->applicationVersion, $compiledTemplate);
+        $compiledTemplate = str_replace('{{version}}', $this->applicationVersion, $compiledTemplate);
 
         $response->writeln($compiledTemplate);
     }

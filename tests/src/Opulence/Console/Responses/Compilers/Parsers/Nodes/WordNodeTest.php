@@ -18,7 +18,7 @@ class WordNodeTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsTag()
     {
-        $node = new WordNode("foo");
+        $node = new WordNode('foo');
         $this->assertFalse($node->isTag());
     }
 }

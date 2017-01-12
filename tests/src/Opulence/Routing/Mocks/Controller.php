@@ -25,7 +25,7 @@ class Controller extends BaseController
      * @param mixed $blah The optional third parameter
      * @return Response The parameter names to their values
      */
-    public function multipleParametersWithDefaultValues($foo, $bar, $blah = "724")
+    public function multipleParametersWithDefaultValues($foo, $bar, $blah = '724')
     {
         return new Response("foo:$foo, bar:$bar, blah:$blah");
     }
@@ -37,7 +37,7 @@ class Controller extends BaseController
      */
     public function noParameters()
     {
-        return new Response("noParameters");
+        return new Response('noParameters');
     }
 
     /**
@@ -64,7 +64,7 @@ class Controller extends BaseController
      */
     public function returnsText()
     {
-        return "returnsText";
+        return 'returnsText';
     }
 
     /**
@@ -86,7 +86,7 @@ class Controller extends BaseController
      */
     public function showHttpError($statusCode)
     {
-        return new Response("foo", $statusCode);
+        return new Response('foo', $statusCode);
     }
 
     /**
@@ -116,7 +116,7 @@ class Controller extends BaseController
      */
     protected function protectedMethod()
     {
-        return new Response("protectedMethod");
+        return new Response('protectedMethod');
     }
 
     /**
@@ -126,6 +126,6 @@ class Controller extends BaseController
      */
     private function privateMethod()
     {
-        return new Response("privateMethod");
+        return new Response('privateMethod');
     }
 }

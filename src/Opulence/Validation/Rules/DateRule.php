@@ -24,7 +24,7 @@ class DateRule implements IRuleWithArgs
      */
     public function getSlug() : string
     {
-        return "date";
+        return 'date';
     }
 
     /**
@@ -49,7 +49,7 @@ class DateRule implements IRuleWithArgs
     public function setArgs(array $args)
     {
         if (count($args) !== 1 || (!is_string($args[0]) && !is_array($args[0]))) {
-            throw new InvalidArgumentException("Must pass an expected date format");
+            throw new InvalidArgumentException('Must pass an expected date format');
         }
 
         $this->formats = (array)$args[0];

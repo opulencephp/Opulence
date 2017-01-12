@@ -29,7 +29,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         $this->compiler = new Compiler(new Lexer(), new Parser());
-        $this->response = new StreamResponse(fopen("php://memory", "w"), $this->compiler);
+        $this->response = new StreamResponse(fopen('php://memory', 'w'), $this->compiler);
     }
 
     /**
@@ -46,7 +46,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     public function testInvalidStream()
     {
         $this->expectException(InvalidArgumentException::class);
-        new StreamResponse("foo", $this->compiler);
+        new StreamResponse('foo', $this->compiler);
     }
 
     /**
@@ -54,9 +54,9 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testWriteOnArray()
     {
-        $this->response->write(["foo", "bar"]);
+        $this->response->write(['foo', 'bar']);
         rewind($this->response->getStream());
-        $this->assertEquals("foobar", stream_get_contents($this->response->getStream()));
+        $this->assertEquals('foobar', stream_get_contents($this->response->getStream()));
     }
 
     /**
@@ -64,9 +64,9 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testWriteOnString()
     {
-        $this->response->write("foo");
+        $this->response->write('foo');
         rewind($this->response->getStream());
-        $this->assertEquals("foo", stream_get_contents($this->response->getStream()));
+        $this->assertEquals('foo', stream_get_contents($this->response->getStream()));
     }
 
     /**
@@ -74,9 +74,9 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testWritelnOnArray()
     {
-        $this->response->writeln(["foo", "bar"]);
+        $this->response->writeln(['foo', 'bar']);
         rewind($this->response->getStream());
-        $this->assertEquals("foo" . PHP_EOL . "bar" . PHP_EOL, stream_get_contents($this->response->getStream()));
+        $this->assertEquals('foo' . PHP_EOL . 'bar' . PHP_EOL, stream_get_contents($this->response->getStream()));
     }
 
     /**
@@ -84,8 +84,8 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testWritelnOnString()
     {
-        $this->response->writeln("foo");
+        $this->response->writeln('foo');
         rewind($this->response->getStream());
-        $this->assertEquals("foo" . PHP_EOL, stream_get_contents($this->response->getStream()));
+        $this->assertEquals('foo' . PHP_EOL, stream_get_contents($this->response->getStream()));
     }
 }

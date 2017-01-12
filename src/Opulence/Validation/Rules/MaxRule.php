@@ -26,7 +26,7 @@ class MaxRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
      */
     public function getErrorPlaceholders() : array
     {
-        return ["max" => $this->max];
+        return ['max' => $this->max];
     }
 
     /**
@@ -34,7 +34,7 @@ class MaxRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
      */
     public function getSlug() : string
     {
-        return "max";
+        return 'max';
     }
 
     /**
@@ -43,7 +43,7 @@ class MaxRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     public function passes($value, array $allValues = []) : bool
     {
         if ($this->max === null) {
-            throw new LogicException("Maximum value not set");
+            throw new LogicException('Maximum value not set');
         }
 
         if ($this->isInclusive) {
@@ -59,7 +59,7 @@ class MaxRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     public function setArgs(array $args)
     {
         if (count($args) === 0 || !is_numeric($args[0])) {
-            throw new InvalidArgumentException("Must pass a maximum value to compare against");
+            throw new InvalidArgumentException('Must pass a maximum value to compare against');
         }
 
         $this->max = $args[0];

@@ -14,7 +14,7 @@ namespace Opulence\Sessions\Handlers;
 class FileSessionHandler extends SessionHandler
 {
     /** @var string The path to the session files */
-    private $path = "";
+    private $path = '';
 
     /**
      * @param string $path The path to the session files
@@ -47,7 +47,7 @@ class FileSessionHandler extends SessionHandler
      */
     public function gc($maxLifetime) : bool
     {
-        $sessionFiles = glob($this->path . "/*", GLOB_NOSORT);
+        $sessionFiles = glob($this->path . '/*', GLOB_NOSORT);
 
         $limit = time() - $maxLifetime;
         foreach ($sessionFiles as $sessionFile) {
@@ -77,7 +77,7 @@ class FileSessionHandler extends SessionHandler
             return file_get_contents("{$this->path}/$sessionId");
         }
 
-        return "";
+        return '';
     }
 
     /**

@@ -61,34 +61,34 @@ class Parser implements IParser
         $bracketDepth = 0;
         $this->cursor = 0;
         $rawStringLength = mb_strlen($rawString);
-        $regex = "";
+        $regex = '';
 
         while ($this->cursor < $rawStringLength) {
             $char = $rawString[$this->cursor];
 
             switch ($char) {
-                case ":":
+                case ':':
                     $regex .= $this->getVarRegex($parsedRoute, mb_substr($rawString, $this->cursor));
                     break;
-                case "[":
-                    $regex .= "(?:";
+                case '[':
+                    $regex .= '(?:';
                     $bracketDepth++;
                     $this->cursor++;
                     break;
-                case "]":
-                    $regex .= ")?";
+                case ']':
+                    $regex .= ')?';
                     $bracketDepth--;
                     $this->cursor++;
                     break;
                 default:
-                    $regex .= preg_quote($char, "#");
+                    $regex .= preg_quote($char, '#');
                     $this->cursor++;
             }
         }
 
         if ($bracketDepth != 0) {
             throw new RouteException(
-                sprintf("Route has %s brackets", $bracketDepth > 0 ? "unclosed" : "unopened")
+                sprintf('Route has %s brackets', $bracketDepth > 0 ? 'unclosed' : 'unopened')
             );
         }
 
@@ -110,7 +110,7 @@ class Parser implements IParser
         }
 
         $variableName = $matches[1];
-        $defaultValue = $matches[2] ?? "";
+        $defaultValue = $matches[2] ?? '';
 
         if (strlen($variableName) > self::VARIABLE_MAXIMUM_LENGTH) {
             throw new RouteException(sprintf(
@@ -135,6 +135,6 @@ class Parser implements IParser
 
         $this->cursor += mb_strlen($matches[0]);
 
-        return sprintf("(?P<%s>%s)", $variableName, $variableRegex);
+        return sprintf('(?P<%s>%s)', $variableName, $variableRegex);
     }
 }

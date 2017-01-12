@@ -23,8 +23,8 @@ class Lexer implements ILexer
     public function lex(string $text) : array
     {
         $tokens = [];
-        $wordBuffer = "";
-        $elementNameBuffer = "";
+        $wordBuffer = '';
+        $elementNameBuffer = '';
         $inOpenTag = false;
         $inCloseTag = false;
         $charArray = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
@@ -32,7 +32,7 @@ class Lexer implements ILexer
 
         foreach ($charArray as $charIter => $char) {
             switch ($char) {
-                case "<":
+                case '<':
                     if ($this->lookBehind($charArray, $charIter) === "\\") {
                         // This tag was escaped
                         // Don't include the preceding slash
@@ -48,7 +48,7 @@ class Lexer implements ILexer
                     } else {
 
                         // Check if this is a closing tag
-                        if ($this->peek($charArray, $charIter) === "/") {
+                        if ($this->peek($charArray, $charIter) === '/') {
                             $inCloseTag = true;
                             $inOpenTag = false;
                         } else {
@@ -57,18 +57,18 @@ class Lexer implements ILexer
                         }
 
                         // Flush the word buffer
-                        if ($wordBuffer !== "") {
+                        if ($wordBuffer !== '') {
                             $tokens[] = new Token(
                                 TokenTypes::T_WORD,
                                 $wordBuffer,
                                 $charIter - mb_strlen($wordBuffer)
                             );
-                            $wordBuffer = "";
+                            $wordBuffer = '';
                         }
                     }
 
                     break;
-                case ">":
+                case '>':
                     if ($inOpenTag || $inCloseTag) {
                         if ($inOpenTag) {
                             $tokens[] = new Token(
@@ -86,7 +86,7 @@ class Lexer implements ILexer
                             );
                         }
 
-                        $elementNameBuffer = "";
+                        $elementNameBuffer = '';
                         $inOpenTag = false;
                         $inCloseTag = false;
                     } else {
@@ -97,7 +97,7 @@ class Lexer implements ILexer
                 default:
                     if ($inOpenTag || $inCloseTag) {
                         // We're in a tag, so buffer the element name
-                        if ($char !== "/") {
+                        if ($char !== '/') {
                             $elementNameBuffer .= $char;
                         }
                     } else {
@@ -110,7 +110,7 @@ class Lexer implements ILexer
         }
 
         // Finish flushing the word buffer
-        if ($wordBuffer !== "") {
+        if ($wordBuffer !== '') {
             $tokens[] = new Token(
                 TokenTypes::T_WORD,
                 $wordBuffer,
@@ -133,14 +133,14 @@ class Lexer implements ILexer
     private function getSurroundingText(array $charArray, int $position) : string
     {
         if (count($charArray) <= 3) {
-            return implode("", $charArray);
+            return implode('', $charArray);
         }
 
         if ($position <= 3) {
-            return implode("", array_slice($charArray, 0, 4));
+            return implode('', array_slice($charArray, 0, 4));
         }
 
-        return implode("", array_slice($charArray, $position - 3, 4));
+        return implode('', array_slice($charArray, $position - 3, 4));
     }
 
     /**

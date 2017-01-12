@@ -33,8 +33,8 @@ class ComposerBootstrapper extends Bootstrapper implements ILazyBootstrapper
      */
     public function registerBindings(IContainer $container)
     {
-        $rootPath = Config::get("paths", "root");
-        $psr4RootPath = Config::get("paths", "src");
+        $rootPath = Config::get('paths', 'root');
+        $psr4RootPath = Config::get('paths', 'src');
         $composer = Composer::createFromRawConfig($rootPath, $psr4RootPath);
         $executable = new Executable($rootPath);
         $container->bindInstance(Composer::class, $composer);

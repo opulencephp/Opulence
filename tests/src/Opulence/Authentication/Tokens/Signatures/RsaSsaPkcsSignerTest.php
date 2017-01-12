@@ -28,12 +28,12 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
     {
         $this->unsignedToken = $this->createMock(IUnsignedToken::class);
         $this->unsignedToken->expects($this->any())
-            ->method("getUnsignedValue")
-            ->willReturn("unsignedValue");
+            ->method('getUnsignedValue')
+            ->willReturn('unsignedValue');
         $this->signedToken = $this->createMock(ISignedToken::class);
         $this->signedToken->expects($this->any())
-            ->method("getUnsignedValue")
-            ->willReturn("unsignedValue");
+            ->method('getUnsignedValue')
+            ->willReturn('unsignedValue');
     }
 
     /**
@@ -41,7 +41,7 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAlgorithm()
     {
-        $signer = new RsaSsaPkcsSigner(Algorithms::RSA_SHA512, "public", "private");
+        $signer = new RsaSsaPkcsSigner(Algorithms::RSA_SHA512, 'public', 'private');
         $this->assertEquals(Algorithms::RSA_SHA512, $signer->getAlgorithm());
     }
 
@@ -51,22 +51,22 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
     public function testSigningWithAsymmetricAlgorithms()
     {
         $algorithms = [
-            Algorithms::RSA_SHA256 => [OPENSSL_ALGO_SHA256, "sha256"],
-            Algorithms::RSA_SHA384 => [OPENSSL_ALGO_SHA384, "sha384"],
-            Algorithms::RSA_SHA512 => [OPENSSL_ALGO_SHA512, "sha512"]
+            Algorithms::RSA_SHA256 => [OPENSSL_ALGO_SHA256, 'sha256'],
+            Algorithms::RSA_SHA384 => [OPENSSL_ALGO_SHA384, 'sha384'],
+            Algorithms::RSA_SHA512 => [OPENSSL_ALGO_SHA512, 'sha512']
         ];
 
         foreach ($algorithms as $algorithm => $algorithmData) {
             $privateKey = openssl_pkey_new(
                 [
-                    "digest_alg" => $algorithmData[1],
-                    "private_key_bits" => 1024,
-                    "private_key_type" => OPENSSL_KEYTYPE_RSA
+                    'digest_alg' => $algorithmData[1],
+                    'private_key_bits' => 1024,
+                    'private_key_type' => OPENSSL_KEYTYPE_RSA
                 ]
             );
             $publicKey = openssl_pkey_get_details($privateKey);
             $signer = new RsaSsaPkcsSigner($algorithm, $publicKey, $privateKey);
-            $signature = "";
+            $signature = '';
             openssl_sign($this->unsignedToken->getUnsignedValue(), $signature, $privateKey, $algorithmData[0]);
             $this->assertEquals($signature, $signer->sign($this->unsignedToken->getUnsignedValue()));
         }
@@ -78,9 +78,9 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
     public function testVerifyingAsymmetricAlgorithms()
     {
         $algorithms = [
-            Algorithms::RSA_SHA256 => [OPENSSL_ALGO_SHA256, "sha256"],
-            Algorithms::RSA_SHA384 => [OPENSSL_ALGO_SHA384, "sha384"],
-            Algorithms::RSA_SHA512 => [OPENSSL_ALGO_SHA512, "sha512"]
+            Algorithms::RSA_SHA256 => [OPENSSL_ALGO_SHA256, 'sha256'],
+            Algorithms::RSA_SHA384 => [OPENSSL_ALGO_SHA384, 'sha384'],
+            Algorithms::RSA_SHA512 => [OPENSSL_ALGO_SHA512, 'sha512']
         ];
         $numVerified = 0;
         $numUnverified = 0;
@@ -88,15 +88,15 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
         foreach ($algorithms as $jwtAlgorithm => $algorithmData) {
             $privateKey = openssl_pkey_new(
                 [
-                    "digest_alg" => $algorithmData[1],
-                    "private_key_bits" => 1024,
-                    "private_key_type" => OPENSSL_KEYTYPE_RSA
+                    'digest_alg' => $algorithmData[1],
+                    'private_key_bits' => 1024,
+                    'private_key_type' => OPENSSL_KEYTYPE_RSA
                 ]
             );
             $publicKey = openssl_pkey_get_details($privateKey);
-            $signer = new RsaSsaPkcsSigner($jwtAlgorithm, $publicKey["key"], $privateKey);
+            $signer = new RsaSsaPkcsSigner($jwtAlgorithm, $publicKey['key'], $privateKey);
             openssl_sign($this->unsignedToken->getUnsignedValue(), $correctSignature, $privateKey, $algorithmData[0]);
-            $signatures = [$correctSignature, "incorrect"];
+            $signatures = [$correctSignature, 'incorrect'];
 
             foreach ($signatures as $signature) {
                 if ($signer->verify($this->signedToken->getUnsignedValue(), $signature)) {
@@ -116,7 +116,7 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
      */
     public function testVerifyingEmptySignatureReturnsFalse()
     {
-        $jws = new RsaSsaPkcsSigner(Algorithms::SHA256, "public", "private");
-        $this->assertFalse($jws->verify($this->signedToken->getUnsignedValue(), ""));
+        $jws = new RsaSsaPkcsSigner(Algorithms::SHA256, 'public', 'private');
+        $this->assertFalse($jws->verify($this->signedToken->getUnsignedValue(), ''));
     }
 }

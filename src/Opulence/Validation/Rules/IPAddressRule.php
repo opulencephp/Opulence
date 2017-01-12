@@ -18,7 +18,7 @@ class IPAddressRule implements IRule
      */
     public function getSlug() : string
     {
-        return "ipAddress";
+        return 'ipAddress';
     }
 
     /**

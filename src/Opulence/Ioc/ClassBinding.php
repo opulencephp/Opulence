@@ -14,7 +14,7 @@ namespace Opulence\Ioc;
 class ClassBinding implements IBinding
 {
     /** @var string The name of the concrete class */
-    private $concreteClass = "";
+    private $concreteClass = '';
     /** @var array The list of constructor primitives */
     private $constructorPrimitives = [];
     /** @var bool Whether or not the class should be resolved as a singleton */

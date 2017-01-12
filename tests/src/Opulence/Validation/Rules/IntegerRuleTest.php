@@ -20,9 +20,9 @@ class IntegerRuleTest extends \PHPUnit\Framework\TestCase
     {
         $rule = new IntegerRule();
         $this->assertFalse($rule->passes(false));
-        $this->assertFalse($rule->passes("foo"));
+        $this->assertFalse($rule->passes('foo'));
         $this->assertFalse($rule->passes(1.5));
-        $this->assertFalse($rule->passes("1.5"));
+        $this->assertFalse($rule->passes('1.5'));
     }
 
     /**
@@ -31,7 +31,7 @@ class IntegerRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new IntegerRule();
-        $this->assertEquals("integer", $rule->getSlug());
+        $this->assertEquals('integer', $rule->getSlug());
     }
 
     /**

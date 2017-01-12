@@ -22,7 +22,7 @@ class Driver extends BaseDriver
      */
     protected function getDsn(Server $server, array $options = [])
     {
-        return "fakedsn";
+        return 'fakedsn';
     }
 
     /**

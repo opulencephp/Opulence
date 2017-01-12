@@ -18,7 +18,7 @@ class TagNodeTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsTag()
     {
-        $node = new TagNode("foo");
+        $node = new TagNode('foo');
         $this->assertTrue($node->isTag());
     }
 }

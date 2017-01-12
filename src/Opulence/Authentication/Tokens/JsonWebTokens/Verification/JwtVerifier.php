@@ -37,7 +37,7 @@ class JwtVerifier
 
         /** @var IVerifier $verifier */
         foreach ($verifiers as $verifier) {
-            $error = "";
+            $error = '';
 
             if (!$verifier->verify($jwt, $error)) {
                 $isVerified = false;

@@ -44,7 +44,7 @@ abstract class Parser implements IParser
         // Trim the "--"
         $option = mb_substr($token, 2);
 
-        if (mb_strpos($option, "=") === false) {
+        if (mb_strpos($option, '=') === false) {
             /**
              * The option is either of the form "--foo" or "--foo bar" or "--foo -b" or "--foo --bar"
              * So, we need to determine if the option has a value
@@ -52,7 +52,7 @@ abstract class Parser implements IParser
             $nextToken = array_shift($remainingTokens);
 
             // Check if the next token is also an option
-            if (mb_substr($nextToken, 0, 1) === "-" || empty($nextToken)) {
+            if (mb_substr($nextToken, 0, 1) === '-' || empty($nextToken)) {
                 // The option must have not had a value, so put the next token back
                 array_unshift($remainingTokens, $nextToken);
 
@@ -60,10 +60,10 @@ abstract class Parser implements IParser
             }
 
             // Make it "--foo=bar"
-            $option .= "=" . $nextToken;
+            $option .= '=' . $nextToken;
         }
 
-        list($name, $value) = explode("=", $option);
+        list($name, $value) = explode('=', $option);
         $value = $this->trimQuotes($value);
 
         return [$name, $value];
@@ -78,7 +78,7 @@ abstract class Parser implements IParser
      */
     protected function parseShortOption(string $token) : array
     {
-        if (mb_substr($token, 0, 1) !== "-") {
+        if (mb_substr($token, 0, 1) !== '-') {
             throw new RuntimeException("Invalid short option \"$token\"");
         }
 
@@ -113,7 +113,7 @@ abstract class Parser implements IParser
             if (mb_strpos($token, '--') === 0) {
                 $option = $this->parseLongOption($token, $tokens);
                 $request->addOptionValue($option[0], $option[1]);
-            } elseif (mb_substr($token, 0, 1) === "-") {
+            } elseif (mb_substr($token, 0, 1) === '-') {
                 $options = $this->parseShortOption($token);
 
                 foreach ($options as $option) {

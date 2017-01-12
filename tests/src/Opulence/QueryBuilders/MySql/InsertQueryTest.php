@@ -20,14 +20,14 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingColumnsToUpdate()
     {
-        $query = new InsertQuery("users", ["name" => "dave", "email" => "foo@bar.com"]);
-        $query->update(["name" => "dave"])
-            ->addUpdateColumnValues(["email" => "foo@bar.com"]);
-        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?",
+        $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);
+        $query->update(['name' => 'dave'])
+            ->addUpdateColumnValues(['email' => 'foo@bar.com']);
+        $this->assertEquals('INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?',
             $query->getSql());
         $this->assertEquals([
-            ["dave", PDO::PARAM_STR],
-            ["foo@bar.com", PDO::PARAM_STR]
+            ['dave', PDO::PARAM_STR],
+            ['foo@bar.com', PDO::PARAM_STR]
         ], $query->getParameters());
     }
 
@@ -36,11 +36,11 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testBasicQuery()
     {
-        $query = new InsertQuery("users", ["name" => "dave", "email" => "foo@bar.com"]);
-        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?)", $query->getSql());
+        $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);
+        $this->assertEquals('INSERT INTO users (name, email) VALUES (?, ?)', $query->getSql());
         $this->assertEquals([
-            ["dave", PDO::PARAM_STR],
-            ["foo@bar.com", PDO::PARAM_STR]
+            ['dave', PDO::PARAM_STR],
+            ['foo@bar.com', PDO::PARAM_STR]
         ], $query->getParameters());
     }
 
@@ -49,14 +49,14 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testEverything()
     {
-        $query = new InsertQuery("users", ["name" => "dave", "email" => "foo@bar.com"]);
-        $query->update(["name" => "dave"])
-            ->addUpdateColumnValues(["email" => "foo@bar.com"]);
-        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?",
+        $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);
+        $query->update(['name' => 'dave'])
+            ->addUpdateColumnValues(['email' => 'foo@bar.com']);
+        $this->assertEquals('INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?',
             $query->getSql());
         $this->assertEquals([
-            ["dave", PDO::PARAM_STR],
-            ["foo@bar.com", PDO::PARAM_STR]
+            ['dave', PDO::PARAM_STR],
+            ['foo@bar.com', PDO::PARAM_STR]
         ], $query->getParameters());
     }
 
@@ -65,13 +65,13 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testInsertUpdate()
     {
-        $query = new InsertQuery("users", ["name" => "dave", "email" => "foo@bar.com"]);
-        $query->update(["name" => "dave", "email" => "foo@bar.com"]);
-        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?",
+        $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);
+        $query->update(['name' => 'dave', 'email' => 'foo@bar.com']);
+        $this->assertEquals('INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?',
             $query->getSql());
         $this->assertEquals([
-            ["dave", PDO::PARAM_STR],
-            ["foo@bar.com", PDO::PARAM_STR]
+            ['dave', PDO::PARAM_STR],
+            ['foo@bar.com', PDO::PARAM_STR]
         ], $query->getParameters());
     }
 }

@@ -34,7 +34,7 @@ class MinRuleTest extends \PHPUnit\Framework\TestCase
     {
         $rule = new MinRule();
         $rule->setArgs([2]);
-        $this->assertEquals(["min" => 2], $rule->getErrorPlaceholders());
+        $this->assertEquals(['min' => 2], $rule->getErrorPlaceholders());
     }
 
     /**
@@ -43,7 +43,7 @@ class MinRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new MinRule();
-        $this->assertEquals("min", $rule->getSlug());
+        $this->assertEquals('min', $rule->getSlug());
     }
 
     /**

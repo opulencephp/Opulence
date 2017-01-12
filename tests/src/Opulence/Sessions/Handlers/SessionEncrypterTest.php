@@ -37,10 +37,10 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(SessionEncryptionException::class);
         $this->opulenceEncrypter->expects($this->once())
-            ->method("decrypt")
-            ->with("foo")
-            ->willThrowException(new EncryptionException("bar"));
-        $this->sessionEncrypter->decrypt("foo");
+            ->method('decrypt')
+            ->with('foo')
+            ->willThrowException(new EncryptionException('bar'));
+        $this->sessionEncrypter->decrypt('foo');
     }
 
     /**
@@ -50,10 +50,10 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(SessionEncryptionException::class);
         $this->opulenceEncrypter->expects($this->once())
-            ->method("encrypt")
-            ->with("foo")
-            ->willThrowException(new EncryptionException("bar"));
-        $this->sessionEncrypter->encrypt("foo");
+            ->method('encrypt')
+            ->with('foo')
+            ->willThrowException(new EncryptionException('bar'));
+        $this->sessionEncrypter->encrypt('foo');
     }
 
     /**
@@ -62,10 +62,10 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     public function testOpulenceEncrypterUsedToDecryptData()
     {
         $this->opulenceEncrypter->expects($this->once())
-            ->method("decrypt")
-            ->with("foo")
-            ->willReturn("bar");
-        $this->assertEquals("bar", $this->sessionEncrypter->decrypt("foo"));
+            ->method('decrypt')
+            ->with('foo')
+            ->willReturn('bar');
+        $this->assertEquals('bar', $this->sessionEncrypter->decrypt('foo'));
     }
 
     /**
@@ -74,9 +74,9 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     public function testOpulenceEncrypterUsedToEncryptData()
     {
         $this->opulenceEncrypter->expects($this->once())
-            ->method("encrypt")
-            ->with("foo")
-            ->willReturn("bar");
-        $this->assertEquals("bar", $this->sessionEncrypter->encrypt("foo"));
+            ->method('encrypt')
+            ->with('foo')
+            ->willReturn('bar');
+        $this->assertEquals('bar', $this->sessionEncrypter->encrypt('foo'));
     }
 }

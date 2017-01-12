@@ -29,6 +29,6 @@ class ExceptionRenderer extends BaseRenderer
      */
     protected function getProductionEnvironmentContent(Exception $ex, int $statusCode) : string
     {
-        return "Something went wrong";
+        return 'Something went wrong';
     }
 }

@@ -23,13 +23,13 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     {
         $correctInputWasPassed = false;
         $callback = function ($value, array $inputs = []) use (&$correctInputWasPassed) {
-            $correctInputWasPassed = $value === "foo" && $inputs === ["bar" => "baz"];
+            $correctInputWasPassed = $value === 'foo' && $inputs === ['bar' => 'baz'];
 
             return true;
         };
         $rule = new CallbackRule();
         $rule->setArgs([$callback]);
-        $rule->passes("foo", ["bar" => "baz"]);
+        $rule->passes('foo', ['bar' => 'baz']);
         $this->assertTrue($correctInputWasPassed);
     }
 
@@ -48,8 +48,8 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
         $failRule = new CallbackRule();
         $passRule->setArgs([$trueCallback]);
         $failRule->setArgs([$falseCallback]);
-        $this->assertTrue($passRule->passes("foo"));
-        $this->assertFalse($failRule->passes("bar"));
+        $this->assertTrue($passRule->passes('foo'));
+        $this->assertFalse($failRule->passes('bar'));
     }
 
     /**
@@ -58,7 +58,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new CallbackRule();
-        $this->assertEquals("callback", $rule->getSlug());
+        $this->assertEquals('callback', $rule->getSlug());
     }
 
     /**
@@ -68,7 +68,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(LogicException::class);
         $rule = new CallbackRule();
-        $rule->passes("foo");
+        $rule->passes('foo');
     }
 
     /**
@@ -88,6 +88,6 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new CallbackRule();
-        $rule->setArgs(["foo"]);
+        $rule->setArgs(['foo']);
     }
 }

@@ -20,7 +20,7 @@ abstract class QueryBuilder
      * @param string $alias The alias of the table name
      * @return DeleteQuery The delete query builder
      */
-    abstract public function delete(string $tableName, string $alias = "");
+    abstract public function delete(string $tableName, string $alias = '');
 
     /**
      * Starts a new insert query

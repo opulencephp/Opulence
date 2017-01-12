@@ -33,11 +33,11 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testBuildingHttpsRequest()
     {
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET");
-        $requestBuilder->from("https://foo.com/bar");
-        $request = Request::createFromUrl("https://foo.com/bar", "GET");
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET');
+        $requestBuilder->from('https://foo.com/bar');
+        $request = Request::createFromUrl('https://foo.com/bar', 'GET');
         $this->integrationTest->expects($this->once())
-            ->method("route")
+            ->method('route')
             ->with($request);
         $requestBuilder->go();
     }
@@ -47,21 +47,21 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testBuildingJsonRequest()
     {
-        $jsonArray = ["bar" => "baz"];
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET", "/foo");
+        $jsonArray = ['bar' => 'baz'];
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
         $this->assertSame($requestBuilder, $requestBuilder->withJson($jsonArray));
         $request = Request::createFromUrl(
-            "/foo",
-            "GET",
+            '/foo',
+            'GET',
             [],
             [],
-            ["CONTENT_TYPE" => "application/json", "CONTENT_LENGTH" => mb_strlen(json_encode($jsonArray), "8bit")],
+            ['CONTENT_TYPE' => 'application/json', 'CONTENT_LENGTH' => mb_strlen(json_encode($jsonArray), '8bit')],
             [],
             [],
             json_encode($jsonArray)
         );
         $this->integrationTest->expects($this->once())
-            ->method("route")
+            ->method('route')
             ->with($request);
         $requestBuilder->go();
     }
@@ -71,11 +71,11 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testBuildingRequestWithContent()
     {
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET", "/foo");
-        $this->assertSame($requestBuilder, $requestBuilder->withRawBody("my-content"));
-        $request = Request::createFromUrl("/foo", "GET", [], [], [], [], [], "my-content");
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
+        $this->assertSame($requestBuilder, $requestBuilder->withRawBody('my-content'));
+        $request = Request::createFromUrl('/foo', 'GET', [], [], [], [], [], 'my-content');
         $this->integrationTest->expects($this->once())
-            ->method("route")
+            ->method('route')
             ->with($request);
         $requestBuilder->go();
     }
@@ -85,12 +85,12 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testBuildingRequestWithCookies()
     {
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET", "/foo");
-        $cookies = ["cooke-name" => "cookie-val"];
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
+        $cookies = ['cooke-name' => 'cookie-val'];
         $this->assertSame($requestBuilder, $requestBuilder->withCookies($cookies));
-        $request = Request::createFromUrl("/foo", "GET", [], $cookies);
+        $request = Request::createFromUrl('/foo', 'GET', [], $cookies);
         $this->integrationTest->expects($this->once())
-            ->method("route")
+            ->method('route')
             ->with($request);
         $requestBuilder->go();
     }
@@ -100,12 +100,12 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testBuildingRequestWithEnvVars()
     {
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET", "/foo");
-        $env = ["env-name" => "env-val"];
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
+        $env = ['env-name' => 'env-val'];
         $this->assertSame($requestBuilder, $requestBuilder->withEnvironmentVars($env));
-        $request = Request::createFromUrl("/foo", "GET", [], [], [], [], $env);
+        $request = Request::createFromUrl('/foo', 'GET', [], [], [], [], $env);
         $this->integrationTest->expects($this->once())
-            ->method("route")
+            ->method('route')
             ->with($request);
         $requestBuilder->go();
     }
@@ -115,17 +115,17 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testBuildingRequestWithFiles()
     {
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET", "/foo");
-        $files = [new UploadedFile("/tmp/foo", "temp-filename", 123, "plain/text", UPLOAD_ERR_OK)];
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
+        $files = [new UploadedFile('/tmp/foo', 'temp-filename', 123, 'plain/text', UPLOAD_ERR_OK)];
         $this->assertSame(
             $requestBuilder,
             $requestBuilder->withFiles(
                 $files
             )
         );
-        $request = Request::createFromUrl("/foo", "GET", [], [], [], $files);
+        $request = Request::createFromUrl('/foo', 'GET', [], [], [], $files);
         $this->integrationTest->expects($this->once())
-            ->method("route")
+            ->method('route')
             ->with($request);
         $requestBuilder->go();
     }
@@ -135,11 +135,11 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testBuildingRequestWithPort()
     {
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET");
-        $requestBuilder->from("http://foo.com:8080/bar");
-        $request = Request::createFromUrl("foo.com:8080/bar", "GET");
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET');
+        $requestBuilder->from('http://foo.com:8080/bar');
+        $request = Request::createFromUrl('foo.com:8080/bar', 'GET');
         $this->integrationTest->expects($this->once())
-            ->method("route")
+            ->method('route')
             ->with($request);
         $requestBuilder->go();
     }
@@ -149,12 +149,12 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testBuildingRequestWithServerVars()
     {
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET", "/foo");
-        $serverVars = ["server-name" => "server-val"];
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
+        $serverVars = ['server-name' => 'server-val'];
         $this->assertSame($requestBuilder, $requestBuilder->withServerVars($serverVars));
-        $request = Request::createFromUrl("/foo", "GET", [], [], $serverVars);
+        $request = Request::createFromUrl('/foo', 'GET', [], [], $serverVars);
         $this->integrationTest->expects($this->once())
-            ->method("route")
+            ->method('route')
             ->with($request);
         $requestBuilder->go();
     }
@@ -164,11 +164,11 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testFromSetsUrlInRequest()
     {
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET");
-        $requestBuilder->from("/foo");
-        $request = Request::createFromUrl("/foo", "GET");
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET');
+        $requestBuilder->from('/foo');
+        $request = Request::createFromUrl('/foo', 'GET');
         $this->integrationTest->expects($this->once())
-            ->method("route")
+            ->method('route')
             ->with($request);
         $requestBuilder->go();
     }
@@ -178,11 +178,11 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testHeadersArePrefixedWithHTTP()
     {
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET", "/foo");
-        $this->assertSame($requestBuilder, $requestBuilder->withHeaders(["FOO" => "bar"]));
-        $request = Request::createFromUrl("/foo", "GET", [], [], ["HTTP_FOO" => "bar"]);
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
+        $this->assertSame($requestBuilder, $requestBuilder->withHeaders(['FOO' => 'bar']));
+        $request = Request::createFromUrl('/foo', 'GET', [], [], ['HTTP_FOO' => 'bar']);
         $this->integrationTest->expects($this->once())
-            ->method("route")
+            ->method('route')
             ->with($request);
         $requestBuilder->go();
     }
@@ -193,7 +193,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     public function testNotSettingMethodThrowsException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET");
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET');
         $requestBuilder->go();
     }
 
@@ -203,7 +203,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     public function testNotSettingUrlThrowsException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET");
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET');
         $requestBuilder->go();
     }
 
@@ -212,12 +212,12 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testParametersInGetRequestAreAssignedToQuery()
     {
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET", "/foo");
-        $parameters = ["name" => "val"];
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
+        $parameters = ['name' => 'val'];
         $this->assertSame($requestBuilder, $requestBuilder->withParameters($parameters));
-        $request = Request::createFromUrl("/foo", "GET", $parameters);
+        $request = Request::createFromUrl('/foo', 'GET', $parameters);
         $this->integrationTest->expects($this->once())
-            ->method("route")
+            ->method('route')
             ->with($request);
         $requestBuilder->go();
     }
@@ -227,12 +227,12 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testParametersInPostRequestAreAssignedToPost()
     {
-        $requestBuilder = new RequestBuilder($this->integrationTest, "POST", "/foo");
-        $parameters = ["name" => "val"];
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'POST', '/foo');
+        $parameters = ['name' => 'val'];
         $this->assertSame($requestBuilder, $requestBuilder->withParameters($parameters));
-        $request = Request::createFromUrl("/foo", "POST", $parameters);
+        $request = Request::createFromUrl('/foo', 'POST', $parameters);
         $this->integrationTest->expects($this->once())
-            ->method("route")
+            ->method('route')
             ->with($request);
         $requestBuilder->go();
     }
@@ -242,11 +242,11 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testToSetsUrlInRequest()
     {
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET");
-        $requestBuilder->to("/foo");
-        $request = Request::createFromUrl("/foo", "GET");
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET');
+        $requestBuilder->to('/foo');
+        $request = Request::createFromUrl('/foo', 'GET');
         $this->integrationTest->expects($this->once())
-            ->method("route")
+            ->method('route')
             ->with($request);
         $requestBuilder->go();
     }
@@ -256,10 +256,10 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testUrlSetInConstructor()
     {
-        $requestBuilder = new RequestBuilder($this->integrationTest, "GET", "/foo");
-        $request = Request::createFromUrl("/foo", "GET");
+        $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
+        $request = Request::createFromUrl('/foo', 'GET');
         $this->integrationTest->expects($this->once())
-            ->method("route")
+            ->method('route')
             ->with($request);
         $requestBuilder->go();
     }

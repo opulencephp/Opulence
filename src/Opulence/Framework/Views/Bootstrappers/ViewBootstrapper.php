@@ -74,7 +74,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
     public function run()
     {
         // If we're developing, wipe out the view cache
-        if (getenv("ENV_NAME") === Environment::DEVELOPMENT) {
+        if (getenv('ENV_NAME') === Environment::DEVELOPMENT) {
             $this->viewCache->flush();
         }
     }
@@ -104,9 +104,9 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
         $transpiler = new Transpiler(new Lexer(), new Parser(), $this->viewCache, new XssFilter());
         $container->bindInstance(ITranspiler::class, $transpiler);
         $fortuneCompiler = new FortuneCompiler($transpiler, $this->viewFactory);
-        $registry->registerCompiler("fortune", $fortuneCompiler);
-        $registry->registerCompiler("fortune.php", $fortuneCompiler);
-        $registry->registerCompiler("php", new PhpCompiler());
+        $registry->registerCompiler('fortune', $fortuneCompiler);
+        $registry->registerCompiler('fortune.php', $fortuneCompiler);
+        $registry->registerCompiler('php', new PhpCompiler());
 
         return $viewCompiler;
     }
@@ -121,10 +121,10 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
     protected function getViewFactory(IContainer $container) : IViewFactory
     {
         $resolver = new FileViewNameResolver();
-        $resolver->registerPath(Config::get("paths", "views.raw"));
-        $resolver->registerExtension("fortune");
-        $resolver->registerExtension("fortune.php");
-        $resolver->registerExtension("php");
+        $resolver->registerPath(Config::get('paths', 'views.raw'));
+        $resolver->registerExtension('fortune');
+        $resolver->registerExtension('fortune.php');
+        $resolver->registerExtension('php');
         $viewReader = $this->getViewReader($container);
         $container->bindInstance(IViewNameResolver::class, $resolver);
         $container->bindInstance(IViewReader::class, $viewReader);

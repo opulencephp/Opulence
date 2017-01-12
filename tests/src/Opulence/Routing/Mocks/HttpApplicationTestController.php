@@ -29,7 +29,7 @@ class HttpApplicationTestController extends BaseController
      */
     public function redirect()
     {
-        return new RedirectResponse("/redirectedPath");
+        return new RedirectResponse('/redirectedPath');
     }
 
     /**
@@ -39,7 +39,7 @@ class HttpApplicationTestController extends BaseController
      */
     public function setBadGateway()
     {
-        return new Response("FooBar", ResponseHeaders::HTTP_BAD_GATEWAY);
+        return new Response('FooBar', ResponseHeaders::HTTP_BAD_GATEWAY);
     }
 
     /**
@@ -49,8 +49,8 @@ class HttpApplicationTestController extends BaseController
      */
     public function setCookie()
     {
-        $response = new Response("FooBar");
-        $response->getHeaders()->setCookie(new Cookie("foo", "bar", new DateTime()));
+        $response = new Response('FooBar');
+        $response->getHeaders()->setCookie(new Cookie('foo', 'bar', new DateTime()));
 
         return $response;
     }
@@ -62,8 +62,8 @@ class HttpApplicationTestController extends BaseController
      */
     public function setHeader()
     {
-        $response = new Response("FooBar");
-        $response->getHeaders()->set("foo", "bar");
+        $response = new Response('FooBar');
+        $response->getHeaders()->set('foo', 'bar');
 
         return $response;
     }
@@ -75,7 +75,7 @@ class HttpApplicationTestController extends BaseController
      */
     public function setISE()
     {
-        return new Response("FooBar", ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
+        return new Response('FooBar', ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -85,7 +85,7 @@ class HttpApplicationTestController extends BaseController
      */
     public function setOK()
     {
-        return new Response("FooBar", ResponseHeaders::HTTP_OK);
+        return new Response('FooBar', ResponseHeaders::HTTP_OK);
     }
 
     /**
@@ -95,7 +95,7 @@ class HttpApplicationTestController extends BaseController
      */
     public function setUnauthorized()
     {
-        return new Response("FooBar", ResponseHeaders::HTTP_UNAUTHORIZED);
+        return new Response('FooBar', ResponseHeaders::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -105,10 +105,10 @@ class HttpApplicationTestController extends BaseController
      */
     public function setVar()
     {
-        $this->view = new View("thecontent");
-        $this->view->setVar("foo", "bar");
+        $this->view = new View('thecontent');
+        $this->view->setVar('foo', 'bar');
 
-        return new Response("FooBar");
+        return new Response('FooBar');
     }
 
     /**
@@ -118,7 +118,7 @@ class HttpApplicationTestController extends BaseController
      */
     public function showFooBar()
     {
-        return new Response("FooBar");
+        return new Response('FooBar');
     }
 
     /**
@@ -128,6 +128,6 @@ class HttpApplicationTestController extends BaseController
      */
     public function showJson()
     {
-        return new JsonResponse(["foo" => "bar", "baz" => ["subkey" => "subvalue"]]);
+        return new JsonResponse(['foo' => 'bar', 'baz' => ['subkey' => 'subvalue']]);
     }
 }

@@ -16,13 +16,13 @@ class TableFormatter
     /** @var PaddingFormatter The padding formatter */
     private $padding = null;
     /** @var string The padding string */
-    private $cellPaddingString = " ";
+    private $cellPaddingString = ' ';
     /** @var string The character to use for vertical borders */
-    private $verticalBorderChar = "|";
+    private $verticalBorderChar = '|';
     /** @var string The character to use for horizontal borders */
-    private $horizontalBorderChar = "-";
+    private $horizontalBorderChar = '-';
     /** @var string The character to use for row/column intersections */
-    private $intersectionChar = "+";
+    private $intersectionChar = '+';
 
     /**
      * @param PaddingFormatter $padding The padding formatter
@@ -42,7 +42,7 @@ class TableFormatter
     public function format(array $rows, array $headers = []) : string
     {
         if (count($rows) === 0) {
-            return "";
+            return '';
         }
 
         foreach ($rows as &$row) {
@@ -58,7 +58,7 @@ class TableFormatter
         $eolChar = $this->padding->getEolChar();
         $rowText = explode($eolChar, $this->padding->format($headersAndRows, function ($row) {
             return sprintf(
-                "%s%s%s%s%s",
+                '%s%s%s%s%s',
                 $this->verticalBorderChar,
                 $this->cellPaddingString,
                 implode($this->cellPaddingString . $this->verticalBorderChar . $this->cellPaddingString, $row),
@@ -75,7 +75,7 @@ class TableFormatter
         }
 
         $borderText = $this->intersectionChar . implode($this->intersectionChar, $borders) . $this->intersectionChar;
-        $headerText = count($headers) > 0 ? array_shift($rowText) . $eolChar . $borderText . $eolChar : "";
+        $headerText = count($headers) > 0 ? array_shift($rowText) . $eolChar . $borderText . $eolChar : '';
 
         return $borderText . $eolChar . $headerText . implode($eolChar, $rowText) . $eolChar . $borderText;
     }

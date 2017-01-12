@@ -47,7 +47,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         /** @var IDependencyResolver|\PHPUnit_Framework_MockObject_MockObject $dependencyResolver */
         $dependencyResolver = $this->createMock(IDependencyResolver::class);
         $dependencyResolver->expects($this->any())
-            ->method("resolve")
+            ->method('resolve')
             ->willReturnCallback(function () {
                 $interface = func_get_arg(0);
 
@@ -77,8 +77,8 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingRouteReturnsInstance()
     {
-        $path = "/foo";
-        $controller = "foo@bar";
+        $path = '/foo';
+        $controller = 'foo@bar';
         $this->assertInstanceOf(Route::class,
             $this->router->addRoute(new Route(RequestMethods::GET, $path, $controller)));
         $this->assertInstanceOf(Route::class, $this->router->any($path, $controller)[0]);
@@ -97,8 +97,8 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingRoutesThroughTheirSpecificMethods()
     {
-        $path = "/foo";
-        $controller = "foo@bar";
+        $path = '/foo';
+        $controller = 'foo@bar';
 
         foreach (RouteCollection::getMethods() as $method) {
             $this->router->{strtolower($method)}($path, $controller);
@@ -122,9 +122,9 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     {
         $getRoute = null;
 
-        $this->router->group(["path" => "/foo/:id", "vars" => ["id" => "\d+"]],
+        $this->router->group(['path' => '/foo/:id', 'vars' => ['id' => "\d+"]],
             function (Router $router) use (&$getRoute) {
-                $getRoute = $router->get("/foo", "foo@bar");
+                $getRoute = $router->get('/foo', 'foo@bar');
             });
         $this->assertSame($getRoute, $this->router->getRouteCollection()->get(RequestMethods::GET)[0]);
     }
@@ -134,16 +134,16 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testGroupWithVariableRegexes()
     {
-        $this->router->group(["path" => "/users/:userId", "vars" => ["id" => "\d+"]], function (Router $router) {
-            $router->get("/foo", "foo@bar");
-            $router->post("/foo", "foo@bar");
+        $this->router->group(['path' => '/users/:userId', 'vars' => ['id' => "\d+"]], function (Router $router) {
+            $router->get('/foo', 'foo@bar');
+            $router->post('/foo', 'foo@bar');
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $postRoutes */
         $postRoutes = $this->router->getRouteCollection()->get(RequestMethods::POST);
-        $this->assertEquals("\d+", $getRoutes[0]->getVarRegex("id"));
-        $this->assertEquals("\d+", $postRoutes[0]->getVarRegex("id"));
+        $this->assertEquals("\d+", $getRoutes[0]->getVarRegex('id'));
+        $this->assertEquals("\d+", $postRoutes[0]->getVarRegex('id'));
     }
 
     /**
@@ -152,11 +152,11 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     public function testGroupedRoutesDoNotOverwriteControllerSettingsInClosureRoute()
     {
         $controller = function () {
-            return "Foo";
+            return 'Foo';
         };
-        $closureRoute = $this->router->get("/foo", $controller);
-        $this->router->group(["controllerNamespace" => "MyApp"], function (Router $router) {
-            $router->get("bar", "MyController@index");
+        $closureRoute = $this->router->get('/foo', $controller);
+        $this->router->group(['controllerNamespace' => 'MyApp'], function (Router $router) {
+            $router->get('bar', 'MyController@index');
         });
         $this->assertTrue($closureRoute->usesCallable());
         $this->assertSame($controller, $closureRoute->getController());
@@ -168,22 +168,22 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     public function testGroupingRoutes()
     {
         $groupOptions = [
-            "path" => "/foo",
-            "middleware" => ["foo1", "foo2"]
+            'path' => '/foo',
+            'middleware' => ['foo1', 'foo2']
         ];
         $this->router->group($groupOptions, function (Router $router) {
-            $controller = MockController::class . "@noParameters";
-            $router->addRoute(new Route(RequestMethods::GET, "/bar", $controller));
-            $router->delete("/blah", $controller);
+            $controller = MockController::class . '@noParameters';
+            $router->addRoute(new Route(RequestMethods::GET, '/bar', $controller));
+            $router->delete('/blah', $controller);
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $deleteRoutes */
         $deleteRoutes = $this->router->getRouteCollection()->get(RequestMethods::DELETE);
-        $this->assertEquals("/foo/bar", $getRoutes[0]->getRawPath());
-        $this->assertEquals(["foo1", "foo2"], $getRoutes[0]->getMiddleware());
-        $this->assertEquals("/foo/blah", $deleteRoutes[0]->getRawPath());
-        $this->assertEquals(["foo1", "foo2"], $deleteRoutes[0]->getMiddleware());
+        $this->assertEquals('/foo/bar', $getRoutes[0]->getRawPath());
+        $this->assertEquals(['foo1', 'foo2'], $getRoutes[0]->getMiddleware());
+        $this->assertEquals('/foo/blah', $deleteRoutes[0]->getRawPath());
+        $this->assertEquals(['foo1', 'foo2'], $deleteRoutes[0]->getMiddleware());
     }
 
     /**
@@ -191,29 +191,29 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testGroupingRoutesThenAddingAnotherRoute()
     {
-        $controller = MockController::class . "@noParameters";
+        $controller = MockController::class . '@noParameters';
         $routeOptions = [
-            "middleware" => ["foo3", "foo4"]
+            'middleware' => ['foo3', 'foo4']
         ];
         $groupOptions = [
-            "path" => "/foo",
-            "middleware" => ["foo1", "foo2"]
+            'path' => '/foo',
+            'middleware' => ['foo1', 'foo2']
         ];
         $this->router->group($groupOptions, function (Router $router) use ($controller, $routeOptions) {
-            $router->addRoute(new Route(RequestMethods::GET, "/bar", $controller, $routeOptions));
-            $router->delete("/blah", $controller, $routeOptions);
+            $router->addRoute(new Route(RequestMethods::GET, '/bar', $controller, $routeOptions));
+            $router->delete('/blah', $controller, $routeOptions);
         });
-        $this->router->get("/asdf", $controller, $routeOptions);
+        $this->router->get('/asdf', $controller, $routeOptions);
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $deleteRoutes */
         $deleteRoutes = $this->router->getRouteCollection()->get(RequestMethods::DELETE);
-        $this->assertEquals("/foo/bar", $getRoutes[0]->getRawPath());
-        $this->assertEquals(["foo1", "foo2", "foo3", "foo4"], $getRoutes[0]->getMiddleware());
-        $this->assertEquals("/asdf", $getRoutes[1]->getRawPath());
-        $this->assertEquals(["foo3", "foo4"], $getRoutes[1]->getMiddleware());
-        $this->assertEquals("/foo/blah", $deleteRoutes[0]->getRawPath());
-        $this->assertEquals(["foo1", "foo2", "foo3", "foo4"], $deleteRoutes[0]->getMiddleware());
+        $this->assertEquals('/foo/bar', $getRoutes[0]->getRawPath());
+        $this->assertEquals(['foo1', 'foo2', 'foo3', 'foo4'], $getRoutes[0]->getMiddleware());
+        $this->assertEquals('/asdf', $getRoutes[1]->getRawPath());
+        $this->assertEquals(['foo3', 'foo4'], $getRoutes[1]->getMiddleware());
+        $this->assertEquals('/foo/blah', $deleteRoutes[0]->getRawPath());
+        $this->assertEquals(['foo1', 'foo2', 'foo3', 'foo4'], $deleteRoutes[0]->getMiddleware());
     }
 
     /**
@@ -221,24 +221,24 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testGroupingRoutesWithStringMiddleware()
     {
-        $controller = MockController::class . "@noParameters";
+        $controller = MockController::class . '@noParameters';
         $routeOptions = [
-            "middleware" => "foo2"
+            'middleware' => 'foo2'
         ];
         $groupOptions = [
-            "path" => "/foo",
-            "middleware" => "foo1"
+            'path' => '/foo',
+            'middleware' => 'foo1'
         ];
         $this->router->group($groupOptions, function (Router $router) use ($controller, $routeOptions) {
-            $router->addRoute(new Route(RequestMethods::GET, "/bar", $controller, $routeOptions));
-            $router->delete("/blah", $controller, $routeOptions);
+            $router->addRoute(new Route(RequestMethods::GET, '/bar', $controller, $routeOptions));
+            $router->delete('/blah', $controller, $routeOptions);
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $deleteRoutes */
         $deleteRoutes = $this->router->getRouteCollection()->get(RequestMethods::DELETE);
-        $this->assertEquals(["foo1", "foo2"], $getRoutes[0]->getMiddleware());
-        $this->assertEquals(["foo1", "foo2"], $deleteRoutes[0]->getMiddleware());
+        $this->assertEquals(['foo1', 'foo2'], $getRoutes[0]->getMiddleware());
+        $this->assertEquals(['foo1', 'foo2'], $deleteRoutes[0]->getMiddleware());
     }
 
     /**
@@ -254,10 +254,10 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testMixingHttpsOnNestedGroups()
     {
-        $this->router->group(["https" => true], function (Router $router) {
-            $router->group(["https" => false], function (Router $router) {
-                $router->get("/foo", "foo@bar");
-                $router->post("/foo", "foo@bar");
+        $this->router->group(['https' => true], function (Router $router) {
+            $router->group(['https' => false], function (Router $router) {
+                $router->get('/foo', 'foo@bar');
+                $router->post('/foo', 'foo@bar');
             });
         });
         /** @var Route[] $getRoutes */
@@ -274,38 +274,38 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     public function testNestedGroupedRoutes()
     {
         $outerGroupOptions = [
-            "path" => "/foo",
-            "controllerNamespace" => "Opulence\\Tests\\Routing",
-            "middleware" => ["foo1", "foo2"]
+            'path' => '/foo',
+            'controllerNamespace' => "Opulence\\Tests\\Routing",
+            'middleware' => ['foo1', 'foo2']
         ];
         $outerRouteController = "Mocks\\Controller@noParameters";
-        $innerRouteController = "Controller@noParameters";
+        $innerRouteController = 'Controller@noParameters';
         $this->router->group($outerGroupOptions,
             function (Router $router) use ($outerRouteController, $innerRouteController) {
-                $router->addRoute(new Route(RequestMethods::GET, "/bar", $outerRouteController));
-                $router->delete("/blah", $outerRouteController);
+                $router->addRoute(new Route(RequestMethods::GET, '/bar', $outerRouteController));
+                $router->delete('/blah', $outerRouteController);
                 $innerGroupOptions = [
-                    "path" => "/asdf",
-                    "controllerNamespace" => "Mocks",
-                    "middleware" => ["foo3", "foo4"]
+                    'path' => '/asdf',
+                    'controllerNamespace' => 'Mocks',
+                    'middleware' => ['foo3', 'foo4']
                 ];
                 $router->group($innerGroupOptions, function (Router $router) use ($innerRouteController) {
-                    $router->get("/jkl", $innerRouteController);
+                    $router->get('/jkl', $innerRouteController);
                 });
             });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $deleteRoutes */
         $deleteRoutes = $this->router->getRouteCollection()->get(RequestMethods::DELETE);
-        $this->assertEquals("/foo/bar", $getRoutes[0]->getRawPath());
+        $this->assertEquals('/foo/bar', $getRoutes[0]->getRawPath());
         $this->assertEquals(MockController::class, $getRoutes[0]->getControllerName());
-        $this->assertEquals(["foo1", "foo2"], $getRoutes[0]->getMiddleware());
-        $this->assertEquals("/foo/asdf/jkl", $getRoutes[1]->getRawPath());
+        $this->assertEquals(['foo1', 'foo2'], $getRoutes[0]->getMiddleware());
+        $this->assertEquals('/foo/asdf/jkl', $getRoutes[1]->getRawPath());
         $this->assertEquals(MockController::class, $getRoutes[1]->getControllerName());
-        $this->assertEquals(["foo1", "foo2", "foo3", "foo4"], $getRoutes[1]->getMiddleware());
-        $this->assertEquals("/foo/blah", $deleteRoutes[0]->getRawPath());
+        $this->assertEquals(['foo1', 'foo2', 'foo3', 'foo4'], $getRoutes[1]->getMiddleware());
+        $this->assertEquals('/foo/blah', $deleteRoutes[0]->getRawPath());
         $this->assertEquals(MockController::class, $deleteRoutes[0]->getControllerName());
-        $this->assertEquals(["foo1", "foo2"], $deleteRoutes[0]->getMiddleware());
+        $this->assertEquals(['foo1', 'foo2'], $deleteRoutes[0]->getMiddleware());
     }
 
     /**
@@ -313,20 +313,20 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testNestingGroupVariableRegexesOverwriteOneAnother()
     {
-        $this->router->group(["path" => "/users/:userId", "vars" => ["id" => "\d*"]], function (Router $router) {
-            $router->get("/foo", "foo@bar");
+        $this->router->group(['path' => '/users/:userId', 'vars' => ['id' => "\d*"]], function (Router $router) {
+            $router->get('/foo', 'foo@bar');
             // This route's variable regex should take precedence
-            $router->get("/bam", "foo@bam", ["vars" => ["id" => "\w+"]]);
+            $router->get('/bam', 'foo@bam', ['vars' => ['id' => "\w+"]]);
 
-            $router->group(["path" => "/bar", "vars" => ["id" => "\d+"]], function (Router $router) {
-                $router->get("/baz", "bar@baz");
+            $router->group(['path' => '/bar', 'vars' => ['id' => "\d+"]], function (Router $router) {
+                $router->get('/baz', 'bar@baz');
             });
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
-        $this->assertEquals("\d*", $getRoutes[0]->getVarRegex("id"));
-        $this->assertEquals("\w+", $getRoutes[1]->getVarRegex("id"));
-        $this->assertEquals("\d+", $getRoutes[2]->getVarRegex("id"));
+        $this->assertEquals("\d*", $getRoutes[0]->getVarRegex('id'));
+        $this->assertEquals("\w+", $getRoutes[1]->getVarRegex('id'));
+        $this->assertEquals("\d+", $getRoutes[2]->getVarRegex('id'));
     }
 
     /**
@@ -334,8 +334,8 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testRoutingAnyMethod()
     {
-        $controller = MockController::class . "@noParameters";
-        $this->router->any("/foo", $controller);
+        $controller = MockController::class . '@noParameters';
+        $this->router->any('/foo', $controller);
         $allRoutes = $this->router->getRouteCollection()->get();
         $this->assertEquals(1, count($allRoutes[RequestMethods::GET]));
         $this->assertEquals(1, count($allRoutes[RequestMethods::POST]));
@@ -374,8 +374,8 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(HttpException::class);
         $request = new Request([], [], [], [
-            "REQUEST_METHOD" => RequestMethods::GET,
-            "REQUEST_URI" => "/foo/"
+            'REQUEST_METHOD' => RequestMethods::GET,
+            'REQUEST_URI' => '/foo/'
         ], [], []);
         $this->router->route($request);
     }
@@ -385,8 +385,8 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testRoutingMultipleMethods()
     {
-        $controller = MockController::class . "@noParameters";
-        $this->router->multiple([RequestMethods::GET, RequestMethods::POST], "/foo", $controller);
+        $controller = MockController::class . '@noParameters';
+        $this->router->multiple([RequestMethods::GET, RequestMethods::POST], '/foo', $controller);
         $allRoutes = $this->router->getRouteCollection()->get();
         $this->assertEquals(1, count($allRoutes[RequestMethods::GET]));
         $this->assertEquals(1, count($allRoutes[RequestMethods::POST]));
@@ -434,18 +434,18 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testRoutingToNonOpulenceController()
     {
-        $controller = NonOpulenceController::class . "@index";
-        $this->router->get("/foo/:id", $controller);
+        $controller = NonOpulenceController::class . '@index';
+        $this->router->get('/foo/:id', $controller);
         $server = [
-            "REQUEST_METHOD" => RequestMethods::GET,
-            "REQUEST_URI" => "/foo/123",
-            "HTTP_HOST" => ""
+            'REQUEST_METHOD' => RequestMethods::GET,
+            'REQUEST_URI' => '/foo/123',
+            'HTTP_HOST' => ''
         ];
         $request = new Request([], [], [], $server, [], []);
         $response = $this->router->route($request);
         $this->assertInstanceOf(Response::class, $response);
         $this->assertInstanceOf(NonOpulenceController::class, $this->router->getMatchedController());
-        $this->assertEquals("Id: 123", $response->getContent());
+        $this->assertEquals('Id: 123', $response->getContent());
     }
 
     /**
@@ -453,9 +453,9 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testSecureGroup()
     {
-        $this->router->group(["https" => true], function (Router $router) {
-            $router->get("/foo", "foo@bar");
-            $router->post("/foo", "foo@bar");
+        $this->router->group(['https' => true], function (Router $router) {
+            $router->get('/foo', 'foo@bar');
+            $router->post('/foo', 'foo@bar');
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
@@ -481,16 +481,16 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testSpecifyingGroupHost()
     {
-        $this->router->group(["host" => "google.com"], function (Router $router) {
-            $router->get("/foo", "foo@bar");
-            $router->post("/foo", "foo@bar");
+        $this->router->group(['host' => 'google.com'], function (Router $router) {
+            $router->get('/foo', 'foo@bar');
+            $router->post('/foo', 'foo@bar');
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $postRoutes */
         $postRoutes = $this->router->getRouteCollection()->get(RequestMethods::POST);
-        $this->assertEquals("google.com", $getRoutes[0]->getRawHost());
-        $this->assertEquals("google.com", $postRoutes[0]->getRawHost());
+        $this->assertEquals('google.com', $getRoutes[0]->getRawHost());
+        $this->assertEquals('google.com', $postRoutes[0]->getRawHost());
     }
 
     /**
@@ -498,9 +498,9 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testSpecifyingNamespacePrefix()
     {
-        $this->router->group(["controllerNamespace" => "MyApp\\Controllers\\"], function (Router $router) {
-            $router->get("/foo", "ControllerA@myMethod");
-            $router->post("/foo", "ControllerB@myMethod");
+        $this->router->group(['controllerNamespace' => "MyApp\\Controllers\\"], function (Router $router) {
+            $router->get('/foo', 'ControllerA@myMethod');
+            $router->post('/foo', 'ControllerB@myMethod');
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
@@ -515,9 +515,9 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testSpecifyingNamespacePrefixWithNoTrailingSlash()
     {
-        $this->router->group(["controllerNamespace" => "MyApp\\Controllers"], function () {
-            $this->router->get("/foo", "ControllerA@myMethod");
-            $this->router->post("/foo", "ControllerB@myMethod");
+        $this->router->group(['controllerNamespace' => "MyApp\\Controllers"], function () {
+            $this->router->get('/foo', 'ControllerA@myMethod');
+            $this->router->post('/foo', 'ControllerB@myMethod');
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
@@ -532,18 +532,18 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testSpecifyingNestedGroupHosts()
     {
-        $this->router->group(["host" => "google.com"], function (Router $router) {
-            $router->group(["host" => "mail."], function (Router $router) {
-                $router->get("/foo", "foo@bar");
-                $router->post("/foo", "foo@bar");
+        $this->router->group(['host' => 'google.com'], function (Router $router) {
+            $router->group(['host' => 'mail.'], function (Router $router) {
+                $router->get('/foo', 'foo@bar');
+                $router->post('/foo', 'foo@bar');
             });
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $postRoutes */
         $postRoutes = $this->router->getRouteCollection()->get(RequestMethods::POST);
-        $this->assertEquals("mail.google.com", $getRoutes[0]->getRawHost());
-        $this->assertEquals("mail.google.com", $postRoutes[0]->getRawHost());
+        $this->assertEquals('mail.google.com', $getRoutes[0]->getRawHost());
+        $this->assertEquals('mail.google.com', $postRoutes[0]->getRawHost());
     }
 
     /**
@@ -568,7 +568,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     ) {
         $controller = "$controllerName@$controllerMethod";
         $options = [
-            "host" => $rawHost
+            'host' => $rawHost
         ];
 
         // The mock router will return the route used rather than the output of the route controller
@@ -589,9 +589,9 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $mockRouter->addRoute($optionsRoute);
         $mockRouter->addRoute($patchRoute);
         $server = [
-            "REQUEST_METHOD" => $httpMethod,
-            "REQUEST_URI" => $pathToRoute,
-            "HTTP_HOST" => $hostToRoute
+            'REQUEST_METHOD' => $httpMethod,
+            'REQUEST_URI' => $pathToRoute,
+            'HTTP_HOST' => $hostToRoute
         ];
         $request = new Request([], [], [], $server, [], []);
         $routeToHandle = null;
@@ -646,30 +646,30 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     {
         $this->doRoute(
             $httpMethod,
-            "/foo",
-            "/foo",
-            "google.com",
-            "google.com",
+            '/foo',
+            '/foo',
+            'google.com',
+            'google.com',
             MockController::class,
-            "noParameters"
+            'noParameters'
         );
         $this->doRoute(
             $httpMethod,
-            "/foo/:foo",
-            "/foo/123",
-            ":bar.google.com",
-            "mail.google.com",
+            '/foo/:foo',
+            '/foo/123',
+            ':bar.google.com',
+            'mail.google.com',
             MockController::class,
-            "twoParameters"
+            'twoParameters'
         );
         $this->doRoute(
             $httpMethod,
-            "/foo/:foo/:bar",
-            "/foo/123/456",
-            ":baz.:blah.google.com",
-            "u.mail.google.com",
+            '/foo/:foo/:bar',
+            '/foo/123/456',
+            ':baz.:blah.google.com',
+            'u.mail.google.com',
             MockController::class,
-            "severalParameters"
+            'severalParameters'
         );
     }
 }

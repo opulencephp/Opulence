@@ -48,7 +48,7 @@ class RsaSsaPkcsSigner implements ISigner
      */
     public function sign(string $data) : string
     {
-        $signature = "";
+        $signature = '';
 
         if (!\openssl_sign(
             $data,
@@ -57,7 +57,7 @@ class RsaSsaPkcsSigner implements ISigner
             $this->getOpenSslAlgorithm($this->algorithm)
         )
         ) {
-            throw new RuntimeException("Failed to sign data");
+            throw new RuntimeException('Failed to sign data');
         }
 
         return $signature;
@@ -68,7 +68,7 @@ class RsaSsaPkcsSigner implements ISigner
      */
     public function verify(string $data, string $signature) : bool
     {
-        if ($signature === "") {
+        if ($signature === '') {
             return false;
         }
 

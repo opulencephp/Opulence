@@ -48,7 +48,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
         $this->bootstrapperRegistry = new BootstrapperRegistry();
         $this->bootstrapperResolver = $this->createMock(IBootstrapperResolver::class);
         $this->bootstrapperResolver->expects($this->any())
-            ->method("resolve")
+            ->method('resolve')
             ->willReturnCallback(function () {
                 $bootstrapperClass = func_get_arg(0);
 
@@ -125,7 +125,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
         $this->bootstrapperRegistry->registerEagerBootstrapper(BootstrapperWithEverything::class);
         ob_start();
         $this->dispatcher->startBootstrappers(true);
-        $this->assertEquals("registerBindingsrun", ob_get_clean());
+        $this->assertEquals('registerBindingsrun', ob_get_clean());
     }
 
     /**
@@ -135,9 +135,9 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     {
         $this->bootstrapperRegistry->registerEagerBootstrapper(EnvironmentBootstrapper::class);
         $this->dispatcher->startBootstrappers(false);
-        $this->assertEquals("running", getenv("TEST_ENV_NAME"));
+        $this->assertEquals('running', getenv('TEST_ENV_NAME'));
         $this->dispatcher->shutDownBootstrappers();
-        $this->assertEquals("shutdown", getenv("TEST_ENV_NAME"));
+        $this->assertEquals('shutdown', getenv('TEST_ENV_NAME'));
     }
 
     /**
@@ -150,7 +150,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
         ob_start();
         $this->dispatcher->startBootstrappers(false);
         $this->container->resolve(LazyFooInterface::class);
-        $this->assertEquals("registerBindingsrun", ob_get_clean());
+        $this->assertEquals('registerBindingsrun', ob_get_clean());
     }
 
     /**
@@ -163,9 +163,9 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
         $this->dispatcher->startBootstrappers(false);
         // Need to actually force the lazy bootstrapper to load
         $this->container->resolve(LazyFooInterface::class);
-        $this->assertEquals("running", getenv("TEST_ENV_NAME"));
+        $this->assertEquals('running', getenv('TEST_ENV_NAME'));
         $this->dispatcher->shutDownBootstrappers();
-        $this->assertEquals("shutdown", getenv("TEST_ENV_NAME"));
+        $this->assertEquals('shutdown', getenv('TEST_ENV_NAME'));
     }
 
     /**
@@ -211,7 +211,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
 
         try {
             $this->container->resolve(LazyFooInterface::class);
-            $this->fail("Targeted binding is accidentally universal");
+            $this->fail('Targeted binding is accidentally universal');
         } catch (IocException $ex) {
             $notBoundUniversally = true;
         }

@@ -48,7 +48,7 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
      */
     protected function getEncrypter() : IEncrypter
     {
-        $encodedEncryptionKey = getenv("ENCRYPTION_KEY");
+        $encodedEncryptionKey = getenv('ENCRYPTION_KEY');
 
         if ($encodedEncryptionKey === null) {
             throw new RuntimeException("\"ENCRYPTION_KEY\" value not set in environment.  Check that you have it set in an environment config file such as \".env.app.php\".  Note:  \".env.example.php\" is only a template for environment config files - it is not actually used.");
@@ -56,7 +56,7 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
 
         $decodedEncryptionKey = \hex2bin($encodedEncryptionKey);
 
-        if (\mb_strlen($decodedEncryptionKey, "8bit") < 32) {
+        if (\mb_strlen($decodedEncryptionKey, '8bit') < 32) {
             throw new RuntimeException("The minimum length encryption key has been upgraded from 16 bytes to 32 bytes.  Please re-run \"php apex encryption:generatekey\" to create a new, suitably-long encryption key.");
         }
 

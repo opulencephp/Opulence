@@ -36,10 +36,10 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $this->handler->useEncryption(true);
         $this->handler->setEncrypter($this->encrypter);
-        $this->handler->expects($this->any())->method("doWrite")->with("theId", "");
-        $this->encrypter->expects($this->any())->method("encrypt")
+        $this->handler->expects($this->any())->method('doWrite')->with('theId', '');
+        $this->encrypter->expects($this->any())->method('encrypt')
             ->willThrowException(new SessionEncryptionException());
-        $this->handler->write("theId", "foo");
+        $this->handler->write('theId', 'foo');
     }
 
     /**
@@ -49,8 +49,8 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(LogicException::class);
         $this->handler->useEncryption(true);
-        $this->handler->expects($this->any())->method("doRead")->will($this->returnValue("foo"));
-        $this->handler->read("baz");
+        $this->handler->expects($this->any())->method('doRead')->will($this->returnValue('foo'));
+        $this->handler->read('baz');
     }
 
     /**
@@ -60,8 +60,8 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(LogicException::class);
         $this->handler->useEncryption(true);
-        $this->handler->expects($this->any())->method("doRead")->will($this->returnValue("foo"));
-        $this->handler->read("baz");
+        $this->handler->expects($this->any())->method('doRead')->will($this->returnValue('foo'));
+        $this->handler->read('baz');
     }
 
     /**
@@ -69,8 +69,8 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
      */
     public function testReadDataIsNotDecryptedWhenNotUsingEncrypter()
     {
-        $this->handler->expects($this->any())->method("doRead")->will($this->returnValue("bar"));
-        $this->assertEquals("bar", $this->handler->read("foo"));
+        $this->handler->expects($this->any())->method('doRead')->will($this->returnValue('bar'));
+        $this->assertEquals('bar', $this->handler->read('foo'));
     }
 
     /**
@@ -80,9 +80,9 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $this->handler->useEncryption(true);
         $this->handler->setEncrypter($this->encrypter);
-        $this->handler->expects($this->any())->method("doRead")->will($this->returnValue("foo"));
-        $this->encrypter->expects($this->any())->method("decrypt")->will($this->returnValue("bar"));
-        $this->assertEquals("bar", $this->handler->read("baz"));
+        $this->handler->expects($this->any())->method('doRead')->will($this->returnValue('foo'));
+        $this->encrypter->expects($this->any())->method('decrypt')->will($this->returnValue('bar'));
+        $this->assertEquals('bar', $this->handler->read('baz'));
     }
 
     /**
@@ -92,10 +92,10 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $this->handler->useEncryption(true);
         $this->handler->setEncrypter($this->encrypter);
-        $this->handler->expects($this->any())->method("doRead")->will($this->returnValue("foo"));
-        $this->encrypter->expects($this->any())->method("decrypt")
+        $this->handler->expects($this->any())->method('doRead')->will($this->returnValue('foo'));
+        $this->encrypter->expects($this->any())->method('decrypt')
             ->will($this->throwException(new SessionEncryptionException()));
-        $this->assertEquals(serialize([]), $this->handler->read("bar"));
+        $this->assertEquals(serialize([]), $this->handler->read('bar'));
     }
 
     /**
@@ -105,9 +105,9 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $this->handler->useEncryption(true);
         $this->handler->setEncrypter($this->encrypter);
-        $this->handler->expects($this->any())->method("doWrite")->with("theId", "bar");
-        $this->encrypter->expects($this->any())->method("encrypt")->will($this->returnValue("bar"));
-        $this->handler->write("theId", "foo");
+        $this->handler->expects($this->any())->method('doWrite')->with('theId', 'bar');
+        $this->encrypter->expects($this->any())->method('encrypt')->will($this->returnValue('bar'));
+        $this->handler->write('theId', 'foo');
     }
 
     /**
@@ -115,7 +115,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
      */
     public function testWrittenDataIsNotEncryptedWhenNotUsingEncrypter()
     {
-        $this->handler->expects($this->any())->method("doWrite")->with("theId", "foo");
-        $this->handler->write("theId", "foo");
+        $this->handler->expects($this->any())->method('doWrite')->with('theId', 'foo');
+        $this->handler->write('theId', 'foo');
     }
 }

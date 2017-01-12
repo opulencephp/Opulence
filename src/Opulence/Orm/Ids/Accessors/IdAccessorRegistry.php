@@ -47,7 +47,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     {
         $className = get_class($entity);
 
-        if (!isset($this->idAccessorFunctions[$className]["getter"])) {
+        if (!isset($this->idAccessorFunctions[$className]['getter'])) {
             if (!$entity instanceof IEntity) {
                 throw new OrmException("No Id getter registered for class $className");
             }
@@ -56,9 +56,9 @@ class IdAccessorRegistry implements IIdAccessorRegistry
         }
 
         try {
-            return $this->idAccessorFunctions[$className]["getter"]($entity);
+            return $this->idAccessorFunctions[$className]['getter']($entity);
         } catch (ReflectionException $ex) {
-            throw new OrmException("Failed to get entity Id", 0, $ex);
+            throw new OrmException('Failed to get entity Id', 0, $ex);
         }
     }
 
@@ -69,8 +69,8 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     {
         foreach ((array)$classNames as $className) {
             $this->idAccessorFunctions[$className] = [
-                "getter" => $getter,
-                "setter" => $setter
+                'getter' => $getter,
+                'setter' => $setter
             ];
         }
     }
@@ -106,7 +106,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     {
         $className = get_class($entity);
 
-        if (!isset($this->idAccessorFunctions[$className]["setter"])) {
+        if (!isset($this->idAccessorFunctions[$className]['setter'])) {
             if (!$entity instanceof IEntity) {
                 throw new OrmException("No Id setter registered for class $className");
             }
@@ -115,9 +115,9 @@ class IdAccessorRegistry implements IIdAccessorRegistry
         }
 
         try {
-            $this->idAccessorFunctions[$className]["setter"]($entity, $id);
+            $this->idAccessorFunctions[$className]['setter']($entity, $id);
         } catch (ReflectionException $ex) {
-            throw new OrmException("Failed to set entity Id", 0, $ex);
+            throw new OrmException('Failed to set entity Id', 0, $ex);
         }
     }
 }

@@ -6,8 +6,8 @@ while ($ex = $ex->getPrevious()) {
 }
 
 echo json_encode([
-    "error" => [
-        "code" => $statusCode,
-        "message" => implode("\n", $messages)
+    'error' => [
+        'code' => $statusCode,
+        'message' => implode("\n", $messages)
     ]
 ]);

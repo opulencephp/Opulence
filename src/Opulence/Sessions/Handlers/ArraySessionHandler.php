@@ -59,7 +59,7 @@ class ArraySessionHandler extends SessionHandler
             return $this->storage[$sessionId];
         }
 
-        return "";
+        return '';
     }
 
     /**

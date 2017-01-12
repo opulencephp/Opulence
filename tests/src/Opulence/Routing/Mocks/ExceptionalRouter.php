@@ -23,6 +23,6 @@ class ExceptionalRouter extends Router
      */
     public function route(Request $request) : Response
     {
-        throw new Exception("Foo");
+        throw new Exception('Foo');
     }
 }

@@ -39,7 +39,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     {
         $this->compiler = new Compiler();
         $this->commandCollection = new CommandCollection($this->compiler);
-        $this->command = new SimpleCommand("Foo", "The foo command");
+        $this->command = new SimpleCommand('Foo', 'The foo command');
         $this->request = new Request();
     }
 
@@ -48,12 +48,12 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingArrayArgument()
     {
-        $argument = new Argument("foo", ArgumentTypes::IS_ARRAY, "Foo command");
+        $argument = new Argument('foo', ArgumentTypes::IS_ARRAY, 'Foo command');
         $this->command->addArgument($argument);
-        $this->request->addArgumentValue("bar");
-        $this->request->addArgumentValue("baz");
+        $this->request->addArgumentValue('bar');
+        $this->request->addArgumentValue('baz');
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals(["bar", "baz"], $compiledCommand->getArgumentValue("foo"));
+        $this->assertEquals(['bar', 'baz'], $compiledCommand->getArgumentValue('foo'));
     }
 
     /**
@@ -61,15 +61,15 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingArrayArgumentWitOptionalArgumentAfter()
     {
-        $arrayArgument = new Argument("foo", ArgumentTypes::IS_ARRAY, "Foo command");
-        $optionalArgument = new Argument("bar", ArgumentTypes::OPTIONAL, "Bar command", "baz");
+        $arrayArgument = new Argument('foo', ArgumentTypes::IS_ARRAY, 'Foo command');
+        $optionalArgument = new Argument('bar', ArgumentTypes::OPTIONAL, 'Bar command', 'baz');
         $this->command->addArgument($arrayArgument);
         $this->command->addArgument($optionalArgument);
-        $this->request->addArgumentValue("bar");
-        $this->request->addArgumentValue("baz");
+        $this->request->addArgumentValue('bar');
+        $this->request->addArgumentValue('baz');
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals(["bar", "baz"], $compiledCommand->getArgumentValue("foo"));
-        $this->assertEquals("baz", $compiledCommand->getArgumentValue("bar"));
+        $this->assertEquals(['bar', 'baz'], $compiledCommand->getArgumentValue('foo'));
+        $this->assertEquals('baz', $compiledCommand->getArgumentValue('bar'));
     }
 
     /**
@@ -78,12 +78,12 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingArrayArgumentWitRequiredArgumentAfter()
     {
         $this->expectException(RuntimeException::class);
-        $arrayArgument = new Argument("foo", ArgumentTypes::IS_ARRAY, "Foo command");
-        $requiredArgument = new Argument("bar", ArgumentTypes::REQUIRED, "Bar command");
+        $arrayArgument = new Argument('foo', ArgumentTypes::IS_ARRAY, 'Foo command');
+        $requiredArgument = new Argument('bar', ArgumentTypes::REQUIRED, 'Bar command');
         $this->command->addArgument($arrayArgument);
         $this->command->addArgument($requiredArgument);
-        $this->request->addArgumentValue("bar");
-        $this->request->addArgumentValue("baz");
+        $this->request->addArgumentValue('bar');
+        $this->request->addArgumentValue('baz');
         $this->compiler->compile($this->command, $this->request);
     }
 
@@ -92,10 +92,10 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingNoValueOption()
     {
-        $option = new Option("foo", "f", OptionTypes::NO_VALUE, "Foo command");
+        $option = new Option('foo', 'f', OptionTypes::NO_VALUE, 'Foo command');
         $this->command->addOption($option);
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertNull($compiledCommand->getOptionValue("foo"));
+        $this->assertNull($compiledCommand->getOptionValue('foo'));
     }
 
     /**
@@ -104,9 +104,9 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingNoValueOptionWithAValue()
     {
         $this->expectException(RuntimeException::class);
-        $option = new Option("foo", "f", OptionTypes::NO_VALUE, "Foo command");
+        $option = new Option('foo', 'f', OptionTypes::NO_VALUE, 'Foo command');
         $this->command->addOption($option);
-        $this->request->addOptionValue("foo", "bar");
+        $this->request->addOptionValue('foo', 'bar');
         $this->compiler->compile($this->command, $this->request);
     }
 
@@ -115,11 +115,11 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingOptionWithNullShortNameStillCompiles()
     {
-        $option = new Option("foo", null, OptionTypes::REQUIRED_VALUE, "Foo command");
+        $option = new Option('foo', null, OptionTypes::REQUIRED_VALUE, 'Foo command');
         $this->command->addOption($option);
-        $this->request->addOptionValue("foo", "bar");
+        $this->request->addOptionValue('foo', 'bar');
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals("bar", $compiledCommand->getOptionValue("foo"));
+        $this->assertEquals('bar', $compiledCommand->getOptionValue('foo'));
     }
 
     /**
@@ -127,11 +127,11 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingOptionalArgument()
     {
-        $optionalArgument = new Argument("foo", ArgumentTypes::OPTIONAL, "Foo command");
+        $optionalArgument = new Argument('foo', ArgumentTypes::OPTIONAL, 'Foo command');
         $this->command->addArgument($optionalArgument);
-        $this->request->addArgumentValue("bar");
+        $this->request->addArgumentValue('bar');
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals("bar", $compiledCommand->getArgumentValue("foo"));
+        $this->assertEquals('bar', $compiledCommand->getArgumentValue('foo'));
     }
 
     /**
@@ -139,10 +139,10 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingOptionalArgumentWithDefaultValue()
     {
-        $optionalArgument = new Argument("foo", ArgumentTypes::OPTIONAL, "Foo command", "baz");
+        $optionalArgument = new Argument('foo', ArgumentTypes::OPTIONAL, 'Foo command', 'baz');
         $this->command->addArgument($optionalArgument);
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals("baz", $compiledCommand->getArgumentValue("foo"));
+        $this->assertEquals('baz', $compiledCommand->getArgumentValue('foo'));
     }
 
     /**
@@ -150,13 +150,13 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingOptionalArgumentsWithoutAnyValues()
     {
-        $optionalArgument1 = new Argument("foo", ArgumentTypes::OPTIONAL, "Foo command", "fooValue");
-        $optionalArgument2 = new Argument("bar", ArgumentTypes::OPTIONAL, "Bar command", "barValue");
+        $optionalArgument1 = new Argument('foo', ArgumentTypes::OPTIONAL, 'Foo command', 'fooValue');
+        $optionalArgument2 = new Argument('bar', ArgumentTypes::OPTIONAL, 'Bar command', 'barValue');
         $this->command->addArgument($optionalArgument1);
         $this->command->addArgument($optionalArgument2);
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals("fooValue", $compiledCommand->getArgumentValue("foo"));
-        $this->assertEquals("barValue", $compiledCommand->getArgumentValue("bar"));
+        $this->assertEquals('fooValue', $compiledCommand->getArgumentValue('foo'));
+        $this->assertEquals('barValue', $compiledCommand->getArgumentValue('bar'));
     }
 
     /**
@@ -164,11 +164,11 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingOptionalValueOptionWithDefaultValue()
     {
-        $option = new Option("foo", "f", OptionTypes::OPTIONAL_VALUE, "Foo command", "bar");
+        $option = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'Foo command', 'bar');
         $this->command->addOption($option);
-        $this->request->addOptionValue("foo", null);
+        $this->request->addOptionValue('foo', null);
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals("bar", $compiledCommand->getOptionValue("foo"));
+        $this->assertEquals('bar', $compiledCommand->getOptionValue('foo'));
     }
 
     /**
@@ -176,14 +176,14 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingRequiredAndOptionalArgument()
     {
-        $requiredArgument = new Argument("foo", ArgumentTypes::REQUIRED, "Foo command");
-        $optionalArgument = new Argument("bar", ArgumentTypes::OPTIONAL, "Bar command", "baz");
+        $requiredArgument = new Argument('foo', ArgumentTypes::REQUIRED, 'Foo command');
+        $optionalArgument = new Argument('bar', ArgumentTypes::OPTIONAL, 'Bar command', 'baz');
         $this->command->addArgument($requiredArgument);
         $this->command->addArgument($optionalArgument);
-        $this->request->addArgumentValue("bar");
+        $this->request->addArgumentValue('bar');
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals("bar", $compiledCommand->getArgumentValue("foo"));
-        $this->assertEquals("baz", $compiledCommand->getArgumentValue("bar"));
+        $this->assertEquals('bar', $compiledCommand->getArgumentValue('foo'));
+        $this->assertEquals('baz', $compiledCommand->getArgumentValue('bar'));
     }
 
     /**
@@ -191,11 +191,11 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingRequiredArgument()
     {
-        $requiredArgument = new Argument("foo", ArgumentTypes::REQUIRED, "Foo command");
+        $requiredArgument = new Argument('foo', ArgumentTypes::REQUIRED, 'Foo command');
         $this->command->addArgument($requiredArgument);
-        $this->request->addArgumentValue("bar");
+        $this->request->addArgumentValue('bar');
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals("bar", $compiledCommand->getArgumentValue("foo"));
+        $this->assertEquals('bar', $compiledCommand->getArgumentValue('foo'));
     }
 
     /**
@@ -204,7 +204,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingRequiredArgumentWithoutValue()
     {
         $this->expectException(RuntimeException::class);
-        $required = new Argument("foo", ArgumentTypes::REQUIRED, "Foo command");
+        $required = new Argument('foo', ArgumentTypes::REQUIRED, 'Foo command');
         $this->command->addArgument($required);
         $this->compiler->compile($this->command, $this->request);
     }
@@ -215,11 +215,11 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingRequiredArgumentsWithoutSpecifyingAllValues()
     {
         $this->expectException(RuntimeException::class);
-        $requiredArgument1 = new Argument("foo", ArgumentTypes::REQUIRED, "Foo command");
-        $requiredArgument2 = new Argument("bar", ArgumentTypes::REQUIRED, "Bar command");
+        $requiredArgument1 = new Argument('foo', ArgumentTypes::REQUIRED, 'Foo command');
+        $requiredArgument2 = new Argument('bar', ArgumentTypes::REQUIRED, 'Bar command');
         $this->command->addArgument($requiredArgument1);
         $this->command->addArgument($requiredArgument2);
-        $this->request->addArgumentValue("bar");
+        $this->request->addArgumentValue('bar');
         $this->compiler->compile($this->command, $this->request);
     }
 
@@ -228,11 +228,11 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingRequiredValueOption()
     {
-        $option = new Option("foo", "f", OptionTypes::REQUIRED_VALUE, "Foo command");
+        $option = new Option('foo', 'f', OptionTypes::REQUIRED_VALUE, 'Foo command');
         $this->command->addOption($option);
-        $this->request->addOptionValue("foo", "bar");
+        $this->request->addOptionValue('foo', 'bar');
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals("bar", $compiledCommand->getOptionValue("foo"));
+        $this->assertEquals('bar', $compiledCommand->getOptionValue('foo'));
     }
 
     /**
@@ -241,9 +241,9 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingRequiredValueOptionWithoutValue()
     {
         $this->expectException(RuntimeException::class);
-        $option = new Option("foo", "f", OptionTypes::REQUIRED_VALUE, "Foo command");
+        $option = new Option('foo', 'f', OptionTypes::REQUIRED_VALUE, 'Foo command');
         $this->command->addOption($option);
-        $this->request->addOptionValue("foo", null);
+        $this->request->addOptionValue('foo', null);
         $this->compiler->compile($this->command, $this->request);
     }
 
@@ -253,10 +253,10 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     public function testPassingTooManyArguments()
     {
         $this->expectException(RuntimeException::class);
-        $argument = new Argument("foo", ArgumentTypes::REQUIRED, "Foo command");
+        $argument = new Argument('foo', ArgumentTypes::REQUIRED, 'Foo command');
         $this->command->addArgument($argument);
-        $this->request->addArgumentValue("bar");
-        $this->request->addArgumentValue("baz");
+        $this->request->addArgumentValue('bar');
+        $this->request->addArgumentValue('baz');
         $this->compiler->compile($this->command, $this->request);
     }
 
@@ -265,10 +265,10 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testThatShortAndLongOptionsPointToSameOption()
     {
-        $option = new Option("foo", "f", OptionTypes::OPTIONAL_VALUE, "Foo command", "bar");
+        $option = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'Foo command', 'bar');
         $this->command->addOption($option);
-        $this->request->addOptionValue("f", null);
+        $this->request->addOptionValue('f', null);
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals("bar", $compiledCommand->getOptionValue("foo"));
+        $this->assertEquals('bar', $compiledCommand->getOptionValue('foo'));
     }
 }

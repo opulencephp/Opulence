@@ -37,14 +37,14 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingSingleHeaderAndColumn()
     {
-        $headers = ["foo"];
-        $rows = [["a"]];
+        $headers = ['foo'];
+        $rows = [['a']];
         $expected =
-            "+-----+" . PHP_EOL .
-            "| foo |" . PHP_EOL .
-            "+-----+" . PHP_EOL .
-            "| a   |" . PHP_EOL .
-            "+-----+";
+            '+-----+' . PHP_EOL .
+            '| foo |' . PHP_EOL .
+            '+-----+' . PHP_EOL .
+            '| a   |' . PHP_EOL .
+            '+-----+';
         $this->assertEquals($expected, $this->formatter->format($rows, $headers));
     }
 
@@ -53,11 +53,11 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingSingleRow()
     {
-        $rows = [["a", "bb", "ccc"]];
+        $rows = [['a', 'bb', 'ccc']];
         $expected =
-            "+---+----+-----+" . PHP_EOL .
-            "| a | bb | ccc |" . PHP_EOL .
-            "+---+----+-----+";
+            '+---+----+-----+' . PHP_EOL .
+            '| a | bb | ccc |' . PHP_EOL .
+            '+---+----+-----+';
         $this->assertEquals($expected, $this->formatter->format($rows));
     }
 
@@ -66,11 +66,11 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingSingleRowAndColumn()
     {
-        $rows = [["a"]];
+        $rows = [['a']];
         $expected =
-            "+---+" . PHP_EOL .
-            "| a |" . PHP_EOL .
-            "+---+";
+            '+---+' . PHP_EOL .
+            '| a |' . PHP_EOL .
+            '+---+';
         $this->assertEquals($expected, $this->formatter->format($rows));
     }
 
@@ -79,26 +79,26 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingTableWithCustomCharacters()
     {
-        $headers = ["foo", "bar"];
+        $headers = ['foo', 'bar'];
         $rows = [
-            ["a"],
-            ["aa", "bb"],
-            ["aaa", "bbb", "ccc"]
+            ['a'],
+            ['aa', 'bb'],
+            ['aaa', 'bbb', 'ccc']
         ];
         $this->formatter->setPadAfter(false);
-        $this->formatter->setCellPaddingString("_");
-        $this->formatter->setEolChar("<br>");
-        $this->formatter->setVerticalBorderChar("I");
-        $this->formatter->setHorizontalBorderChar("=");
-        $this->formatter->setIntersectionChar("*");
+        $this->formatter->setCellPaddingString('_');
+        $this->formatter->setEolChar('<br>');
+        $this->formatter->setVerticalBorderChar('I');
+        $this->formatter->setHorizontalBorderChar('=');
+        $this->formatter->setIntersectionChar('*');
         $expected =
-            "*=====*=====*=====*<br>" .
-            "I_foo_I_bar_I_   _I<br>" .
-            "*=====*=====*=====*<br>" .
-            "I_  a_I_   _I_   _I<br>" .
-            "I_ aa_I_ bb_I_   _I<br>" .
-            "I_aaa_I_bbb_I_ccc_I<br>" .
-            "*=====*=====*=====*";
+            '*=====*=====*=====*<br>' .
+            'I_foo_I_bar_I_   _I<br>' .
+            '*=====*=====*=====*<br>' .
+            'I_  a_I_   _I_   _I<br>' .
+            'I_ aa_I_ bb_I_   _I<br>' .
+            'I_aaa_I_bbb_I_ccc_I<br>' .
+            '*=====*=====*=====*';
         $this->assertEquals($expected, $this->formatter->format($rows, $headers));
     }
 
@@ -107,12 +107,12 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingTableWithCustomPaddingString()
     {
-        $rows = [["a"]];
-        $this->formatter->setCellPaddingString("__");
+        $rows = [['a']];
+        $this->formatter->setCellPaddingString('__');
         $expected =
-            "+-----+" . PHP_EOL .
-            "|__a__|" . PHP_EOL .
-            "+-----+";
+            '+-----+' . PHP_EOL .
+            '|__a__|' . PHP_EOL .
+            '+-----+';
         $this->assertEquals($expected, $this->formatter->format($rows));
     }
 
@@ -121,7 +121,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingTableWithHeadersButWithoutRows()
     {
-        $this->assertEmpty($this->formatter->format([], ["foo", "bar"]));
+        $this->assertEmpty($this->formatter->format([], ['foo', 'bar']));
     }
 
     /**
@@ -129,20 +129,20 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingTableWithMoreHeadersThanRowColumns()
     {
-        $headers = ["foo", "bar", "baz", "blah"];
+        $headers = ['foo', 'bar', 'baz', 'blah'];
         $rows = [
-            ["a"],
-            ["aa", "bb"],
-            ["aaa", "bbb", "ccc"]
+            ['a'],
+            ['aa', 'bb'],
+            ['aaa', 'bbb', 'ccc']
         ];
         $expected =
-            "+-----+-----+-----+------+" . PHP_EOL .
-            "| foo | bar | baz | blah |" . PHP_EOL .
-            "+-----+-----+-----+------+" . PHP_EOL .
-            "| a   |     |     |      |" . PHP_EOL .
-            "| aa  | bb  |     |      |" . PHP_EOL .
-            "| aaa | bbb | ccc |      |" . PHP_EOL .
-            "+-----+-----+-----+------+";
+            '+-----+-----+-----+------+' . PHP_EOL .
+            '| foo | bar | baz | blah |' . PHP_EOL .
+            '+-----+-----+-----+------+' . PHP_EOL .
+            '| a   |     |     |      |' . PHP_EOL .
+            '| aa  | bb  |     |      |' . PHP_EOL .
+            '| aaa | bbb | ccc |      |' . PHP_EOL .
+            '+-----+-----+-----+------+';
         $this->assertEquals($expected, $this->formatter->format($rows, $headers));
     }
 
@@ -151,20 +151,20 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingTableWithMoreRowColumnsThanHeaders()
     {
-        $headers = ["foo", "bar"];
+        $headers = ['foo', 'bar'];
         $rows = [
-            ["a"],
-            ["aa", "bb"],
-            ["aaa", "bbb", "ccc"]
+            ['a'],
+            ['aa', 'bb'],
+            ['aaa', 'bbb', 'ccc']
         ];
         $expected =
-            "+-----+-----+-----+" . PHP_EOL .
-            "| foo | bar |     |" . PHP_EOL .
-            "+-----+-----+-----+" . PHP_EOL .
-            "| a   |     |     |" . PHP_EOL .
-            "| aa  | bb  |     |" . PHP_EOL .
-            "| aaa | bbb | ccc |" . PHP_EOL .
-            "+-----+-----+-----+";
+            '+-----+-----+-----+' . PHP_EOL .
+            '| foo | bar |     |' . PHP_EOL .
+            '+-----+-----+-----+' . PHP_EOL .
+            '| a   |     |     |' . PHP_EOL .
+            '| aa  | bb  |     |' . PHP_EOL .
+            '| aaa | bbb | ccc |' . PHP_EOL .
+            '+-----+-----+-----+';
         $this->assertEquals($expected, $this->formatter->format($rows, $headers));
     }
 
@@ -174,16 +174,16 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     public function testFormattingTableWithoutHeaders()
     {
         $rows = [
-            ["a"],
-            ["aa", "bb"],
-            ["aaa", "bbb", "ccc"]
+            ['a'],
+            ['aa', 'bb'],
+            ['aaa', 'bbb', 'ccc']
         ];
         $expected =
-            "+-----+-----+-----+" . PHP_EOL .
-            "| a   |     |     |" . PHP_EOL .
-            "| aa  | bb  |     |" . PHP_EOL .
-            "| aaa | bbb | ccc |" . PHP_EOL .
-            "+-----+-----+-----+";
+            '+-----+-----+-----+' . PHP_EOL .
+            '| a   |     |     |' . PHP_EOL .
+            '| aa  | bb  |     |' . PHP_EOL .
+            '| aaa | bbb | ccc |' . PHP_EOL .
+            '+-----+-----+-----+';
         $this->assertEquals($expected, $this->formatter->format($rows));
     }
 
@@ -193,10 +193,10 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     public function testSettingRowsWithNonArrayValues()
     {
         $expected =
-            "+-----+" . PHP_EOL .
-            "| foo |" . PHP_EOL .
-            "| bar |" . PHP_EOL .
-            "+-----+";
-        $this->assertEquals($expected, $this->formatter->format(["foo", "bar"]));
+            '+-----+' . PHP_EOL .
+            '| foo |' . PHP_EOL .
+            '| bar |' . PHP_EOL .
+            '+-----+';
+        $this->assertEquals($expected, $this->formatter->format(['foo', 'bar']));
     }
 }

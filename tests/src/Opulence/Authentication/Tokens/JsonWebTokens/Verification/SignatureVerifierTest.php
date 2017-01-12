@@ -43,8 +43,8 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     public function testEmptySignature()
     {
         $this->jwt->expects($this->once())
-            ->method("getSignature")
-            ->willReturn("");
+            ->method('getSignature')
+            ->willReturn('');
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
         $this->assertEquals(JwtErrorTypes::SIGNATURE_INCORRECT, $error);
     }
@@ -55,10 +55,10 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     public function testIncorrectSignature()
     {
         $this->jwt->expects($this->once())
-            ->method("getSignature")
-            ->willReturn("foo");
+            ->method('getSignature')
+            ->willReturn('foo');
         $this->signer->expects($this->once())
-            ->method("verify")
+            ->method('verify')
             ->willReturn(false);
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
         $this->assertEquals(JwtErrorTypes::SIGNATURE_INCORRECT, $error);
@@ -70,20 +70,20 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     public function testMismatchedAlgorithm()
     {
         $this->jwt->expects($this->once())
-            ->method("getSignature")
-            ->willReturn("foo");
+            ->method('getSignature')
+            ->willReturn('foo');
         $header = $this->createMock(JwtHeader::class);
         $header->expects($this->once())
-            ->method("getAlgorithm")
+            ->method('getAlgorithm')
             ->willReturn(Algorithms::RSA_SHA384);
         $this->jwt->expects($this->once())
-            ->method("getHeader")
+            ->method('getHeader')
             ->willReturn($header);
         $this->jwt->expects($this->once())
-            ->method("getSignature")
-            ->willReturn("foo");
+            ->method('getSignature')
+            ->willReturn('foo');
         $this->signer->expects($this->once())
-            ->method("getAlgorithm")
+            ->method('getAlgorithm')
             ->willReturn(Algorithms::SHA384);
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
         $this->assertEquals(JwtErrorTypes::SIGNATURE_ALGORITHM_MISMATCH, $error);
@@ -95,10 +95,10 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     public function testVerifyingValidToken()
     {
         $this->jwt->expects($this->once())
-            ->method("getSignature")
-            ->willReturn("foo");
+            ->method('getSignature')
+            ->willReturn('foo');
         $this->signer->expects($this->once())
-            ->method("verify")
+            ->method('verify')
             ->willReturn(true);
         $this->assertTrue($this->verifier->verify($this->jwt, $error));
         $this->assertNull($error);

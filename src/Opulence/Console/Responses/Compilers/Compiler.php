@@ -56,7 +56,7 @@ class Compiler implements ICompiler
 
             return $this->compileNode($ast->getRootNode());
         } catch (InvalidArgumentException $ex) {
-            throw new RuntimeException("Failed to compile console response", 0, $ex);
+            throw new RuntimeException('Failed to compile console response', 0, $ex);
         }
     }
 
@@ -89,12 +89,12 @@ class Compiler implements ICompiler
         if ($node->isLeaf()) {
             // Don't compile a leaf that is a tag because that means it doesn't have any content
             if ($node->isTag()) {
-                return "";
+                return '';
             }
 
-            return $node->getValue() ?: "";
+            return $node->getValue() ?: '';
         } else {
-            $output = "";
+            $output = '';
 
             foreach ($node->getChildren() as $childNode) {
                 if ($node->isTag()) {

@@ -25,7 +25,7 @@ class ReturnsSomethingMiddleware implements IMiddleware
     {
         /** @var Response $response */
         $response = $next($request);
-        $response->setContent($response->getContent() . ":something");
+        $response->setContent($response->getContent() . ':something');
 
         return $response;
     }

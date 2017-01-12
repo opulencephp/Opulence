@@ -31,7 +31,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
             ->getMock();
         $this->jwtPayload = $this->createMock(JwtPayload::class);
         $this->jwt->expects($this->any())
-            ->method("getPayload")
+            ->method('getPayload')
             ->willReturn($this->jwtPayload);
     }
 
@@ -40,10 +40,10 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
      */
     public function testMismatchedAudience()
     {
-        $verifier = new AudienceVerifier("foo");
+        $verifier = new AudienceVerifier('foo');
         $this->jwtPayload->expects($this->once())
-            ->method("getAudience")
-            ->willReturn("bar");
+            ->method('getAudience')
+            ->willReturn('bar');
         $this->assertFalse($verifier->verify($this->jwt, $error));
         $this->assertEquals(JwtErrorTypes::AUDIENCE_INVALID, $error);
     }
@@ -53,10 +53,10 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
      */
     public function testMismatchedAudienceArray()
     {
-        $verifier = new AudienceVerifier("foo");
+        $verifier = new AudienceVerifier('foo');
         $this->jwtPayload->expects($this->once())
-            ->method("getAudience")
-            ->willReturn("bar");
+            ->method('getAudience')
+            ->willReturn('bar');
         $this->assertFalse($verifier->verify($this->jwt, $error));
         $this->assertEquals(JwtErrorTypes::AUDIENCE_INVALID, $error);
     }
@@ -68,8 +68,8 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     {
         $verifier = new AudienceVerifier([]);
         $this->jwtPayload->expects($this->once())
-            ->method("getAudience")
-            ->willReturn("bar");
+            ->method('getAudience')
+            ->willReturn('bar');
         $this->assertTrue($verifier->verify($this->jwt, $error));
         $this->assertNull($error);
     }
@@ -79,10 +79,10 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
      */
     public function testVerifyingValidArrayAudience()
     {
-        $verifier = new AudienceVerifier(["foo", "bar"]);
+        $verifier = new AudienceVerifier(['foo', 'bar']);
         $this->jwtPayload->expects($this->once())
-            ->method("getAudience")
-            ->willReturn(["bar", "baz"]);
+            ->method('getAudience')
+            ->willReturn(['bar', 'baz']);
         $this->assertTrue($verifier->verify($this->jwt, $error));
         $this->assertNull($error);
     }
@@ -92,10 +92,10 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
      */
     public function testVerifyingValidStringAudience()
     {
-        $verifier = new AudienceVerifier("foo");
+        $verifier = new AudienceVerifier('foo');
         $this->jwtPayload->expects($this->once())
-            ->method("getAudience")
-            ->willReturn("foo");
+            ->method('getAudience')
+            ->willReturn('foo');
         $this->assertTrue($verifier->verify($this->jwt, $error));
         $this->assertNull($error);
     }

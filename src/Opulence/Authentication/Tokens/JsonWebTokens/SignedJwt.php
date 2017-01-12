@@ -17,7 +17,7 @@ use Opulence\Authentication\Tokens\ISignedToken;
 class SignedJwt extends UnsignedJwt implements ISignedToken
 {
     /** @var string The signature */
-    protected $signature = "";
+    protected $signature = '';
 
     /**
      * @inheritdoc
@@ -39,10 +39,10 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
      */
     public static function createFromString(string $token) : SignedJwt
     {
-        $segments = explode(".", $token);
+        $segments = explode('.', $token);
 
         if (count($segments) !== 3) {
-            throw new InvalidArgumentException("Token did not contain 3 segments");
+            throw new InvalidArgumentException('Token did not contain 3 segments');
         }
 
         list($encodedHeader, $encodedPayload, $encodedSignature) = $segments;
@@ -51,18 +51,18 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
         $signature = self::base64UrlDecode($encodedSignature);
 
         if ($decodedHeader === null) {
-            throw new InvalidArgumentException("Invalid header");
+            throw new InvalidArgumentException('Invalid header');
         }
 
         if ($decodedPayload === null) {
-            throw new InvalidArgumentException("Invalid payload");
+            throw new InvalidArgumentException('Invalid payload');
         }
 
-        if (!isset($decodedHeader["alg"])) {
-            throw new InvalidArgumentException("No algorithm set in header");
+        if (!isset($decodedHeader['alg'])) {
+            throw new InvalidArgumentException('No algorithm set in header');
         }
 
-        $header = new JwtHeader($decodedHeader["alg"], $decodedHeader);
+        $header = new JwtHeader($decodedHeader['alg'], $decodedHeader);
         $payload = new JwtPayload();
 
         if (is_array($decodedPayload)) {
@@ -95,7 +95,7 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
      */
     protected static function base64UrlDecode(string $data) : string
     {
-        return \base64_decode(\str_pad(\strtr($data, "-_", "+/"), \strlen($data) % 4, "=", STR_PAD_RIGHT));
+        return \base64_decode(\str_pad(\strtr($data, '-_', '+/'), \strlen($data) % 4, '=', STR_PAD_RIGHT));
     }
 
     /**
@@ -107,7 +107,7 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
      */
     protected static function base64UrlEncode(string $data) : string
     {
-        return \rtrim(\strtr(\base64_encode($data), "+/", "-_"), "=");
+        return \rtrim(\strtr(\base64_encode($data), '+/', '-_'), '=');
     }
 
     /**
@@ -123,7 +123,7 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
             self::base64UrlEncode($this->signature)
         ];
 
-        return implode(".", $segments);
+        return implode('.', $segments);
     }
 
     /**

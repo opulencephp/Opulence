@@ -56,11 +56,11 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         $this->xssFilter = new XssFilter();
         $this->transpiler = new Transpiler($this->lexer, $this->parser, $this->cache, $this->xssFilter);
         $this->ast = new AbstractSyntaxTree();
-        $this->lexer->expects($this->any())->method("lex")->willReturn([]);
-        $this->parser->expects($this->any())->method("parse")->willReturn($this->ast);
+        $this->lexer->expects($this->any())->method('lex')->willReturn([]);
+        $this->parser->expects($this->any())->method('parse')->willReturn($this->ast);
         $this->view = $this->createMock(IView::class);
         $this->view->expects($this->any())
-            ->method("getVars")
+            ->method('getVars')
             ->willReturn([]);
     }
 
@@ -87,16 +87,16 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->createMock(IView::class);
         $view->expects($this->any())
-            ->method("getContents")
-            ->willReturn("foo");
+            ->method('getContents')
+            ->willReturn('foo');
         $view->expects($this->any())
-            ->method("getVars")
-            ->willReturn(["bar" => "baz"]);
+            ->method('getVars')
+            ->willReturn(['bar' => 'baz']);
         $this->cache->expects($this->once())
-            ->method("get")
+            ->method('get')
             ->with($view)
-            ->willReturn("transpiled");
-        $this->assertEquals("transpiled", $this->transpiler->transpile($view));
+            ->willReturn('transpiled');
+        $this->assertEquals('transpiled', $this->transpiler->transpile($view));
     }
 
     /**
@@ -104,10 +104,10 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCallingViewFunctionThatTakesNoParameters()
     {
-        $this->transpiler->registerViewFunction("foo", function () {
-            return "foobar";
+        $this->transpiler->registerViewFunction('foo', function () {
+            return 'foobar';
         });
-        $this->assertEquals("foobar", $this->transpiler->callViewFunction("foo"));
+        $this->assertEquals('foobar', $this->transpiler->callViewFunction('foo'));
     }
 
     /**
@@ -115,10 +115,10 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCallingViewFunctionThatTakesParameters()
     {
-        $this->transpiler->registerViewFunction("foo", function ($input) {
-            return "foo" . $input;
+        $this->transpiler->registerViewFunction('foo', function ($input) {
+            return 'foo' . $input;
         });
-        $this->assertEquals("foobar", $this->transpiler->callViewFunction("foo", "bar"));
+        $this->assertEquals('foobar', $this->transpiler->callViewFunction('foo', 'bar'));
     }
 
     /**
@@ -126,10 +126,10 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testDefiningPart()
     {
-        $this->transpiler->startPart("foo");
-        echo "bar";
+        $this->transpiler->startPart('foo');
+        echo 'bar';
         $this->transpiler->endPart();
-        $this->assertEquals("bar", $this->transpiler->showPart("foo"));
+        $this->assertEquals('bar', $this->transpiler->showPart('foo'));
     }
 
     /**
@@ -139,7 +139,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(RuntimeException::class);
         /** @var Node|\PHPUnit_Framework_MockObject_MockObject $invalidNode */
-        $invalidNode = $this->getMockForAbstractClass(Node::class, [], "FakeNode");
+        $invalidNode = $this->getMockForAbstractClass(Node::class, [], 'FakeNode');
         $this->ast->getCurrentNode()
             ->addChild($invalidNode);
         $this->transpiler->transpile($this->view);
@@ -152,8 +152,8 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(RuntimeException::class);
         $directiveNode = new DirectiveNode();
-        $directiveNode->addChild(new DirectiveNameNode("foo"));
-        $directiveNode->addChild(new ExpressionNode("bar"));
+        $directiveNode->addChild(new DirectiveNameNode('foo'));
+        $directiveNode->addChild(new ExpressionNode('bar'));
         $this->ast->getCurrentNode()
             ->addChild($directiveNode);
         $this->transpiler->transpile($this->view);
@@ -165,7 +165,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithInvalidViewFunctionName()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->transpiler->callViewFunction("foo");
+        $this->transpiler->callViewFunction('foo');
     }
 
     /**
@@ -176,18 +176,18 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent1 */
         $parent1 = $this->createMock(IView::class);
         $parent1->expects($this->once())
-            ->method("getVars")
-            ->willReturn(["foo" => "bar"]);
+            ->method('getVars')
+            ->willReturn(['foo' => 'bar']);
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent2 */
         $parent2 = $this->createMock(IView::class);
         $parent2->expects($this->once())
-            ->method("getVars")
-            ->willReturn(["foo" => "baz"]);
+            ->method('getVars')
+            ->willReturn(['foo' => 'baz']);
         $child = new View();
         $this->transpiler->addParent($parent1, $child);
         $this->transpiler->addParent($parent2, $child);
         $this->transpiler->transpile($child);
-        $this->assertEquals("bar", $child->getVar("foo"));
+        $this->assertEquals('bar', $child->getVar('foo'));
     }
 
     /**
@@ -198,13 +198,13 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent1 */
         $parent1 = $this->createMock(IView::class);
         $parent1->expects($this->once())
-            ->method("getVars")
-            ->willReturn(["foo" => "bar"]);
+            ->method('getVars')
+            ->willReturn(['foo' => 'bar']);
         $this->view->expects($this->never())
-            ->method("setVar");
+            ->method('setVar');
         $this->view->expects($this->once())
-            ->method("hasVar")
-            ->with("foo")
+            ->method('hasVar')
+            ->with('foo')
             ->willReturn(true);
         $this->transpiler->addParent($parent1, $this->view);
         $this->transpiler->transpile($this->view);
@@ -218,14 +218,14 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent1 */
         $parent1 = $this->createMock(IView::class);
         $parent1->expects($this->once())
-            ->method("getVars")
-            ->willReturn(["foo" => "bar"]);
+            ->method('getVars')
+            ->willReturn(['foo' => 'bar']);
         $this->view->expects($this->once())
-            ->method("setVar")
-            ->with("foo", "bar");
+            ->method('setVar')
+            ->with('foo', 'bar');
         $this->view->expects($this->once())
-            ->method("hasVar")
-            ->with("foo")
+            ->method('hasVar')
+            ->with('foo')
             ->willReturn(false);
         $this->transpiler->addParent($parent1, $this->view);
         $this->transpiler->transpile($this->view);
@@ -236,12 +236,12 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringDirectiveTranspiler()
     {
-        $this->transpiler->registerDirectiveTranspiler("foo", function ($expression) {
+        $this->transpiler->registerDirectiveTranspiler('foo', function ($expression) {
             return "<?php foo $expression ?>";
         });
         $directiveNode = new DirectiveNode();
-        $directiveNode->addChild(new DirectiveNameNode("foo"));
-        $directiveNode->addChild(new ExpressionNode("bar"));
+        $directiveNode->addChild(new DirectiveNameNode('foo'));
+        $directiveNode->addChild(new ExpressionNode('bar'));
         $this->ast->getCurrentNode()
             ->addChild($directiveNode);
         $this->assertEquals(
@@ -264,9 +264,9 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testShowingLatestPart()
     {
-        $this->transpiler->startPart("foo");
-        echo "bar";
-        $this->assertEquals("bar", $this->transpiler->showPart());
+        $this->transpiler->startPart('foo');
+        echo 'bar';
+        $this->assertEquals('bar', $this->transpiler->showPart());
     }
 
     /**
@@ -274,14 +274,14 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testShowingParentPart()
     {
-        $this->transpiler->startPart("foo");
-        echo "__opulenceParentPlaceholder";
-        echo "baz";
+        $this->transpiler->startPart('foo');
+        echo '__opulenceParentPlaceholder';
+        echo 'baz';
         $this->transpiler->endPart();
-        $this->transpiler->startPart("foo");
-        echo "bar";
+        $this->transpiler->startPart('foo');
+        echo 'bar';
         $this->transpiler->endPart();
-        $this->assertEquals("barbaz", $this->transpiler->showPart("foo"));
+        $this->assertEquals('barbaz', $this->transpiler->showPart('foo'));
     }
 
     /**
@@ -289,18 +289,18 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testShowingPartsFromThreeGenerationsOfParents()
     {
-        $this->transpiler->startPart("foo");
-        echo "__opulenceParentPlaceholder";
-        echo "baz";
+        $this->transpiler->startPart('foo');
+        echo '__opulenceParentPlaceholder';
+        echo 'baz';
         $this->transpiler->endPart();
-        $this->transpiler->startPart("foo");
-        echo "__opulenceParentPlaceholder";
-        echo "bar";
+        $this->transpiler->startPart('foo');
+        echo '__opulenceParentPlaceholder';
+        echo 'bar';
         $this->transpiler->endPart();
-        $this->transpiler->startPart("foo");
-        echo "blah";
+        $this->transpiler->startPart('foo');
+        echo 'blah';
         $this->transpiler->endPart();
-        $this->assertEquals("blahbarbaz", $this->transpiler->showPart("foo"));
+        $this->assertEquals('blahbarbaz', $this->transpiler->showPart('foo'));
     }
 
     /**
@@ -311,17 +311,17 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->createMock(IView::class);
         $view->expects($this->any())
-            ->method("getContents")
-            ->willReturn("foo");
+            ->method('getContents')
+            ->willReturn('foo');
         $view->expects($this->any())
-            ->method("getVars")
-            ->willReturn(["bar" => "baz"]);
+            ->method('getVars')
+            ->willReturn(['bar' => 'baz']);
         $this->cache->expects($this->once())
-            ->method("get")
+            ->method('get')
             ->willReturn(null);
         $this->cache->expects($this->once())
-            ->method("set")
-            ->with($view, "");
+            ->method('set')
+            ->with($view, '');
         $this->transpiler->transpile($view);
     }
 

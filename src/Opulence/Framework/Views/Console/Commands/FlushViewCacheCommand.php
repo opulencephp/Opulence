@@ -35,8 +35,8 @@ class FlushViewCacheCommand extends Command
      */
     protected function define()
     {
-        $this->setName("views:flush")
-            ->setDescription("Flushes all of the compiled views from cache");
+        $this->setName('views:flush')
+            ->setDescription('Flushes all of the compiled views from cache');
     }
 
     /**
@@ -45,6 +45,6 @@ class FlushViewCacheCommand extends Command
     protected function doExecute(IResponse $response)
     {
         $this->viewCache->flush();
-        $response->writeln("<success>View cache flushed</success>");
+        $response->writeln('<success>View cache flushed</success>');
     }
 }

@@ -21,7 +21,7 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->redirectResponse = new RedirectResponse("/foo", ResponseHeaders::HTTP_ACCEPTED, ["HTTP_FOO" => "bar"]);
+        $this->redirectResponse = new RedirectResponse('/foo', ResponseHeaders::HTTP_ACCEPTED, ['HTTP_FOO' => 'bar']);
     }
 
     /**
@@ -30,8 +30,8 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
     public function testGettingHeadersAfterSettingInConstructor()
     {
         $this->assertEquals([
-            "foo" => ["bar"],
-            "location" => ["/foo"]
+            'foo' => ['bar'],
+            'location' => ['/foo']
         ], $this->redirectResponse->getHeaders()->getAll());
     }
 
@@ -48,8 +48,8 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingTargetUrlAfterSettingInConstructor()
     {
-        $this->assertEquals("/foo", $this->redirectResponse->getTargetUrl());
-        $this->assertEquals("/foo", $this->redirectResponse->getHeaders()->get("Location"));
+        $this->assertEquals('/foo', $this->redirectResponse->getTargetUrl());
+        $this->assertEquals('/foo', $this->redirectResponse->getHeaders()->get('Location'));
     }
 
     /**
@@ -57,8 +57,8 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingTargetUrl()
     {
-        $this->redirectResponse->setTargetUrl("/bar");
-        $this->assertEquals("/bar", $this->redirectResponse->getTargetUrl());
-        $this->assertEquals("/bar", $this->redirectResponse->getHeaders()->get("Location"));
+        $this->redirectResponse->setTargetUrl('/bar');
+        $this->assertEquals('/bar', $this->redirectResponse->getTargetUrl());
+        $this->assertEquals('/bar', $this->redirectResponse->getHeaders()->get('Location'));
     }
 }

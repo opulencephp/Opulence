@@ -41,7 +41,7 @@ class Compiler implements ICompiler
         $commandArguments = $command->getArguments();
 
         if ($this->hasTooManyArguments($argumentValues, $commandArguments)) {
-            throw new RuntimeException("Too many arguments");
+            throw new RuntimeException('Too many arguments');
         }
 
         $hasSetArrayArgument = false;
@@ -55,7 +55,7 @@ class Compiler implements ICompiler
                 $command->setArgumentValue($argument->getName(), $argument->getDefaultValue());
             } else {
                 if ($hasSetArrayArgument) {
-                    throw new RuntimeException("Array argument must appear at end of list of arguments");
+                    throw new RuntimeException('Array argument must appear at end of list of arguments');
                 }
 
                 if ($argument->isArray()) {

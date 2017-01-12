@@ -20,6 +20,6 @@ class FormUrlEncodedRequest extends Request
      */
     public function getRawBody() : string
     {
-        return http_build_query(["foo" => "bar"]);
+        return http_build_query(['foo' => 'bar']);
     }
 }

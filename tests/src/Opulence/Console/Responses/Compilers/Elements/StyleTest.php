@@ -22,7 +22,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $style = new Style();
-        $style->addTextStyle("foo");
+        $style->addTextStyle('foo');
     }
 
     /**
@@ -32,7 +32,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $style = new Style();
-        $style->addTextStyles(["foo"]);
+        $style->addTextStyles(['foo']);
     }
 
     /**
@@ -53,7 +53,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     public function testFormattingEmptyString()
     {
         $styles = new Style(Colors::RED, Colors::GREEN, [TextStyles::BOLD, TextStyles::UNDERLINE, TextStyles::BLINK]);
-        $this->assertEquals("", $styles->format(""));
+        $this->assertEquals('', $styles->format(''));
     }
 
     /**
@@ -62,7 +62,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     public function testFormattingStringWithAllStyles()
     {
         $styles = new Style(Colors::RED, Colors::GREEN, [TextStyles::BOLD, TextStyles::UNDERLINE, TextStyles::BLINK]);
-        $this->assertEquals("\033[31;42;1;4;5mfoo\033[39;49;22;24;25m", $styles->format("foo"));
+        $this->assertEquals("\033[31;42;1;4;5mfoo\033[39;49;22;24;25m", $styles->format('foo'));
     }
 
     /**
@@ -71,7 +71,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     public function testFormattingStringWithoutStyles()
     {
         $styles = new Style();
-        $this->assertEquals("foo", $styles->format("foo"));
+        $this->assertEquals('foo', $styles->format('foo'));
     }
 
     /**
@@ -102,7 +102,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $this->expectException(InvalidArgumentException::class);
         $style = new Style();
         $style->addTextStyle(TextStyles::BOLD);
-        $style->removeTextStyle("foo");
+        $style->removeTextStyle('foo');
     }
 
     /**
@@ -142,7 +142,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $style = new Style();
-        $style->setBackgroundColor("foo");
+        $style->setBackgroundColor('foo');
     }
 
     /**
@@ -151,7 +151,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     public function testSettingInvalidBackgroundColorInConstructor()
     {
         $this->expectException(InvalidArgumentException::class);
-        new Style(null, "foo");
+        new Style(null, 'foo');
     }
 
     /**
@@ -161,7 +161,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $style = new Style();
-        $style->setForegroundColor("foo");
+        $style->setForegroundColor('foo');
     }
 
     /**
@@ -170,7 +170,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     public function testSettingInvalidForegroundColorInConstructor()
     {
         $this->expectException(InvalidArgumentException::class);
-        new Style("foo");
+        new Style('foo');
     }
 
     /**
@@ -179,7 +179,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     public function testSettingInvalidTextStylesInConstructor()
     {
         $this->expectException(InvalidArgumentException::class);
-        new Style(null, null, ["foo"]);
+        new Style(null, null, ['foo']);
     }
 
     /**

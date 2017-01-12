@@ -59,7 +59,7 @@ class Parser implements IParser
                         throw new RuntimeException(
                             sprintf(
                                 "Unclosed %s \"%s\"",
-                                $ast->getCurrentNode()->isTag() ? "tag" : "node",
+                                $ast->getCurrentNode()->isTag() ? 'tag' : 'node',
                                 $ast->getCurrentNode()->getValue()
                             )
                         );

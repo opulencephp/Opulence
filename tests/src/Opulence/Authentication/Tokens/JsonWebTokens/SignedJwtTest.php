@@ -37,10 +37,10 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreatingFromUnsignedToken()
     {
-        $signedJwt = SignedJwt::createFromUnsignedJwt(new UnsignedJwt($this->header, $this->payload), "foo");
+        $signedJwt = SignedJwt::createFromUnsignedJwt(new UnsignedJwt($this->header, $this->payload), 'foo');
         $this->assertSame($this->header, $signedJwt->getHeader());
         $this->assertSame($this->payload, $signedJwt->getPayload());
-        $this->assertEquals("foo", $signedJwt->getSignature());
+        $this->assertEquals('foo', $signedJwt->getSignature());
     }
 
     /**
@@ -48,11 +48,11 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreatingJwtFromStringWithNoneAlgorithm()
     {
-        $header = new JwtHeader("none");
+        $header = new JwtHeader('none');
         $unsignedJwt = new UnsignedJwt($header, new JwtPayload());
         $signedJwt = SignedJwt::createFromString($unsignedJwt->getUnsignedValue());
-        $this->assertEquals("none", $signedJwt->getHeader()->getAlgorithm());
-        $this->assertEquals("", $signedJwt->getSignature());
+        $this->assertEquals('none', $signedJwt->getHeader()->getAlgorithm());
+        $this->assertEquals('', $signedJwt->getSignature());
     }
 
     /**
@@ -60,7 +60,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
      */
     public function testDecodingEncodedToken()
     {
-        $signer = new HmacSigner(Algorithms::SHA256, "public");
+        $signer = new HmacSigner(Algorithms::SHA256, 'public');
         $unsignedJwt = new UnsignedJwt($this->header, $this->payload);
         $signature = $signer->sign($unsignedJwt->getUnsignedValue());
         $signedJwt = new SignedJwt($this->header, $this->payload, $signature);
@@ -74,23 +74,23 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     public function testEncodingDecodingRsaAlgorithms()
     {
         $algorithms = [
-            Algorithms::RSA_SHA256 => "sha256",
-            Algorithms::RSA_SHA384 => "sha384",
-            Algorithms::RSA_SHA512 => "sha512"
+            Algorithms::RSA_SHA256 => 'sha256',
+            Algorithms::RSA_SHA384 => 'sha384',
+            Algorithms::RSA_SHA512 => 'sha512'
         ];
 
         foreach ($algorithms as $algorithm => $digestAlgorithm) {
             $privateKey = openssl_pkey_new(
                 [
-                    "digest_alg" => $digestAlgorithm,
-                    "private_key_bits" => 1024,
-                    "private_key_type" => OPENSSL_KEYTYPE_RSA
+                    'digest_alg' => $digestAlgorithm,
+                    'private_key_bits' => 1024,
+                    'private_key_type' => OPENSSL_KEYTYPE_RSA
                 ]
             );
             $publicKey = openssl_pkey_get_details($privateKey);
-            $signer = new RsaSsaPkcsSigner($algorithm, $publicKey["key"], $privateKey);
+            $signer = new RsaSsaPkcsSigner($algorithm, $publicKey['key'], $privateKey);
             $unsignedJwt = new UnsignedJwt($this->header, $this->payload);
-            $unsignedJwt->getHeader()->add("alg", $algorithm);
+            $unsignedJwt->getHeader()->add('alg', $algorithm);
             $signature = $signer->sign($unsignedJwt->getUnsignedValue());
             $signedJwt = new SignedJwt($this->header, $this->payload, $signature);
             $token = $signedJwt->encode();
@@ -104,7 +104,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithInvalidNumberSegments()
     {
         $this->expectException(InvalidArgumentException::class);
-        SignedJwt::createFromString("foo.bar");
+        SignedJwt::createFromString('foo.bar');
     }
 
     /**
@@ -113,7 +113,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithNoAlgorithmSet()
     {
         $this->expectException(InvalidArgumentException::class);
-        SignedJwt::createFromString(base64_encode("foo") . "." . base64_encode("bar") . "." . base64_encode("baz"));
+        SignedJwt::createFromString(base64_encode('foo') . '.' . base64_encode('bar') . '.' . base64_encode('baz'));
     }
 
     /**
@@ -121,8 +121,8 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingSignature()
     {
-        $jwt = new SignedJwt($this->header, $this->payload, "signature");
-        $this->assertEquals("signature", $jwt->getSignature());
+        $jwt = new SignedJwt($this->header, $this->payload, 'signature');
+        $this->assertEquals('signature', $jwt->getSignature());
     }
 
     /**
@@ -137,7 +137,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
         // Because the JTI is random for each payload, exclude it
         $payloadA = $a->getPayload()->getAll();
         $payloadB = $b->getPayload()->getAll();
-        unset($payloadA["jti"], $payloadB["jti"]);
+        unset($payloadA['jti'], $payloadB['jti']);
         $this->assertEquals($a->getHeader(), $b->getHeader());
         $this->assertEquals($payloadA, $payloadB);
 

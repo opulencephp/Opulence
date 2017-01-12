@@ -30,7 +30,7 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
     {
         $this->provider = new Provider();
         $this->server = new Server();
-        $this->pdo = new Connection($this->provider, $this->server, "fakedsn", []);
+        $this->pdo = new Connection($this->provider, $this->server, 'fakedsn', []);
     }
 
     /**

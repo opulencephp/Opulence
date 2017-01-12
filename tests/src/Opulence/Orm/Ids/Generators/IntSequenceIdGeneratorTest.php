@@ -23,7 +23,7 @@ class IntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfPostInsert()
     {
-        $generator = new IntSequenceIdGenerator("foo");
+        $generator = new IntSequenceIdGenerator('foo');
         $this->assertTrue($generator->isPostInsert());
     }
 
@@ -33,7 +33,7 @@ class IntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWhenConnectionNotSet()
     {
         $this->expectException(OrmException::class);
-        $idGenerator = new IntSequenceIdGenerator("foo");
+        $idGenerator = new IntSequenceIdGenerator('foo');
         $idGenerator->generate(new stdClass());
     }
 
@@ -45,7 +45,7 @@ class IntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
         $server = new Server();
         $connection = new Connection($server);
         $entity = new stdClass();
-        $idGenerator = new IntSequenceIdGenerator("foo", $connection);
+        $idGenerator = new IntSequenceIdGenerator('foo', $connection);
         $this->assertSame(1, $idGenerator->generate($entity));
         $this->assertSame(2, $idGenerator->generate($entity));
     }
@@ -56,7 +56,7 @@ class IntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingEmptyValue()
     {
-        $generator = new IntSequenceIdGenerator("foo");
+        $generator = new IntSequenceIdGenerator('foo');
         $this->assertNull($generator->getEmptyValue(new stdClass()));
     }
 
@@ -68,7 +68,7 @@ class IntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
         $server = new Server();
         $connection = new Connection($server);
         $entity = new stdClass();
-        $idGenerator = new IntSequenceIdGenerator("foo", $connection);
+        $idGenerator = new IntSequenceIdGenerator('foo', $connection);
         $this->assertSame(1, $idGenerator->generate($entity));
         $this->assertSame(2, $idGenerator->generate($entity));
         $idGenerator->setConnection(new Connection($server));

@@ -48,7 +48,7 @@ class ErrorHandler implements IErrorHandler
     /**
      * @inheritdoc
      */
-    public function handle(int $level, string $message, string $file = "", int $line = 0, array $context = [])
+    public function handle(int $level, string $message, string $file = '', int $line = 0, array $context = [])
     {
         if ($this->levelIsLoggable($level)) {
             $this->logger->log($level, $message, $context);
@@ -66,13 +66,13 @@ class ErrorHandler implements IErrorHandler
     {
         $error = error_get_last();
 
-        if ($error !== null && in_array($error["type"], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+        if ($error !== null && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
             $this->exceptionHandler->handle(new FatalErrorException(
-                $error["message"],
-                $error["type"],
+                $error['message'],
+                $error['type'],
                 0,
-                $error["file"],
-                $error["line"]
+                $error['file'],
+                $error['line']
             ));
         }
     }
@@ -82,10 +82,10 @@ class ErrorHandler implements IErrorHandler
      */
     public function register()
     {
-        ini_set("display_errors", "off");
+        ini_set('display_errors', 'off');
         error_reporting(-1);
-        set_error_handler([$this, "handle"]);
-        register_shutdown_function([$this, "handleShutdown"]);
+        set_error_handler([$this, 'handle']);
+        register_shutdown_function([$this, 'handleShutdown']);
     }
 
     /**

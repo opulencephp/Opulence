@@ -21,8 +21,8 @@ class AppEnvironmentCommand extends Command
      */
     protected function define()
     {
-        $this->setName("app:env")
-            ->setDescription("Displays the current application environment");
+        $this->setName('app:env')
+            ->setDescription('Displays the current application environment');
     }
 
     /**
@@ -30,6 +30,6 @@ class AppEnvironmentCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        $response->writeln("<info>" . getenv("ENV_NAME") . "</info>");
+        $response->writeln('<info>' . getenv('ENV_NAME') . '</info>');
     }
 }

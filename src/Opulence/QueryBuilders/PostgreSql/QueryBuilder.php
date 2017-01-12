@@ -19,7 +19,7 @@ class QueryBuilder extends BaseQueryBuilder
     /**
      * @inheritdoc
      */
-    public function delete(string $tableName, string $alias = "") : DeleteQuery
+    public function delete(string $tableName, string $alias = '') : DeleteQuery
     {
         return new DeleteQuery($tableName, $alias);
     }

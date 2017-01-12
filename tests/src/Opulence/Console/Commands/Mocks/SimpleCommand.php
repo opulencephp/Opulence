@@ -21,7 +21,7 @@ class SimpleCommand extends Command
      * @param string $description A brief description of the command
      * @param string $helpText The help text of the command
      */
-    public function __construct($name, $description, $helpText = "")
+    public function __construct($name, $description, $helpText = '')
     {
         $this->setName($name);
         $this->setDescription($description);
@@ -43,6 +43,6 @@ class SimpleCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        $response->write("foo");
+        $response->write('foo');
     }
 }

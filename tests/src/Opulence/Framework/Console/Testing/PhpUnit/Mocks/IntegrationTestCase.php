@@ -61,15 +61,15 @@ class IntegrationTestCase extends BaseIntegrationTestCase
      */
     public function setUp()
     {
-        Config::setCategory("paths", [
-            "configs" => realpath(__DIR__ . "/../../configs"),
-            "root" => realpath(__DIR__ . "/../../../../../.."),
-            "src" => realpath(__DIR__ . "/../../../../../../src")
+        Config::setCategory('paths', [
+            'configs' => realpath(__DIR__ . '/../../configs'),
+            'root' => realpath(__DIR__ . '/../../../../../..'),
+            'src' => realpath(__DIR__ . '/../../../../../../src')
         ]);
         // Create and bind all of the components of our application
         $taskDispatcher = new TaskDispatcher();
         // Purposely set this to a weird value so we can test that it gets overwritten with the "test" environment
-        $this->environment = new Environment("foo");
+        $this->environment = new Environment('foo');
         $this->container = new Container();
         $this->container->bindInstance(TaskDispatcher::class, $taskDispatcher);
         $this->container->bindInstance(Environment::class, $this->environment);

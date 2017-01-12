@@ -16,9 +16,9 @@ class User
     /** @var int The user's database Id */
     private $id = -1;
     /** @var string The user's name */
-    private $name = "";
+    private $name = '';
     /** @var string The user's email */
-    private $email = "";
+    private $email = '';
 
     /**
      * @param int $id The user's database Id

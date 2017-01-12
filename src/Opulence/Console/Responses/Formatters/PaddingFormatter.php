@@ -16,7 +16,7 @@ class PaddingFormatter
     /** @var bool Whether or not to pad after the string */
     private $padAfter = true;
     /** @var string The padding string */
-    private $paddingString = " ";
+    private $paddingString = ' ';
     /** @var string The end-of-line character */
     private $eolChar = PHP_EOL;
 
@@ -43,14 +43,14 @@ class PaddingFormatter
             }
         }
 
-        $formattedText = "";
+        $formattedText = '';
 
         foreach ($rows as &$row) {
             $formattedText .= $callback($row) . $this->eolChar;
         }
 
         // Trim the excess separator
-        $formattedText = preg_replace("/" . preg_quote($this->eolChar, "/") . "$/", "", $formattedText);
+        $formattedText = preg_replace('/' . preg_quote($this->eolChar, '/') . "$/", '', $formattedText);
 
         return $formattedText;
     }
@@ -82,7 +82,7 @@ class PaddingFormatter
 
         // Normalize the number of columns in each row
         foreach ($rows as &$row) {
-            $row = array_pad($row, $maxNumColumns, "");
+            $row = array_pad($row, $maxNumColumns, '');
         }
 
         // Get the length of the longest value in each column

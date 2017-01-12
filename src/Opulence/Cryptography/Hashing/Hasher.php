@@ -26,7 +26,7 @@ abstract class Hasher implements IHasher
     /**
      * @inheritdoc
      */
-    public static function verify(string $hashedValue, string $unhashedValue, string $pepper = "") : bool
+    public static function verify(string $hashedValue, string $unhashedValue, string $pepper = '') : bool
     {
         return \password_verify($unhashedValue . $pepper, $hashedValue);
     }
@@ -34,7 +34,7 @@ abstract class Hasher implements IHasher
     /**
      * @inheritdoc
      */
-    public function hash(string $unhashedValue, array $options = [], string $pepper = "") : string
+    public function hash(string $unhashedValue, array $options = [], string $pepper = '') : string
     {
         $hashedValue = \password_hash($unhashedValue . $pepper, $this->hashAlgorithm, $options);
 

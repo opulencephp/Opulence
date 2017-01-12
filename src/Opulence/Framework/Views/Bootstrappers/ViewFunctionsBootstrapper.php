@@ -31,7 +31,7 @@ class ViewFunctionsBootstrapper extends Bootstrapper
     public function run(Request $request, ITranspiler $transpiler, UrlGenerator $urlGenerator, ISession $session)
     {
         // Add the ability to display a hidden input with the current CSRF token
-        $transpiler->registerViewFunction("csrfInput", function () use ($session) {
+        $transpiler->registerViewFunction('csrfInput', function () use ($session) {
             return sprintf(
                 '<input type="hidden" name="%s" value="%s">',
                 CsrfTokenChecker::TOKEN_INPUT_NAME,
@@ -39,11 +39,11 @@ class ViewFunctionsBootstrapper extends Bootstrapper
             );
         });
         // Add the ability to display the CSRF token
-        $transpiler->registerViewFunction("csrfToken", function () use ($session) {
+        $transpiler->registerViewFunction('csrfToken', function () use ($session) {
             return $session->get(CsrfTokenChecker::TOKEN_INPUT_NAME);
         });
         // Add the ability to tell if the current route is a particular route
-        $transpiler->registerViewFunction("currentRouteIs", function ($routeName) use ($request, $urlGenerator) {
+        $transpiler->registerViewFunction('currentRouteIs', function ($routeName) use ($request, $urlGenerator) {
             $regex = $urlGenerator->createRegexFromName($routeName);
             // Strip the delimiters
             $regex = substr($regex, 1, -1);
@@ -56,7 +56,7 @@ class ViewFunctionsBootstrapper extends Bootstrapper
             }
         });
         // Add the ability to generate URLs to named routes from views
-        $transpiler->registerViewFunction("route", function ($routeName, ...$args) use ($urlGenerator) {
+        $transpiler->registerViewFunction('route', function ($routeName, ...$args) use ($urlGenerator) {
             return $urlGenerator->createFromName(...func_get_args());
         });
     }

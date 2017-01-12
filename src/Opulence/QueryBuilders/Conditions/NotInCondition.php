@@ -16,7 +16,7 @@ use InvalidArgumentException;
 class NotInCondition extends Condition
 {
     /** @var string The sub-expression */
-    protected $expression = "";
+    protected $expression = '';
     /** @var array The list of parameters bound to the query */
     protected $parameters = [];
     /** @var bool True if we're using parameters, otherwise we're using a sub-expression */
@@ -38,7 +38,7 @@ class NotInCondition extends Condition
             $this->usingParameters = true;
             $this->parameters = $parametersOrExpression;
         } else {
-            throw new InvalidArgumentException("Must pass either parameters or sub-expression to NOT IN condition");
+            throw new InvalidArgumentException('Must pass either parameters or sub-expression to NOT IN condition');
         }
     }
 
@@ -58,12 +58,12 @@ class NotInCondition extends Condition
         $sql = "{$this->column} NOT IN (";
 
         if ($this->usingParameters) {
-            $sql .= implode(",", array_fill(0, count($this->parameters), "?"));
+            $sql .= implode(',', array_fill(0, count($this->parameters), '?'));
         } else {
             $sql .= $this->expression;
         }
 
-        $sql .= ")";
+        $sql .= ')';
 
         return $sql;
     }

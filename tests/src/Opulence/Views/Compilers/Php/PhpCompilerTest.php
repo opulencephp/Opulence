@@ -37,10 +37,10 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->createMock(IView::class);
         $view->expects($this->any())
-            ->method("getContents")
+            ->method('getContents')
             ->willReturn('<?php ob_start();throw new \Exception("foo"); ?>');
         $view->expects($this->any())
-            ->method("getVars")
+            ->method('getVars')
             ->willReturn([]);
         $this->compiler->compile($view);
     }
@@ -53,10 +53,10 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->createMock(IView::class);
         $view->expects($this->any())
-            ->method("getContents")
+            ->method('getContents')
             ->willReturn('<?php ob_start();throw new ' . ViewCompilerException::class . '("foo"); ?>');
         $view->expects($this->any())
-            ->method("getVars")
+            ->method('getVars')
             ->willReturn([]);
         $obStartLevel = ob_get_level();
 
@@ -77,11 +77,11 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->createMock(IView::class);
         $view->expects($this->any())
-            ->method("getContents")
+            ->method('getContents')
             ->willReturn('<?php echo "$foo, $bar"; ?>');
         $view->expects($this->any())
-            ->method("getVars")
-            ->willReturn(["foo" => "Hello", "bar" => "world"]);
+            ->method('getVars')
+            ->willReturn(['foo' => 'Hello', 'bar' => 'world']);
         $this->assertEquals('Hello, world', $this->compiler->compile($view));
     }
 }

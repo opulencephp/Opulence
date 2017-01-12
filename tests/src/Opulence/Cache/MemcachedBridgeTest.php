@@ -28,7 +28,7 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $methods = ["decrement", "delete", "flush", "get", "getResultCode", "increment", "set"];
+        $methods = ['decrement', 'delete', 'flush', 'get', 'getResultCode', 'increment', 'set'];
         $this->client = $this->getMockBuilder(Client::class)
             ->setMethods($methods)
             ->disableOriginalConstructor()
@@ -37,10 +37,10 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->memcached->expects($this->any())
-            ->method("getClient")
-            ->with("default")
+            ->method('getClient')
+            ->with('default')
             ->willReturn($this->client);
-        $this->bridge = new MemcachedBridge($this->memcached, "default", "dave:");
+        $this->bridge = new MemcachedBridge($this->memcached, 'default', 'dave:');
     }
 
     /**
@@ -49,13 +49,13 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
     public function testCheckingIfKeyExists()
     {
         $this->client->expects($this->at(0))
-            ->method("get")
+            ->method('get')
             ->willReturn(false);
         $this->client->expects($this->at(1))
-            ->method("get")
-            ->willReturn("bar");
-        $this->assertFalse($this->bridge->has("foo"));
-        $this->assertTrue($this->bridge->has("foo"));
+            ->method('get')
+            ->willReturn('bar');
+        $this->assertFalse($this->bridge->has('foo'));
+        $this->assertTrue($this->bridge->has('foo'));
     }
 
     /**
@@ -64,17 +64,17 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
     public function testDecrementingReturnsCorrectValues()
     {
         $this->client->expects($this->at(0))
-            ->method("decrement")
-            ->with("dave:foo", 1)
+            ->method('decrement')
+            ->with('dave:foo', 1)
             ->willReturn(10);
         $this->client->expects($this->at(1))
-            ->method("decrement")
-            ->with("dave:foo", 5)
+            ->method('decrement')
+            ->with('dave:foo', 5)
             ->willReturn(5);
         // Test using default value
-        $this->assertEquals(10, $this->bridge->decrement("foo"));
+        $this->assertEquals(10, $this->bridge->decrement('foo'));
         // Test using a custom value
-        $this->assertEquals(5, $this->bridge->decrement("foo", 5));
+        $this->assertEquals(5, $this->bridge->decrement('foo', 5));
     }
 
     /**
@@ -83,9 +83,9 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
     public function testDeletingKey()
     {
         $this->client->expects($this->once())
-            ->method("delete")
-            ->with("dave:foo");
-        $this->bridge->delete("foo");
+            ->method('delete')
+            ->with('dave:foo');
+        $this->bridge->delete('foo');
     }
 
     /**
@@ -102,12 +102,12 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
     public function testErrorDuringGetWillReturnNull()
     {
         $this->client->expects($this->once())
-            ->method("get")
-            ->willReturn("bar");
+            ->method('get')
+            ->willReturn('bar');
         $this->client->expects($this->once())
-            ->method("getResultCode")
+            ->method('getResultCode')
             ->willReturn(1);
-        $this->assertNull($this->bridge->get("foo"));
+        $this->assertNull($this->bridge->get('foo'));
     }
 
     /**
@@ -116,7 +116,7 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
     public function testFlushing()
     {
         $this->client->expects($this->once())
-            ->method("flush");
+            ->method('flush');
         $this->bridge->flush();
     }
 
@@ -126,12 +126,12 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
     public function testGetWorks()
     {
         $this->client->expects($this->once())
-            ->method("get")
-            ->willReturn("bar");
+            ->method('get')
+            ->willReturn('bar');
         $this->client->expects($this->once())
-            ->method("getResultCode")
+            ->method('getResultCode')
             ->willReturn(0);
-        $this->assertEquals("bar", $this->bridge->get("foo"));
+        $this->assertEquals('bar', $this->bridge->get('foo'));
     }
 
     /**
@@ -140,17 +140,17 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
     public function testIncrementingReturnsCorrectValues()
     {
         $this->client->expects($this->at(0))
-            ->method("increment")
-            ->with("dave:foo", 1)
+            ->method('increment')
+            ->with('dave:foo', 1)
             ->willReturn(2);
         $this->client->expects($this->at(1))
-            ->method("increment")
-            ->with("dave:foo", 5)
+            ->method('increment')
+            ->with('dave:foo', 5)
             ->willReturn(7);
         // Test using default value
-        $this->assertEquals(2, $this->bridge->increment("foo"));
+        $this->assertEquals(2, $this->bridge->increment('foo'));
         // Test using a custom value
-        $this->assertEquals(7, $this->bridge->increment("foo", 5));
+        $this->assertEquals(7, $this->bridge->increment('foo', 5));
     }
 
     /**
@@ -159,9 +159,9 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
     public function testNullIsReturnedOnMiss()
     {
         $this->client->expects($this->once())
-            ->method("get")
+            ->method('get')
             ->willReturn(false);
-        $this->assertNull($this->bridge->get("foo"));
+        $this->assertNull($this->bridge->get('foo'));
     }
 
     /**
@@ -170,9 +170,9 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
     public function testSettingValue()
     {
         $this->client->expects($this->once())
-            ->method("set")
-            ->with("dave:foo", "bar", 60);
-        $this->bridge->set("foo", "bar", 60);
+            ->method('set')
+            ->with('dave:foo', 'bar', 60);
+        $this->bridge->set('foo', 'bar', 60);
     }
 
     /**
@@ -183,7 +183,7 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
         /** @var Memcached|\PHPUnit_Framework_MockObject_MockObject $memcached */
         $memcached = $this->getMockBuilder(Memcached::class)
             ->disableOriginalConstructor()
-            ->setMockClassName("Foo")
+            ->setMockClassName('Foo')
             ->getMock();
         $bridge = new MemcachedBridge($memcached);
         $this->assertSame($memcached, $bridge->getMemcached());
@@ -195,25 +195,25 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
     public function testUsingClientBesidesDefaultOne()
     {
         $client = $this->getMockBuilder(Client::class)
-            ->setMethods(["get", "getResultCode"])
+            ->setMethods(['get', 'getResultCode'])
             ->disableOriginalConstructor()
             ->getMock();
         $client->expects($this->any())
-            ->method("get")
-            ->with("bar")
-            ->willReturn("baz");
+            ->method('get')
+            ->with('bar')
+            ->willReturn('baz');
         $client->expects($this->any())
-            ->method("getResultCode")
+            ->method('getResultCode')
             ->willReturn(0);
         /** @var Memcached|\PHPUnit_Framework_MockObject_MockObject $memcached */
         $memcached = $this->getMockBuilder(Memcached::class)
             ->disableOriginalConstructor()
             ->getMock();
         $memcached->expects($this->any())
-            ->method("getClient")
-            ->with("foo")
+            ->method('getClient')
+            ->with('foo')
             ->willReturn($client);
-        $bridge = new MemcachedBridge($memcached, "foo");
-        $this->assertEquals("baz", $bridge->get("bar"));
+        $bridge = new MemcachedBridge($memcached, 'foo');
+        $this->assertEquals('baz', $bridge->get('bar'));
     }
 }

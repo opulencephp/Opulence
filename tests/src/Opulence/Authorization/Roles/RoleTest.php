@@ -21,7 +21,7 @@ class RoleTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->role = new Role(1, "foo");
+        $this->role = new Role(1, 'foo');
     }
 
     /**
@@ -37,7 +37,7 @@ class RoleTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingName()
     {
-        $this->assertEquals("foo", $this->role->getName());
+        $this->assertEquals('foo', $this->role->getName());
     }
 
     /**

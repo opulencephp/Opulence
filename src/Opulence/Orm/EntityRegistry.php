@@ -175,9 +175,9 @@ class EntityRegistry implements IEntityRegistry
         }
 
         $this->aggregateRootChildren[$childObjectHashId][] = [
-            "aggregateRoot" => $aggregateRoot,
-            "child" => $child,
-            "function" => $function
+            'aggregateRoot' => $aggregateRoot,
+            'child' => $child,
+            'function' => $function
         ];
     }
 
@@ -213,8 +213,8 @@ class EntityRegistry implements IEntityRegistry
 
         if (isset($this->aggregateRootChildren[$objectHashId])) {
             foreach ($this->aggregateRootChildren[$objectHashId] as $aggregateRootData) {
-                $aggregateRoot = $aggregateRootData["aggregateRoot"];
-                $aggregateRootData["function"]($aggregateRoot, $child);
+                $aggregateRoot = $aggregateRootData['aggregateRoot'];
+                $aggregateRootData['function']($aggregateRoot, $child);
             }
         }
     }

@@ -37,7 +37,7 @@ class ErrorTemplateRegistry
             return $this->globalTemplates[$ruleSlug];
         }
 
-        return "";
+        return '';
     }
 
     /**
@@ -51,17 +51,17 @@ class ErrorTemplateRegistry
     public function registerErrorTemplatesFromConfig(array $config)
     {
         foreach ($config as $key => $template) {
-            if (trim($key) === "") {
-                throw new InvalidArgumentException("Error template config key cannot be empty");
+            if (trim($key) === '') {
+                throw new InvalidArgumentException('Error template config key cannot be empty');
             }
 
-            if (mb_strpos($key, ".") === false) {
+            if (mb_strpos($key, '.') === false) {
                 $this->registerGlobalErrorTemplate($key, $template);
             } else {
-                $keyParts = explode(".", $key);
+                $keyParts = explode('.', $key);
 
-                if (count($keyParts) !== 2 || trim($keyParts[0]) === "" || trim($keyParts[1]) === "") {
-                    throw new InvalidArgumentException("Error template config key cannot be empty");
+                if (count($keyParts) !== 2 || trim($keyParts[0]) === '' || trim($keyParts[1]) === '') {
+                    throw new InvalidArgumentException('Error template config key cannot be empty');
                 }
 
                 $this->registerFieldErrorTemplate($keyParts[0], $keyParts[1], $template);

@@ -34,22 +34,22 @@ class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->signer->expects($this->any())
-            ->method("sign")
-            ->willReturn("signed");
+            ->method('sign')
+            ->willReturn('signed');
         $this->subject = $this->createMock(ISubject::class);
         $principal = $this->createMock(IPrincipal::class);
         $principal->expects($this->any())
-            ->method("getId")
-            ->willReturn("principalId");
+            ->method('getId')
+            ->willReturn('principalId');
         $this->subject->expects($this->any())
-            ->method("getPrimaryPrincipal")
+            ->method('getPrimaryPrincipal')
             ->willReturn($principal);
         $this->factory = new RefreshTokenCredentialFactory(
             $this->signer,
-            "foo",
-            "bar",
-            new DateInterval("P0D"),
-            new DateInterval("P1Y")
+            'foo',
+            'bar',
+            new DateInterval('P0D'),
+            new DateInterval('P1Y')
         );
     }
 
@@ -59,15 +59,15 @@ class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
     public function testClaimsAdded()
     {
         $credential = $this->factory->createCredentialForSubject($this->subject);
-        $tokenString = $credential->getValue("token");
+        $tokenString = $credential->getValue('token');
         /** @var SignedJwt $signedJwt */
         $signedJwt = SignedJwt::createFromString($tokenString);
         $payload = $signedJwt->getPayload();
-        $this->assertEquals("foo", $payload->getIssuer());
-        $this->assertEquals("bar", $payload->getAudience());
-        $this->assertEquals("principalId", $payload->getSubject());
-        $this->assertEquals((new DateTimeImmutable)->format("Y"), $payload->getValidFrom()->format("Y"));
-        $this->assertEquals((new DateTimeImmutable("+1 year"))->format("Y"), $payload->getValidTo()->format("Y"));
-        $this->assertEquals((new DateTimeImmutable)->format("Y"), $payload->getIssuedAt()->format("Y"));
+        $this->assertEquals('foo', $payload->getIssuer());
+        $this->assertEquals('bar', $payload->getAudience());
+        $this->assertEquals('principalId', $payload->getSubject());
+        $this->assertEquals((new DateTimeImmutable)->format('Y'), $payload->getValidFrom()->format('Y'));
+        $this->assertEquals((new DateTimeImmutable('+1 year'))->format('Y'), $payload->getValidTo()->format('Y'));
+        $this->assertEquals((new DateTimeImmutable)->format('Y'), $payload->getIssuedAt()->format('Y'));
     }
 }

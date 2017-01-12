@@ -18,11 +18,11 @@ use Opulence\Applications\Tasks\TaskTypes;
 class Application
 {
     /** @var string The current Opulence version */
-    private static $opulenceVersion = "1.0.5";
+    private static $opulenceVersion = '1.0.5';
     /** @var ITaskDispatcher The task dispatcher */
     private $taskDispatcher = null;
     /** @var string The version of the application */
-    private $version = "";
+    private $version = '';
     /** @var bool Whether or not the application is currently running */
     private $isRunning = false;
 

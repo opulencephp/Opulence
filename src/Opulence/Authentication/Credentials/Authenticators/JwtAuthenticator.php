@@ -47,7 +47,7 @@ class JwtAuthenticator implements IAuthenticator
     {
         // Reset the JWT
         $this->signedJwt = null;
-        $tokenString = $credential->getValue("token");
+        $tokenString = $credential->getValue('token');
 
         if ($tokenString === null) {
             $error = AuthenticatorErrorTypes::CREDENTIAL_MISSING;
@@ -82,7 +82,7 @@ class JwtAuthenticator implements IAuthenticator
      */
     protected function getSubjectFromJwt(SignedJwt $jwt, ICredential $credential) : ISubject
     {
-        $roles = $jwt->getPayload()->get("roles") ?: [];
+        $roles = $jwt->getPayload()->get('roles') ?: [];
 
         return new Subject(
             [new Principal(PrincipalTypes::PRIMARY, $jwt->getPayload()->getSubject(), $roles)],

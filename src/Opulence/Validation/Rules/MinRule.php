@@ -26,7 +26,7 @@ class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
      */
     public function getErrorPlaceholders() : array
     {
-        return ["min" => $this->min];
+        return ['min' => $this->min];
     }
 
     /**
@@ -34,7 +34,7 @@ class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
      */
     public function getSlug() : string
     {
-        return "min";
+        return 'min';
     }
 
     /**
@@ -43,7 +43,7 @@ class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     public function passes($value, array $allValues = []) : bool
     {
         if ($this->min === null) {
-            throw new LogicException("Minimum value not set");
+            throw new LogicException('Minimum value not set');
         }
 
         if ($this->isInclusive) {
@@ -59,7 +59,7 @@ class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     public function setArgs(array $args)
     {
         if (count($args) === 0 || !is_numeric($args[0])) {
-            throw new InvalidArgumentException("Must pass a minimum value to compare against");
+            throw new InvalidArgumentException('Must pass a minimum value to compare against');
         }
 
         $this->min = $args[0];

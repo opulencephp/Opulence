@@ -18,7 +18,7 @@ class NumericRule implements IRule
      */
     public function getSlug() : string
     {
-        return "numeric";
+        return 'numeric';
     }
 
     /**

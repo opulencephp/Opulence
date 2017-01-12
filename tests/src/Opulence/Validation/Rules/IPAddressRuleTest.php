@@ -19,8 +19,8 @@ class IPAddressRuleTest extends \PHPUnit\Framework\TestCase
     public function testFailingValue()
     {
         $rule = new IPAddressRule();
-        $this->assertFalse($rule->passes(""));
-        $this->assertFalse($rule->passes("123"));
+        $this->assertFalse($rule->passes(''));
+        $this->assertFalse($rule->passes('123'));
     }
 
     /**
@@ -29,7 +29,7 @@ class IPAddressRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new IPAddressRule();
-        $this->assertEquals("ipAddress", $rule->getSlug());
+        $this->assertEquals('ipAddress', $rule->getSlug());
     }
 
     /**
@@ -38,6 +38,6 @@ class IPAddressRuleTest extends \PHPUnit\Framework\TestCase
     public function testPassingValue()
     {
         $rule = new IPAddressRule();
-        $this->assertTrue($rule->passes("127.0.0.1"));
+        $this->assertTrue($rule->passes('127.0.0.1'));
     }
 }

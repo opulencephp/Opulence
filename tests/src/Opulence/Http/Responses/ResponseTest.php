@@ -31,8 +31,8 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingContent()
     {
-        $response = new Response("foo");
-        $this->assertEquals("foo", $response->getContent());
+        $response = new Response('foo');
+        $this->assertEquals('foo', $response->getContent());
     }
 
     /**
@@ -40,7 +40,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDefaultHttpVersion()
     {
-        $this->assertEquals("1.1", $this->response->getHttpVersion());
+        $this->assertEquals('1.1', $this->response->getHttpVersion());
     }
 
     /**
@@ -58,10 +58,10 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testSendingContent()
     {
-        $this->response->setContent("foo");
+        $this->response->setContent('foo');
         ob_start();
         $this->response->sendContent();
-        $this->assertEquals("foo", ob_get_clean());
+        $this->assertEquals('foo', ob_get_clean());
     }
 
     /**
@@ -69,8 +69,8 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingContent()
     {
-        $this->response->setContent("foo");
-        $this->assertEquals("foo", $this->response->getContent());
+        $this->response->setContent('foo');
+        $this->assertEquals('foo', $this->response->getContent());
     }
 
     /**
@@ -78,9 +78,9 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingExpiration()
     {
-        $expiration = new DateTime("now");
+        $expiration = new DateTime('now');
         $this->response->setExpiration($expiration);
-        $this->assertEquals($expiration->format("r"), $this->response->getHeaders()->get("Expires"));
+        $this->assertEquals($expiration->format('r'), $this->response->getHeaders()->get('Expires'));
     }
 
     /**
@@ -88,8 +88,8 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingHttpVersion()
     {
-        $this->response->setHttpVersion("2.0");
-        $this->assertEquals("2.0", $this->response->getHttpVersion());
+        $this->response->setHttpVersion('2.0');
+        $this->assertEquals('2.0', $this->response->getHttpVersion());
     }
 
     /**

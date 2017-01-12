@@ -41,11 +41,11 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingInsecureRouteOnHttps()
     {
-        $route = $this->getParsedRoute(RequestMethods::GET, "foo@bar", false, ".*", '\/');
+        $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*', '\/');
         $request = new Request([], [], [], [
-            "REQUEST_METHOD" => RequestMethods::GET,
-            "REQUEST_URI" => "/",
-            "HTTPS" => true
+            'REQUEST_METHOD' => RequestMethods::GET,
+            'REQUEST_URI' => '/',
+            'HTTPS' => true
         ], [], []);
         $compiledRoute = $this->compiler->compile($route, $request);
         $this->assertTrue($compiledRoute->isMatch());
@@ -57,19 +57,19 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingRouteWitPathVariables()
     {
-        $route = $this->getParsedRoute(RequestMethods::GET, "foo@bar", false, ".*",
+        $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*',
             '\/foo\/(?P<bar>[^\/]+)\/(?P<baz>[^\/]+)');
         $request = new Request([], [], [], [
-            "REQUEST_METHOD" => RequestMethods::GET,
-            "REQUEST_URI" => "/foo/12/34"
+            'REQUEST_METHOD' => RequestMethods::GET,
+            'REQUEST_URI' => '/foo/12/34'
         ], [], []);
         $compiledRoute = $this->compiler->compile($route, $request);
         $this->assertTrue($compiledRoute->isMatch());
         $expectedPathVariables = [
-            "bar" => "12",
-            "baz" => "34",
-            0 => "12",
-            1 => "34"
+            'bar' => '12',
+            'baz' => '34',
+            0 => '12',
+            1 => '34'
         ];
         $this->assertEquals($expectedPathVariables, $compiledRoute->getPathVars());
     }
@@ -79,10 +79,10 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingRouteWithOptionalVariable()
     {
-        $route = $this->getParsedRoute(RequestMethods::GET, "foo@bar", false, ".*", '\/foo\/(?P<bar>[^\/]+)?');
+        $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*', '\/foo\/(?P<bar>[^\/]+)?');
         $request = new Request([], [], [], [
-            "REQUEST_METHOD" => RequestMethods::GET,
-            "REQUEST_URI" => "/foo/"
+            'REQUEST_METHOD' => RequestMethods::GET,
+            'REQUEST_URI' => '/foo/'
         ], [], []);
         $compiledRoute = $this->compiler->compile($route, $request);
         $this->assertTrue($compiledRoute->isMatch());
@@ -94,10 +94,10 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingRouteWithOptionalVariableWithDefaultValue()
     {
-        $route = $this->getParsedRoute(RequestMethods::GET, "foo@bar", false, ".*", '\/bar\/(?P<foo>[^\/]+)?');
+        $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*', '\/bar\/(?P<foo>[^\/]+)?');
         $request = new Request([], [], [], [
-            "REQUEST_METHOD" => RequestMethods::GET,
-            "REQUEST_URI" => "/bar/"
+            'REQUEST_METHOD' => RequestMethods::GET,
+            'REQUEST_URI' => '/bar/'
         ], [], []);
         $compiledRoute = $this->compiler->compile($route, $request);
         $this->assertTrue($compiledRoute->isMatch());
@@ -109,10 +109,10 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingRouteVariablesForUnmatchedRoute()
     {
-        $route = $this->getParsedRoute(RequestMethods::GET, "foo@bar", false, ".*", '\/foo');
+        $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*', '\/foo');
         $request = new Request([], [], [], [
-            "REQUEST_METHOD" => RequestMethods::GET,
-            "REQUEST_URI" => "/bar"
+            'REQUEST_METHOD' => RequestMethods::GET,
+            'REQUEST_URI' => '/bar'
         ], [], []);
         $compiledRoute = $this->compiler->compile($route, $request);
         $this->assertEquals([], $compiledRoute->getPathVars());
@@ -123,11 +123,11 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testMatchingSecureRoute()
     {
-        $route = $this->getParsedRoute(RequestMethods::GET, "foo@bar", true, ".*", '\/');
+        $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', true, '.*', '\/');
         $request = new Request([], [], [], [
-            "REQUEST_METHOD" => RequestMethods::GET,
-            "REQUEST_URI" => "/",
-            "HTTPS" => true
+            'REQUEST_METHOD' => RequestMethods::GET,
+            'REQUEST_URI' => '/',
+            'HTTPS' => true
         ], [], []);
         $compiledRoute = $this->compiler->compile($route, $request);
         $this->assertTrue($compiledRoute->isMatch());
@@ -139,10 +139,10 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testNotBeingHttpsAndMatchingSecureRoute()
     {
-        $route = $this->getParsedRoute(RequestMethods::GET, "foo@bar", true, ".*", '\/');
+        $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', true, '.*', '\/');
         $request = new Request([], [], [], [
-            "REQUEST_METHOD" => RequestMethods::GET,
-            "REQUEST_URI" => "/"
+            'REQUEST_METHOD' => RequestMethods::GET,
+            'REQUEST_URI' => '/'
         ], [], []);
         $compiledRoute = $this->compiler->compile($route, $request);
         $this->assertFalse($compiledRoute->isMatch());
@@ -163,15 +163,15 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $route = $this->getMockBuilder(ParsedRoute::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $route->expects($this->any())->method("getMethods")->willReturn([$method]);
-        $route->expects($this->any())->method("isSecure")->willReturn($isSecure);
-        $route->expects($this->any())->method("getController")->willReturn($controller);
-        $route->expects($this->any())->method("getHostRegex")->willReturn("#^$hostRegex$#");
-        $route->expects($this->any())->method("getPathRegex")->willReturn("#^$pathRegex$#");
+        $route->expects($this->any())->method('getMethods')->willReturn([$method]);
+        $route->expects($this->any())->method('isSecure')->willReturn($isSecure);
+        $route->expects($this->any())->method('getController')->willReturn($controller);
+        $route->expects($this->any())->method('getHostRegex')->willReturn("#^$hostRegex$#");
+        $route->expects($this->any())->method('getPathRegex')->willReturn("#^$pathRegex$#");
         // The following data are necessary in the parsed route's constructor
-        $route->expects($this->any())->method("getRawPath")->willReturn("");
-        $route->expects($this->any())->method("getRawHost")->willReturn("");
-        $route->expects($this->any())->method("getName")->willReturn("");
+        $route->expects($this->any())->method('getRawPath')->willReturn('');
+        $route->expects($this->any())->method('getRawHost')->willReturn('');
+        $route->expects($this->any())->method('getName')->willReturn('');
 
         return $route;
     }

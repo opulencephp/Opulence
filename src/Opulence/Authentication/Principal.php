@@ -14,7 +14,7 @@ namespace Opulence\Authentication;
 class Principal implements IPrincipal
 {
     /** @var string The type of principal this is */
-    protected $type = "";
+    protected $type = '';
     /** @var mixed|null The identity of the principal */
     protected $id = null;
     /** @var array The list of roles this principal has */

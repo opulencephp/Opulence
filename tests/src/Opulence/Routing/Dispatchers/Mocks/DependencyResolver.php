@@ -20,6 +20,6 @@ class DependencyResolver implements IDependencyResolver
      */
     public function resolve(string $interface)
     {
-        return (new \PHPUnit_Framework_MockObject_Generator)->getMock($interface, [], [], "", false);
+        return (new \PHPUnit_Framework_MockObject_Generator)->getMock($interface, [], [], '', false);
     }
 }

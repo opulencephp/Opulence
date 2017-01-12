@@ -56,6 +56,6 @@ class NonOpulenceController
      */
     public function showFoo()
     {
-        return new Response("foo");
+        return new Response('foo');
     }
 }

@@ -30,7 +30,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
         /** @var ICache|\PHPUnit_Framework_MockObject_MockObject $cache */
         $cache = $this->createMock(ICache::class);
         $cache->expects($this->any())
-            ->method("has")
+            ->method('has')
             ->willReturn(false);
         $this->transpiler = new Transpiler(new Lexer(), new Parser(), $cache, $xssFilter);
     }
@@ -43,7 +43,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
         // Test a single value
         $this->assertEquals(
             '<link href="foo" rel="stylesheet">',
-            $this->transpiler->callViewFunction("css", "foo")
+            $this->transpiler->callViewFunction('css', 'foo')
         );
 
         // Test multiple values
@@ -51,7 +51,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
             '<link href="foo" rel="stylesheet">' .
             "\n" .
             '<link href="bar" rel="stylesheet">',
-            $this->transpiler->callViewFunction("css", ["foo", "bar"])
+            $this->transpiler->callViewFunction('css', ['foo', 'bar'])
         );
     }
 
@@ -60,10 +60,10 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
      */
     public function testCharsetFunction()
     {
-        $charset = "utf-8";
+        $charset = 'utf-8';
         $this->assertEquals(
             '<meta charset="' . $charset . '">',
-            $this->transpiler->callViewFunction("charset", $charset)
+            $this->transpiler->callViewFunction('charset', $charset)
         );
     }
 
@@ -72,10 +72,10 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
      */
     public function testFaviconFunction()
     {
-        $path = "foo";
+        $path = 'foo';
         $this->assertEquals(
             '<link href="' . $path . '" rel="shortcut icon">',
-            $this->transpiler->callViewFunction("favicon", $path)
+            $this->transpiler->callViewFunction('favicon', $path)
         );
     }
 
@@ -84,11 +84,11 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
      */
     public function testHttpEquivFunction()
     {
-        $name = "refresh";
+        $name = 'refresh';
         $value = 30;
         $this->assertEquals(
             '<meta http-equiv="' . $name . '" content="' . $value . '">',
-            $this->transpiler->callViewFunction("httpEquiv", $name, $value)
+            $this->transpiler->callViewFunction('httpEquiv', $name, $value)
         );
     }
 
@@ -97,10 +97,10 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
      */
     public function testHttpMethodInput()
     {
-        $httpMethod = "PUT";
+        $httpMethod = 'PUT';
         $this->assertEquals(
             '<input type="hidden" name="_method" value="' . $httpMethod . '">',
-            $this->transpiler->callViewFunction("httpMethodInput", $httpMethod)
+            $this->transpiler->callViewFunction('httpMethodInput', $httpMethod)
         );
     }
 
@@ -109,10 +109,10 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
      */
     public function testMetaDescriptionFunction()
     {
-        $metaDescription = "A&W is a root beer";
+        $metaDescription = 'A&W is a root beer';
         $this->assertEquals(
             '<meta name="description" content="' . htmlentities($metaDescription) . '">',
-            $this->transpiler->callViewFunction("metaDescription", $metaDescription)
+            $this->transpiler->callViewFunction('metaDescription', $metaDescription)
         );
     }
 
@@ -121,10 +121,10 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
      */
     public function testMetaKeywordsFunction()
     {
-        $metaKeywords = ["A&W", "root beer"];
+        $metaKeywords = ['A&W', 'root beer'];
         $this->assertEquals(
-            '<meta name="keywords" content="' . implode(",", array_map("htmlentities", $metaKeywords)) . '">',
-            $this->transpiler->callViewFunction("metaKeywords", $metaKeywords)
+            '<meta name="keywords" content="' . implode(',', array_map('htmlentities', $metaKeywords)) . '">',
+            $this->transpiler->callViewFunction('metaKeywords', $metaKeywords)
         );
     }
 
@@ -136,7 +136,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
         // Test a single value
         $this->assertEquals(
             '<script type="text/javascript" src="foo"></script>',
-            $this->transpiler->callViewFunction("script", "foo")
+            $this->transpiler->callViewFunction('script', 'foo')
         );
 
         // Test multiple values
@@ -144,13 +144,13 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
             '<script type="text/javascript" src="foo"></script>' .
             PHP_EOL .
             '<script type="text/javascript" src="bar"></script>',
-            $this->transpiler->callViewFunction("script", ["foo", "bar"])
+            $this->transpiler->callViewFunction('script', ['foo', 'bar'])
         );
 
         // Test a single value with a type
         $this->assertEquals(
             '<script type="text/ecmascript" src="foo"></script>',
-            $this->transpiler->callViewFunction("script", "foo", "text/ecmascript")
+            $this->transpiler->callViewFunction('script', 'foo', 'text/ecmascript')
         );
 
         // Test multiple values with a type
@@ -158,7 +158,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
             '<script type="text/ecmascript" src="foo"></script>' .
             PHP_EOL .
             '<script type="text/ecmascript" src="bar"></script>',
-            $this->transpiler->callViewFunction("script", ["foo", "bar"], "text/ecmascript")
+            $this->transpiler->callViewFunction('script', ['foo', 'bar'], 'text/ecmascript')
         );
     }
 
@@ -167,10 +167,10 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
      */
     public function testTitleFunction()
     {
-        $title = "A&W";
+        $title = 'A&W';
         $this->assertEquals(
             '<title>' . htmlentities($title) . '</title>',
-            $this->transpiler->callViewFunction("pageTitle", $title)
+            $this->transpiler->callViewFunction('pageTitle', $title)
         );
     }
 }

@@ -16,9 +16,9 @@ use PDO;
 abstract class Query
 {
     /** @var string The name of the table we're querying */
-    protected $tableName = "";
+    protected $tableName = '';
     /** @var string The alias of the table we're querying */
-    protected $tableAlias = "";
+    protected $tableAlias = '';
     /** @var array The list of bound parameters */
     protected $parameters = [];
     /**
@@ -50,7 +50,7 @@ abstract class Query
     public function addNamedPlaceholderValue(string $placeholderName, $value, int $dataType = PDO::PARAM_STR) : self
     {
         if ($this->usingUnnamedPlaceholders === true) {
-            throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
+            throw new InvalidQueryException('Cannot mix unnamed placeholders with named placeholders');
         }
 
         $this->usingUnnamedPlaceholders = false;
@@ -75,7 +75,7 @@ abstract class Query
         foreach ($placeholderNamesToValues as $placeholderName => $value) {
             if (is_array($value)) {
                 if (count($value) !== 2) {
-                    throw new InvalidQueryException("Incorrect number of items in value array");
+                    throw new InvalidQueryException('Incorrect number of items in value array');
                 }
 
                 $this->addNamedPlaceholderValue($placeholderName, $value[0], $value[1]);
@@ -99,7 +99,7 @@ abstract class Query
     public function addUnnamedPlaceholderValue($value, int $dataType = PDO::PARAM_STR) : self
     {
         if ($this->usingUnnamedPlaceholders === false) {
-            throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
+            throw new InvalidQueryException('Cannot mix unnamed placeholders with named placeholders');
         }
 
         $this->usingUnnamedPlaceholders = true;
@@ -124,7 +124,7 @@ abstract class Query
         foreach ($placeholderValues as $value) {
             if (is_array($value)) {
                 if (count($value) !== 2) {
-                    throw new InvalidQueryException("Incorrect number of items in value array");
+                    throw new InvalidQueryException('Incorrect number of items in value array');
                 }
 
                 $this->addUnnamedPlaceholderValue($value[0], $value[1]);
@@ -156,7 +156,7 @@ abstract class Query
     public function removeNamedPlaceHolder(string $placeholderName) : self
     {
         if ($this->usingUnnamedPlaceholders === true) {
-            throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
+            throw new InvalidQueryException('Cannot mix unnamed placeholders with named placeholders');
         }
 
         unset($this->parameters[$placeholderName]);
@@ -174,7 +174,7 @@ abstract class Query
     public function removeUnnamedPlaceHolder(int $placeholderIndex) : self
     {
         if ($this->usingUnnamedPlaceholders === false) {
-            throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
+            throw new InvalidQueryException('Cannot mix unnamed placeholders with named placeholders');
         }
 
         unset($this->parameters[$placeholderIndex]);
@@ -190,7 +190,7 @@ abstract class Query
      * @param string $tableName The name of the table we're querying
      * @param string $tableAlias The table alias
      */
-    protected function setTable(string $tableName, string $tableAlias = "")
+    protected function setTable(string $tableName, string $tableAlias = '')
     {
         $this->tableName = $tableName;
         $this->tableAlias = $tableAlias;

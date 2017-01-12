@@ -61,7 +61,7 @@ class Statement implements IStatement
      */
     public function errorCode()
     {
-        return "";
+        return '';
     }
 
     /**
@@ -101,7 +101,7 @@ class Statement implements IStatement
      */
     public function fetchColumn($columnNumber = 0)
     {
-        return "";
+        return '';
     }
 
     /**

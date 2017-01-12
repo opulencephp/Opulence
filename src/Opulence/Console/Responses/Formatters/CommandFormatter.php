@@ -25,11 +25,11 @@ class CommandFormatter
      */
     public function format(ICommand $command) : string
     {
-        $text = $command->getName() . " ";
+        $text = $command->getName() . ' ';
 
         // Output the options
         foreach ($command->getOptions() as $option) {
-            $text .= $this->formatOption($option) . " ";
+            $text .= $this->formatOption($option) . ' ';
         }
 
         /** @var Argument[] $requiredArguments */
@@ -54,7 +54,7 @@ class CommandFormatter
 
         // Output the required arguments
         foreach ($requiredArguments as $argument) {
-            $text .= $argument->getName() . " ";
+            $text .= $argument->getName() . ' ';
         }
 
         // Output the optional arguments
@@ -78,8 +78,8 @@ class CommandFormatter
      */
     private function formatArrayArgument(Argument $argument) : string
     {
-        $arrayArgumentTextOne = $argument->getName() . "1";
-        $arrayArgumentTextN = $argument->getName() . "N";
+        $arrayArgumentTextOne = $argument->getName() . '1';
+        $arrayArgumentTextN = $argument->getName() . 'N';
 
         if ($argument->isOptional()) {
             $arrayArgumentTextOne = "[$arrayArgumentTextOne]";
@@ -100,14 +100,14 @@ class CommandFormatter
         $text = "[--{$option->getName()}";
 
         if ($option->valueIsOptional()) {
-            $text .= "=" . $option->getDefaultValue();
+            $text .= '=' . $option->getDefaultValue();
         }
 
         if ($option->getShortName() !== null) {
             $text .= "|-{$option->getShortName()}";
         }
 
-        $text .= "]";
+        $text .= ']';
 
         return $text;
     }

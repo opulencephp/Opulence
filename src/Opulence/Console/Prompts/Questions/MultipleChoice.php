@@ -18,7 +18,7 @@ class MultipleChoice extends Question
     /** @var array The list of choices */
     private $choices = [];
     /** @var string The string to display before the input */
-    private $answerLineString = "  > ";
+    private $answerLineString = '  > ';
     /** @var bool Whether or not to allow multiple choices */
     private $allowsMultipleChoices = false;
 
@@ -49,7 +49,7 @@ class MultipleChoice extends Question
      */
     public function choicesAreAssociative() : bool
     {
-        return count(array_filter(array_keys($this->choices), "is_string")) > 0;
+        return count(array_filter(array_keys($this->choices), 'is_string')) > 0;
     }
 
     /**
@@ -58,18 +58,18 @@ class MultipleChoice extends Question
     public function formatAnswer($answer)
     {
         $hasMultipleAnswers = false;
-        $answer = str_replace(" ", "", $answer);
+        $answer = str_replace(' ', '', $answer);
 
-        if (mb_strpos($answer, ",") === false) {
+        if (mb_strpos($answer, ',') === false) {
             // The answer is not a list of answers
             $answers = [$answer];
         } else {
             if (!$this->allowsMultipleChoices) {
-                throw new InvalidArgumentException("Multiple choices are not allowed");
+                throw new InvalidArgumentException('Multiple choices are not allowed');
             }
 
             $hasMultipleAnswers = true;
-            $answers = explode(",", $answer);
+            $answers = explode(',', $answer);
         }
 
         if ($this->choicesAreAssociative()) {
@@ -79,7 +79,7 @@ class MultipleChoice extends Question
         }
 
         if (count($selectedChoices) === 0) {
-            throw new InvalidArgumentException("Invalid choice");
+            throw new InvalidArgumentException('Invalid choice');
         }
 
         if ($hasMultipleAnswers) {
@@ -153,13 +153,13 @@ class MultipleChoice extends Question
 
         foreach ($answers as $answer) {
             if (!ctype_digit($answer)) {
-                throw new InvalidArgumentException("Answer is not an integer");
+                throw new InvalidArgumentException('Answer is not an integer');
             }
 
             $answer = (int)$answer;
 
             if ($answer < 1 || $answer > count($this->choices)) {
-                throw new InvalidArgumentException("Choice must be between 1 and " . count($this->choices));
+                throw new InvalidArgumentException('Choice must be between 1 and ' . count($this->choices));
             }
 
             // Answers are 1-indexed

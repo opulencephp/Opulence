@@ -19,9 +19,9 @@ class AlphaNumericRuleTest extends \PHPUnit\Framework\TestCase
     public function testFailingValue()
     {
         $rule = new AlphaNumericRule();
-        $this->assertFalse($rule->passes(""));
-        $this->assertFalse($rule->passes("."));
-        $this->assertFalse($rule->passes("a1 b"));
+        $this->assertFalse($rule->passes(''));
+        $this->assertFalse($rule->passes('.'));
+        $this->assertFalse($rule->passes('a1 b'));
     }
 
     /**
@@ -30,7 +30,7 @@ class AlphaNumericRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new AlphaNumericRule();
-        $this->assertEquals("alphaNumeric", $rule->getSlug());
+        $this->assertEquals('alphaNumeric', $rule->getSlug());
     }
 
     /**
@@ -39,9 +39,9 @@ class AlphaNumericRuleTest extends \PHPUnit\Framework\TestCase
     public function testPassingValue()
     {
         $rule = new AlphaNumericRule();
-        $this->assertTrue($rule->passes("1"));
-        $this->assertTrue($rule->passes("a"));
-        $this->assertTrue($rule->passes("a1"));
-        $this->assertTrue($rule->passes("1abc"));
+        $this->assertTrue($rule->passes('1'));
+        $this->assertTrue($rule->passes('a'));
+        $this->assertTrue($rule->passes('a1'));
+        $this->assertTrue($rule->passes('1abc'));
     }
 }

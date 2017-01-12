@@ -21,7 +21,7 @@ class DerivedKeysTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->derivedKeys = new DerivedKeys(str_repeat("1", 32), str_repeat("2", 32));
+        $this->derivedKeys = new DerivedKeys(str_repeat('1', 32), str_repeat('2', 32));
     }
 
     /**
@@ -29,7 +29,7 @@ class DerivedKeysTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAuthenticationKey()
     {
-        $this->assertEquals(str_repeat("2", 32), $this->derivedKeys->getAuthenticationKey());
+        $this->assertEquals(str_repeat('2', 32), $this->derivedKeys->getAuthenticationKey());
     }
 
     /**
@@ -37,6 +37,6 @@ class DerivedKeysTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingEncryptionKey()
     {
-        $this->assertEquals(str_repeat("1", 32), $this->derivedKeys->getEncryptionKey());
+        $this->assertEquals(str_repeat('1', 32), $this->derivedKeys->getEncryptionKey());
     }
 }

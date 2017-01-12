@@ -30,7 +30,7 @@ class SilentResponseTest extends \PHPUnit\Framework\TestCase
     public function testWrite()
     {
         ob_start();
-        $this->response->write("foo");
+        $this->response->write('foo');
         $this->assertEmpty(ob_get_clean());
     }
 
@@ -40,7 +40,7 @@ class SilentResponseTest extends \PHPUnit\Framework\TestCase
     public function testWriteln()
     {
         ob_start();
-        $this->response->writeln("foo");
+        $this->response->writeln('foo');
         $this->assertEmpty(ob_get_clean());
     }
 }

@@ -53,8 +53,8 @@ class UnsignedJwt implements IUnsignedToken
     {
         $unsignedValue = "{$this->header->encode()}.{$this->payload->encode()}";
 
-        if ($this->header->getAlgorithm() === "none") {
-            $unsignedValue .= ".";
+        if ($this->header->getAlgorithm() === 'none') {
+            $unsignedValue .= '.';
         }
 
         return $unsignedValue;

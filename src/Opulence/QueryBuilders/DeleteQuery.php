@@ -25,7 +25,7 @@ class DeleteQuery extends Query
      * @param string $tableName The name of the table we're querying
      * @param string $tableAlias The alias of the table we're querying
      */
-    public function __construct(string $tableName, string $tableAlias = "")
+    public function __construct(string $tableName, string $tableAlias = '')
     {
         $this->tableName = $tableName;
         $this->tableAlias = $tableAlias;
@@ -65,14 +65,14 @@ class DeleteQuery extends Query
      */
     public function getSql() : string
     {
-        $sql = "DELETE FROM {$this->tableName}" . (empty($this->tableAlias) ? "" : " AS {$this->tableAlias}");
+        $sql = "DELETE FROM {$this->tableName}" . (empty($this->tableAlias) ? '' : " AS {$this->tableAlias}");
 
         if (count($this->usingExpressions) > 0) {
-            $sql .= " USING " . implode(", ", $this->usingExpressions);
+            $sql .= ' USING ' . implode(', ', $this->usingExpressions);
         }
 
         // Add any conditions
-        $sql .= $this->conditionalQueryBuilder->getClauseConditionSql("WHERE",
+        $sql .= $this->conditionalQueryBuilder->getClauseConditionSql('WHERE',
             $this->conditionalQueryBuilder->getWhereConditions());
 
         return $sql;
@@ -140,7 +140,7 @@ class DeleteQuery extends Query
             } elseif (is_string($condition)) {
                 $conditionExpressions[] = $condition;
             } else {
-                throw new InvalidArgumentException("Condition must either be string or ICondition object");
+                throw new InvalidArgumentException('Condition must either be string or ICondition object');
             }
         }
 

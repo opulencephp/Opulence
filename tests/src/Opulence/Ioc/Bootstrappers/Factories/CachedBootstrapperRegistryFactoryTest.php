@@ -45,7 +45,7 @@ class CachedBootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $bootstrapperRegistry = new BootstrapperRegistry();
         $this->cache->expects($this->any())
-            ->method("get")
+            ->method('get')
             ->willReturn($bootstrapperRegistry);
         $this->assertSame($bootstrapperRegistry, $this->factory->createBootstrapperRegistry([]));
     }
@@ -59,19 +59,19 @@ class CachedBootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
         $bootstrapperObjects = [new Bootstrapper(), new BootstrapperWithEverything()];
         $lazyBootstrapperBindings = [
             LazyFooInterface::class => [
-                "bootstrapper" => BootstrapperWithEverything::class,
-                "target" => null
+                'bootstrapper' => BootstrapperWithEverything::class,
+                'target' => null
             ]
         ];
         $this->resolver->expects($this->any())
-            ->method("resolveMany")
+            ->method('resolveMany')
             ->with($bootstrapperClasses)
             ->willReturn($bootstrapperObjects);
         $this->cache->expects($this->any())
-            ->method("get")
+            ->method('get')
             ->willReturn(null);
         $this->cache->expects($this->any())
-            ->method("set")
+            ->method('set')
             ->with($this->callback(function (IBootstrapperRegistry $bootstrapperRegistry) use ($lazyBootstrapperBindings
             ) {
                 return $bootstrapperRegistry->getEagerBootstrappers() === [Bootstrapper::class]

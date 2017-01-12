@@ -155,7 +155,7 @@ class RequestBuilder
 
         foreach ($headers as $name => $value) {
             $name = strtoupper($name);
-            if (strpos($name, "HTTP_") === 0) {
+            if (strpos($name, 'HTTP_') === 0) {
                 $prefixedServerVars[$name] = $value;
             } else {
                 $prefixedServerVars["HTTP_$name"] = $value;
@@ -177,8 +177,8 @@ class RequestBuilder
     {
         $encodedJson = json_encode($json);
         $headers = [
-            "CONTENT_TYPE" => "application/json",
-            "CONTENT_LENGTH" => mb_strlen($encodedJson, "8bit")
+            'CONTENT_TYPE' => 'application/json',
+            'CONTENT_LENGTH' => mb_strlen($encodedJson, '8bit')
         ];
         $this->withRawBody($encodedJson);
         $this->addValuesToCollection($headers, $this->server, false);
@@ -253,11 +253,11 @@ class RequestBuilder
     private function validate()
     {
         if ($this->method === null) {
-            throw new InvalidArgumentException("Method not set in request builder");
+            throw new InvalidArgumentException('Method not set in request builder');
         }
 
         if ($this->url === null) {
-            throw new InvalidArgumentException("URL not set in request builder");
+            throw new InvalidArgumentException('URL not set in request builder');
         }
     }
 }

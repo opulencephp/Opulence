@@ -42,8 +42,8 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testMatchOnHttpWithInsecureRoute()
     {
-        $this->route->expects($this->any())->method("isSecure")->willReturn(false);
-        $this->request->expects($this->any())->method("isSecure")->willReturn(false);
+        $this->route->expects($this->any())->method('isSecure')->willReturn(false);
+        $this->request->expects($this->any())->method('isSecure')->willReturn(false);
         $this->assertTrue($this->matcher->isMatch($this->route, $this->request));
     }
 
@@ -52,8 +52,8 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testMatchOnHttpsWithSecureRoute()
     {
-        $this->route->expects($this->any())->method("isSecure")->willReturn(true);
-        $this->request->expects($this->any())->method("isSecure")->willReturn(true);
+        $this->route->expects($this->any())->method('isSecure')->willReturn(true);
+        $this->request->expects($this->any())->method('isSecure')->willReturn(true);
         $this->assertTrue($this->matcher->isMatch($this->route, $this->request));
     }
 
@@ -62,8 +62,8 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testNoMatchOnHttpWithSecureRoute()
     {
-        $this->route->expects($this->any())->method("isSecure")->willReturn(true);
-        $this->request->expects($this->any())->method("isSecure")->willReturn(false);
+        $this->route->expects($this->any())->method('isSecure')->willReturn(true);
+        $this->request->expects($this->any())->method('isSecure')->willReturn(false);
         $this->assertFalse($this->matcher->isMatch($this->route, $this->request));
     }
 }

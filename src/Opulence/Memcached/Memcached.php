@@ -25,13 +25,13 @@ class Memcached
     public function __construct($clients)
     {
         if (is_array($clients)) {
-            if (!isset($clients["default"])) {
+            if (!isset($clients['default'])) {
                 throw new InvalidArgumentException("Must specify a \"default\" client");
             }
 
             $this->clients = $clients;
         } else {
-            $this->clients["default"] = $clients;
+            $this->clients['default'] = $clients;
         }
     }
 
@@ -54,7 +54,7 @@ class Memcached
      * @return mixed The client
      * @throws InvalidArgumentException Thrown if no client with the input name exists
      */
-    public function getClient(string $name = "default")
+    public function getClient(string $name = 'default')
     {
         if (!isset($this->clients[$name])) {
             throw new InvalidArgumentException("No client with name \"$name\"");

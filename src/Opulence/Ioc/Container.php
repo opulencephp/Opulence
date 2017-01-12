@@ -35,7 +35,7 @@ class Container implements IContainer
      */
     public function __sleep()
     {
-        return "";
+        return '';
     }
 
     /**
@@ -53,7 +53,7 @@ class Container implements IContainer
                 $this->addBinding($interface, $binding);
             }
         } else {
-            throw new InvalidArgumentException("Interfaces must be string or array");
+            throw new InvalidArgumentException('Interfaces must be string or array');
         }
     }
 
@@ -72,7 +72,7 @@ class Container implements IContainer
                 $this->addBinding($interface, $binding);
             }
         } else {
-            throw new InvalidArgumentException("Interfaces must be string or array");
+            throw new InvalidArgumentException('Interfaces must be string or array');
         }
     }
 
@@ -89,7 +89,7 @@ class Container implements IContainer
                 $this->addBinding($interface, new ClassBinding($concreteClass ?? $interface, $primitives, false));
             }
         } else {
-            throw new InvalidArgumentException("Interfaces must be string or array");
+            throw new InvalidArgumentException('Interfaces must be string or array');
         }
     }
 
@@ -106,7 +106,7 @@ class Container implements IContainer
                 $this->addBinding($interface, new ClassBinding($concreteClass ?? $interface, $primitives, true));
             }
         } else {
-            throw new InvalidArgumentException("Interfaces must be string or array");
+            throw new InvalidArgumentException('Interfaces must be string or array');
         }
     }
 
@@ -128,7 +128,7 @@ class Container implements IContainer
     {
         if (!method_exists($instance, $methodName)) {
             if (!$ignoreMissingMethod) {
-                throw new IocException("Cannot call method");
+                throw new IocException('Cannot call method');
             }
 
             return null;
@@ -289,9 +289,9 @@ class Container implements IContainer
                 if (!$reflectionClass->isInstantiable()) {
                     throw new IocException(
                         sprintf(
-                            "%s is not instantiable%s",
+                            '%s is not instantiable%s',
                             $class,
-                            $this->currentTarget === null ? "" : " (dependency of {$this->currentTarget})"
+                            $this->currentTarget === null ? '' : " (dependency of {$this->currentTarget})"
                         )
                     );
                 }
@@ -380,7 +380,7 @@ class Container implements IContainer
             return $parameter->getDefaultValue();
         }
 
-        throw new IocException(sprintf("No default value available for %s in %s::%s()",
+        throw new IocException(sprintf('No default value available for %s in %s::%s()',
             $parameter->getName(),
             $parameter->getDeclaringClass()->getName(),
             $parameter->getDeclaringFunction()->getName()

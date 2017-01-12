@@ -34,11 +34,11 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
         /** @var IPrincipal|\PHPUnit_Framework_MockObject_MockObject $principal */
         $principal = $this->createMock(IPrincipal::class);
         $principal->expects($this->any())
-            ->method("getRoles")
-            ->willReturn(["foo"]);
+            ->method('getRoles')
+            ->willReturn(['foo']);
         $this->subject->addPrincipal($principal);
-        $this->assertTrue($this->subject->hasRole("foo"));
-        $this->assertFalse($this->subject->hasRole("bar"));
+        $this->assertTrue($this->subject->hasRole('foo'));
+        $this->assertFalse($this->subject->hasRole('bar'));
     }
 
     /**
@@ -76,10 +76,10 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     {
         /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
         $credential = $this->createMock(ICredential::class);
-        $credential->method("getType")
-            ->willReturn("foo");
+        $credential->method('getType')
+            ->willReturn('foo');
         $this->subject->addCredential($credential);
-        $this->assertSame($credential, $this->subject->getCredential("foo"));
+        $this->assertSame($credential, $this->subject->getCredential('foo'));
         $this->assertEquals([$credential], $this->subject->getCredentials());
     }
 
@@ -90,10 +90,10 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     {
         /** @var IPrincipal|\PHPUnit_Framework_MockObject_MockObject $principal */
         $principal = $this->createMock(IPrincipal::class);
-        $principal->method("getType")
-            ->willReturn("foo");
+        $principal->method('getType')
+            ->willReturn('foo');
         $this->subject->addPrincipal($principal);
-        $this->assertSame($principal, $this->subject->getPrincipal("foo"));
+        $this->assertSame($principal, $this->subject->getPrincipal('foo'));
         $this->assertEquals([$principal], $this->subject->getPrincipals());
     }
 
@@ -104,7 +104,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     {
         /** @var IPrincipal|\PHPUnit_Framework_MockObject_MockObject $principal */
         $principal = $this->createMock(IPrincipal::class);
-        $principal->method("getType")
+        $principal->method('getType')
             ->willReturn(PrincipalTypes::PRIMARY);
         $this->subject->addPrincipal($principal);
         $this->assertSame($principal, $this->subject->getPrimaryPrincipal());
@@ -120,22 +120,22 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
         /** @var IPrincipal|\PHPUnit_Framework_MockObject_MockObject $principal1 */
         $principal1 = $this->createMock(IPrincipal::class);
         $principal1->expects($this->any())
-            ->method("getRoles")
-            ->willReturn(["foo"]);
+            ->method('getRoles')
+            ->willReturn(['foo']);
         $principal1->expects($this->any())
-            ->method("getType")
-            ->willReturn("one");
+            ->method('getType')
+            ->willReturn('one');
         /** @var IPrincipal|\PHPUnit_Framework_MockObject_MockObject $principal2 */
         $principal2 = $this->createMock(IPrincipal::class);
         $principal2->expects($this->any())
-            ->method("getRoles")
-            ->willReturn(["bar"]);
+            ->method('getRoles')
+            ->willReturn(['bar']);
         $principal2->expects($this->any())
-            ->method("getType")
-            ->willReturn("two");
+            ->method('getType')
+            ->willReturn('two');
         $this->subject->addPrincipal($principal1);
         $this->subject->addPrincipal($principal2);
-        $this->assertEquals(["foo", "bar"], $this->subject->getRoles());
+        $this->assertEquals(['foo', 'bar'], $this->subject->getRoles());
     }
 
     /**
@@ -143,7 +143,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
      */
     public function testNullReturnedWithNoCredential()
     {
-        $this->assertNull($this->subject->getCredential("foo"));
+        $this->assertNull($this->subject->getCredential('foo'));
     }
 
     /**
@@ -151,7 +151,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
      */
     public function testNullReturnedWithNoPrincipal()
     {
-        $this->assertNull($this->subject->getPrincipal("foo"));
+        $this->assertNull($this->subject->getPrincipal('foo'));
         $this->assertNull($this->subject->getPrimaryPrincipal());
     }
 }

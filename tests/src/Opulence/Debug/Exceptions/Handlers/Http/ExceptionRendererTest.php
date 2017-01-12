@@ -53,14 +53,14 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     public function testJsonHeadersSet()
     {
         $this->renderer = new MockRenderer(false);
-        $this->renderer->setRequestFormat("json");
-        $ex = new Exception("foo");
+        $this->renderer->setRequestFormat('json');
+        $ex = new Exception('foo');
         ob_start();
         $this->renderer->render($ex);
         $contents = ob_get_clean();
-        $this->assertTrue($this->hasHeaderString($contents, "HTTP/1.1 500"));
-        $this->assertTrue($this->hasHeaderString($contents, "Content-Type:application/json"));
-        $this->assertEquals("Something went wrong", $this->getContentWithoutHeaders($contents));
+        $this->assertTrue($this->hasHeaderString($contents, 'HTTP/1.1 500'));
+        $this->assertTrue($this->hasHeaderString($contents, 'Content-Type:application/json'));
+        $this->assertEquals('Something went wrong', $this->getContentWithoutHeaders($contents));
     }
 
     /**
@@ -68,11 +68,11 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
      */
     public function testRenderingExceptionWithoutViewInDevelopmentEnvironment()
     {
-        $ex = new Exception("foo");
+        $ex = new Exception('foo');
         ob_start();
         $this->renderer->render($ex);
         $contents = ob_get_clean();
-        $this->assertTrue($this->hasHeaderString($contents, "HTTP/1.1 500"));
+        $this->assertTrue($this->hasHeaderString($contents, 'HTTP/1.1 500'));
         $this->assertEquals($ex->getMessage(), $this->getContentWithoutHeaders($contents));
     }
 
@@ -82,12 +82,12 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     public function testRenderingExceptionWithoutViewInProductionEnvironment()
     {
         $this->renderer = new MockRenderer(false);
-        $ex = new Exception("foo");
+        $ex = new Exception('foo');
         ob_start();
         $this->renderer->render($ex);
         $contents = ob_get_clean();
-        $this->assertTrue($this->hasHeaderString($contents, "HTTP/1.1 500"));
-        $this->assertEquals("Something went wrong", $this->getContentWithoutHeaders($contents));
+        $this->assertTrue($this->hasHeaderString($contents, 'HTTP/1.1 500'));
+        $this->assertEquals('Something went wrong', $this->getContentWithoutHeaders($contents));
     }
 
     /**
@@ -98,7 +98,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
      */
     private function getContentWithoutHeaders($rawContents)
     {
-        return preg_replace("/header::.*\\$\\$/", "", $rawContents);
+        return preg_replace("/header::.*\\$\\$/", '', $rawContents);
     }
 
     /**

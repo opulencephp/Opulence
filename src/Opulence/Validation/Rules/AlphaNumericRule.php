@@ -18,7 +18,7 @@ class AlphaNumericRule implements IRule
      */
     public function getSlug() : string
     {
-        return "alphaNumeric";
+        return 'alphaNumeric';
     }
 
     /**
@@ -26,6 +26,6 @@ class AlphaNumericRule implements IRule
      */
     public function passes($value, array $allValues = []) : bool
     {
-        return ctype_alnum($value) && strpos($value, " ") === false;
+        return ctype_alnum($value) && strpos($value, ' ') === false;
     }
 }

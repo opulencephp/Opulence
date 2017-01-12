@@ -37,25 +37,25 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->getMockBuilder(IView::class)
             ->disableOriginalConstructor()
-            ->setMockClassName("MockView")
+            ->setMockClassName('MockView')
             ->getMock();
         $view->expects($this->any())
-            ->method("getContents")
-            ->willReturn("foo");
+            ->method('getContents')
+            ->willReturn('foo');
         $view->expects($this->any())
-            ->method("getVars")
+            ->method('getVars')
             ->willReturn([]);
         /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $compiler */
         $compiler = $this->createMock(ICompiler::class);
         $compiler->expects($this->once())
-            ->method("compile")
+            ->method('compile')
             ->with($view)
-            ->willReturn("bar");
+            ->willReturn('bar');
         $this->registry->expects($this->once())
-            ->method("getCompiler")
+            ->method('getCompiler')
             ->with($view)
             ->willReturn($compiler);
-        $this->registry->registerCompiler("MockView", $compiler);
+        $this->registry->registerCompiler('MockView', $compiler);
         $this->compiler->compile($view);
     }
 }

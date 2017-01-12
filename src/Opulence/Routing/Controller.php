@@ -43,7 +43,7 @@ class Controller
         $response = $this->$methodName(...$parameters);
 
         if ($response === null || is_string($response)) {
-            $response = new Response($response === null ? "" : $response);
+            $response = new Response($response === null ? '' : $response);
 
             if ($this->viewCompiler instanceof ICompiler && $this->view !== null) {
                 $response->setContent($this->viewCompiler->compile($this->view));

@@ -14,15 +14,15 @@ namespace Opulence\Tests\Ioc\Mocks;
 class ConstructorWithDefaultValuePrimitives
 {
     /** @var string A primitive stored by this class */
-    private $foo = "";
+    private $foo = '';
     /** @var string A primitive stored by this class */
-    private $bar = "";
+    private $bar = '';
 
     /**
      * @param string $foo A primitive to store in this class
      * @param string $bar A primitive to store in this class
      */
-    public function __construct($foo, $bar = "bar")
+    public function __construct($foo, $bar = 'bar')
     {
         $this->foo = $foo;
         $this->bar = $bar;
