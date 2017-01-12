@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\Providers\Types;
 
 use DateTime;
@@ -13,7 +15,7 @@ use Opulence\Databases\Providers\Provider;
 use RuntimeException;
 
 /**
- * Tests the type mapper class
+ * Tests the type mapper class.
  */
 class TypeMapperTest extends \PHPUnit\Framework\TestCase
 {
@@ -25,7 +27,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     private $provider = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -35,7 +37,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from a null date returns null
+     * Tests converting from a null date returns null.
      */
     public function testConvertingDateFromNullReturnsNull()
     {
@@ -44,7 +46,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from a false SQL boolean
+     * Tests converting from a false SQL boolean.
      */
     public function testConvertingFromFalseSqlBoolean()
     {
@@ -54,7 +56,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from an invalid SQL timestamp without time zone
+     * Tests converting from an invalid SQL timestamp without time zone.
      */
     public function testConvertingFromInvalidSqlTimestampWithoutTimeZone()
     {
@@ -76,7 +78,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from an SQL date
+     * Tests converting from an SQL date.
      */
     public function testConvertingFromSqlDate()
     {
@@ -99,7 +101,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from an SQL time with time zone
+     * Tests converting from an SQL time with time zone.
      */
     public function testConvertingFromSqlTimeWithTimeZone()
     {
@@ -118,7 +120,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from an SQL time without time zone
+     * Tests converting from an SQL time without time zone.
      */
     public function testConvertingFromSqlTimeWithoutTimeZone()
     {
@@ -143,7 +145,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from an SQL timestamp with time zone
+     * Tests converting from an SQL timestamp with time zone.
      */
     public function testConvertingFromSqlTimestampWithTimeZone()
     {
@@ -166,7 +168,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from an SQL timestamp without time zone
+     * Tests converting from an SQL timestamp without time zone.
      */
     public function testConvertingFromSqlTimestampWithoutTimeZone()
     {
@@ -190,7 +192,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from a true SQL boolean
+     * Tests converting from a true SQL boolean.
      */
     public function testConvertingFromTrueSqlBoolean()
     {
@@ -200,7 +202,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting JSON from null
+     * Tests converting JSON from null.
      */
     public function testConvertingJsonFromNull()
     {
@@ -209,15 +211,15 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from SQL JSON
+     * Tests converting from SQL JSON.
      */
     public function testConvertingJsonFromSql()
     {
         $jsonArray = [
             'foo' => 'bar',
             'baz' => [
-                'blah' => 'dave'
-            ]
+                'blah' => 'dave',
+            ],
         ];
         $jsonString = json_encode($jsonArray);
         $this->assertEquals($jsonArray, $this->typeMapperWithNoProvider->fromSqlJson($jsonString, $this->provider));
@@ -225,7 +227,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from a null time with time zone returns null
+     * Tests converting from a null time with time zone returns null.
      */
     public function testConvertingTimeWithTimeZoneFromNullReturnsNull()
     {
@@ -234,7 +236,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from a null time without time zone returns null
+     * Tests converting from a null time without time zone returns null.
      */
     public function testConvertingTimeWithoutTimeZoneFromNullReturnsNull()
     {
@@ -243,7 +245,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from a null timestamp with timezone returns null
+     * Tests converting from a null timestamp with timezone returns null.
      */
     public function testConvertingTimestampWithTimeZoneFromNullReturnsNull()
     {
@@ -252,7 +254,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from a null timestamp without time zone returns null
+     * Tests converting from a null timestamp without time zone returns null.
      */
     public function testConvertingTimestampWithoutTimeZoneFromNullReturnsNull()
     {
@@ -261,7 +263,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to a false SQL boolean
+     * Tests converting to a false SQL boolean.
      */
     public function testConvertingToFalseSqlBoolean()
     {
@@ -270,7 +272,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to an SQL date
+     * Tests converting to an SQL date.
      */
     public function testConvertingToSqlDate()
     {
@@ -282,15 +284,15 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to SQL JSON
+     * Tests converting to SQL JSON.
      */
     public function testConvertingToSqlJson()
     {
         $jsonArray = [
             'foo' => 'bar',
             'baz' => [
-                'blah' => 'dave'
-            ]
+                'blah' => 'dave',
+            ],
         ];
         $jsonString = json_encode($jsonArray);
         $this->assertEquals($jsonString, $this->typeMapperWithNoProvider->toSqlJson($jsonArray, $this->provider));
@@ -298,7 +300,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to an SQL time with time zone
+     * Tests converting to an SQL time with time zone.
      */
     public function testConvertingToSqlTimeWithTimeZone()
     {
@@ -310,7 +312,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to an SQL time without time zone
+     * Tests converting to an SQL time without time zone.
      */
     public function testConvertingToSqlTimeWithoutTimeZone()
     {
@@ -322,7 +324,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to an SQL timestamp with time zone
+     * Tests converting to an SQL timestamp with time zone.
      */
     public function testConvertingToSqlTimestampWithTimeZone()
     {
@@ -334,7 +336,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to an SQL timestamp without time zone
+     * Tests converting to an SQL timestamp without time zone.
      */
     public function testConvertingToSqlTimestampWithoutTimeZone()
     {
@@ -346,7 +348,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to a true SQL boolean
+     * Tests converting to a true SQL boolean.
      */
     public function testConvertingToTrueSqlBoolean()
     {
@@ -355,7 +357,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not setting any providers
+     * Tests not setting any providers.
      */
     public function testNotSettingAnyProviders()
     {

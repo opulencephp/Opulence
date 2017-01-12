@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Sessions\Handlers;
 
 /**
- * Defines the file session handler
+ * Defines the file session handler.
  */
 class FileSessionHandler extends SessionHandler
 {
@@ -25,7 +27,7 @@ class FileSessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function close() : bool
     {
@@ -33,7 +35,7 @@ class FileSessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function destroy($sessionId) : bool
     {
@@ -43,11 +45,11 @@ class FileSessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function gc($maxLifetime) : bool
     {
-        $sessionFiles = glob($this->path . '/*', GLOB_NOSORT);
+        $sessionFiles = glob($this->path.'/*', GLOB_NOSORT);
 
         $limit = time() - $maxLifetime;
         foreach ($sessionFiles as $sessionFile) {
@@ -61,7 +63,7 @@ class FileSessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function open($savePath, $sessionId) : bool
     {
@@ -69,7 +71,7 @@ class FileSessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doRead(string $sessionId) : string
     {
@@ -81,7 +83,7 @@ class FileSessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doWrite(string $sessionId, string $sessionData) : bool
     {

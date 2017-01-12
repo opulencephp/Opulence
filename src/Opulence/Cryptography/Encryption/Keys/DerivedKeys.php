@@ -1,16 +1,18 @@
 <?php
 
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cryptography\Encryption\Keys;
 
 /**
- * Defines encryption and authentication keys that are derived from a user-supplied password
+ * Defines encryption and authentication keys that are derived from a user-supplied password.
  */
 class DerivedKeys
 {
@@ -20,7 +22,7 @@ class DerivedKeys
     private $authenticationKey = '';
 
     /**
-     * @param string $encryptionKey The encryption key
+     * @param string $encryptionKey     The encryption key
      * @param string $authenticationKey The authentication key
      */
     public function __construct(string $encryptionKey, string $authenticationKey)

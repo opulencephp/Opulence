@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Databases\Adapters\Pdo\Mocks;
 
 use Opulence\Databases\Adapters\Pdo\Statement as BaseStatement;
 use PDO;
 
 /**
- * Mocks the PDO statement for use in testing
+ * Mocks the PDO statement for use in testing.
  */
 class Statement extends BaseStatement
 {
@@ -22,8 +24,8 @@ class Statement extends BaseStatement
     }
 
     /**
-     * @inheritdoc
-     * We have to mock this because attempting to bind a value to an unopened connection will always fail
+     * {@inheritdoc}
+     * We have to mock this because attempting to bind a value to an unopened connection will always fail.
      */
     public function bindValues(array $values)
     {

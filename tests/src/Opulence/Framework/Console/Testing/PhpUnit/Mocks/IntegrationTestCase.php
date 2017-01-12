@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Framework\Console\Testing\PhpUnit\Mocks;
 
 use Opulence\Applications\Application;
@@ -28,7 +30,7 @@ use Opulence\Routing\Routes\Caching\ICache as RouteCache;
 use Opulence\Views\Caching\ICache as ViewCache;
 
 /**
- * Mocks the console integration test for use in testing
+ * Mocks the console integration test for use in testing.
  */
 class IntegrationTestCase extends BaseIntegrationTestCase
 {
@@ -47,7 +49,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     }
 
     /**
-     * Gets the response assertions for use in testing
+     * Gets the response assertions for use in testing.
      *
      * @return ResponseAssertions The response assertions
      */
@@ -57,14 +59,14 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     }
 
     /**
-     * Sets up the application and container
+     * Sets up the application and container.
      */
     public function setUp()
     {
         Config::setCategory('paths', [
-            'configs' => realpath(__DIR__ . '/../../configs'),
-            'root' => realpath(__DIR__ . '/../../../../../..'),
-            'src' => realpath(__DIR__ . '/../../../../../../src')
+            'configs' => realpath(__DIR__.'/../../configs'),
+            'root'    => realpath(__DIR__.'/../../../../../..'),
+            'src'     => realpath(__DIR__.'/../../../../../../src'),
         ]);
         // Create and bind all of the components of our application
         $taskDispatcher = new TaskDispatcher();

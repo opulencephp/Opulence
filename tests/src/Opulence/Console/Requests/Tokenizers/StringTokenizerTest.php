@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests\Tokenizers;
 
 use RuntimeException;
 
 /**
- * Tests the string tokenizer
+ * Tests the string tokenizer.
  */
 class StringTokenizerTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class StringTokenizerTest extends \PHPUnit\Framework\TestCase
     private $tokenizer = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,7 +29,7 @@ class StringTokenizerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests tokenizing an argument and option with space around it
+     * Tests tokenizing an argument and option with space around it.
      */
     public function testTokenizingArgumentAndOptionWithSpaceAroundIt()
     {
@@ -35,12 +37,12 @@ class StringTokenizerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([
             'foo',
             "' dave '",
-            "--last=' young '"
+            "--last=' young '",
         ], $tokens);
     }
 
     /**
-     * Tests tokenizing a double quote inside single quotes
+     * Tests tokenizing a double quote inside single quotes.
      */
     public function testTokenizingDoubleQuoteInsideSingleQuotes()
     {
@@ -54,7 +56,7 @@ class StringTokenizerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests tokenizing option value with space in it
+     * Tests tokenizing option value with space in it.
      */
     public function testTokenizingOptionValueWithSpace()
     {
@@ -62,12 +64,12 @@ class StringTokenizerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([
             'foo',
             '--name',
-            "'dave young'"
+            "'dave young'",
         ], $tokens);
     }
 
     /**
-     * Tests tokenizing a single quote inside double quotes
+     * Tests tokenizing a single quote inside double quotes.
      */
     public function testTokenizingSingleQuoteInsideDoubleQuotes()
     {
@@ -76,12 +78,12 @@ class StringTokenizerTest extends \PHPUnit\Framework\TestCase
             'foo',
             "\"'foo bar'\"",
             '--quote',
-            "\"'Dave is cool'\""
+            "\"'Dave is cool'\"",
         ], $tokens);
     }
 
     /**
-     * Tests tokenizing an unclosed double quote
+     * Tests tokenizing an unclosed double quote.
      */
     public function testTokenizingUnclosedDoubleQuote()
     {
@@ -90,7 +92,7 @@ class StringTokenizerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests tokenizing an unclosed single quote
+     * Tests tokenizing an unclosed single quote.
      */
     public function testTokenizingUnclosedSingleQuote()
     {
@@ -99,7 +101,7 @@ class StringTokenizerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests tokenizing with extra spaces between tokens
+     * Tests tokenizing with extra spaces between tokens.
      */
     public function testTokenizingWithExtraSpacesBetweenTokens()
     {
@@ -108,7 +110,7 @@ class StringTokenizerTest extends \PHPUnit\Framework\TestCase
             'foo',
             'bar',
             "--name='dave   young'",
-            '-r'
+            '-r',
         ], $tokens);
     }
 }

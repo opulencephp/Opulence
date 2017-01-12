@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\Providers;
 
 /**
- * Tests the PostgreSQL provider class
+ * Tests the PostgreSQL provider class.
  */
 class PostgreSqlProviderTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class PostgreSqlProviderTest extends \PHPUnit\Framework\TestCase
     private $provider = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class PostgreSqlProviderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from a null SQL boolean
+     * Tests converting from a null SQL boolean.
      */
     public function testConvertingFromNullSqlBoolean()
     {
@@ -33,7 +35,7 @@ class PostgreSqlProviderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from an SQL boolean
+     * Tests converting from an SQL boolean.
      */
     public function testConvertingFromSqlBoolean()
     {
@@ -43,7 +45,7 @@ class PostgreSqlProviderTest extends \PHPUnit\Framework\TestCase
             '1',
             'y',
             'yes',
-            'on'
+            'on',
         ];
         $falseBooleanValues = [
             'f',
@@ -51,7 +53,7 @@ class PostgreSqlProviderTest extends \PHPUnit\Framework\TestCase
             '0',
             'n',
             'no',
-            'off'
+            'off',
         ];
 
         foreach ($trueBooleanValues as $value) {
@@ -64,7 +66,7 @@ class PostgreSqlProviderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to an SQL boolean
+     * Tests converting to an SQL boolean.
      */
     public function testConvertingToSqlBoolean()
     {

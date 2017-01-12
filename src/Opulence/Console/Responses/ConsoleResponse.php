@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses;
 
 use Opulence\Console\Responses\Compilers\ICompiler;
 
 /**
- * Defines the console response
+ * Defines the console response.
  */
 class ConsoleResponse extends StreamResponse
 {
@@ -24,10 +26,10 @@ class ConsoleResponse extends StreamResponse
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function clear()
     {
-        $this->write(chr(27) . '[2J' . chr(27) . '[;H');
+        $this->write(chr(27).'[2J'.chr(27).'[;H');
     }
 }

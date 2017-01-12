@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation;
 
 use Opulence\Validation\Rules\Errors\ErrorCollection;
@@ -13,7 +15,7 @@ use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Rules\Rules;
 
 /**
- * Defines the validator
+ * Defines the validator.
  */
 class Validator implements IValidator
 {
@@ -34,7 +36,7 @@ class Validator implements IValidator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function field(string $name) : Rules
     {
@@ -46,7 +48,7 @@ class Validator implements IValidator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getErrors() : ErrorCollection
     {
@@ -54,7 +56,7 @@ class Validator implements IValidator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isValid(array $allValues, bool $haltFieldValidationOnFailure = false) : bool
     {

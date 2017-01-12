@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Requests;
 
 use InvalidArgumentException;
@@ -14,7 +16,7 @@ use Opulence\Http\Headers;
 use RuntimeException;
 
 /**
- * Defines an HTTP request
+ * Defines an HTTP request.
  */
 class Request
 {
@@ -29,17 +31,17 @@ class Request
         RequestMethods::PURGE,
         RequestMethods::CONNECT,
         RequestMethods::PATCH,
-        RequestMethods::OPTIONS
+        RequestMethods::OPTIONS,
     ];
     /** @var array The list of trusted proxy Ips */
     private static $trustedProxies = [];
     /** @var array The list of trusted headers */
     private static $trustedHeaderNames = [
-        RequestHeaders::FORWARDED => 'FORWARDED',
-        RequestHeaders::CLIENT_IP => 'X_FORWARDED_FOR',
-        RequestHeaders::CLIENT_HOST => 'X_FORWARDED_HOST',
-        RequestHeaders::CLIENT_PORT => 'X_FORWARDED_PORT',
-        RequestHeaders::CLIENT_PROTO => 'X_FORWARDED_PROTO'
+        RequestHeaders::FORWARDED    => 'FORWARDED',
+        RequestHeaders::CLIENT_IP    => 'X_FORWARDED_FOR',
+        RequestHeaders::CLIENT_HOST  => 'X_FORWARDED_HOST',
+        RequestHeaders::CLIENT_PORT  => 'X_FORWARDED_PORT',
+        RequestHeaders::CLIENT_PROTO => 'X_FORWARDED_PROTO',
     ];
     /** @var string The method used in the request */
     private $method = '';
@@ -73,12 +75,12 @@ class Request
     private $rawBody = null;
 
     /**
-     * @param array $query The GET parameters
-     * @param array $post The POST parameters
-     * @param array $cookies The COOKIE parameters
-     * @param array $server The SERVER parameters
-     * @param array $files The FILES parameters
-     * @param array $env The ENV parameters
+     * @param array       $query   The GET parameters
+     * @param array       $post    The POST parameters
+     * @param array       $cookies The COOKIE parameters
+     * @param array       $server  The SERVER parameters
+     * @param array       $files   The FILES parameters
+     * @param array       $env     The ENV parameters
      * @param string|null $rawBody The raw body
      */
     public function __construct(
@@ -109,15 +111,16 @@ class Request
     }
 
     /**
-     * Creates an instance of this class using the PHP globals
+     * Creates an instance of this class using the PHP globals.
      *
-     * @param array|null $query The GET parameters, or null if using the globals
-     * @param array|null $post The POST parameters, or null if using the globals
-     * @param array|null $cookies The COOKIE parameters, or null if using the globals
-     * @param array|null $server The SERVER parameters, or null if using the globals
-     * @param array|null $files The FILES parameters, or null if using the globals
-     * @param array|null $env The ENV parameters, or null if using the globals
+     * @param array|null  $query   The GET parameters, or null if using the globals
+     * @param array|null  $post    The POST parameters, or null if using the globals
+     * @param array|null  $cookies The COOKIE parameters, or null if using the globals
+     * @param array|null  $server  The SERVER parameters, or null if using the globals
+     * @param array|null  $files   The FILES parameters, or null if using the globals
+     * @param array|null  $env     The ENV parameters, or null if using the globals
      * @param string|null $rawBody The raw body
+     *
      * @return Request An instance of this class
      */
     public static function createFromGlobals(
@@ -149,16 +152,17 @@ class Request
     }
 
     /**
-     * Creates an instance of this class from a URL
+     * Creates an instance of this class from a URL.
      *
-     * @param string $url The URL
-     * @param string $method The HTTP method
-     * @param array $parameters The parameters (will be bound to query if GET request, otherwise bound to post)
-     * @param array $cookies The COOKIE parameters
-     * @param array $server The SERVER parameters
-     * @param UploadedFile[] $files The list of uploaded files
-     * @param array $env The ENV parameters
-     * @param string|null $rawBody The raw body
+     * @param string         $url        The URL
+     * @param string         $method     The HTTP method
+     * @param array          $parameters The parameters (will be bound to query if GET request, otherwise bound to post)
+     * @param array          $cookies    The COOKIE parameters
+     * @param array          $server     The SERVER parameters
+     * @param UploadedFile[] $files      The list of uploaded files
+     * @param array          $env        The ENV parameters
+     * @param string|null    $rawBody    The raw body
+     *
      * @return Request An instance of this class
      */
     public static function createFromUrl(
@@ -174,14 +178,14 @@ class Request
         // Define some basic server vars, but override them with with input on collision
         $server = array_replace(
             [
-                'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                'HTTP_HOST' => 'localhost',
-                'REMOTE_ADDR' => '127.0.01',
+                'HTTP_ACCEPT'     => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'HTTP_HOST'       => 'localhost',
+                'REMOTE_ADDR'     => '127.0.01',
                 'SCRIPT_FILENAME' => '',
-                'SCRIPT_NAME' => '',
-                'SERVER_NAME' => 'localhost',
-                'SERVER_PORT' => 80,
-                'SERVER_PROTOCOL' => 'HTTP/1.1'
+                'SCRIPT_NAME'     => '',
+                'SERVER_NAME'     => 'localhost',
+                'SERVER_PORT'     => 80,
+                'SERVER_PROTOCOL' => 'HTTP/1.1',
             ],
             $server
         );
@@ -241,10 +245,10 @@ class Request
         foreach ($files as $file) {
             $parsedFiles[] = [
                 'tmp_name' => $file->getFilename(),
-                'name' => $file->getTempFilename(),
-                'size' => $file->getTempSize(),
-                'type' => $file->getTempMimeType(),
-                'error' => $file->getError()
+                'name'     => $file->getTempFilename(),
+                'size'     => $file->getTempSize(),
+                'type'     => $file->getTempMimeType(),
+                'error'    => $file->getError(),
             ];
         }
 
@@ -252,10 +256,10 @@ class Request
     }
 
     /**
-     * Sets a trusted header name
+     * Sets a trusted header name.
      *
-     * @param string $name The name of the header
-     * @param mixed $value The value of the header
+     * @param string $name  The name of the header
+     * @param mixed  $value The value of the header
      */
     public static function setTrustedHeaderName(string $name, $value)
     {
@@ -263,17 +267,17 @@ class Request
     }
 
     /**
-     * Sets the list of trusted proxy Ips
+     * Sets the list of trusted proxy Ips.
      *
      * @param array|string $trustedProxies The list of trusted proxies
      */
     public static function setTrustedProxies($trustedProxies)
     {
-        self::$trustedProxies = (array)$trustedProxies;
+        self::$trustedProxies = (array) $trustedProxies;
     }
 
     /**
-     * Clones the objects in the request
+     * Clones the objects in the request.
      */
     public function __clone()
     {
@@ -330,16 +334,17 @@ class Request
     }
 
     /**
-     * Gets the full URL for the current request
+     * Gets the full URL for the current request.
      *
      * @return string The full URL
+     *
      * @link http://stackoverflow.com/questions/6768793/get-the-full-url-in-php#answer-8891890
      */
     public function getFullUrl() : string
     {
         $isSecure = $this->isSecure();
         $rawProtocol = strtolower($this->server->get('SERVER_PROTOCOL'));
-        $parsedProtocol = substr($rawProtocol, 0, strpos($rawProtocol, '/')) . ($isSecure ? 's' : '');
+        $parsedProtocol = substr($rawProtocol, 0, strpos($rawProtocol, '/')).($isSecure ? 's' : '');
         $port = $this->getPort();
         $host = $this->getHost();
 
@@ -350,7 +355,7 @@ class Request
             $port = '';
         }
 
-        return $parsedProtocol . '://' . $host . $port . $this->server->get('REQUEST_URI');
+        return $parsedProtocol.'://'.$host.$port.$this->server->get('REQUEST_URI');
     }
 
     /**
@@ -362,10 +367,11 @@ class Request
     }
 
     /**
-     * Gets the host name
+     * Gets the host name.
+     *
+     * @throws InvalidArgumentException Thrown if the host was invalid
      *
      * @return string The host
-     * @throws InvalidArgumentException Thrown if the host was invalid
      */
     public function getHost() : string
     {
@@ -402,10 +408,11 @@ class Request
     }
 
     /**
-     * Gets the input from either GET or POST data
+     * Gets the input from either GET or POST data.
      *
-     * @param string $name The name of the input to get
+     * @param string     $name    The name of the input to get
      * @param null|mixed $default The default value to return if the input could not be found
+     *
      * @return mixed The value of the input if it was found, otherwise the default value
      */
     public function getInput(string $name, $default = null)
@@ -448,10 +455,11 @@ class Request
     }
 
     /**
-     * Gets the raw body as a JSON array
+     * Gets the raw body as a JSON array.
+     *
+     * @throws RuntimeException Thrown if the body could not be decoded
      *
      * @return array The JSON-decoded body
-     * @throws RuntimeException Thrown if the body could not be decoded
      */
     public function getJsonBody() : array
     {
@@ -465,7 +473,7 @@ class Request
     }
 
     /**
-     * Gets the method used in the request
+     * Gets the method used in the request.
      *
      * @return string The method used in the request
      */
@@ -475,7 +483,7 @@ class Request
     }
 
     /**
-     * Gets the auth password
+     * Gets the auth password.
      *
      * @return string|null The auth password
      */
@@ -501,7 +509,7 @@ class Request
     }
 
     /**
-     * Gets the port number
+     * Gets the port number.
      *
      * @return int The port number
      */
@@ -509,13 +517,13 @@ class Request
     {
         if ($this->isUsingTrustedProxy()) {
             if ($this->server->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_PORT])) {
-                return (int)$this->server->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_PORT]);
+                return (int) $this->server->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_PORT]);
             } elseif ($this->server->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_PROTO]) === 'https') {
                 return 443;
             }
         }
 
-        return (int)$this->server->get('SERVER_PORT');
+        return (int) $this->server->get('SERVER_PORT');
     }
 
     /**
@@ -527,9 +535,10 @@ class Request
     }
 
     /**
-     * The previous URL, if one was set, otherwise the referrer header
+     * The previous URL, if one was set, otherwise the referrer header.
      *
      * @param bool $fallBackToReferer True if we fall back to the HTTP referer header, otherwise false
+     *
      * @return string The previous URL
      */
     public function getPreviousUrl(bool $fallBackToReferer = true) : string
@@ -562,7 +571,7 @@ class Request
     }
 
     /**
-     * Gets the raw body
+     * Gets the raw body.
      *
      * @return string The raw body
      */
@@ -584,7 +593,7 @@ class Request
     }
 
     /**
-     * Gets the auth user
+     * Gets the auth user.
      *
      * @return string|null The auth user
      */
@@ -594,7 +603,7 @@ class Request
     }
 
     /**
-     * Gets whether or not a call was made by AJAX
+     * Gets whether or not a call was made by AJAX.
      *
      * @return bool True if the request was made by AJAX, otherwise false
      */
@@ -604,7 +613,7 @@ class Request
     }
 
     /**
-     * Gets whether or not the request body is JSON
+     * Gets whether or not the request body is JSON.
      *
      * @return bool True if the request body was JSON, otherwise false
      */
@@ -614,24 +623,25 @@ class Request
     }
 
     /**
-     * Gets whether or not the current path matches the input path or regular expression
+     * Gets whether or not the current path matches the input path or regular expression.
      *
-     * @param string $path The path or regular expression to match against
-     *      If the path is a regular expression, it should not include regex delimiters
-     * @param bool $isRegex True if the path is a regular expression, otherwise false
+     * @param string $path    The path or regular expression to match against
+     *                        If the path is a regular expression, it should not include regex delimiters
+     * @param bool   $isRegex True if the path is a regular expression, otherwise false
+     *
      * @return bool True if the current path matched the path, otherwise false
      */
     public function isPath(string $path, bool $isRegex = false) : bool
     {
         if ($isRegex) {
-            return preg_match('#^' . $path . "$#", $this->path) === 1;
+            return preg_match('#^'.$path.'$#', $this->path) === 1;
         } else {
             return $this->path == $path;
         }
     }
 
     /**
-     * Gets whether or not the request was made through HTTPS
+     * Gets whether or not the request was made through HTTPS.
      *
      * @return bool True if the request is secure, otherwise false
      */
@@ -648,17 +658,18 @@ class Request
     }
 
     /**
-     * Gets whether or not the current URL matches the input URL or regular expression
+     * Gets whether or not the current URL matches the input URL or regular expression.
      *
-     * @param string $url The URL or regular expression to match against
-     *      If the URL is a regular expression, it should not include regex delimiters
-     * @param bool $isRegex True if the URL is a regular expression, otherwise false
+     * @param string $url     The URL or regular expression to match against
+     *                        If the URL is a regular expression, it should not include regex delimiters
+     * @param bool   $isRegex True if the URL is a regular expression, otherwise false
+     *
      * @return bool True if the current URL matched the URL, otherwise false
      */
     public function isUrl(string $url, bool $isRegex = false) : bool
     {
         if ($isRegex) {
-            return preg_match('#^' . $url . "$#", $this->getFullUrl()) === 1;
+            return preg_match('#^'.$url.'$#', $this->getFullUrl()) === 1;
         } else {
             return $this->getFullUrl() == $url;
         }
@@ -666,9 +677,10 @@ class Request
 
     /**
      * Sets the method
-     * If no input is specified, then it is automatically set using headers
+     * If no input is specified, then it is automatically set using headers.
      *
      * @param string|null $method The method to set, otherwise null to automatically set the method
+     *
      * @throws InvalidArgumentException Thrown if the method is not an acceptable one
      */
     public function setMethod(string $method = null)
@@ -710,7 +722,7 @@ class Request
 
     /**
      * Sets the path of this request, which does not include the query string
-     * If no input is specified, then it is automatically set using headers
+     * If no input is specified, then it is automatically set using headers.
      *
      * @param string|null $path The path to set, otherwise null to automatically set the path
      */
@@ -732,7 +744,7 @@ class Request
     }
 
     /**
-     * Sets the previous URL
+     * Sets the previous URL.
      *
      * @param string $previousUrl The previous URL
      */
@@ -742,7 +754,7 @@ class Request
     }
 
     /**
-     * Gets whether or not we're using a trusted proxy
+     * Gets whether or not we're using a trusted proxy.
      *
      * @return bool True if using a trusted proxy, otherwise false
      */
@@ -752,7 +764,7 @@ class Request
     }
 
     /**
-     * Sets the client IP addresses
+     * Sets the client IP addresses.
      */
     private function setClientIPAddresses()
     {
@@ -791,11 +803,11 @@ class Request
     }
 
     /**
-     * Sets PUT/PATCH/DELETE collections, if they exist
+     * Sets PUT/PATCH/DELETE collections, if they exist.
      */
     private function setUnsupportedMethodsCollections()
     {
-        /**
+        /*
          * PHP doesn't pass in data from PUT/PATCH/DELETE requests through globals
          * So, we have to manually read from the input stream to grab their data
          * If the content is not from a form, we don't bother and just let users look the data up in the raw body

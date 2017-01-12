@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
 use Opulence\Authentication\Tokens\Signatures\ISigner;
 
 /**
- * Tests the verification context
+ * Tests the verification context.
  */
 class VerificationContextTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +23,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     private $signer = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -30,7 +32,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test getting the default values
+     * Test getting the default values.
      */
     public function testGettingDefaultValues()
     {
@@ -41,7 +43,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting an audience
+     * Tests setting an audience.
      */
     public function testSettingAudience()
     {
@@ -50,7 +52,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a issuer
+     * Tests setting a issuer.
      */
     public function testSettingIssuer()
     {
@@ -59,7 +61,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a signer
+     * Tests setting a signer.
      */
     public function testSettingSigner()
     {
@@ -70,7 +72,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a subject
+     * Tests setting a subject.
      */
     public function testSettingSubject()
     {

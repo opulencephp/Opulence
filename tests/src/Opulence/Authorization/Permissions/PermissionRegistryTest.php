@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authorization\Permissions;
 
 /**
- * Tests the permission registry
+ * Tests the permission registry.
  */
 class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
     private $registry = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting override callbacks when none registered
+     * Tests getting override callbacks when none registered.
      */
     public function testEmptyArrayReturnedWhenNoOverrideCallbacksRegistered()
     {
@@ -33,7 +35,7 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests null returned when no roles registered
+     * Tests null returned when no roles registered.
      */
     public function testEmptyArrayReturnedWhenNoRolesRegistered()
     {
@@ -41,7 +43,7 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that null is returned when no callback is registered
+     * Tests that null is returned when no callback is registered.
      */
     public function testNullReturnedWhenNoCallbackRegistered()
     {
@@ -49,7 +51,7 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering an array of roles
+     * Tests registering an array of roles.
      */
     public function testRegisteringArrayOfRoles()
     {
@@ -58,7 +60,7 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering a callback
+     * Tests registering a callback.
      */
     public function testRegisteringCallback()
     {
@@ -70,7 +72,7 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering an override
+     * Tests registering an override.
      */
     public function testRegisteringOverride()
     {
@@ -82,7 +84,7 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering a single role
+     * Tests registering a single role.
      */
     public function testRegisteringSingleRole()
     {
@@ -91,7 +93,7 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests roles are not overwritten when double registering permission
+     * Tests roles are not overwritten when double registering permission.
      */
     public function testRolesNotOverwrittenWhenDoubleRegisteringPermission()
     {

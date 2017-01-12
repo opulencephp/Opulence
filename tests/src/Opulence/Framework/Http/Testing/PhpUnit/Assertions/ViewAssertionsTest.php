@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Http\Testing\PhpUnit\Assertions;
 
 use LogicException;
@@ -14,7 +16,7 @@ use Opulence\Views\IView;
 use stdClass;
 
 /**
- * Tests the view assertions
+ * Tests the view assertions.
  */
 class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,7 +26,7 @@ class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
     private $mockView = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -33,7 +35,7 @@ class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that a view has a variable
+     * Tests asserting that a view has a variable.
      */
     public function testAssertViewHasVariable()
     {
@@ -51,7 +53,7 @@ class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a logic exception is thrown if checking if a view has a variable when using a non-Opulence controller
+     * Tests that a logic exception is thrown if checking if a view has a variable when using a non-Opulence controller.
      */
     public function testLogicExceptionCheckingIfViewHasVariableFromNonOpulenceController()
     {
@@ -61,7 +63,7 @@ class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a logic exception is thrown if getting a view variable when using a non-Opulence controller
+     * Tests that a logic exception is thrown if getting a view variable when using a non-Opulence controller.
      */
     public function testLogicExceptionGettingViewVariableFromNonOpulenceController()
     {

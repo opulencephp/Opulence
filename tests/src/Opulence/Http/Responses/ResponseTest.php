@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Responses;
 
 use DateTime;
 
 /**
- * Tests the HTTP response
+ * Tests the HTTP response.
  */
 class ResponseTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     private $response = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,7 +29,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the content
+     * Tests getting the content.
      */
     public function testGettingContent()
     {
@@ -36,7 +38,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the default HTTP version
+     * Tests getting the default HTTP version.
      */
     public function testGettingDefaultHttpVersion()
     {
@@ -44,7 +46,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the default status code
+     * Tests getting the default status code.
      */
     public function testGettingDefaultStatusCode()
     {
@@ -52,7 +54,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests sending the content
+     * Tests sending the content.
      *
      * @runInSeparateProcess
      */
@@ -65,7 +67,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the content
+     * Tests setting the content.
      */
     public function testSettingContent()
     {
@@ -74,7 +76,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting an expiration
+     * Tests setting an expiration.
      */
     public function testSettingExpiration()
     {
@@ -84,7 +86,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the HTTP version
+     * Tests setting the HTTP version.
      */
     public function testSettingHttpVersion()
     {
@@ -93,7 +95,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the status code
+     * Tests setting the status code.
      */
     public function testSettingStatusCode()
     {
@@ -102,7 +104,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the status code with text
+     * Tests setting the status code with text.
      */
     public function testSettingStatusCodeWithText()
     {

@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Middleware;
 
 use Opulence\Tests\Routing\Middleware\Mocks\ParameterizedMiddleware as ParameterizedMiddlewareMock;
 
 /**
- * Tests the parameterized middleware
+ * Tests the parameterized middleware.
  */
 class ParameterizedMiddlewareTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class ParameterizedMiddlewareTest extends \PHPUnit\Framework\TestCase
     private $middleware = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,7 +29,7 @@ class ParameterizedMiddlewareTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that middleware parameters are created correctly
+     * Tests that middleware parameters are created correctly.
      */
     public function testWithCreatesMiddlewareParametersCorrectly()
     {

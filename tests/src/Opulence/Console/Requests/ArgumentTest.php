@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests;
 
 use InvalidArgumentException;
 
 /**
- * Tests the console argument
+ * Tests the console argument.
  */
 class ArgumentTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     private $argument = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,7 +29,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking whether or not the argument is an array
+     * Tests checking whether or not the argument is an array.
      */
     public function testCheckingIsArray()
     {
@@ -44,7 +46,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking whether or not the argument is optional
+     * Tests checking whether or not the argument is optional.
      */
     public function testCheckingIsOptional()
     {
@@ -57,7 +59,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking whether or not the argument is required
+     * Tests checking whether or not the argument is required.
      */
     public function testCheckingIsRequired()
     {
@@ -70,7 +72,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the default value
+     * Tests getting the default value.
      */
     public function testGettingDefaultValue()
     {
@@ -78,7 +80,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the description
+     * Tests getting the description.
      */
     public function testGettingDescription()
     {
@@ -86,7 +88,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the name
+     * Tests getting the name.
      */
     public function testGettingName()
     {
@@ -94,7 +96,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the type to both optional and required
+     * Tests setting the type to both optional and required.
      */
     public function testSettingTypeToOptionalAndRequired()
     {

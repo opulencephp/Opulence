@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Http\Testing\PhpUnit;
 
 use Opulence\Tests\Framework\Http\Testing\PhpUnit\Mocks\IntegrationTestCase as MockIntegrationTestCase;
 
 /**
- * Tests the HTTP integration test
+ * Tests the HTTP integration test.
  */
 class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     private $integrationTest = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -28,7 +30,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that verbs return request builders
+     * Tests that verbs return request builders.
      */
     public function testVerbsReturnRequestBuilders()
     {

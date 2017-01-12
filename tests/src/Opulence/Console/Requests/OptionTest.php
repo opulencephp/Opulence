@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests;
 
 use InvalidArgumentException;
 
 /**
- * Tests the console option
+ * Tests the console option.
  */
 class OptionTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     private $option = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,7 +29,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking whether or not the option value is an array
+     * Tests checking whether or not the option value is an array.
      */
     public function testCheckingIsValueArray()
     {
@@ -36,7 +38,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking whether or not the option value is optional
+     * Tests checking whether or not the option value is optional.
      */
     public function testCheckingIsValueOptional()
     {
@@ -47,7 +49,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking whether or not the option value is permitted
+     * Tests checking whether or not the option value is permitted.
      */
     public function testCheckingIsValuePermitted()
     {
@@ -58,7 +60,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking whether or not the option value is required
+     * Tests checking whether or not the option value is required.
      */
     public function testCheckingIsValueRequired()
     {
@@ -69,7 +71,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the default value
+     * Tests getting the default value.
      */
     public function testGettingDefaultValue()
     {
@@ -77,7 +79,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the description
+     * Tests getting the description.
      */
     public function testGettingDescription()
     {
@@ -85,7 +87,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the name
+     * Tests getting the name.
      */
     public function testGettingName()
     {
@@ -93,7 +95,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the short name
+     * Tests getting the short name.
      */
     public function testGettingShortName()
     {
@@ -101,7 +103,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests specifying a short name that is not an alphabet character
+     * Tests specifying a short name that is not an alphabet character.
      */
     public function testNonAlphabeticShortName()
     {
@@ -110,7 +112,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the type to both optional and no value
+     * Tests setting the type to both optional and no value.
      */
     public function testSettingTypeToOptionalAndNoValue()
     {
@@ -119,7 +121,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the type to both optional and required
+     * Tests setting the type to both optional and required.
      */
     public function testSettingTypeToOptionalAndRequired()
     {
@@ -128,7 +130,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the type to both required and no value
+     * Tests setting the type to both required and no value.
      */
     public function testSettingTypeToRequiredAndNoValue()
     {
@@ -137,7 +139,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests specifying a short name that is too long
+     * Tests specifying a short name that is too long.
      */
     public function testTooLongShortName()
     {

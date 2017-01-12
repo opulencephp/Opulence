@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes\Caching;
 
 use Opulence\Routing\Dispatchers\MiddlewarePipeline;
@@ -16,7 +18,7 @@ use Opulence\Routing\Routes\Compilers\Parsers\Parser;
 use Opulence\Tests\Routing\Dispatchers\Mocks\DependencyResolver;
 
 /**
- * Tests the route cache
+ * Tests the route cache.
  */
 class FileCacheTest extends \PHPUnit\Framework\TestCase
 {
@@ -28,17 +30,17 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     private $rawRouteFilePath = '';
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
         $this->cache = new FileCache();
-        $this->cachedRouteFilePath = __DIR__ . '/files/' . FileCache::DEFAULT_CACHED_ROUTES_FILE_NAME;
-        $this->rawRouteFilePath = __DIR__ . '/files/raw.php';
+        $this->cachedRouteFilePath = __DIR__.'/files/'.FileCache::DEFAULT_CACHED_ROUTES_FILE_NAME;
+        $this->rawRouteFilePath = __DIR__.'/files/raw.php';
     }
 
     /**
-     * Tears down the tests
+     * Tears down the tests.
      */
     public function tearDown()
     {
@@ -48,7 +50,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests flushing the cache
+     * Tests flushing the cache.
      */
     public function testFlushing()
     {
@@ -58,7 +60,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the routes are cached after a miss
+     * Tests that the routes are cached after a miss.
      */
     public function testRoutesAreCachedAfterMiss()
     {
@@ -70,7 +72,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the routes are read from cache
+     * Tests that the routes are read from cache.
      */
     public function testRoutesAreReadFromCache()
     {
@@ -84,7 +86,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting and then getting from cache
+     * Tests setting and then getting from cache.
      */
     public function testSettingAndGettingFromCache()
     {
@@ -99,7 +101,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Gets a router instance to use in tests
+     * Gets a router instance to use in tests.
      *
      * @return Router The router to use
      */

@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\ConnectionPools\Strategies\ServerSelection;
 
 use InvalidArgumentException;
 use Opulence\Databases\Server;
 
 /**
- * Defines the single server selection strategy
+ * Defines the single server selection strategy.
  */
 class SingleServerSelectionStrategy implements IServerSelectionStrategy
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function select($servers) : Server
     {

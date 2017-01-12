@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Composer;
 
 /**
- * Defines a wrapper for the Composer executable
+ * Defines a wrapper for the Composer executable.
  */
 class Executable
 {
@@ -21,17 +23,18 @@ class Executable
      */
     public function __construct(string $rootPath)
     {
-        if (file_exists($rootPath . '/composer.phar')) {
-            $this->executable = '"' . PHP_BINARY . '" composer.phar';
+        if (file_exists($rootPath.'/composer.phar')) {
+            $this->executable = '"'.PHP_BINARY.'" composer.phar';
         } else {
             $this->executable = 'composer';
         }
     }
 
     /**
-     * Performs a dump-autoload
+     * Performs a dump-autoload.
      *
      * @param string $options The options to run
+     *
      * @return string The output of the autoload
      */
     public function dumpAutoload(string $options = '') : string
@@ -40,9 +43,10 @@ class Executable
     }
 
     /**
-     * Performs an update
+     * Performs an update.
      *
      * @param string $options The options to run
+     *
      * @return string The output of the update
      */
     public function update(string $options = '') : string
@@ -51,9 +55,10 @@ class Executable
     }
 
     /**
-     * Executes a command
+     * Executes a command.
      *
      * @param string $command The command to execute
+     *
      * @return string The output of the command
      */
     protected function execute(string $command) : string

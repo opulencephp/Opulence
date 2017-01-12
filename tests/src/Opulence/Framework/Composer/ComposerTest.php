@@ -1,39 +1,41 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Composer;
 
 /**
- * Tests the Composer wrapper
+ * Tests the Composer wrapper.
  */
 class ComposerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var array A fully-loaded Composer config */
     private static $fullyLoadedConfig = [
-        'name' => '__name__',
+        'name'        => '__name__',
         'description' => '__description__',
-        'keywords' => ['__keyword1__', '__keyword2__'],
-        'authors' => [
-            ['name' => 'Dave', 'email' => 'foo@bar.com']
+        'keywords'    => ['__keyword1__', '__keyword2__'],
+        'authors'     => [
+            ['name' => 'Dave', 'email' => 'foo@bar.com'],
         ],
-        'license' => '__license__',
+        'license'  => '__license__',
         'autoload' => [
             'psr-4' => [
                 '__namespace__' => [
                     '__namespacepath1__',
-                    '__namespacepath2__'
+                    '__namespacepath2__',
                 ],
-                "Opulence\\" => [
+                'Opulence\\' => [
                     'src/Opulence',
-                    'tests/src/Opulence'
-                ]
-            ]
-        ]
+                    'tests/src/Opulence',
+                ],
+            ],
+        ],
     ];
     /** @var Composer The Composer with a fully-loaded config */
     private $composer = null;
@@ -43,46 +45,46 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     private $psr4RootPath = '';
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
-        $this->rootPath = realpath(__DIR__ . '/../../../../..');
-        $this->psr4RootPath = realpath(__DIR__ . '/../../../../../src');
+        $this->rootPath = realpath(__DIR__.'/../../../../..');
+        $this->psr4RootPath = realpath(__DIR__.'/../../../../../src');
         $this->composer = new Composer(self::$fullyLoadedConfig, $this->rootPath, $this->psr4RootPath);
     }
 
     /**
-     * Tests creating a config from the raw config
+     * Tests creating a config from the raw config.
      */
     public function testCreatingConfigFromRawConfig()
     {
         $composer = Composer::createFromRawConfig($this->rootPath, $this->psr4RootPath);
-        $composerFileContents = json_decode(file_get_contents($this->rootPath . '/composer.json'), true);
+        $composerFileContents = json_decode(file_get_contents($this->rootPath.'/composer.json'), true);
         $this->assertEquals($composerFileContents, $composer->getRawConfig());
     }
 
     /**
-     * Tests getting the fully qualified class name
+     * Tests getting the fully qualified class name.
      */
     public function testGettingFullyQualifiedClassName()
     {
-        $this->assertEquals("Opulence\\Bar", $this->composer->getFullyQualifiedClassName('Bar', 'Opulence'));
-        $this->assertEquals("Opulence\\Foo\\Bar", $this->composer->getFullyQualifiedClassName('Bar', "Opulence\\Foo"));
-        $this->assertEquals("Opulence\\Bar", $this->composer->getFullyQualifiedClassName('Bar', "Opulence\\"));
+        $this->assertEquals('Opulence\\Bar', $this->composer->getFullyQualifiedClassName('Bar', 'Opulence'));
+        $this->assertEquals('Opulence\\Foo\\Bar', $this->composer->getFullyQualifiedClassName('Bar', 'Opulence\\Foo'));
+        $this->assertEquals('Opulence\\Bar', $this->composer->getFullyQualifiedClassName('Bar', 'Opulence\\'));
     }
 
     /**
-     * Tests getting the fully qualified class name of a fully-qualified class
+     * Tests getting the fully qualified class name of a fully-qualified class.
      */
     public function testGettingFullyQualifiedClassNameOfAFullyQualifiedClass()
     {
-        $this->assertEquals("Opulence\\Foo\\Bar",
-            $this->composer->getFullyQualifiedClassName("Opulence\\Foo\\Bar", 'Opulence'));
+        $this->assertEquals('Opulence\\Foo\\Bar',
+            $this->composer->getFullyQualifiedClassName('Opulence\\Foo\\Bar', 'Opulence'));
     }
 
     /**
-     * Tests getting a single property
+     * Tests getting a single property.
      */
     public function testGettingMultiDimensionalProperty()
     {
@@ -93,7 +95,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent multi-dimensional property
+     * Tests getting a non-existent multi-dimensional property.
      */
     public function testGettingNonExistentMultiDimensionalProperty()
     {
@@ -101,7 +103,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent root namespace
+     * Tests getting a non-existent root namespace.
      */
     public function testGettingNonExistentRootNamespace()
     {
@@ -110,7 +112,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent root namespace paths
+     * Tests getting a non-existent root namespace paths.
      */
     public function testGettingNonExistentRootNamespacePaths()
     {
@@ -119,7 +121,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent single property
+     * Tests getting a non-existent single property.
      */
     public function testGettingNonExistentSingleProperty()
     {
@@ -127,31 +129,31 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a path from a class
+     * Tests getting a path from a class.
      */
     public function testGettingPathFromClass()
     {
-        $class = "Opulence\\Foo\\Bar";
+        $class = 'Opulence\\Foo\\Bar';
         $this->assertEquals(
-            $this->psr4RootPath . DIRECTORY_SEPARATOR . 'Opulence' . DIRECTORY_SEPARATOR . 'Foo' . DIRECTORY_SEPARATOR . 'Bar.php',
+            $this->psr4RootPath.DIRECTORY_SEPARATOR.'Opulence'.DIRECTORY_SEPARATOR.'Foo'.DIRECTORY_SEPARATOR.'Bar.php',
             $this->composer->getClassPath($class)
         );
     }
 
     /**
-     * Tests getting a path from a class in the root namespace
+     * Tests getting a path from a class in the root namespace.
      */
     public function testGettingPathFromClassInRootNamespace()
     {
-        $class = "Opulence\\Bar";
+        $class = 'Opulence\\Bar';
         $this->assertEquals(
-            $this->psr4RootPath . DIRECTORY_SEPARATOR . 'Opulence' . DIRECTORY_SEPARATOR . 'Bar.php',
+            $this->psr4RootPath.DIRECTORY_SEPARATOR.'Opulence'.DIRECTORY_SEPARATOR.'Bar.php',
             $this->composer->getClassPath($class)
         );
     }
 
     /**
-     * Tests getting the raw config
+     * Tests getting the raw config.
      */
     public function testGettingRawConfig()
     {
@@ -161,7 +163,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the raw config from non-existent Composer config
+     * Tests getting the raw config from non-existent Composer config.
      */
     public function testGettingRawConfigFromNonExistentComposerConfig()
     {
@@ -170,7 +172,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the root namespace
+     * Tests getting the root namespace.
      */
     public function testGettingRootNamespace()
     {
@@ -178,7 +180,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the root namespace paths
+     * Tests getting the root namespace paths.
      */
     public function testGettingRootNamespacePaths()
     {
@@ -186,12 +188,12 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the root namespace paths with string path
+     * Tests getting the root namespace paths with string path.
      */
     public function testGettingRootNamespacePathsWithStringNamespace()
     {
         $composer = new Composer(
-            ['autoload' => ['psr-4' => ["Opulence\\" => 'src/Opulence']]],
+            ['autoload' => ['psr-4' => ['Opulence\\' => 'src/Opulence']]],
             $this->rootPath,
             $this->psr4RootPath
         );
@@ -199,12 +201,12 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the root namespace with string path
+     * Tests getting the root namespace with string path.
      */
     public function testGettingRootNamespaceWithStringNamespace()
     {
         $composer = new Composer(
-            ['autoload' => ['psr-4' => ["Opulence\\" => 'src/Opulence']]],
+            ['autoload' => ['psr-4' => ['Opulence\\' => 'src/Opulence']]],
             $this->rootPath,
             $this->psr4RootPath
         );
@@ -212,7 +214,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a single property
+     * Tests getting a single property.
      */
     public function testGettingSingleProperty()
     {

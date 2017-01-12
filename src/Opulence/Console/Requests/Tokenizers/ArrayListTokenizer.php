@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests\Tokenizers;
 
 use RuntimeException;
 
 /**
- * Defines the array list tokenizer
+ * Defines the array list tokenizer.
  */
 class ArrayListTokenizer implements ITokenizer
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function tokenize($input) : array
     {

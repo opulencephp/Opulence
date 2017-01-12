@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Commands;
 
 use Opulence\Console\Commands\Command;
@@ -16,7 +18,7 @@ use Opulence\Routing\Routes\Caching\ICache as RouteCache;
 use Opulence\Views\Caching\ICache as ViewCache;
 
 /**
- * Defines the command that flushes the framework's cache
+ * Defines the command that flushes the framework's cache.
  */
 class FlushFrameworkCacheCommand extends Command
 {
@@ -30,10 +32,10 @@ class FlushFrameworkCacheCommand extends Command
     private $viewCache = null;
 
     /**
-     * @param BootstrapperCache $httpBootstrapperCache The HTTP bootstrapper cache
+     * @param BootstrapperCache $httpBootstrapperCache    The HTTP bootstrapper cache
      * @param BootstrapperCache $consoleBootstrapperCache The console bootstrapper cache
-     * @param RouteCache $routeCache The route cache
-     * @param ViewCache $viewCache The view cache
+     * @param RouteCache        $routeCache               The route cache
+     * @param ViewCache         $viewCache                The view cache
      */
     public function __construct(
         BootstrapperCache $httpBootstrapperCache,
@@ -50,7 +52,7 @@ class FlushFrameworkCacheCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function define()
     {
@@ -59,7 +61,7 @@ class FlushFrameworkCacheCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doExecute(IResponse $response)
     {
@@ -70,7 +72,7 @@ class FlushFrameworkCacheCommand extends Command
     }
 
     /**
-     * Flushes the bootstrapper cache
+     * Flushes the bootstrapper cache.
      *
      * @param IResponse $response The response to write to
      */
@@ -83,21 +85,21 @@ class FlushFrameworkCacheCommand extends Command
     }
 
     /**
-     * Flushes the route cache
+     * Flushes the route cache.
      *
      * @param IResponse $response The response to write to
      */
     private function flushRouteCache(IResponse $response)
     {
         if (($path = Config::get('paths', 'routes.cache')) !== null) {
-            $this->routeCache->flush("$path/" . RouteCache::DEFAULT_CACHED_ROUTES_FILE_NAME);
+            $this->routeCache->flush("$path/".RouteCache::DEFAULT_CACHED_ROUTES_FILE_NAME);
         }
 
         $response->writeln('<info>Route cache flushed</info>');
     }
 
     /**
-     * Flushes the view cache
+     * Flushes the view cache.
      *
      * @param IResponse $response The response to write to
      */

@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
 
 /**
- * Defines the equals rule
+ * Defines the equals rule.
  */
 class EqualsRule implements IRuleWithArgs
 {
@@ -19,7 +21,7 @@ class EqualsRule implements IRuleWithArgs
     protected $value = null;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSlug() : string
     {
@@ -27,7 +29,7 @@ class EqualsRule implements IRuleWithArgs
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function passes($value, array $allValues = []) : bool
     {
@@ -35,7 +37,7 @@ class EqualsRule implements IRuleWithArgs
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setArgs(array $args)
     {

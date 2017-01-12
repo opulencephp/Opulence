@@ -1,78 +1,88 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc;
 
 use InvalidArgumentException;
 
 /**
- * Defines the interface for dependency injection containers to implement
+ * Defines the interface for dependency injection containers to implement.
  */
 interface IContainer
 {
     /**
-     * Binds a factory that will return a concrete instance of the interface
+     * Binds a factory that will return a concrete instance of the interface.
      *
-     * @param string|array $interfaces The interface or interfaces to bind to
-     * @param callable $factory The factory to bind
-     * @param bool $resolveAsSingleton Whether or not to resolve the factory as a singleton
+     * @param string|array $interfaces         The interface or interfaces to bind to
+     * @param callable     $factory            The factory to bind
+     * @param bool         $resolveAsSingleton Whether or not to resolve the factory as a singleton
+     *
      * @throws InvalidArgumentException Thrown if the interfaces were not of the correct type
      */
     public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false);
 
     /**
-     * Binds a concrete instance to the interface
+     * Binds a concrete instance to the interface.
      *
      * @param string|array $interfaces The interface or interfaces to bind to
-     * @param object $instance The instance to bind
+     * @param object       $instance   The instance to bind
+     *
      * @throws InvalidArgumentException Thrown if the interfaces were not of the correct type
      */
     public function bindInstance($interfaces, $instance);
 
     /**
-     * Binds a non-singleton concrete class to an interface
+     * Binds a non-singleton concrete class to an interface.
      *
-     * @param string|array $interfaces The interface or interfaces to bind to
-     * @param string|null $concreteClass The concrete class to bind, or null if the interface actually is a concrete class
-     * @param array $primitives The list of primitives to inject (must be in same order they appear in constructor)
+     * @param string|array $interfaces    The interface or interfaces to bind to
+     * @param string|null  $concreteClass The concrete class to bind, or null if the interface actually is a concrete class
+     * @param array        $primitives    The list of primitives to inject (must be in same order they appear in constructor)
+     *
      * @throws InvalidArgumentException Thrown if the interfaces were not of the correct type
      */
     public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = []);
 
     /**
-     * Binds a singleton concrete class to an interface
+     * Binds a singleton concrete class to an interface.
      *
-     * @param string|array $interfaces The interface or interfaces to bind to
-     * @param string|null $concreteClass The concrete class to bind, or null if the interface actually is a concrete class
-     * @param array $primitives The list of primitives to inject (must be in same order they appear in constructor)
+     * @param string|array $interfaces    The interface or interfaces to bind to
+     * @param string|null  $concreteClass The concrete class to bind, or null if the interface actually is a concrete class
+     * @param array        $primitives    The list of primitives to inject (must be in same order they appear in constructor)
+     *
      * @throws InvalidArgumentException Thrown if the interfaces were not of the correct type
      */
     public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = []);
 
     /**
-     * Resolves a closure's parameters and calls it
+     * Resolves a closure's parameters and calls it.
      *
-     * @param callable $closure The closure to resolve
-     * @param array $primitives The list of primitives to inject (must be in same order they appear in closure)
-     * @return mixed The result of the call
+     * @param callable $closure    The closure to resolve
+     * @param array    $primitives The list of primitives to inject (must be in same order they appear in closure)
+     *
      * @throws IocException Thrown if there was an error calling the method
+     *
+     * @return mixed The result of the call
      */
     public function callClosure(callable $closure, array $primitives = []);
 
     /**
-     * Resolves a method's parameters and calls it
+     * Resolves a method's parameters and calls it.
      *
-     * @param object|string $instance The instance (or class name if the method is static) whose method we're calling
-     * @param string $methodName The name of the method we're calling
-     * @param array $primitives The list of primitives to inject (must be in same order they appear in closure)
-     * @param bool $ignoreMissingMethod Whether or not we ignore if the method does not exist
-     * @return mixed The result of the call
+     * @param object|string $instance            The instance (or class name if the method is static) whose method we're calling
+     * @param string        $methodName          The name of the method we're calling
+     * @param array         $primitives          The list of primitives to inject (must be in same order they appear in closure)
+     * @param bool          $ignoreMissingMethod Whether or not we ignore if the method does not exist
+     *
      * @throws IocException Thrown if there was an error calling the method
+     *
+     * @return mixed The result of the call
      */
     public function callMethod(
         $instance,
@@ -82,32 +92,35 @@ interface IContainer
     );
 
     /**
-     * Sets a target for all calls in the callback
+     * Sets a target for all calls in the callback.
      *
-     * @param string $targetClass The target class
-     * @param callable $callback The callback containing targeted container method calls
+     * @param string   $targetClass The target class
+     * @param callable $callback    The callback containing targeted container method calls
      */
     public function for(string $targetClass, callable $callback);
 
     /**
-     * Gets whether or not an interface has a binding
+     * Gets whether or not an interface has a binding.
      *
      * @param string $interface The interface to check
+     *
      * @return bool True if the interface has a binding, otherwise false
      */
     public function hasBinding(string $interface) : bool;
 
     /**
-     * Resolve an instance of the interface
+     * Resolve an instance of the interface.
      *
      * @param string $interface The interface to resolve
-     * @return mixed The resolved instance
+     *
      * @throws IocException Thrown if there was an error resolving the interface
+     *
+     * @return mixed The resolved instance
      */
     public function resolve(string $interface);
 
     /**
-     * Unbinds the interface from the container
+     * Unbinds the interface from the container.
      *
      * @param string|array $interfaces The interface or interfaces to unbind from
      */

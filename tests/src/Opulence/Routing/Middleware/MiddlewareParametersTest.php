@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Middleware;
 
 /**
- * Tests the middleware parameters
+ * Tests the middleware parameters.
  */
 class MiddlewareParametersTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class MiddlewareParametersTest extends \PHPUnit\Framework\TestCase
     private $parameters = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class MiddlewareParametersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the middleware class name
+     * Tests getting the middleware class name.
      */
     public function testGettingMiddlewareClassName()
     {
@@ -33,7 +35,7 @@ class MiddlewareParametersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the parameters
+     * Tests getting the parameters.
      */
     public function testGettingParameters()
     {

@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
 use InvalidArgumentException;
 use Opulence\Authentication\Tokens\ISignedToken;
 
 /**
- * Defines the signed JWT
+ * Defines the signed JWT.
  */
 class SignedJwt extends UnsignedJwt implements ISignedToken
 {
@@ -20,7 +22,8 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
     protected $signature = '';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @param string $signature The signature
      */
     public function __construct(JwtHeader $header, JwtPayload $payload, string $signature)
@@ -31,11 +34,13 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
     }
 
     /**
-     * Creates a signed JWT from a raw string
+     * Creates a signed JWT from a raw string.
      *
      * @param string $token The token to create from
-     * @return SignedJwt The signed JSON web token
+     *
      * @throws InvalidArgumentException Thrown if the token was not correctly formatted
+     *
+     * @return SignedJwt The signed JSON web token
      */
     public static function createFromString(string $token) : SignedJwt
     {
@@ -75,10 +80,11 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
     }
 
     /**
-     * Creates a signed JWT from an unsigned JWT and signature
+     * Creates a signed JWT from an unsigned JWT and signature.
      *
      * @param UnsignedJwt $unsignedJwt The unsigned token to create the signed token from
-     * @param string $signature The signature
+     * @param string      $signature   The signature
+     *
      * @return SignedJwt The signed JSON web token
      */
     public static function createFromUnsignedJwt(UnsignedJwt $unsignedJwt, string $signature) : SignedJwt
@@ -87,10 +93,12 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
     }
 
     /**
-     * Base 64 decodes data for use in URLs
+     * Base 64 decodes data for use in URLs.
      *
      * @param string $data The data to decode
+     *
      * @return string The base 64 decoded data that's safe for URLs
+     *
      * @link http://php.net/manual/en/function.base64-encode.php#103849
      */
     protected static function base64UrlDecode(string $data) : string
@@ -99,10 +107,12 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
     }
 
     /**
-     * Base 64 encodes data for use in URLs
+     * Base 64 encodes data for use in URLs.
      *
      * @param string $data The data to encode
+     *
      * @return string The base 64 encoded data that's safe for URLs
+     *
      * @link http://php.net/manual/en/function.base64-encode.php#103849
      */
     protected static function base64UrlEncode(string $data) : string
@@ -111,7 +121,7 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
     }
 
     /**
-     * Encodes this token as a string
+     * Encodes this token as a string.
      *
      * @return string The encoded string
      */
@@ -120,14 +130,14 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
         $segments = [
             $this->header->encode(),
             $this->payload->encode(),
-            self::base64UrlEncode($this->signature)
+            self::base64UrlEncode($this->signature),
         ];
 
         return implode('.', $segments);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSignature() : string
     {

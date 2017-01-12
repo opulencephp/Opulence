@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
 use LogicException;
 
 /**
- * Tests the equals field rule
+ * Tests the equals field rule.
  */
 class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests that equal values pass
+     * Tests that equal values pass.
      */
     public function testEqualValuesPass()
     {
@@ -27,7 +29,7 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting error placeholders
+     * Tests getting error placeholders.
      */
     public function testGettingErrorPlaceholders()
     {
@@ -37,7 +39,7 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the slug
+     * Tests getting the slug.
      */
     public function testGettingSlug()
     {
@@ -46,7 +48,7 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not setting the args before passes
+     * Tests not setting the args before passes.
      */
     public function testNotSettingArgBeforePasses()
     {
@@ -56,7 +58,7 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that null values pass
+     * Tests that null values pass.
      */
     public function testNullValuesPass()
     {
@@ -66,7 +68,7 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an empty arg array
+     * Tests passing an empty arg array.
      */
     public function testPassingEmptyArgArray()
     {
@@ -76,7 +78,7 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an invalid arg
+     * Tests passing an invalid arg.
      */
     public function testPassingInvalidArg()
     {
@@ -84,12 +86,12 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
         $rule = new EqualsFieldRule();
         $rule->setArgs([
             function () {
-            }
+            },
         ]);
     }
 
     /**
-     * Tests that unequal values fail
+     * Tests that unequal values fail.
      */
     public function testUnequalValuesFail()
     {
@@ -99,7 +101,7 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that unset, non-null values fail
+     * Tests that unset, non-null values fail.
      */
     public function testUnsetNonNullValuesFail()
     {

@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Caching;
 
 use Opulence\Views\IView;
 
 /**
- * Defines the view array cache, which is useful for testing
+ * Defines the view array cache, which is useful for testing.
  */
 class ArrayCache implements ICache
 {
@@ -19,7 +21,7 @@ class ArrayCache implements ICache
     private $storage = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -27,7 +29,7 @@ class ArrayCache implements ICache
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function gc()
     {
@@ -35,19 +37,19 @@ class ArrayCache implements ICache
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get(IView $view, bool $checkVars = false)
     {
         if (!$this->has($view)) {
-            return null;
+            return;
         }
 
         return $this->storage[$this->getViewKey($view, $checkVars)];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function has(IView $view, bool $checkVars = false) : bool
     {
@@ -55,7 +57,7 @@ class ArrayCache implements ICache
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function set(IView $view, string $compiledContents, bool $checkVars = false)
     {
@@ -63,7 +65,7 @@ class ArrayCache implements ICache
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setGCChance(int $chance, int $divisor = 100)
     {
@@ -71,10 +73,11 @@ class ArrayCache implements ICache
     }
 
     /**
-     * Gets key for the cached view
+     * Gets key for the cached view.
      *
-     * @param IView $view The view whose cached file path we want
-     * @param bool $checkVars Whether or not we want to also check for variable value equivalence when looking up cached views
+     * @param IView $view      The view whose cached file path we want
+     * @param bool  $checkVars Whether or not we want to also check for variable value equivalence when looking up cached views
+     *
      * @return string The key for the cached view
      */
     private function getViewKey(IView $view, bool $checkVars) : string

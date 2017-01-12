@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders;
 
 /**
- * Builds parts of a query that augment (INSERT/UPDATE)
+ * Builds parts of a query that augment (INSERT/UPDATE).
  */
 class AugmentingQueryBuilder
 {
@@ -17,9 +19,10 @@ class AugmentingQueryBuilder
     protected $columnNamesToValues = [];
 
     /**
-     * Adds column values to the query
+     * Adds column values to the query.
      *
      * @param array $columnNamesToValues The mapping of column names to their respective values
+     *
      * @return self For method chaining
      */
     public function addColumnValues(array $columnNamesToValues) : self

@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 
 /**
- * Tests the audience verifier
+ * Tests the audience verifier.
  */
 class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +24,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     private $jwtPayload = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -36,7 +38,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a mismatched audience
+     * Tests a mismatched audience.
      */
     public function testMismatchedAudience()
     {
@@ -49,7 +51,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a mismatched array audience
+     * Tests a mismatched array audience.
      */
     public function testMismatchedAudienceArray()
     {
@@ -62,7 +64,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests verifying against an empty audience is successful
+     * Tests verifying against an empty audience is successful.
      */
     public function testVerifyingEmptyAudienceIsSuccessful()
     {
@@ -75,7 +77,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests verifying valid array audience
+     * Tests verifying valid array audience.
      */
     public function testVerifyingValidArrayAudience()
     {
@@ -88,7 +90,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests verifying valid string audience
+     * Tests verifying valid string audience.
      */
     public function testVerifyingValidStringAudience()
     {

@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authorization\Roles;
 
 /**
- * Tests the role
+ * Tests the role.
  */
 class RoleTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class RoleTest extends \PHPUnit\Framework\TestCase
     private $role = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class RoleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the Id
+     * Tests getting the Id.
      */
     public function testGettingId()
     {
@@ -33,7 +35,7 @@ class RoleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the name
+     * Tests getting the name.
      */
     public function testGettingName()
     {
@@ -41,7 +43,7 @@ class RoleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the Id
+     * Tests setting the Id.
      */
     public function testSettingId()
     {

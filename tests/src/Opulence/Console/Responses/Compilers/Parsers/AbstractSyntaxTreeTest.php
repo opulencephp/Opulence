@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers\Parsers;
 
 use Opulence\Console\Responses\Compilers\Parsers\Nodes\RootNode;
 use Opulence\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks\Node;
 
 /**
- * Tests the response abstract syntax tree
+ * Tests the response abstract syntax tree.
  */
 class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,7 +22,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     private $tree = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -28,7 +30,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the current node when none is set
+     * Tests getting the current node when none is set.
      */
     public function testGettingCurrentNodeWhenNoneIsSet()
     {
@@ -36,7 +38,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the root node
+     * Tests getting the root node.
      */
     public function testGettingRootNode()
     {
@@ -44,7 +46,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the current node
+     * Tests setting the current node.
      */
     public function testSettingCurrentNode()
     {

@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests\Tokenizers;
 
 /**
- * Tests the argv tokenizer
+ * Tests the argv tokenizer.
  */
 class ArgvTokenizerTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class ArgvTokenizerTest extends \PHPUnit\Framework\TestCase
     private $tokenizer = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class ArgvTokenizerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests tokenizing an escaped double quote
+     * Tests tokenizing an escaped double quote.
      */
     public function testTokenizingEscapedDoubleQuote()
     {
@@ -34,7 +36,7 @@ class ArgvTokenizerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests tokenizing an escaped single quote
+     * Tests tokenizing an escaped single quote.
      */
     public function testTokenizingEscapedSingleQuote()
     {

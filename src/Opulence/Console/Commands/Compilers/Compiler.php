@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Commands\Compilers;
 
 use Opulence\Console\Commands\ICommand;
@@ -13,12 +15,12 @@ use Opulence\Console\Requests\IRequest;
 use RuntimeException;
 
 /**
- * Defines a command compiler
+ * Defines a command compiler.
  */
 class Compiler implements ICompiler
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function compile(ICommand $command, IRequest $request) : ICommand
     {
@@ -29,10 +31,11 @@ class Compiler implements ICompiler
     }
 
     /**
-     * Compiles arguments in a command
+     * Compiles arguments in a command.
      *
      * @param ICommand $command The command to compile
      * @param IRequest $request The user request
+     *
      * @throws RuntimeException Thrown if there are too many arguments
      */
     protected function compileArguments(ICommand &$command, IRequest $request)
@@ -76,7 +79,7 @@ class Compiler implements ICompiler
     }
 
     /**
-     * Compiles options in a command
+     * Compiles options in a command.
      *
      * @param ICommand $command The command to compile
      * @param IRequest $request The user request
@@ -115,10 +118,11 @@ class Compiler implements ICompiler
     }
 
     /**
-     * Gets whether or not there are too many argument values
+     * Gets whether or not there are too many argument values.
      *
-     * @param array $argumentValues The list of argument values
+     * @param array      $argumentValues   The list of argument values
      * @param ICommand[] $commandArguments The list of command arguments
+     *
      * @return bool True if there are too many arguments, otherwise false
      */
     private function hasTooManyArguments(array $argumentValues, array $commandArguments) : bool

@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Responses;
 
 /**
- * Tests the redirect response class
+ * Tests the redirect response class.
  */
 class RedirectResponseTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
     private $redirectResponse = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,18 +27,18 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the headers after setting them in the constructor
+     * Tests getting the headers after setting them in the constructor.
      */
     public function testGettingHeadersAfterSettingInConstructor()
     {
         $this->assertEquals([
-            'foo' => ['bar'],
-            'location' => ['/foo']
+            'foo'      => ['bar'],
+            'location' => ['/foo'],
         ], $this->redirectResponse->getHeaders()->getAll());
     }
 
     /**
-     * Tests getting the status code after setting it in the constructor
+     * Tests getting the status code after setting it in the constructor.
      */
     public function testGettingStatusCodeAfterSettingInConstructor()
     {
@@ -44,7 +46,7 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the target URL after setting it in the constructor
+     * Tests getting the target URL after setting it in the constructor.
      */
     public function testGettingTargetUrlAfterSettingInConstructor()
     {
@@ -53,7 +55,7 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the target URL
+     * Tests setting the target URL.
      */
     public function testSettingTargetUrl()
     {

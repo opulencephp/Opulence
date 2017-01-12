@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing;
 
 use Opulence\Http\Requests\Request;
 
 /**
- * Tests the controller
+ * Tests the controller.
  */
 class ControllerTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
     private $controller = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -28,7 +30,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the view
+     * Tests getting the view.
      */
     public function testGettingView()
     {

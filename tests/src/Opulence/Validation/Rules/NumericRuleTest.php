@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 /**
- * Tests the numeric rule
+ * Tests the numeric rule.
  */
 class NumericRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests that a failing value
+     * Tests that a failing value.
      */
     public function testFailingValue()
     {
@@ -24,7 +26,7 @@ class NumericRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the slug
+     * Tests getting the slug.
      */
     public function testGettingSlug()
     {
@@ -33,7 +35,7 @@ class NumericRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a passing value
+     * Tests a passing value.
      */
     public function testPassingValue()
     {

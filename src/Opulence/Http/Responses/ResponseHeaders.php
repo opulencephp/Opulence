@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Responses;
 
 use Opulence\Http\Headers;
 
 /**
- * Defines the response headers
+ * Defines the response headers.
  */
 class ResponseHeaders extends Headers
 {
@@ -110,46 +112,46 @@ class ResponseHeaders extends Headers
 
     /** @var array Maps HTTP status codes to their default texts */
     public static $statusTexts = [
-        self::HTTP_CONTINUE => 'Continue',
-        self::HTTP_SWITCHING_PROTOCOL => 'Switching Protocol',
-        self::HTTP_OK => 'OK',
-        self::HTTP_CREATED => 'Created',
-        self::HTTP_ACCEPTED => 'Accepted',
-        self::HTTP_NON_AUTHORITATIVE_INFORMATION => 'Non-Authoritative Information',
-        self::HTTP_NO_CONTENT => 'No Content',
-        self::HTTP_RESET_CONTENT => 'Reset Content',
-        self::HTTP_PARTIAL_CONTENT => 'Partial Content',
-        self::HTTP_MULTIPLE_CHOICE => 'Multiple Choice',
-        self::HTTP_MOVED_PERMANENTLY => 'Moved Permanently',
-        self::HTTP_FOUND => 'Found',
-        self::HTTP_SEE_OTHER => 'See Other',
-        self::HTTP_NOT_MODIFIED => 'Not Modified',
-        self::HTTP_USE_PROXY => 'Use Proxy',
-        self::HTTP_TEMPORARY_REDIRECT => 'Temporary Redirect',
-        self::HTTP_PERMANENT_REDIRECT => 'Permanent Redirect',
-        self::HTTP_BAD_REQUEST => 'Bad Request',
-        self::HTTP_UNAUTHORIZED => 'Unauthorized',
-        self::HTTP_PAYMENT_REQUIRED => 'Payment Required',
-        self::HTTP_FORBIDDEN => 'Forbidden',
-        self::HTTP_NOT_FOUND => 'Not Found',
-        self::HTTP_METHOD_NOT_ALLOWED => 'Method Not Allowed',
-        self::HTTP_NOT_ACCEPTABLE => 'Not Acceptable',
-        self::HTTP_PROXY_AUTHENTICATION_REQUIRED => 'Proxy Authentication Required',
-        self::HTTP_REQUEST_TIMEOUT => 'Request Timeout',
-        self::HTTP_CONFLICT => 'Conflict',
-        self::HTTP_GONE => 'Gone',
-        self::HTTP_LENGTH_REQUIRED => 'Length Required',
-        self::HTTP_PRECONDITION_FAILED => 'Precondition Failed',
-        self::HTTP_REQUEST_ENTITY_TOO_LARGE => 'Request Entity Too Large',
-        self::HTTP_UNSUPPORTED_MEDIA_TYPE => 'Unsupported Media Type',
+        self::HTTP_CONTINUE                        => 'Continue',
+        self::HTTP_SWITCHING_PROTOCOL              => 'Switching Protocol',
+        self::HTTP_OK                              => 'OK',
+        self::HTTP_CREATED                         => 'Created',
+        self::HTTP_ACCEPTED                        => 'Accepted',
+        self::HTTP_NON_AUTHORITATIVE_INFORMATION   => 'Non-Authoritative Information',
+        self::HTTP_NO_CONTENT                      => 'No Content',
+        self::HTTP_RESET_CONTENT                   => 'Reset Content',
+        self::HTTP_PARTIAL_CONTENT                 => 'Partial Content',
+        self::HTTP_MULTIPLE_CHOICE                 => 'Multiple Choice',
+        self::HTTP_MOVED_PERMANENTLY               => 'Moved Permanently',
+        self::HTTP_FOUND                           => 'Found',
+        self::HTTP_SEE_OTHER                       => 'See Other',
+        self::HTTP_NOT_MODIFIED                    => 'Not Modified',
+        self::HTTP_USE_PROXY                       => 'Use Proxy',
+        self::HTTP_TEMPORARY_REDIRECT              => 'Temporary Redirect',
+        self::HTTP_PERMANENT_REDIRECT              => 'Permanent Redirect',
+        self::HTTP_BAD_REQUEST                     => 'Bad Request',
+        self::HTTP_UNAUTHORIZED                    => 'Unauthorized',
+        self::HTTP_PAYMENT_REQUIRED                => 'Payment Required',
+        self::HTTP_FORBIDDEN                       => 'Forbidden',
+        self::HTTP_NOT_FOUND                       => 'Not Found',
+        self::HTTP_METHOD_NOT_ALLOWED              => 'Method Not Allowed',
+        self::HTTP_NOT_ACCEPTABLE                  => 'Not Acceptable',
+        self::HTTP_PROXY_AUTHENTICATION_REQUIRED   => 'Proxy Authentication Required',
+        self::HTTP_REQUEST_TIMEOUT                 => 'Request Timeout',
+        self::HTTP_CONFLICT                        => 'Conflict',
+        self::HTTP_GONE                            => 'Gone',
+        self::HTTP_LENGTH_REQUIRED                 => 'Length Required',
+        self::HTTP_PRECONDITION_FAILED             => 'Precondition Failed',
+        self::HTTP_REQUEST_ENTITY_TOO_LARGE        => 'Request Entity Too Large',
+        self::HTTP_UNSUPPORTED_MEDIA_TYPE          => 'Unsupported Media Type',
         self::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE => 'Requested Range Not Satisfiable',
-        self::HTTP_EXPECTATION_FAILED => 'Expectation Failed',
-        self::HTTP_INTERNAL_SERVER_ERROR => 'Internal Server Error',
-        self::HTTP_NOT_IMPLEMENTED => 'Not Implemented',
-        self::HTTP_BAD_GATEWAY => 'Bad Gateway',
-        self::HTTP_SERVICE_UNAVAILABLE => 'Service Unavailable',
-        self::HTTP_GATEWAY_TIMEOUT => 'Gateway Timeout',
-        self::HTTP_HTTP_VERSION_NOT_SUPPORTED => 'HTTP Version Not Supported'
+        self::HTTP_EXPECTATION_FAILED              => 'Expectation Failed',
+        self::HTTP_INTERNAL_SERVER_ERROR           => 'Internal Server Error',
+        self::HTTP_NOT_IMPLEMENTED                 => 'Not Implemented',
+        self::HTTP_BAD_GATEWAY                     => 'Bad Gateway',
+        self::HTTP_SERVICE_UNAVAILABLE             => 'Service Unavailable',
+        self::HTTP_GATEWAY_TIMEOUT                 => 'Gateway Timeout',
+        self::HTTP_HTTP_VERSION_NOT_SUPPORTED      => 'HTTP Version Not Supported',
     ];
     /**
      * @var array The list of cookie names to their properties
@@ -157,13 +159,13 @@ class ResponseHeaders extends Headers
     private $cookies = [];
 
     /**
-     * Deletes a cookie in the response header
+     * Deletes a cookie in the response header.
      *
-     * @param string $name The name of the cookie to delete
-     * @param string $path The path the cookie is valid on
-     * @param string $domain The domain the cookie is valid on
-     * @param bool $isSecure Whether or not the cookie was secure
-     * @param bool $isHttpOnly Whether or not the cookie was HTTP-only
+     * @param string $name       The name of the cookie to delete
+     * @param string $path       The path the cookie is valid on
+     * @param string $domain     The domain the cookie is valid on
+     * @param bool   $isSecure   Whether or not the cookie was secure
+     * @param bool   $isHttpOnly Whether or not the cookie was HTTP-only
      */
     public function deleteCookie(
         string $name,
@@ -177,9 +179,10 @@ class ResponseHeaders extends Headers
     }
 
     /**
-     * Gets a list of all the active cookies
+     * Gets a list of all the active cookies.
      *
      * @param bool $includeDeletedCookies Whether or not to include deleted cookies
+     *
      * @return Cookie[] The list of all the set cookies
      */
     public function getCookies(bool $includeDeletedCookies = false) : array
@@ -189,7 +192,7 @@ class ResponseHeaders extends Headers
         foreach ($this->cookies as $domain => $cookiesByDomain) {
             foreach ($cookiesByDomain as $path => $cookiesByPath) {
                 /**
-                 * @var string $name
+                 * @var string
                  * @var Cookie $cookie
                  */
                 foreach ($cookiesByPath as $name => $cookie) {
@@ -205,7 +208,7 @@ class ResponseHeaders extends Headers
     }
 
     /**
-     * Sets a cookie
+     * Sets a cookie.
      *
      * @param Cookie $cookie The cookie to set
      */
@@ -215,7 +218,7 @@ class ResponseHeaders extends Headers
     }
 
     /**
-     * Sets multiple cookies
+     * Sets multiple cookies.
      *
      * @param Cookie[] $cookies
      */

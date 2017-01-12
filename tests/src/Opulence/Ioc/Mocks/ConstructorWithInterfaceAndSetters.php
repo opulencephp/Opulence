@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Ioc\Mocks;
 
 /**
- * Mocks a class with an interface in its constructor and setters for use in IoC tests
+ * Mocks a class with an interface in its constructor and setters for use in IoC tests.
  */
 class ConstructorWithInterfaceAndSetters
 {

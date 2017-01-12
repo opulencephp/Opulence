@@ -1,24 +1,27 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Filters;
 
 /**
- * Defines a filter meant to prevent cross-site scripting
+ * Defines a filter meant to prevent cross-site scripting.
  */
 class XssFilter implements IFilter
 {
     /**
-     * Filters the input parameter for XSS attacks
+     * Filters the input parameter for XSS attacks.
      *
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @param array $options The list of options with the following keys:
-     *      "forURL" => true if the input is being filtered for use in a URL, otherwise false
+     *                       "forURL" => true if the input is being filtered for use in a URL, otherwise false
      */
     public function run(string $input, array $options = []) : string
     {

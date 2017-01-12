@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes;
 
 /**
- * Tests the compiled route
+ * Tests the compiled route.
  */
 class CompiledRouteTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     private $parsedRoute = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -28,7 +30,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if a matched route is matched
+     * Tests checking if a matched route is matched.
      */
     public function testCheckingIfMatched()
     {
@@ -36,15 +38,15 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a compiled route
+     * Tests creating a compiled route.
      */
     public function testCreatingCompiledRoute()
     {
         $route = new Route('GET', '/foo/{bar=baz}', 'foo@bar', [
             'https' => true,
-            'vars' => [
-                'bar' => "\d+"
-            ]
+            'vars'  => [
+                'bar' => "\d+",
+            ],
         ]);
         $parsedRoute = new ParsedRoute($route);
         $parsedRoute->setDefaultValue('bar', 'baz');
@@ -57,7 +59,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent path variable
+     * Tests getting a non-existent path variable.
      */
     public function testGettingNonExistentPathVariable()
     {
@@ -65,7 +67,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a single path variable
+     * Tests getting a single path variable.
      */
     public function testGettingPathVariable()
     {
@@ -73,7 +75,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the path variables
+     * Tests getting the path variables.
      */
     public function testGettingPathVariables()
     {
@@ -81,7 +83,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not specifying path variables
+     * Tests not specifying path variables.
      */
     public function testNotSpecifyingPathVariables()
     {
@@ -90,7 +92,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the match
+     * Tests setting the match.
      */
     public function testSettingMatch()
     {
@@ -99,7 +101,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the path variables
+     * Tests setting the path variables.
      */
     public function testSettingPathVariables()
     {

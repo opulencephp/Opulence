@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http;
 
 /**
- * Tests the headers class
+ * Tests the headers class.
  */
 class HeadersTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,21 +19,21 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     private $headers = null;
     /** @var array The server array to use */
     private $serverArray = [
-        'NON_HEADER' => 'foo',
-        'CONTENT_LENGTH' => 4,
-        'CONTENT_TYPE' => 'foo',
-        'HTTP_ACCEPT' => 'accept',
-        'HTTP_ACCEPT_CHARSET' => 'accept_charset',
+        'NON_HEADER'           => 'foo',
+        'CONTENT_LENGTH'       => 4,
+        'CONTENT_TYPE'         => 'foo',
+        'HTTP_ACCEPT'          => 'accept',
+        'HTTP_ACCEPT_CHARSET'  => 'accept_charset',
         'HTTP_ACCEPT_ENCODING' => 'accept_encoding',
         'HTTP_ACCEPT_LANGUAGE' => 'accept_language',
-        'HTTP_CONNECTION' => 'connection',
-        'HTTP_HOST' => 'host',
-        'HTTP_REFERER' => 'referer',
-        'HTTP_USER_AGENT' => 'user_agent'
+        'HTTP_CONNECTION'      => 'connection',
+        'HTTP_HOST'            => 'host',
+        'HTTP_REFERER'         => 'referer',
+        'HTTP_USER_AGENT'      => 'user_agent',
     ];
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -39,7 +41,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that added names are normalized
+     * Tests that added names are normalized.
      */
     public function testAddedNamesAreNormalized()
     {
@@ -49,7 +51,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a string value
+     * Tests setting a string value.
      */
     public function testAddingStringValue()
     {
@@ -58,7 +60,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting all the headers after setting them in the constructor
+     * Tests getting all the headers after setting them in the constructor.
      */
     public function testGettingAllAfterSettingInConstructor()
     {
@@ -86,7 +88,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests returning all the values
+     * Tests returning all the values.
      */
     public function testGettingAllValues()
     {
@@ -94,7 +96,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests returning all the values when the key does not exist
+     * Tests returning all the values when the key does not exist.
      */
     public function testGettingAllValuesWhenKeyDoesNotExist()
     {
@@ -102,7 +104,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests returning only the first value
+     * Tests returning only the first value.
      */
     public function testGettingFirstValue()
     {
@@ -110,7 +112,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests returning only the first value when the key does not exist
+     * Tests returning only the first value when the key does not exist.
      */
     public function testGettingFirstValueWhenKeyDoesNotExist()
     {
@@ -118,7 +120,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that names are case insensitive
+     * Tests that names are case insensitive.
      */
     public function testNamesAreCaseInsensitive()
     {
@@ -141,7 +143,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that set names are normalized
+     * Tests that set names are normalized.
      */
     public function testSetNamesAreNormalized()
     {
@@ -151,9 +153,10 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Normalizes a name
+     * Normalizes a name.
      *
      * @param string $name The name to normalize
+     *
      * @return string The normalized name
      */
     private function normalizeName($name)

@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests;
 
 use InvalidArgumentException;
 
 /**
- * Defines a console command option
+ * Defines a console command option.
  */
 class Option
 {
@@ -27,11 +29,12 @@ class Option
     private $defaultValue = null;
 
     /**
-     * @param string $name The name of the option
-     * @param string|null $shortName The short name of the option if it has one, otherwise null
-     * @param int $type The type of option this is
-     * @param string $description A brief description of the option
-     * @param mixed $defaultValue The default value for the option if it's optional
+     * @param string      $name         The name of the option
+     * @param string|null $shortName    The short name of the option if it has one, otherwise null
+     * @param int         $type         The type of option this is
+     * @param string      $description  A brief description of the option
+     * @param mixed       $defaultValue The default value for the option if it's optional
+     *
      * @throws InvalidArgumentException Thrown if the type is invalid
      */
     public function __construct(string $name, $shortName, int $type, string $description, $defaultValue = null)
@@ -94,7 +97,7 @@ class Option
     }
 
     /**
-     * Gets whether or not the option value is an array
+     * Gets whether or not the option value is an array.
      *
      * @return bool True if the option value is an array, otherwise false
      */
@@ -104,7 +107,7 @@ class Option
     }
 
     /**
-     * Gets whether or not the option value is optional
+     * Gets whether or not the option value is optional.
      *
      * @return bool True if the option value is optional, otherwise false
      */
@@ -114,7 +117,7 @@ class Option
     }
 
     /**
-     * Gets whether or not the option value is allowed
+     * Gets whether or not the option value is allowed.
      *
      * @return bool True if the option value is allowed, otherwise false
      */
@@ -124,7 +127,7 @@ class Option
     }
 
     /**
-     * Gets whether or not the option value is required
+     * Gets whether or not the option value is required.
      *
      * @return bool True if the option value is required, otherwise false
      */

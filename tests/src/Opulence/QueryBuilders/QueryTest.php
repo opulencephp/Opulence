@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders;
 
 use PDO;
 
 /**
- * Tests the query class
+ * Tests the query class.
  */
 class QueryTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     private $query = null;
 
     /**
-     * Sets up the test
+     * Sets up the test.
      */
     public function setUp()
     {
@@ -27,18 +29,18 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a named placeholder
+     * Tests adding a named placeholder.
      */
     public function testAddingNamedPlaceholder()
     {
         $this->query->addNamedPlaceholderValue('name', 'foo');
         $this->assertEquals([
-            'name' => ['foo', PDO::PARAM_STR]
+            'name' => ['foo', PDO::PARAM_STR],
         ], $this->query->getParameters());
     }
 
     /**
-     * Tests the exception that should be thrown when adding a named placeholder after an unnamed one
+     * Tests the exception that should be thrown when adding a named placeholder after an unnamed one.
      */
     public function testAddingNamedPlaceholderAfterAddingUnnamedPlaceholder()
     {
@@ -48,18 +50,18 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a named placeholder with data type
+     * Tests adding a named placeholder with data type.
      */
     public function testAddingNamedPlaceholderWithDataType()
     {
         $this->query->addNamedPlaceholderValue('userId', 18175, PDO::PARAM_INT);
         $this->assertEquals([
-            'userId' => [18175, PDO::PARAM_INT]
+            'userId' => [18175, PDO::PARAM_INT],
         ], $this->query->getParameters());
     }
 
     /**
-     * Tests adding an array with the named value with the incorrect number of arguments
+     * Tests adding an array with the named value with the incorrect number of arguments.
      */
     public function testAddingNamedPlaceholderWithIncorrectArrayValueCount()
     {
@@ -68,18 +70,18 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an unnamed placeholder
+     * Tests adding an unnamed placeholder.
      */
     public function testAddingUnnamedPlaceholder()
     {
         $this->query->addUnnamedPlaceholderValue('foo');
         $this->assertEquals([
-            ['foo', PDO::PARAM_STR]
+            ['foo', PDO::PARAM_STR],
         ], $this->query->getParameters());
     }
 
     /**
-     * Tests the exception that should be thrown when adding an unnamed placeholder after a named one
+     * Tests the exception that should be thrown when adding an unnamed placeholder after a named one.
      */
     public function testAddingUnnamedPlaceholderAfterAddingNamedPlaceholder()
     {
@@ -89,18 +91,18 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an unnamed placeholder with data type
+     * Tests adding an unnamed placeholder with data type.
      */
     public function testAddingUnnamedPlaceholderWithDataType()
     {
         $this->query->addUnnamedPlaceholderValue(18175, PDO::PARAM_INT);
         $this->assertEquals([
-            [18175, PDO::PARAM_INT]
+            [18175, PDO::PARAM_INT],
         ], $this->query->getParameters());
     }
 
     /**
-     * Tests adding an array with the unnamed value with the incorrect number of arguments
+     * Tests adding an array with the unnamed value with the incorrect number of arguments.
      */
     public function testAddingUnnamedPlaceholderWithIncorrectArrayValueCount()
     {
@@ -109,7 +111,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests removing a named placeholder
+     * Tests removing a named placeholder.
      */
     public function testRemovingNamedPlaceholder()
     {
@@ -121,7 +123,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests removing a named placeholder when using unnamed placeholders
+     * Tests removing a named placeholder when using unnamed placeholders.
      */
     public function testRemovingNamedPlaceholderWhenUsingUnnamedPlaceholders()
     {
@@ -131,7 +133,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests removing an unnamed placeholder
+     * Tests removing an unnamed placeholder.
      */
     public function testRemovingUnnamedPlaceholder()
     {
@@ -155,7 +157,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests removing an unnamed placeholder when using named placeholders
+     * Tests removing an unnamed placeholder when using named placeholders.
      */
     public function testRemovingUnnamedPlaceholderWhenUsingNamedPlaceholders()
     {

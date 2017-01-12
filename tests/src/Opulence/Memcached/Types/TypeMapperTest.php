@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Memcached\Types;
 
 use DateTime;
 use DateTimeImmutable;
 
 /**
- * Tests the Memcached type mapper class
+ * Tests the Memcached type mapper class.
  */
 class TypeMapperTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,7 +22,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     private $typeMapper = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -28,7 +30,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from a false Memcached boolean
+     * Tests converting from a false Memcached boolean.
      */
     public function testConvertingFromFalseMemcachedBoolean()
     {
@@ -36,7 +38,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from a Memcached timestamp
+     * Tests converting from a Memcached timestamp.
      */
     public function testConvertingFromMemcachedTimestamp()
     {
@@ -46,7 +48,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting from a true Memcached boolean
+     * Tests converting from a true Memcached boolean.
      */
     public function testConvertingFromTrueMemcachedBoolean()
     {
@@ -54,7 +56,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to a false Memcached boolean
+     * Tests converting to a false Memcached boolean.
      */
     public function testConvertingToFalseMemcachedBoolean()
     {
@@ -62,7 +64,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to a Memcached timestamp
+     * Tests converting to a Memcached timestamp.
      */
     public function testConvertingToMemcachedTimestamp()
     {
@@ -71,7 +73,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to a Memcached timestamp from an immutable date time
+     * Tests converting to a Memcached timestamp from an immutable date time.
      */
     public function testConvertingToMemcachedTimestampFromImmutable()
     {
@@ -80,7 +82,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests converting to a true Memcached boolean
+     * Tests converting to a true Memcached boolean.
      */
     public function testConvertingToTrueMemcachedBoolean()
     {
@@ -88,7 +90,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the timezone is set
+     * Tests that the timezone is set.
      */
     public function testTimezoneSet()
     {

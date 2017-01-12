@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Bootstrappers;
 
 use Opulence\Console\Requests\Parsers\ArgvParser;
@@ -14,12 +16,12 @@ use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
- * Defines the request bootstrapper
+ * Defines the request bootstrapper.
  */
 class RequestBootstrapper extends Bootstrapper
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBindings(IContainer $container)
     {
@@ -28,9 +30,10 @@ class RequestBootstrapper extends Bootstrapper
 
     /**
      * Gets the requests parser
-     * To use a different request parser than the one returned here, extend this class and override this method
+     * To use a different request parser than the one returned here, extend this class and override this method.
      *
      * @param IContainer $container The dependency injection container
+     *
      * @return IParser The request parser
      */
     protected function getRequestParser(IContainer $container) : IParser

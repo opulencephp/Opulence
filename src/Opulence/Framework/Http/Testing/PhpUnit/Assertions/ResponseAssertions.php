@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Http\Testing\PhpUnit\Assertions;
 
 use Opulence\Http\Responses\RedirectResponse;
@@ -16,7 +18,7 @@ use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 
 /**
- * Defines the HTTP response assertions
+ * Defines the HTTP response assertions.
  */
 class ResponseAssertions extends TestCase
 {
@@ -24,9 +26,10 @@ class ResponseAssertions extends TestCase
     protected $response = null;
 
     /**
-     * Asserts that the response's contents match the input
+     * Asserts that the response's contents match the input.
      *
      * @param mixed $expected The expected value
+     *
      * @return self For method chaining
      */
     public function contentEquals($expected) : self
@@ -38,10 +41,11 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the response's cookie's value equals the input
+     * Asserts that the response's cookie's value equals the input.
      *
-     * @param string $name The name of the cookie to search for
-     * @param mixed $expected The expected value
+     * @param string $name     The name of the cookie to search for
+     * @param mixed  $expected The expected value
+     *
      * @return self For method chaining
      */
     public function cookieValueEquals(string $name, $expected) : self
@@ -64,9 +68,10 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the response has a cookie
+     * Asserts that the response has a cookie.
      *
      * @param string $name The name of the cookie to search for
+     *
      * @return self For method chaining
      */
     public function hasCookie(string $name) : self
@@ -89,9 +94,10 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the response has a header
+     * Asserts that the response has a header.
      *
      * @param string $name The name of the header to search for
+     *
      * @return self For method chaining
      */
     public function hasHeader(string $name) : self
@@ -106,10 +112,11 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the response's header's value equals the input
+     * Asserts that the response's header's value equals the input.
      *
-     * @param string $name The name of the header to search for
-     * @param mixed $expected The expected value
+     * @param string $name     The name of the header to search for
+     * @param mixed  $expected The expected value
+     *
      * @return self For method chaining
      */
     public function headerEquals(string $name, $expected) : self
@@ -121,7 +128,7 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the response is an internal server error
+     * Asserts that the response is an internal server error.
      *
      * @return self For method chaining
      */
@@ -134,7 +141,7 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the response is not found
+     * Asserts that the response is not found.
      *
      * @return self For method chaining
      */
@@ -147,7 +154,7 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the response is OK
+     * Asserts that the response is OK.
      *
      * @return self For method chaining
      */
@@ -160,7 +167,7 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the response is unauthorized
+     * Asserts that the response is unauthorized.
      *
      * @return self For method chaining
      */
@@ -173,9 +180,10 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the response's JSON contains the input
+     * Asserts that the response's JSON contains the input.
      *
      * @param array $expected The expected value
+     *
      * @return self For method chaining
      */
     public function jsonContains(array $expected) : self
@@ -188,7 +196,7 @@ class ResponseAssertions extends TestCase
             RecursiveIteratorIterator::SELF_FIRST
         );
 
-        /**
+        /*
          * The logic here is loop through all the keys in the response and,
          * on finding a match, unset that key from expected
          * If there's anything left in expected, then the response did not
@@ -200,15 +208,16 @@ class ResponseAssertions extends TestCase
             }
         }
 
-        $this->assertTrue(count($expected) === 0, 'Failed asserting JSON contains ' . json_encode($expected));
+        $this->assertTrue(count($expected) === 0, 'Failed asserting JSON contains '.json_encode($expected));
 
         return $this;
     }
 
     /**
-     * Asserts that the response's JSON contains a key
+     * Asserts that the response's JSON contains a key.
      *
      * @param string $expected The expected key
+     *
      * @return self For method chaining
      */
     public function jsonContainsKey(string $expected) : self
@@ -235,9 +244,10 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the response's JSON matches the input
+     * Asserts that the response's JSON matches the input.
      *
      * @param array $expected The expected value
+     *
      * @return self For method chaining
      */
     public function jsonEquals(array $expected) : self
@@ -250,9 +260,10 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the response redirects to a URL
+     * Asserts that the response redirects to a URL.
      *
      * @param string $url The expected URL
+     *
      * @return self For method chaining
      */
     public function redirectsTo(string $url) : self
@@ -275,9 +286,10 @@ class ResponseAssertions extends TestCase
     }
 
     /**
-     * Asserts that the response status code equals a particular value
+     * Asserts that the response status code equals a particular value.
      *
      * @param int $statusCode The expected status code
+     *
      * @return self For method chaining
      */
     public function statusCodeEquals(int $statusCode) : self
@@ -290,7 +302,7 @@ class ResponseAssertions extends TestCase
 
     /**
      * Checks if the response was set
-     * Useful for making sure the response was set before making any assertions on it
+     * Useful for making sure the response was set before making any assertions on it.
      */
     private function checkResponseIsSet()
     {

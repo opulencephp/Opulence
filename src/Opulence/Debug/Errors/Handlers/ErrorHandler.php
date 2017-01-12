@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Debug\Errors\Handlers;
 
 use ErrorException;
@@ -14,7 +16,7 @@ use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
 use Psr\Log\LoggerInterface;
 
 /**
- * Defines the PHP error handler
+ * Defines the PHP error handler.
  */
 class ErrorHandler implements IErrorHandler
 {
@@ -28,10 +30,10 @@ class ErrorHandler implements IErrorHandler
     protected $thrownLevels = 0;
 
     /**
-     * @param LoggerInterface $logger The logger
+     * @param LoggerInterface   $logger           The logger
      * @param IExceptionHandler $exceptionHandler The exception handler
-     * @param int|null $loggedLevels The bitwise value of error levels that are to be logged
-     * @param int|null $thrownLevels The bitwise value of error levels that are to be thrown as exceptions
+     * @param int|null          $loggedLevels     The bitwise value of error levels that are to be logged
+     * @param int|null          $thrownLevels     The bitwise value of error levels that are to be thrown as exceptions
      */
     public function __construct(
         LoggerInterface $logger,
@@ -46,7 +48,7 @@ class ErrorHandler implements IErrorHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handle(int $level, string $message, string $file = '', int $line = 0, array $context = [])
     {
@@ -60,7 +62,7 @@ class ErrorHandler implements IErrorHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handleShutdown()
     {
@@ -78,7 +80,7 @@ class ErrorHandler implements IErrorHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function register()
     {
@@ -89,9 +91,10 @@ class ErrorHandler implements IErrorHandler
     }
 
     /**
-     * Gets whether or not the level is loggable
+     * Gets whether or not the level is loggable.
      *
      * @param int $level The bitwise level
+     *
      * @return bool True if the level is loggable, otherwise false
      */
     protected function levelIsLoggable(int $level) : bool
@@ -100,9 +103,10 @@ class ErrorHandler implements IErrorHandler
     }
 
     /**
-     * Gets whether or not the level is throwable
+     * Gets whether or not the level is throwable.
      *
      * @param int $level The bitwise level
+     *
      * @return bool True if the level is throwable, otherwise false
      */
     protected function levelIsThrowable(int $level) : bool

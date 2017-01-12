@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc;
 
 use InvalidArgumentException;
@@ -17,7 +19,7 @@ use ReflectionParameter;
 use RuntimeException;
 
 /**
- * Defines the dependency injection container
+ * Defines the dependency injection container.
  */
 class Container implements IContainer
 {
@@ -29,7 +31,7 @@ class Container implements IContainer
     protected $bindings = [];
 
     /**
-     * Prepares the container for serialization
+     * Prepares the container for serialization.
      */
     public function __sleep()
     {
@@ -37,7 +39,7 @@ class Container implements IContainer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false)
     {
@@ -56,7 +58,7 @@ class Container implements IContainer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function bindInstance($interfaces, $instance)
     {
@@ -75,7 +77,7 @@ class Container implements IContainer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = [])
     {
@@ -92,7 +94,7 @@ class Container implements IContainer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = [])
     {
@@ -109,7 +111,7 @@ class Container implements IContainer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function callClosure(callable $closure, array $primitives = [])
     {
@@ -120,7 +122,7 @@ class Container implements IContainer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function callMethod($instance, string $methodName, array $primitives = [], bool $ignoreMissingMethod = false)
     {
@@ -129,7 +131,7 @@ class Container implements IContainer
                 throw new IocException('Cannot call method');
             }
 
-            return null;
+            return;
         }
 
         $unresolvedParameters = (new ReflectionMethod($instance, $methodName))->getParameters();
@@ -140,7 +142,7 @@ class Container implements IContainer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function for(string $targetClass, callable $callback)
     {
@@ -152,7 +154,7 @@ class Container implements IContainer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hasBinding(string $interface) : bool
     {
@@ -166,7 +168,7 @@ class Container implements IContainer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function resolve(string $interface)
     {
@@ -179,7 +181,7 @@ class Container implements IContainer
 
         switch (get_class($binding)) {
             case InstanceBinding::class:
-                /** @var InstanceBinding $binding */
+                /* @var InstanceBinding $binding */
                 return $binding->getInstance();
             case ClassBinding::class:
                 /** @var ClassBinding $binding */
@@ -194,7 +196,7 @@ class Container implements IContainer
                 $instance = $factory();
                 break;
             default:
-                throw new RuntimeException('Invalid binding type "' . get_class($binding) . '"');
+                throw new RuntimeException('Invalid binding type "'.get_class($binding).'"');
         }
 
         if ($binding->resolveAsSingleton()) {
@@ -206,22 +208,22 @@ class Container implements IContainer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function unbind($interfaces)
     {
         $target = $this->getCurrentTarget();
 
-        foreach ((array)$interfaces as $interface) {
+        foreach ((array) $interfaces as $interface) {
             unset($this->bindings[$target][$interface]);
         }
     }
 
     /**
-     * Adds a binding to an interface
+     * Adds a binding to an interface.
      *
-     * @param string $interface The interface to bind to
-     * @param IBinding $binding The binding to add
+     * @param string   $interface The interface to bind to
+     * @param IBinding $binding   The binding to add
      */
     protected function addBinding(string $interface, IBinding $binding)
     {
@@ -235,9 +237,10 @@ class Container implements IContainer
     }
 
     /**
-     * Gets a binding for an interface
+     * Gets a binding for an interface.
      *
      * @param string $interface The interface whose binding we want
+     *
      * @return IBinding|null The binding if one exists, otherwise null
      */
     protected function getBinding(string $interface)
@@ -253,12 +256,10 @@ class Container implements IContainer
         if (isset($this->bindings[self::$emptyTarget][$interface])) {
             return $this->bindings[self::$emptyTarget][$interface];
         }
-
-        return null;
     }
 
     /**
-     * Gets the current target, if there is one
+     * Gets the current target, if there is one.
      *
      * @return string|null The current target if there is one, otherwise null
      */
@@ -268,10 +269,11 @@ class Container implements IContainer
     }
 
     /**
-     * Gets whether or not a targeted binding exists
+     * Gets whether or not a targeted binding exists.
      *
-     * @param string $interface The interface to check
-     * @param string|null $target The target whose bindings we're checking
+     * @param string      $interface The interface to check
+     * @param string|null $target    The target whose bindings we're checking
+     *
      * @return bool True if the targeted binding exists, otherwise false
      */
     protected function hasTargetedBinding(string $interface, string $target = null) : bool
@@ -280,12 +282,14 @@ class Container implements IContainer
     }
 
     /**
-     * Resolves a class
+     * Resolves a class.
      *
-     * @param string $class The class name to resolve
-     * @param array $primitives The list of constructor primitives
-     * @return object The resolved class
+     * @param string $class      The class name to resolve
+     * @param array  $primitives The list of constructor primitives
+     *
      * @throws IocException Thrown if the class could not be resolved
+     *
+     * @return object The resolved class
      */
     protected function resolveClass(string $class, array $primitives = [])
     {
@@ -306,7 +310,7 @@ class Container implements IContainer
 
             if ($constructor === null) {
                 // No constructor, so instantiating is easy
-                return new $class;
+                return new $class();
             }
 
             $constructorParameters = $this->resolveParameters(
@@ -322,13 +326,15 @@ class Container implements IContainer
     }
 
     /**
-     * Resolves a list of parameters for a function call
+     * Resolves a list of parameters for a function call.
      *
-     * @param string|null $class The name of the class whose parameters we're resolving
+     * @param string|null           $class                The name of the class whose parameters we're resolving
      * @param ReflectionParameter[] $unresolvedParameters The list of unresolved parameters
-     * @param array $primitives The list of primitive values
-     * @return array The list of parameters with all the dependencies resolved
+     * @param array                 $primitives           The list of primitive values
+     *
      * @throws IocException Thrown if there was an error resolving the parameters
+     *
+     * @return array The list of parameters with all the dependencies resolved
      */
     protected function resolveParameters(
         $class,
@@ -347,7 +353,7 @@ class Container implements IContainer
                 // The parameter is an object
                 $parameterClassName = $parameter->getClass()->getName();
 
-                /**
+                /*
                  * We need to first check if the input class is a target for the parameter
                  * If it is, resolve it using the input class as a target
                  * Otherwise, attempt to resolve it universally
@@ -368,12 +374,14 @@ class Container implements IContainer
     }
 
     /**
-     * Resolves a primitive parameter
+     * Resolves a primitive parameter.
      *
      * @param ReflectionParameter $parameter  The primitive parameter to resolve
-     * @param array $primitives The list of primitive values
-     * @return mixed The resolved primitive
+     * @param array               $primitives The list of primitive values
+     *
      * @throws IocException Thrown if there was a problem resolving the primitive
+     *
+     * @return mixed The resolved primitive
      */
     protected function resolvePrimitive(ReflectionParameter $parameter, array &$primitives)
     {

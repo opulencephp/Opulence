@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Views\Caching;
 
 use Opulence\Cache\ICacheBridge;
 use Opulence\Views\IView;
 
 /**
- * Tests the generic view cache
+ * Tests the generic view cache.
  */
 class GenericCacheTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,7 +26,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     private $view = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -34,7 +36,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking for an existing view
+     * Tests checking for an existing view.
      */
     public function testCheckingForExistingView()
     {
@@ -51,7 +53,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking for a non-existent view
+     * Tests checking for a non-existent view.
      */
     public function testCheckingForNonExistentView()
     {
@@ -68,7 +70,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests flushing cache
+     * Tests flushing cache.
      */
     public function testFlushingCache()
     {
@@ -78,7 +80,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the view
+     * Tests getting the view.
      */
     public function testGettingView()
     {
@@ -90,7 +92,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the view
+     * Tests setting the view.
      */
     public function testSettingView()
     {
@@ -101,16 +103,17 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Gets the key for the cached view
+     * Gets the key for the cached view.
      *
      * @param IView $view The view whose cache key we want
+     *
      * @return string The key for the cached view
      */
     private function getKey(IView $view) : string
     {
         return md5(http_build_query([
             'u' => $view->getContents(),
-            'v' => $view->getVars()
+            'v' => $view->getVars(),
         ]));
     }
 }

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Databases\Mocks;
 
 use Exception;
@@ -15,7 +17,7 @@ use Opulence\Databases\Server as RealServer;
 use PDO;
 
 /**
- * Mocks the connection class for use in testing
+ * Mocks the connection class for use in testing.
  */
 class Connection implements IConnection
 {
@@ -40,7 +42,7 @@ class Connection implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function beginTransaction()
     {
@@ -48,7 +50,7 @@ class Connection implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function commit()
     {
@@ -60,15 +62,14 @@ class Connection implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function errorCode()
     {
-        return null;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function errorInfo()
     {
@@ -76,7 +77,7 @@ class Connection implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function exec($statement)
     {
@@ -84,7 +85,7 @@ class Connection implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDatabaseProvider()
     {
@@ -92,7 +93,7 @@ class Connection implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getServer()
     {
@@ -100,7 +101,7 @@ class Connection implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function inTransaction()
     {
@@ -108,7 +109,7 @@ class Connection implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function lastInsertId($sequenceName = null)
     {
@@ -118,11 +119,11 @@ class Connection implements IConnection
 
         $this->lastInsertIds[$sequenceName]++;
 
-        return '' . $this->lastInsertIds[$sequenceName];
+        return ''.$this->lastInsertIds[$sequenceName];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function prepare($statement)
     {
@@ -130,7 +131,7 @@ class Connection implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function query($statement)
     {
@@ -138,7 +139,7 @@ class Connection implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function quote($string, $parameterType = PDO::PARAM_STR)
     {
@@ -146,7 +147,7 @@ class Connection implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rollBack()
     {

@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 /**
- * Tests the email rule
+ * Tests the email rule.
  */
 class EmailRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests getting the slug
+     * Tests getting the slug.
      */
     public function testGettingSlug()
     {
@@ -23,7 +25,7 @@ class EmailRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an invalid email fails
+     * Tests that an invalid email fails.
      */
     public function testInvalidEmailFails()
     {
@@ -32,7 +34,7 @@ class EmailRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a valid email passes
+     * Tests that a valid email passes.
      */
     public function testValidEmailPasses()
     {

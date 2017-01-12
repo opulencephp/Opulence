@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm\Ids\Generators;
 
 use stdClass;
 
 /**
- * Tests the UUID V4 generator
+ * Tests the UUID V4 generator.
  */
 class UuidV4GeneratorTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test checking if this generator is post-insert
+     * Test checking if this generator is post-insert.
      */
     public function testCheckingIfPostInsert()
     {
@@ -25,7 +27,7 @@ class UuidV4GeneratorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests generating an Id
+     * Tests generating an Id.
      */
     public function testGeneratingId()
     {
@@ -39,8 +41,7 @@ class UuidV4GeneratorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     *
-     * Test getting empty value
+     * Test getting empty value.
      */
     public function testGettingEmptyValue()
     {

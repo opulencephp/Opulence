@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\Conditions;
 
 /**
- * Tests the condition factory
+ * Tests the condition factory.
  */
 class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
     private $conditionFactory = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a BETWEEN condition
+     * Tests creating a BETWEEN condition.
      */
     public function testCreatingBetweenCondition()
     {
@@ -33,7 +35,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating an IN condition
+     * Tests creating an IN condition.
      */
     public function testCreatingInCondition()
     {
@@ -41,7 +43,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a NOT BETWEEN condition
+     * Tests creating a NOT BETWEEN condition.
      */
     public function testCreatingNotBetweenCondition()
     {
@@ -49,7 +51,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a NOT IN condition
+     * Tests creating a NOT IN condition.
      */
     public function testCreatingNotInCondition()
     {

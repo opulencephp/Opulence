@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Responses;
 
 use LogicException;
 
 /**
- * Tests the stream response
+ * Tests the stream response.
  */
 class StreamResponseTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests that the contents are output once
+     * Tests that the contents are output once.
      */
     public function testContentsAreOutputOnce()
     {
@@ -32,7 +34,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not setting the callback and then sending the content
+     * Tests not setting the callback and then sending the content.
      */
     public function testNotSettingCallbackThenSendingContent()
     {
@@ -43,7 +45,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the content
+     * Tests setting the content.
      */
     public function testSettingContent()
     {
@@ -53,7 +55,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the stream callback
+     * Tests setting the stream callback.
      */
     public function testSettingStreamCallback()
     {

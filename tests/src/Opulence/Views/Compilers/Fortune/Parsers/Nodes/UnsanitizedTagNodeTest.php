@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 
 /**
- * Tests the unsanitized tag node
+ * Tests the unsanitized tag node.
  */
 class UnsanitizedTagNodeTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests the "is a" methods
+     * Tests the "is a" methods.
      */
     public function testIsAMethods()
     {

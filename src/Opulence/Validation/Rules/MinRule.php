@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
 use LogicException;
 
 /**
- * Defines the minimum rule
+ * Defines the minimum rule.
  */
 class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
 {
@@ -22,7 +24,7 @@ class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     protected $isInclusive = true;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getErrorPlaceholders() : array
     {
@@ -30,7 +32,7 @@ class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSlug() : string
     {
@@ -38,7 +40,7 @@ class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function passes($value, array $allValues = []) : bool
     {
@@ -54,7 +56,7 @@ class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setArgs(array $args)
     {

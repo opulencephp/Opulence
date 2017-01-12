@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Responses;
 
 use LogicException;
 
 /**
- * Defines a stream response whose contents are only output once
+ * Defines a stream response whose contents are only output once.
  */
 class StreamResponse extends Response
 {
@@ -21,7 +23,8 @@ class StreamResponse extends Response
     protected $hasSentStream = false;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @param callable $streamCallback The callback that streams/outputs the content
      */
     public function __construct(
@@ -37,7 +40,7 @@ class StreamResponse extends Response
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function sendContent()
     {
@@ -48,7 +51,8 @@ class StreamResponse extends Response
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @throws LogicException Thrown because you cannot set content of a stream response
      */
     public function setContent($content)
@@ -59,7 +63,7 @@ class StreamResponse extends Response
     }
 
     /**
-     * Sets the stream callback
+     * Sets the stream callback.
      *
      * @param callable $streamCallback
      */

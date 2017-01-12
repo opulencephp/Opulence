@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm\Ids\Generators;
 
 /**
- * Tests the Id generator registry
+ * Tests the Id generator registry.
  */
 class IdGeneratorRegistryTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class IdGeneratorRegistryTest extends \PHPUnit\Framework\TestCase
     private $registry = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class IdGeneratorRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the correct instance is returned after registering a generator
+     * Tests that the correct instance is returned after registering a generator.
      */
     public function testCorrectInstanceReturnedAfterRegisteringGenerator()
     {
@@ -36,7 +38,7 @@ class IdGeneratorRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests null is returned for non-existent generator
+     * Tests null is returned for non-existent generator.
      */
     public function testNullReturnedForNonExistentGenerator()
     {

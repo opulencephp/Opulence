@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests;
 
 use InvalidArgumentException;
 
 /**
- * Defines a console command argument
+ * Defines a console command argument.
  */
 class Argument
 {
@@ -25,10 +27,11 @@ class Argument
     private $defaultValue = null;
 
     /**
-     * @param string $name The name of the argument
-     * @param int $type The type of argument this is
-     * @param string $description A brief description of the argument
-     * @param mixed $defaultValue The default value for the argument if it's optional
+     * @param string $name         The name of the argument
+     * @param int    $type         The type of argument this is
+     * @param string $description  A brief description of the argument
+     * @param mixed  $defaultValue The default value for the argument if it's optional
+     *
      * @throws InvalidArgumentException Thrown if the type is invalid
      */
     public function __construct(string $name, int $type, string $description, $defaultValue = null)
@@ -68,7 +71,7 @@ class Argument
     }
 
     /**
-     * Gets whether or not the argument is an array
+     * Gets whether or not the argument is an array.
      *
      * @return bool True if the argument is an array, otherwise false
      */
@@ -78,7 +81,7 @@ class Argument
     }
 
     /**
-     * Gets whether or not the argument is optional
+     * Gets whether or not the argument is optional.
      *
      * @return bool True if the argument is optional, otherwise false
      */
@@ -88,7 +91,7 @@ class Argument
     }
 
     /**
-     * Gets whether or not the argument is required
+     * Gets whether or not the argument is required.
      *
      * @return bool True if the argument is required, otherwise false
      */

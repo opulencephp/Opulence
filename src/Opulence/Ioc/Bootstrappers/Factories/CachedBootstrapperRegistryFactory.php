@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc\Bootstrappers\Factories;
 
 use Opulence\Ioc\Bootstrappers\Caching\ICache;
@@ -13,7 +15,7 @@ use Opulence\Ioc\Bootstrappers\IBootstrapperRegistry;
 use Opulence\Ioc\Bootstrappers\IBootstrapperResolver;
 
 /**
- * Defines the cached bootstrapper registry factory
+ * Defines the cached bootstrapper registry factory.
  */
 class CachedBootstrapperRegistryFactory extends BootstrapperRegistryFactory
 {
@@ -21,7 +23,8 @@ class CachedBootstrapperRegistryFactory extends BootstrapperRegistryFactory
     private $bootstrapperRegistryCache;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @param ICache $bootstrapperRegistryCache The bootstrapper registry cache
      */
     public function __construct(IBootstrapperResolver $bootstrapperResolver, ICache $bootstrapperRegistryCache)
@@ -32,7 +35,7 @@ class CachedBootstrapperRegistryFactory extends BootstrapperRegistryFactory
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createBootstrapperRegistry(array $bootstrapperClasses) : IBootstrapperRegistry
     {

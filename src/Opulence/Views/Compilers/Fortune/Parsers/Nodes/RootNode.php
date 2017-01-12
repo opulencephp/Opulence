@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 
 /**
- * Defines the root node
+ * Defines the root node.
  */
 class RootNode extends Node
 {
@@ -19,7 +21,7 @@ class RootNode extends Node
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getParent() : Node
     {
@@ -27,7 +29,7 @@ class RootNode extends Node
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isComment() : bool
     {
@@ -35,7 +37,7 @@ class RootNode extends Node
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isDirective() : bool
     {
@@ -43,7 +45,7 @@ class RootNode extends Node
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isDirectiveName() : bool
     {
@@ -51,7 +53,7 @@ class RootNode extends Node
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isExpression() : bool
     {
@@ -59,7 +61,7 @@ class RootNode extends Node
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isSanitizedTag() : bool
     {
@@ -67,7 +69,7 @@ class RootNode extends Node
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isUnsanitizedTag() : bool
     {

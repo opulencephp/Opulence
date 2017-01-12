@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
 use InvalidArgumentException;
 
 /**
- * Defines a JWT header
+ * Defines a JWT header.
  */
 class JwtHeader
 {
@@ -23,17 +25,17 @@ class JwtHeader
         'HS512',
         'RS256',
         'RS384',
-        'RS512'
+        'RS512',
     ];
     /** @var array The extra headers */
     private $headers = [
         'typ' => 'JWT',
-        'alg' => 'HS256'
+        'alg' => 'HS256',
     ];
 
     /**
      * @param string $algorithm The algorithm
-     * @param array $headers The headers
+     * @param array  $headers   The headers
      */
     public function __construct(string $algorithm = 'HS256', array $headers = [])
     {
@@ -45,10 +47,12 @@ class JwtHeader
     }
 
     /**
-     * Base 64 encodes data for use in URLs
+     * Base 64 encodes data for use in URLs.
      *
      * @param string $data The data to encode
+     *
      * @return string The base 64 encoded data that's safe for URLs
+     *
      * @link http://php.net/manual/en/function.base64-encode.php#103849
      */
     private static function base64UrlEncode(string $data) : string
@@ -57,10 +61,10 @@ class JwtHeader
     }
 
     /**
-     * Adds a header
+     * Adds a header.
      *
-     * @param string $name The name of the header to add
-     * @param mixed $value The value to add
+     * @param string $name  The name of the header to add
+     * @param mixed  $value The value to add
      */
     public function add(string $name, $value)
     {
@@ -75,7 +79,7 @@ class JwtHeader
     }
 
     /**
-     * Gets the header as a base64 URL-encoded string
+     * Gets the header as a base64 URL-encoded string.
      *
      * @return string The base64 URL-encoded string
      */
@@ -85,15 +89,16 @@ class JwtHeader
     }
 
     /**
-     * Gets the value for a header
+     * Gets the value for a header.
      *
      * @param string $name The name of the header to get
+     *
      * @return mixed|null The value of the header if it exists, otherwise null
      */
     public function get(string $name)
     {
         if (!array_key_exists($name, $this->headers)) {
-            return null;
+            return;
         }
 
         return $this->headers[$name];
@@ -108,7 +113,7 @@ class JwtHeader
     }
 
     /**
-     * Gets all the header values
+     * Gets all the header values.
      *
      * @return array All the header values
      */
@@ -135,6 +140,7 @@ class JwtHeader
 
     /**
      * @param string $algorithm
+     *
      * @throws InvalidArgumentException Thrown if the algorithm is not supported
      */
     private function setAlgorithm(string $algorithm)

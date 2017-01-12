@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Http;
 
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
@@ -31,12 +33,12 @@ use Opulence\Tests\Routing\Mocks\ExceptionalRouter;
 use Psr\Log\LoggerInterface;
 
 /**
- * Tests the HTTP kernel
+ * Tests the HTTP kernel.
  */
 class KernelTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests adding empty middleware
+     * Tests adding empty middleware.
      */
     public function testAddingEmptyMiddleware()
     {
@@ -46,7 +48,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding middleware
+     * Tests adding middleware.
      */
     public function testAddingMiddleware()
     {
@@ -60,7 +62,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests disabling all middleware
+     * Tests disabling all middleware.
      */
     public function testDisablingAllMiddleware()
     {
@@ -71,7 +73,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests disabling certain middleware
+     * Tests disabling certain middleware.
      */
     public function testDisablingCertainMiddleware()
     {
@@ -90,7 +92,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests enabling certain middleware
+     * Tests enabling certain middleware.
      */
     public function testEnablingCertainMiddleware()
     {
@@ -102,7 +104,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting middleware
+     * Tests getting middleware.
      */
     public function testGettingMiddleware()
     {
@@ -113,7 +115,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests handling an exceptional request
+     * Tests handling an exceptional request.
      */
     public function testHandlingExceptionalRequest()
     {
@@ -124,7 +126,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests handling a request
+     * Tests handling a request.
      */
     public function testHandlingRequest()
     {
@@ -136,7 +138,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests handling a request with middleware
+     * Tests handling a request with middleware.
      */
     public function testHandlingWithMiddleware()
     {
@@ -148,7 +150,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests handling a request with parameterized middleware
+     * Tests handling a request with parameterized middleware.
      */
     public function testHandlingWithParameterizedMiddleware()
     {
@@ -160,10 +162,11 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Gets a kernel to use in testing
+     * Gets a kernel to use in testing.
      *
-     * @param string $method The HTTP method the routes are valid for
-     * @param bool $shouldThrowException True if the router should throw an exception, otherwise false
+     * @param string $method               The HTTP method the routes are valid for
+     * @param bool   $shouldThrowException True if the router should throw an exception, otherwise false
+     *
      * @return Kernel The kernel
      */
     private function getKernel($method, $shouldThrowException)
@@ -203,7 +206,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
             );
         }
 
-        $router->any('/', Controller::class . '@noParameters');
+        $router->any('/', Controller::class.'@noParameters');
         /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
         /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $exceptionRenderer */

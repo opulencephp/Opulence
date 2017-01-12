@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\Signatures;
 
 use InvalidArgumentException;
 use RuntimeException;
 
 /**
- * Defines the RSA SSA PKCS signer
+ * Defines the RSA SSA PKCS signer.
  */
 class RsaSsaPkcsSigner implements ISigner
 {
@@ -24,8 +26,8 @@ class RsaSsaPkcsSigner implements ISigner
     private $privateKey = null;
 
     /**
-     * @param string $algorithm The algorithm to use
-     * @param string|resource $publicKey The public key
+     * @param string          $algorithm  The algorithm to use
+     * @param string|resource $publicKey  The public key
      * @param string|resource $privateKey The private key
      */
     public function __construct(string $algorithm, $publicKey, $privateKey)
@@ -36,7 +38,7 @@ class RsaSsaPkcsSigner implements ISigner
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAlgorithm() : string
     {
@@ -44,7 +46,7 @@ class RsaSsaPkcsSigner implements ISigner
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function sign(string $data) : string
     {
@@ -64,7 +66,7 @@ class RsaSsaPkcsSigner implements ISigner
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function verify(string $data, string $signature) : bool
     {
@@ -81,11 +83,13 @@ class RsaSsaPkcsSigner implements ISigner
     }
 
     /**
-     * Gets the OpenSSL Id for a algorithm
+     * Gets the OpenSSL Id for a algorithm.
      *
      * @param string $algorithm The algorithm whose OpenSSL Id we want
-     * @return int The PHP Id for the algorithm
+     *
      * @throws InvalidArgumentException Thrown if the algorithm is not an OpenSSL algorithm
+     *
+     * @return int The PHP Id for the algorithm
      */
     private function getOpenSslAlgorithm(string $algorithm) : int
     {

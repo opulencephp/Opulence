@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cache;
 
 /**
- * Tests that array bridge
+ * Tests that array bridge.
  */
 class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     private $bridge = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if a key exists
+     * Tests checking if a key exists.
      */
     public function testCheckingIfKeyExists()
     {
@@ -39,7 +41,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests decrementing values
+     * Tests decrementing values.
      */
     public function testDecrementingValues()
     {
@@ -51,7 +53,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests deleting a key
+     * Tests deleting a key.
      */
     public function testDeletingKey()
     {
@@ -61,7 +63,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests flushing
+     * Tests flushing.
      */
     public function testFlushing()
     {
@@ -73,7 +75,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent key
+     * Tests getting a non-existent key.
      */
     public function testGettingNonExistentKey()
     {
@@ -81,7 +83,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a set value
+     * Tests getting a set value.
      */
     public function testGettingSetValue()
     {
@@ -90,7 +92,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests incrementing values
+     * Tests incrementing values.
      */
     public function testIncrementingValues()
     {
@@ -102,7 +104,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that setting a value with a lifetime of 0 or lower is not retained in cache
+     * Tests that setting a value with a lifetime of 0 or lower is not retained in cache.
      */
     public function testSettingValueWithNegativeLifetime()
     {

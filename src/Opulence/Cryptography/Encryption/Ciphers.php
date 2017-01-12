@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cryptography\Encryption;
 
 /**
- * Defines the various ciphers that can be used in encryption
+ * Defines the various ciphers that can be used in encryption.
  */
 class Ciphers
 {

@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune\Lexers\Tokens;
 
 /**
- * Defines a view token
+ * Defines a view token.
  */
 class Token
 {
@@ -21,9 +23,9 @@ class Token
     private $line = 0;
 
     /**
-     * @param string $type The token type
-     * @param mixed $value The value of the token
-     * @param int $line The line the token is on
+     * @param string $type  The token type
+     * @param mixed  $value The value of the token
+     * @param int    $line  The line the token is on
      */
     public function __construct(string $type, $value, int $line)
     {

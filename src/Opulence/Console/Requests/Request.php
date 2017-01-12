@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests;
 
 use InvalidArgumentException;
 
 /**
- * Defines a basic console request
+ * Defines a basic console request.
  */
 class Request implements IRequest
 {
@@ -23,7 +25,7 @@ class Request implements IRequest
     private $options = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function addArgumentValue($value)
     {
@@ -31,7 +33,7 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function addOptionValue(string $name, $value)
     {
@@ -48,7 +50,7 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getArgumentValues() : array
     {
@@ -56,7 +58,7 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getCommandName() : string
     {
@@ -64,7 +66,7 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getOptionValue(string $name)
     {
@@ -76,7 +78,7 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getOptionValues() : array
     {
@@ -84,7 +86,7 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function optionIsSet(string $name) : bool
     {
@@ -93,7 +95,7 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setCommandName(string $name)
     {

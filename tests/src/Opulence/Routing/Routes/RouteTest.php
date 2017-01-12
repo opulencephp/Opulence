@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes;
 
 use Closure;
@@ -14,12 +16,12 @@ use Opulence\Routing\Middleware\MiddlewareParameters;
 use Opulence\Tests\Routing\Middleware\Mocks\ParameterizedMiddleware;
 
 /**
- * Tests the route class
+ * Tests the route class.
  */
 class RouteTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests adding multiple middleware
+     * Tests adding multiple middleware.
      */
     public function testAddingMultipleMiddleware()
     {
@@ -29,7 +31,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding non-unique middleware
+     * Tests adding non-unique middleware.
      */
     public function testAddingNonUniqueMiddleware()
     {
@@ -40,7 +42,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding non-unique parameterized middleware
+     * Tests adding non-unique parameterized middleware.
      */
     public function testAddingNonUniqueParameterizedMiddleware()
     {
@@ -51,7 +53,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a single middleware
+     * Tests adding a single middleware.
      */
     public function testAddingSingleMiddleware()
     {
@@ -61,7 +63,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a route that uses a controller does not say it's using a closure
+     * Tests that a route that uses a controller does not say it's using a closure.
      */
     public function testControllerRouteDoesNotSayItsUsingClosure()
     {
@@ -71,7 +73,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the controller method
+     * Tests getting the controller method.
      */
     public function testGettingControllerMethod()
     {
@@ -80,7 +82,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the controller name
+     * Tests getting the controller name.
      */
     public function testGettingControllerName()
     {
@@ -90,7 +92,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the methods
+     * Tests getting the methods.
      */
     public function testGettingMethods()
     {
@@ -99,43 +101,43 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the middleware when it is a string
+     * Tests getting the middleware when it is a string.
      */
     public function testGettingMiddlewareWhenItIsAString()
     {
         $options = [
-            'middleware' => 'foo'
+            'middleware' => 'foo',
         ];
         $route = new Route('get', '/foo', 'foo@bar', $options);
         $this->assertEquals(['foo'], $route->getMiddleware());
     }
 
     /**
-     * Tests getting the middleware when it is an object
+     * Tests getting the middleware when it is an object.
      */
     public function testGettingMiddlewareWhenItIsAnObject()
     {
         $options = [
-            'middleware' => new MiddlewareParameters('foo', ['bar' => 'baz'])
+            'middleware' => new MiddlewareParameters('foo', ['bar' => 'baz']),
         ];
         $route = new Route('get', '/foo', 'foo@bar', $options);
         $this->assertEquals([$options['middleware']], $route->getMiddleware());
     }
 
     /**
-     * Tests getting the middleware when they are an array
+     * Tests getting the middleware when they are an array.
      */
     public function testGettingMiddlewareWhenTheyAreAnArray()
     {
         $options = [
-            'middleware' => ['foo', 'bar']
+            'middleware' => ['foo', 'bar'],
         ];
         $route = new Route('get', '/foo', 'foo@bar', $options);
         $this->assertEquals(['foo', 'bar'], $route->getMiddleware());
     }
 
     /**
-     * Tests getting the raw path
+     * Tests getting the raw path.
      */
     public function testGettingRawPath()
     {
@@ -144,7 +146,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an unset name
+     * Tests getting an unset name.
      */
     public function testGettingUnsetName()
     {
@@ -153,19 +155,19 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the regex for a variable
+     * Tests getting the regex for a variable.
      */
     public function testGettingVariableRegex()
     {
         $options = [
-            'vars' => ['bar' => "\d+"]
+            'vars' => ['bar' => "\d+"],
         ];
         $route = new Route('get', '/foo', 'foo@bar', $options);
         $this->assertEquals("\d+", $route->getVarRegex('bar'));
     }
 
     /**
-     * Tests getting the regex for a variable that does not have a regex
+     * Tests getting the regex for a variable that does not have a regex.
      */
     public function testGettingVariableRegexForParameterWithNoRegex()
     {
@@ -174,7 +176,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not setting HTTPS
+     * Tests not setting HTTPS.
      */
     public function testNotSettingHttps()
     {
@@ -183,7 +185,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing in a controller with no method
+     * Tests passing in a controller with no method.
      */
     public function testPassingControllerWithNoMethod()
     {
@@ -192,7 +194,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing in a controller with no name
+     * Tests passing in a controller with no name.
      */
     public function testPassingControllerWithNoName()
     {
@@ -201,7 +203,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing in an incorrectly formatted controller
+     * Tests passing in an incorrectly formatted controller.
      */
     public function testPassingIncorrectlyFormattedController()
     {
@@ -210,7 +212,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing in multiple methods to the constructor
+     * Tests passing in multiple methods to the constructor.
      */
     public function testPassingMultipleMethodsToConstructor()
     {
@@ -219,7 +221,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing in a single method to the constructor
+     * Tests passing in a single method to the constructor.
      */
     public function testPassingSingleMethodToConstructor()
     {
@@ -228,7 +230,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test prepending a middleware
+     * Test prepending a middleware.
      */
     public function testPrependingMiddleware()
     {
@@ -239,7 +241,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the controller closure
+     * Tests setting the controller closure.
      */
     public function testSettingControllerClosure()
     {
@@ -251,7 +253,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the controller method
+     * Tests setting the controller method.
      */
     public function testSettingControllerMethod()
     {
@@ -262,7 +264,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the controller name
+     * Tests setting the controller name.
      */
     public function testSettingControllerName()
     {
@@ -273,24 +275,24 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting HTTPS
+     * Tests setting HTTPS.
      */
     public function testSettingHttps()
     {
         $options = [
-            'https' => false
+            'https' => false,
         ];
         $route = new Route('get', '/{foo}', 'foo@bar', $options);
         $this->assertFalse($route->isSecure());
         $options = [
-            'https' => true
+            'https' => true,
         ];
         $route = new Route('get', '/{foo}', 'foo@bar', $options);
         $this->assertTrue($route->isSecure());
     }
 
     /**
-     * Tests setting multiple variable regexes
+     * Tests setting multiple variable regexes.
      */
     public function testSettingMultipleVariableRegexes()
     {
@@ -301,7 +303,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the name
+     * Tests setting the name.
      */
     public function testSettingName()
     {
@@ -311,19 +313,19 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the name in the constructor
+     * Tests setting the name in the constructor.
      */
     public function testSettingNameInConstructor()
     {
         $options = [
-            'name' => 'blah'
+            'name' => 'blah',
         ];
         $route = new Route('get', '/{foo}', 'foo@bar', $options);
         $this->assertEquals('blah', $route->getName());
     }
 
     /**
-     * Tests setting the raw host
+     * Tests setting the raw host.
      */
     public function testSettingRawHost()
     {
@@ -333,19 +335,19 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the raw host in the constructor
+     * Tests setting the raw host in the constructor.
      */
     public function testSettingRawHostInConstructor()
     {
         $options = [
-            'host' => 'google.com'
+            'host' => 'google.com',
         ];
         $route = new Route('get', '/foo', 'foo@bar', $options);
         $this->assertEquals('google.com', $route->getRawHost());
     }
 
     /**
-     * Tests setting the raw path
+     * Tests setting the raw path.
      */
     public function testSettingRawPath()
     {
@@ -355,7 +357,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a variable regex
+     * Tests setting a variable regex.
      */
     public function testSettingVariableRegex()
     {
@@ -366,7 +368,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests using a closure
+     * Tests using a closure.
      */
     public function testUsingClosure()
     {

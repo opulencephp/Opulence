@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Composer\Bootstrappers;
 
 use Opulence\Framework\Composer\Composer;
@@ -16,12 +18,12 @@ use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
- * Defines the Composer bootstrapper
+ * Defines the Composer bootstrapper.
  */
 class ComposerBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBindings() : array
     {
@@ -29,7 +31,7 @@ class ComposerBootstrapper extends Bootstrapper implements ILazyBootstrapper
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBindings(IContainer $container)
     {

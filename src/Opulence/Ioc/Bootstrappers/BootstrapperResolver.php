@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc\Bootstrappers;
 
 use InvalidArgumentException;
 
 /**
- * Defines the bootstrapper resolver
+ * Defines the bootstrapper resolver.
  */
 class BootstrapperResolver implements IBootstrapperResolver
 {
@@ -19,7 +21,7 @@ class BootstrapperResolver implements IBootstrapperResolver
     private $instances = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function resolve(string $bootstrapperClass) : Bootstrapper
     {
@@ -37,7 +39,7 @@ class BootstrapperResolver implements IBootstrapperResolver
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function resolveMany(array $bootstrapperClasses) : array
     {

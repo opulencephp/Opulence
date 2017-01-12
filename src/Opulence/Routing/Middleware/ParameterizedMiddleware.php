@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Middleware;
 
 /**
- * Defines a parameterized middleware
+ * Defines a parameterized middleware.
  */
 abstract class ParameterizedMiddleware implements IMiddleware
 {
@@ -17,9 +19,10 @@ abstract class ParameterizedMiddleware implements IMiddleware
     private $parameters = [];
 
     /**
-     * Creates middleware parameters to be used by this middleware
+     * Creates middleware parameters to be used by this middleware.
      *
      * @param array $parameters The parameters to include in this middleware
+     *
      * @return MiddlewareParameters The middleware parameters
      */
     public static function withParameters(array $parameters) : MiddlewareParameters
@@ -36,10 +39,11 @@ abstract class ParameterizedMiddleware implements IMiddleware
     }
 
     /**
-     * Gets the value of a parameter
+     * Gets the value of a parameter.
      *
-     * @param string $name The name of the parameter to get
-     * @param mixed $default The default value
+     * @param string $name    The name of the parameter to get
+     * @param mixed  $default The default value
+     *
      * @return mixed|null The parameter's value if it is set, otherwise null
      */
     protected function getParameter(string $name, $default = null)

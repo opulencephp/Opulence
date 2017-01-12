@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\Signatures;
 
 use InvalidArgumentException;
 
 /**
- * Defines the various algorithms that can be used to sign tokens
+ * Defines the various algorithms that can be used to sign tokens.
  */
 class Algorithms
 {
@@ -29,7 +31,7 @@ class Algorithms
     const SHA512 = 'HS512';
 
     /**
-     * Gets all the supported algorithms
+     * Gets all the supported algorithms.
      *
      * @return array All the supported algorithms
      */
@@ -41,14 +43,15 @@ class Algorithms
             self::RSA_SHA512,
             self::SHA256,
             self::SHA384,
-            self::SHA512
+            self::SHA512,
         ];
     }
 
     /**
-     * Gets whether or not an algorithm is supported
+     * Gets whether or not an algorithm is supported.
      *
      * @param mixed $algorithm The algorithm to search
+     *
      * @return bool True if the algorithm is supported, otherwise false
      */
     public static function has($algorithm) : bool
@@ -57,11 +60,13 @@ class Algorithms
     }
 
     /**
-     * Checks if an algorithm is symmetric
+     * Checks if an algorithm is symmetric.
      *
      * @param mixed $algorithm The algorithm to check
-     * @return bool True if the algorithm is symmetric, otherwise false
+     *
      * @throws InvalidArgumentException Thrown if the algorithm is not valid
+     *
+     * @return bool True if the algorithm is symmetric, otherwise false
      */
     public static function isSymmetric($algorithm) : bool
     {
@@ -69,6 +74,6 @@ class Algorithms
             throw new InvalidArgumentException("Algorithm \"$algorithm\" is not valid");
         }
 
-        return in_array($algorithm, [Algorithms::SHA256, Algorithms::SHA384, Algorithms::SHA512]);
+        return in_array($algorithm, [self::SHA256, self::SHA384, self::SHA512]);
     }
 }

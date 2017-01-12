@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Testing\PhpUnit;
 
 /**
- * Tests the command builder
+ * Tests the command builder.
  */
 class CommandBuilderTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     private $commandBuilder = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -31,7 +33,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a basic command
+     * Tests building a basic command.
      */
     public function testBuildingBasicCommand()
     {
@@ -42,7 +44,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a command with multiple arguments
+     * Tests building a command with multiple arguments.
      */
     public function testBuildingCommandWithMultipleArguments()
     {
@@ -57,7 +59,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a command with multiple options
+     * Tests building a command with multiple options.
      */
     public function testBuildingCommandWithMultipleOptions()
     {
@@ -72,7 +74,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a command with multiple prompt answers
+     * Tests building a command with multiple prompt answers.
      */
     public function testBuildingCommandWithMultiplePromptAnswers()
     {
@@ -87,7 +89,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a command with a single argument
+     * Tests building a command with a single argument.
      */
     public function testBuildingCommandWithSingleArgument()
     {
@@ -102,7 +104,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a command with a single option
+     * Tests building a command with a single option.
      */
     public function testBuildingCommandWithSingleOption()
     {
@@ -117,7 +119,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a command with a single prompt answer
+     * Tests building a command with a single prompt answer.
      */
     public function testBuildingCommandWithSinglePromptAnswer()
     {
@@ -132,7 +134,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests building a command with an unstyled response
+     * Tests building a command with an unstyled response.
      */
     public function testBuildingCommandWithUnstyledResponse()
     {

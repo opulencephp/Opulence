@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Routes\Caching;
 
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\RouteCollection;
 
 /**
- * Defines the route file cache
+ * Defines the route file cache.
  */
 class FileCache implements ICache
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flush(string $filePath)
     {
@@ -27,7 +29,7 @@ class FileCache implements ICache
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get(string $cacheFilePath, Router &$router, string $rawFilePath) : RouteCollection
     {
@@ -44,7 +46,7 @@ class FileCache implements ICache
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function set(string $filePath, RouteCollection $routes)
     {

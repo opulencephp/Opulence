@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\ConnectionPools;
 
 use Opulence\Databases\ConnectionPools\Strategies\ServerSelection\IServerSelectionStrategy;
@@ -14,12 +16,12 @@ use Opulence\Tests\Databases\Mocks\Driver;
 use Opulence\Tests\Databases\Mocks\Server;
 
 /**
- * Tests the master/slave connection pool
+ * Tests the master/slave connection pool.
  */
 class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests adding a slave
+     * Tests adding a slave.
      */
     public function testAddingSlave()
     {
@@ -30,7 +32,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding slaves
+     * Tests adding slaves.
      */
     public function testAddingSlaves()
     {
@@ -43,7 +45,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a connection with no slaves
+     * Tests creating a connection with no slaves.
      */
     public function testCreatingConnectionWithNoSlaves()
     {
@@ -52,7 +54,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the read connection with no slaves
+     * Tests getting the read connection with no slaves.
      */
     public function testGettingReadConnectionWithNoSlaves()
     {
@@ -63,7 +65,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the read connection with a preferred server
+     * Tests getting the read connection with a preferred server.
      */
     public function testGettingReadConnectionWithPreferredServer()
     {
@@ -74,7 +76,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the read connection with slaves
+     * Tests getting the read connection with slaves.
      */
     public function testGettingReadConnectionWithSlaves()
     {
@@ -96,7 +98,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the write connection with no slaves
+     * Tests getting the write connection with no slaves.
      */
     public function testGettingWriteConnectionWithNoSlaves()
     {
@@ -107,7 +109,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the write connection with a preferred server
+     * Tests getting the write connection with a preferred server.
      */
     public function testGettingWriteConnectionWithPreferredServer()
     {
@@ -118,7 +120,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests removing a slave
+     * Tests removing a slave.
      */
     public function testRemovingSlave()
     {
@@ -133,7 +135,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests specifying a slave server selection strategy
+     * Tests specifying a slave server selection strategy.
      */
     public function testSpecifyingSlaveServerSelectionStrategy()
     {
@@ -155,7 +157,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Creates a driver for use in tests
+     * Creates a driver for use in tests.
      *
      * @return Driver A driver
      */
@@ -165,7 +167,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Creates a server for use in tests
+     * Creates a server for use in tests.
      *
      * @return Server A server
      */

@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Debug\Exceptions\Handlers\Http\Mocks;
 
 use Exception;
 use Opulence\Debug\Exceptions\Handlers\Http\ExceptionRenderer as BaseRenderer;
 
 /**
- * Mocks the HTTP exception renderer for use in testing
+ * Mocks the HTTP exception renderer for use in testing.
  */
 class ExceptionRenderer extends BaseRenderer
 {
@@ -20,7 +22,7 @@ class ExceptionRenderer extends BaseRenderer
     private $requestFormat = 'html';
 
     /**
-     * Sets the request format (useful for testing
+     * Sets the request format (useful for testing.
      *
      * @param string $requestFormat The format to use
      */
@@ -30,7 +32,7 @@ class ExceptionRenderer extends BaseRenderer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getDevelopmentEnvironmentContent(Exception $ex, int $statusCode) : string
     {
@@ -38,7 +40,7 @@ class ExceptionRenderer extends BaseRenderer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getProductionEnvironmentContent(Exception $ex, int $statusCode) : string
     {
@@ -46,7 +48,7 @@ class ExceptionRenderer extends BaseRenderer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getRequestFormat() : string
     {

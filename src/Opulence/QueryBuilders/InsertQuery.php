@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders;
 
 /**
- * Builds an insert query
+ * Builds an insert query.
  */
 class InsertQuery extends Query
 {
@@ -17,8 +19,9 @@ class InsertQuery extends Query
     protected $augmentingQueryBuilder = null;
 
     /**
-     * @param string $tableName The name of the table we're inserting into
-     * @param array $columnNamesToValues The mapping of column names to their respective values
+     * @param string $tableName           The name of the table we're inserting into
+     * @param array  $columnNamesToValues The mapping of column names to their respective values
+     *
      * @throws InvalidQueryException Thrown if the query is invalid
      */
     public function __construct(string $tableName, array $columnNamesToValues)
@@ -29,13 +32,15 @@ class InsertQuery extends Query
     }
 
     /**
-     * Adds column values to the query
+     * Adds column values to the query.
      *
      * @param array $columnNamesToValues The mapping of column names to their respective values
-     *      Optionally, the values can be contained in an array whose first item is the value and whose second value is
-     *      the PDO constant indicating the type of data the value represents
-     * @return self For method chaining
+     *                                   Optionally, the values can be contained in an array whose first item is the value and whose second value is
+     *                                   the PDO constant indicating the type of data the value represents
+     *
      * @throws InvalidQueryException Thrown if the query is invalid
+     *
+     * @return self For method chaining
      */
     public function addColumnValues(array $columnNamesToValues) : self
     {
@@ -58,21 +63,21 @@ class InsertQuery extends Query
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSql() : string
     {
         $sql = "INSERT INTO {$this->tableName}"
-            . ' (' . implode(', ', array_keys($this->augmentingQueryBuilder->getColumnNamesToValues())) . ') VALUES ('
-            . implode(', ',
+            .' ('.implode(', ', array_keys($this->augmentingQueryBuilder->getColumnNamesToValues())).') VALUES ('
+            .implode(', ',
                 array_fill(0, count(array_values($this->augmentingQueryBuilder->getColumnNamesToValues())), '?'))
-            . ')';
+            .')';
 
         return $sql;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setTable(string $tableName, string $tableAlias = '')
     {

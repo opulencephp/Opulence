@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\ConnectionPools;
 
 use Opulence\Tests\Databases\Mocks\Connection;
@@ -13,12 +15,12 @@ use Opulence\Tests\Databases\Mocks\Driver;
 use Opulence\Tests\Databases\Mocks\Server;
 
 /**
- * Tests the single server connection pool
+ * Tests the single server connection pool.
  */
 class SingleServerConnectionPoolTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests getting the read connection without a preferred server
+     * Tests getting the read connection without a preferred server.
      */
     public function testGettingReadConnection()
     {
@@ -30,7 +32,7 @@ class SingleServerConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the read connection with a preferred server
+     * Tests getting the read connection with a preferred server.
      */
     public function testGettingReadConnectionWithPreferredServer()
     {
@@ -41,7 +43,7 @@ class SingleServerConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the write connection without a preferred server
+     * Tests getting the write connection without a preferred server.
      */
     public function testGettingWriteConnection()
     {
@@ -53,7 +55,7 @@ class SingleServerConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the write connection with a preferred server
+     * Tests getting the write connection with a preferred server.
      */
     public function testGettingWriteConnectionWithPreferredServer()
     {
@@ -64,7 +66,7 @@ class SingleServerConnectionPoolTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Gets a connection pool to use in the tests
+     * Gets a connection pool to use in the tests.
      *
      * @return SingleServerConnectionPool The connection pool to use
      */

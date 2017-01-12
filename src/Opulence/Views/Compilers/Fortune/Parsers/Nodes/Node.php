@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 
 /**
- * Defines a view node
+ * Defines a view node.
  */
 abstract class Node
 {
@@ -29,51 +31,52 @@ abstract class Node
     }
 
     /**
-     * Gets whether or not this is a comment node
+     * Gets whether or not this is a comment node.
      *
      * @return bool True if this is a comment node, otherwise false
      */
     abstract public function isComment() : bool;
 
     /**
-     * Gets whether or not this is a directive node
+     * Gets whether or not this is a directive node.
      *
      * @return bool True if this is a directive node, otherwise false
      */
     abstract public function isDirective() : bool;
 
     /**
-     * Gets whether or not this is a directive name node
+     * Gets whether or not this is a directive name node.
      *
      * @return bool True if this is a directive name node, otherwise false
      */
     abstract public function isDirectiveName() : bool;
 
     /**
-     * Gets whether or not this is an expression node
+     * Gets whether or not this is an expression node.
      *
      * @return bool True if this is an expression node, otherwise false
      */
     abstract public function isExpression() : bool;
 
     /**
-     * Gets whether or not this is a sanitized tag node
+     * Gets whether or not this is a sanitized tag node.
      *
      * @return bool True if this is a sanitized tag node, otherwise false
      */
     abstract public function isSanitizedTag() : bool;
 
     /**
-     * Gets whether or not this is an unsanitized tag node
+     * Gets whether or not this is an unsanitized tag node.
      *
      * @return bool True if this is an unsanitized tag node, otherwise false
      */
     abstract public function isUnsanitizedTag() : bool;
 
     /**
-     * Adds a child to this node
+     * Adds a child to this node.
      *
      * @param Node $node The child to add
+     *
      * @return Node Returns this for chaining
      */
     public function addChild(Node $node) : Node
@@ -85,7 +88,7 @@ abstract class Node
     }
 
     /**
-     * Gets the list of children of this node
+     * Gets the list of children of this node.
      *
      * @return Node[] The list of children
      */
@@ -95,7 +98,7 @@ abstract class Node
     }
 
     /**
-     * Gets the parent node
+     * Gets the parent node.
      *
      * @return Node The parent node
      */
@@ -105,7 +108,7 @@ abstract class Node
     }
 
     /**
-     * Gets the value of this node
+     * Gets the value of this node.
      *
      * @return mixed|null The value of this node if there is one, otherwise null
      */
@@ -115,7 +118,7 @@ abstract class Node
     }
 
     /**
-     * Gets whether or not this node is a leaf
+     * Gets whether or not this node is a leaf.
      *
      * @return bool True if this is a leaf, otherwise false
      */
@@ -125,7 +128,7 @@ abstract class Node
     }
 
     /**
-     * Gets whether or not this node is the root
+     * Gets whether or not this node is the root.
      *
      * @return bool True if this is a root node, otherwise false
      */

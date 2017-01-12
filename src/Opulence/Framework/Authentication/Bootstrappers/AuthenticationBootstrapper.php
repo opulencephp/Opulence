@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Authentication\Bootstrappers;
 
 use Opulence\Authentication\AuthenticationContext;
@@ -20,12 +22,12 @@ use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
- * Defines the authentication bootstrapper
+ * Defines the authentication bootstrapper.
  */
 abstract class AuthenticationBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBindings() : array
     {
@@ -33,12 +35,12 @@ abstract class AuthenticationBootstrapper extends Bootstrapper implements ILazyB
             IAuthenticatorRegistry::class,
             IAuthenticator::class,
             IUserRepository::class,
-            IAuthenticationContext::class
+            IAuthenticationContext::class,
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBindings(IContainer $container)
     {
@@ -54,17 +56,19 @@ abstract class AuthenticationBootstrapper extends Bootstrapper implements ILazyB
     }
 
     /**
-     * Gets the user repository
+     * Gets the user repository.
      *
      * @param IContainer $container The IoC container
+     *
      * @return IUserRepository The user repository
      */
     abstract protected function getUserRepository(IContainer $container) : IUserRepository;
 
     /**
-     * Gets the authentication context
+     * Gets the authentication context.
      *
      * @param IContainer $container The IoC container
+     *
      * @return IAuthenticationContext The authentication context
      */
     protected function getAuthenticationContext(IContainer $container) : IAuthenticationContext
@@ -73,9 +77,10 @@ abstract class AuthenticationBootstrapper extends Bootstrapper implements ILazyB
     }
 
     /**
-     * Gets the authenticator
+     * Gets the authenticator.
      *
      * @param IContainer $container The IoC container
+     *
      * @return IAuthenticator The authenticator
      */
     protected function getAuthenticator(IContainer $container) : IAuthenticator

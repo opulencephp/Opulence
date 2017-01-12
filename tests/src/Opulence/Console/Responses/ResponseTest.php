@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses;
 
 use Opulence\Console\Responses\Compilers\Compiler;
@@ -14,7 +16,7 @@ use Opulence\Console\Responses\Compilers\Parsers\Parser;
 use Opulence\Tests\Console\Responses\Mocks\Response;
 
 /**
- * Tests the response class
+ * Tests the response class.
  */
 class ResponseTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +24,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     private $response = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -30,27 +32,27 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests clearing the response
+     * Tests clearing the response.
      */
     public function testClearingResponse()
     {
         ob_start();
         $this->response->clear();
-        $this->assertEquals(chr(27) . '[2J' . chr(27) . '[;H', ob_get_clean());
+        $this->assertEquals(chr(27).'[2J'.chr(27).'[;H', ob_get_clean());
     }
 
     /**
-     * Tests writing multiple messages with new lines
+     * Tests writing multiple messages with new lines.
      */
     public function testWritingMultipleMessagesWithNewLines()
     {
         ob_start();
         $this->response->writeln(['foo', 'bar']);
-        $this->assertEquals('foo' . PHP_EOL . 'bar' . PHP_EOL, ob_get_clean());
+        $this->assertEquals('foo'.PHP_EOL.'bar'.PHP_EOL, ob_get_clean());
     }
 
     /**
-     * Tests writing multiple messages with no new lines
+     * Tests writing multiple messages with no new lines.
      */
     public function testWritingMultipleMessagesWithNoNewLines()
     {
@@ -60,17 +62,17 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests writing a single message with a new line
+     * Tests writing a single message with a new line.
      */
     public function testWritingSingleMessageWithNewLine()
     {
         ob_start();
         $this->response->writeln('foo');
-        $this->assertEquals('foo' . PHP_EOL, ob_get_clean());
+        $this->assertEquals('foo'.PHP_EOL, ob_get_clean());
     }
 
     /**
-     * Tests writing a single message with no new line
+     * Tests writing a single message with no new line.
      */
     public function testWritingSingleMessageWithNoNewLine()
     {
@@ -80,7 +82,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests writing a styled message with styling disabled
+     * Tests writing a styled message with styling disabled.
      */
     public function testWritingStyledMessageWithStylingDisabled()
     {

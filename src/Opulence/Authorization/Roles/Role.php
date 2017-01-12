@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authorization\Roles;
 
 /**
- * Defines a role
+ * Defines a role.
  */
 class Role
 {
@@ -19,8 +21,8 @@ class Role
     protected $name = '';
 
     /**
-     * @param int|string $id The database Id
-     * @param string $name The name of the role
+     * @param int|string $id   The database Id
+     * @param string     $name The name of the role
      */
     public function __construct($id, string $name)
     {

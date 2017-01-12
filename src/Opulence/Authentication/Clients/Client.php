@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Clients;
 
 /**
- * Defines the interface for clients to implement
+ * Defines the interface for clients to implement.
  */
 class Client implements IClient
 {
@@ -21,9 +23,9 @@ class Client implements IClient
     private $secret = '';
 
     /**
-     * @param int|string $id The client Id
-     * @param string $name The client name
-     * @param string $secret The client secret
+     * @param int|string $id     The client Id
+     * @param string     $name   The client name
+     * @param string     $secret The client secret
      */
     public function __construct($id, string $name, string $secret = '')
     {
@@ -33,7 +35,7 @@ class Client implements IClient
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -41,7 +43,7 @@ class Client implements IClient
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName() : string
     {
@@ -49,7 +51,7 @@ class Client implements IClient
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSecret() : string
     {
@@ -57,7 +59,7 @@ class Client implements IClient
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setId($id)
     {
@@ -65,7 +67,7 @@ class Client implements IClient
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setName(string $name)
     {

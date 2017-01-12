@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Sessions\Handlers;
 
 /**
- * Tests the array session handler
+ * Tests the array session handler.
  */
 class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
     private $handler = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the close function
+     * Tests the close function.
      */
     public function testClose()
     {
@@ -33,7 +35,7 @@ class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests garbage collection
+     * Tests garbage collection.
      */
     public function testGarbageCollection()
     {
@@ -41,7 +43,7 @@ class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests the open function
+     * Tests the open function.
      */
     public function testOpen()
     {
@@ -49,7 +51,7 @@ class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests reading a non-existent session
+     * Tests reading a non-existent session.
      */
     public function testReadingNonExistentSession()
     {
@@ -57,7 +59,7 @@ class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests writing a session
+     * Tests writing a session.
      */
     public function testWritingSession()
     {

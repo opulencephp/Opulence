@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication;
 
 /**
- * Tests the authentication context
+ * Tests the authentication context.
  */
 class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     private $context = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if the user is authenticated
+     * Tests checking if the user is authenticated.
      */
     public function testCheckingIfAuthenticated()
     {
@@ -36,7 +38,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the status in the constructor
+     * Tests setting the status in the constructor.
      */
     public function testSettingStatusInConstructor()
     {
@@ -45,7 +47,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the status in the setter
+     * Tests setting the status in the setter.
      */
     public function testSettingStatusInSetter()
     {
@@ -54,7 +56,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the subject in the constructor
+     * Tests setting the subject in the constructor.
      */
     public function testSettingSubjectInConstructor()
     {
@@ -65,7 +67,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the subject in the setter
+     * Tests setting the subject in the setter.
      */
     public function testSettingSubjectInSetter()
     {

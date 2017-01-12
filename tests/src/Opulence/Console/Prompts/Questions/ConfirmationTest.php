@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Prompts\Questions;
 
 /**
- * Tests the confirmation question
+ * Tests the confirmation question.
  */
 class ConfirmationTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class ConfirmationTest extends \PHPUnit\Framework\TestCase
     private $question = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class ConfirmationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting false values
+     * Tests formatting false values.
      */
     public function testFormattingFalseValues()
     {
@@ -36,7 +38,7 @@ class ConfirmationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting true values
+     * Tests formatting true values.
      */
     public function testFormattingTrueValues()
     {

@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cryptography\Hashing;
 
 use RuntimeException;
 
 /**
- * Defines a base cryptographic hasher
+ * Defines a base cryptographic hasher.
  */
 abstract class Hasher implements IHasher
 {
@@ -24,19 +26,19 @@ abstract class Hasher implements IHasher
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function verify(string $hashedValue, string $unhashedValue, string $pepper = '') : bool
     {
-        return \password_verify($unhashedValue . $pepper, $hashedValue);
+        return \password_verify($unhashedValue.$pepper, $hashedValue);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hash(string $unhashedValue, array $options = [], string $pepper = '') : string
     {
-        $hashedValue = \password_hash($unhashedValue . $pepper, $this->hashAlgorithm, $options);
+        $hashedValue = \password_hash($unhashedValue.$pepper, $this->hashAlgorithm, $options);
 
         if ($hashedValue === false) {
             throw new RuntimeException("Failed to generate hash for algorithm {$this->hashAlgorithm}");
@@ -46,7 +48,7 @@ abstract class Hasher implements IHasher
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function needsRehash(string $hashedValue, array $options = []) : bool
     {
@@ -54,7 +56,7 @@ abstract class Hasher implements IHasher
     }
 
     /**
-     * Should set the hash algorithm property to the algorithm used by the concrete class
+     * Should set the hash algorithm property to the algorithm used by the concrete class.
      */
     abstract protected function setHashAlgorithm();
 }

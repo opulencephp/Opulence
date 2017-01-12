@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cryptography\Encryption\Keys;
 
 /**
- * Defines a cryptographic secret
+ * Defines a cryptographic secret.
  */
 class Secret
 {
@@ -19,7 +21,7 @@ class Secret
     private $value = '';
 
     /**
-     * @param string $type The type of secret this is
+     * @param string $type  The type of secret this is
      * @param string $value The secret value
      */
     public function __construct(string $type, string $value)

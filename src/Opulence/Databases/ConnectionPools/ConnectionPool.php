@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\ConnectionPools;
 
 use Opulence\Databases\Adapters\Pdo\MySql\Driver as MySqlDriver;
@@ -17,7 +19,7 @@ use RuntimeException;
 
 /**
  * Defines a database connection pool
- * This can handle multiple server setups or simple single server setups
+ * This can handle multiple server setups or simple single server setups.
  */
 abstract class ConnectionPool
 {
@@ -29,7 +31,7 @@ abstract class ConnectionPool
     /** @var array The servers in this pool */
     protected $servers = [
         'master' => null,
-        'custom' => []
+        'custom' => [],
     ];
     /** @var IDriver The driver to use for connections made by this pool */
     protected $driver = null;
@@ -43,10 +45,10 @@ abstract class ConnectionPool
     protected $writeConnection = null;
 
     /**
-     * @param IDriver $driver The driver to use
-     * @param Server $master The master server
-     * @param array $driverOptions The setting to use to setup a driver
-     * @param array $connectionOptions The driver-specific connection settings
+     * @param IDriver $driver            The driver to use
+     * @param Server  $master            The master server
+     * @param array   $driverOptions     The setting to use to setup a driver
+     * @param array   $connectionOptions The driver-specific connection settings
      */
     public function __construct(
         IDriver $driver,
@@ -61,7 +63,7 @@ abstract class ConnectionPool
     }
 
     /**
-     * Gets the list of pre-defined driver names available in this class
+     * Gets the list of pre-defined driver names available in this class.
      *
      * @return array The list of driver names
      */
@@ -87,11 +89,13 @@ abstract class ConnectionPool
     }
 
     /**
-     * Gets the connection used for read queries
+     * Gets the connection used for read queries.
      *
      * @param Server $preferredServer The preferred server to use
-     * @return IConnection The connection to use for reads
+     *
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
+     *
+     * @return IConnection The connection to use for reads
      */
     public function getReadConnection(Server $preferredServer = null) : IConnection
     {
@@ -106,11 +110,13 @@ abstract class ConnectionPool
     }
 
     /**
-     * Gets the connection used for write queries
+     * Gets the connection used for write queries.
      *
      * @param Server $preferredServer The preferred server to use
-     * @return IConnection The connection to use for writes
+     *
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
+     *
+     * @return IConnection The connection to use for writes
      */
     public function getWriteConnection(Server $preferredServer = null) : IConnection
     {
@@ -133,25 +139,27 @@ abstract class ConnectionPool
     }
 
     /**
-     * Sets the connection to use for read queries
+     * Sets the connection to use for read queries.
      *
      * @param Server $preferredServer The preferred server to connect to
+     *
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
     abstract protected function setReadConnection(Server $preferredServer = null);
 
     /**
-     * Sets the connection to use for write queries
+     * Sets the connection to use for write queries.
      *
      * @param Server $preferredServer The preferred server to connect to
+     *
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
     abstract protected function setWriteConnection(Server $preferredServer = null);
 
     /**
-     * Adds a server to our list of servers
+     * Adds a server to our list of servers.
      *
-     * @param string $type The type of server we're trying to add, eg "master", "custom"
+     * @param string $type   The type of server we're trying to add, eg "master", "custom"
      * @param Server $server The server to add
      */
     protected function addServer(string $type, Server $server)
@@ -173,9 +181,10 @@ abstract class ConnectionPool
     }
 
     /**
-     * Creates a database connection
+     * Creates a database connection.
      *
      * @param Server $server The server to connect to
+     *
      * @return IConnection The database connection
      */
     protected function connectToServer(Server $server) : IConnection
@@ -184,12 +193,14 @@ abstract class ConnectionPool
     }
 
     /**
-     * Gets a connection to the input server
+     * Gets a connection to the input server.
      *
-     * @param string $type The type of server we're trying to connect to, eg "master", "custom"
+     * @param string $type   The type of server we're trying to connect to, eg "master", "custom"
      * @param Server $server The server we want to connect to
-     * @return IConnection The connection to the server
+     *
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
+     *
+     * @return IConnection The connection to the server
      */
     protected function getConnection(string $type, Server $server) : IConnection
     {
@@ -210,7 +221,7 @@ abstract class ConnectionPool
                 if (!isset($this->servers[$type][$serverHashId])
                     || $this->servers[$type][$serverHashId]['server'] == null
                 ) {
-                    throw new RuntimeException("Server of type '" . $type . "' not added to connection pool");
+                    throw new RuntimeException("Server of type '".$type."' not added to connection pool");
                 }
 
                 if ($this->servers[$type][$serverHashId]['connection'] == null) {

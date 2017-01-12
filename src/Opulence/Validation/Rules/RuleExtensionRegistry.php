@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
 
 /**
- * Defines the rule extension registry
+ * Defines the rule extension registry.
  */
 class RuleExtensionRegistry
 {
@@ -19,11 +21,13 @@ class RuleExtensionRegistry
     protected $extensions = [];
 
     /**
-     * Gets the rule extension with the input name
+     * Gets the rule extension with the input name.
      *
      * @param string $ruleName The name of the rule
-     * @return IRule The rule extension
+     *
      * @throws InvalidArgumentException Thrown if no extension is registered with the name
+     *
+     * @return IRule The rule extension
      */
     public function getRule(string $ruleName) : IRule
     {
@@ -35,9 +39,10 @@ class RuleExtensionRegistry
     }
 
     /**
-     * Gets whether or not a rule extension exists with the input name
+     * Gets whether or not a rule extension exists with the input name.
      *
      * @param string $ruleName The name of the rule to search for
+     *
      * @return bool Whether or not the rule extension exists
      */
     public function hasRule(string $ruleName) : bool
@@ -46,11 +51,12 @@ class RuleExtensionRegistry
     }
 
     /**
-     * Registers a rule extension
+     * Registers a rule extension.
      *
      * @param IRule|callable $rule Either the rule object or callback (that accepts a value and list of all values) and
-     *      returns true if the rule passes, otherwise false
-     * @param string $slug The slug name of the rule (only used if the rule is a callback)
+     *                             returns true if the rule passes, otherwise false
+     * @param string         $slug The slug name of the rule (only used if the rule is a callback)
+     *
      * @throws InvalidArgumentException Thrown if the rule was incorrectly formatted
      */
     public function registerRuleExtension($rule, string $slug = '')

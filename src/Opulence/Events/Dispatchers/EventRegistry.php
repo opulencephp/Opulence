@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Events\Dispatchers;
 
 /**
- * Defines the event registry
+ * Defines the event registry.
  */
 class EventRegistry implements IEventRegistry
 {
@@ -17,7 +19,7 @@ class EventRegistry implements IEventRegistry
     private $eventNamesToListeners = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getListeners(string $eventName) : array
     {
@@ -29,7 +31,7 @@ class EventRegistry implements IEventRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hasListeners(string $eventName) : bool
     {
@@ -37,7 +39,7 @@ class EventRegistry implements IEventRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerListener(string $eventName, callable $listener)
     {
@@ -51,7 +53,7 @@ class EventRegistry implements IEventRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function removeListener(string $eventName, callable $listener)
     {

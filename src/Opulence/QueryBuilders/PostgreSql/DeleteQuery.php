@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\PostgreSql;
 
 use Opulence\QueryBuilders\DeleteQuery as BaseDeleteQuery;
 
 /**
- * Builds a delete query
+ * Builds a delete query.
  */
 class DeleteQuery extends BaseDeleteQuery
 {

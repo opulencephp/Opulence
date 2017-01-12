@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication;
 
 use Opulence\Authentication\Credentials\ICredential;
 
 /**
- * Tests a subject
+ * Tests a subject.
  */
 class SubjectTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     private $subject = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,7 +29,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking roles
+     * Tests checking roles.
      */
     public function testCheckingRoles()
     {
@@ -42,7 +44,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a subject with principals and credentials
+     * Tests creating a subject with principals and credentials.
      */
     public function testCreatingSubjectWithPrincipalsAndCredentials()
     {
@@ -54,7 +56,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests an empty array is returned with no credentials
+     * Tests an empty array is returned with no credentials.
      */
     public function testEmptyArrayReturnedWithNoCredentials()
     {
@@ -62,7 +64,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests an empty array is returned with no principals
+     * Tests an empty array is returned with no principals.
      */
     public function testEmptyArrayReturnedWithNoPrincipals()
     {
@@ -70,7 +72,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an added credential
+     * Tests getting an added credential.
      */
     public function testGettingAddedCredential()
     {
@@ -84,7 +86,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an added principal
+     * Tests getting an added principal.
      */
     public function testGettingAddedPrincipal()
     {
@@ -98,7 +100,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the primary principal
+     * Tests getting the primary principal.
      */
     public function testGettingPrimaryPrincipal()
     {
@@ -113,7 +115,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting roles
+     * Tests getting roles.
      */
     public function testGettingRoles()
     {
@@ -139,7 +141,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests null is returned with no credential
+     * Tests null is returned with no credential.
      */
     public function testNullReturnedWithNoCredential()
     {
@@ -147,7 +149,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests null is returned with no principal
+     * Tests null is returned with no principal.
      */
     public function testNullReturnedWithNoPrincipal()
     {

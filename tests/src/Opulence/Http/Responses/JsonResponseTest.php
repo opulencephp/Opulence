@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Responses;
 
 use ArrayObject;
 use InvalidArgumentException;
 
 /**
- * Tests the JSON response
+ * Tests the JSON response.
  */
 class JsonResponseTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests getting the content type
+     * Tests getting the content type.
      */
     public function testGettingContentType()
     {
@@ -26,7 +28,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the status code after setting it in the constructor
+     * Tests getting the status code after setting it in the constructor.
      */
     public function testGettingStatusCodeAfterSettingInConstructor()
     {
@@ -35,7 +37,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the content to an invalid type in the constructor
+     * Tests setting the content to an invalid type in the constructor.
      */
     public function testSettingContentOfIncorrectTypeInConstructor()
     {
@@ -44,7 +46,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the content to an invalid type in the setter
+     * Tests setting the content to an invalid type in the setter.
      */
     public function testSettingContentOfIncorrectTypeInSetter()
     {
@@ -54,7 +56,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the content to an array in the constructor
+     * Tests setting the content to an array in the constructor.
      */
     public function testSettingContentToArrayInConstructor()
     {
@@ -64,7 +66,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the content to an array in the setter
+     * Tests setting the content to an array in the setter.
      */
     public function testSettingContentToArrayInSetter()
     {
@@ -75,7 +77,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the content to an ArrayObject in the constructor
+     * Tests setting the content to an ArrayObject in the constructor.
      */
     public function testSettingContentToArrayObjectInConstructor()
     {
@@ -85,7 +87,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the content to an ArrayObject in the setter
+     * Tests setting the content to an ArrayObject in the setter.
      */
     public function testSettingContentToArrayObjectInSetter()
     {
@@ -96,7 +98,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the headers in the constructor
+     * Tests setting the headers in the constructor.
      */
     public function testSettingHeadersInConstructor()
     {

@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests;
 
 use InvalidArgumentException;
 
 /**
- * Tests the console request
+ * Tests the console request.
  */
 class RequestTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     private $request = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,7 +29,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding multiple values for an option
+     * Tests adding multiple values for an option.
      */
     public function testAddingMultipleValuesForOption()
     {
@@ -38,7 +40,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if an option with a value is set
+     * Tests checking if an option with a value is set.
      */
     public function testCheckingIfOptionWithValueIsSet()
     {
@@ -47,7 +49,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if an option without a value is set
+     * Tests checking if an option without a value is set.
      */
     public function testCheckingIfOptionWithoutValueIsSet()
     {
@@ -56,7 +58,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting all arguments
+     * Tests getting all arguments.
      */
     public function testGettingAllArguments()
     {
@@ -66,7 +68,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting all options
+     * Tests getting all options.
      */
     public function testGettingAllOptions()
     {
@@ -76,7 +78,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the command name
+     * Tests getting the command name.
      */
     public function testGettingCommandName()
     {
@@ -85,7 +87,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent option
+     * Tests getting a non-existent option.
      */
     public function testGettingNonExistentOption()
     {
@@ -94,7 +96,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an option
+     * Tests getting an option.
      */
     public function testGettingOption()
     {

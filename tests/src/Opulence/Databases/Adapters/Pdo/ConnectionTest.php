@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\Adapters\Pdo;
 
 use Opulence\Databases\Providers\Provider;
 use Opulence\Tests\Databases\Mocks\Server;
 
 /**
- * Tests the Connection class
+ * Tests the Connection class.
  */
 class ConnectionTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,7 +26,7 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
     private $pdo = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -34,7 +36,7 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Does some housekeeping before ending the tests
+     * Does some housekeeping before ending the tests.
      */
     public function tearDown()
     {
@@ -42,7 +44,7 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the database provider
+     * Tests getting the database provider.
      */
     public function testGettingDatabaseProvider()
     {
@@ -50,7 +52,7 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the server
+     * Tests getting the server.
      */
     public function testGettingServer()
     {

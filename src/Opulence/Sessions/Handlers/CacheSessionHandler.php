@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Sessions\Handlers;
 
 use Opulence\Cache\ICacheBridge;
 
 /**
- * Defines the cache session handler
+ * Defines the cache session handler.
  */
 class CacheSessionHandler extends SessionHandler
 {
@@ -21,8 +23,8 @@ class CacheSessionHandler extends SessionHandler
     private $lifetime = 0;
 
     /**
-     * @param ICacheBridge $cache The cache to use
-     * @param int $lifetime The lifetime in seconds
+     * @param ICacheBridge $cache    The cache to use
+     * @param int          $lifetime The lifetime in seconds
      */
     public function __construct(ICacheBridge $cache, int $lifetime)
     {
@@ -31,7 +33,7 @@ class CacheSessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function close() : bool
     {
@@ -39,7 +41,7 @@ class CacheSessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function destroy($sessionId) : bool
     {
@@ -49,7 +51,7 @@ class CacheSessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function gc($maxLifetime) : bool
     {
@@ -57,7 +59,7 @@ class CacheSessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function open($savePath, $sessionId) : bool
     {
@@ -65,7 +67,7 @@ class CacheSessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doRead(string $sessionId) : string
     {
@@ -73,7 +75,7 @@ class CacheSessionHandler extends SessionHandler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doWrite(string $sessionId, string $sessionData) : bool
     {

@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
 
 /**
- * Tests the equals rule
+ * Tests the equals rule.
  */
 class EqualsRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests that equal values pass
+     * Tests that equal values pass.
      */
     public function testEqualValuesPass()
     {
@@ -26,7 +28,7 @@ class EqualsRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the slug
+     * Tests getting the slug.
      */
     public function testGettingSlug()
     {
@@ -35,7 +37,7 @@ class EqualsRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an empty arg array
+     * Tests passing an empty arg array.
      */
     public function testPassingEmptyArgArray()
     {
@@ -45,7 +47,7 @@ class EqualsRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that unequal values fail
+     * Tests that unequal values fail.
      */
     public function testUnequalValuesFail()
     {

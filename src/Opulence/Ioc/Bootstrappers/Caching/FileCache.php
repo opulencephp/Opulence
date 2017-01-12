@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc\Bootstrappers\Caching;
 
 use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
 use Opulence\Ioc\Bootstrappers\IBootstrapperRegistry;
 
 /**
- * Defines the bootstrapper file cache
+ * Defines the bootstrapper file cache.
  */
 class FileCache implements ICache
 {
@@ -22,7 +24,7 @@ class FileCache implements ICache
     private $expirationTime = null;
 
     /**
-     * @param string $filePath The cache registry file path
+     * @param string   $filePath       The cache registry file path
      * @param int|null $expirationTime The expiration time for cached files
      */
     public function __construct(string $filePath, int $expirationTime = null)
@@ -32,7 +34,7 @@ class FileCache implements ICache
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -42,19 +44,19 @@ class FileCache implements ICache
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get()
     {
         if (!file_exists($this->filePath)) {
-            return null;
+            return;
         }
 
         // Perform garbage collection if this file has expired
         if ($this->expirationTime !== null && filemtime($this->filePath) < $this->expirationTime) {
             $this->flush();
 
-            return null;
+            return;
         }
 
         $rawContents = file_get_contents($this->filePath);
@@ -80,19 +82,19 @@ class FileCache implements ICache
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function set(IBootstrapperRegistry $registry)
     {
         $data = [
             'eager' => $registry->getEagerBootstrappers(),
-            'lazy' => []
+            'lazy'  => [],
         ];
 
         foreach ($registry->getLazyBootstrapperBindings() as $boundClass => $bindingData) {
             $data['lazy'][$boundClass] = [
                 'bootstrapper' => $bindingData['bootstrapper'],
-                'target' => $bindingData['target']
+                'target'       => $bindingData['target'],
             ];
         }
 

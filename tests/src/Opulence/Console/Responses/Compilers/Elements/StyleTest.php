@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers\Elements;
 
 use InvalidArgumentException;
 
 /**
- * Tests the style class
+ * Tests the style class.
  */
 class StyleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests adding an invalid text style
+     * Tests adding an invalid text style.
      */
     public function testAddingInvalidTextStyle()
     {
@@ -26,7 +28,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding invalid text styles
+     * Tests adding invalid text styles.
      */
     public function testAddingInvalidTextStyles()
     {
@@ -36,7 +38,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests double-adding a text style
+     * Tests double-adding a text style.
      */
     public function testDoubleAddingTextStyle()
     {
@@ -48,7 +50,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting an empty string
+     * Tests formatting an empty string.
      */
     public function testFormattingEmptyString()
     {
@@ -57,7 +59,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting a string with all styles
+     * Tests formatting a string with all styles.
      */
     public function testFormattingStringWithAllStyles()
     {
@@ -66,7 +68,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting a string without styles
+     * Tests formatting a string without styles.
      */
     public function testFormattingStringWithoutStyles()
     {
@@ -75,7 +77,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not passing anything in the constructor
+     * Tests not passing anything in the constructor.
      */
     public function testNotPassingAnythingInConstructor()
     {
@@ -85,7 +87,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not passing colors in the constructor
+     * Tests not passing colors in the constructor.
      */
     public function testPassingColorsInConstructor()
     {
@@ -95,7 +97,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests removing an invalid text style
+     * Tests removing an invalid text style.
      */
     public function testRemovingInvalidTextStyle()
     {
@@ -106,7 +108,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests removing a text style
+     * Tests removing a text style.
      */
     public function testRemovingTextStyle()
     {
@@ -116,7 +118,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the background color
+     * Tests setting the background color.
      */
     public function testSettingBackgroundColor()
     {
@@ -126,7 +128,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the foreground color
+     * Tests setting the foreground color.
      */
     public function testSettingForegroundColor()
     {
@@ -136,7 +138,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the background color to an invalid value
+     * Tests setting the background color to an invalid value.
      */
     public function testSettingInvalidBackgroundColor()
     {
@@ -146,7 +148,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the background color to an invalid value in the constructor
+     * Tests setting the background color to an invalid value in the constructor.
      */
     public function testSettingInvalidBackgroundColorInConstructor()
     {
@@ -155,7 +157,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the foreground color to an invalid value
+     * Tests setting the foreground color to an invalid value.
      */
     public function testSettingInvalidForegroundColor()
     {
@@ -165,7 +167,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the foreground color to an invalid value in the constructor
+     * Tests setting the foreground color to an invalid value in the constructor.
      */
     public function testSettingInvalidForegroundColorInConstructor()
     {
@@ -174,7 +176,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the text styles to an invalid value in the constructor
+     * Tests setting the text styles to an invalid value in the constructor.
      */
     public function testSettingInvalidTextStylesInConstructor()
     {
@@ -183,7 +185,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the background color to null
+     * Tests setting the background color to null.
      */
     public function testSettingNullBackgroundColor()
     {
@@ -193,7 +195,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the foreground color to null
+     * Tests setting the foreground color to null.
      */
     public function testSettingNullForegroundColor()
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cryptography\Encryption;
 
 use Exception;
@@ -16,7 +18,7 @@ use Opulence\Cryptography\Encryption\Keys\Secret;
 use Opulence\Cryptography\Encryption\Keys\SecretTypes;
 
 /**
- * Defines an encrypter
+ * Defines an encrypter.
  */
 class Encrypter implements IEncrypter
 {
@@ -27,7 +29,7 @@ class Encrypter implements IEncrypter
         Ciphers::AES_256_CBC,
         Ciphers::AES_128_CTR,
         Ciphers::AES_192_CTR,
-        Ciphers::AES_256_CTR
+        Ciphers::AES_256_CTR,
     ];
     /** @var string The current version of this encrypter */
     private static $version = '1.0.0';
@@ -43,8 +45,8 @@ class Encrypter implements IEncrypter
     private $keyDeriver = null;
 
     /**
-     * @param Secret $secret The encryption secret that will be used to derive keys
-     * @param string $cipher The encryption cipher
+     * @param Secret      $secret     The encryption secret that will be used to derive keys
+     * @param string      $cipher     The encryption cipher
      * @param IKeyDeriver $keyDeriver The key deriver
      */
     public function __construct(Secret $secret, string $cipher = Ciphers::AES_256_CTR, IKeyDeriver $keyDeriver = null)
@@ -55,7 +57,7 @@ class Encrypter implements IEncrypter
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function decrypt(string $data) : string
     {
@@ -101,7 +103,7 @@ class Encrypter implements IEncrypter
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function encrypt(string $data) : string
     {
@@ -131,18 +133,18 @@ class Encrypter implements IEncrypter
         );
         $pieces = [
             'version' => self::$version,
-            'cipher' => $this->cipher,
-            'iv' => $encodedIv,
+            'cipher'  => $this->cipher,
+            'iv'      => $encodedIv,
             'keySalt' => $encodedKeySalt,
-            'value' => $encryptedValue,
-            'hmac' => $hmac
+            'value'   => $encryptedValue,
+            'hmac'    => $hmac,
         ];
 
         return \base64_encode(\json_encode($pieces));
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setSecret(Secret $secret)
     {
@@ -151,13 +153,14 @@ class Encrypter implements IEncrypter
     }
 
     /**
-     * Creates an HMAC
+     * Creates an HMAC.
      *
-     * @param string $iv The initialization vector
-     * @param string $keySalt The key salt
-     * @param string $cipher The cipher used
-     * @param string $value The value to hash
+     * @param string $iv                The initialization vector
+     * @param string $keySalt           The key salt
+     * @param string $cipher            The cipher used
+     * @param string $value             The value to hash
      * @param string $authenticationKey The authentication key
+     *
      * @return string The HMAC
      */
     private function createHmac(
@@ -167,14 +170,15 @@ class Encrypter implements IEncrypter
         string $value,
         string $authenticationKey
     ) : string {
-        return \hash_hmac(self::$hmacAlgorithm, self::$version . $cipher . $iv . $keySalt . $value, $authenticationKey);
+        return \hash_hmac(self::$hmacAlgorithm, self::$version.$cipher.$iv.$keySalt.$value, $authenticationKey);
     }
 
     /**
-     * Derives keys that are suitable for encryption and decryption
+     * Derives keys that are suitable for encryption and decryption.
      *
-     * @param string $cipher The cipher used
+     * @param string $cipher  The cipher used
      * @param string $keySalt The salt to use on the keys
+     *
      * @return DerivedKeys The derived keys
      */
     private function deriveKeys(string $cipher, string $keySalt) : DerivedKeys
@@ -190,22 +194,25 @@ class Encrypter implements IEncrypter
     }
 
     /**
-     * Gets the length of the cipher in bytes
+     * Gets the length of the cipher in bytes.
      *
      * @param string $cipher The cipher whose bytes we want
+     *
      * @return int The number of bytes
      */
     private function getKeyByteLengthForCipher(string $cipher) : int
     {
-        return (int)\mb_substr($cipher, 4, 3, '8bit') / 8;
+        return (int) \mb_substr($cipher, 4, 3, '8bit') / 8;
     }
 
     /**
-     * Converts the input data to an array of pieces
+     * Converts the input data to an array of pieces.
      *
      * @param string $data The JSON data to convert
-     * @return array The pieces
+     *
      * @throws EncryptionException Thrown if the pieces were not correctly set
+     *
+     * @return array The pieces
      */
     private function getPieces(string $data) : array
     {
@@ -237,7 +244,7 @@ class Encrypter implements IEncrypter
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     private function setCipher(string $cipher)
     {
@@ -251,9 +258,10 @@ class Encrypter implements IEncrypter
     }
 
     /**
-     * Validates the secret
+     * Validates the secret.
      *
      * @param string $cipher The cipher used
+     *
      * @throws EncryptionException Thrown if the secret is not valid
      */
     private function validateSecret(string $cipher)

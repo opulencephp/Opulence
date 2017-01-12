@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Framework\Http\Testing\PhpUnit\Mocks;
 
 use Opulence\Applications\Application;
@@ -30,18 +32,18 @@ use Opulence\Ioc\IContainer;
 use Opulence\Routing\Router;
 
 /**
- * Mocks the HTTP integration test for use in testing
+ * Mocks the HTTP integration test for use in testing.
  */
 class IntegrationTestCase extends BaseIntegrationTestCase
 {
     /** @var array The list of bootstrapper classes to include */
     private static $bootstrappers = [
         RequestBootstrapper::class,
-        RouterBootstrapper::class
+        RouterBootstrapper::class,
     ];
 
     /**
-     * Gets the response assertions
+     * Gets the response assertions.
      *
      * @return ResponseAssertions
      */
@@ -59,7 +61,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     }
 
     /**
-     * Gets the view assertions
+     * Gets the view assertions.
      *
      * @return ViewAssertions The view assertions
      */
@@ -69,14 +71,14 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     }
 
     /**
-     * Sets up the application and container
+     * Sets up the application and container.
      */
     public function setUp()
     {
         Config::setCategory('paths', [
-            'configs' => realpath(__DIR__ . '/../../configs'),
-            'root' => realpath(__DIR__ . '/../../../../../..'),
-            'src' => realpath(__DIR__ . '/../../../../../../src')
+            'configs' => realpath(__DIR__.'/../../configs'),
+            'root'    => realpath(__DIR__.'/../../../../../..'),
+            'src'     => realpath(__DIR__.'/../../../../../../src'),
         ]);
         // Create and bind all of the components of our application
         $taskDispatcher = new TaskDispatcher();
@@ -113,7 +115,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getExceptionHandler() : IExceptionHandler
     {
@@ -123,7 +125,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getExceptionRenderer() : IExceptionRenderer
     {
@@ -143,7 +145,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getGlobalMiddleware() : array
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Sessions;
 
 use InvalidArgumentException;
@@ -13,7 +15,7 @@ use Opulence\Sessions\Ids\Generators\IdGenerator;
 use Opulence\Sessions\Ids\Generators\IIdGenerator;
 
 /**
- * Defines a session that persists throughout a transaction on a page
+ * Defines a session that persists throughout a transaction on a page.
  */
 class Session implements ISession
 {
@@ -34,8 +36,8 @@ class Session implements ISession
     private $hasStarted = false;
 
     /**
-     * @param int|string|null $id The Id of the session
-     * @param IIdGenerator $idGenerator The Id generator to use
+     * @param int|string|null $id          The Id of the session
+     * @param IIdGenerator    $idGenerator The Id generator to use
      */
     public function __construct($id = null, IIdGenerator $idGenerator = null)
     {
@@ -48,7 +50,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function ageFlashData()
     {
@@ -61,7 +63,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete(string $key)
     {
@@ -69,7 +71,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flash(string $key, $value)
     {
@@ -88,7 +90,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -96,7 +98,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get(string $key, $defaultValue = null)
     {
@@ -108,7 +110,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAll() : array
     {
@@ -116,7 +118,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -124,7 +126,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName() : string
     {
@@ -132,7 +134,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function has(string $key) : bool
     {
@@ -148,7 +150,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function offsetExists($key) : bool
     {
@@ -156,7 +158,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function offsetGet($key)
     {
@@ -164,7 +166,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function offsetSet($key, $value)
     {
@@ -176,7 +178,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function offsetUnset($key)
     {
@@ -184,7 +186,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function reflash()
     {
@@ -195,7 +197,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function regenerateId()
     {
@@ -203,7 +205,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function set(string $key, $value)
     {
@@ -211,7 +213,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setId($id)
     {
@@ -223,7 +225,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setMany(array $variables)
     {
@@ -231,7 +233,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setName(string $name)
     {
@@ -239,7 +241,7 @@ class Session implements ISession
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function start(array $vars = []) : bool
     {
@@ -250,7 +252,7 @@ class Session implements ISession
     }
 
     /**
-     * Gets the new flash keys array
+     * Gets the new flash keys array.
      *
      * @return array The list of new flashed keys
      */
@@ -260,7 +262,7 @@ class Session implements ISession
     }
 
     /**
-     * Gets the stale flash keys array
+     * Gets the stale flash keys array.
      *
      * @return array The list of stale flashed keys
      */

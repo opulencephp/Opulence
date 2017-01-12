@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Composer\Console\Commands;
 
 use Opulence\Console\Commands\Command;
@@ -13,7 +15,7 @@ use Opulence\Console\Responses\IResponse;
 use Opulence\Framework\Composer\Executable;
 
 /**
- * Defines the Composer dump autoload command
+ * Defines the Composer dump autoload command.
  */
 class ComposerDumpAutoloadCommand extends Command
 {
@@ -31,7 +33,7 @@ class ComposerDumpAutoloadCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function define()
     {
@@ -40,7 +42,7 @@ class ComposerDumpAutoloadCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doExecute(IResponse $response)
     {

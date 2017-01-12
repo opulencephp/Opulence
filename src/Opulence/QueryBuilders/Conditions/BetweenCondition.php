@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\Conditions;
 
 use PDO;
 
 /**
- * Defines the BETWEEN condition
+ * Defines the BETWEEN condition.
  */
 class BetweenCondition extends Condition
 {
@@ -23,10 +25,11 @@ class BetweenCondition extends Condition
     protected $dataType = PDO::PARAM_STR;
 
     /**
-     * @inheritdoc
-     * @param mixed $min The min value
-     * @param mixed $max The max value
-     * @param int $dataType The PDO data type for the min and max
+     * {@inheritdoc}
+     *
+     * @param mixed $min      The min value
+     * @param mixed $max      The max value
+     * @param int   $dataType The PDO data type for the min and max
      */
     public function __construct(string $column, $min, $max, int $dataType = PDO::PARAM_STR)
     {
@@ -38,7 +41,7 @@ class BetweenCondition extends Condition
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getParameters() : array
     {
@@ -46,7 +49,7 @@ class BetweenCondition extends Condition
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSql() : string
     {

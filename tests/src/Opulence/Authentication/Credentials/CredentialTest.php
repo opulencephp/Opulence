@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Credentials;
 
 /**
- * Tests the credentials
+ * Tests the credentials.
  */
 class CredentialTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class CredentialTest extends \PHPUnit\Framework\TestCase
     private $credential = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class CredentialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the type
+     * Tests getting the type.
      */
     public function testGettingType()
     {
@@ -33,7 +35,7 @@ class CredentialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the value
+     * Tests getting the value.
      */
     public function testGettingValue()
     {
@@ -41,7 +43,7 @@ class CredentialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the values
+     * Tests getting the values.
      */
     public function testGettingValues()
     {
@@ -49,7 +51,7 @@ class CredentialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that non-existent values return null
+     * Tests that non-existent values return null.
      */
     public function testNullReturnedForNonExistentValues()
     {

@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Credentials\Authenticators;
 
 use InvalidArgumentException;
 
 /**
- * Defines the authenticator registry
+ * Defines the authenticator registry.
  */
 class AuthenticatorRegistry implements IAuthenticatorRegistry
 {
@@ -19,7 +21,7 @@ class AuthenticatorRegistry implements IAuthenticatorRegistry
     private $credentialTypesToAuthenticators = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAuthenticators(string $credentialType) : array
     {
@@ -31,7 +33,7 @@ class AuthenticatorRegistry implements IAuthenticatorRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerAuthenticator(string $credentialType, IAuthenticator $authenticator)
     {

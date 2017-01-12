@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Sessions\Handlers;
 
 use Opulence\Cache\ICacheBridge;
 
 /**
- * Tests the cache session handler
+ * Tests the cache session handler.
  */
 class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +23,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     private $bridge = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -30,7 +32,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that delete is called on destroy
+     * Tests that delete is called on destroy.
      */
     public function testCacheDeleteIsCalledOnDestroy()
     {
@@ -39,7 +41,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that get is called on read
+     * Tests that get is called on read.
      */
     public function testCacheGetIsCalledOnRead()
     {
@@ -48,7 +50,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that set is called on write
+     * Tests that set is called on write.
      */
     public function testCacheSetIsCalledOnWrite()
     {
@@ -57,7 +59,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that close returns true
+     * Tests that close returns true.
      */
     public function testCloseReturnsTrue()
     {
@@ -65,7 +67,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that gc returns true
+     * Tests that gc returns true.
      */
     public function testGCReturnsTrue()
     {
@@ -73,7 +75,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that open returns true
+     * Tests that open returns true.
      */
     public function testOpenReturnsTrue()
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Testing\PhpUnit;
 
 use Opulence\Console\Commands\CommandCollection;
@@ -20,7 +22,7 @@ use Opulence\Tests\Console\Commands\Mocks\StyledCommand;
 use Opulence\Tests\Framework\Console\Testing\PhpUnit\Mocks\IntegrationTestCase as MockIntegrationTestCase;
 
 /**
- * Tests the console integration test
+ * Tests the console integration test.
  */
 class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
 {
@@ -28,7 +30,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     private $testCase = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -44,7 +46,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that call returns this
+     * Tests that call returns this.
      */
     public function testCallReturnsThis()
     {
@@ -52,7 +54,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling a command with multiple prompts
+     * Tests calling a command with multiple prompts.
      */
     public function testCallingCommandWithMultiplePrompts()
     {
@@ -65,7 +67,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling a command with a single prompt
+     * Tests calling a command with a single prompt.
      */
     public function testCallingCommandWithSinglePrompt()
     {
@@ -78,7 +80,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling a non-existent command
+     * Tests calling a non-existent command.
      */
     public function testCallingNonExistentCommand()
     {
@@ -89,7 +91,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a command builder is created
+     * Tests that a command builder is created.
      */
     public function testCommandBuilderCreated()
     {
@@ -97,7 +99,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the commands
+     * Tests getting the commands.
      */
     public function testGettingCommands()
     {
@@ -105,7 +107,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the output of a command without an option
+     * Tests getting the output of a command without an option.
      */
     public function testGettingOutputOfOptionlessCommand()
     {
@@ -116,7 +118,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the output of a command with an option
+     * Tests getting the output of a command with an option.
      */
     public function testGettingOutputWithOption()
     {
@@ -127,7 +129,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the response assertions work
+     * Tests that the response assertions work.
      */
     public function testResponseAssertionsWork()
     {
@@ -137,7 +139,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests styling and unstyling a response
+     * Tests styling and unstyling a response.
      */
     public function testStylingAndUnstylingResponse()
     {
@@ -150,7 +152,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the response is cleared before each command is run
+     * Tests that the response is cleared before each command is run.
      */
     public function testThatResponseIsClearedBeforeEachCommand()
     {

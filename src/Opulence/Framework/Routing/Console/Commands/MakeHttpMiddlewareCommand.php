@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Routing\Console\Commands;
 
 use Opulence\Framework\Console\Commands\MakeCommand;
 
 /**
- * Makes an HTTP middleware class
+ * Makes an HTTP middleware class.
  */
 class MakeHttpMiddlewareCommand extends MakeCommand
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function define()
     {
@@ -27,18 +29,18 @@ class MakeHttpMiddlewareCommand extends MakeCommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getDefaultNamespace(string $rootNamespace) : string
     {
-        return $rootNamespace . "\\Application\\Http\\Middleware";
+        return $rootNamespace.'\\Application\\Http\\Middleware';
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getFileTemplatePath() : string
     {
-        return __DIR__ . '/templates/HttpMiddleware.template';
+        return __DIR__.'/templates/HttpMiddleware.template';
     }
 }

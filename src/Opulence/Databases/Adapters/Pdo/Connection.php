@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\Adapters\Pdo;
 
 use Opulence\Databases\IConnection;
@@ -16,7 +18,7 @@ use PDOException;
 
 /**
  * Defines an extension of the PDO library with lazy-connection
- * In other words, a database connection is only made if we absolutely need to, which gives us a performance gain
+ * In other words, a database connection is only made if we absolutely need to, which gives us a performance gain.
  */
 class Connection extends PDO implements IConnection
 {
@@ -35,17 +37,17 @@ class Connection extends PDO implements IConnection
     private $isConnected = false;
     /**
      * The number of transactions we're currently in
-     * Useful for nested transactions
+     * Useful for nested transactions.
      *
      * @var int
      */
     private $transactionCounter = 0;
 
     /**
-     * @param Provider $provider The database provider this connection uses
-     * @param Server $server The server we're connecting to
-     * @param string $dsn The Data Name Source to connect with
-     * @param array $driverOptions The list of driver options to use
+     * @param Provider $provider      The database provider this connection uses
+     * @param Server   $server        The server we're connecting to
+     * @param string   $dsn           The Data Name Source to connect with
+     * @param array    $driverOptions The list of driver options to use
      */
     public function __construct(Provider $provider, Server $server, string $dsn, array $driverOptions = [])
     {
@@ -56,9 +58,9 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * Nested transactions are permitted
+     * Nested transactions are permitted.
      *
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
@@ -72,9 +74,9 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * If we are in a nested transaction and this isn't the final commit of the nested transactions, nothing happens
+     * If we are in a nested transaction and this isn't the final commit of the nested transactions, nothing happens.
      *
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
@@ -86,7 +88,8 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function errorCode()
@@ -97,7 +100,8 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function errorInfo()
@@ -108,7 +112,8 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function exec($statement)
@@ -119,7 +124,8 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function getAttribute($attribute)
@@ -130,7 +136,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDatabaseProvider()
     {
@@ -138,7 +144,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getServer()
     {
@@ -146,7 +152,8 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function inTransaction()
@@ -157,7 +164,8 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function lastInsertId($sequenceName = null)
@@ -168,9 +176,11 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * @inheritdoc
-     * @return Statement
+     * {@inheritdoc}
+     *
      * @throws PDOException Thrown if there was an error connecting to the database
+     *
+     * @return Statement
      */
     public function prepare($statement, $driverOptions = [])
     {
@@ -180,7 +190,8 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function query($statement)
@@ -191,7 +202,8 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function quote($string, $parameterType = PDO::PARAM_STR)
@@ -202,7 +214,8 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function rollBack()
@@ -215,7 +228,8 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function setAttribute($attribute, $value)
@@ -226,7 +240,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * Attempts to connect to the server, which is done via lazy-connecting
+     * Attempts to connect to the server, which is done via lazy-connecting.
      *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
@@ -242,7 +256,7 @@ class Connection extends PDO implements IConnection
             parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             parent::setAttribute(
                 PDO::ATTR_STATEMENT_CLASS,
-                [__NAMESPACE__ . "\\" . self::PDO_STATEMENT_CLASS, [$this]]
+                [__NAMESPACE__.'\\'.self::PDO_STATEMENT_CLASS, [$this]]
             );
 
             $this->isConnected = true;

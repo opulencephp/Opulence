@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules\Errors\Compilers;
 
 /**
- * Tests the error template compiler
+ * Tests the error template compiler.
  */
 class CompilerTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     private $compiler = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a template with arg placeholders
+     * Tests compiling a template with arg placeholders.
      */
     public function testCompilingTemplateWithArgPlaceholders()
     {
@@ -40,7 +42,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a template with arg placeholders not in same order as args
+     * Tests compiling a template with arg placeholders not in same order as args.
      */
     public function testCompilingTemplateWithArgPlaceholdersNotInSameOrderAsArgs()
     {
@@ -55,7 +57,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a template with field and arg placeholders
+     * Tests compiling a template with field and arg placeholders.
      */
     public function testCompilingTemplateWithFieldAndArgPlaceholders()
     {
@@ -70,7 +72,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a template with a field placeholder
+     * Tests compiling a template with a field placeholder.
      */
     public function testCompilingTemplateWithFieldPlaceholder()
     {
@@ -81,7 +83,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a with leftover placeholders
+     * Tests compiling a with leftover placeholders.
      */
     public function testCompilingTemplateWithLeftoverPlaceholders()
     {
@@ -95,7 +97,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests compiling a template with no placeholders
+     * Tests compiling a template with no placeholders.
      */
     public function testCompilingTemplateWithNoPlaceholders()
     {

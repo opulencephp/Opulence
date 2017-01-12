@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Commands;
 
 use Opulence\Console\Commands\Command;
@@ -18,7 +20,7 @@ use Opulence\Files\FileSystem;
 use Opulence\Framework\Configuration\Config;
 
 /**
- * Defines the command that renames an application
+ * Defines the command that renames an application.
  */
 class RenameAppCommand extends Command
 {
@@ -29,7 +31,7 @@ class RenameAppCommand extends Command
 
     /**
      * @param FileSystem $fileSystem The filesystem to use to write to files
-     * @param Prompt $prompt The prompt to confirm things with the user
+     * @param Prompt     $prompt     The prompt to confirm things with the user
      */
     public function __construct(FileSystem $fileSystem, Prompt $prompt)
     {
@@ -40,7 +42,7 @@ class RenameAppCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function define()
     {
@@ -60,25 +62,25 @@ class RenameAppCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doExecute(IResponse $response)
     {
         $currName = $this->getArgumentValue('currName');
         $newName = $this->getArgumentValue('newName');
-        
+
         if (preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $currName) !== 1) {
             $response->writeln("<error>Current name \"$currName\" is not a valid PHP namespace</error>");
-            
+
             return;
         }
-        
+
         if (preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $newName) !== 1) {
             $response->writeln("<error>New name \"$newName\" is not a valid PHP namespace</error>");
-            
+
             return;
         }
-        
+
         $confirmationQuestion = new Confirmation(
             sprintf(
                 'Are you sure you want to rename %s to %s? [y/n] ',
@@ -109,11 +111,11 @@ class RenameAppCommand extends Command
     }
 
     /**
-     * Updates the Composer config
+     * Updates the Composer config.
      *
-     * @param string $currName The current application name
-     * @param string $newName The new application name
-     * @param bool $renameDirectories Whether or not to rename directories
+     * @param string $currName          The current application name
+     * @param string $newName           The new application name
+     * @param bool   $renameDirectories Whether or not to rename directories
      */
     protected function updateComposer(string $currName, string $newName, bool $renameDirectories)
     {
@@ -138,10 +140,10 @@ class RenameAppCommand extends Command
     }
 
     /**
-     * Updates any class names that appear in configs
-     * 
+     * Updates any class names that appear in configs.
+     *
      * @param string $currName The current application name
-     * @param string $newName The new application name
+     * @param string $newName  The new application name
      */
     protected function updateConfigs(string $currName, string $newName)
     {
@@ -159,10 +161,10 @@ class RenameAppCommand extends Command
     }
 
     /**
-     * Updates the namespaces
-     * 
+     * Updates the namespaces.
+     *
      * @param string $currName The current application name
-     * @param string $newName The new application name
+     * @param string $newName  The new application name
      */
     protected function updateNamespaces(string $currName, string $newName)
     {
@@ -177,11 +179,11 @@ class RenameAppCommand extends Command
                 $updatedContents = str_replace(
                     [
                         "namespace $currName;",
-                        "namespace $currName\\"
+                        "namespace $currName\\",
                     ],
                     [
                         "namespace $newName;",
-                        "namespace $newName\\"
+                        "namespace $newName\\",
                     ],
                     $currContents
                 );
@@ -189,11 +191,11 @@ class RenameAppCommand extends Command
                 $updatedContents = str_replace(
                     [
                         "use $currName;",
-                        "use $currName\\"
+                        "use $currName\\",
                     ],
                     [
                         "use $newName;",
-                        "use $newName\\"
+                        "use $newName\\",
                     ],
                     $updatedContents
                 );
@@ -203,11 +205,11 @@ class RenameAppCommand extends Command
     }
 
     /**
-     * Updates the src and test directories
+     * Updates the src and test directories.
      *
-     * @param string $currName The current application name
-     * @param string $newName The new application name
-     * @param bool $renameDirectories Whether or not to rename directories
+     * @param string $currName          The current application name
+     * @param string $newName           The new application name
+     * @param bool   $renameDirectories Whether or not to rename directories
      */
     protected function updateSrcAndTestDirectories(string $currName, string $newName, bool $renameDirectories)
     {

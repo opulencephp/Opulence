@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Clients;
 
 /**
- * Tests the client
+ * Tests the client.
  */
 class ClientTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     private $client = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the Id
+     * Tests getting the Id.
      */
     public function testGettingId()
     {
@@ -33,7 +35,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the name
+     * Tests getting the name.
      */
     public function testGettingName()
     {
@@ -41,7 +43,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the secret
+     * Tests getting the secret.
      */
     public function testGettingSecret()
     {
@@ -49,7 +51,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the Id
+     * Tests setting the Id.
      */
     public function testSettingId()
     {
@@ -58,7 +60,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the name
+     * Tests setting the name.
      */
     public function testSettingName()
     {

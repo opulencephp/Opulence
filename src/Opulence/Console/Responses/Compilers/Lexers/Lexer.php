@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers\Lexers;
 
 use Opulence\Console\Responses\Compilers\Lexers\Tokens\Token;
@@ -13,12 +15,12 @@ use Opulence\Console\Responses\Compilers\Lexers\Tokens\TokenTypes;
 use RuntimeException;
 
 /**
- * Defines the response lexer
+ * Defines the response lexer.
  */
 class Lexer implements ILexer
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function lex(string $text) : array
     {
@@ -33,14 +35,14 @@ class Lexer implements ILexer
         foreach ($charArray as $charIter => $char) {
             switch ($char) {
                 case '<':
-                    if ($this->lookBehind($charArray, $charIter) === "\\") {
+                    if ($this->lookBehind($charArray, $charIter) === '\\') {
                         // This tag was escaped
                         // Don't include the preceding slash
-                        $wordBuffer = mb_substr($wordBuffer, 0, -1) . $char;
+                        $wordBuffer = mb_substr($wordBuffer, 0, -1).$char;
                     } elseif ($inOpenTag || $inCloseTag) {
                         throw new RuntimeException(
                             sprintf(
-                                "Invalid tags near \"%s\", character #%d",
+                                'Invalid tags near "%s", character #%d',
                                 $this->getSurroundingText($charArray, $charIter),
                                 $charIter
                             )
@@ -124,10 +126,11 @@ class Lexer implements ILexer
     }
 
     /**
-     * Gets text around a certain position for use in exceptions
+     * Gets text around a certain position for use in exceptions.
      *
      * @param array $charArray The char array
-     * @param int $position The numerical position to grab text around
+     * @param int   $position  The numerical position to grab text around
+     *
      * @return string The surrounding text
      */
     private function getSurroundingText(array $charArray, int $position) : string
@@ -144,26 +147,28 @@ class Lexer implements ILexer
     }
 
     /**
-     * Looks back at the previous character in the string
+     * Looks back at the previous character in the string.
      *
-     * @param array $charArray The char array
-     * @param int $currPosition The current position
+     * @param array $charArray    The char array
+     * @param int   $currPosition The current position
+     *
      * @return string|null The previous character if there is one, otherwise null
      */
     private function lookBehind(array $charArray, int $currPosition)
     {
         if ($currPosition === 0 || count($charArray) === 0) {
-            return null;
+            return;
         }
 
         return $charArray[$currPosition - 1];
     }
 
     /**
-     * Peeks at the next character in the string
+     * Peeks at the next character in the string.
      *
-     * @param array $charArray The char array
-     * @param int $currPosition The current position
+     * @param array $charArray    The char array
+     * @param int   $currPosition The current position
+     *
      * @return string|null The next character if there is one, otherwise null
      */
     private function peek(array $charArray, int $currPosition)
@@ -171,7 +176,7 @@ class Lexer implements ILexer
         $charArrayLength = count($charArray);
 
         if ($charArrayLength === 0 || $charArrayLength === $currPosition + 1) {
-            return null;
+            return;
         }
 
         return $charArray[$currPosition + 1];

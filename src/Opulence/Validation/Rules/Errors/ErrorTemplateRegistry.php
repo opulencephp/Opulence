@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules\Errors;
 
 use InvalidArgumentException;
 
 /**
- * Defines the error template registry
+ * Defines the error template registry.
  */
 class ErrorTemplateRegistry
 {
@@ -21,10 +23,11 @@ class ErrorTemplateRegistry
     protected $fieldTemplates = [];
 
     /**
-     * Gets the error template for a field and rule
+     * Gets the error template for a field and rule.
      *
-     * @param string $field The field whose template we want
+     * @param string $field    The field whose template we want
      * @param string $ruleSlug The rule slug whose template we want
+     *
      * @return string The error template
      */
     public function getErrorTemplate(string $field, string $ruleSlug) : string
@@ -41,11 +44,12 @@ class ErrorTemplateRegistry
     }
 
     /**
-     * Registers error templates from a config array
+     * Registers error templates from a config array.
      *
      * @param array $config The mapping of rules to error templates
-     *      Global error templates should be formatted "{slug}" => "{template}"
-     *      Field error templates should be formatted "{field}.{slug}" => "{template}"
+     *                      Global error templates should be formatted "{slug}" => "{template}"
+     *                      Field error templates should be formatted "{field}.{slug}" => "{template}"
+     *
      * @throws InvalidArgumentException Thrown if the config was invalid
      */
     public function registerErrorTemplatesFromConfig(array $config)
@@ -70,9 +74,9 @@ class ErrorTemplateRegistry
     }
 
     /**
-     * Registers an error template for a specific field and rule
+     * Registers an error template for a specific field and rule.
      *
-     * @param string $field The field whose template we're registering
+     * @param string $field    The field whose template we're registering
      * @param string $ruleSlug The rule slug whose template we're registering
      * @param string $template The template to register
      */
@@ -86,7 +90,7 @@ class ErrorTemplateRegistry
     }
 
     /**
-     * Registers a global error template for a rule
+     * Registers a global error template for a rule.
      *
      * @param string $ruleSlug The rule slug whose template we're registering
      * @param string $template The template to register

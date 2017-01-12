@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Responses;
 
 use DateTime;
 
 /**
- * Tests the cookie class
+ * Tests the cookie class.
  */
 class CookieTest extends \PHPUnit\Framework\TestCase
 {
@@ -33,7 +35,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     private $isHttpOnly = true;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -49,7 +51,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the domain
+     * Tests getting the domain.
      */
     public function testGettingDomain()
     {
@@ -57,7 +59,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the expiration
+     * Tests getting the expiration.
      */
     public function testGettingExpiration()
     {
@@ -65,7 +67,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the HTTP-only flag
+     * Tests getting the HTTP-only flag.
      */
     public function testGettingIsHttpOnly()
     {
@@ -73,7 +75,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the secure flag
+     * Tests getting the secure flag.
      */
     public function testGettingIsSecure()
     {
@@ -81,7 +83,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the name
+     * Tests getting the name.
      */
     public function testGettingName()
     {
@@ -89,7 +91,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the path
+     * Tests getting the path.
      */
     public function testGettingPath()
     {
@@ -97,7 +99,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the value
+     * Tests getting the value.
      */
     public function testGettingValue()
     {
@@ -105,7 +107,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing a timestamp for the expiration
+     * Tests passing a timestamp for the expiration.
      */
     public function testPassingTimestampForExpiration()
     {
@@ -115,7 +117,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the domain
+     * Tests setting the domain.
      */
     public function testSettingDomain()
     {
@@ -124,7 +126,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the expiration
+     * Tests setting the expiration.
      */
     public function testSettingExpiration()
     {
@@ -134,7 +136,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the HTTP-only flag
+     * Tests setting the HTTP-only flag.
      */
     public function testSettingIsHttpOnly()
     {
@@ -143,7 +145,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the secure flag
+     * Tests setting the secure flag.
      */
     public function testSettingIsSecure()
     {
@@ -152,7 +154,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the name
+     * Tests setting the name.
      */
     public function testSettingName()
     {
@@ -161,7 +163,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the path
+     * Tests setting the path.
      */
     public function testSettingPath()
     {
@@ -170,7 +172,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the value
+     * Tests setting the value.
      */
     public function testSettingValue()
     {

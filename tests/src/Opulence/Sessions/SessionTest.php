@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Sessions;
 
 use InvalidArgumentException;
@@ -13,12 +15,12 @@ use Opulence\Sessions\Ids\Generators\IdGenerator;
 use Opulence\Sessions\Ids\Generators\IIdGenerator;
 
 /**
- * Tests the session class
+ * Tests the session class.
  */
 class SessionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests aging flashed data
+     * Tests aging flashed data.
      */
     public function testAgingFlashData()
     {
@@ -26,9 +28,9 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $session->flash('foo', 'bar');
         $this->assertEquals(
             [
-                'foo' => 'bar',
-                $session::NEW_FLASH_KEYS_KEY => ['foo'],
-                $session::STALE_FLASH_KEYS_KEY => []
+                'foo'                          => 'bar',
+                $session::NEW_FLASH_KEYS_KEY   => ['foo'],
+                $session::STALE_FLASH_KEYS_KEY => [],
             ],
             $session->getAll()
         );
@@ -37,9 +39,9 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($session->has('foo'));
         $this->assertEquals(
             [
-                'foo' => 'bar',
-                $session::NEW_FLASH_KEYS_KEY => [],
-                $session::STALE_FLASH_KEYS_KEY => ['foo']
+                'foo'                          => 'bar',
+                $session::NEW_FLASH_KEYS_KEY   => [],
+                $session::STALE_FLASH_KEYS_KEY => ['foo'],
             ],
             $session->getAll()
         );
@@ -50,9 +52,9 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('blah', $session->get('baz'));
         $this->assertEquals(
             [
-                'baz' => 'blah',
-                $session::NEW_FLASH_KEYS_KEY => [],
-                $session::STALE_FLASH_KEYS_KEY => ['baz']
+                'baz'                          => 'blah',
+                $session::NEW_FLASH_KEYS_KEY   => [],
+                $session::STALE_FLASH_KEYS_KEY => ['baz'],
             ],
             $session->getAll()
         );
@@ -62,15 +64,15 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($session->has('baz'));
         $this->assertEquals(
             [
-                $session::NEW_FLASH_KEYS_KEY => [],
-                $session::STALE_FLASH_KEYS_KEY => []
+                $session::NEW_FLASH_KEYS_KEY   => [],
+                $session::STALE_FLASH_KEYS_KEY => [],
             ],
             $session->getAll()
         );
     }
 
     /**
-     * Tests that writing to flash data after aging it will reflash it
+     * Tests that writing to flash data after aging it will reflash it.
      */
     public function testAgingFlashDataAndWritingToItAgain()
     {
@@ -83,9 +85,9 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('baz', $session->get('foo'));
         $this->assertEquals(
             [
-                'foo' => 'baz',
-                $session::NEW_FLASH_KEYS_KEY => [],
-                $session::STALE_FLASH_KEYS_KEY => ['foo']
+                'foo'                          => 'baz',
+                $session::NEW_FLASH_KEYS_KEY   => [],
+                $session::STALE_FLASH_KEYS_KEY => ['foo'],
             ],
             $session->getAll()
         );
@@ -94,15 +96,15 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($session->get('foo'));
         $this->assertEquals(
             [
-                $session::NEW_FLASH_KEYS_KEY => [],
-                $session::STALE_FLASH_KEYS_KEY => []
+                $session::NEW_FLASH_KEYS_KEY   => [],
+                $session::STALE_FLASH_KEYS_KEY => [],
             ],
             $session->getAll()
         );
     }
 
     /**
-     * Tests checking if an offset exists
+     * Tests checking if an offset exists.
      */
     public function testCheckingIfOffsetExists()
     {
@@ -115,7 +117,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests deleting a variable
+     * Tests deleting a variable.
      */
     public function testDeletingVariable()
     {
@@ -127,7 +129,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests flashing data and getting it
+     * Tests flashing data and getting it.
      */
     public function testFlashingDataAndGettingIt()
     {
@@ -137,16 +139,16 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $session->get('foo'));
         $this->assertEquals(
             [
-                'foo' => 'bar',
-                $session::NEW_FLASH_KEYS_KEY => ['foo'],
-                $session::STALE_FLASH_KEYS_KEY => []
+                'foo'                          => 'bar',
+                $session::NEW_FLASH_KEYS_KEY   => ['foo'],
+                $session::STALE_FLASH_KEYS_KEY => [],
             ],
             $session->getAll()
         );
     }
 
     /**
-     * Tests flushing the session
+     * Tests flushing the session.
      */
     public function testFlushing()
     {
@@ -158,7 +160,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting all session variables
+     * Tests getting all session variables.
      */
     public function testGettingAll()
     {
@@ -169,7 +171,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the Id
+     * Tests getting the Id.
      */
     public function testGettingId()
     {
@@ -181,7 +183,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent variable
+     * Tests getting a non-existent variable.
      */
     public function testGettingNonExistentVariable()
     {
@@ -191,7 +193,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent variable with a default value
+     * Tests getting a non-existent variable with a default value.
      */
     public function testGettingNonExistentVariableWithDefaultValue()
     {
@@ -200,7 +202,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests reflashing data
+     * Tests reflashing data.
      */
     public function testReflashing()
     {
@@ -212,9 +214,9 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $session->get('foo'));
         $this->assertEquals(
             [
-                'foo' => 'bar',
-                $session::NEW_FLASH_KEYS_KEY => ['foo'],
-                $session::STALE_FLASH_KEYS_KEY => []
+                'foo'                          => 'bar',
+                $session::NEW_FLASH_KEYS_KEY   => ['foo'],
+                $session::STALE_FLASH_KEYS_KEY => [],
             ],
             $session->getAll()
         );
@@ -223,9 +225,9 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $session->get('foo'));
         $this->assertEquals(
             [
-                'foo' => 'bar',
-                $session::NEW_FLASH_KEYS_KEY => [],
-                $session::STALE_FLASH_KEYS_KEY => ['foo']
+                'foo'                          => 'bar',
+                $session::NEW_FLASH_KEYS_KEY   => [],
+                $session::STALE_FLASH_KEYS_KEY => ['foo'],
             ],
             $session->getAll()
         );
@@ -234,15 +236,15 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($session->get('foo'));
         $this->assertEquals(
             [
-                $session::NEW_FLASH_KEYS_KEY => [],
-                $session::STALE_FLASH_KEYS_KEY => []
+                $session::NEW_FLASH_KEYS_KEY   => [],
+                $session::STALE_FLASH_KEYS_KEY => [],
             ],
             $session->getAll()
         );
     }
 
     /**
-     * Tests regenerating the session Id
+     * Tests regenerating the session Id.
      */
     public function testRegenerateId()
     {
@@ -258,7 +260,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests regenerating the session Id with the default generator
+     * Tests regenerating the session Id with the default generator.
      */
     public function testRegeneratingIdWithDefaultIdGenerator()
     {
@@ -269,7 +271,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting and getting the name
+     * Tests setting and getting the name.
      */
     public function testSettingAndGettingName()
     {
@@ -279,7 +281,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the Id
+     * Tests setting the Id.
      */
     public function testSettingId()
     {
@@ -293,7 +295,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that invalid Id causes a new Id to be generated
+     * Tests that invalid Id causes a new Id to be generated.
      */
     public function testSettingInvalidIdCausesNewIdToBeGenerated()
     {
@@ -310,7 +312,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting many variables
+     * Tests setting many variables.
      */
     public function testSettingMany()
     {
@@ -323,7 +325,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a null offset
+     * Tests setting a null offset.
      */
     public function testSettingNullOffset()
     {
@@ -333,7 +335,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the offset
+     * Tests setting the offset.
      */
     public function testSettingOffset()
     {
@@ -345,7 +347,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a variable
+     * Tests setting a variable.
      */
     public function testSettingVariable()
     {
@@ -356,7 +358,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests starting a session
+     * Tests starting a session.
      */
     public function testStarting()
     {
@@ -369,7 +371,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a session is not marked as started before it's started
+     * Tests that a session is not marked as started before it's started.
      */
     public function testThatSessionNotMarkedAsStartedBeforeStarting()
     {
@@ -378,7 +380,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an unset name is an empty string
+     * Tests that an unset name is an empty string.
      */
     public function testUnsetNameIsEmptyString()
     {
@@ -387,7 +389,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests unsetting an offset
+     * Tests unsetting an offset.
      */
     public function testUnsettingOffset()
     {

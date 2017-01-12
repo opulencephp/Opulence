@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders;
 
 /**
- * Builds parts of a query that can use a "WHERE" clause
+ * Builds parts of a query that can use a "WHERE" clause.
  */
 class ConditionalQueryBuilder
 {
@@ -17,11 +19,12 @@ class ConditionalQueryBuilder
     protected $whereConditions = [];
 
     /**
-     * Adds a condition to a clause
+     * Adds a condition to a clause.
      *
-     * @param array $clauseConditions The list of conditions that already belong to the clause
-     * @param string $operation Either "AND" or "OR", indicating how this condition is being added to the list of conditions
-     * @param string[] $conditions,... A variable list of conditions to be met
+     * @param array    $clauseConditions The list of conditions that already belong to the clause
+     * @param string   $operation        Either "AND" or "OR", indicating how this condition is being added to the list of conditions
+     * @param string[] $conditions,...   A variable list of conditions to be met
+     *
      * @return array The input array with the condition added
      */
     public function addConditionToClause(array $clauseConditions, string $operation, string ...$conditions) : array
@@ -34,9 +37,10 @@ class ConditionalQueryBuilder
     }
 
     /**
-     * Adds to a "WHERE" condition that will be "AND"ed with other conditions
+     * Adds to a "WHERE" condition that will be "AND"ed with other conditions.
      *
      * @param string[] $condition,... A variable list of conditions to be met
+     *
      * @return self For method chaining
      */
     public function andWhere(string ...$condition) : self
@@ -48,10 +52,11 @@ class ConditionalQueryBuilder
     }
 
     /**
-     * Gets the SQL that makes up a clause that permits boolean operations ie "AND" and "OR"
+     * Gets the SQL that makes up a clause that permits boolean operations ie "AND" and "OR".
      *
-     * @param string $conditionType The name of the condition type ie "WHERE"
-     * @param array $clauseConditions The array of condition data whose SQL we want
+     * @param string $conditionType    The name of the condition type ie "WHERE"
+     * @param array  $clauseConditions The array of condition data whose SQL we want
+     *
      * @return string The SQL that makes up the input clause(s)
      */
     public function getClauseConditionSql(string $conditionType, array $clauseConditions) : string
@@ -60,13 +65,13 @@ class ConditionalQueryBuilder
             return '';
         }
 
-        $sql = ' ' . strtoupper($conditionType);
+        $sql = ' '.strtoupper($conditionType);
         // This will help us keep track of whether or not we've added at least one clause
         $haveAddedAClause = false;
 
         foreach ($clauseConditions as $conditionData) {
-            $sql .= ($haveAddedAClause ? ' ' . strtoupper($conditionData['operation']) : '')
-                . " ({$conditionData['condition']})";
+            $sql .= ($haveAddedAClause ? ' '.strtoupper($conditionData['operation']) : '')
+                ." ({$conditionData['condition']})";
             $haveAddedAClause = true;
         }
 
@@ -82,9 +87,10 @@ class ConditionalQueryBuilder
     }
 
     /**
-     * Adds to a "WHERE" condition that will be "OR"ed with other conditions
+     * Adds to a "WHERE" condition that will be "OR"ed with other conditions.
      *
      * @param string[] $condition,... A variable list of conditions to be met
+     *
      * @return self For method chaining
      */
     public function orWhere(string ...$condition) : self
@@ -97,9 +103,10 @@ class ConditionalQueryBuilder
 
     /**
      * Starts a "WHERE" condition
-     * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions
+     * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions.
      *
      * @param string[] $condition,... A variable list of conditions to be met
+     *
      * @return self For method chaining
      */
     public function where(string ...$condition) : self

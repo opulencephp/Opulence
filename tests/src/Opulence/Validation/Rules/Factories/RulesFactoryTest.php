@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules\Factories;
 
 use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
@@ -14,12 +16,12 @@ use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Rules\Rules;
 
 /**
- * Tests the rules factory
+ * Tests the rules factory.
  */
 class RulesFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests that rules are created
+     * Tests that rules are created.
      */
     public function testRulesCreated()
     {

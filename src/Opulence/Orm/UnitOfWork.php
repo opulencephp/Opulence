@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm;
 
 use Exception;
@@ -19,7 +21,7 @@ use Opulence\Orm\Ids\Generators\SequenceIdGenerator;
 use RuntimeException;
 
 /**
- * Defines a unit of work that tracks changes made to entities and atomically persists them
+ * Defines a unit of work that tracks changes made to entities and atomically persists them.
  */
 class UnitOfWork implements IUnitOfWork
 {
@@ -43,11 +45,11 @@ class UnitOfWork implements IUnitOfWork
     private $scheduledForDeletion = [];
 
     /**
-     * @param IEntityRegistry $entityRegistry The entity registry to use
-     * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry to use
+     * @param IEntityRegistry      $entityRegistry      The entity registry to use
+     * @param IIdAccessorRegistry  $idAccessorRegistry  The Id accessor registry to use
      * @param IIdGeneratorRegistry $idGeneratorRegistry The Id generator registry to use
-     * @param IChangeTracker $changeTracker The change tracker to use
-     * @param IConnection $connection The connection to use in our unit of work
+     * @param IChangeTracker       $changeTracker       The change tracker to use
+     * @param IConnection          $connection          The connection to use in our unit of work
      */
     public function __construct(
         IEntityRegistry $entityRegistry,
@@ -67,7 +69,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function commit()
     {
@@ -100,7 +102,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function detach($entity)
     {
@@ -112,7 +114,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function dispose()
     {
@@ -124,7 +126,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getEntityRegistry() : IEntityRegistry
     {
@@ -132,7 +134,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerDataMapper(string $className, IDataMapper $dataMapper)
     {
@@ -140,7 +142,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scheduleForDeletion($entity)
     {
@@ -148,7 +150,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scheduleForInsertion($entity)
     {
@@ -158,7 +160,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scheduleForUpdate($entity)
     {
@@ -166,7 +168,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setConnection(IConnection $connection)
     {
@@ -174,7 +176,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * Checks for any changes made to entities, and if any are found, they're scheduled for update
+     * Checks for any changes made to entities, and if any are found, they're scheduled for update.
      */
     protected function checkForUpdates()
     {
@@ -195,7 +197,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * Attempts to update all the entities scheduled for deletion
+     * Attempts to update all the entities scheduled for deletion.
      */
     protected function delete()
     {
@@ -209,11 +211,13 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * Gets the data mapper for the input class
+     * Gets the data mapper for the input class.
      *
      * @param string $className The name of the class whose data mapper we're searching for
-     * @return IDataMapper The data mapper for the input class
+     *
      * @throws RuntimeException Thrown if there was no data mapper for the input class name
+     *
+     * @return IDataMapper The data mapper for the input class
      */
     protected function getDataMapper(string $className) : IDataMapper
     {
@@ -225,7 +229,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * Gets the list of entities that are scheduled for deletion
+     * Gets the list of entities that are scheduled for deletion.
      *
      * @return object[] The list of entities scheduled for deletion
      */
@@ -235,7 +239,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * Gets the list of entities that are scheduled for insertion
+     * Gets the list of entities that are scheduled for insertion.
      *
      * @return object[] The list of entities scheduled for insertion
      */
@@ -245,7 +249,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * Gets the list of entities that are scheduled for update
+     * Gets the list of entities that are scheduled for update.
      *
      * @return object[] The list of entities scheduled for update
      */
@@ -255,7 +259,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * Attempts to insert all the entities scheduled for insertion
+     * Attempts to insert all the entities scheduled for insertion.
      */
     protected function insert()
     {
@@ -293,7 +297,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * Performs any actions after the commit
+     * Performs any actions after the commit.
      */
     protected function postCommit()
     {
@@ -301,14 +305,14 @@ class UnitOfWork implements IUnitOfWork
         foreach ($this->dataMappers as $className => $dataMapper) {
             if ($dataMapper instanceof ICachedSqlDataMapper) {
                 // Now that the database writes have been committed, we can write to cache
-                /** @var ICachedSqlDataMapper $dataMapper */
+                /* @var ICachedSqlDataMapper $dataMapper */
                 $dataMapper->commit();
             }
         }
     }
 
     /**
-     * Performs any actions after a rollback
+     * Performs any actions after a rollback.
      */
     protected function postRollback()
     {
@@ -326,7 +330,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * Performs any actions before a commit
+     * Performs any actions before a commit.
      */
     protected function preCommit()
     {
@@ -334,7 +338,7 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * Attempts to update all the entities scheduled for updating
+     * Attempts to update all the entities scheduled for updating.
      */
     protected function update()
     {

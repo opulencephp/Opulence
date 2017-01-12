@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Dispatchers;
 
 use Closure;
@@ -26,7 +28,7 @@ use ReflectionMethod;
 use ReflectionParameter;
 
 /**
- * Dispatches routes to the appropriate controllers
+ * Dispatches routes to the appropriate controllers.
  */
 class RouteDispatcher implements IRouteDispatcher
 {
@@ -46,7 +48,7 @@ class RouteDispatcher implements IRouteDispatcher
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function dispatch(CompiledRoute $route, Request $request, &$controller = null) : Response
     {
@@ -65,13 +67,15 @@ class RouteDispatcher implements IRouteDispatcher
     }
 
     /**
-     * Calls the method on the input controller
+     * Calls the method on the input controller.
      *
      * @param Controller|Closure|mixed $controller The instance of the controller to call
-     * @param CompiledRoute $route The route being dispatched
-     * @return Response Returns the value from the controller method
+     * @param CompiledRoute            $route      The route being dispatched
+     *
      * @throws RouteException Thrown if the method could not be called on the controller
-     * @throws HttpException Thrown if the controller threw an HttpException
+     * @throws HttpException  Thrown if the controller threw an HttpException
+     *
+     * @return Response Returns the value from the controller method
      */
     private function callController($controller, CompiledRoute $route) : Response
     {
@@ -130,12 +134,14 @@ class RouteDispatcher implements IRouteDispatcher
     }
 
     /**
-     * Creates an instance of the input controller
+     * Creates an instance of the input controller.
      *
-     * @param string $controllerName The fully-qualified name of the controller class to instantiate
-     * @param Request $request The request that's being routed
-     * @return Controller|mixed The instantiated controller
+     * @param string  $controllerName The fully-qualified name of the controller class to instantiate
+     * @param Request $request        The request that's being routed
+     *
      * @throws RouteException Thrown if the controller could not be instantiated
+     *
+     * @return Controller|mixed The instantiated controller
      */
     private function resolveController(string $controllerName, Request $request)
     {
@@ -169,14 +175,16 @@ class RouteDispatcher implements IRouteDispatcher
     }
 
     /**
-     * Gets the resolved parameters for a controller
+     * Gets the resolved parameters for a controller.
      *
-     * @param ReflectionParameter[] $reflectionParameters The reflection parameters
-     * @param array $pathVars The route path variables
-     * @param CompiledRoute $route The route whose parameters we're resolving
-     * @param bool $acceptObjectParameters Whether or not we'll accept objects as parameters
-     * @return array The mapping of parameter names to their resolved values
+     * @param ReflectionParameter[] $reflectionParameters   The reflection parameters
+     * @param array                 $pathVars               The route path variables
+     * @param CompiledRoute         $route                  The route whose parameters we're resolving
+     * @param bool                  $acceptObjectParameters Whether or not we'll accept objects as parameters
+     *
      * @throws RouteException Thrown if the parameters could not be resolved
+     *
+     * @return array The mapping of parameter names to their resolved values
      */
     private function resolveControllerParameters(
         array $reflectionParameters,
@@ -209,9 +217,10 @@ class RouteDispatcher implements IRouteDispatcher
     }
 
     /**
-     * Resolves the list of middleware
+     * Resolves the list of middleware.
      *
      * @param array $middleware The middleware to resolve
+     *
      * @return IMiddleware[] The list of resolved middleware
      */
     private function resolveMiddleware(array $middleware) : array

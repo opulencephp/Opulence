@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Routing\Mocks;
 
 use Opulence\Routing\Dispatchers\MiddlewarePipeline;
@@ -20,7 +22,7 @@ use Opulence\Tests\Routing\Dispatchers\Mocks\DependencyResolver;
 use Opulence\Tests\Routing\Dispatchers\Mocks\RouteDispatcher;
 
 /**
- * Mocks the router for use in testing
+ * Mocks the router for use in testing.
  */
 class Router extends BaseRouter
 {
@@ -28,14 +30,14 @@ class Router extends BaseRouter
     protected $dispatcher = null;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function __construct()
     {
         $routeMatchers = [
             new PathMatcher(),
             new HostMatcher(),
-            new SchemeMatcher()
+            new SchemeMatcher(),
         ];
         $parser = new Parser();
         $compiler = new Compiler($routeMatchers);
@@ -48,7 +50,7 @@ class Router extends BaseRouter
     }
 
     /**
-     * Gets the last route dispatched
+     * Gets the last route dispatched.
      *
      * @return CompiledRoute The last route
      */

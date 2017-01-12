@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console;
 
 use Exception;
@@ -28,7 +30,7 @@ use Opulence\Console\Responses\IResponse;
 use Throwable;
 
 /**
- * Defines the console kernel
+ * Defines the console kernel.
  */
 class Kernel
 {
@@ -42,10 +44,10 @@ class Kernel
     private $applicationVersion = 'Unknown';
 
     /**
-     * @param IParser $requestParser The request parser to use
-     * @param ICommandCompiler $commandCompiler The command compiler to use
-     * @param CommandCollection $commandCollection The list of commands to choose from
-     * @param string $applicationVersion The version number of the application
+     * @param IParser           $requestParser      The request parser to use
+     * @param ICommandCompiler  $commandCompiler    The command compiler to use
+     * @param CommandCollection $commandCollection  The list of commands to choose from
+     * @param string            $applicationVersion The version number of the application
      */
     public function __construct(
         IParser $requestParser,
@@ -60,10 +62,11 @@ class Kernel
     }
 
     /**
-     * Handles a console command
+     * Handles a console command.
      *
-     * @param mixed $input The raw input to parse
+     * @param mixed     $input    The raw input to parse
      * @param IResponse $response The response to write to
+     *
      * @return int The status code
      */
     public function handle($input, IResponse $response = null) : int
@@ -114,11 +117,13 @@ class Kernel
     }
 
     /**
-     * Gets the compiled help command
+     * Gets the compiled help command.
      *
      * @param IRequest $request The parsed request
-     * @return ICommand The compiled help command
+     *
      * @throws InvalidArgumentException Thrown if the command that is requesting help does not exist
+     *
+     * @return ICommand The compiled help command
      */
     private function getCompiledHelpCommand(IRequest $request) : ICommand
     {
@@ -149,9 +154,10 @@ class Kernel
     }
 
     /**
-     * Gets whether or not the input is invoking the help command
+     * Gets whether or not the input is invoking the help command.
      *
      * @param IRequest $request The parsed request
+     *
      * @return bool True if it is invoking the help command, otherwise false
      */
     private function isInvokingHelpCommand(IRequest $request) : bool
@@ -160,9 +166,10 @@ class Kernel
     }
 
     /**
-     * Gets whether or not the input is invoking the version command
+     * Gets whether or not the input is invoking the version command.
      *
      * @param IRequest $request The parsed request
+     *
      * @return bool True if it is invoking the version command, otherwise false
      */
     private function isInvokingVersionCommand(IRequest $request) : bool

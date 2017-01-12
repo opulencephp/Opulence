@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Dispatchers;
 
 use Opulence\Ioc\IContainer;
 use Opulence\Ioc\IocException;
 
 /**
- * Tests the dependency resolver
+ * Tests the dependency resolver.
  */
 class DependencyResolverTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +24,7 @@ class DependencyResolverTest extends \PHPUnit\Framework\TestCase
     private $container = null;
 
     /**
-     * Sets up tests
+     * Sets up tests.
      */
     public function setUp()
     {
@@ -31,7 +33,7 @@ class DependencyResolverTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the container is used to resolve dependencies
+     * Tests that the container is used to resolve dependencies.
      */
     public function testContainerIsUsedToResolveDependencies()
     {
@@ -43,7 +45,7 @@ class DependencyResolverTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that IoC exceptions are converted
+     * Tests that IoC exceptions are converted.
      */
     public function testIocExceptionsAreConverted()
     {

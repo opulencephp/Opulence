@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Php;
 
 use Exception;
@@ -13,7 +15,7 @@ use Opulence\Views\Compilers\ViewCompilerException;
 use Opulence\Views\IView;
 
 /**
- * Tests the PHP compiler
+ * Tests the PHP compiler.
  */
 class PhpCompilerTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +23,7 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
     private $compiler = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -29,7 +31,7 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that any exception thrown as itself
+     * Tests that any exception thrown as itself.
      */
     public function testExceptionsThrownAsThemselves()
     {
@@ -46,7 +48,7 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the output buffer level is reset on exception
+     * Tests that the output buffer level is reset on exception.
      */
     public function testOutputBufferLevelIsResetAfterException()
     {
@@ -54,7 +56,7 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
         $view = $this->createMock(IView::class);
         $view->expects($this->any())
             ->method('getContents')
-            ->willReturn('<?php ob_start();throw new ' . ViewCompilerException::class . '("foo"); ?>');
+            ->willReturn('<?php ob_start();throw new '.ViewCompilerException::class.'("foo"); ?>');
         $view->expects($this->any())
             ->method('getVars')
             ->willReturn([]);
@@ -70,7 +72,7 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that vars are set in the view
+     * Tests that vars are set in the view.
      */
     public function testThatVarsAreSet()
     {

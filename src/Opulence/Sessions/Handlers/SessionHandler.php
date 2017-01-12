@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Sessions\Handlers;
 
 use LogicException;
 use SessionHandlerInterface;
 
 /**
- * Defines the base session handler
+ * Defines the base session handler.
  */
 abstract class SessionHandler implements IEncryptableSessionHandler, SessionHandlerInterface
 {
@@ -22,7 +24,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     protected $encrypter = null;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function read($sessionId) : string
     {
@@ -30,7 +32,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setEncrypter(ISessionEncrypter $encrypter)
     {
@@ -38,7 +40,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function useEncryption(bool $useEncryption)
     {
@@ -46,7 +48,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function write($sessionId, $sessionData) : bool
     {
@@ -54,28 +56,32 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     }
 
     /**
-     * Actually performs the reading of the session data from storage
+     * Actually performs the reading of the session data from storage.
      *
      * @param string $sessionId The Id of the session to read
+     *
      * @return string The unserialized session data
      */
     abstract protected function doRead(string $sessionId) : string;
 
     /**
-     * Actually performs the writing of the session data to storage
+     * Actually performs the writing of the session data to storage.
      *
-     * @param string $sessionId The Id of the session
+     * @param string $sessionId   The Id of the session
      * @param string $sessionData The session data to write
+     *
      * @return bool True on success, otherwise false on failure
      */
     abstract protected function doWrite(string $sessionId, string $sessionData) : bool;
 
     /**
-     * Prepares data that is about to be unserialized
+     * Prepares data that is about to be unserialized.
      *
      * @param string|null $data The data to be unserialized
-     * @return string The data to be unserializd
+     *
      * @throws LogicException Thrown if using encryption but an encrypter has not been set
+     *
+     * @return string The data to be unserializd
      */
     protected function prepareForUnserialization(string $data = null) : string
     {
@@ -99,11 +105,13 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     }
 
     /**
-     * Prepares data to be written to storage
+     * Prepares data to be written to storage.
      *
      * @param string $data The data to prepare
-     * @return string The prepared data
+     *
      * @throws LogicException Thrown if using encryption but an encrypter has not been set
+     *
+     * @return string The prepared data
      */
     protected function prepareForWrite(string $data) : string
     {

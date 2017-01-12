@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm\Ids\Generators;
 
 /**
- * Defines the Id generator registry
+ * Defines the Id generator registry.
  */
 class IdGeneratorRegistry implements IIdGeneratorRegistry
 {
@@ -17,19 +19,19 @@ class IdGeneratorRegistry implements IIdGeneratorRegistry
     private $generators = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getIdGenerator(string $className)
     {
         if (!isset($this->generators[$className])) {
-            return null;
+            return;
         }
 
         return $this->generators[$className];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerIdGenerator(string $className, IIdGenerator $generator)
     {

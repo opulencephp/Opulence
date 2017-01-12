@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views;
 
 /**
- * Defines a basic view
+ * Defines a basic view.
  */
 class View implements IView
 {
@@ -40,24 +42,24 @@ class View implements IView
     private $delimiters = [
         self::DELIMITER_TYPE_UNSANITIZED_TAG => [
             self::DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER,
-            self::DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER
+            self::DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER,
         ],
         self::DELIMITER_TYPE_SANITIZED_TAG => [
             self::DEFAULT_OPEN_SANITIZED_TAG_DELIMITER,
-            self::DEFAULT_CLOSE_SANITIZED_TAG_DELIMITER
+            self::DEFAULT_CLOSE_SANITIZED_TAG_DELIMITER,
         ],
         self::DELIMITER_TYPE_DIRECTIVE => [
             self::DEFAULT_OPEN_DIRECTIVE_DELIMITER,
-            self::DEFAULT_CLOSE_DIRECTIVE_DELIMITER
+            self::DEFAULT_CLOSE_DIRECTIVE_DELIMITER,
         ],
         self::DELIMITER_TYPE_COMMENT => [
             self::DEFAULT_OPEN_COMMENT_DELIMITER,
-            self::DEFAULT_CLOSE_COMMENT_DELIMITER
-        ]
+            self::DEFAULT_CLOSE_COMMENT_DELIMITER,
+        ],
     ];
 
     /**
-     * @param string $path The path to the raw view
+     * @param string $path     The path to the raw view
      * @param string $contents The contents of the view
      */
     public function __construct(string $path = '', string $contents = '')
@@ -67,7 +69,7 @@ class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getContents() : string
     {
@@ -75,7 +77,7 @@ class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDelimiters($type) : array
     {
@@ -87,7 +89,7 @@ class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPath() : string
     {
@@ -95,19 +97,17 @@ class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getVar(string $name)
     {
         if (isset($this->vars[$name])) {
             return $this->vars[$name];
         }
-
-        return null;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getVars() : array
     {
@@ -115,7 +115,7 @@ class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hasVar(string $name) : bool
     {
@@ -123,7 +123,7 @@ class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setContents(string $contents)
     {
@@ -131,7 +131,7 @@ class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setDelimiters($type, array $values)
     {
@@ -139,7 +139,7 @@ class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setPath(string $path)
     {
@@ -147,7 +147,7 @@ class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setVar(string $name, $value)
     {
@@ -155,7 +155,7 @@ class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setVars(array $namesToValues)
     {

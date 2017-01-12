@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Prompts\Questions;
 
 use InvalidArgumentException;
 
 /**
- * Tests the multiple choice question
+ * Tests the multiple choice question.
  */
 class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +23,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     private $keyedChoiceQuestion = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -30,7 +32,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests using an out of bounds answer
+     * Tests using an out of bounds answer.
      */
     public function testAnswerOutOfBounds()
     {
@@ -39,7 +41,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests if the choices are associative
+     * Tests if the choices are associative.
      */
     public function testCheckingIfChoicesAreAssociative()
     {
@@ -48,7 +50,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests an empty answer for keyed choices
+     * Tests an empty answer for keyed choices.
      */
     public function testEmptyAnswerForAssociativeChoices()
     {
@@ -57,7 +59,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests an empty answer for indexed choices
+     * Tests an empty answer for indexed choices.
      */
     public function testEmptyAnswerForIndexedChoices()
     {
@@ -66,7 +68,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests using a float as an answer to indexed choices
+     * Tests using a float as an answer to indexed choices.
      */
     public function testFloatAsAnswerToIndexedChoices()
     {
@@ -75,7 +77,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting multiple answers
+     * Tests formatting multiple answers.
      */
     public function testFormattingMultipleAnswers()
     {
@@ -86,7 +88,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting multiple answers
+     * Tests formatting multiple answers.
      */
     public function testFormattingMultipleAnswersWithSpaces()
     {
@@ -97,7 +99,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting a single answer
+     * Tests formatting a single answer.
      */
     public function testFormattingSingleAnswer()
     {
@@ -107,7 +109,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests formatting a string answer
+     * Tests formatting a string answer.
      */
     public function testFormattingStringAnswer()
     {
@@ -120,7 +122,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting whether we allow multiple choices
+     * Tests getting whether we allow multiple choices.
      */
     public function testGettingAllowsMultipleChoices()
     {
@@ -128,7 +130,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the answer line string
+     * Tests getting the answer line string.
      */
     public function testGettingAnswerLineString()
     {
@@ -136,7 +138,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the choices
+     * Tests getting the choices.
      */
     public function testGettingChoices()
     {
@@ -145,7 +147,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests an invalid answer for keyed choices
+     * Tests an invalid answer for keyed choices.
      */
     public function testInvalidAnswerForKeyedChoices()
     {
@@ -154,7 +156,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests selecting multiple indexed choices when it's not allowed
+     * Tests selecting multiple indexed choices when it's not allowed.
      */
     public function testMultipleIndexedChoicesWhenNotAllowed()
     {
@@ -164,7 +166,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests selecting multiple keyed choices when it's not allowed
+     * Tests selecting multiple keyed choices when it's not allowed.
      */
     public function testMultipleKeyedChoicesWhenNotAllowed()
     {
@@ -174,7 +176,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a null answer to indexed choices
+     * Tests a null answer to indexed choices.
      */
     public function testNullAnswerToIndexedChoices()
     {
@@ -183,7 +185,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a null answer to keyed choices
+     * Tests a null answer to keyed choices.
      */
     public function testNullAnswerToKeyedChoices()
     {
@@ -192,7 +194,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting whether we allow multiple choices
+     * Tests setting whether we allow multiple choices.
      */
     public function testSettingAllowsMultipleChoices()
     {
@@ -201,7 +203,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the answer line string
+     * Tests setting the answer line string.
      */
     public function testSettingAnswerLineString()
     {
@@ -210,7 +212,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests using a non-numeric string as an answer to indexed choices
+     * Tests using a non-numeric string as an answer to indexed choices.
      */
     public function testStringAsAnswerToIndexedChoices()
     {

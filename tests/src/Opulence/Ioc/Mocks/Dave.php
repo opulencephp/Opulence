@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Ioc\Mocks;
 
 /**
- * Defines a class that implements an interface for use in IoC tests
+ * Defines a class that implements an interface for use in IoC tests.
  */
 class Dave implements IPerson
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getLastName()
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses;
 
 use InvalidArgumentException;
@@ -14,7 +16,7 @@ use Opulence\Console\Responses\Compilers\Lexers\Lexer;
 use Opulence\Console\Responses\Compilers\Parsers\Parser;
 
 /**
- * Tests the stream response
+ * Tests the stream response.
  */
 class StreamResponseTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,7 +26,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     private $compiler = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -33,7 +35,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the stream
+     * Tests getting the stream.
      */
     public function testGettingStream()
     {
@@ -41,7 +43,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests an invalid stream
+     * Tests an invalid stream.
      */
     public function testInvalidStream()
     {
@@ -50,7 +52,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test writing an array message
+     * Test writing an array message.
      */
     public function testWriteOnArray()
     {
@@ -60,7 +62,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests writing a string message
+     * Tests writing a string message.
      */
     public function testWriteOnString()
     {
@@ -70,22 +72,22 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test writing an array message to a line
+     * Test writing an array message to a line.
      */
     public function testWritelnOnArray()
     {
         $this->response->writeln(['foo', 'bar']);
         rewind($this->response->getStream());
-        $this->assertEquals('foo' . PHP_EOL . 'bar' . PHP_EOL, stream_get_contents($this->response->getStream()));
+        $this->assertEquals('foo'.PHP_EOL.'bar'.PHP_EOL, stream_get_contents($this->response->getStream()));
     }
 
     /**
-     * Tests writing a string message to a line
+     * Tests writing a string message to a line.
      */
     public function testWritelnOnString()
     {
         $this->response->writeln('foo');
         rewind($this->response->getStream());
-        $this->assertEquals('foo' . PHP_EOL, stream_get_contents($this->response->getStream()));
+        $this->assertEquals('foo'.PHP_EOL, stream_get_contents($this->response->getStream()));
     }
 }

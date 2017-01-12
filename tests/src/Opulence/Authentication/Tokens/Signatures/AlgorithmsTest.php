@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\Signatures;
 
 use InvalidArgumentException;
 
 /**
- * Tests the algorithms
+ * Tests the algorithms.
  */
 class AlgorithmsTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests checking for a supported algorithm
+     * Tests checking for a supported algorithm.
      */
     public function testCheckingForSupportedAlgorithm()
     {
@@ -26,7 +28,7 @@ class AlgorithmsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking for an unsupported algorithm
+     * Tests checking for an unsupported algorithm.
      */
     public function testCheckingForUnsupportedAlgorithm()
     {
@@ -34,7 +36,7 @@ class AlgorithmsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if an algorithm is symmetric
+     * Tests checking if an algorithm is symmetric.
      */
     public function testCheckingIfAlgorithmIsSymmetric()
     {
@@ -47,7 +49,7 @@ class AlgorithmsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown when checking if an invalid algorithm is symmetric
+     * Tests that an exception is thrown when checking if an invalid algorithm is symmetric.
      */
     public function testExceptionThrownOnInvalidAlgorithmSymmetryCheck()
     {
@@ -56,7 +58,7 @@ class AlgorithmsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting all algorithms
+     * Tests getting all algorithms.
      */
     public function testGettingAllAlgorithms()
     {
@@ -66,7 +68,7 @@ class AlgorithmsTest extends \PHPUnit\Framework\TestCase
             Algorithms::RSA_SHA512,
             Algorithms::SHA256,
             Algorithms::SHA384,
-            Algorithms::SHA512
+            Algorithms::SHA512,
         ];
         $this->assertEquals($expected, Algorithms::getAll());
     }

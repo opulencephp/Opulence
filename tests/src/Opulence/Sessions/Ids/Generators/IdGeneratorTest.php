@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Sessions\Ids\Generators;
 
 /**
- * Tests the Id generator
+ * Tests the Id generator.
  */
 class IdGeneratorTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
     private $generator = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests generating an Id with a length specified
+     * Tests generating an Id with a length specified.
      */
     public function testGeneratingWithLength()
     {
@@ -35,7 +37,7 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests generating an Id without a length specified
+     * Tests generating an Id without a length specified.
      */
     public function testGeneratingWithoutLength()
     {
@@ -45,7 +47,7 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests validating an invalid Id
+     * Tests validating an invalid Id.
      */
     public function testValidatingInvalidId()
     {
@@ -64,7 +66,7 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests validating a valid Id
+     * Tests validating a valid Id.
      */
     public function testValidatingValidId()
     {
@@ -78,7 +80,7 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
         $id = str_repeat(1, IdGenerator::MAX_LENGTH);
         $this->assertTrue($this->generator->idIsValid($id));
         // Mix of characters
-        $id = 'aA1' . str_repeat(2, IdGenerator::DEFAULT_LENGTH - 3);
+        $id = 'aA1'.str_repeat(2, IdGenerator::DEFAULT_LENGTH - 3);
         $this->assertTrue($this->generator->idIsValid($id));
     }
 }

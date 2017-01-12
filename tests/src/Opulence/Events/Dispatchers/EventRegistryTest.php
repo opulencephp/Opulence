@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Events\Dispatchers;
 
 use Opulence\Tests\Events\Mocks\Event;
 use Opulence\Tests\Events\Mocks\Listener;
 
 /**
- * Tests the event registry
+ * Tests the event registry.
  */
 class EventRegistryTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,7 +26,7 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
     private $listener = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -34,7 +36,7 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding listeners
+     * Tests adding listeners.
      */
     public function testAddingListeners()
     {
@@ -49,7 +51,7 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if an event has listeners
+     * Tests checking if an event has listeners.
      */
     public function testCheckingIfEventHasListeners()
     {
@@ -59,7 +61,7 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting listeners
+     * Tests getting listeners.
      */
     public function testGettingListeners()
     {
@@ -72,7 +74,7 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test that a listener cannot be added twice
+     * Test that a listener cannot be added twice.
      */
     public function testListenerCannotBeAddedTwice()
     {
@@ -83,7 +85,7 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests removing listeners
+     * Tests removing listeners.
      */
     public function testRemovingListeners()
     {

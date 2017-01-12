@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Credentials\Authenticators;
 
 use Opulence\Authentication\Credentials\ICredential;
@@ -15,7 +17,7 @@ use Opulence\Authentication\Users\IUser;
 use Opulence\Authentication\Users\Orm\IUserRepository;
 
 /**
- * Tests the username/password authenticator
+ * Tests the username/password authenticator.
  */
 class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
@@ -29,7 +31,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     private $credential = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -40,7 +42,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a correct password returns true
+     * Tests that a correct password returns true.
      */
     public function testCorrectPasswordReturnsTrue()
     {
@@ -58,7 +60,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $user = $this->createMock(IUser::class);
         $user->expects($this->once())
             ->method('getHashedPassword')
-            ->willReturn(password_hash('password' . 'pepper', PASSWORD_BCRYPT));
+            ->willReturn(password_hash('password'.'pepper', PASSWORD_BCRYPT));
         $user->expects($this->once())
             ->method('getId')
             ->willReturn('userId');
@@ -68,7 +70,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
             ->willReturn($user);
         $subject = null;
         $this->assertTrue($this->authenticator->authenticate($this->credential, $subject));
-        /** @var ISubject $subject */
+        /* @var ISubject $subject */
         $this->assertInstanceOf(ISubject::class, $subject);
         $this->assertEquals('userId', $subject->getPrimaryPrincipal()->getId());
         $this->assertEquals(['role'], $subject->getPrimaryPrincipal()->getRoles());
@@ -76,7 +78,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an incorrect password returns false
+     * Tests that an incorrect password returns false.
      */
     public function testIncorrectPasswordReturnsFalse()
     {
@@ -103,7 +105,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a non-existent username returns false
+     * Tests that a non-existent username returns false.
      */
     public function testNonExistentUsernameReturnsFalse()
     {
@@ -126,7 +128,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an unset password credential returns false
+     * Tests that an unset password credential returns false.
      */
     public function testUnsetPasswordCredentialReturnsFalse()
     {
@@ -145,7 +147,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an unset username credential returns false
+     * Tests that an unset username credential returns false.
      */
     public function testUnsetUsernameCredentialReturnsFalse()
     {

@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Orm\DataMappers\Mocks;
 
 use Opulence\Orm\DataMappers\ICacheDataMapper;
 
 /**
- * Mocks the cache data mapper class for use in testing
+ * Mocks the cache data mapper class for use in testing.
  */
 class CacheDataMapper implements ICacheDataMapper
 {
@@ -24,7 +26,7 @@ class CacheDataMapper implements ICacheDataMapper
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function add($entity)
     {
@@ -32,7 +34,7 @@ class CacheDataMapper implements ICacheDataMapper
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete($entity)
     {
@@ -40,7 +42,7 @@ class CacheDataMapper implements ICacheDataMapper
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function flush()
     {
@@ -48,7 +50,7 @@ class CacheDataMapper implements ICacheDataMapper
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAll() : array
     {
@@ -56,19 +58,19 @@ class CacheDataMapper implements ICacheDataMapper
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getById($id)
     {
         if (!isset($this->entities[$id])) {
-            return null;
+            return;
         }
 
         return $this->entities[$id];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function update($entity)
     {

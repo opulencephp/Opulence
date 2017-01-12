@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Views\Bootstrappers;
 
 use Opulence\Environments\Environment;
@@ -32,7 +34,7 @@ use Opulence\Views\Factories\ViewFactory;
 use Opulence\Views\Filters\XssFilter;
 
 /**
- * Defines the view bootstrapper
+ * Defines the view bootstrapper.
  */
 abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
@@ -42,7 +44,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
     protected $viewFactory = null;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBindings() : array
     {
@@ -56,7 +58,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBindings(IContainer $container)
     {
@@ -69,7 +71,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
     }
 
     /**
-     * Finishes setting necessary properties for view components
+     * Finishes setting necessary properties for view components.
      */
     public function run()
     {
@@ -81,18 +83,20 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
 
     /**
      * Gets the view cache
-     * To use a different view cache than the one returned here, extend this class and override this method
+     * To use a different view cache than the one returned here, extend this class and override this method.
      *
      * @param IContainer $container The dependency injection container
+     *
      * @return ICache The view cache
      */
     abstract protected function getViewCache(IContainer $container) : ICache;
 
     /**
      * Gets the view compiler
-     * To use a different view compiler than the one returned here, extend this class and override this method
+     * To use a different view compiler than the one returned here, extend this class and override this method.
      *
      * @param IContainer $container The dependency injection container
+     *
      * @return ICompiler The view compiler
      */
     protected function getViewCompiler(IContainer $container) : ICompiler
@@ -113,9 +117,10 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
 
     /**
      * Gets the view view factory
-     * To use a different view factory than the one returned here, extend this class and override this method
+     * To use a different view factory than the one returned here, extend this class and override this method.
      *
      * @param IContainer $container The dependency injection container
+     *
      * @return IViewFactory The view factory
      */
     protected function getViewFactory(IContainer $container) : IViewFactory
@@ -134,9 +139,10 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
 
     /**
      * Gets the view reader
-     * To use a different view reader than the one returned here, extend this class and override this method
+     * To use a different view reader than the one returned here, extend this class and override this method.
      *
      * @param IContainer $container The dependency injection container
+     *
      * @return IViewReader The view reader
      */
     protected function getViewReader(IContainer $container) : IViewReader

@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cache;
 
 /**
- * Tests the file bridge
+ * Tests the file bridge.
  */
 class FileBridgeTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,39 +19,39 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     private $bridge = null;
 
     /**
-     * Does some setup before any tests
+     * Does some setup before any tests.
      */
     public static function setUpBeforeClass()
     {
-        if (!is_dir(__DIR__ . '/tmp')) {
-            mkdir(__DIR__ . '/tmp');
+        if (!is_dir(__DIR__.'/tmp')) {
+            mkdir(__DIR__.'/tmp');
         }
     }
 
     /**
-     * Performs some garbage collection
+     * Performs some garbage collection.
      */
     public static function tearDownAfterClass()
     {
-        $files = glob(__DIR__ . '/tmp/*');
+        $files = glob(__DIR__.'/tmp/*');
 
         foreach ($files as $file) {
             is_dir($file) ? rmdir($file) : unlink($file);
         }
 
-        rmdir(__DIR__ . '/tmp');
+        rmdir(__DIR__.'/tmp');
     }
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
-        $this->bridge = new FileBridge(__DIR__ . '/tmp');
+        $this->bridge = new FileBridge(__DIR__.'/tmp');
     }
 
     /**
-     * Tests checking if a key exists
+     * Tests checking if a key exists.
      */
     public function testCheckingIfKeyExists()
     {
@@ -63,7 +65,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests decrementing values
+     * Tests decrementing values.
      */
     public function testDecrementingValues()
     {
@@ -75,7 +77,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests deleting a key
+     * Tests deleting a key.
      */
     public function testDeletingKey()
     {
@@ -85,7 +87,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that expired key is not read
+     * Tests that expired key is not read.
      */
     public function testExpiredKeyIsNotRead()
     {
@@ -95,7 +97,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests flushing
+     * Tests flushing.
      */
     public function testFlushing()
     {
@@ -107,7 +109,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent key
+     * Tests getting a non-existent key.
      */
     public function testGettingNonExistentKey()
     {
@@ -115,7 +117,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a set value
+     * Tests getting a set value.
      */
     public function testGettingSetValue()
     {
@@ -124,7 +126,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests incrementing values
+     * Tests incrementing values.
      */
     public function testIncrementingValues()
     {
@@ -136,13 +138,13 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the trailing slash gets trimmed
+     * Tests that the trailing slash gets trimmed.
      */
     public function testTrailingSlashGetsTrimmed()
     {
-        $bridge = new FileBridge(__DIR__ . '/tmp/');
+        $bridge = new FileBridge(__DIR__.'/tmp/');
         $bridge->set('foo', 'bar', 60);
-        $this->assertTrue(file_exists(__DIR__ . '/tmp/' . md5('foo')));
+        $this->assertTrue(file_exists(__DIR__.'/tmp/'.md5('foo')));
         $this->assertEquals('bar', $bridge->get('foo'));
     }
 }

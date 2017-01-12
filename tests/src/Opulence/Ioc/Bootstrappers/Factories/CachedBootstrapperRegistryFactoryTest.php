@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc\Bootstrappers\Factories;
 
 use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
@@ -17,7 +19,7 @@ use Opulence\Tests\Ioc\Bootstrappers\Mocks\BootstrapperWithEverything;
 use Opulence\Tests\Ioc\Bootstrappers\Mocks\LazyFooInterface;
 
 /**
- * Tests the cached bootstrapper registry factory
+ * Tests the cached bootstrapper registry factory.
  */
 class CachedBootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -29,7 +31,7 @@ class CachedBootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
     private $cache = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -39,7 +41,7 @@ class CachedBootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a cache hit returns that registry
+     * Tests that a cache hit returns that registry.
      */
     public function testCacheHitReturnsThatRegistry()
     {
@@ -51,7 +53,7 @@ class CachedBootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a cache miss manually creates the registry
+     * Tests that a cache miss manually creates the registry.
      */
     public function testCacheMissManuallyCreatesRegistry()
     {
@@ -60,8 +62,8 @@ class CachedBootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
         $lazyBootstrapperBindings = [
             LazyFooInterface::class => [
                 'bootstrapper' => BootstrapperWithEverything::class,
-                'target' => null
-            ]
+                'target'       => null,
+            ],
         ];
         $this->resolver->expects($this->any())
             ->method('resolveMany')

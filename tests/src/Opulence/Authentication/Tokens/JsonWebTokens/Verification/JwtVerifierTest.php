@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtHeader;
@@ -15,7 +17,7 @@ use Opulence\Authentication\Tokens\Signatures\Algorithms;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
 
 /**
- * Tests the JWT verifier
+ * Tests the JWT verifier.
  */
 class JwtVerifierTest extends \PHPUnit\Framework\TestCase
 {
@@ -27,7 +29,7 @@ class JwtVerifierTest extends \PHPUnit\Framework\TestCase
     private $context = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -43,7 +45,7 @@ class JwtVerifierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests verifying a valid token
+     * Tests verifying a valid token.
      */
     public function testVerifyingValidToken()
     {

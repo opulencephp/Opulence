@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authorization\Permissions;
 
 /**
- * Defines the permission registry
+ * Defines the permission registry.
  */
 class PermissionRegistry implements IPermissionRegistry
 {
@@ -21,19 +23,19 @@ class PermissionRegistry implements IPermissionRegistry
     protected $permissionsToRoles = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getCallback(string $permission)
     {
         if (!isset($this->permissionCallbacks[$permission])) {
-            return null;
+            return;
         }
 
         return $this->permissionCallbacks[$permission];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getOverrideCallbacks() : array
     {
@@ -41,19 +43,19 @@ class PermissionRegistry implements IPermissionRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getRoles(string $permission)
     {
         if (!isset($this->permissionsToRoles[$permission])) {
-            return null;
+            return;
         }
 
         return $this->permissionsToRoles[$permission];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerCallback(string $permission, callable $callback)
     {
@@ -61,7 +63,7 @@ class PermissionRegistry implements IPermissionRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerOverrideCallback(callable $callback)
     {
@@ -69,7 +71,7 @@ class PermissionRegistry implements IPermissionRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerRoles(string $permission, $roles)
     {

@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers\Parsers\Nodes;
 
 /**
- * Defines a response node
+ * Defines a response node.
  */
 abstract class Node
 {
@@ -29,16 +31,17 @@ abstract class Node
     }
 
     /**
-     * Gets whether or not this is a tag node
+     * Gets whether or not this is a tag node.
      *
      * @return bool True if this is a tag node, otherwise false
      */
     abstract public function isTag() : bool;
 
     /**
-     * Adds a child to this node
+     * Adds a child to this node.
      *
      * @param Node $node The child to add
+     *
      * @return self Returns this for chaining
      */
     public function addChild(Node $node) : self
@@ -50,7 +53,7 @@ abstract class Node
     }
 
     /**
-     * Gets the list of children of this node
+     * Gets the list of children of this node.
      *
      * @return Node[] The list of children
      */
@@ -60,7 +63,7 @@ abstract class Node
     }
 
     /**
-     * Gets the parent node
+     * Gets the parent node.
      *
      * @return Node The parent node
      */
@@ -70,7 +73,7 @@ abstract class Node
     }
 
     /**
-     * Gets the value of this node
+     * Gets the value of this node.
      *
      * @return mixed|null The value of this node if there is one, otherwise null
      */
@@ -80,7 +83,7 @@ abstract class Node
     }
 
     /**
-     * Gets whether or not this node is a leaf
+     * Gets whether or not this node is a leaf.
      *
      * @return bool True if this is a leaf, otherwise false
      */
@@ -90,7 +93,7 @@ abstract class Node
     }
 
     /**
-     * Gets whether or not this node is the root
+     * Gets whether or not this node is the root.
      *
      * @return bool True if this is a root node, otherwise false
      */

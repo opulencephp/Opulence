@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Testing\PhpUnit;
 
 /**
- * Defines the command builder for console applications
+ * Defines the command builder for console applications.
  */
 class CommandBuilder
 {
@@ -28,7 +30,7 @@ class CommandBuilder
 
     /**
      * @param IntegrationTestCase $integrationTest The integration test that created this builder
-     * @param string $commandName The command name
+     * @param string              $commandName     The command name
      */
     public function __construct(IntegrationTestCase $integrationTest, string $commandName)
     {
@@ -37,7 +39,7 @@ class CommandBuilder
     }
 
     /**
-     * Executes the built command
+     * Executes the built command.
      *
      * @return IntegrationTestCase For method chaining
      */
@@ -53,54 +55,58 @@ class CommandBuilder
     }
 
     /**
-     * Adds prompt answers to the command
+     * Adds prompt answers to the command.
      *
-     * @param array|string $answers The answers to add
-     * @param bool $overwriteOld Whether or not to overwrite all old answers
+     * @param array|string $answers      The answers to add
+     * @param bool         $overwriteOld Whether or not to overwrite all old answers
+     *
      * @return self For method chaining
      */
     public function withAnswers($answers, bool $overwriteOld = false) : self
     {
-        $answers = (array)$answers;
+        $answers = (array) $answers;
         $this->addValuesToCollection($answers, $this->promptAnswers, $overwriteOld);
 
         return $this;
     }
 
     /**
-     * Adds arguments to the command
+     * Adds arguments to the command.
      *
-     * @param array|string $arguments The arguments to add
-     * @param bool $overwriteOld Whether or not to overwrite all old arguments
+     * @param array|string $arguments    The arguments to add
+     * @param bool         $overwriteOld Whether or not to overwrite all old arguments
+     *
      * @return self For method chaining
      */
     public function withArguments($arguments, bool $overwriteOld = false) : self
     {
-        $arguments = (array)$arguments;
+        $arguments = (array) $arguments;
         $this->addValuesToCollection($arguments, $this->arguments, $overwriteOld);
 
         return $this;
     }
 
     /**
-     * Adds options to the command
+     * Adds options to the command.
      *
-     * @param array|string $options The options to add
-     * @param bool $overwriteOld Whether or not to overwrite all old options
+     * @param array|string $options      The options to add
+     * @param bool         $overwriteOld Whether or not to overwrite all old options
+     *
      * @return self For method chaining
      */
     public function withOptions($options, bool $overwriteOld = false) : self
     {
-        $options = (array)$options;
+        $options = (array) $options;
         $this->addValuesToCollection($options, $this->options, $overwriteOld);
 
         return $this;
     }
 
     /**
-     * Sets whether or not the response is styled
+     * Sets whether or not the response is styled.
      *
      * @param bool $isStyled Whether or not the response is styled
+     *
      * @return self For method chaining
      */
     public function withStyle(bool $isStyled) : self
@@ -111,11 +117,11 @@ class CommandBuilder
     }
 
     /**
-     * Adds values to a collection
+     * Adds values to a collection.
      *
-     * @param array $values The values to add
-     * @param array $collection The collection to add to
-     * @param bool $overwriteOld Whether or not clear the collection before adding the new values
+     * @param array $values       The values to add
+     * @param array $collection   The collection to add to
+     * @param bool  $overwriteOld Whether or not clear the collection before adding the new values
      */
     private function addValuesToCollection(array $values, array &$collection, bool $overwriteOld)
     {

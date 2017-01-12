@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\PostgreSql;
 
 /**
- * Tests the augmenting query builder
+ * Tests the augmenting query builder.
  */
 class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests adding to a "RETURNING" clause
+     * Tests adding to a "RETURNING" clause.
      */
     public function testAddReturning()
     {
@@ -25,7 +27,7 @@ class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a "RETURNING" clause
+     * Tests adding a "RETURNING" clause.
      */
     public function testReturning()
     {

@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
 use Opulence\Authentication\Tokens\IUnsignedToken;
 
 /**
- * Defines an unsigned JWT
+ * Defines an unsigned JWT.
  */
 class UnsignedJwt implements IUnsignedToken
 {
@@ -21,7 +23,7 @@ class UnsignedJwt implements IUnsignedToken
     protected $payload = null;
 
     /**
-     * @param JwtHeader $header The header
+     * @param JwtHeader  $header  The header
      * @param JwtPayload $payload The payload
      */
     public function __construct(JwtHeader $header, JwtPayload $payload)
@@ -47,7 +49,7 @@ class UnsignedJwt implements IUnsignedToken
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getUnsignedValue() : string
     {

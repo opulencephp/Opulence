@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Requests\Parsers;
 
 use InvalidArgumentException;
 
 /**
- * Tests the argv parser
+ * Tests the argv parser.
  */
 class ArgvParserTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +21,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     private $parser = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -27,16 +29,16 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that backslashes are respected
+     * Tests that backslashes are respected.
      */
     public function testBackslashesAreRespected()
     {
-        $request = $this->parser->parse(['apex', 'foo', "bar\\baz"]);
-        $this->assertEquals(["bar\\baz"], $request->getArgumentValues());
+        $request = $this->parser->parse(['apex', 'foo', 'bar\\baz']);
+        $this->assertEquals(['bar\\baz'], $request->getArgumentValues());
     }
 
     /**
-     * Tests parsing arguments and options
+     * Tests parsing arguments and options.
      */
     public function testParsingArgumentsAndOptions()
     {
@@ -48,7 +50,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing a null string
+     * Tests parsing a null string.
      */
     public function testParsingNullString()
     {
@@ -61,7 +63,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing option with no value
+     * Tests parsing option with no value.
      */
     public function testParsingOptionWithNoValue()
     {
@@ -70,7 +72,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing in an invalid input type
+     * Tests passing in an invalid input type.
      */
     public function testPassingInvalidInputType()
     {

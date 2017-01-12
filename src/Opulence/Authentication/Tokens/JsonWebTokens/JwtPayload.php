@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
 
 /**
- * Defines a JWT payload
+ * Defines a JWT payload.
  */
 class JwtPayload
 {
@@ -24,7 +26,7 @@ class JwtPayload
         'exp' => null,
         'nbf' => null,
         'iat' => null,
-        'jti' => null
+        'jti' => null,
     ];
     /** @var string The salt used to make the JTI random */
     private $jtiSalt = '';
@@ -35,10 +37,12 @@ class JwtPayload
     }
 
     /**
-     * Base 64 encodes data for use in URLs
+     * Base 64 encodes data for use in URLs.
      *
      * @param string $data The data to encode
+     *
      * @return string The base 64 encoded data that's safe for URLs
+     *
      * @link http://php.net/manual/en/function.base64-encode.php#103849
      */
     private static function base64UrlEncode(string $data) : string
@@ -47,10 +51,10 @@ class JwtPayload
     }
 
     /**
-     * Adds an extra claim
+     * Adds an extra claim.
      *
-     * @param string $name The name of the claim to add
-     * @param mixed $value The value to add
+     * @param string $name  The name of the claim to add
+     * @param mixed  $value The value to add
      */
     public function add(string $name, $value)
     {
@@ -62,7 +66,7 @@ class JwtPayload
     }
 
     /**
-     * Gets the header as a base64 URL-encoded string
+     * Gets the header as a base64 URL-encoded string.
      *
      * @return string The base64 URL-encoded string
      */
@@ -72,9 +76,10 @@ class JwtPayload
     }
 
     /**
-     * Gets the value for a claim
+     * Gets the value for a claim.
      *
      * @param string $name The name of the claim to get
+     *
      * @return mixed|null The value of the claim if it exists, otherwise null
      */
     public function get(string $name)
@@ -82,14 +87,14 @@ class JwtPayload
         $claims = $this->getAll();
 
         if (!array_key_exists($name, $claims)) {
-            return null;
+            return;
         }
 
         return $claims[$name];
     }
 
     /**
-     * Gets the value for all the claims
+     * Gets the value for all the claims.
      *
      * @return array The mapping of set claims to their values
      */
@@ -132,7 +137,7 @@ class JwtPayload
             return $this->claims['jti'];
         }
 
-        return \md5(\json_encode($this->claims) . $this->jtiSalt);
+        return \md5(\json_encode($this->claims).$this->jtiSalt);
     }
 
     /**
@@ -177,6 +182,7 @@ class JwtPayload
 
     /**
      * @param array|string $audience
+     *
      * @throws InvalidArgumentException Thrown if the audience is not the correct type
      */
     public function setAudience($audience)
@@ -237,7 +243,7 @@ class JwtPayload
     }
 
     /**
-     * Generates a JTI salt to ensure randomness
+     * Generates a JTI salt to ensure randomness.
      *
      * @return string The salt
      */

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers;
 
 use Opulence\Console\Responses\Compilers\Elements\Colors;
@@ -13,12 +15,12 @@ use Opulence\Console\Responses\Compilers\Elements\Style;
 use Opulence\Console\Responses\Compilers\Elements\TextStyles;
 
 /**
- * Defines the element registrant
+ * Defines the element registrant.
  */
 class ElementRegistrant
 {
     /**
-     * Registers the Apex elements
+     * Registers the Apex elements.
      *
      * @param ICompiler $compiler The compiler to register to
      */

@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Pipelines;
 
 use Closure;
 
 /**
- * Defines the pipeline
+ * Defines the pipeline.
  */
 class Pipeline implements IPipeline
 {
@@ -25,7 +27,7 @@ class Pipeline implements IPipeline
     private $callback = null;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function execute()
     {
@@ -46,7 +48,7 @@ class Pipeline implements IPipeline
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function send($input) : IPipeline
     {
@@ -56,7 +58,7 @@ class Pipeline implements IPipeline
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function then(callable $callback) : IPipeline
     {
@@ -66,7 +68,7 @@ class Pipeline implements IPipeline
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function through(array $stages, string $methodToCall = null) : IPipeline
     {
@@ -77,10 +79,11 @@ class Pipeline implements IPipeline
     }
 
     /**
-     * Creates a callback for an individual stage
+     * Creates a callback for an individual stage.
+     *
+     * @throws PipelineException Thrown if there was a problem creating a stage
      *
      * @return Closure The callback
-     * @throws PipelineException Thrown if there was a problem creating a stage
      */
     private function createStageCallback() : Closure
     {
@@ -94,7 +97,7 @@ class Pipeline implements IPipeline
                     }
 
                     if (!method_exists($stage, $this->methodToCall)) {
-                        throw new PipelineException(get_class($stage) . "::{$this->methodToCall} does not exist");
+                        throw new PipelineException(get_class($stage)."::{$this->methodToCall} does not exist");
                     }
 
                     return $stage->{$this->methodToCall}($input, $stages);

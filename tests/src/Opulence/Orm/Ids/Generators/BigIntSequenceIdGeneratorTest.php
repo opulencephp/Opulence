@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm\Ids\Generators;
 
 use Opulence\Orm\OrmException;
@@ -14,12 +16,12 @@ use Opulence\Tests\Databases\Mocks\Server;
 use stdClass;
 
 /**
- * Tests the big integer sequence Id generator
+ * Tests the big integer sequence Id generator.
  */
 class BigIntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Test checking if this generator is post-insert
+     * Test checking if this generator is post-insert.
      */
     public function testCheckingIfPostInsert()
     {
@@ -28,7 +30,7 @@ class BigIntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown when no connection is set
+     * Tests that an exception is thrown when no connection is set.
      */
     public function testExceptionThrownWhenConnectionNotSet()
     {
@@ -38,7 +40,7 @@ class BigIntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests generating an Id
+     * Tests generating an Id.
      */
     public function testGeneratingId()
     {
@@ -51,8 +53,7 @@ class BigIntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     *
-     * Test getting empty value
+     * Test getting empty value.
      */
     public function testGettingEmptyValue()
     {
@@ -61,7 +62,7 @@ class BigIntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting new connection overrides connection in constructor
+     * Tests setting new connection overrides connection in constructor.
      */
     public function testSettingNewConnectionOverridesConnectionInConstructor()
     {

@@ -1,28 +1,31 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\Conditions;
 
 use InvalidArgumentException;
 use PDO;
 
 /**
- * Defines the condition factory
+ * Defines the condition factory.
  */
 class ConditionFactory
 {
     /**
-     * Creates a new BETWEEN condition
+     * Creates a new BETWEEN condition.
      *
-     * @param string $column The name of the column
-     * @param mixed $min The min value
-     * @param mixed $max The max value
-     * @param int $dataType The PDO data type for the min and max
+     * @param string $column   The name of the column
+     * @param mixed  $min      The min value
+     * @param mixed  $max      The max value
+     * @param int    $dataType The PDO data type for the min and max
+     *
      * @return BetweenCondition The condition
      */
     public function between(string $column, $min, $max, $dataType = PDO::PARAM_STR) : BetweenCondition
@@ -31,12 +34,14 @@ class ConditionFactory
     }
 
     /**
-     * Creates a new IN condition
+     * Creates a new IN condition.
      *
-     * @param string $column The name of the column
+     * @param string       $column                 The name of the column
      * @param array|string $parametersOrExpression Either the parameters or the sub-expression
-     * @return InCondition The condition
+     *
      * @throws InvalidArgumentException Thrown if the parameters are not in the correct format
+     *
+     * @return InCondition The condition
      */
     public function in(string $column, $parametersOrExpression) : InCondition
     {
@@ -44,12 +49,13 @@ class ConditionFactory
     }
 
     /**
-     * Creates a new NOT BETWEEN condition
+     * Creates a new NOT BETWEEN condition.
      *
-     * @param string $column The name of the column
-     * @param mixed $min The min value
-     * @param mixed $max The max value
-     * @param int $dataType The PDO data type for the min and max
+     * @param string $column   The name of the column
+     * @param mixed  $min      The min value
+     * @param mixed  $max      The max value
+     * @param int    $dataType The PDO data type for the min and max
+     *
      * @return NotBetweenCondition The condition
      */
     public function notBetween(string $column, $min, $max, $dataType = PDO::PARAM_STR) : NotBetweenCondition
@@ -58,12 +64,14 @@ class ConditionFactory
     }
 
     /**
-     * Creates a new NOT IN condition
+     * Creates a new NOT IN condition.
      *
-     * @param string $column The name of the column
+     * @param string       $column                 The name of the column
      * @param array|string $parametersOrExpression Either the parameters or the sub-expression
-     * @return NotInCondition The condition
+     *
      * @throws InvalidArgumentException Thrown if the parameters are not in the correct format
+     *
+     * @return NotInCondition The condition
      */
     public function notIn(string $column, $parametersOrExpression) : NotInCondition
     {

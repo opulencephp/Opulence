@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders;
 
 use PDO;
 
 /**
- * Defines common functionality for query classes
+ * Defines common functionality for query classes.
  */
 abstract class Query
 {
@@ -24,14 +26,14 @@ abstract class Query
     /**
      * True if we're using unnamed placeholders instead of named placeholders
      * False if we're using named placeholders instead of unnamed placeholders
-     * Null if we haven't added any placeholders, and, therefore, don't know yet
+     * Null if we haven't added any placeholders, and, therefore, don't know yet.
      *
      * @var bool|null
      */
     protected $usingUnnamedPlaceholders = null;
 
     /**
-     * Gets the SQL statement as a string
+     * Gets the SQL statement as a string.
      *
      * @return string The SQL statement
      */
@@ -39,13 +41,15 @@ abstract class Query
 
     /**
      * Adds a named placeholder's value
-     * Note that you cannot use a mix of named and unnamed placeholders in a query
+     * Note that you cannot use a mix of named and unnamed placeholders in a query.
      *
      * @param string $placeholderName The name of the placeholder (what comes after the ":")
-     * @param mixed $value The value of the placeholder
-     * @param int $dataType The PDO constant that indicates the type of data the value represents
-     * @return self For method chaining
+     * @param mixed  $value           The value of the placeholder
+     * @param int    $dataType        The PDO constant that indicates the type of data the value represents
+     *
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
+     *
+     * @return self For method chaining
      */
     public function addNamedPlaceholderValue(string $placeholderName, $value, int $dataType = PDO::PARAM_STR) : self
     {
@@ -61,14 +65,16 @@ abstract class Query
 
     /**
      * Adds named placeholders' values
-     * Note that you cannot use a mix of named and unnamed placeholders in a query
+     * Note that you cannot use a mix of named and unnamed placeholders in a query.
      *
      * @param array $placeholderNamesToValues The mapping of placeholder names to their respective values
-     *      Optionally, the names can map to an array whose first item is the value and whose second value is the
-     *      PDO constant indicating the type of data the value represents
-     * @return self For method chaining
+     *                                        Optionally, the names can map to an array whose first item is the value and whose second value is the
+     *                                        PDO constant indicating the type of data the value represents
+     *
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders or
-     *      if the value is an array that doesn't contain the correct number of items
+     *                               if the value is an array that doesn't contain the correct number of items
+     *
+     * @return self For method chaining
      */
     public function addNamedPlaceholderValues(array $placeholderNamesToValues) : self
     {
@@ -89,12 +95,14 @@ abstract class Query
 
     /**
      * Adds an unnamed placeholder's value
-     * Note that you cannot use a mix of named and unnamed placeholders in a query
+     * Note that you cannot use a mix of named and unnamed placeholders in a query.
      *
      * @param mixed $value
-     * @param int $dataType The PDO constant that indicates the type of data the value represents
-     * @return self For method chaining
+     * @param int   $dataType The PDO constant that indicates the type of data the value represents
+     *
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
+     *
+     * @return self For method chaining
      */
     public function addUnnamedPlaceholderValue($value, int $dataType = PDO::PARAM_STR) : self
     {
@@ -110,14 +118,16 @@ abstract class Query
 
     /**
      * Adds multiple unnamed placeholders' values
-     * Note that you cannot use a mix of named and unnamed placeholders in a query
+     * Note that you cannot use a mix of named and unnamed placeholders in a query.
      *
      * @param array $placeholderValues The list of placeholder values
-     *      Optionally, each value can be contained in an array whose first item is the value and whose second value is
-     *      the PDO constant indicating the type of data the value represents
-     * @return self For method chaining
+     *                                 Optionally, each value can be contained in an array whose first item is the value and whose second value is
+     *                                 the PDO constant indicating the type of data the value represents
+     *
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders or
-     *      if the value is an array that doesn't contain the correct number of items
+     *                               if the value is an array that doesn't contain the correct number of items
+     *
+     * @return self For method chaining
      */
     public function addUnnamedPlaceholderValues(array $placeholderValues) : self
     {
@@ -137,7 +147,7 @@ abstract class Query
     }
 
     /**
-     * Gets the bound query parameters
+     * Gets the bound query parameters.
      *
      * @return array The array of bound query parameters
      */
@@ -147,11 +157,13 @@ abstract class Query
     }
 
     /**
-     * Removes a named placeholder from the query
+     * Removes a named placeholder from the query.
      *
      * @param string $placeholderName The name of the placeholder to remove
-     * @return self For method chaining
+     *
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
+     *
+     * @return self For method chaining
      */
     public function removeNamedPlaceHolder(string $placeholderName) : self
     {
@@ -165,11 +177,13 @@ abstract class Query
     }
 
     /**
-     * Removes an unnamed placeholder from the query
+     * Removes an unnamed placeholder from the query.
      *
      * @param int $placeholderIndex The index of the placeholder in the parameters to remove
-     * @return self For method chaining
+     *
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
+     *
+     * @return self For method chaining
      */
     public function removeUnnamedPlaceHolder(int $placeholderIndex) : self
     {
@@ -185,9 +199,9 @@ abstract class Query
     }
 
     /**
-     * Sets the table we're querying
+     * Sets the table we're querying.
      *
-     * @param string $tableName The name of the table we're querying
+     * @param string $tableName  The name of the table we're querying
      * @param string $tableAlias The table alias
      */
     protected function setTable(string $tableName, string $tableAlias = '')

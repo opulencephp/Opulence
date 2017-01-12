@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm\Repositories;
 
 use Opulence\Orm\DataMappers\IDataMapper;
@@ -13,7 +15,7 @@ use Opulence\Orm\IUnitOfWork;
 use Opulence\Orm\OrmException;
 
 /**
- * Defines a generic entity repository that can be extended
+ * Defines a generic entity repository that can be extended.
  */
 class Repository implements IRepository
 {
@@ -25,7 +27,7 @@ class Repository implements IRepository
     protected $unitOfWork = null;
 
     /**
-     * @param string $className The name of the class whose objects this repo is getting
+     * @param string      $className  The name of the class whose objects this repo is getting
      * @param IDataMapper $dataMapper The data mapper to use in this repo
      * @param IUnitOfWork $unitOfWork The unit of work to use in this repo
      */
@@ -38,7 +40,7 @@ class Repository implements IRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function add($entity)
     {
@@ -46,7 +48,7 @@ class Repository implements IRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete($entity)
     {
@@ -54,7 +56,7 @@ class Repository implements IRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAll() : array
     {
@@ -62,7 +64,7 @@ class Repository implements IRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getById($id)
     {
@@ -76,12 +78,14 @@ class Repository implements IRepository
     }
 
     /**
-     * Performs a get query on the data mapper and adds any results as managed entities to the unit of work
+     * Performs a get query on the data mapper and adds any results as managed entities to the unit of work.
      *
      * @param string $functionName The name of the function to call in the data mapper
-     * @param array $args The list of arguments to pass into the data mapper
-     * @return object|object[] The entity or list of entities
+     * @param array  $args         The list of arguments to pass into the data mapper
+     *
      * @throws OrmException Thrown if there was an error getting the entity(ies)
+     *
+     * @return object|object[] The entity or list of entities
      */
     protected function getFromDataMapper(string $functionName, array $args = [])
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc;
 
 use InvalidArgumentException;
@@ -28,7 +30,7 @@ use Opulence\Tests\Ioc\Mocks\StaticSetters;
 use stdClass;
 
 /**
- * Tests the dependency injection container
+ * Tests the dependency injection container.
  */
 class ContainerTest extends \PHPUnit\Framework\TestCase
 {
@@ -62,7 +64,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     private $constructorWithDefaultValuePrimitives = ConstructorWithDefaultValuePrimitives::class;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -70,13 +72,13 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests binding a targeted factory
+     * Tests binding a targeted factory.
      */
     public function testBindingTargetedFactory()
     {
         $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
             $container->bindFactory($this->fooInterface, function () {
-                return new $this->concreteFoo;
+                return new $this->concreteFoo();
             });
         });
         $instance1 = $this->container->resolve($this->constructorWithIFoo);
@@ -88,13 +90,13 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests binding a targeted singleton factory
+     * Tests binding a targeted singleton factory.
      */
     public function testBindingTargetedSingletonFactory()
     {
         $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
             $container->bindFactory($this->fooInterface, function () {
-                return new $this->concreteFoo;
+                return new $this->concreteFoo();
             }, true);
         });
         $instance1 = $this->container->resolve($this->constructorWithIFoo);
@@ -107,7 +109,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests binding to an abstract class
+     * Tests binding to an abstract class.
      */
     public function testBindingToAbstractClass()
     {
@@ -124,12 +126,12 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests binding a universal factory
+     * Tests binding a universal factory.
      */
     public function testBindingUniversalFactory()
     {
         $this->container->bindFactory($this->fooInterface, function () {
-            return new $this->concreteFoo;
+            return new $this->concreteFoo();
         });
         $instance1 = $this->container->resolve($this->fooInterface);
         $instance2 = $this->container->resolve($this->fooInterface);
@@ -138,12 +140,12 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests binding a universal singleton factory
+     * Tests binding a universal singleton factory.
      */
     public function testBindingUniversalSingletonFactory()
     {
         $this->container->bindFactory($this->fooInterface, function () {
-            return new $this->concreteFoo;
+            return new $this->concreteFoo();
         }, true);
         $instance1 = $this->container->resolve($this->constructorWithIFoo);
         $instance2 = $this->container->resolve($this->constructorWithIFoo);
@@ -155,7 +157,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling a method with primitive types
+     * Tests calling a method with primitive types.
      */
     public function testCallingMethodWithPrimitiveTypes()
     {
@@ -172,7 +174,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling a method with primitive types without specifying a value
+     * Tests calling a method with primitive types without specifying a value.
      */
     public function testCallingMethodWithPrimitiveTypesWithoutSpecifyingValue()
     {
@@ -182,7 +184,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling a method with type-hinted and primitive types
+     * Tests calling a method with type-hinted and primitive types.
      */
     public function testCallingMethodWithTypeHintedAndPrimitiveTypes()
     {
@@ -193,15 +195,15 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('foo', $instance->getPrimitive());
         $response = $this->container->callClosure(
             function (IFoo $interface, $primitive) {
-                return get_class($interface) . ':' . $primitive;
+                return get_class($interface).':'.$primitive;
             },
             ['foo']
         );
-        $this->assertEquals($this->concreteFoo . ':foo', $response);
+        $this->assertEquals($this->concreteFoo.':foo', $response);
     }
 
     /**
-     * Tests calling a method with type hints
+     * Tests calling a method with type hints.
      */
     public function testCallingMethodWithTypeHints()
     {
@@ -218,7 +220,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling a non-existent method
+     * Tests calling a non-existent method.
      */
     public function testCallingNonExistentMethod()
     {
@@ -228,7 +230,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling a non-existent method and ignoring that it is missing
+     * Tests calling a non-existent method and ignoring that it is missing.
      */
     public function testCallingNonExistentMethodAndIgnoringThatItIsMissing()
     {
@@ -237,7 +239,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling a non-existent method on a class that has a magic call method
+     * Tests calling a non-existent method on a class that has a magic call method.
      */
     public function testCallingNonExistentMethodOnClassThatHasMagicCallMethod()
     {
@@ -246,18 +248,18 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests calling a static method
+     * Tests calling a static method.
      */
     public function testCallingStaticMethod()
     {
-        $person = new $this->concretePerson;
+        $person = new $this->concretePerson();
         $this->container->bindInstance($this->personInterface, $person);
         $this->container->callMethod(StaticSetters::class, 'setStaticSetterDependency', [$person]);
         $this->assertSame($person, StaticSetters::$staticDependency);
     }
 
     /**
-     * Tests if a target-bound interface is bound
+     * Tests if a target-bound interface is bound.
      */
     public function testCheckingIfTargetBoundInterfaceIsBound()
     {
@@ -273,7 +275,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         });
         $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
             $container->bindFactory($this->fooInterface, function () {
-                return new $this->concreteFoo;
+                return new $this->concreteFoo();
             });
         });
         $this->assertTrue($this->container->for($this->constructorWithIFoo, function (IContainer $container) {
@@ -284,7 +286,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
             $container->unbind($this->fooInterface);
         });
         $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
-            $container->bindInstance($this->fooInterface, new $this->concreteFoo);
+            $container->bindInstance($this->fooInterface, new $this->concreteFoo());
         });
         $this->assertTrue($this->container->for($this->constructorWithIFoo, function (IContainer $container) {
             return $container->hasBinding($this->fooInterface);
@@ -302,7 +304,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests if a universally bound interface is bound
+     * Tests if a universally bound interface is bound.
      */
     public function testCheckingIfUniversallyBoundInterfaceIsBound()
     {
@@ -310,13 +312,13 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->container->hasBinding($this->fooInterface));
         $this->container->unbind($this->fooInterface);
         $this->container->bindFactory($this->fooInterface, function () {
-            return new $this->concreteFoo;
+            return new $this->concreteFoo();
         });
         $this->assertTrue($this->container->hasBinding($this->fooInterface));
     }
 
     /**
-     * Tests that a target has a binding when it only has a universal binding
+     * Tests that a target has a binding when it only has a universal binding.
      */
     public function testCheckingTargetHasBindingWhenItOnlyHasUniversalBinding()
     {
@@ -327,7 +329,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking an unbound targeted binding
+     * Tests checking an unbound targeted binding.
      */
     public function testCheckingUnboundTargetedBinding()
     {
@@ -339,7 +341,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking an unbound universal binding
+     * Tests checking an unbound universal binding.
      */
     public function testCheckingUnboundUniversalBinding()
     {
@@ -347,7 +349,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a universal binding
+     * Tests getting a universal binding.
      */
     public function testCheckingUniversalBinding()
     {
@@ -356,7 +358,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a shared instance object with an unset constructor primitive
+     * Tests creating a shared instance object with an unset constructor primitive.
      */
     public function testCreatingInstanceWithUnsetConstructorPrimitive()
     {
@@ -365,7 +367,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating an interface without binding a concrete implementation
+     * Tests creating an interface without binding a concrete implementation.
      */
     public function testCreatingInterfaceWithoutBinding()
     {
@@ -374,7 +376,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a prototype instance with a concrete dependency
+     * Tests creating a prototype instance with a concrete dependency.
      */
     public function testCreatingPrototypeInstanceWithConcreteDependency()
     {
@@ -383,7 +385,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a prototype object with a constructor primitive
+     * Tests creating a prototype object with a constructor primitive.
      */
     public function testCreatingPrototypeObjectWithConstructorPrimitive()
     {
@@ -395,7 +397,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a prototype object with an unset constructor primitive
+     * Tests creating a prototype object with an unset constructor primitive.
      */
     public function testCreatingPrototypeObjectWithUnsetConstructorPrimitive()
     {
@@ -404,7 +406,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a prototype object with an unset constructor primitive with a default value
+     * Tests creating a prototype object with an unset constructor primitive with a default value.
      */
     public function testCreatingPrototypeObjectWithUnsetConstructorPrimitiveWithDefaultValue()
     {
@@ -418,7 +420,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a singleton instance with a concrete dependency
+     * Tests creating a singleton instance with a concrete dependency.
      */
     public function testCreatingSingletonInstanceWithConcreteDependency()
     {
@@ -427,7 +429,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a singleton instance with a constructor primitive
+     * Tests creating a singleton instance with a constructor primitive.
      */
     public function testCreatingSingletonInstanceWithConstructorPrimitive()
     {
@@ -441,7 +443,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a singleton instance with an unset constructor primitive with a default value
+     * Tests creating a singleton instance with an unset constructor primitive with a default value.
      */
     public function testCreatingSingletonInstanceWithUnsetConstructorPrimitiveWithDefaultValue()
     {
@@ -455,7 +457,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests creating a class that has a dependency that has a dependency
+     * Tests creating a class that has a dependency that has a dependency.
      */
     public function testDependencyThatHasDependency()
     {
@@ -470,16 +472,16 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $tests();
         $this->container->unbind([$this->fooInterface, $this->personInterface]);
         $this->container->bindFactory($this->fooInterface, function () {
-            return new $this->concreteFooWithIPersonDependency(new $this->concretePerson);
+            return new $this->concreteFooWithIPersonDependency(new $this->concretePerson());
         });
         $this->container->bindFactory($this->personInterface, function () {
-            return new $this->concretePerson;
+            return new $this->concretePerson();
         });
         $tests();
     }
 
     /**
-     * Tests creating a class that has a dependency that has a dependency without binding all dependencies
+     * Tests creating a class that has a dependency that has a dependency without binding all dependencies.
      */
     public function testDependencyThatHasDependencyWithoutBindingAllDependencies()
     {
@@ -489,16 +491,16 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests factory dependencies in prototype are not the same
+     * Tests factory dependencies in prototype are not the same.
      */
     public function testFactoryDependenciesInPrototypeAreNotSame()
     {
         $this->container->bindPrototype($this->constructorWithInterfacesAndPrimitives, null, [23]);
         $this->container->bindFactory($this->fooInterface, function () {
-            return new $this->concreteFoo;
+            return new $this->concreteFoo();
         });
         $this->container->bindFactory($this->personInterface, function () {
-            return new $this->concretePerson;
+            return new $this->concretePerson();
         });
         /** @var ConstructorWithMixOfInterfacesAndPrimitives $instance1 */
         $instance1 = $this->container->resolve($this->constructorWithInterfacesAndPrimitives);
@@ -509,16 +511,16 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests factory dependencies in singletons
+     * Tests factory dependencies in singletons.
      */
     public function testFactoryDependenciesInSingleton()
     {
         $this->container->bindSingleton($this->constructorWithInterfacesAndPrimitives, null, [23]);
         $this->container->bindFactory($this->fooInterface, function () {
-            return new $this->concreteFoo;
+            return new $this->concreteFoo();
         });
         $this->container->bindFactory($this->personInterface, function () {
-            return new $this->concretePerson;
+            return new $this->concretePerson();
         });
         /** @var ConstructorWithMixOfInterfacesAndPrimitives $instance1 */
         $instance1 = $this->container->resolve($this->constructorWithInterfacesAndPrimitives);
@@ -531,7 +533,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a targeted binding when no targeted binding exists but a universal one does
+     * Tests getting a targeted binding when no targeted binding exists but a universal one does.
      */
     public function testGettingTargetedBindingWhenOneDoesNotExistButUniversalBindingExists()
     {
@@ -543,12 +545,12 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that instances are different when using factory
+     * Tests that instances are different when using factory.
      */
     public function testInstancesAreDifferentWhenUsingFactory()
     {
         $this->container->bindFactory($this->baseClass, function () {
-            return new $this->concreteFoo;
+            return new $this->concreteFoo();
         });
         $instance1 = $this->container->resolve($this->baseClass);
         $instance2 = $this->container->resolve($this->baseClass);
@@ -556,16 +558,17 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown when binding a factory to an invalid interface type
+     * Tests that an exception is thrown when binding a factory to an invalid interface type.
      */
     public function testInvalidArgumentTypeWhenBindingFactoryThrowsException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->container->bindFactory(new stdClass(), function () { });
+        $this->container->bindFactory(new stdClass(), function () {
+        });
     }
 
     /**
-     * Tests that an exception is thrown when binding an instance to an invalid interface type
+     * Tests that an exception is thrown when binding an instance to an invalid interface type.
      */
     public function testInvalidArgumentTypeWhenBindingInstanceThrowsException()
     {
@@ -574,7 +577,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown when binding a prototype to an invalid interface type
+     * Tests that an exception is thrown when binding a prototype to an invalid interface type.
      */
     public function testInvalidArgumentTypeWhenBindingPrototypeThrowsException()
     {
@@ -583,7 +586,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an exception is thrown when binding a singleton to an invalid interface type
+     * Tests that an exception is thrown when binding a singleton to an invalid interface type.
      */
     public function testInvalidArgumentTypeWhenBindingSingletonThrowsException()
     {
@@ -592,11 +595,11 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests instantiating a class with a mix of concrete classes and primitives in its constructor for a prototype
+     * Tests instantiating a class with a mix of concrete classes and primitives in its constructor for a prototype.
      */
     public function testMixOfConcreteClassesAndPrimitivesInConstructorForPrototype()
     {
-        /** @var ConstructorWithMixOfConcreteClassesAndPrimitives $sharedInstance */
+        /* @var ConstructorWithMixOfConcreteClassesAndPrimitives $sharedInstance */
         $this->container->bindPrototype($this->constructorWithConcreteClassesAndPrimitives, null, [23]);
         /** @var ConstructorWithMixOfConcreteClassesAndPrimitives $instance */
         $instance = $this->container->resolve($this->constructorWithConcreteClassesAndPrimitives);
@@ -606,21 +609,21 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests instantiating a class with a mix of concrete classes and primitives in its constructor for a singleton
+     * Tests instantiating a class with a mix of concrete classes and primitives in its constructor for a singleton.
      */
     public function testMixOfConcreteClassesAndPrimitivesInConstructorForSingleton()
     {
-        /** @var ConstructorWithMixOfConcreteClassesAndPrimitives $instance */
+        /* @var ConstructorWithMixOfConcreteClassesAndPrimitives $instance */
         $this->container->bindSingleton($this->constructorWithConcreteClassesAndPrimitives, null, [23]);
         $instance = $this->container->resolve($this->constructorWithConcreteClassesAndPrimitives);
-        /** @var ConstructorWithMixOfConcreteClassesAndPrimitives $newInstance */
+        /* @var ConstructorWithMixOfConcreteClassesAndPrimitives $newInstance */
         $this->assertInstanceOf($this->constructorWithConcreteClassesAndPrimitives, $instance);
         $this->assertEquals(23, $instance->getId());
         $this->assertSame($instance, $this->container->resolve($this->constructorWithConcreteClassesAndPrimitives));
     }
 
     /**
-     * Tests registering multiple targeted bindings
+     * Tests registering multiple targeted bindings.
      */
     public function testMultipleTargetedBindings()
     {
@@ -636,7 +639,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests registering multiple universal bindings
+     * Tests registering multiple universal bindings.
      */
     public function testMultipleUniversalBindings()
     {
@@ -646,13 +649,13 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests resolving an instance bound in a targeted callback
+     * Tests resolving an instance bound in a targeted callback.
      */
     public function testResolvingInstanceBoundInTargetedCallback()
     {
         $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
             $container->bindFactory($this->fooInterface, function () {
-                return new $this->concreteFoo;
+                return new $this->concreteFoo();
             });
         });
         $instance = $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
@@ -662,7 +665,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests making a prototype for target
+     * Tests making a prototype for target.
      */
     public function testResolvingPrototypeForTarget()
     {
@@ -681,7 +684,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests making a prototype non-existent class
+     * Tests making a prototype non-existent class.
      */
     public function testResolvingPrototypeNonExistentClass()
     {
@@ -690,7 +693,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests making singleton for target
+     * Tests making singleton for target.
      */
     public function testResolvingSingletonForTarget()
     {
@@ -718,7 +721,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests singleton dependencies in prototype
+     * Tests singleton dependencies in prototype.
      */
     public function testSingletonDependenciesInPrototype()
     {
@@ -735,7 +738,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests singleton dependencies in singletons
+     * Tests singleton dependencies in singletons.
      */
     public function testSingletonDependenciesInSingleton()
     {
@@ -754,7 +757,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a targeted binding of an instance to an interface
+     * Tests a targeted binding of an instance to an interface.
      */
     public function testTargetedBindingOfInstanceToInterface()
     {
@@ -769,7 +772,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that targeted factory bindings only apply to the next call
+     * Tests that targeted factory bindings only apply to the next call.
      */
     public function testTargetedFactoryBindingsOnlyApplyToNextCall()
     {
@@ -792,7 +795,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that targeted instance bindings only apply to the next call
+     * Tests that targeted instance bindings only apply to the next call.
      */
     public function testTargetedInstanceBindingsOnlyApplyToNextCall()
     {
@@ -813,7 +816,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that targeted prototype bindings only apply to the next call
+     * Tests that targeted prototype bindings only apply to the next call.
      */
     public function testTargetedPrototypeBindingsOnlyApplyToNextCall()
     {
@@ -832,7 +835,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that targeted singleton bindings only apply to the next call
+     * Tests that targeted singleton bindings only apply to the next call.
      */
     public function testTargetedSingletonBindingsOnlyApplyToNextCall()
     {
@@ -851,19 +854,19 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests unbinding a factory
+     * Tests unbinding a factory.
      */
     public function testUnbindingFactory()
     {
         $this->container->bindFactory($this->baseClass, function () {
-            return new $this->concreteFoo;
+            return new $this->concreteFoo();
         });
         $this->container->unbind($this->baseClass);
         $this->assertFalse($this->container->hasBinding($this->baseClass));
     }
 
     /**
-     * Tests unbinding multiple interfaces
+     * Tests unbinding multiple interfaces.
      */
     public function testUnbindingMultipleInterfaces()
     {
@@ -875,7 +878,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests unbinding a targeted binding
+     * Tests unbinding a targeted binding.
      */
     public function testUnbindingTargetedBinding()
     {
@@ -891,7 +894,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests unbinding a universal binding
+     * Tests unbinding a universal binding.
      */
     public function testUnbindingUniversalBinding()
     {
@@ -901,7 +904,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests universally binding an instance to an interface
+     * Tests universally binding an instance to an interface.
      */
     public function testUniversallyBindingInstanceToInterface()
     {

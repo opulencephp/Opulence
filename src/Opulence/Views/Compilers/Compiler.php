@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers;
 
 use Opulence\Views\IView;
 
 /**
- * Defines methods for compiling views
+ * Defines methods for compiling views.
  */
 class Compiler implements ICompiler
 {
@@ -27,7 +29,7 @@ class Compiler implements ICompiler
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function compile(IView $view) : string
     {

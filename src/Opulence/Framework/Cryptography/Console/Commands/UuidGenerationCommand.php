@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Cryptography\Console\Commands;
 
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
 
 /**
- * Defines the UUID generator command
+ * Defines the UUID generator command.
  */
 class UuidGenerationCommand extends Command
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function define()
     {
@@ -26,7 +28,7 @@ class UuidGenerationCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doExecute(IResponse $response)
     {

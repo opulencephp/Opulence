@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Prompts\Questions;
 
 /**
- * Defines a console prompt question
+ * Defines a console prompt question.
  */
 class Question implements IQuestion
 {
@@ -19,8 +21,8 @@ class Question implements IQuestion
     private $defaultAnswer = null;
 
     /**
-     * @param string $question The question text
-     * @param mixed $defaultAnswer The default answer to the question
+     * @param string $question      The question text
+     * @param mixed  $defaultAnswer The default answer to the question
      */
     public function __construct(string $question, $defaultAnswer = null)
     {
@@ -29,7 +31,7 @@ class Question implements IQuestion
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function formatAnswer($answer)
     {
@@ -38,7 +40,7 @@ class Question implements IQuestion
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDefaultAnswer()
     {
@@ -46,7 +48,7 @@ class Question implements IQuestion
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getText() : string
     {

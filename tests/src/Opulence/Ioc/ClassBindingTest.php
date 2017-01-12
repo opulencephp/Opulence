@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc;
 
 /**
- * Tests the class binding
+ * Tests the class binding.
  */
 class ClassBindingTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class ClassBindingTest extends \PHPUnit\Framework\TestCase
     private $binding = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class ClassBindingTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if the binding returns the correct flag for resolving as a singleton
+     * Tests checking if the binding returns the correct flag for resolving as a singleton.
      */
     public function testCheckingIfShouldResolveAsSingleton()
     {
@@ -36,7 +38,7 @@ class ClassBindingTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the concrete class
+     * Tests getting the concrete class.
      */
     public function testGettingConcreteClass()
     {
@@ -44,7 +46,7 @@ class ClassBindingTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the constructor primitives
+     * Tests getting the constructor primitives.
      */
     public function testGettingConstructorPrimitives()
     {

@@ -1,22 +1,24 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders\Conditions;
 
 use PDO;
 
 /**
- * Tests the NOT In condition
+ * Tests the NOT In condition.
  */
 class NotInConditionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests getting SQL for NOT IN condition with parameters
+     * Tests getting SQL for NOT IN condition with parameters.
      */
     public function testGettingSqlForNotInConditionWithParameters()
     {
@@ -25,7 +27,7 @@ class NotInConditionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting SQL for NOT IN condition with a sub-expression
+     * Tests getting SQL for NOT IN condition with a sub-expression.
      */
     public function testGettingSqlForNotInConditionWithSubExpression()
     {

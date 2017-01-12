@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune\Lexers;
 
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
@@ -14,7 +16,7 @@ use Opulence\Views\IView;
 use RuntimeException;
 
 /**
- * Defines the view lexer
+ * Defines the view lexer.
  */
 class Lexer implements ILexer
 {
@@ -40,7 +42,7 @@ class Lexer implements ILexer
     private $streamCache = ['cursor' => PHP_INT_MAX, 'length' => null, 'stream' => ''];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function lex(IView $view) : array
     {
@@ -51,7 +53,7 @@ class Lexer implements ILexer
     }
 
     /**
-     * Gets whether or not we're at the end of the file
+     * Gets whether or not we're at the end of the file.
      *
      * @return bool True if we're at the end of the file, otherwise false
      */
@@ -61,7 +63,7 @@ class Lexer implements ILexer
     }
 
     /**
-     * Flushes the expression buffer
+     * Flushes the expression buffer.
      */
     private function flushExpressionBuffer()
     {
@@ -74,7 +76,7 @@ class Lexer implements ILexer
     }
 
     /**
-     * Gets the character under the cursor
+     * Gets the character under the cursor.
      *
      * @return string The current character
      */
@@ -84,22 +86,22 @@ class Lexer implements ILexer
     }
 
     /**
-     * Gets a sorted mapping of opening statement delimiters to the lexing methods to call on a match
+     * Gets a sorted mapping of opening statement delimiters to the lexing methods to call on a match.
      *
      * @return array The mapping of opening statement delimiters to the methods
      */
     private function getStatementLexingMethods() : array
     {
         $statements = [
-            $this->directiveDelimiters[0] => 'lexDirectiveStatement',
-            $this->sanitizedTagDelimiters[0] => 'lexSanitizedTagStatement',
+            $this->directiveDelimiters[0]      => 'lexDirectiveStatement',
+            $this->sanitizedTagDelimiters[0]   => 'lexSanitizedTagStatement',
             $this->unsanitizedTagDelimiters[0] => 'lexUnsanitizedTagStatement',
-            $this->commentDelimiters[0] => 'lexCommentStatement',
-            '<?php' => 'lexPhpStatement',
-            '<?' => 'lexPhpStatement'
+            $this->commentDelimiters[0]        => 'lexCommentStatement',
+            '<?php'                            => 'lexPhpStatement',
+            '<?'                               => 'lexPhpStatement',
         ];
 
-        /**
+        /*
          * In case one delimiter is a substring of the other ("{{" and "{{!"), we want to sort the delimiters
          * so that the longest delimiters come first
          */
@@ -115,10 +117,11 @@ class Lexer implements ILexer
     }
 
     /**
-     * Gets the stream of input that has not yet been lexed
+     * Gets the stream of input that has not yet been lexed.
      *
      * @param int|null $cursor The position of the cursor
      * @param int|null $length The length of input to return
+     *
      * @return string The stream of input
      */
     private function getStream(int $cursor = null, int $length = null) : string
@@ -154,7 +157,7 @@ class Lexer implements ILexer
     }
 
     /**
-     * Initializes instance variables for lexing
+     * Initializes instance variables for lexing.
      *
      * @param IView $view The view that's being lexed
      */
@@ -173,7 +176,7 @@ class Lexer implements ILexer
     }
 
     /**
-     * Lexes a comment statement
+     * Lexes a comment statement.
      *
      * @throws RuntimeException Thrown if the statement has an invalid token
      */
@@ -189,7 +192,7 @@ class Lexer implements ILexer
     }
 
     /**
-     * Lexes an expression that is delimited with tags
+     * Lexes an expression that is delimited with tags.
      *
      * @param string $closeDelimiter The close delimiter
      */
@@ -226,13 +229,14 @@ class Lexer implements ILexer
     }
 
     /**
-     * Lexes a statement that is comprised of a delimited statement
+     * Lexes a statement that is comprised of a delimited statement.
      *
-     * @param string $openTokenType The open token type
-     * @param string $openDelimiter The open delimiter
-     * @param string $closeTokenType The close token type
-     * @param string $closeDelimiter The close delimiter
-     * @param bool $closeDelimiterOptional Whether or not the close delimiter is optional
+     * @param string $openTokenType          The open token type
+     * @param string $openDelimiter          The open delimiter
+     * @param string $closeTokenType         The close token type
+     * @param string $closeDelimiter         The close delimiter
+     * @param bool   $closeDelimiterOptional Whether or not the close delimiter is optional
+     *
      * @throws RuntimeException Thrown if the expression was not delimited correctly
      */
     private function lexDelimitedExpressionStatement(
@@ -261,7 +265,7 @@ class Lexer implements ILexer
     }
 
     /**
-     * Lexes a directive statement
+     * Lexes a directive statement.
      *
      * @throws RuntimeException Thrown if there's an unmatched parenthesis
      */
@@ -315,7 +319,7 @@ class Lexer implements ILexer
     }
 
     /**
-     * Lexes a directive name
+     * Lexes a directive name.
      *
      * @throws RuntimeException Thrown if the directive did not have a name
      */
@@ -361,7 +365,7 @@ class Lexer implements ILexer
     }
 
     /**
-     * Lexes a directive statement
+     * Lexes a directive statement.
      *
      * @throws RuntimeException Thrown if the statement has an invalid token
      */
@@ -386,7 +390,7 @@ class Lexer implements ILexer
     }
 
     /**
-     * Lexes an expression
+     * Lexes an expression.
      *
      * @throws RuntimeException Thrown if there was an invalid token
      */
@@ -407,7 +411,7 @@ class Lexer implements ILexer
 
                     // Now that we've matched, we want to reset the loop so that longest delimiters are matched first
                     reset($statementMethods);
-                } elseif ($this->getCurrentChar() === "\\") {
+                } elseif ($this->getCurrentChar() === '\\') {
                     // Now that we know we're on an escape character, spend the resources to check for a match
                     if ($this->matches("\\$statementOpenDelimiter")) {
                         // This is an escaped statement
@@ -438,7 +442,7 @@ class Lexer implements ILexer
     }
 
     /**
-     * Lexes a PHP statement
+     * Lexes a PHP statement.
      *
      * @throws RuntimeException Thrown if the statement was not delimited correctly
      */
@@ -454,7 +458,7 @@ class Lexer implements ILexer
     }
 
     /**
-     * Lexes a sanitized tag statement
+     * Lexes a sanitized tag statement.
      *
      * @throws RuntimeException Thrown if the statement has an invalid token
      */
@@ -470,7 +474,7 @@ class Lexer implements ILexer
     }
 
     /**
-     * Lexes an unsanitized tag statement
+     * Lexes an unsanitized tag statement.
      *
      * @throws RuntimeException Thrown if the statement has an invalid token
      */
@@ -486,11 +490,12 @@ class Lexer implements ILexer
     }
 
     /**
-     * Gets whether or not the input at the cursor matches an expected value
+     * Gets whether or not the input at the cursor matches an expected value.
      *
-     * @param string $expected The expected string
-     * @param bool $shouldConsume Whether or not to consume the expected value on a match
-     * @param int|null $cursor The cursor position to match at
+     * @param string   $expected      The expected string
+     * @param bool     $shouldConsume Whether or not to consume the expected value on a match
+     * @param int|null $cursor        The cursor position to match at
+     *
      * @return bool True if the input at the cursor matches the expected value, otherwise false
      */
     private function matches(string $expected, bool $shouldConsume = true, int $cursor = null) : bool
@@ -510,14 +515,15 @@ class Lexer implements ILexer
     }
 
     /**
-     * Replaces view function calls with valid PHP calls
+     * Replaces view function calls with valid PHP calls.
      *
      * @param string $expression The expression to replace calls in
+     *
      * @return string The expression with replaced calls
      */
     private function replaceViewFunctionCalls(string $expression) : string
     {
-        $phpTokens = token_get_all('<?php ' . $expression . ' ?>');
+        $phpTokens = token_get_all('<?php '.$expression.' ?>');
         $opulenceTokens = [];
 
         // This is essentially a foreach loop that can be fast-forwarded
@@ -551,7 +557,7 @@ class Lexer implements ILexer
                             // Add ->
                             $opulenceTokens[] = [T_OBJECT_OPERATOR, '->', $token[2]];
                             // Add callViewFunction("FUNCTION_NAME")
-                            $opulenceTokens[] = [T_STRING, 'callViewFunction("' . $token[1] . '")', $token[2]];
+                            $opulenceTokens[] = [T_STRING, 'callViewFunction("'.$token[1].'")', $token[2]];
                         }
                     } else {
                         $opulenceTokens[] = $token;
@@ -576,14 +582,14 @@ class Lexer implements ILexer
         $callback = function (array $matches) {
             if ($matches[2] === ')') {
                 // There were no parameters
-                return $matches[1] . ')';
+                return $matches[1].')';
             } else {
                 // There were parameters
-                return $matches[1] . ', ' . $matches[2];
+                return $matches[1].', '.$matches[2];
             }
         };
 
-        /**
+        /*
          * View functions are left in a broken state
          * For example, 'foo()' will currently look like '...->callViewFunction("foo")()'
          * This should be converted to '...->callViewFunction("foo")'

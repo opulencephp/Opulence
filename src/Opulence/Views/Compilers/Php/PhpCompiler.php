@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Php;
 
 use Exception;
@@ -15,12 +17,12 @@ use Opulence\Views\IView;
 use Throwable;
 
 /**
- * Defines a compiler for basic PHP views
+ * Defines a compiler for basic PHP views.
  */
 class PhpCompiler implements ICompiler
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function compile(IView $view) : string
     {
@@ -29,7 +31,7 @@ class PhpCompiler implements ICompiler
         extract($view->getVars());
 
         try {
-            if (eval('?>' . $view->getContents()) === false) {
+            if (eval('?>'.$view->getContents()) === false) {
                 throw new ViewCompilerException('Invalid PHP in view');
             }
         } catch (Exception $ex) {
@@ -42,10 +44,11 @@ class PhpCompiler implements ICompiler
     }
 
     /**
-     * Handles any exception thrown during compilation
+     * Handles any exception thrown during compilation.
      *
-     * @param Exception|Throwable $ex The exception to handle
-     * @param int $obStartLevel The starting output buffer level
+     * @param Exception|Throwable $ex           The exception to handle
+     * @param int                 $obStartLevel The starting output buffer level
+     *
      * @throws $ex Always rethrown
      */
     protected function handleException($ex, int $obStartLevel)

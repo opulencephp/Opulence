@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Orm;
 
 use Opulence\Orm\ChangeTracking\IChangeTracker;
 use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
 
 /**
- * Defines an entity registry
+ * Defines an entity registry.
  */
 class EntityRegistry implements IEntityRegistry
 {
@@ -30,7 +32,7 @@ class EntityRegistry implements IEntityRegistry
      *      "aggregateRoot" => The aggregate root
      *      "child" => The entity whose aggregate root Id will be set to the Id of the aggregate root
      *      "function" => The function to execute that actually sets the aggregate root Id in the child
-     *          Note:  The function MUST have two parameters: first for the aggregate root and a second for the child
+     *          Note:  The function MUST have two parameters: first for the aggregate root and a second for the child.
      *
      * @var array
      */
@@ -38,7 +40,7 @@ class EntityRegistry implements IEntityRegistry
 
     /**
      * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry
-     * @param IChangeTracker $changeTracker The change tracker
+     * @param IChangeTracker      $changeTracker      The change tracker
      */
     public function __construct(IIdAccessorRegistry $idAccessorRegistry, IChangeTracker $changeTracker)
     {
@@ -47,7 +49,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function clear()
     {
@@ -58,7 +60,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function clearAggregateRoots()
     {
@@ -66,7 +68,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function deregisterEntity($entity)
     {
@@ -84,7 +86,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getClassName($object) : string
     {
@@ -92,7 +94,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getEntities() : array
     {
@@ -110,19 +112,19 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getEntity(string $className, $id)
     {
         if (!isset($this->entities[$className][$id])) {
-            return null;
+            return;
         }
 
         return $this->entities[$className][$id];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getEntityState($entity) : int
     {
@@ -136,7 +138,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getObjectHashId($object) : string
     {
@@ -144,7 +146,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isRegistered($entity) : bool
     {
@@ -160,11 +162,11 @@ class EntityRegistry implements IEntityRegistry
 
     /**
      * Registers a function to set the aggregate root Id in a child entity after the aggregate root has been inserted
-     * Since the child depends on the aggregate root's Id being set, make sure the root is inserted before the child
+     * Since the child depends on the aggregate root's Id being set, make sure the root is inserted before the child.
      *
-     * @param object $aggregateRoot The aggregate root
-     * @param object $child The child of the aggregate root
-     * @param callable $function The function that contains the logic to set the aggregate root Id in the child
+     * @param object   $aggregateRoot The aggregate root
+     * @param object   $child         The child of the aggregate root
+     * @param callable $function      The function that contains the logic to set the aggregate root Id in the child
      */
     public function registerAggregateRootCallback($aggregateRoot, $child, callable $function)
     {
@@ -176,13 +178,13 @@ class EntityRegistry implements IEntityRegistry
 
         $this->aggregateRootChildren[$childObjectHashId][] = [
             'aggregateRoot' => $aggregateRoot,
-            'child' => $child,
-            'function' => $function
+            'child'         => $child,
+            'function'      => $function,
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerEntity(&$entity)
     {
@@ -205,7 +207,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function runAggregateRootCallbacks($child)
     {
@@ -220,7 +222,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setState($entity, int $entityState)
     {

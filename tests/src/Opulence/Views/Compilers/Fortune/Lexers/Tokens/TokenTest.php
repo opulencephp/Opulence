@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views\Compilers\Fortune\Lexers\Tokens;
 
 /**
- * Tests the view token
+ * Tests the view token.
  */
 class TokenTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +19,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     private $token = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -25,7 +27,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the line
+     * Tests getting the line.
      */
     public function testGettingLine()
     {
@@ -33,7 +35,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the type
+     * Tests getting the type.
      */
     public function testGettingType()
     {
@@ -41,7 +43,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the value
+     * Tests getting the value.
      */
     public function testGettingValue()
     {

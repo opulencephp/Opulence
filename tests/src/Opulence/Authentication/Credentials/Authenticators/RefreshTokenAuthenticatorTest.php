@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Credentials\Authenticators;
 
 use Opulence\Authentication\Credentials\ICredential;
@@ -22,7 +24,7 @@ use Opulence\Authentication\Tokens\Signatures\HmacSigner;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
 
 /**
- * Tests the refresh token authenticator
+ * Tests the refresh token authenticator.
  */
 class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
@@ -36,7 +38,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
     private $refreshTokenRepository = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -68,7 +70,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an unset token credential will return false
+     * Tests that an unset token credential will return false.
      */
     public function testUnsetTokenCredentialReturnsFalse()
     {
@@ -85,7 +87,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an unverified JWT returns false
+     * Tests that an unverified JWT returns false.
      */
     public function testUnverifiedJwtReturnsFalse()
     {
@@ -100,7 +102,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a verified JWT that does not exist in the repository returns false
+     * Tests that a verified JWT that does not exist in the repository returns false.
      */
     public function testVerifiedJwtThatDoesNotExistInRepositoryReturnsFalse()
     {
@@ -118,7 +120,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a verified JWT that exists in the repository returns true
+     * Tests that a verified JWT that exists in the repository returns true.
      */
     public function testVerifiedJwtThatExistsInRepositoryReturnsTrue()
     {
@@ -131,7 +133,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
             ->willReturn(true);
         $subject = null;
         $this->assertTrue($this->authenticator->authenticate($this->credential, $subject));
-        /** @var ISubject $subject */
+        /* @var ISubject $subject */
         $this->assertInstanceOf(ISubject::class, $subject);
         $this->assertEquals('Dave', $subject->getPrimaryPrincipal()->getId());
         $this->assertEquals([$this->credential], $subject->getCredentials());

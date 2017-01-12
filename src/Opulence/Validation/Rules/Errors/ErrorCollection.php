@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules\Errors;
 
 use ArrayAccess;
 use Countable;
 
 /**
- * Defines the error collection
+ * Defines the error collection.
  */
 class ErrorCollection implements ArrayAccess, Countable
 {
@@ -30,10 +32,10 @@ class ErrorCollection implements ArrayAccess, Countable
     }
 
     /**
-     * Adds a value
+     * Adds a value.
      *
-     * @param string $name The key to add
-     * @param mixed $value The value to add
+     * @param string $name  The key to add
+     * @param mixed  $value The value to add
      */
     public function add(string $name, $value)
     {
@@ -41,7 +43,7 @@ class ErrorCollection implements ArrayAccess, Countable
     }
 
     /**
-     * Gets the number of values
+     * Gets the number of values.
      *
      * @return int The number of values
      */
@@ -51,9 +53,10 @@ class ErrorCollection implements ArrayAccess, Countable
     }
 
     /**
-     * Exchanges the current values with the input
+     * Exchanges the current values with the input.
      *
      * @param mixed $array The values to exchange with
+     *
      * @return array The old array
      */
     public function exchangeArray($array) : array
@@ -65,10 +68,11 @@ class ErrorCollection implements ArrayAccess, Countable
     }
 
     /**
-     * Gets the input value
+     * Gets the input value.
      *
-     * @param string $name The name of the value to get
-     * @param mixed $default The default value
+     * @param string $name    The name of the value to get
+     * @param mixed  $default The default value
+     *
      * @return mixed The value of the value if it was found, otherwise the default value
      */
     public function get(string $name, $default = null)
@@ -77,7 +81,7 @@ class ErrorCollection implements ArrayAccess, Countable
     }
 
     /**
-     * Gets all of the values
+     * Gets all of the values.
      *
      * @return array All of the values
      */
@@ -87,9 +91,10 @@ class ErrorCollection implements ArrayAccess, Countable
     }
 
     /**
-     * Gets whether or not the key exists
+     * Gets whether or not the key exists.
      *
      * @param string $name The key to check for
+     *
      * @return bool True if the key exists, otherwise false
      */
     public function has(string $name) : bool
@@ -98,7 +103,7 @@ class ErrorCollection implements ArrayAccess, Countable
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function offsetExists($offset) : bool
     {
@@ -106,7 +111,7 @@ class ErrorCollection implements ArrayAccess, Countable
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function offsetGet($offset)
     {
@@ -114,7 +119,7 @@ class ErrorCollection implements ArrayAccess, Countable
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function offsetSet($offset, $value)
     {
@@ -122,7 +127,7 @@ class ErrorCollection implements ArrayAccess, Countable
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function offsetUnset($offset)
     {
@@ -130,7 +135,7 @@ class ErrorCollection implements ArrayAccess, Countable
     }
 
     /**
-     * Removes a key
+     * Removes a key.
      *
      * @param string $name The name of the key to remove
      */
@@ -140,10 +145,10 @@ class ErrorCollection implements ArrayAccess, Countable
     }
 
     /**
-     * Sets a value
+     * Sets a value.
      *
-     * @param string $name The key to set
-     * @param mixed $value The value to set
+     * @param string $name  The key to set
+     * @param mixed  $value The value to set
      */
     public function set(string $name, $value)
     {

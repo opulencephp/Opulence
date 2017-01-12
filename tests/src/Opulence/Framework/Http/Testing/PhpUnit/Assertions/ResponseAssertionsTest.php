@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Http\Testing\PhpUnit\Assertions;
 
 use DateTime;
@@ -16,7 +18,7 @@ use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
 
 /**
- * Tests the response assertions
+ * Tests the response assertions.
  */
 class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,7 +26,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     private $assertions = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -32,7 +34,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that a path redirects to another
+     * Tests asserting that a path redirects to another.
      */
     public function testAssertingRedirect()
     {
@@ -41,7 +43,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that a response has certain content
+     * Tests asserting that a response has certain content.
      */
     public function testAssertingResponseHasContent()
     {
@@ -50,7 +52,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that a response has a certain cookie
+     * Tests asserting that a response has a certain cookie.
      */
     public function testAssertingResponseHasCookie()
     {
@@ -64,7 +66,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that a response has a certain header
+     * Tests asserting that a response has a certain header.
      */
     public function testAssertingResponseHasHeader()
     {
@@ -76,7 +78,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that a response has status code
+     * Tests asserting that a response has status code.
      */
     public function testAssertingResponseHasStatusCode()
     {
@@ -89,7 +91,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that a response is an internal server error
+     * Tests asserting that a response is an internal server error.
      */
     public function testAssertingResponseIsInternalServerError()
     {
@@ -99,7 +101,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that a response is not found
+     * Tests asserting that a response is not found.
      */
     public function testAssertingResponseIsNotFound()
     {
@@ -109,7 +111,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that a response is OK
+     * Tests asserting that a response is OK.
      */
     public function testAssertingResponseIsOK()
     {
@@ -119,7 +121,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting that a response is unauthorized
+     * Tests asserting that a response is unauthorized.
      */
     public function testAssertingResponseIsUnauthorized()
     {
@@ -129,7 +131,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting response JSON contains
+     * Tests asserting response JSON contains.
      */
     public function testAssertingResponseJsonContains()
     {
@@ -147,7 +149,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting response JSON contains key
+     * Tests asserting response JSON contains key.
      */
     public function testAssertingResponseJsonContainsKey()
     {
@@ -158,7 +160,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests asserting response JSON equals
+     * Tests asserting response JSON equals.
      */
     public function testAssertingResponseJsonEquals()
     {

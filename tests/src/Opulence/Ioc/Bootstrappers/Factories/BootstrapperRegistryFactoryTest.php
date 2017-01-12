@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc\Bootstrappers\Factories;
 
 use Opulence\Ioc\Bootstrappers\IBootstrapperResolver;
@@ -14,7 +16,7 @@ use Opulence\Tests\Ioc\Bootstrappers\Mocks\BootstrapperWithEverything;
 use Opulence\Tests\Ioc\Bootstrappers\Mocks\LazyFooInterface;
 
 /**
- * Tests the bootstrapper registry factory
+ * Tests the bootstrapper registry factory.
  */
 class BootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,7 +26,7 @@ class BootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
     private $resolver = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -33,7 +35,7 @@ class BootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that creating a registry resolves the bootstrappers
+     * Tests that creating a registry resolves the bootstrappers.
      */
     public function testCreatingRegistryResolvesBootstrappers()
     {

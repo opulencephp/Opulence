@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc\Bootstrappers;
 
 use BadMethodCallException;
@@ -13,7 +15,7 @@ use Opulence\Ioc\IContainer;
 
 /**
  * Defines the base bootstrapper
- * Note:  This class also accepts a run() method with a variable number of parameters
+ * Note:  This class also accepts a run() method with a variable number of parameters.
  */
 abstract class Bootstrapper
 {
@@ -23,10 +25,11 @@ abstract class Bootstrapper
     }
 
     /**
-     * Handles the case that the bootstrapper did not implement the initialize(), run(), or shutdown() methods
+     * Handles the case that the bootstrapper did not implement the initialize(), run(), or shutdown() methods.
      *
-     * @param string $name The name of the method to call
-     * @param array $arguments The list of arguments to pass in
+     * @param string $name      The name of the method to call
+     * @param array  $arguments The list of arguments to pass in
+     *
      * @throws BadMethodCallException Thrown if a method other than "run" is called
      */
     public function __call(string $name, array $arguments)
@@ -42,11 +45,10 @@ abstract class Bootstrapper
         }
 
         // The user must have not specified a "run" or "shutdown" function, so just return
-        return;
     }
 
     /**
-     * Registers any bindings to the IoC container
+     * Registers any bindings to the IoC container.
      *
      * @param IContainer $container The IoC container to bind to
      */

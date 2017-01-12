@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Ioc\Bootstrappers\Mocks;
 
 use Opulence\Ioc\Bootstrappers\Bootstrapper as BaseBootstrapper;
@@ -13,12 +15,12 @@ use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
- * Defines a bootstrapper that does everything
+ * Defines a bootstrapper that does everything.
  */
 class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootstrapper
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBindings() : array
     {
@@ -26,7 +28,7 @@ class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootst
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBindings(IContainer $container)
     {
@@ -35,7 +37,7 @@ class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootst
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function run()
     {
@@ -43,7 +45,7 @@ class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootst
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function shutdown()
     {

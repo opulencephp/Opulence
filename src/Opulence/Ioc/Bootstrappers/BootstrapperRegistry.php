@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc\Bootstrappers;
 
 use InvalidArgumentException;
 
 /**
- * Defines the bootstrapper registry
+ * Defines the bootstrapper registry.
  */
 class BootstrapperRegistry implements IBootstrapperRegistry
 {
@@ -21,7 +23,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     private $eagerBootstrapperClasses = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getEagerBootstrappers() : array
     {
@@ -29,7 +31,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getLazyBootstrapperBindings() : array
     {
@@ -37,16 +39,16 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerEagerBootstrapper($eagerBootstrapperClasses)
     {
-        $eagerBootstrapperClasses = (array)$eagerBootstrapperClasses;
+        $eagerBootstrapperClasses = (array) $eagerBootstrapperClasses;
         $this->eagerBootstrapperClasses = array_merge($this->eagerBootstrapperClasses, $eagerBootstrapperClasses);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerLazyBootstrapper(array $bindings, string $lazyBootstrapperClass)
     {
@@ -57,7 +59,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
             if (is_array($boundClass)) {
                 if (count($boundClass) !== 1) {
                     throw new InvalidArgumentException(
-                        "Targeted bindings must be in format \"BoundClass => TargetClass\""
+                        'Targeted bindings must be in format "BoundClass => TargetClass"'
                     );
                 }
 
@@ -67,7 +69,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
 
             $this->bindingsToLazyBootstrapperClasses[$boundClass] = [
                 'bootstrapper' => $lazyBootstrapperClass,
-                'target' => $targetClass
+                'target'       => $targetClass,
             ];
         }
     }

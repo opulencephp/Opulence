@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Cache;
 
 use Opulence\Redis\Redis;
 use Predis\Client;
 
 /**
- * Tests the Redis bridge
+ * Tests the Redis bridge.
  */
 class RedisBridgeTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,7 +26,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     private $client = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -44,7 +46,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if a key exists
+     * Tests checking if a key exists.
      */
     public function testCheckingIfKeyExists()
     {
@@ -59,7 +61,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests decrementing returns correct values
+     * Tests decrementing returns correct values.
      */
     public function testDecrementingReturnsCorrectValues()
     {
@@ -78,7 +80,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests deleting a key
+     * Tests deleting a key.
      */
     public function testDeletingKey()
     {
@@ -89,7 +91,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that the driver is the correct instance of Redis
+     * Tests that the driver is the correct instance of Redis.
      */
     public function testDriverIsCorrectInstance()
     {
@@ -97,7 +99,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests flushing the database
+     * Tests flushing the database.
      */
     public function testFlushing()
     {
@@ -107,7 +109,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that getting a value works
+     * Tests that getting a value works.
      */
     public function testGetWorks()
     {
@@ -118,7 +120,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests incrementing returns correct values
+     * Tests incrementing returns correct values.
      */
     public function testIncrementingReturnsCorrectValues()
     {
@@ -137,7 +139,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that null is returned on cache miss
+     * Tests that null is returned on cache miss.
      */
     public function testNullIsReturnedOnMiss()
     {
@@ -148,7 +150,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a value
+     * Tests setting a value.
      */
     public function testSettingValue()
     {
@@ -159,7 +161,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests using a base Redis instance
+     * Tests using a base Redis instance.
      */
     public function testUsingBaseRedisInstance()
     {
@@ -172,7 +174,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests using a client beside the default one
+     * Tests using a client beside the default one.
      */
     public function testUsingClientBesidesDefaultOne()
     {

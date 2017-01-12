@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Prompts\Questions;
 
 use InvalidArgumentException;
 
 /**
- * Defines a multiple choice question
+ * Defines a multiple choice question.
  */
 class MultipleChoice extends Question
 {
@@ -43,7 +45,7 @@ class MultipleChoice extends Question
     }
 
     /**
-     * Gets whether or not the choices are an associative array
+     * Gets whether or not the choices are an associative array.
      *
      * @return bool True if the array is associative, otherwise false
      */
@@ -53,7 +55,7 @@ class MultipleChoice extends Question
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function formatAnswer($answer)
     {
@@ -122,9 +124,10 @@ class MultipleChoice extends Question
     }
 
     /**
-     * Gets the list of selected associative choices from a list of answers
+     * Gets the list of selected associative choices from a list of answers.
      *
      * @param array $answers The list of answers
+     *
      * @return array The list of selected choices
      */
     private function getSelectedAssociativeChoices(array $answers) : array
@@ -141,11 +144,13 @@ class MultipleChoice extends Question
     }
 
     /**
-     * Gets the list of selected indexed choices from a list of answers
+     * Gets the list of selected indexed choices from a list of answers.
      *
      * @param array $answers The list of answers
-     * @return array The list of selected choices
+     *
      * @throws InvalidArgumentException Thrown if the answers are not of the correct type
+     *
+     * @return array The list of selected choices
      */
     private function getSelectedIndexChoices(array $answers) : array
     {
@@ -156,10 +161,10 @@ class MultipleChoice extends Question
                 throw new InvalidArgumentException('Answer is not an integer');
             }
 
-            $answer = (int)$answer;
+            $answer = (int) $answer;
 
             if ($answer < 1 || $answer > count($this->choices)) {
-                throw new InvalidArgumentException('Choice must be between 1 and ' . count($this->choices));
+                throw new InvalidArgumentException('Choice must be between 1 and '.count($this->choices));
             }
 
             // Answers are 1-indexed

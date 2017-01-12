@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authorization;
 
 use Opulence\Authorization\Permissions\PermissionRegistry;
 use Opulence\Authorization\Roles\IRoles;
 
 /**
- * Tests the authority
+ * Tests the authority.
  */
 class AuthorityTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +24,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     private $permissionRegistry = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -32,7 +34,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests can returns false when callback returns false
+     * Tests can returns false when callback returns false.
      */
     public function testFalseCallback()
     {
@@ -44,7 +46,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that forUser creates a new instance
+     * Tests that forUser creates a new instance.
      */
     public function testForUserCreatesNewInstance()
     {
@@ -54,7 +56,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests can returns false when user is does not have role
+     * Tests can returns false when user is does not have role.
      */
     public function testNoRoles()
     {
@@ -64,7 +66,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that an override is used
+     * Tests that an override is used.
      */
     public function testOverrideUsed()
     {
@@ -83,7 +85,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests can returns true when callback returns true
+     * Tests can returns true when callback returns true.
      */
     public function testTrueCallback()
     {
@@ -95,7 +97,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests can returns true when user has role
+     * Tests can returns true when user has role.
      */
     public function testWithRoles()
     {

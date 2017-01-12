@@ -1,15 +1,17 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Tests\Validation\Rules\Models\Mocks;
 
 /**
- * Mocks a user for use in testing
+ * Mocks a user for use in testing.
  */
 class User
 {
@@ -21,8 +23,8 @@ class User
     private $email = '';
 
     /**
-     * @param int $id The user's database Id
-     * @param string $name The user's name
+     * @param int    $id    The user's database Id
+     * @param string $name  The user's name
      * @param string $email The user's email
      */
     public function __construct(int $id, string $name, string $email)

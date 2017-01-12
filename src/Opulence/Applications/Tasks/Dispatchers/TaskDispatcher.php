@@ -1,31 +1,33 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Applications\Tasks\Dispatchers;
 
 use Exception;
 use RuntimeException;
 
 /**
- * Defines the task dispatcher
+ * Defines the task dispatcher.
  */
 class TaskDispatcher implements ITaskDispatcher
 {
     /** @var callable[][] The list of task callbacks */
     private $tasks = [
-        'preStart' => [],
-        'postStart' => [],
-        'preShutdown' => [],
-        'postShutdown' => []
+        'preStart'     => [],
+        'postStart'    => [],
+        'preShutdown'  => [],
+        'postShutdown' => [],
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function dispatch(string $taskType)
     {
@@ -39,7 +41,7 @@ class TaskDispatcher implements ITaskDispatcher
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerTask(string $taskType, callable $task)
     {

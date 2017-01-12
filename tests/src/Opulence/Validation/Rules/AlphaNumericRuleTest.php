@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 /**
- * Tests the alpha-numeric rule
+ * Tests the alpha-numeric rule.
  */
 class AlphaNumericRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests that a failing value
+     * Tests that a failing value.
      */
     public function testFailingValue()
     {
@@ -25,7 +27,7 @@ class AlphaNumericRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the slug
+     * Tests getting the slug.
      */
     public function testGettingSlug()
     {
@@ -34,7 +36,7 @@ class AlphaNumericRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests a passing value
+     * Tests a passing value.
      */
     public function testPassingValue()
     {

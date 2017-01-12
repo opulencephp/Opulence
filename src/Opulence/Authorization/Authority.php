@@ -1,17 +1,19 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authorization;
 
 use Opulence\Authorization\Permissions\IPermissionRegistry;
 
 /**
- * Defines the authority
+ * Defines the authority.
  */
 class Authority implements IAuthority
 {
@@ -23,8 +25,8 @@ class Authority implements IAuthority
     protected $permissionRegistry = null;
 
     /**
-     * @param int|string $subjectId The primary identity of the current subject
-     * @param array $subjectRoles The list of roles the subject has
+     * @param int|string          $subjectId          The primary identity of the current subject
+     * @param array               $subjectRoles       The list of roles the subject has
      * @param IPermissionRegistry $permissionRegistry The permission registry
      */
     public function __construct($subjectId, array $subjectRoles, IPermissionRegistry $permissionRegistry)
@@ -34,7 +36,7 @@ class Authority implements IAuthority
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function can(string $permission, ...$arguments) : bool
     {
@@ -60,7 +62,7 @@ class Authority implements IAuthority
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function cannot(string $permission, ...$arguments) : bool
     {
@@ -68,7 +70,7 @@ class Authority implements IAuthority
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function forSubject($subjectId, array $subjectRoles = null) : IAuthority
     {
@@ -76,7 +78,7 @@ class Authority implements IAuthority
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setSubject($subjectId, array $subjectRoles)
     {

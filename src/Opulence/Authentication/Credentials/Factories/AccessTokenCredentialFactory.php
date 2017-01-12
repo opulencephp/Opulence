@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Credentials\Factories;
 
 use DateInterval;
@@ -17,7 +19,7 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 use Opulence\Authentication\Users\Orm\IUserRepository;
 
 /**
- * Defines the access token credential factory
+ * Defines the access token credential factory.
  */
 class AccessTokenCredentialFactory extends JwtCredentialFactory
 {
@@ -27,11 +29,12 @@ class AccessTokenCredentialFactory extends JwtCredentialFactory
     protected $roleRepository = null;
 
     /**
-     * @inheritdoc
-     * @param IUserRepository $userRepository The user repository
-     * @param IRoleRepository $roleRepository The role repository
-     * @param string $clientId The Id of the client sending the access token
-     * @param string $resourceServerUri The URI of the resource server
+     * {@inheritdoc}
+     *
+     * @param IUserRepository $userRepository    The user repository
+     * @param IRoleRepository $roleRepository    The role repository
+     * @param string          $clientId          The Id of the client sending the access token
+     * @param string          $resourceServerUri The URI of the resource server
      */
     public function __construct(
         IUserRepository $userRepository,
@@ -50,13 +53,13 @@ class AccessTokenCredentialFactory extends JwtCredentialFactory
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function addCustomClaims(JwtPayload $payload, ISubject $subject)
     {
         $payload->add('roles', $this->roleRepository->getRoleNamesForSubject($subject->getPrimaryPrincipal()->getId()));
         $userClaims = [
-            'username' => ''
+            'username' => '',
         ];
         $user = $this->userRepository->getById($subject->getPrimaryPrincipal()->getId());
 
@@ -68,7 +71,7 @@ class AccessTokenCredentialFactory extends JwtCredentialFactory
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getCredentialType() : string
     {

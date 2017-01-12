@@ -1,18 +1,20 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Views;
 
 use Opulence\Files\FileSystem;
 use RuntimeException;
 
 /**
- * Tests the view
+ * Tests the view.
  */
 class ViewTest extends \PHPUnit\Framework\TestCase
 {
@@ -27,7 +29,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     private $fileSystem = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -36,7 +38,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the comment delimiters
+     * Tests getting the comment delimiters.
      */
     public function testGettingCommentDelimiters()
     {
@@ -48,7 +50,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the delimiters for a type that does not have any
+     * Tests getting the delimiters for a type that does not have any.
      */
     public function testGettingDelimitersForTypeThatDoesNotHaveAny()
     {
@@ -56,7 +58,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the directive delimiters
+     * Tests getting the directive delimiters.
      */
     public function testGettingDirectiveDelimiters()
     {
@@ -68,7 +70,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a non-existent variable
+     * Tests getting a non-existent variable.
      */
     public function testGettingNonExistentVariable()
     {
@@ -76,7 +78,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the sanitized tag delimiters
+     * Tests getting the sanitized tag delimiters.
      */
     public function testGettingSanitizedTagDelimiters()
     {
@@ -90,7 +92,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the unsanitized tag delimiters
+     * Tests getting the unsanitized tag delimiters.
      */
     public function testGettingUnsanitizedTagDelimiters()
     {
@@ -102,7 +104,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting a var
+     * Tests getting a var.
      */
     public function testGettingVar()
     {
@@ -111,7 +113,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the vars
+     * Tests getting the vars.
      */
     public function testGettingVars()
     {
@@ -120,7 +122,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests checking if a view has a variable
+     * Tests checking if a view has a variable.
      */
     public function testHasVar()
     {
@@ -134,7 +136,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not setting the contents in the constructor
+     * Tests not setting the contents in the constructor.
      */
     public function testNotSettingContentsInConstructor()
     {
@@ -142,7 +144,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the contents
+     * Tests setting the contents.
      */
     public function testSettingContents()
     {
@@ -151,7 +153,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the contents in the constructor
+     * Tests setting the contents in the constructor.
      */
     public function testSettingContentsInConstructor()
     {
@@ -160,7 +162,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting delimiters
+     * Tests setting delimiters.
      */
     public function testSettingDelimiters()
     {
@@ -169,7 +171,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting multiple variables in a view
+     * Tests setting multiple variables in a view.
      */
     public function testSettingMultipleVariables()
     {
@@ -182,7 +184,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the path in the constructor
+     * Tests setting the path in the constructor.
      */
     public function testSettingPathInConstructor()
     {
@@ -191,7 +193,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the path in the setter
+     * Tests setting the path in the setter.
      */
     public function testSettingPathInSetter()
     {
@@ -200,7 +202,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting a variable in a view
+     * Tests setting a variable in a view.
      */
     public function testSettingSingleVariable()
     {
@@ -213,7 +215,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that nothing is output from an invalid view
+     * Tests that nothing is output from an invalid view.
      */
     public function testThatNothingIsOutputFromInvalidView()
     {
@@ -221,7 +223,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
         $startOBLevel = ob_get_level();
 
         try {
-            $contents = $this->fileSystem->read(__DIR__ . self::VIEW_PATH_WITH_INVALID_PHP_CODE);
+            $contents = $this->fileSystem->read(__DIR__.self::VIEW_PATH_WITH_INVALID_PHP_CODE);
             $this->view->setContents($contents);
         } catch (RuntimeException $ex) {
             // Don't do anything

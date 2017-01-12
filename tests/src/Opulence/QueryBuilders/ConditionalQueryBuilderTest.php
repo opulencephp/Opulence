@@ -1,20 +1,22 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\QueryBuilders;
 
 /**
- * Tests the conditional query builder
+ * Tests the conditional query builder.
  */
 class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests adding a condition to an empty clause
+     * Tests adding a condition to an empty clause.
      */
     public function testAddingConditionToEmptyClause()
     {
@@ -25,7 +27,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a condition to a non-empty clause
+     * Tests adding a condition to a non-empty clause.
      */
     public function testAddingConditionToNonEmptyClause()
     {
@@ -34,12 +36,12 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
         $conditions = $queryBuilder->addConditionToClause($conditions, 'AND', "name = 'dave'");
         $this->assertEquals([
             ['operation' => 'OR', 'condition' => "email = 'foo@bar.com'"],
-            ['operation' => 'AND', 'condition' => "name = 'dave'"]
+            ['operation' => 'AND', 'condition' => "name = 'dave'"],
         ], $conditions);
     }
 
     /**
-     * Tests adding an "AND"ed "WHERE" statement
+     * Tests adding an "AND"ed "WHERE" statement.
      */
     public function testAndWhere()
     {
@@ -50,7 +52,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting the SQL for a conditional clause
+     * Tests getting the SQL for a conditional clause.
      */
     public function testGettingSql()
     {
@@ -63,7 +65,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding an "OR"ed "WHERE" statement
+     * Tests adding an "OR"ed "WHERE" statement.
      */
     public function testOrWhere()
     {
@@ -74,7 +76,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding "WHERE" statement
+     * Tests adding "WHERE" statement.
      */
     public function testWhere()
     {

@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Authentication\Credentials\Factories;
 
 use DateInterval;
@@ -20,7 +22,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\UnsignedJwt;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
 
 /**
- * Defines the JWT credential factory
+ * Defines the JWT credential factory.
  */
 abstract class JwtCredentialFactory
 {
@@ -36,11 +38,11 @@ abstract class JwtCredentialFactory
     protected $validToInterval = null;
 
     /**
-     * @param ISigner $signer The token signer
-     * @param string $issuer The issuer of the JWT
-     * @param array|string $audience The audience of the JWT
+     * @param ISigner      $signer            The token signer
+     * @param string       $issuer            The issuer of the JWT
+     * @param array|string $audience          The audience of the JWT
      * @param DateInterval $validFromInterval The interval from the moment of creation that the JWT is valid from
-     * @param DateInterval $validToInterval The interval from the moment of creation that the JWT is valid to
+     * @param DateInterval $validToInterval   The interval from the moment of creation that the JWT is valid to
      */
     public function __construct(
         ISigner $signer,
@@ -57,7 +59,7 @@ abstract class JwtCredentialFactory
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createCredentialForSubject(ISubject $subject) : ICredential
     {
@@ -67,17 +69,17 @@ abstract class JwtCredentialFactory
     }
 
     /**
-     * Gets the credential type
+     * Gets the credential type.
      *
      * @return string The credential type
      */
     abstract protected function getCredentialType() : string;
 
     /**
-     * Adds any custom claims to the payload
+     * Adds any custom claims to the payload.
      *
      * @param JwtPayload $payload The current payload
-     * @param ISubject $subject The subject whose credential we're creating
+     * @param ISubject   $subject The subject whose credential we're creating
      */
     protected function addCustomClaims(JwtPayload $payload, ISubject $subject)
     {
@@ -85,9 +87,10 @@ abstract class JwtCredentialFactory
     }
 
     /**
-     * Gets the signed JWT for a subject
+     * Gets the signed JWT for a subject.
      *
      * @param ISubject $subject The subject whose credential we're creating
+     *
      * @return SignedJwt The signed JWT
      */
     protected function getSignedJwt(ISubject $subject) : SignedJwt
@@ -96,8 +99,8 @@ abstract class JwtCredentialFactory
         $jwtPayload->setIssuer($this->issuer);
         $jwtPayload->setAudience($this->audience);
         $jwtPayload->setSubject($subject->getPrimaryPrincipal()->getId());
-        $jwtPayload->setValidFrom((new DateTimeImmutable)->add($this->validFromInterval));
-        $jwtPayload->setValidTo((new DateTimeImmutable)->add($this->validToInterval));
+        $jwtPayload->setValidFrom((new DateTimeImmutable())->add($this->validFromInterval));
+        $jwtPayload->setValidTo((new DateTimeImmutable())->add($this->validToInterval));
         $jwtPayload->setIssuedAt(new DateTimeImmutable());
         $this->addCustomClaims($jwtPayload, $subject);
         $unsignedJwt = new UnsignedJwt(new JwtHeader(), $jwtPayload);

@@ -1,62 +1,67 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers\Elements;
 
 use InvalidArgumentException;
 
 /**
- * Defines the style of an element
+ * Defines the style of an element.
  */
 class Style
 {
     /**
-     * The list of possible foreground colors
+     * The list of possible foreground colors.
      *
      * @link http://en.wikipedia.org/wiki/ANSI_escape_code
+     *
      * @var array
      */
     private static $supportedForegroundColors = [
-        Colors::BLACK => [30, 39],
-        Colors::RED => [31, 39],
-        Colors::GREEN => [32, 39],
-        Colors::YELLOW => [33, 39],
-        Colors::BLUE => [34, 39],
+        Colors::BLACK   => [30, 39],
+        Colors::RED     => [31, 39],
+        Colors::GREEN   => [32, 39],
+        Colors::YELLOW  => [33, 39],
+        Colors::BLUE    => [34, 39],
         Colors::MAGENTA => [35, 39],
-        Colors::CYAN => [36, 39],
-        Colors::WHITE => [37, 39]
+        Colors::CYAN    => [36, 39],
+        Colors::WHITE   => [37, 39],
     ];
     /**
-     * The list of possible background colors
+     * The list of possible background colors.
      *
      * @link http://en.wikipedia.org/wiki/ANSI_escape_code
+     *
      * @var array
      */
     private static $supportedBackgroundColors = [
-        Colors::BLACK => [40, 49],
-        Colors::RED => [41, 49],
-        Colors::GREEN => [42, 49],
-        Colors::YELLOW => [43, 49],
-        Colors::BLUE => [44, 49],
+        Colors::BLACK   => [40, 49],
+        Colors::RED     => [41, 49],
+        Colors::GREEN   => [42, 49],
+        Colors::YELLOW  => [43, 49],
+        Colors::BLUE    => [44, 49],
         Colors::MAGENTA => [45, 49],
-        Colors::CYAN => [46, 49],
-        Colors::WHITE => [47, 49]
+        Colors::CYAN    => [46, 49],
+        Colors::WHITE   => [47, 49],
     ];
     /**
-     * The list of possible text styles
+     * The list of possible text styles.
      *
      * @link http://en.wikipedia.org/wiki/ANSI_escape_code
+     *
      * @var array
      */
     private static $supportedTextStyles = [
-        TextStyles::BOLD => [1, 22],
+        TextStyles::BOLD      => [1, 22],
         TextStyles::UNDERLINE => [4, 24],
-        TextStyles::BLINK => [5, 25]
+        TextStyles::BLINK     => [5, 25],
     ];
     /** @var string|null The foreground color */
     private $foregroundColor = null;
@@ -68,7 +73,7 @@ class Style
     /**
      * @param string|null $foregroundColor The foreground color
      * @param string|null $backgroundColor The background color
-     * @param array $textStyles The list of text styles to apply
+     * @param array       $textStyles      The list of text styles to apply
      */
     public function __construct(string $foregroundColor = null, string $backgroundColor = null, array $textStyles = [])
     {
@@ -78,9 +83,10 @@ class Style
     }
 
     /**
-     * Adds the text to have a certain style
+     * Adds the text to have a certain style.
      *
      * @param string $style The name of the text style
+     *
      * @throws InvalidArgumentException Thrown if the text style does not exist
      */
     public function addTextStyle(string $style)
@@ -96,9 +102,10 @@ class Style
     }
 
     /**
-     * Adds multiple text styles
+     * Adds multiple text styles.
      *
      * @param array $styles The names of the text styles
+     *
      * @throws InvalidArgumentException Thrown if the text styles do not exist
      */
     public function addTextStyles(array $styles)
@@ -109,9 +116,10 @@ class Style
     }
 
     /**
-     * Formats text with the the currently-set styles
+     * Formats text with the the currently-set styles.
      *
      * @param string $text The text to format
+     *
      * @return string The formatted text
      */
     public function format(string $text) : string
@@ -176,9 +184,10 @@ class Style
     }
 
     /**
-     * Removes a text style
+     * Removes a text style.
      *
      * @param string $style The style to remove
+     *
      * @throws InvalidArgumentException Thrown if the text style is invalid
      */
     public function removeTextStyle(string $style)
@@ -194,6 +203,7 @@ class Style
 
     /**
      * @param string|null $backgroundColor
+     *
      * @throws InvalidArgumentException Thrown if the color was invalid
      */
     public function setBackgroundColor(string $backgroundColor = null)
@@ -207,6 +217,7 @@ class Style
 
     /**
      * @param string|null $foregroundColor
+     *
      * @throws InvalidArgumentException Thrown if the color was invalid
      */
     public function setForegroundColor(string $foregroundColor = null)

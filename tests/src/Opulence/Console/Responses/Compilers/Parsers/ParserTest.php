@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Compilers\Parsers;
 
 use Opulence\Console\Responses\Compilers\Lexers\Tokens\Token;
@@ -15,7 +17,7 @@ use Opulence\Console\Responses\Compilers\Parsers\Nodes\WordNode;
 use RuntimeException;
 
 /**
- * Tests the response parser
+ * Tests the response parser.
  */
 class ParserTest extends \PHPUnit\Framework\TestCase
 {
@@ -23,7 +25,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     private $parser = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -31,7 +33,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests incorrectly nested tags
+     * Tests incorrectly nested tags.
      */
     public function testIncorrectlyNestedTags()
     {
@@ -42,13 +44,13 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_WORD, 'blah', 1),
             new Token(TokenTypes::T_TAG_CLOSE, 'foo', 1),
             new Token(TokenTypes::T_TAG_CLOSE, 'bar', 1),
-            new Token(TokenTypes::T_EOF, null, 1)
+            new Token(TokenTypes::T_EOF, null, 1),
         ];
         $this->parser->parse($tokens);
     }
 
     /**
-     * Tests parsing adjacent elements
+     * Tests parsing adjacent elements.
      */
     public function testParsingAdjacentElements()
     {
@@ -59,7 +61,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_TAG_OPEN, 'bar', 1),
             new Token(TokenTypes::T_WORD, 'blah', 1),
             new Token(TokenTypes::T_TAG_CLOSE, 'bar', 1),
-            new Token(TokenTypes::T_EOF, null, 1)
+            new Token(TokenTypes::T_EOF, null, 1),
         ];
         $expectedOutput = new AbstractSyntaxTree();
         $fooNode = new TagNode('foo');
@@ -75,14 +77,14 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing an element with no children
+     * Tests parsing an element with no children.
      */
     public function testParsingElementWithNoChildren()
     {
         $tokens = [
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 1),
             new Token(TokenTypes::T_TAG_CLOSE, 'foo', 1),
-            new Token(TokenTypes::T_EOF, null, 1)
+            new Token(TokenTypes::T_EOF, null, 1),
         ];
         $expectedOutput = new AbstractSyntaxTree();
         $fooNode = new TagNode('foo');
@@ -94,13 +96,13 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing an escaped tag at the beginning of the string
+     * Tests parsing an escaped tag at the beginning of the string.
      */
     public function testParsingEscapedTagAtBeginning()
     {
         $tokens = [
             new Token(TokenTypes::T_WORD, '<bar>', 1),
-            new Token(TokenTypes::T_EOF, null, 1)
+            new Token(TokenTypes::T_EOF, null, 1),
         ];
         $expectedOutput = new AbstractSyntaxTree();
         $fooNode = new WordNode('<bar>');
@@ -109,7 +111,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing an escaped tag in between tags
+     * Tests parsing an escaped tag in between tags.
      */
     public function testParsingEscapedTagInBetweenTags()
     {
@@ -117,7 +119,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 1),
             new Token(TokenTypes::T_WORD, '<bar>', 1),
             new Token(TokenTypes::T_TAG_CLOSE, 'foo', 1),
-            new Token(TokenTypes::T_EOF, null, 1)
+            new Token(TokenTypes::T_EOF, null, 1),
         ];
         $expectedOutput = new AbstractSyntaxTree();
         $fooNode = new TagNode('foo');
@@ -127,7 +129,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing nested elements
+     * Tests parsing nested elements.
      */
     public function testParsingNestedElements()
     {
@@ -139,7 +141,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_TAG_CLOSE, 'bar', 1),
             new Token(TokenTypes::T_WORD, 'baz', 1),
             new Token(TokenTypes::T_TAG_CLOSE, 'foo', 1),
-            new Token(TokenTypes::T_EOF, null, 1)
+            new Token(TokenTypes::T_EOF, null, 1),
         ];
         $expectedOutput = new AbstractSyntaxTree();
         $fooNode = new TagNode('foo');
@@ -156,7 +158,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing nested elements surrounded by words
+     * Tests parsing nested elements surrounded by words.
      */
     public function testParsingNestedElementsSurroundedByWords()
     {
@@ -170,7 +172,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_WORD, 'baz', 1),
             new Token(TokenTypes::T_TAG_CLOSE, 'foo', 1),
             new Token(TokenTypes::T_WORD, 'young', 1),
-            new Token(TokenTypes::T_EOF, null, 1)
+            new Token(TokenTypes::T_EOF, null, 1),
         ];
         $expectedOutput = new AbstractSyntaxTree();
         $expectedOutput->getCurrentNode()->addChild(new WordNode('dave'));
@@ -189,7 +191,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing nested elements with no children
+     * Tests parsing nested elements with no children.
      */
     public function testParsingNestedElementsWithNoChildren()
     {
@@ -198,7 +200,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_TAG_OPEN, 'bar', 1),
             new Token(TokenTypes::T_TAG_CLOSE, 'bar', 1),
             new Token(TokenTypes::T_TAG_CLOSE, 'foo', 1),
-            new Token(TokenTypes::T_EOF, null, 1)
+            new Token(TokenTypes::T_EOF, null, 1),
         ];
         $expectedOutput = new AbstractSyntaxTree();
         $fooNode = new TagNode('foo');
@@ -211,13 +213,13 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing plain text
+     * Tests parsing plain text.
      */
     public function testParsingPlainText()
     {
         $tokens = [
             new Token(TokenTypes::T_WORD, 'foobar', 1),
-            new Token(TokenTypes::T_EOF, null, 1)
+            new Token(TokenTypes::T_EOF, null, 1),
         ];
         $expectedOutput = new AbstractSyntaxTree();
         $node = new WordNode('foobar');
@@ -229,7 +231,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing a single element
+     * Tests parsing a single element.
      */
     public function testParsingSingleElement()
     {
@@ -237,7 +239,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 1),
             new Token(TokenTypes::T_WORD, 'bar', 1),
             new Token(TokenTypes::T_TAG_CLOSE, 'foo', 1),
-            new Token(TokenTypes::T_EOF, null, 1)
+            new Token(TokenTypes::T_EOF, null, 1),
         ];
         $expectedOutput = new AbstractSyntaxTree();
         $fooNode = new TagNode('foo');
@@ -247,7 +249,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests parsing with an unclosed tag
+     * Tests parsing with an unclosed tag.
      */
     public function testParsingWithUnclosedTag()
     {
@@ -255,13 +257,13 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $tokens = [
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 1),
             new Token(TokenTypes::T_WORD, 'bar', 1),
-            new Token(TokenTypes::T_EOF, null, 1)
+            new Token(TokenTypes::T_EOF, null, 1),
         ];
         $this->parser->parse($tokens);
     }
 
     /**
-     * Tests parsing with an unopened tag
+     * Tests parsing with an unopened tag.
      */
     public function testParsingWithUnopenedTag()
     {
@@ -269,7 +271,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $tokens = [
             new Token(TokenTypes::T_WORD, 'foo', 0),
             new Token(TokenTypes::T_TAG_CLOSE, 'bar', 3),
-            new Token(TokenTypes::T_EOF, null, 9)
+            new Token(TokenTypes::T_EOF, null, 9),
         ];
         $this->parser->parse($tokens);
     }

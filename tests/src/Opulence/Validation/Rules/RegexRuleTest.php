@@ -1,23 +1,25 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
 use LogicException;
 
 /**
- * Tests the regex rule
+ * Tests the regex rule.
  */
 class RegexRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests getting the slug
+     * Tests getting the slug.
      */
     public function testGettingSlug()
     {
@@ -26,27 +28,27 @@ class RegexRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that matching values pass
+     * Tests that matching values pass.
      */
     public function testMatchingValuesPass()
     {
         $rule = new RegexRule();
-        $rule->setArgs(["/^[a-z]{3}$/"]);
+        $rule->setArgs(['/^[a-z]{3}$/']);
         $this->assertTrue($rule->passes('foo'));
     }
 
     /**
-     * Tests that non-matching values fail
+     * Tests that non-matching values fail.
      */
     public function testNonMatchingValuesFail()
     {
         $rule = new RegexRule();
-        $rule->setArgs(["/^[a-z]{3}$/"]);
+        $rule->setArgs(['/^[a-z]{3}$/']);
         $this->assertFalse($rule->passes('a'));
     }
 
     /**
-     * Tests not setting the args before passes
+     * Tests not setting the args before passes.
      */
     public function testNotSettingArgBeforePasses()
     {
@@ -56,7 +58,7 @@ class RegexRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing an empty arg array
+     * Tests passing an empty arg array.
      */
     public function testPassingEmptyArgArray()
     {
@@ -66,7 +68,7 @@ class RegexRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests passing invalid args
+     * Tests passing invalid args.
      */
     public function testPassingInvalidArgs()
     {

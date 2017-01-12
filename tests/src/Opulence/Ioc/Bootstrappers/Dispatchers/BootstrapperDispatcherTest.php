@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc\Bootstrappers\Dispatchers;
 
 use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
@@ -26,7 +28,7 @@ use Opulence\Tests\Ioc\Bootstrappers\Mocks\LazyConcreteFoo;
 use Opulence\Tests\Ioc\Bootstrappers\Mocks\LazyFooInterface;
 
 /**
- * Tests the bootstrapper dispatcher
+ * Tests the bootstrapper dispatcher.
  */
 class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
 {
@@ -40,7 +42,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     private $bootstrapperResolver = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -62,7 +64,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests dispatching all bootstrappers eagerly
+     * Tests dispatching all bootstrappers eagerly.
      */
     public function testDispatchingAllBootstrappersEagerly()
     {
@@ -74,7 +76,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests dispatching an eager bootstrapper that depends on a dependency set in a lazy bootstrapper
+     * Tests dispatching an eager bootstrapper that depends on a dependency set in a lazy bootstrapper.
      */
     public function testDispatchingEagerDispatcherThatDependsOnDependencyFromLazyBootstrapper()
     {
@@ -86,7 +88,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests dispatching a lazy bootstrapper (registered first) that depends on a dependency set in a lazy bootstrapper
+     * Tests dispatching a lazy bootstrapper (registered first) that depends on a dependency set in a lazy bootstrapper.
      */
     public function testDispatchingLazyDispatcherThatDependsOnDependencyFromLazyBootstrapperAndRegisteringItFirst()
     {
@@ -102,7 +104,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests dispatching a lazy bootstrapper (registered second) that depends on a dependency set in a lazy bootstrapper
+     * Tests dispatching a lazy bootstrapper (registered second) that depends on a dependency set in a lazy bootstrapper.
      */
     public function testDispatchingLazyDispatcherThatDependsOnDependencyFromLazyBootstrapperAndRegisteringItSecond()
     {
@@ -118,7 +120,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that eager bootstrappers' methods are called in correct order
+     * Tests that eager bootstrappers' methods are called in correct order.
      */
     public function testEagerBootstrapperMethodsCalledInCorrectOrder()
     {
@@ -129,7 +131,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that eager bootstrappers are shutdown
+     * Tests that eager bootstrappers are shutdown.
      */
     public function testEagerBootstrappersAreShutdown()
     {
@@ -141,7 +143,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that lazy bootstrappers' methods are called in correct order
+     * Tests that lazy bootstrappers' methods are called in correct order.
      */
     public function testLazyBootstrapperMethodsCalledInCorrectOrder()
     {
@@ -154,7 +156,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that lazy bootstrappers are shutdown
+     * Tests that lazy bootstrappers are shutdown.
      */
     public function testLazyBootstrappersAreShutdown()
     {
@@ -169,7 +171,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that a lazy bootstrapper's bindings are available to the container
+     * Tests that a lazy bootstrapper's bindings are available to the container.
      */
     public function testLazyBootstrappersBindingsAreAvailableToContainer()
     {
@@ -179,7 +181,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that lazy targeted bindings are available in the container
+     * Tests that lazy targeted bindings are available in the container.
      */
     public function testLazyTargetedBindingsAreAvailableInContainer()
     {
@@ -221,7 +223,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not dispatching all bootstrappers eagerly
+     * Tests not dispatching all bootstrappers eagerly.
      */
     public function testNotDispatchingAllBootstrappersEagerly()
     {

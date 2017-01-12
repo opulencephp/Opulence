@@ -1,11 +1,13 @@
 <?php
 /**
- * Opulence
+ * Opulence.
  *
  * @link      https://www.opulencephp.com
+ *
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc\Bootstrappers;
 
 use InvalidArgumentException;
@@ -13,7 +15,7 @@ use Opulence\Tests\Ioc\Bootstrappers\Mocks\Bootstrapper;
 use Opulence\Tests\Ioc\Bootstrappers\Mocks\BootstrapperWithEverything;
 
 /**
- * Tests the bootstrapper resolver
+ * Tests the bootstrapper resolver.
  */
 class BootstrapperResolverTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +23,7 @@ class BootstrapperResolverTest extends \PHPUnit\Framework\TestCase
     private $resolver = null;
 
     /**
-     * Sets up the tests
+     * Sets up the tests.
      */
     public function setUp()
     {
@@ -29,7 +31,7 @@ class BootstrapperResolverTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests resolving a bootstrapper
+     * Tests resolving a bootstrapper.
      */
     public function testResolvingBootstrapper()
     {
@@ -38,7 +40,7 @@ class BootstrapperResolverTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests resolving a bootstrapper twice returns the same instance
+     * Tests resolving a bootstrapper twice returns the same instance.
      */
     public function testResolvingBootstrapperTwiceReturnsSameInstance()
     {
@@ -46,7 +48,7 @@ class BootstrapperResolverTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests resolving an invalid bootstrapper
+     * Tests resolving an invalid bootstrapper.
      */
     public function testResolvingInvalidBootstrapper()
     {
@@ -55,7 +57,7 @@ class BootstrapperResolverTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests resolving many bootstrappers
+     * Tests resolving many bootstrappers.
      */
     public function testResolvingManyBootstrappers()
     {
@@ -65,7 +67,7 @@ class BootstrapperResolverTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests resolving many bootstrappers twice returns the same instances
+     * Tests resolving many bootstrappers twice returns the same instances.
      */
     public function testResolvingManyBootstrappersTwiceReturnsSameInstances()
     {
