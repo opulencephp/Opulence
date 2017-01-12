@@ -25,10 +25,14 @@ class Container implements IContainer
 {
     /** The value for an empty target */
     private static $emptyTarget = null;
+    /** @var null|string The current target */
+    protected $currentTarget = null;
     /** @var array The stack of targets */
     protected $targetStack = [];
     /** @var IBinding[][] The list of bindings */
     protected $bindings = [];
+    /** @var array The cache of reflection constructors and their parameters */
+    protected $constructorReflectionCache = [];
 
     /**
      * Prepares the container for serialization
@@ -146,9 +150,13 @@ class Container implements IContainer
      */
     public function for(string $targetClass, callable $callback)
     {
+        $this->currentTarget = $targetClass;
         $this->targetStack[] = $targetClass;
+
         $result = $callback($this);
+
         array_pop($this->targetStack);
+        $this->currentTarget = end($this->targetStack) ?: self::$emptyTarget;
 
         return $result;
     }
@@ -158,9 +166,9 @@ class Container implements IContainer
      */
     public function hasBinding(string $interface) : bool
     {
-        $target = $this->getCurrentTarget();
-
-        if ($target !== self::$emptyTarget && $this->hasTargetedBinding($interface, $target)) {
+        if ($this->currentTarget !== self::$emptyTarget
+            && $this->hasTargetedBinding($interface, $this->currentTarget)
+        ) {
             return true;
         }
 
@@ -172,12 +180,12 @@ class Container implements IContainer
      */
     public function resolve(string $interface)
     {
-        if (!$this->hasBinding($interface)) {
+        $binding = $this->getBinding($interface);
+
+        if ($binding === null) {
             // Try just resolving this directly
             return $this->resolveClass($interface);
         }
-
-        $binding = $this->getBinding($interface);
 
         switch (get_class($binding)) {
             case InstanceBinding::class:
@@ -212,10 +220,8 @@ class Container implements IContainer
      */
     public function unbind($interfaces)
     {
-        $target = $this->getCurrentTarget();
-
         foreach ((array)$interfaces as $interface) {
-            unset($this->bindings[$target][$interface]);
+            unset($this->bindings[$this->currentTarget][$interface]);
         }
     }
 
@@ -227,13 +233,11 @@ class Container implements IContainer
      */
     protected function addBinding(string $interface, IBinding $binding)
     {
-        $target = $this->getCurrentTarget();
-
-        if (!isset($this->bindings[$target])) {
-            $this->bindings[$target] = [];
+        if (!isset($this->bindings[$this->currentTarget])) {
+            $this->bindings[$this->currentTarget] = [];
         }
 
-        $this->bindings[$target][$interface] = $binding;
+        $this->bindings[$this->currentTarget][$interface] = $binding;
     }
 
     /**
@@ -244,11 +248,9 @@ class Container implements IContainer
      */
     protected function getBinding(string $interface)
     {
-        $target = $this->getCurrentTarget();
-
         // If there's a targeted binding, use it
-        if ($target !== self::$emptyTarget && isset($this->bindings[$target][$interface])) {
-            return $this->bindings[$target][$interface];
+        if ($this->currentTarget !== self::$emptyTarget && isset($this->bindings[$this->currentTarget][$interface])) {
+            return $this->bindings[$this->currentTarget][$interface];
         }
 
         // If there's a universal binding, use it
@@ -257,16 +259,6 @@ class Container implements IContainer
         }
 
         return null;
-    }
-
-    /**
-     * Gets the current target, if there is one
-     *
-     * @return string|null The current target if there is one, otherwise null
-     */
-    protected function getCurrentTarget()
-    {
-        return end($this->targetStack) ?: self::$emptyTarget;
     }
 
     /**
@@ -292,30 +284,31 @@ class Container implements IContainer
     protected function resolveClass(string $class, array $primitives = [])
     {
         try {
-            $reflectionClass = new ReflectionClass($class);
+            if (isset($this->constructorReflectionCache[$class])) {
+                list($constructor, $parameters) = $this->constructorReflectionCache[$class];
+            } else {
+                $reflectionClass = new ReflectionClass($class);
+                if (!$reflectionClass->isInstantiable()) {
+                    throw new IocException(
+                        sprintf(
+                            '%s is not instantiable%s',
+                            $class,
+                            $this->currentTarget === null ? '' : " (dependency of {$this->currentTarget})"
+                        )
+                    );
+                }
 
-            if (!$reflectionClass->isInstantiable()) {
-                throw new IocException(
-                    sprintf(
-                        '%s is not instantiable%s',
-                        $class,
-                        $this->getCurrentTarget() === null ? '' : " (dependency of {$this->getCurrentTarget()})"
-                    )
-                );
+                $constructor = $reflectionClass->getConstructor();
+                $parameters = $constructor !== null ? $constructor->getParameters() : null;
+                $this->constructorReflectionCache[$class] = [$constructor, $parameters];
             }
-
-            $constructor = $reflectionClass->getConstructor();
 
             if ($constructor === null) {
                 // No constructor, so instantiating is easy
                 return new $class;
             }
 
-            $constructorParameters = $this->resolveParameters(
-                $class,
-                $constructor->getParameters(),
-                $primitives
-            );
+            $constructorParameters = $this->resolveParameters($class, $parameters, $primitives);
 
             return new $class(...$constructorParameters);
         } catch (ReflectionException $ex) {
@@ -372,7 +365,7 @@ class Container implements IContainer
     /**
      * Resolves a primitive parameter
      *
-     * @param ReflectionParameter $parameter  The primitive parameter to resolve
+     * @param ReflectionParameter $parameter The primitive parameter to resolve
      * @param array $primitives The list of primitive values
      * @return mixed The resolved primitive
      * @throws IocException Thrown if there was a problem resolving the primitive
