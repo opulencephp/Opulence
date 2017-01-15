@@ -1,6 +1,6 @@
 <?php
 return PhpCsFixer\Config::create()
-    ->setRules(array(
+    ->setRules([
         '@PSR2' => true,
         'array_syntax' => ['syntax' => 'short'],
         'no_empty_comment' => true,
@@ -12,9 +12,8 @@ return PhpCsFixer\Config::create()
         'ordered_imports' => true,
         'single_quote' => true,
         'standardize_not_equals' => true,
-    ))
+    ])
     ->setRiskyAllowed(true)
     ->setFinder(
         PhpCsFixer\Finder::create()->in(__DIR__)
-    )
-;
+    );

@@ -28,6 +28,7 @@ function mergePullRequest()
     cd ../$repository
     git co $opulencebranch
     git merge --squash $username-$userbranch
+    git commit
     git push origin $opulencebranch
     git branch -d $username-$userbranch
     echo "Remember to merge to other appropriate branches"
