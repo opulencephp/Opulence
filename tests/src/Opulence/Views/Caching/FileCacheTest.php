@@ -190,9 +190,12 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
 
         // Test garbage collector
         $this->cache->gc();
+        $i = 0;
         foreach ($this->fileSystem->getFiles(__DIR__ . '/tmp') as $file) {
             $this->assertContains('.gitignore', $file);
+            $i++;
         }
+        $this->assertEquals(1, $i);
 
         // Test flush
         $this->cache->flush();
