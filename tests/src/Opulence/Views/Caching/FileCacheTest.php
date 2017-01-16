@@ -46,6 +46,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
             is_dir($file) ? rmdir($file) : unlink($file);
         }
 
+        @unlink(__DIR__ . '/tmp/.gitignore');
         rmdir(__DIR__ . '/tmp');
     }
 
@@ -177,6 +178,30 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->cache = new FileCache(__DIR__ . '/tmp', -1);
         $this->cache->gc();
         $this->assertEquals([], $this->fileSystem->getFiles(__DIR__ . '/tmp'));
+    }
+
+    /**
+     * Tests that we don't delete .gitignore files
+     */
+    public function testKeepGitignore()
+    {
+        $this->fileSystem->write(__DIR__ . '/tmp/.gitignore', "*\n!.gitignore");
+        $this->cache = new FileCache(__DIR__ . '/tmp', -1);
+
+        // Test garbage collector
+        $this->cache->gc();
+        foreach ($this->fileSystem->getFiles(__DIR__ . '/tmp') as $file) {
+            $this->assertContains('.gitignore', $file);
+        }
+
+        // Test flush
+        $this->cache->flush();
+        $i = 0;
+        foreach ($this->fileSystem->getFiles(__DIR__ . '/tmp') as $file) {
+            $this->assertContains('.gitignore', $file);
+            $i++;
+        }
+        $this->assertEquals(1, $i);
     }
 
     /**
