@@ -65,7 +65,7 @@ class FileCache implements ICache
     public function flush()
     {
         foreach ($this->getCompiledViewPaths($this->path) as $viewPath) {
-            if (strpos($viewPath, '.gitignore') === false) {
+            if (basename($viewPath) !== '.gitignore') {
                 @unlink($viewPath);
             }
         }
@@ -77,7 +77,7 @@ class FileCache implements ICache
     public function gc()
     {
         foreach ($this->getCompiledViewPaths($this->path) as $viewPath) {
-            if ($this->isExpired($viewPath) && strpos($viewPath, '.gitignore') === false) {
+            if ($this->isExpired($viewPath) && basename($viewPath) !== '.gitignore') {
                 @unlink($viewPath);
             }
         }

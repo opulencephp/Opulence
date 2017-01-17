@@ -185,13 +185,16 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testGitignoreIsKeptDuringFlush()
     {
-        $this->fileSystem->write(__DIR__ . '/tmp/.gitignore', 'foo');
-        $this->fileSystem->write(__DIR__ . '/tmp/bar', 'baz');
+        $this->fileSystem->write(__DIR__ . '/tmp/.gitignore', '');
+        $this->fileSystem->write(__DIR__ . '/tmp/.gitignore_tmp', '');
+        $this->fileSystem->write(__DIR__ . '/tmp/.gitkeep', '');
+
         $cache = new FileCache(__DIR__ . '/tmp', -1);
         $cache->flush();
-        $files = $this->fileSystem->getFiles(__DIR__ . '/tmp');
-        $this->assertCount(1, $files);
-        $this->assertEquals('.gitignore', basename($files[0]));
+
+        $this->assertFileExists(__DIR__ . '/tmp/.gitignore');
+        $this->assertFileNotExists(__DIR__ . '/tmp/.gitignore_tmp');
+        $this->assertFileNotExists(__DIR__ . '/tmp/.gitkeep');
     }
 
     /**
@@ -199,13 +202,17 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testGitignoreIsKeptDuringGC()
     {
-        $this->fileSystem->write(__DIR__ . '/tmp/.gitignore', 'foo');
-        $this->fileSystem->write(__DIR__ . '/tmp/bar', 'baz');
+        $this->fileSystem->write(__DIR__ . '/tmp/.gitignore', '');
+        $this->fileSystem->write(__DIR__ . '/tmp/.gitignore_tmp', '');
+        $this->fileSystem->write(__DIR__ . '/tmp/.gitkeep', '');
+
         $cache = new FileCache(__DIR__ . '/tmp', -1);
         $cache->gc();
-        $files = $this->fileSystem->getFiles(__DIR__ . '/tmp');
-        $this->assertCount(1, $files);
-        $this->assertEquals('.gitignore', basename($files[0]));
+
+        $this->assertFileExists(__DIR__ . '/tmp/.gitignore');
+        $this->assertFileNotExists(__DIR__ . '/tmp/.gitignore_tmp');
+        $this->assertFileNotExists(__DIR__ . '/tmp/.gitkeep');
+
     }
 
     /**
