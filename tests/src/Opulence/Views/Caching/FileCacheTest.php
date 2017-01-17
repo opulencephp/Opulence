@@ -181,30 +181,31 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that we don't delete .gitignore files
+     * Tests that .gitignore files are kept during flushing
      */
-    public function testKeepGitignore()
+    public function testGitignoreIsKeptDuringFlush()
     {
-        $this->fileSystem->write(__DIR__ . '/tmp/.gitignore', "*\n!.gitignore");
-        $this->cache = new FileCache(__DIR__ . '/tmp', -1);
+        $this->fileSystem->write(__DIR__ . '/tmp/.gitignore', 'foo');
+        $this->fileSystem->write(__DIR__ . '/tmp/bar', 'baz');
+        $cache = new FileCache(__DIR__ . '/tmp', -1);
+        $cache->flush();
+        $files = $this->fileSystem->getFiles(__DIR__ . '/tmp');
+        $this->assertCount(1, $files);
+        $this->assertEquals('.gitignore', basename($files[0]));
+    }
 
-        // Test garbage collector
-        $this->cache->gc();
-        $i = 0;
-        foreach ($this->fileSystem->getFiles(__DIR__ . '/tmp') as $file) {
-            $this->assertContains('.gitignore', $file);
-            $i++;
-        }
-        $this->assertEquals(1, $i);
-
-        // Test flush
-        $this->cache->flush();
-        $i = 0;
-        foreach ($this->fileSystem->getFiles(__DIR__ . '/tmp') as $file) {
-            $this->assertContains('.gitignore', $file);
-            $i++;
-        }
-        $this->assertEquals(1, $i);
+    /**
+     * Tests that .gitignore files are kept during garbage collection
+     */
+    public function testGitignoreIsKeptDuringGC()
+    {
+        $this->fileSystem->write(__DIR__ . '/tmp/.gitignore', 'foo');
+        $this->fileSystem->write(__DIR__ . '/tmp/bar', 'baz');
+        $cache = new FileCache(__DIR__ . '/tmp', -1);
+        $cache->gc();
+        $files = $this->fileSystem->getFiles(__DIR__ . '/tmp');
+        $this->assertCount(1, $files);
+        $this->assertEquals('.gitignore', basename($files[0]));
     }
 
     /**
