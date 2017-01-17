@@ -46,6 +46,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
             is_dir($file) ? rmdir($file) : unlink($file);
         }
 
+        @unlink(__DIR__ . '/tmp/.gitignore');
         rmdir(__DIR__ . '/tmp');
     }
 
@@ -178,7 +179,35 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->cache->gc();
         $this->assertEquals([], $this->fileSystem->getFiles(__DIR__ . '/tmp'));
     }
-
+    
+    /**
+     * Tests that .gitignore files are kept during flushing
+     */
+    public function testGitignoreIsKeptDuringFlush()
+    {
+        $this->fileSystem->write(__DIR__ . '/tmp/.gitignore', 'foo');
+        $this->fileSystem->write(__DIR__ . '/tmp/bar', 'baz');
+        $cache = new FileCache(__DIR__ . '/tmp', -1);
+        $cache->flush();
+        $files = $this->fileSystem->getFiles(__DIR__ . '/tmp');
+        $this->assertCount(1, $files);
+        $this->assertEquals('.gitignore', basename($files[0]));
+    }
+    
+    /**
+     * Tests that .gitignore files are kept during garbage collection
+     */
+    public function testGitignoreIsKeptDuringGC()
+    {
+        $this->fileSystem->write(__DIR__ . '/tmp/.gitignore', 'foo');
+        $this->fileSystem->write(__DIR__ . '/tmp/bar', 'baz');
+        $cache = new FileCache(__DIR__ . '/tmp', -1);
+        $cache->gc();
+        $files = $this->fileSystem->getFiles(__DIR__ . '/tmp');
+        $this->assertCount(1, $files);
+        $this->assertEquals('.gitignore', basename($files[0]));
+    }
+    
     /**
      * Tests not creating a directory before attempting to cache views in it
      */
