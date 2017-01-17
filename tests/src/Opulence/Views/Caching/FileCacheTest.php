@@ -179,7 +179,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->cache->gc();
         $this->assertEquals([], $this->fileSystem->getFiles(__DIR__ . '/tmp'));
     }
-    
+
     /**
      * Tests that .gitignore files are kept during flushing
      */
@@ -193,7 +193,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(1, $files);
         $this->assertEquals('.gitignore', basename($files[0]));
     }
-    
+
     /**
      * Tests that .gitignore files are kept during garbage collection
      */
@@ -207,7 +207,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(1, $files);
         $this->assertEquals('.gitignore', basename($files[0]));
     }
-    
+
     /**
      * Tests not creating a directory before attempting to cache views in it
      */
