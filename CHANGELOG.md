@@ -1,4 +1,4 @@
-<h2>v1.0.5 (2017-01-?)</h2>
+<h2>v1.0.5 (2017-01-16)</h2>
 
 <h3>Console</h3>
 * Fixed #52 (improperly iterating over string when it contains multibyte chars)
@@ -13,6 +13,9 @@
 
 <h3>ORM</h3>
 * Fixed #45 (reuse results of reflection across Id getter and setter)
+
+<h3>Views</h3>
+* Fixed bug that caused `.gitignore` files to be deleted by view cache's `flush()` methods
 
 <h2>v1.0.4 (2017-01-06)</h2>
 
