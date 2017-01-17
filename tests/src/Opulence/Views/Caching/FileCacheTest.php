@@ -212,7 +212,6 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertFileExists(__DIR__ . '/tmp/.gitignore');
         $this->assertFileNotExists(__DIR__ . '/tmp/.gitignore_tmp');
         $this->assertFileNotExists(__DIR__ . '/tmp/.gitkeep');
-
     }
 
     /**
