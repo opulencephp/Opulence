@@ -18,7 +18,7 @@ composer create-project opulence/project --prefer-dist
 For complete documentation, <a href="https://www.opulencephp.com" target="_blank">visit the official website</a>.
 
 ## Requirements
-* PHP 7.0
+* PHP 7.1
 * OpenSSL
 * mbstring
 
