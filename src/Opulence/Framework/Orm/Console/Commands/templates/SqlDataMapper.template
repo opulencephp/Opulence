@@ -9,10 +9,10 @@ class {{class}} extends SqlDataMapper
     /**
      * Adds an entity to the database
      *
-     * @param object $entity The entity to add
+     * @param {{entityType}} ${{entityVarName}} The entity to add
      * @throws OrmException Thrown if the entity couldn't be added
      */
-    public function add($entity)
+    public function add(${{entityVarName}})
     {
 
     }
@@ -20,10 +20,10 @@ class {{class}} extends SqlDataMapper
     /**
      * Deletes an entity
      *
-     * @param object $entity The entity to delete
+     * @param {{entityType}} ${{entityVarName}} The entity to delete
      * @throws OrmException Thrown if the entity couldn't be deleted
      */
-    public function delete($entity)
+    public function delete(${{entityVarName}})
     {
 
     }
@@ -31,7 +31,7 @@ class {{class}} extends SqlDataMapper
     /**
      * Gets all the entities
      *
-     * @return object[] The list of all the entities
+     * @return {{entityType}}[] The list of all the entities
      */
     public function getAll() : array
     {
@@ -42,7 +42,7 @@ class {{class}} extends SqlDataMapper
      * Gets the entity with the input Id
      *
      * @param int|string $id The Id of the entity we're searching for
-     * @return object The entity with the input Id
+     * @return {{entityType}} The entity with the input Id
      * @throws OrmException Thrown if there was no entity with the input Id
      */
     public function getById($id)
@@ -53,10 +53,10 @@ class {{class}} extends SqlDataMapper
     /**
      * Saves any changes made to an entity
      *
-     * @param object $entity The entity to save
+     * @param {{entityType}} ${{entityVarName}} The entity to save
      * @throws OrmException Thrown if the entity couldn't be saved
      */
-    public function update($entity)
+    public function update(${{entityVarName}})
     {
 
     }
@@ -65,7 +65,7 @@ class {{class}} extends SqlDataMapper
      * Loads an entity from a hash of data
      *
      * @param array $hash The hash of data to load the entity from
-     * @return object The entity
+     * @return {{entityType}} The entity
      */
     protected function loadEntity(array $hash)
     {
