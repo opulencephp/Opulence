@@ -19,7 +19,7 @@ use Opulence\Ioc\IContainer;
  */
 abstract class Bootstrapper
 {
-    final public function __construct()
+    public function __construct()
     {
         // Don't do anything
     }

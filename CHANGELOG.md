@@ -1,5 +1,8 @@
 <h2>v1.0.6 (2017-01-?)</h2>
 
+<h3>Ioc</h3>
+* `Opulence\Bootstrappers\Bootstrapper::__construct()` no longer final
+
 <h2>v1.0.5 (2017-01-16)</h2>
 
 <h3>Console</h3>
