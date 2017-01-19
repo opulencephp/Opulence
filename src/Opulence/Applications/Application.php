@@ -20,7 +20,7 @@ use Opulence\Applications\Tasks\TaskTypes;
 class Application
 {
     /** @var string The current Opulence version */
-    private static $opulenceVersion = '1.0.5';
+    private static $opulenceVersion = '1.1.0';
     /** @var ITaskDispatcher The task dispatcher */
     private $taskDispatcher = null;
     /** @var string The version of the application */
@@ -31,6 +31,7 @@ class Application
     /**
      * @param ITaskDispatcher $taskDispatcher The task dispatcher
      * @param string $version The version of the application
+     * @deprecated 1.1.0 The $version parameter will soon not be accepted
      */
     public function __construct(ITaskDispatcher $taskDispatcher, string $version = null)
     {
@@ -40,6 +41,7 @@ class Application
 
     /**
      * @return string
+     * @deprecated 1.1.0 This method will be removed
      */
     public function getVersion() : string
     {

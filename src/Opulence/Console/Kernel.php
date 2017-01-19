@@ -48,6 +48,7 @@ class Kernel
      * @param ICommandCompiler $commandCompiler The command compiler to use
      * @param CommandCollection $commandCollection The list of commands to choose from
      * @param string $applicationVersion The version number of the application
+     * @deprecated 1.1.0 The $applicationVersion parameter will soon not be accepted
      */
     public function __construct(
         IParser $requestParser,
