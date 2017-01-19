@@ -15,7 +15,6 @@ use Opulence\Ioc\IContainer;
 
 /**
  * Defines the base bootstrapper
- * Note:  This class also accepts a run() method with a variable number of parameters
  */
 abstract class Bootstrapper
 {
@@ -30,6 +29,7 @@ abstract class Bootstrapper
      * @param string $name The name of the method to call
      * @param array $arguments The list of arguments to pass in
      * @throws BadMethodCallException Thrown if a method other than "run" is called
+     * @deprecated 1.1.0 run() and shutdown() will soon not be supported
      */
     public function __call(string $name, array $arguments)
     {

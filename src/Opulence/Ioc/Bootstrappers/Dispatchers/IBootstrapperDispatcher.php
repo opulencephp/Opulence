@@ -17,6 +17,8 @@ interface IBootstrapperDispatcher
 {
     /**
      * Shuts down the bootstrappers
+     *
+     * @deprecated 1.1.0 Bootstrappers will no longer be shut down
      */
     public function shutDownBootstrappers();
 

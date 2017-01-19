@@ -34,6 +34,7 @@ EOF;
      * @param CommandCollection $commands The list of commands
      * @param PaddingFormatter $paddingFormatter The space padding formatter to use
      * @param string $applicationVersion The version number of the application
+     * @deprecated 1.1.0 The $applicationVersion parameter will soon not be accepted
      */
     public function __construct(
         CommandCollection $commands,
