@@ -1,5 +1,15 @@
 <h2>v1.1.0 (2017-?-?)</h2>
 
+<h3>General</h3>
+* Bumped minimum PHP version to PHP 7.1
+
+<h3>Deprecations</h3>
+* Version parameter in `Opulence\Applications\Application::construct()`
+* Version parameter in `Opulence\Console\Kernel::construct()`
+* Version parameter in `Opulence\Console\Commands\AboutCommand::construct()`
+* `Opulence\Ioc\Bootstrappers\Bootstrapper::run()` and `shutDown()`
+* `Opulence\Orm\IUnitOfWork::setConnection()`
+
 <h2>v1.0.6 (2017-01-?)</h2>
 
 <h2>v1.0.5 (2017-01-16)</h2>
