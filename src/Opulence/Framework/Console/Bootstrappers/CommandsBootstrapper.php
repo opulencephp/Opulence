@@ -81,7 +81,7 @@ class CommandsBootstrapper extends Bootstrapper
                     $container->resolve(ViewCache::class)
                 );
             } catch (IocException $ex) {
-                throw new RuntimeException("Failed to bind factory for " . FlushFrameworkCacheCommand::class, $ex);
+                throw new RuntimeException('Failed to bind factory for ' . FlushFrameworkCacheCommand::class, $ex);
             }
         });
     }
