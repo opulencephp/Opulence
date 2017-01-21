@@ -83,7 +83,7 @@ interface IContainer
      * @param string $targetClass The target class
      * @param callable $callback The callback containing targeted container method calls
      */
-    public function for (string $targetClass, callable $callback);
+    public function for(string $targetClass, callable $callback);
 
     /**
      * Gets whether or not an interface has a binding

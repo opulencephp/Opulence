@@ -118,7 +118,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function for (string $targetClass, callable $callback)
+    public function for(string $targetClass, callable $callback)
     {
         $this->currentTarget = $targetClass;
         $this->targetStack[] = $targetClass;
