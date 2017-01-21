@@ -46,9 +46,6 @@ function split()
         lowerrepo=$(echo "$repo" | awk '{print tolower($0)}')
         git subsplit publish src/Opulence/$repo:git@github.com:opulencephp/$lowerrepo.git --heads="${BRANCHES_TO_SPLIT[@]}" --no-tags
     done
-
-    # Do some cleanup
-    rm -rf .subsplit/
 }
 
 function tag()
@@ -71,9 +68,6 @@ function tag()
         lowerrepo=$(echo "$repo" | awk '{print tolower($0)}')
         git subsplit publish src/Opulence/$repo:git@github.com:opulencephp/$lowerrepo.git --heads="${BRANCHES_TO_SPLIT[@]}" --tags="$tagname"
     done
-
-    # Do some cleanup
-    rm -rf .subsplit/
 }
 
 while true; do
