@@ -48,7 +48,7 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
         $eventRegistry = new EventRegistry();
 
         foreach ($this->getEventListenerConfig() as $eventName => $listeners) {
-            foreach ($listeners as $listener) {
+            foreach ((array)$listeners as $listener) {
                 $eventRegistry->registerListener($eventName, $this->getEventListenerCallback($listener, $container));
             }
         }
@@ -62,6 +62,7 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
      * @param callable|string $listenerConfig The callable or "className@method" string
      * @param IContainer $container The IoC container
      * @return callable The event listener callable
+     * @throws InvalidArgumentException Thrown if the listener config was not set up correctly
      */
     protected function getEventListenerCallback($listenerConfig, IContainer $container) : callable
     {

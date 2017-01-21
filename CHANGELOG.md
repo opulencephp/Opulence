@@ -1,3 +1,8 @@
+<h2>v1.0.7 (2017-01-?)</h2>
+
+<h3>IoC</h3>
+* Annotated exceptions
+
 <h2>v1.0.6 (2017-01-19)</h2>
 
 <h3>Console</h3>

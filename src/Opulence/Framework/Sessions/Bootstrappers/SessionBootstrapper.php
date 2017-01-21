@@ -10,8 +10,10 @@
 
 namespace Opulence\Framework\Sessions\Bootstrappers;
 
+use Opulence\Cryptography\Encryption\IEncrypter;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
+use Opulence\Ioc\IocException;
 use Opulence\Sessions\Handlers\ISessionEncrypter;
 use Opulence\Sessions\Handlers\SessionEncrypter;
 use Opulence\Sessions\ISession;
@@ -52,9 +54,10 @@ abstract class SessionBootstrapper extends Bootstrapper
      *
      * @param IContainer $container The IoC Container
      * @return ISessionEncrypter The session encrypter to use
+     * @throws IocException Thrown if there was an error resolving the encrypter
      */
     protected function getSessionEncrypter(IContainer $container) : ISessionEncrypter
     {
-        return new SessionEncrypter($container->resolve($container));
+        return new SessionEncrypter($container->resolve(IEncrypter::class));
     }
 }

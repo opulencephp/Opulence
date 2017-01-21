@@ -32,8 +32,10 @@ use Opulence\Framework\Views\Console\Commands\FlushViewCacheCommand;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\Bootstrappers\Caching\FileCache;
 use Opulence\Ioc\IContainer;
+use Opulence\Ioc\IocException;
 use Opulence\Routing\Routes\Caching\ICache as RouteCache;
 use Opulence\Views\Caching\ICache as ViewCache;
+use RuntimeException;
 
 /**
  * Defines the command bootstrapper
@@ -71,12 +73,16 @@ class CommandsBootstrapper extends Bootstrapper
         $this->commandCollection = new CommandCollection($compiler);
         $container->bindInstance(CommandCollection::class, $this->commandCollection);
         $container->bindFactory(FlushFrameworkCacheCommand::class, function () use ($container) {
-            return new FlushFrameworkCacheCommand(
-                new FileCache(Config::get('paths', 'tmp.framework.http') . '/cachedBootstrapperRegistry.json'),
-                new FileCache(Config::get('paths', 'tmp.framework.console') . '/cachedBootstrapperRegistry.json'),
-                $container->resolve(RouteCache::class),
-                $container->resolve(ViewCache::class)
-            );
+            try {
+                return new FlushFrameworkCacheCommand(
+                    new FileCache(Config::get('paths', 'tmp.framework.http') . '/cachedBootstrapperRegistry.json'),
+                    new FileCache(Config::get('paths', 'tmp.framework.console') . '/cachedBootstrapperRegistry.json'),
+                    $container->resolve(RouteCache::class),
+                    $container->resolve(ViewCache::class)
+                );
+            } catch (IocException $ex) {
+                throw new RuntimeException("Failed to bind factory for " . FlushFrameworkCacheCommand::class, $ex);
+            }
         });
     }
 
