@@ -10,7 +10,7 @@ function checkOutPullRequest()
 
     # Check out pull request
     cd ../$repository
-    git co -b $username-$userbranch $opulencebranch
+    git checkout -b $username-$userbranch $opulencebranch
     git pull https://github.com/$username/$repository.git $userbranch
 
     # Switch back to home directory
@@ -26,7 +26,7 @@ function mergePullRequest()
 
     # Merge pull request
     cd ../$repository
-    git co $opulencebranch
+    git checkout $opulencebranch
     git merge --squash $username-$userbranch
     git commit
     git push origin $opulencebranch
@@ -54,7 +54,7 @@ function tag()
     read -p "   Tag Name: " tagname
     read -p "   Commit message: " message
 
-    git co master
+    git checkout master
 
     # Tag Opulence
     git tag -a $tagname -m "$message"
