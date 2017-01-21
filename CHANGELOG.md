@@ -10,7 +10,7 @@
 * `Opulence\Ioc\Bootstrappers\Bootstrapper::run()` and `shutDown()`
 * `Opulence\Orm\IUnitOfWork::setConnection()`
 
-<h2>v1.0.7 (2017-01-?)</h2>
+<h2>v1.0.7 (2017-01-21)</h2>
 
 <h3>IoC</h3>
 * Annotated exceptions
@@ -21,7 +21,7 @@
 * Fixed various CS issues in console `make*` templates
 
 <h3>IoC</h3>
-* `Opulence\Bootstrappers\Bootstrapper::__construct()` no longer final
+* `Opulence\Ioc\Bootstrappers\Bootstrapper::__construct()` no longer final
 
 <h3>ORM</h3>
 * Added type-hinting to data mapper parameters and return values
