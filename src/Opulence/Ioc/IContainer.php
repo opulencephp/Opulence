@@ -10,8 +10,6 @@
 
 namespace Opulence\Ioc;
 
-use InvalidArgumentException;
-
 /**
  * Defines the interface for dependency injection containers to implement
  */
@@ -23,7 +21,6 @@ interface IContainer
      * @param string|array $interfaces The interface or interfaces to bind to
      * @param callable $factory The factory to bind
      * @param bool $resolveAsSingleton Whether or not to resolve the factory as a singleton
-     * @throws InvalidArgumentException Thrown if the interfaces were not of the correct type
      */
     public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false);
 
@@ -32,7 +29,6 @@ interface IContainer
      *
      * @param string|array $interfaces The interface or interfaces to bind to
      * @param object $instance The instance to bind
-     * @throws InvalidArgumentException Thrown if the interfaces were not of the correct type
      */
     public function bindInstance($interfaces, $instance);
 
@@ -42,7 +38,6 @@ interface IContainer
      * @param string|array $interfaces The interface or interfaces to bind to
      * @param string|null $concreteClass The concrete class to bind, or null if the interface actually is a concrete class
      * @param array $primitives The list of primitives to inject (must be in same order they appear in constructor)
-     * @throws InvalidArgumentException Thrown if the interfaces were not of the correct type
      */
     public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = []);
 
@@ -52,7 +47,6 @@ interface IContainer
      * @param string|array $interfaces The interface or interfaces to bind to
      * @param string|null $concreteClass The concrete class to bind, or null if the interface actually is a concrete class
      * @param array $primitives The list of primitives to inject (must be in same order they appear in constructor)
-     * @throws InvalidArgumentException Thrown if the interfaces were not of the correct type
      */
     public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = []);
 

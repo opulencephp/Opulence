@@ -10,13 +10,11 @@
 
 namespace Opulence\Ioc;
 
-use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionParameter;
-use RuntimeException;
 
 /**
  * Defines the dependency injection container
@@ -39,7 +37,7 @@ class Container implements IContainer
      */
     public function __sleep()
     {
-        return '';
+        return [];
     }
 
     /**
@@ -49,15 +47,8 @@ class Container implements IContainer
     {
         $binding = new FactoryBinding($factory, $resolveAsSingleton);
 
-        // We specifically do not cast to an array because of a micro-optimzation
-        if (is_string($interfaces)) {
-            $this->addBinding($interfaces, $binding);
-        } elseif (is_array($interfaces)) {
-            foreach ($interfaces as $interface) {
-                $this->addBinding($interface, $binding);
-            }
-        } else {
-            throw new InvalidArgumentException('Interfaces must be string or array');
+        foreach ((array)$interfaces as $interface) {
+            $this->addBinding($interface, $binding);
         }
     }
 
@@ -68,15 +59,8 @@ class Container implements IContainer
     {
         $binding = new InstanceBinding($instance);
 
-        // We specifically do not cast to an array because of a micro-optimzation
-        if (is_string($interfaces)) {
-            $this->addBinding($interfaces, $binding);
-        } elseif (is_array($interfaces)) {
-            foreach ($interfaces as $interface) {
-                $this->addBinding($interface, $binding);
-            }
-        } else {
-            throw new InvalidArgumentException('Interfaces must be string or array');
+        foreach ((array)$interfaces as $interface) {
+            $this->addBinding($interface, $binding);
         }
     }
 
@@ -85,15 +69,8 @@ class Container implements IContainer
      */
     public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = [])
     {
-        // We specifically do not cast to an array because of a micro-optimzation
-        if (is_string($interfaces)) {
-            $this->addBinding($interfaces, new ClassBinding($concreteClass ?? $interfaces, $primitives, false));
-        } elseif (is_array($interfaces)) {
-            foreach ($interfaces as $interface) {
-                $this->addBinding($interface, new ClassBinding($concreteClass ?? $interface, $primitives, false));
-            }
-        } else {
-            throw new InvalidArgumentException('Interfaces must be string or array');
+        foreach ((array)$interfaces as $interface) {
+            $this->addBinding($interface, new ClassBinding($concreteClass ?? $interface, $primitives, false));
         }
     }
 
@@ -102,15 +79,8 @@ class Container implements IContainer
      */
     public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = [])
     {
-        // We specifically do not cast to an array because of a micro-optimzation
-        if (is_string($interfaces)) {
-            $this->addBinding($interfaces, new ClassBinding($concreteClass ?? $interfaces, $primitives, true));
-        } elseif (is_array($interfaces)) {
-            foreach ($interfaces as $interface) {
-                $this->addBinding($interface, new ClassBinding($concreteClass ?? $interface, $primitives, true));
-            }
-        } else {
-            throw new InvalidArgumentException('Interfaces must be string or array');
+        foreach ((array)$interfaces as $interface) {
+            $this->addBinding($interface, new ClassBinding($concreteClass ?? $interface, $primitives, true));
         }
     }
 
@@ -204,7 +174,7 @@ class Container implements IContainer
                 $instance = $factory();
                 break;
             default:
-                throw new RuntimeException('Invalid binding type "' . get_class($binding) . '"');
+                throw new IoCException('Invalid binding type "' . get_class($binding) . '"');
         }
 
         if ($binding->resolveAsSingleton()) {
