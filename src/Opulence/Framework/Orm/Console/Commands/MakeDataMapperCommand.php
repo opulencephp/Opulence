@@ -90,6 +90,6 @@ class MakeDataMapperCommand extends MakeCommand
      */
     protected function getFileTemplatePath() : string
     {
-        return __DIR__ . '/templates/' . $this->dataMapperType . '.template';
+        return __DIR__ . "/templates/{$this->dataMapperType}.template";
     }
 }

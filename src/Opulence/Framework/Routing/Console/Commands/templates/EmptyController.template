@@ -1,0 +1,10 @@
+<?php
+namespace {{namespace}};
+
+use Opulence\Http\Responses\Response;
+use Opulence\Routing\Controller;
+
+class {{class}} extends Controller
+{
+    
+}

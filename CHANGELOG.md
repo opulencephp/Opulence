@@ -1,5 +1,8 @@
 <h2>v1.0.8 (2017-01-?)</h2>
 
+<h3>Framework</h3>
+* Added ability to generate an empty controller via `php apex make:controller`
+
 <h3>ORM</h3>
 * Fixed `UnitOfWork` and `CachedSqlDataMapper` to execute scheduled actions (eg scheduled inserts/deletions/updates) in the same order they're scheduled, rather than by grouping them
 
