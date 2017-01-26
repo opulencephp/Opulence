@@ -10,6 +10,8 @@
 
 namespace Opulence\Framework\Routing\Console\Commands;
 
+use Opulence\Console\Prompts\Questions\MultipleChoice;
+use Opulence\Console\Responses\IResponse;
 use Opulence\Framework\Console\Commands\MakeCommand;
 
 /**
