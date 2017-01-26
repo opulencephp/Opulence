@@ -24,7 +24,7 @@ class MakeControllerCommand extends MakeCommand
     ];
     /** @var string The type of controller to generate */
     private $controllerType = '';
-    
+
     /**
      * @inheritdoc
      */
