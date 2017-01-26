@@ -25,12 +25,12 @@ use RuntimeException;
  */
 class UnitOfWork implements IUnitOfWork
 {
-    /** 
+    /**
      * The list of scheduled actions to take on entities
-     * The keys are the object hash Ids, which map to a subarray whose first element is the type of action 
+     * The keys are the object hash Ids, which map to a subarray whose first element is the type of action
      * (eg "delete", "insert", or "update") and second element is the entity to take action on
      * Note that the values of this array will be null if the entity is detached
-     * 
+     *
      * @var array
      */
     protected $scheduledActions = [];
@@ -48,24 +48,24 @@ class UnitOfWork implements IUnitOfWork
     private $changeTracker = null;
     /** @var array The mapping of class names to their data mappers */
     private $dataMappers = [];
-    /** 
+    /**
      * The mapping of object hash Ids to the index of the action array element that holds the entity
      * We use this to index entities that are scheduled for insertion, which makes detaching them faster
-     * 
+     *
      * @var array
      */
     private $scheduledForInsertion = [];
-    /** 
+    /**
      * The mapping of object hash Ids to the index of the action array element that holds the entity
      * We use this to index entities that are scheduled for update, which makes detaching them faster
-     * 
+     *
      * @var array
      */
     private $scheduledForUpdate = [];
-    /** 
+    /**
      * The mapping of object hash Ids to the index of the action array element that holds the entity
      * We use this to index entities that are scheduled for deletion, which makes detaching them faster
-     * 
+     *
      * @var array
      */
     private $scheduledForDeletion = [];
@@ -112,7 +112,7 @@ class UnitOfWork implements IUnitOfWork
                 if ($action[1] === null) {
                     continue;
                 }
-                
+
                 switch ($action[0]) {
                     case 'insert':
                         $this->insert($action[1]);
@@ -127,7 +127,7 @@ class UnitOfWork implements IUnitOfWork
                         throw new RuntimeException("Invalid action type {$action[0]}");
                 }
             }
-            
+
             $this->connection->commit();
         } catch (Exception $ex) {
             $this->connection->rollBack();
@@ -258,7 +258,7 @@ class UnitOfWork implements IUnitOfWork
 
     /**
      * Attempts to update all the entities scheduled for deletion
-     * 
+     *
      * @param object $entity The entity to delete
      */
     protected function delete($entity)
@@ -288,7 +288,7 @@ class UnitOfWork implements IUnitOfWork
 
     /**
      * Attempts to insert all the entities scheduled for insertion
-     * 
+     *
      * @param object $entity The entity to insert
      */
     protected function insert($entity)
@@ -349,9 +349,9 @@ class UnitOfWork implements IUnitOfWork
             if (($entity = $this->scheduledActions[$index][1] ?? null) === null) {
                 continue;
             }
-            
+
             $idGenerator = $this->idGeneratorRegistry->getIdGenerator($this->entityRegistry->getClassName($entity));
-            
+
             if ($idGenerator !== null) {
                 $this->idAccessorRegistry->setEntityId(
                     $entity,
@@ -371,7 +371,7 @@ class UnitOfWork implements IUnitOfWork
 
     /**
      * Attempts to update all the entities scheduled for updating
-     * 
+     *
      * @param object $entity The entity to update
      */
     protected function update($entity)

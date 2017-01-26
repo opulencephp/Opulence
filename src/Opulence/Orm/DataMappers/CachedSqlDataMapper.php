@@ -63,7 +63,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
         try {
             foreach ($this->scheduledActions as $action) {
                 $entity = $action[1];
-                
+
                 switch ($action[0]) {
                     case 'insert':
                         $this->cacheDataMapper->add($entity);

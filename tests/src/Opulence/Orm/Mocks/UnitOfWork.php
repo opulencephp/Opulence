@@ -23,13 +23,13 @@ class UnitOfWork extends BaseUnitOfWork
     public function getScheduledEntityDeletions() : array
     {
         $scheduledForDeletion = [];
-        
+
         foreach ($this->scheduledActions as $action) {
             if (is_array($action) && $action[0] === 'delete') {
                 $scheduledForDeletion[] = $action[1];
             }
         }
-        
+
         return $scheduledForDeletion;
     }
 
@@ -39,13 +39,13 @@ class UnitOfWork extends BaseUnitOfWork
     public function getScheduledEntityInsertions() : array
     {
         $scheduledForInsertion = [];
-        
+
         foreach ($this->scheduledActions as $action) {
             if (is_array($action) && $action[0] === 'insert') {
                 $scheduledForInsertion[] = $action[1];
             }
         }
-        
+
         return $scheduledForInsertion;
     }
 
@@ -55,13 +55,13 @@ class UnitOfWork extends BaseUnitOfWork
     public function getScheduledEntityUpdates() : array
     {
         $scheduledForUpdate = [];
-        
+
         foreach ($this->scheduledActions as $action) {
             if (is_array($action) && $action[0] === 'update') {
                 $scheduledForUpdate[] = $action[1];
             }
         }
-        
+
         return $scheduledForUpdate;
     }
 }
