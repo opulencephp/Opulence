@@ -26,12 +26,8 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     protected $sqlDataMapper = null;
     /** @var IIdAccessorRegistry The Id accessor registry */
     protected $idAccessorRegistry = null;
-    /** @var object[] The list of entities scheduled for insertion */
-    protected $scheduledForCacheInsertion = [];
-    /** @var object[] The list of entities scheduled for update */
-    protected $scheduledForCacheUpdate = [];
-    /** @var object[] The list of entities scheduled for deletion */
-    protected $scheduledForCacheDeletion = [];
+    /** @var array The list of actions that are scheduled for committing */
+    protected $scheduledActions = [];
 
     /**
      * @param mixed $cache The cache object used in the cache data mapper
@@ -65,28 +61,27 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     public function commit()
     {
         try {
-            // Insert entities
-            foreach ($this->scheduledForCacheInsertion as $entity) {
-                $this->cacheDataMapper->add($entity);
-            }
+            foreach ($this->scheduledActions as $action) {
+                $entity = $action[1];
 
-            // Update entities
-            foreach ($this->scheduledForCacheUpdate as $entity) {
-                $this->cacheDataMapper->update($entity);
-            }
-
-            // Delete entities
-            foreach ($this->scheduledForCacheDeletion as $entity) {
-                $this->cacheDataMapper->delete($entity);
+                switch ($action[0]) {
+                    case 'insert':
+                        $this->cacheDataMapper->add($entity);
+                        break;
+                    case 'update':
+                        $this->cacheDataMapper->update($entity);
+                        break;
+                    case 'delete':
+                        $this->cacheDataMapper->delete($entity);
+                        break;
+                }
             }
         } catch (Exception $ex) {
             throw new OrmException('Commit failed', 0, $ex);
         }
 
         // Clear our schedules
-        $this->scheduledForCacheInsertion = [];
-        $this->scheduledForCacheUpdate = [];
-        $this->scheduledForCacheDeletion = [];
+        $this->scheduledActions = [];
     }
 
     /**
@@ -241,7 +236,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      */
     protected function scheduleForCacheDeletion($entity)
     {
-        $this->scheduledForCacheDeletion[] = $entity;
+        $this->scheduledActions[] = ['delete', $entity];
     }
 
     /**
@@ -251,7 +246,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      */
     protected function scheduleForCacheInsertion($entity)
     {
-        $this->scheduledForCacheInsertion[] = $entity;
+        $this->scheduledActions[] = ['insert', $entity];
     }
 
     /**
@@ -261,7 +256,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      */
     protected function scheduleForCacheUpdate($entity)
     {
-        $this->scheduledForCacheUpdate[] = $entity;
+        $this->scheduledActions[] = ['update', $entity];
     }
 
     /**
