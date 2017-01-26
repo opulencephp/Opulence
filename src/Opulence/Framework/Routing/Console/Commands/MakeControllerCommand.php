@@ -10,6 +10,8 @@
 
 namespace Opulence\Framework\Routing\Console\Commands;
 
+use Opulence\Console\Prompts\Questions\MultipleChoice;
+use Opulence\Console\Responses\IResponse;
 use Opulence\Framework\Console\Commands\MakeCommand;
 
 /**
@@ -17,6 +19,14 @@ use Opulence\Framework\Console\Commands\MakeCommand;
  */
 class MakeControllerCommand extends MakeCommand
 {
+    /** @var array The list of controllers that can be made */
+    private static $controllerTypes = [
+        'Empty controller' => 'EmptyController',
+        'REST controller' => 'RESTController'
+    ];
+    /** @var string The type of controller to generate */
+    private $controllerType = '';
+
     /**
      * @inheritdoc
      */
@@ -26,6 +36,19 @@ class MakeControllerCommand extends MakeCommand
 
         $this->setName('make:controller')
             ->setDescription('Creates a controller class');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function doExecute(IResponse $response)
+    {
+        $this->controllerType = self::$controllerTypes[$this->prompt->ask(
+            new MultipleChoice(
+                'Which type of controller are you making?', array_keys(self::$controllerTypes)
+            ), $response)];
+
+        return parent::doExecute($response);
     }
 
     /**
@@ -41,6 +64,6 @@ class MakeControllerCommand extends MakeCommand
      */
     protected function getFileTemplatePath() : string
     {
-        return __DIR__ . '/templates/Controller.template';
+        return __DIR__ . "/templates/{$this->controllerType}.template";
     }
 }
