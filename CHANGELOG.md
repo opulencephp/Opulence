@@ -1,3 +1,8 @@
+<h2>v1.0.8 (2017-01-?)</h2>
+
+<h3>ORM</h3>
+* Fixed `UnitOfWork` and `CachedSqlDataMapper` to execute scheduled actions (eg scheduled inserts/deletions/updates) in the same order they're scheduled, rather than by grouping them
+
 <h2>v1.0.7 (2017-01-21)</h2>
 
 <h3>IoC</h3>

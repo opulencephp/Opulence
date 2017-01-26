@@ -20,7 +20,7 @@ use Opulence\Applications\Tasks\TaskTypes;
 class Application
 {
     /** @var string The current Opulence version */
-    private static $opulenceVersion = '1.0.7';
+    private static $opulenceVersion = '1.0.8';
     /** @var ITaskDispatcher The task dispatcher */
     private $taskDispatcher = null;
     /** @var string The version of the application */
