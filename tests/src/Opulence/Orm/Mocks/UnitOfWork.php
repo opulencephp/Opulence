@@ -22,7 +22,15 @@ class UnitOfWork extends BaseUnitOfWork
      */
     public function getScheduledEntityDeletions() : array
     {
-        return parent::getScheduledEntityDeletions();
+        $scheduledForDeletion = [];
+        
+        foreach ($this->scheduledActions as $action) {
+            if (is_array($action) && $action[0] === 'delete') {
+                $scheduledForDeletion[] = $action[1];
+            }
+        }
+        
+        return $scheduledForDeletion;
     }
 
     /**
@@ -30,7 +38,15 @@ class UnitOfWork extends BaseUnitOfWork
      */
     public function getScheduledEntityInsertions() : array
     {
-        return parent::getScheduledEntityInsertions();
+        $scheduledForInsertion = [];
+        
+        foreach ($this->scheduledActions as $action) {
+            if (is_array($action) && $action[0] === 'insert') {
+                $scheduledForInsertion[] = $action[1];
+            }
+        }
+        
+        return $scheduledForInsertion;
     }
 
     /**
@@ -38,6 +54,14 @@ class UnitOfWork extends BaseUnitOfWork
      */
     public function getScheduledEntityUpdates() : array
     {
-        return parent::getScheduledEntityUpdates();
+        $scheduledForUpdate = [];
+        
+        foreach ($this->scheduledActions as $action) {
+            if (is_array($action) && $action[0] === 'update') {
+                $scheduledForUpdate[] = $action[1];
+            }
+        }
+        
+        return $scheduledForUpdate;
     }
 }

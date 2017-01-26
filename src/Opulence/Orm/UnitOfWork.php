@@ -25,6 +25,17 @@ use RuntimeException;
  */
 class UnitOfWork implements IUnitOfWork
 {
+    /** 
+     * The list of scheduled actions to take on entities
+     * The keys are the object hash Ids, which map to a subarray whose first element is the type of action 
+     * (eg "delete", "insert", or "update") and second element is the entity to take action on
+     * Note that the values of this array will be null if the entity is detached
+     * 
+     * @var array
+     */
+    protected $scheduledActions = [];
+    /** @var int The count of all scheduled actions (even unset ones), which is used for performance */
+    private $scheduledActionCount = 0;
     /** @var IConnection The connection to use in our unit of work */
     private $connection = null;
     /** @var IEntityRegistry What manages/tracks entities for our unit of work */
@@ -37,11 +48,26 @@ class UnitOfWork implements IUnitOfWork
     private $changeTracker = null;
     /** @var array The mapping of class names to their data mappers */
     private $dataMappers = [];
-    /** @var array The list of entities scheduled for insertion */
+    /** 
+     * The mapping of object hash Ids to the index of the action array element that holds the entity
+     * We use this to index entities that are scheduled for insertion, which makes detaching them faster
+     * 
+     * @var array
+     */
     private $scheduledForInsertion = [];
-    /** @var array The list of entities scheduled for update */
+    /** 
+     * The mapping of object hash Ids to the index of the action array element that holds the entity
+     * We use this to index entities that are scheduled for update, which makes detaching them faster
+     * 
+     * @var array
+     */
     private $scheduledForUpdate = [];
-    /** @var array The list of entities scheduled for deletion */
+    /** 
+     * The mapping of object hash Ids to the index of the action array element that holds the entity
+     * We use this to index entities that are scheduled for deletion, which makes detaching them faster
+     * 
+     * @var array
+     */
     private $scheduledForDeletion = [];
 
     /**
@@ -82,9 +108,26 @@ class UnitOfWork implements IUnitOfWork
         $this->connection->beginTransaction();
 
         try {
-            $this->insert();
-            $this->update();
-            $this->delete();
+            foreach ($this->scheduledActions as $action) {
+                if ($action[1] === null) {
+                    continue;
+                }
+                
+                switch ($action[0]) {
+                    case 'insert':
+                        $this->insert($action[1]);
+                        break;
+                    case 'update':
+                        $this->update($action[1]);
+                        break;
+                    case 'delete':
+                        $this->delete($action[1]);
+                        break;
+                    default:
+                        throw new RuntimeException("Invalid action type {$action[0]}");
+                }
+            }
+            
             $this->connection->commit();
         } catch (Exception $ex) {
             $this->connection->rollBack();
@@ -95,6 +138,8 @@ class UnitOfWork implements IUnitOfWork
         $this->postCommit();
 
         // Clear our schedules
+        $this->scheduledActions = [];
+        $this->scheduledActionCount = 0;
         $this->scheduledForInsertion = [];
         $this->scheduledForUpdate = [];
         $this->scheduledForDeletion = [];
@@ -108,6 +153,11 @@ class UnitOfWork implements IUnitOfWork
     {
         $this->entityRegistry->deregisterEntity($entity);
         $objectHashId = $this->entityRegistry->getObjectHashId($entity);
+        // Remove all scheduled actions
+        unset($this->scheduledActions[$this->scheduledForInsertion[$objectHashId] ?? null]);
+        unset($this->scheduledActions[$this->scheduledForUpdate[$objectHashId] ?? null]);
+        unset($this->scheduledActions[$this->scheduledForDeletion[$objectHashId] ?? null]);
+        // Remove this entity from our action indices
         unset($this->scheduledForInsertion[$objectHashId]);
         unset($this->scheduledForUpdate[$objectHashId]);
         unset($this->scheduledForDeletion[$objectHashId]);
@@ -118,6 +168,8 @@ class UnitOfWork implements IUnitOfWork
      */
     public function dispose()
     {
+        $this->scheduledActions = [];
+        $this->scheduledActionCount = 0;
         $this->scheduledForInsertion = [];
         $this->scheduledForUpdate = [];
         $this->scheduledForDeletion = [];
@@ -146,7 +198,10 @@ class UnitOfWork implements IUnitOfWork
      */
     public function scheduleForDeletion($entity)
     {
-        $this->scheduledForDeletion[$this->entityRegistry->getObjectHashId($entity)] = $entity;
+        $objectHashId = $this->entityRegistry->getObjectHashId($entity);
+        $this->scheduledActions[] = ['delete', $entity];
+        $this->scheduledActionCount++;
+        $this->scheduledForDeletion[$objectHashId] = $this->scheduledActionCount - 1;
     }
 
     /**
@@ -155,7 +210,9 @@ class UnitOfWork implements IUnitOfWork
     public function scheduleForInsertion($entity)
     {
         $objectHashId = $this->entityRegistry->getObjectHashId($entity);
-        $this->scheduledForInsertion[$objectHashId] = $entity;
+        $this->scheduledActions[] = ['insert', $entity];
+        $this->scheduledActionCount++;
+        $this->scheduledForInsertion[$objectHashId] = $this->scheduledActionCount - 1;
         $this->entityRegistry->setState($entity, EntityStates::QUEUED);
     }
 
@@ -164,7 +221,10 @@ class UnitOfWork implements IUnitOfWork
      */
     public function scheduleForUpdate($entity)
     {
-        $this->scheduledForUpdate[$this->entityRegistry->getObjectHashId($entity)] = $entity;
+        $objectHashId = $this->entityRegistry->getObjectHashId($entity);
+        $this->scheduledActions[] = ['update', $entity];
+        $this->scheduledActionCount++;
+        $this->scheduledForUpdate[$objectHashId] = $this->scheduledActionCount - 1;
     }
 
     /**
@@ -198,16 +258,16 @@ class UnitOfWork implements IUnitOfWork
 
     /**
      * Attempts to update all the entities scheduled for deletion
+     * 
+     * @param object $entity The entity to delete
      */
-    protected function delete()
+    protected function delete($entity)
     {
-        foreach ($this->scheduledForDeletion as $objectHashId => $entity) {
-            $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
-            $dataMapper->delete($entity);
-            // Order here matters
-            $this->detach($entity);
-            $this->entityRegistry->setState($entity, EntityStates::DEQUEUED);
-        }
+        $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
+        $dataMapper->delete($entity);
+        // Order here matters
+        $this->detach($entity);
+        $this->entityRegistry->setState($entity, EntityStates::DEQUEUED);
     }
 
     /**
@@ -227,71 +287,41 @@ class UnitOfWork implements IUnitOfWork
     }
 
     /**
-     * Gets the list of entities that are scheduled for deletion
-     *
-     * @return object[] The list of entities scheduled for deletion
-     */
-    protected function getScheduledEntityDeletions() : array
-    {
-        return array_values($this->scheduledForDeletion);
-    }
-
-    /**
-     * Gets the list of entities that are scheduled for insertion
-     *
-     * @return object[] The list of entities scheduled for insertion
-     */
-    protected function getScheduledEntityInsertions() : array
-    {
-        return array_values($this->scheduledForInsertion);
-    }
-
-    /**
-     * Gets the list of entities that are scheduled for update
-     *
-     * @return object[] The list of entities scheduled for update
-     */
-    protected function getScheduledEntityUpdates() : array
-    {
-        return array_values($this->scheduledForUpdate);
-    }
-
-    /**
      * Attempts to insert all the entities scheduled for insertion
+     * 
+     * @param object $entity The entity to insert
      */
-    protected function insert()
+    protected function insert($entity)
     {
-        foreach ($this->scheduledForInsertion as $objectHashId => $entity) {
-            // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
-            $this->entityRegistry->runAggregateRootCallbacks($entity);
-            $className = $this->entityRegistry->getClassName($entity);
-            $dataMapper = $this->getDataMapper($className);
-            $idGenerator = $this->idGeneratorRegistry->getIdGenerator($className);
+        // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
+        $this->entityRegistry->runAggregateRootCallbacks($entity);
+        $className = $this->entityRegistry->getClassName($entity);
+        $dataMapper = $this->getDataMapper($className);
+        $idGenerator = $this->idGeneratorRegistry->getIdGenerator($className);
 
-            if ($idGenerator === null) {
-                $dataMapper->add($entity);
-            } else {
-                if ($idGenerator instanceof SequenceIdGenerator) {
-                    $idGenerator->setConnection($this->connection);
-                }
-
-                if ($idGenerator->isPostInsert()) {
-                    $dataMapper->add($entity);
-                    $this->idAccessorRegistry->setEntityId(
-                        $entity,
-                        $idGenerator->generate($entity)
-                    );
-                } else {
-                    $this->idAccessorRegistry->setEntityId(
-                        $entity,
-                        $idGenerator->generate($entity)
-                    );
-                    $dataMapper->add($entity);
-                }
+        if ($idGenerator === null) {
+            $dataMapper->add($entity);
+        } else {
+            if ($idGenerator instanceof SequenceIdGenerator) {
+                $idGenerator->setConnection($this->connection);
             }
 
-            $this->entityRegistry->registerEntity($entity);
+            if ($idGenerator->isPostInsert()) {
+                $dataMapper->add($entity);
+                $this->idAccessorRegistry->setEntityId(
+                    $entity,
+                    $idGenerator->generate($entity)
+                );
+            } else {
+                $this->idAccessorRegistry->setEntityId(
+                    $entity,
+                    $idGenerator->generate($entity)
+                );
+                $dataMapper->add($entity);
+            }
         }
+
+        $this->entityRegistry->registerEntity($entity);
     }
 
     /**
@@ -314,10 +344,14 @@ class UnitOfWork implements IUnitOfWork
      */
     protected function postRollback()
     {
-        // Unset each of the new entities' Ids
-        foreach ($this->scheduledForInsertion as $objectHashId => $entity) {
+        // Unset the inserted entities' Ids
+        foreach ($this->scheduledForInsertion as $objectHashId => $index) {
+            if (($entity = $this->scheduledActions[$index][1] ?? null) === null) {
+                continue;
+            }
+            
             $idGenerator = $this->idGeneratorRegistry->getIdGenerator($this->entityRegistry->getClassName($entity));
-
+            
             if ($idGenerator !== null) {
                 $this->idAccessorRegistry->setEntityId(
                     $entity,
@@ -337,15 +371,15 @@ class UnitOfWork implements IUnitOfWork
 
     /**
      * Attempts to update all the entities scheduled for updating
+     * 
+     * @param object $entity The entity to update
      */
-    protected function update()
+    protected function update($entity)
     {
-        foreach ($this->scheduledForUpdate as $objectHashId => $entity) {
-            // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
-            $this->entityRegistry->runAggregateRootCallbacks($entity);
-            $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
-            $dataMapper->update($entity);
-            $this->entityRegistry->registerEntity($entity);
-        }
+        // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
+        $this->entityRegistry->runAggregateRootCallbacks($entity);
+        $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
+        $dataMapper->update($entity);
+        $this->entityRegistry->registerEntity($entity);
     }
 }
