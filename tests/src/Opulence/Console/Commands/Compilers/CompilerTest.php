@@ -250,6 +250,23 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests that default values are used for options that are not set
+     */
+    public function testDefaultValueIsUsedForOptionsThatAreNotSet()
+    {
+        $requiredValueOption = new Option('foo', 'f', OptionTypes::REQUIRED_VALUE, 'Foo command', 'foo value');
+        $optionalValueOption = new Option('bar', 'b', OptionTypes::OPTIONAL_VALUE, 'Bar command', 'bar value');
+        $noValueOption = new Option('baz', 'z', OptionTypes::NO_VALUE, 'Baz command', 'baz value');
+        $this->command->addOption($requiredValueOption);
+        $this->command->addOption($optionalValueOption);
+        $this->command->addOption($noValueOption);
+        $compiledCommand = $this->compiler->compile($this->command, $this->request);
+        $this->assertEquals('foo value', $compiledCommand->getOptionValue('foo'));
+        $this->assertEquals('bar value', $compiledCommand->getOptionValue('bar'));
+        $this->assertNull($compiledCommand->getOptionValue('baz'));
+    }
+
+    /**
      * Tests passing too many arguments
      */
     public function testPassingTooManyArguments()
