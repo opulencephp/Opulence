@@ -112,6 +112,9 @@ class Compiler implements ICompiler
                 }
 
                 $command->setOptionValue($option->getName(), $value);
+            } elseif ($option->valueIsPermitted()) {
+                // Set the value for the option to its default value, if values are permitted
+                $command->setOptionValue($option->getName(), $option->getDefaultValue());
             }
         }
     }

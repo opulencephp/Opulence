@@ -22,6 +22,7 @@ use Opulence\Framework\Console\Commands\AppUpCommand;
 use Opulence\Framework\Console\Commands\FlushFrameworkCacheCommand;
 use Opulence\Framework\Console\Commands\MakeCommandCommand;
 use Opulence\Framework\Console\Commands\RenameAppCommand;
+use Opulence\Framework\Console\Commands\RunAppLocallyCommand;
 use Opulence\Framework\Cryptography\Console\Commands\EncryptionKeyGenerationCommand;
 use Opulence\Framework\Cryptography\Console\Commands\UuidGenerationCommand;
 use Opulence\Framework\Orm\Console\Commands\MakeDataMapperCommand;
@@ -58,6 +59,7 @@ class CommandsBootstrapper extends Bootstrapper
         MakeEntityCommand::class,
         MakeHttpMiddlewareCommand::class,
         RenameAppCommand::class,
+        RunAppLocallyCommand::class,
         UuidGenerationCommand::class
     ];
     /** @var CommandCollection The list of console commands */

@@ -10,6 +10,14 @@
 * `Opulence\Ioc\Bootstrappers\Bootstrapper::run()` and `shutDown()`
 * `Opulence\Orm\IUnitOfWork::setConnection()`
 
+<h2>v1.0.9 (2017-01-?)</h2>
+
+<h3>Console</h3>
+* Fixed options so that their default values are used if no value is specified
+
+<h3>Framework</h3>
+* Added `php apex app:runlocally` command to make it easier to run your application locally
+
 <h2>v1.0.8 (2017-01-26)</h2>
 
 <h3>Framework</h3>
