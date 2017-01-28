@@ -1,4 +1,4 @@
-<h2>v1.0.9 (2017-01-?)</h2>
+<h2>v1.0.9 (2017-01-28)</h2>
 
 <h3>Console</h3>
 * Fixed options so that their default values are used if no value is specified
