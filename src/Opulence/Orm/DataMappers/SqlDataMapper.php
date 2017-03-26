@@ -49,6 +49,22 @@ abstract class SqlDataMapper implements IDataMapper
     abstract protected function loadEntity(array $hash);
 
     /**
+     * Loads an entities from the SQL result set
+     *
+     * @param array $sqlRow SQL result set
+     * @return object[] The entities
+     */
+    protected function loadEntities(array $sqlRows)
+    {
+        $entities = [];
+        foreach ($sqlRows as $row) {
+            $entities[] = $this->loadEntity($row);
+        }
+        
+        return $entities;
+    }
+    
+    /**
      * Performs the read query for entity(ies) and returns any results
      *
      * @param string $sql The SQL query to run
@@ -69,12 +85,9 @@ abstract class SqlDataMapper implements IDataMapper
                 throw new OrmException('Failed to find entity');
             }
 
-            $entities = [];
             $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-            foreach ($rows as $row) {
-                $entities[] = $this->loadEntity($row);
-            }
+            $entities = $this->loadEntities($rows);
 
             if ($valueType == self::VALUE_TYPE_ENTITY) {
                 if (count($entities) == 0) {
