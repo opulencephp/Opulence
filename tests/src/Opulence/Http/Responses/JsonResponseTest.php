@@ -102,7 +102,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingHeadersInConstructor()
     {
-        $response = new JsonResponse([], ResponseHeaders::HTTP_OK, ['HTTP_FOO' => 'bar']);
+        $response = new JsonResponse([], ResponseHeaders::HTTP_OK, ['FOO' => 'bar']);
         $this->assertEquals('bar', $response->getHeaders()->get('FOO'));
     }
 }

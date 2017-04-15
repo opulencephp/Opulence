@@ -32,6 +32,7 @@ class {{class}} extends SqlDataMapper
      * Gets all the entities
      *
      * @return {{entityType}}[] The list of all the entities
+     * @throws OrmException Thrown if you're expecting expecting a single result, but there wasn't one
      */
     public function getAll() : array
     {

@@ -1,3 +1,12 @@
+<h2>v1.0.10 (2017-04-?)</h3>
+
+<h3>Framework</h3>
+* Added more PHPDoc to some template files
+
+<h3>HTTP</h3>
+
+* Fixed #86 (bug with adding response headers)
+
 <h2>v1.0.9 (2017-01-28)</h2>
 
 <h3>Console</h3>

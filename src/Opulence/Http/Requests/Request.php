@@ -12,7 +12,6 @@ namespace Opulence\Http\Requests;
 
 use InvalidArgumentException;
 use Opulence\Http\Collection;
-use Opulence\Http\Headers;
 use RuntimeException;
 
 /**
@@ -57,7 +56,7 @@ class Request
     private $patch = null;
     /** @var Collection The list of DELETE parameters */
     private $delete = null;
-    /** @var Headers The list of headers */
+    /** @var RequestHeaders The list of headers */
     private $headers = null;
     /** @var Collection The list of SERVER parameters */
     private $server = null;
@@ -99,7 +98,7 @@ class Request
         $this->delete = new Collection([]);
         $this->cookies = new Collection($cookies);
         $this->server = new Collection($server);
-        $this->headers = new Headers($server);
+        $this->headers = new RequestHeaders($server);
         $this->files = new Files($files);
         $this->env = new Collection($env);
         $this->rawBody = $rawBody;
@@ -356,9 +355,9 @@ class Request
     }
 
     /**
-     * @return Headers
+     * @return RequestHeaders
      */
-    public function getHeaders() : Headers
+    public function getHeaders() : RequestHeaders
     {
         return $this->headers;
     }
