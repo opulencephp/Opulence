@@ -41,6 +41,8 @@ class Router
     protected $matchedController = null;
     /** @var array The list of options in the current group stack */
     protected $groupOptionsStack = [];
+    /** @var array The cache of compiled routes */
+    protected $compiledRoutes = [];
 
     /**
      * @param IRouteDispatcher $dispatcher The route dispatcher
@@ -258,6 +260,39 @@ class Router
     }
 
     /**
+     * Matches a route to a request
+     *
+     * @param Request $request The request to route
+     * @return CompiledRoute The compiled matching route
+     * @throws HttpException Thrown if there was no matching route
+     */
+    public function match(Request $request) : CompiledRoute
+    {
+        $method = $request->getMethod();
+        $path = $request->getPath();
+
+        /** @var ParsedRoute $route */
+        foreach ($this->routeCollection->get($method) as $route) {
+            $regex = $route->getPathRegex();
+
+            if (isset($this->compiledRoutes[$regex][$path])) {
+                return $this->compiledRoutes[$regex][$path];
+            }
+
+            $compiledRoute = $this->compiler->compile($route, $request);
+
+            if ($compiledRoute->isMatch()) {
+                $this->compiledRoutes[$regex][$path] = $compiledRoute;
+
+                return $compiledRoute;
+            }
+        }
+
+        // If we've gotten here, we've got a missing route
+        throw new HttpException(404);
+    }
+
+    /**
      * Routes a request
      *
      * @param Request $request The request to route
@@ -267,21 +302,9 @@ class Router
      */
     public function route(Request $request) : Response
     {
-        $method = $request->getMethod();
+        $this->matchedRoute = $this->match($request);
 
-        /** @var ParsedRoute $route */
-        foreach ($this->routeCollection->get($method) as $route) {
-            $compiledRoute = $this->compiler->compile($route, $request);
-
-            if ($compiledRoute->isMatch()) {
-                $this->matchedRoute = $compiledRoute;
-
-                return $this->dispatcher->dispatch($this->matchedRoute, $request, $this->matchedController);
-            }
-        }
-
-        // If we've gotten here, we've got a missing route
-        throw new HttpException(404);
+        return $this->dispatcher->dispatch($this->matchedRoute, $request, $this->matchedController);
     }
 
     /**

@@ -383,6 +383,33 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests matching a request to a route that exists
+     */
+    public function testMatchingExistingRoute()
+    {
+        $request = new Request([], [], [], [
+            'REQUEST_METHOD' => RequestMethods::GET,
+            'REQUEST_URI' => '/foo'
+        ], [], []);
+        $this->router->get('/foo', 'foo@bar');
+        $compiledRoute = $this->router->match($request);
+        $this->assertEquals('foo', $compiledRoute->getControllerName());
+    }
+
+    /**
+     * Tests matching a request to a route that doesn't exist
+     */
+    public function testMatchingMissingRoute()
+    {
+        $this->expectException(HttpException::class);
+        $request = new Request([], [], [], [
+            'REQUEST_METHOD' => RequestMethods::GET,
+            'REQUEST_URI' => '/foo'
+        ], [], []);
+        $this->router->match($request);
+    }
+
+    /**
      * Tests routing for multiple methods
      */
     public function testRoutingMultipleMethods()
