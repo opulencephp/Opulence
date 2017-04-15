@@ -26,20 +26,8 @@ class Headers extends Collection
         'PHP_AUTH_USER' => true
     ];
 
-    /**
-     * @param array $values The list of server values to create the headers from
-     */
-    public function __construct(array $values = [])
+    public function __construct()
     {
-        // Only add "HTTP_" server values or special case values
-        foreach ($values as $name => $value) {
-            $name = strtoupper($name);
-
-            if (isset(self::$specialCaseHeaders[$name]) || strpos($name, 'HTTP_') === 0) {
-                $this->set($name, $value);
-            }
-        }
-
         /**
          * Headers allow multiple values
          * The parent class does not have this feature, which is why we took care of it in this constructor
@@ -122,12 +110,6 @@ class Headers extends Collection
      */
     protected function normalizeName(string $name) : string
     {
-        $name = strtr(strtolower($name), '_', '-');
-
-        if (strpos($name, 'http-') === 0) {
-            $name = substr($name, 5);
-        }
-
-        return $name;
+        return strtr(strtolower($name), '_', '-');
     }
 }

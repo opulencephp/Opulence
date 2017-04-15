@@ -23,7 +23,7 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->redirectResponse = new RedirectResponse('/foo', ResponseHeaders::HTTP_ACCEPTED, ['HTTP_FOO' => 'bar']);
+        $this->redirectResponse = new RedirectResponse('/foo', ResponseHeaders::HTTP_ACCEPTED, ['FOO' => 'bar']);
     }
 
     /**

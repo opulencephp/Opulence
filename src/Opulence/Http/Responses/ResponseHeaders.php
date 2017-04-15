@@ -159,6 +159,19 @@ class ResponseHeaders extends Headers
     private $cookies = [];
 
     /**
+     * @param array $values The mapping of header names to values
+     */
+    public function __construct(array $values = [])
+    {
+        foreach ($values as $name => $value) {
+            $name = strtoupper($name);
+            $this->set(strtoupper($name), $value);
+        }
+
+        parent::__construct();
+    }
+
+    /**
      * Deletes a cookie in the response header
      *
      * @param string $name The name of the cookie to delete
