@@ -134,7 +134,10 @@ abstract class IntegrationTestCase extends TestCase
             $request = $this->defaultRequest;
         }
 
+        ob_start();
         $this->response = $this->kernel->handle($request);
+        ob_clean_end();
+
         $this->assertResponse->setResponse($this->response);
         $this->assertView->setController($this->router->getMatchedController());
 
