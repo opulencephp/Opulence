@@ -101,7 +101,7 @@ class RedisBridge implements ICacheBridge
      */
     public function set(string $key, $value, int $lifetime)
     {
-        $this->getClient()->setEx($this->getPrefixedKey($key), $value, $lifetime);
+        $this->getClient()->setEx($this->getPrefixedKey($key), $lifetime, $value);
     }
 
     /**
