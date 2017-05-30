@@ -156,7 +156,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     {
         $this->client->expects($this->once())
             ->method('setEx')
-            ->with('dave:foo', 'bar', 60);
+            ->with('dave:foo', 60, 'bar');
         $this->bridge->set('foo', 'bar', 60);
     }
 
