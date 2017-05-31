@@ -81,4 +81,12 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertTrue($this->handler->open('foo', 'bar'));
     }
+
+    /**
+     * Tests reading a non-existent session
+     */
+    public function testReadingNonExistentSession()
+    {
+        $this->assertEmpty($this->handler->read('non-existent'));
+    }
 }
