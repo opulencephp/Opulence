@@ -33,15 +33,7 @@ class LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper extends BaseBoots
     public function registerBindings(IContainer $container)
     {
         $container->bindSingleton(EagerFooInterface::class, EagerConcreteFoo::class);
-    }
-
-    /**
-     * Runs this bootstrapper
-     *
-     * @param LazyFooInterface $foo The dependency set in a lazy bootstrapper
-     */
-    public function run(LazyFooInterface $foo)
-    {
+        $foo = $container->resolve(LazyFooInterface::class);
         echo $foo->getClass();
     }
 }

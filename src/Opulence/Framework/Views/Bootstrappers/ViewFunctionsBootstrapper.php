@@ -13,6 +13,7 @@ namespace Opulence\Framework\Views\Bootstrappers;
 use Opulence\Framework\Http\CsrfTokenChecker;
 use Opulence\Http\Requests\Request;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
+use Opulence\Ioc\IContainer;
 use Opulence\Routing\Urls\UrlGenerator;
 use Opulence\Sessions\ISession;
 use Opulence\Views\Compilers\Fortune\ITranspiler;
@@ -23,15 +24,15 @@ use Opulence\Views\Compilers\Fortune\ITranspiler;
 class ViewFunctionsBootstrapper extends Bootstrapper
 {
     /**
-     * Registers view functions
-     *
-     * @param Request $request The current request
-     * @param ITranspiler $transpiler The transpiler to register to
-     * @param UrlGenerator $urlGenerator What generates URLs from routes
-     * @param ISession $session The current session
+     * @inheritdoc
      */
-    public function run(Request $request, ITranspiler $transpiler, UrlGenerator $urlGenerator, ISession $session)
+    public function registerBindings(IContainer $container)
     {
+        $request = $container->resolve(Request::class);
+        $transpiler = $container->resolve(ITranspiler::class);
+        $urlGenerator = $container->resolve(UrlGenerator::class);
+        $session = $container->resolve(ISession::class);
+        
         // Add the ability to display a hidden input with the current CSRF token
         $transpiler->registerViewFunction('csrfInput', function () use ($session) {
             return sprintf(

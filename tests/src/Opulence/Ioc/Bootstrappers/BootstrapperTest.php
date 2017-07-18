@@ -37,20 +37,4 @@ class BootstrapperTest extends \PHPUnit\Framework\TestCase
         $this->expectException(BadMethodCallException::class);
         $this->bootstrapper->foo('bar');
     }
-
-    /**
-     * Tests calling run
-     */
-    public function testCallingRun()
-    {
-        $this->bootstrapper->run();
-    }
-
-    /**
-     * Tests calling shutdown
-     */
-    public function testCallingShutdown()
-    {
-        $this->bootstrapper->shutdown();
-    }
 }

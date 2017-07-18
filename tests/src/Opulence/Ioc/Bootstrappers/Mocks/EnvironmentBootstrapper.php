@@ -34,20 +34,4 @@ class EnvironmentBootstrapper extends BaseBootstrapper implements ILazyBootstrap
     {
         $container->bindSingleton(LazyFooInterface::class, LazyConcreteFoo::class);
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function run()
-    {
-        putenv('TEST_ENV_NAME=running');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function shutdown()
-    {
-        putenv('TEST_ENV_NAME=shutdown');
-    }
 }

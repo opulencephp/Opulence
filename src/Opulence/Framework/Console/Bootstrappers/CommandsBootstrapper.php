@@ -51,7 +51,6 @@ class CommandsBootstrapper extends Bootstrapper
         ComposerDumpAutoloadCommand::class,
         ComposerUpdateCommand::class,
         EncryptionKeyGenerationCommand::class,
-        FlushFrameworkCacheCommand::class,
         FlushViewCacheCommand::class,
         MakeCommandCommand::class,
         MakeControllerCommand::class,
@@ -62,42 +61,52 @@ class CommandsBootstrapper extends Bootstrapper
         RunAppLocallyCommand::class,
         UuidGenerationCommand::class
     ];
-    /** @var CommandCollection The list of console commands */
-    private $commandCollection = null;
 
     /**
      * @inheritdoc
      */
     public function registerBindings(IContainer $container)
     {
-        $compiler = $this->getCommandCompiler($container);
-        $container->bindInstance(ICompiler::class, $compiler);
-        $this->commandCollection = new CommandCollection($compiler);
-        $container->bindInstance(CommandCollection::class, $this->commandCollection);
-        $container->bindFactory(FlushFrameworkCacheCommand::class, function () use ($container) {
-            try {
-                return new FlushFrameworkCacheCommand(
-                    new FileCache(Config::get('paths', 'tmp.framework.http') . '/cachedBootstrapperRegistry.json'),
-                    new FileCache(Config::get('paths', 'tmp.framework.console') . '/cachedBootstrapperRegistry.json'),
-                    $container->resolve(RouteCache::class),
-                    $container->resolve(ViewCache::class)
-                );
-            } catch (IocException $ex) {
-                throw new RuntimeException('Failed to bind factory for ' . FlushFrameworkCacheCommand::class, 0, $ex);
-            }
-        });
+        // Use a factory to defer the resolution of the commands
+        // The commands may have dependencies set in other bootstrappers
+        $container->bindFactory(
+            CommandCollection::class, 
+            function() use ($container) {
+                $compiler = $this->getCommandCompiler($container);
+                $container->bindInstance(ICompiler::class, $compiler);
+                $commands = new CommandCollection($compiler);
+                $this->bindCommands($commands, $container);
+
+                return $commands;
+            },
+            true
+        );
     }
 
     /**
-     * Adds built-in commands to our list
+     * Binds commands to the collection
      *
+     * @param CommandCollection $commands The collection to add commands to
      * @param IContainer $container The dependency injection container to use
      */
-    public function run(IContainer $container)
+    protected function bindCommands(CommandCollection $commands, IContainer $container)
     {
-        // Instantiate each command class
+        // Resolve and add each command class
         foreach (self::$commandClasses as $commandClass) {
-            $this->commandCollection->add($container->resolve($commandClass));
+            $commands->add($container->resolve($commandClass));
+        }
+        
+        // The flush-cache command requires some special configuration
+        try {
+            $flushCacheCommand = new FlushFrameworkCacheCommand(
+                new FileCache(Config::get('paths', 'tmp.framework.http') . '/cachedBootstrapperRegistry.json'),
+                new FileCache(Config::get('paths', 'tmp.framework.console') . '/cachedBootstrapperRegistry.json'),
+                $container->resolve(RouteCache::class),
+                $container->resolve(ViewCache::class)
+            );
+            $commands->add($flushCacheCommand);
+        } catch (IocException $ex) {
+            throw new RuntimeException('Failed to resolve ' . FlushFrameworkCacheCommand::class, 0, $ex);
         }
     }
 

@@ -16,6 +16,13 @@ namespace Opulence\Ioc\Bootstrappers\Dispatchers;
 interface IBootstrapperDispatcher
 {
     /**
+     * Dispatches the bootstrappers
+     * 
+     * @param bool $forceEagerLoading Whether or not to force eager loading
+     */
+    public function dispatch(bool $forceEagerLoading);
+    
+    /**
      * Shuts down the bootstrappers
      *
      * @deprecated 1.1.0 Bootstrappers will no longer be shut down
