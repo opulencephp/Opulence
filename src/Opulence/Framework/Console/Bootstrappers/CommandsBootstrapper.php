@@ -70,8 +70,8 @@ class CommandsBootstrapper extends Bootstrapper
         // Use a factory to defer the resolution of the commands
         // The commands may have dependencies set in other bootstrappers
         $container->bindFactory(
-            CommandCollection::class, 
-            function() use ($container) {
+            CommandCollection::class,
+            function () use ($container) {
                 $compiler = $this->getCommandCompiler($container);
                 $container->bindInstance(ICompiler::class, $compiler);
                 $commands = new CommandCollection($compiler);
@@ -95,7 +95,7 @@ class CommandsBootstrapper extends Bootstrapper
         foreach (self::$commandClasses as $commandClass) {
             $commands->add($container->resolve($commandClass));
         }
-        
+
         // The flush-cache command requires some special configuration
         try {
             $flushCacheCommand = new FlushFrameworkCacheCommand(

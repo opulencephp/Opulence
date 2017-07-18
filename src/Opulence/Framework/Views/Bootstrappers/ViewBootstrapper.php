@@ -68,7 +68,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
         $container->bindInstance(ICompiler::class, $compiler);
         $container->bindInstance(ICache::class, $this->viewCache);
         $container->bindInstance(IViewFactory::class, $this->viewFactory);
-        
+
         // If we're developing, wipe out the view cache
         if (getenv('ENV_NAME') === Environment::DEVELOPMENT) {
             $this->viewCache->flush();

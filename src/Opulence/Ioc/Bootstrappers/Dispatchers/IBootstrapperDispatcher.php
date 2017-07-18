@@ -17,11 +17,11 @@ interface IBootstrapperDispatcher
 {
     /**
      * Dispatches the bootstrappers
-     * 
+     *
      * @param bool $forceEagerLoading Whether or not to force eager loading
      */
     public function dispatch(bool $forceEagerLoading);
-    
+
     /**
      * Shuts down the bootstrappers
      *

@@ -46,7 +46,7 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
         $this->bootstrapperRegistry = $bootstrapperRegistry;
         $this->bootstrapperResolver = $bootstrapperResolver;
     }
-    
+
     public function dispatch(bool $forceEagerLoading)
     {
         if ($forceEagerLoading) {
@@ -155,11 +155,11 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
 
                 if (!isset($this->dispatchedBootstrappers[$bootstrapperClass])) {
                     $bootstrapper->registerBindings($this->container);
-                    
+
                     if ($run) {
                         $this->container->callMethod($bootstrapper, 'run', [], true);
                     }
-                    
+
                     $this->dispatchedBootstrappers[$bootstrapperClass] = true;
                 }
 

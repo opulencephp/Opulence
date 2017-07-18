@@ -32,7 +32,7 @@ class ViewFunctionsBootstrapper extends Bootstrapper
         $transpiler = $container->resolve(ITranspiler::class);
         $urlGenerator = $container->resolve(UrlGenerator::class);
         $session = $container->resolve(ISession::class);
-        
+
         // Add the ability to display a hidden input with the current CSRF token
         $transpiler->registerViewFunction('csrfInput', function () use ($session) {
             return sprintf(
