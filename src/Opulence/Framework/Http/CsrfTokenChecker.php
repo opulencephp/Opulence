@@ -51,7 +51,7 @@ class CsrfTokenChecker
         if ($token === null) {
             $token = $request->getHeaders()->get('X-XSRF-TOKEN');
         }
-        
+
         if ($token === null) {
             return false;
         }
