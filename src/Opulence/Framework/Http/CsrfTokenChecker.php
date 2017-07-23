@@ -51,6 +51,10 @@ class CsrfTokenChecker
         if ($token === null) {
             $token = $request->getHeaders()->get('X-XSRF-TOKEN');
         }
+        
+        if ($token === null) {
+            return false;
+        }
 
         return \hash_equals($session->get(self::TOKEN_INPUT_NAME), $token);
     }

@@ -21,14 +21,12 @@ class AboutCommand extends Command
     /** @var string The template for the output */
     private static $template = <<<EOF
 -----------------------------
-About <b>Apex</b> {{version}}
+About <b>Apex</b>
 -----------------------------
 {{commands}}
 EOF;
     /** @var PaddingFormatter The space padding formatter to use */
     private $paddingFormatter = null;
-    /** @var string The version number of the application */
-    private $applicationVersion = 'Unknown';
 
     /**
      * @param CommandCollection $commands The list of commands
@@ -39,13 +37,12 @@ EOF;
     public function __construct(
         CommandCollection $commands,
         PaddingFormatter $paddingFormatter,
-        string $applicationVersion
+        string $applicationVersion = ''
     ) {
         parent::__construct();
 
         $this->setCommandCollection($commands);
         $this->paddingFormatter = $paddingFormatter;
-        $this->applicationVersion = $applicationVersion;
     }
 
     /**
@@ -65,7 +62,6 @@ EOF;
         // Compile the template
         $compiledTemplate = self::$template;
         $compiledTemplate = str_replace('{{commands}}', $this->getCommandText(), $compiledTemplate);
-        $compiledTemplate = str_replace('{{version}}', $this->applicationVersion, $compiledTemplate);
 
         $response->writeln($compiledTemplate);
     }

@@ -122,11 +122,19 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
         $this->request->expects($this->once())->method('getInput')->willReturn('foo');
         $this->checker->tokenIsValid($this->request, $this->session);
     }
+    
+    /**
+     * Tests that a null CSRF token returns false
+     */
+    public function testNullCsrfTokenReturnsFalse()
+    {
+        $this->assertFalse($this->checker->tokenIsValid($this->request, $this->session));
+    }
 
     /**
      * Tests that the token is marked as valid for read HTTP GET method
      */
-    public function testTokenIsValidForReadHttpGetPMethod()
+    public function testTokenIsValidForReadHttpGetMethod()
     {
         $this->request->expects($this->any())->method('getMethod')->willReturn(RequestMethods::GET);
         $this->checker->tokenIsValid($this->request, $this->session);
