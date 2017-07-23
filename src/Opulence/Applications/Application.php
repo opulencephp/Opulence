@@ -16,6 +16,7 @@ use Opulence\Applications\Tasks\TaskTypes;
 
 /**
  * Defines an application
+ * @deprecated 1.1.0 This class will be removed
  */
 class Application
 {
@@ -50,6 +51,7 @@ class Application
 
     /**
      * @return bool
+     * @deprecated 1.1.0 This method will be removed
      */
     public function isRunning() : bool
     {
@@ -62,6 +64,7 @@ class Application
      * @param callable $shutdownTask The task to perform on shutdown
      * @return mixed|null The return value of the task if there was one, otherwise null
      * @throws Exception Thrown if there was an error shutting down the application
+     * @deprecated 1.1.0 This method will be removed
      */
     public function shutDown(callable $shutdownTask = null)
     {
@@ -94,6 +97,7 @@ class Application
      * @param callable $startTask The task to perform on startup
      * @return mixed|null The return value of the task if there was one, otherwise null
      * @throws Exception Thrown if there was a problem starting the application
+     * @deprecated 1.1.0 This method will be removed
      */
     public function start(callable $startTask = null)
     {

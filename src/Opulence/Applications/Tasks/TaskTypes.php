@@ -12,6 +12,7 @@ namespace Opulence\Applications\Tasks;
 
 /**
  * Defines the different types of tasks
+ * @deprecated 1.1.0 This class will be removed
  */
 class TaskTypes
 {

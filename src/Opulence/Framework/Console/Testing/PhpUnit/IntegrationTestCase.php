@@ -10,7 +10,6 @@
 
 namespace Opulence\Framework\Console\Testing\PhpUnit;
 
-use Opulence\Applications\Application;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\ICompiler;
 use Opulence\Console\Kernel;
@@ -34,8 +33,6 @@ use PHPUnit_Framework_MockObject_MockObject;
  */
 abstract class IntegrationTestCase extends TestCase
 {
-    /** @var Application The application */
-    protected $application = null;
     /** @var IContainer The IoC container */
     protected $container = null;
     /** @var CommandCollection The list of registered commands */
@@ -106,7 +103,6 @@ abstract class IntegrationTestCase extends TestCase
      */
     public function setUp()
     {
-        $this->application->start();
         $this->requestParser = new ArrayListParser();
         $this->commandCollection = $this->container->resolve(CommandCollection::class);
         $this->commandCompiler = $this->container->resolve(ICompiler::class);
@@ -114,8 +110,7 @@ abstract class IntegrationTestCase extends TestCase
         $this->kernel = new Kernel(
             $this->requestParser,
             $this->commandCompiler,
-            $this->commandCollection,
-            $this->application->getVersion()
+            $this->commandCollection
         );
         $this->assertResponse = new ResponseAssertions();
 
@@ -125,14 +120,6 @@ abstract class IntegrationTestCase extends TestCase
             ->setConstructorArgs([new PaddingFormatter()])
             ->getMock();
         $this->container->bindInstance(Prompt::class, $this->prompt);
-    }
-
-    /**
-     * Tears down the tests
-     */
-    public function tearDown()
-    {
-        $this->application->shutDown();
     }
 
     /**

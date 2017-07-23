@@ -10,7 +10,6 @@
 
 namespace Opulence\Framework\Http\Testing\PhpUnit;
 
-use Opulence\Applications\Application;
 use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
 use Opulence\Framework\Http\Kernel;
@@ -28,8 +27,6 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class IntegrationTestCase extends TestCase
 {
-    /** @var Application The application */
-    protected $application = null;
     /** @var IContainer The IoC container */
     protected $container = null;
     /** @var Router The router */
@@ -146,7 +143,6 @@ abstract class IntegrationTestCase extends TestCase
      */
     public function setUp()
     {
-        $this->application->start();
         $this->container->bindInstance(IExceptionHandler::class, $this->getExceptionHandler());
         $this->container->bindInstance(IExceptionRenderer::class, $this->getExceptionRenderer());
         $this->router = $this->container->resolve(Router::class);
@@ -155,14 +151,6 @@ abstract class IntegrationTestCase extends TestCase
         $this->defaultRequest = new Request([], [], [], [], [], []);
         $this->assertResponse = new ResponseAssertions();
         $this->assertView = new ViewAssertions();
-    }
-
-    /**
-     * Tears down the tests
-     */
-    public function tearDown()
-    {
-        $this->application->shutDown();
     }
 
     /**

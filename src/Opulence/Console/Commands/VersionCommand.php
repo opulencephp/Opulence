@@ -19,19 +19,16 @@ class VersionCommand extends Command
 {
     /** @var string The template for the output */
     private static $template = <<<EOF
-<info>Opulence Console {{version}}</info>
+<info>Opulence Console</info>
 EOF;
-    /** @var string The version number of the application */
-    private $applicationVersion = 'Unknown';
 
     /**
      * @param string $applicationVersion The version number of the application
+     * @deprecated 1.1.0 The $applicationVersion parameter will soon not be accepted
      */
-    public function __construct(string $applicationVersion)
+    public function __construct(string $applicationVersion = '')
     {
         parent::__construct();
-
-        $this->applicationVersion = $applicationVersion;
     }
 
     /**
@@ -50,7 +47,6 @@ EOF;
     {
         // Compile the template
         $compiledTemplate = self::$template;
-        $compiledTemplate = str_replace('{{version}}', $this->applicationVersion, $compiledTemplate);
 
         $response->writeln($compiledTemplate);
     }

@@ -10,9 +10,6 @@
 
 namespace Opulence\Tests\Framework\Http\Testing\PhpUnit\Mocks;
 
-use Opulence\Applications\Application;
-use Opulence\Applications\Tasks\Dispatchers\TaskDispatcher;
-use Opulence\Applications\Tasks\TaskTypes;
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
 use Opulence\Environments\Environment;
@@ -81,14 +78,11 @@ class IntegrationTestCase extends BaseIntegrationTestCase
             'src' => realpath(__DIR__ . '/../../../../../../src')
         ]);
         // Create and bind all of the components of our application
-        $taskDispatcher = new TaskDispatcher();
         // Purposely set this to a weird value so we can test that it gets overwritten with the "test" environment
         $this->environment = new Environment('foo');
         $this->container = new Container();
-        $this->container->bindInstance(TaskDispatcher::class, $taskDispatcher);
         $this->container->bindInstance(Environment::class, $this->environment);
         $this->container->bindInstance(IContainer::class, $this->container);
-        $this->application = new Application($taskDispatcher);
 
         // Setup the bootstrappers
         $bootstrapperRegistry = new BootstrapperRegistry();
@@ -98,18 +92,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
             new BootstrapperResolver()
         );
         $bootstrapperRegistry->registerEagerBootstrapper(self::$bootstrappers);
-        $taskDispatcher->registerTask(
-            TaskTypes::PRE_START,
-            function () use ($bootstrapperDispatcher) {
-                $bootstrapperDispatcher->startBootstrappers(false);
-            }
-        );
-        $taskDispatcher->registerTask(
-            TaskTypes::PRE_SHUTDOWN,
-            function () use ($bootstrapperDispatcher) {
-                $bootstrapperDispatcher->shutDownBootstrappers();
-            }
-        );
+        $bootstrapperDispatcher->dispatch(false);
 
         parent::setUp();
     }
