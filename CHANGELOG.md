@@ -1,4 +1,16 @@
-<h2>v1.0.10 (2017-04-15)</h3>
+<h2>v1.1.0 (2017-?-?)</h2>
+
+<h3>Database</h3>
+
+* Added database migration support
+
+<h3>Framework</h3>
+
+* Added `php apex make:migration`
+* Added `php apex migration:up`
+* Added `php apex migration:down`
+
+<h2>v1.0.10 (2017-04-15)</h2>
 
 <h3>Framework</h3>
 * Added more PHPDoc to some template files

@@ -25,6 +25,9 @@ use Opulence\Framework\Console\Commands\RenameAppCommand;
 use Opulence\Framework\Console\Commands\RunAppLocallyCommand;
 use Opulence\Framework\Cryptography\Console\Commands\EncryptionKeyGenerationCommand;
 use Opulence\Framework\Cryptography\Console\Commands\UuidGenerationCommand;
+use Opulence\Framework\Databases\Console\Commands\MakeMigrationCommand;
+use Opulence\Framework\Databases\Console\Commands\RunDownMigrationsCommand;
+use Opulence\Framework\Databases\Console\Commands\RunUpMigrationsCommand;
 use Opulence\Framework\Orm\Console\Commands\MakeDataMapperCommand;
 use Opulence\Framework\Orm\Console\Commands\MakeEntityCommand;
 use Opulence\Framework\Routing\Console\Commands\MakeControllerCommand;
@@ -54,11 +57,14 @@ class CommandsBootstrapper extends Bootstrapper
         FlushViewCacheCommand::class,
         MakeCommandCommand::class,
         MakeControllerCommand::class,
+        MakeMigrationCommand::class,
         MakeDataMapperCommand::class,
         MakeEntityCommand::class,
         MakeHttpMiddlewareCommand::class,
         RenameAppCommand::class,
         RunAppLocallyCommand::class,
+        RunDownMigrationsCommand::class,
+        RunUpMigrationsCommand::class,
         UuidGenerationCommand::class
     ];
 

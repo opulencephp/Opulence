@@ -88,20 +88,10 @@ class RenameAppCommand extends Command
                 $newName
             )
         );
-        $renameDirectoriesQuestion = new Confirmation(
-            sprintf(
-                'Do you want to rename src/%s to src/%s and tests/%s to tests/%s? [y/n] ',
-                $currName,
-                $newName,
-                $currName,
-                $newName
-            )
-        );
 
         if ($this->prompt->ask($confirmationQuestion, $response)) {
-            $renameDirectories = $this->prompt->ask($renameDirectoriesQuestion, $response);
-            $this->updateComposer($currName, $newName, $renameDirectories);
-            $this->updateSrcAndTestDirectories($currName, $newName, $renameDirectories);
+            $this->updateComposer($currName, $newName);
+            $this->updateSrcAndTestDirectories($currName, $newName);
             $this->updateNamespaces($currName, $newName);
             $this->updateConfigs($currName, $newName);
             $response->writeln('<success>Updated name successfully</success>');
@@ -115,9 +105,8 @@ class RenameAppCommand extends Command
      *
      * @param string $currName The current application name
      * @param string $newName The new application name
-     * @param bool $renameDirectories Whether or not to rename directories
      */
-    protected function updateComposer(string $currName, string $newName, bool $renameDirectories)
+    protected function updateComposer(string $currName, string $newName)
     {
         $rootPath = Config::get('paths', 'root');
         $currComposerContents = $this->fileSystem->read("$rootPath/composer.json");
@@ -127,15 +116,6 @@ class RenameAppCommand extends Command
             "$newName\\\\",
             $currComposerContents
         );
-
-        if ($renameDirectories) {
-            // Change the PSR-4 directory
-            $updatedComposerContents = str_replace(
-                "src/$currName",
-                "src/$newName",
-                $updatedComposerContents
-            );
-        }
         $this->fileSystem->write("$rootPath/composer.json", $updatedComposerContents);
     }
 
@@ -209,20 +189,12 @@ class RenameAppCommand extends Command
      *
      * @param string $currName The current application name
      * @param string $newName The new application name
-     * @param bool $renameDirectories Whether or not to rename directories
      */
-    protected function updateSrcAndTestDirectories(string $currName, string $newName, bool $renameDirectories)
+    protected function updateSrcAndTestDirectories(string $currName, string $newName)
     {
         $paths = [Config::get('paths', 'src'), Config::get('paths', 'tests')];
 
         foreach ($paths as $pathToUpdate) {
-            if ($renameDirectories) {
-                $this->fileSystem->move(
-                    "$pathToUpdate/$currName",
-                    "$pathToUpdate/$newName"
-                );
-            }
-
             // Rename any references to the new namespace
             $appFiles = $this->fileSystem->getFiles($pathToUpdate, true);
 

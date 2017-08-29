@@ -11,6 +11,7 @@
 namespace Opulence\Tests\Framework\Console\Testing\PhpUnit\Mocks;
 
 use Opulence\Console\Commands\CommandCollection;
+use Opulence\Databases\Migrations\IMigrator;
 use Opulence\Environments\Environment;
 use Opulence\Framework\Composer\Bootstrappers\ComposerBootstrapper;
 use Opulence\Framework\Configuration\Config;
@@ -34,7 +35,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /** @var array The list of bootstrapper classes to include */
     private static $bootstrappers = [
         CommandsBootstrapper::class,
-        ComposerBootstrapper::class,
+        ComposerBootstrapper::class
     ];
 
     /**
@@ -72,6 +73,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
         $this->container->bindInstance(BootstrapperCache::class, $this->createMock(BootstrapperCache::class));
         $this->container->bindInstance(RouteCache::class, $this->createMock(RouteCache::class));
         $this->container->bindInstance(ViewCache::class, $this->createMock(ViewCache::class));
+        $this->container->bindInstance(IMigrator::class, $this->createMock(IMigrator::class));
         $this->container->bindInstance(IContainer::class, $this->container);
 
         // Setup the bootstrappers

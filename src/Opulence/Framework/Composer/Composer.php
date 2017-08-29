@@ -83,7 +83,22 @@ class Composer
     public function getClassPath(string $fullyQualifiedClassName) : string
     {
         $parts = explode('\\', $fullyQualifiedClassName);
-        $path = array_slice($parts, 0, -1);
+
+        /**
+         * If the root namespace does have a directory (eg Project\MyClass lives in src/Project/MyClass.php),
+         * then we do include it in the path
+         * If the root namespace does not have a directory (eg Project\MyClass lives in src/MyClass.php),
+         * then we do not include it in the path (ie don't use "Project" in the path)
+         *
+         * Note:  This is mainly for backwards-compatibility with the directory structure for v1.0.* of the
+         * skeleton project.  This is hacky, but it works.
+         */
+        if (file_exists(realpath($this->psr4RootPath . '/' . $parts[0]))) {
+            $path = array_slice($parts, 0, -1);
+        } else {
+            $path = array_slice($parts, 1, -1);
+        }
+
         $path[] = end($parts) . '.php';
         array_unshift($path, $this->psr4RootPath);
 
