@@ -51,6 +51,8 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
         $handler = $this->getErrorHandler();
         $handler->handle(E_DEPRECATED, 'foo');
         $handler->handle(E_USER_DEPRECATED, 'foo');
+        // Essentially just test that we got here
+        $this->assertTrue(true);
     }
 
     /**

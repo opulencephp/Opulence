@@ -135,6 +135,8 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     public function testGettingAnswerLineString()
     {
         $this->indexedChoiceQuestion->setAnswerLineString(' > ');
+        // Essentially just test that we got here
+        $this->assertTrue(true);
     }
 
     /**

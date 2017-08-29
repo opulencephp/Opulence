@@ -76,5 +76,7 @@ class EventDispatcherTest extends \PHPUnit\Framework\TestCase
     public function testDispatchingWithNoListeners()
     {
         $this->dispatcher->dispatch('foo', $this->event);
+        // Essentially just test that we got here
+        $this->assertTrue(true);
     }
 }

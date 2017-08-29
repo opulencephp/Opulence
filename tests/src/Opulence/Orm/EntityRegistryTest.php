@@ -113,6 +113,8 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
         });
         $this->entityRegistry->clear();
         $this->entityRegistry->runAggregateRootCallbacks($this->entity2);
+        // Essentially just test that we got here
+        $this->assertTrue(true);
     }
 
     /**
@@ -125,6 +127,8 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
         });
         $this->entityRegistry->deregisterEntity($this->entity2);
         $this->entityRegistry->runAggregateRootCallbacks($this->entity2);
+        // Essentially just test that we got here
+        $this->assertTrue(true);
     }
 
     /**

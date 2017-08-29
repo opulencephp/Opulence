@@ -138,15 +138,19 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
     {
         $this->request->expects($this->any())->method('getMethod')->willReturn(RequestMethods::GET);
         $this->checker->tokenIsValid($this->request, $this->session);
+        // Essentially just test that we got here
+        $this->assertTrue(true);
     }
 
     /**
      * Tests that the token is marked as valid for read HTTP HEAD method
      */
-    public function testTokenIsValidForReadHttpHeadPMethod()
+    public function testTokenIsValidForReadHttpHeadMethod()
     {
         $this->request->expects($this->any())->method('getMethod')->willReturn(RequestMethods::HEAD);
         $this->checker->tokenIsValid($this->request, $this->session);
+        // Essentially just test that we got here
+        $this->assertTrue(true);
     }
 
     /**
@@ -156,5 +160,7 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
     {
         $this->request->expects($this->any())->method('getMethod')->willReturn(RequestMethods::OPTIONS);
         $this->checker->tokenIsValid($this->request, $this->session);
+        // Essentially just test that we got here
+        $this->assertTrue(true);
     }
 }
