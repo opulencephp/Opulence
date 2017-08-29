@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
