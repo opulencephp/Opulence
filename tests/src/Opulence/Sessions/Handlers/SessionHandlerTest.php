@@ -42,6 +42,8 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->encrypter->expects($this->any())->method('encrypt')
             ->willThrowException(new SessionEncryptionException());
         $this->handler->write('theId', 'foo');
+        // Essentially just test that we got here
+        $this->assertTrue(true);
     }
 
     /**
@@ -110,6 +112,8 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->handler->expects($this->any())->method('doWrite')->with('theId', 'bar');
         $this->encrypter->expects($this->any())->method('encrypt')->will($this->returnValue('bar'));
         $this->handler->write('theId', 'foo');
+        // Essentially just test that we got here
+        $this->assertTrue(true);
     }
 
     /**
@@ -119,5 +123,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $this->handler->expects($this->any())->method('doWrite')->with('theId', 'foo');
         $this->handler->write('theId', 'foo');
+        // Essentially just test that we got here
+        $this->assertTrue(true);
     }
 }
