@@ -25,4 +25,12 @@ class MigrationB extends Migration
     {
         return new DateTime('2017-08-14T12:00:00Z');
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function up() : void
+    {
+        // Don't do anything
+    }
 }

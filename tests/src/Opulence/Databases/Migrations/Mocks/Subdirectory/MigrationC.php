@@ -25,4 +25,12 @@ class MigrationC extends Migration
     {
         return new DateTime('2017-08-12T12:00:00Z');
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function up() : void
+    {
+        // Don't do anything
+    }
 }
