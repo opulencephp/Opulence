@@ -1,5 +1,9 @@
 <h2>v1.1.0 (2017-?-?)</h2>
 
+<h3>Applications</h3>
+
+* Deprecated all classes in this library (support will be dropped in Opulence 2.0)
+
 <h3>Database</h3>
 
 * Added database migration support
@@ -7,8 +11,12 @@
 <h3>Framework</h3>
 
 * Added `php apex make:migration`
-* Added `php apex migration:up`
-* Added `php apex migration:down`
+* Added `php apex migrations:up`
+* Added `php apex migrations:down`
+
+<h3>IoC</h3>
+
+* Deprecated `Bootstrapper::run()` and `shutDown()`
 
 <h2>v1.0.10 (2017-04-15)</h2>
 

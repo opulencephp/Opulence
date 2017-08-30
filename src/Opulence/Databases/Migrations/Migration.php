@@ -35,12 +35,4 @@ abstract class Migration implements IMigration
     {
         // Left intentionally blank
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function up() : void
-    {
-        // Left intentionally blank
-    }
 }
