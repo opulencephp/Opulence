@@ -20,7 +20,7 @@ interface IBootstrapperDispatcher
      *
      * @param bool $forceEagerLoading Whether or not to force eager loading
      */
-    public function dispatch(bool $forceEagerLoading);
+    public function dispatch(bool $forceEagerLoading) : void;
 
     /**
      * Shuts down the bootstrappers

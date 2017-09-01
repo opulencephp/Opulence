@@ -47,7 +47,10 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
         $this->bootstrapperResolver = $bootstrapperResolver;
     }
 
-    public function dispatch(bool $forceEagerLoading)
+    /**
+     * @inheritdoc
+     */
+    public function dispatch(bool $forceEagerLoading) : void
     {
         if ($forceEagerLoading) {
             $eagerBootstrapperClasses = $this->bootstrapperRegistry->getEagerBootstrappers();
