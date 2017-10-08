@@ -38,6 +38,7 @@
     "psr/log": "~1.0"
   },
   "require-dev": {
+    "ext-pdo": "*",
     "phpredis": "3.0.*",
     "predis/predis": "1.1.*@dev",
     "phpunit/phpunit": "~6.0"
