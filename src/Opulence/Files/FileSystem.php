@@ -11,6 +11,7 @@
 namespace Opulence\Files;
 
 use Opulence\IO\FileSystem as BaseFileSystem;
+
 /**
  * Defines methods for interacting with the file system
  * @deprecated 1.1.0 This class will be removed
