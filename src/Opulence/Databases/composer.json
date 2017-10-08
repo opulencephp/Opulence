@@ -24,7 +24,7 @@
   },
   "require": {
     "php": "^7.0",
-    "ext-pdo": "*",
+    "ext-pdo": "*"
   },
   "extra": {
     "branch-alias": {
