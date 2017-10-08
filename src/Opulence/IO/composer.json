@@ -1,9 +1,10 @@
 {
   "name": "opulence/files",
-  "description": "The Opulence file system library",
+  "description": "The Opulence IO library",
   "keywords": [
     "PHP",
-    "file system"
+    "file system",
+    "io"
   ],
   "authors": [
     {
@@ -15,12 +16,11 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Opulence\\Files\\": ""
+      "Opulence\\IO\\": ""
     }
   },
   "require": {
-    "php": "^7.0",
-    "opulence/io": "1.0.*"
+    "php": "^7.0"
   },
   "extra": {
     "branch-alias": {

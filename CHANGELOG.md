@@ -8,6 +8,10 @@
 
 * Added database migration support
 
+<h3>Files</h3>
+
+* All classes have been moved to the `Opulence\IO` namespace
+
 <h3>Framework</h3>
 
 * Added `php apex make:migration`

@@ -8,14 +8,14 @@
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 
-namespace Opulence\Files;
+namespace Opulence\IO;
 
-use Opulence\IO\FileSystem as BaseFileSystem;
+use Exception;
+
 /**
- * Defines methods for interacting with the file system
- * @deprecated 1.1.0 This class will be removed
+ * Defines the exception to be thrown by the file system
  */
-class FileSystem extends BaseFileSystem
+class FileSystemException extends Exception
 {
     // Don't do anything
 }

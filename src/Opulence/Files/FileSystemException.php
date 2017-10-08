@@ -10,12 +10,13 @@
 
 namespace Opulence\Files;
 
-use Exception;
+use Opulence\IO\FileSystemException as BaseFileSystemException;
 
 /**
  * Defines the exception to be thrown by the file system
+ * @deprecated 1.1.0 This class will be removed
  */
-class FileSystemException extends Exception
+class FileSystemException extends BaseFileSystemException
 {
     // Don't do anything
 }
