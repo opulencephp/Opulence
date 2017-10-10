@@ -10,13 +10,13 @@
 
 namespace Opulence\Orm;
 
+use Opulence\Databases\Tests\Mocks\Connection;
+use Opulence\Databases\Tests\Mocks\Server;
 use Opulence\Orm\ChangeTracking\ChangeTracker;
 use Opulence\Orm\DataMappers\IDataMapper;
 use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 use Opulence\Orm\Ids\Generators\IIdGeneratorRegistry;
 use Opulence\Orm\Ids\Generators\IntSequenceIdGenerator;
-use Opulence\Tests\Databases\Mocks\Connection;
-use Opulence\Tests\Databases\Mocks\Server;
 use Opulence\Tests\Mocks\User;
 use Opulence\Tests\Orm\DataMappers\Mocks\CachedSqlDataMapper;
 use Opulence\Tests\Orm\DataMappers\Mocks\SqlDataMapper;

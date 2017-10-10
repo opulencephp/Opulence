@@ -10,9 +10,9 @@
 
 namespace Opulence\Orm\Ids\Generators;
 
+use Opulence\Databases\Tests\Mocks\Connection;
+use Opulence\Databases\Tests\Mocks\Server;
 use Opulence\Orm\OrmException;
-use Opulence\Tests\Databases\Mocks\Connection;
-use Opulence\Tests\Databases\Mocks\Server;
 use stdClass;
 
 /**

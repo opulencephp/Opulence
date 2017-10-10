@@ -12,6 +12,7 @@ namespace Opulence\Authentication\Tests;
 
 use Opulence\Authentication\AuthenticationContext;
 use Opulence\Authentication\AuthenticationStatusTypes;
+use Opulence\Authentication\ISubject;
 
 /**
  * Tests the authentication context

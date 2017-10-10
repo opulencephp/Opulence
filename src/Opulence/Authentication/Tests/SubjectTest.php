@@ -11,6 +11,8 @@
 namespace Opulence\Authentication\Tests;
 
 use Opulence\Authentication\Credentials\ICredential;
+use Opulence\Authentication\IPrincipal;
+use Opulence\Authentication\PrincipalTypes;
 use Opulence\Authentication\Subject;
 
 /**

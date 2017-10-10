@@ -12,6 +12,7 @@ namespace Opulence\Authentication\Tests\Credentials\Authenticators;
 
 use InvalidArgumentException;
 use Opulence\Authentication\Credentials\Authenticators\Authenticator;
+use Opulence\Authentication\Credentials\Authenticators\IAuthenticator;
 use Opulence\Authentication\Credentials\Authenticators\IAuthenticatorRegistry;
 use Opulence\Authentication\Credentials\ICredential;
 

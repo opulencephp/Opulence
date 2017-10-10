@@ -14,6 +14,7 @@ use Opulence\Console\Responses\Compilers\ElementRegistrant;
 use Opulence\Console\Responses\Compilers\Elements\Colors;
 use Opulence\Console\Responses\Compilers\Elements\Style;
 use Opulence\Console\Responses\Compilers\Elements\TextStyles;
+use Opulence\Console\Responses\Compilers\ICompiler;
 
 /**
  * Tests the element registrant
