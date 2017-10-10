@@ -16,7 +16,10 @@
   "autoload": {
     "psr-4": {
       "Opulence\\Sessions\\": ""
-    }
+    },
+    "exclude-from-classmap": [
+        "/Tests/"
+    ]
   },
   "require": {
     "php": "^7.0"

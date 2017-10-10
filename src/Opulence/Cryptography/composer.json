@@ -19,7 +19,10 @@
   "autoload": {
     "psr-4": {
       "Opulence\\Cryptography\\": ""
-    }
+    },
+    "exclude-from-classmap": [
+        "/Tests/"
+    ]
   },
   "require": {
     "php": "^7.0",

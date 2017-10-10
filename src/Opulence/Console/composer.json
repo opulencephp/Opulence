@@ -18,7 +18,10 @@
   "autoload": {
     "psr-4": {
       "Opulence\\Console\\": ""
-    }
+    },
+    "exclude-from-classmap": [
+        "/Tests/"
+    ]
   },
   "require": {
     "php": "^7.0"

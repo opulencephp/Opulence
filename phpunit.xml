@@ -4,7 +4,31 @@
         convertErrorsToExceptions="true"
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true">
-    <testsuite name="Opulence">
+    <testsuite name="Opulence Tests">
+        <directory>src/Opulence/Applications/*/Tests</directory>
+        <directory>src/Opulence/Authentication/*/Tests</directory>
+        <directory>src/Opulence/Authorization/*/Tests</directory>
+        <directory>src/Opulence/Cache/*/Tests</directory>
+        <directory>src/Opulence/Console/*/Tests</directory>
+        <directory>src/Opulence/Cryptography/*/Tests</directory>
+        <directory>src/Opulence/Databases/*/Tests</directory>
+        <directory>src/Opulence/Debug/*/Tests</directory>
+        <directory>src/Opulence/Environments/*/Tests</directory>
+        <directory>src/Opulence/Events/*/Tests</directory>
+        <directory>src/Opulence/Framework/*/Tests</directory>
+        <directory>src/Opulence/Http/*/Tests</directory>
+        <directory>src/Opulence/IO/*/Tests</directory>
+        <directory>src/Opulence/Ioc/*/Tests</directory>
+        <directory>src/Opulence/Memcached/*/Tests</directory>
+        <directory>src/Opulence/Orm/*/Tests</directory>
+        <directory>src/Opulence/Pipelines/*/Tests</directory>
+        <directory>src/Opulence/QueryBuilders/*/Tests</directory>
+        <directory>src/Opulence/Redis/*/Tests</directory>
+        <directory>src/Opulence/Routing/*/Tests</directory>
+        <directory>src/Opulence/Sessions/*/Tests</directory>
+        <directory>src/Opulence/Validation/*/Tests</directory>
+        <directory>src/Opulence/Views/*/Tests</directory>
+        <!-- Todo: Remove this -->
         <directory>tests</directory>
     </testsuite>
 </phpunit>

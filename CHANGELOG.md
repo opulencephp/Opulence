@@ -1,8 +1,16 @@
 <h2>v1.1.0 (2017-?-?)</h2>
 
+<h3>General</h3>
+
+* Moved all test directories into a `test` directory within each library
+
 <h3>Applications</h3>
 
 * Deprecated all classes in this library (support will be dropped in Opulence 2.0)
+
+<h3>Collections</h3>
+
+* Added the collection library
 
 <h3>Database</h3>
 
@@ -10,7 +18,7 @@
 
 <h3>Files</h3>
 
-* All classes have been moved to the `Opulence\IO` namespace
+* All classes have been deprecated in the `Opulence\Files` namespace and moved to the `Opulence\IO` namespace
 
 <h3>Framework</h3>
 

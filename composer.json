@@ -23,7 +23,10 @@
   "autoload": {
     "psr-4": {
       "Opulence\\": "src/Opulence"
-    }
+    },
+    "exclude-from-classmap": [
+        "**/Tests/"
+    ]
   },
   "autoload-dev": {
     "psr-4": {

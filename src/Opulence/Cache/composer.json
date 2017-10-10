@@ -18,7 +18,10 @@
   "autoload": {
     "psr-4": {
       "Opulence\\Cache\\": ""
-    }
+    },
+    "exclude-from-classmap": [
+        "/Tests/"
+    ]
   },
   "require": {
     "php": "^7.0"

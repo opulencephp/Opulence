@@ -13,12 +13,12 @@ namespace Opulence\Framework\Console\Testing\PhpUnit;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Prompts\Prompt;
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
-use Opulence\Tests\Console\Commands\Mocks\HappyHolidayCommand;
-use Opulence\Tests\Console\Commands\Mocks\MultiplePromptsCommand;
-use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
-use Opulence\Tests\Console\Commands\Mocks\SinglePromptCommand;
-use Opulence\Tests\Console\Commands\Mocks\StatusCodeCommand;
-use Opulence\Tests\Console\Commands\Mocks\StyledCommand;
+use Opulence\Console\Tests\Commands\Mocks\HappyHolidayCommand;
+use Opulence\Console\Tests\Commands\Mocks\MultiplePromptsCommand;
+use Opulence\Console\Tests\Commands\Mocks\SimpleCommand;
+use Opulence\Console\Tests\Commands\Mocks\SinglePromptCommand;
+use Opulence\Console\Tests\Commands\Mocks\StatusCodeCommand;
+use Opulence\Console\Tests\Commands\Mocks\StyledCommand;
 use Opulence\Tests\Framework\Console\Testing\PhpUnit\Mocks\IntegrationTestCase as MockIntegrationTestCase;
 
 /**
