@@ -16,6 +16,7 @@ use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Routing\Dispatchers\IDependencyResolver;
+use Opulence\Routing\Dispatchers\MiddlewarePipeline;
 use Opulence\Routing\Dispatchers\RouteDispatcher;
 use Opulence\Routing\Middleware\MiddlewareParameters;
 use Opulence\Routing\RouteException;

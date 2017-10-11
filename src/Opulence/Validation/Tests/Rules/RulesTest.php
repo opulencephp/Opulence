@@ -16,6 +16,7 @@ use DateTime;
 use LogicException;
 use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
+use Opulence\Validation\Rules\IRule;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Rules\Rules;
 
