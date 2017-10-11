@@ -12,6 +12,7 @@ namespace Opulence\Views\Tests\Compilers\Fortune;
 
 use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Fortune\FortuneCompiler;
+use Opulence\Views\Compilers\Fortune\ITranspiler;
 use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\Compilers\Fortune\Transpiler;

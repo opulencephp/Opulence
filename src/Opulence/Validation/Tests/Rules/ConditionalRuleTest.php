@@ -13,6 +13,7 @@ namespace Opulence\Validation\Tests\Rules;
 use InvalidArgumentException;
 use LogicException;
 use Opulence\Validation\Rules\ConditionalRule;
+use Opulence\Validation\Rules\IRule;
 
 /**
  * Tests the conditional rule

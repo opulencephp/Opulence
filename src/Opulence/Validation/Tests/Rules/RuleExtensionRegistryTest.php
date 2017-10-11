@@ -12,6 +12,7 @@ namespace Opulence\Validation\Tests\Rules;
 
 use InvalidArgumentException;
 use Opulence\Validation\Rules\CallbackRule;
+use Opulence\Validation\Rules\IRule;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 
 /**

@@ -12,6 +12,7 @@ namespace Opulence\Views\Tests\Compilers;
 
 use InvalidArgumentException;
 use Opulence\Views\Compilers\CompilerRegistry;
+use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\IView;
 
 /**

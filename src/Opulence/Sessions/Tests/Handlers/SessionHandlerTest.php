@@ -11,6 +11,7 @@
 namespace Opulence\Sessions\Tests\Handlers;
 
 use LogicException;
+use Opulence\Sessions\Handlers\ISessionEncrypter;
 use Opulence\Sessions\Handlers\SessionHandler;
 
 /**
