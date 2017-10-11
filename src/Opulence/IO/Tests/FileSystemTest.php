@@ -53,7 +53,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testCopyingDirectories()
     {
-        $this->fileSystem->copyDirectory(__DIR__ . '/subdirectory', __DIR__ . '/tmp');
+        $this->fileSystem->copyDirectory(__DIR__ . '/files/subdirectory', __DIR__ . '/tmp');
         $this->assertTrue($this->fileSystem->exists(__DIR__ . '/tmp/foo.txt'));
         $this->assertTrue($this->fileSystem->exists(__DIR__ . '/tmp/subdirectory/bar.txt'));
         @unlink(__DIR__ . '/tmp/subdirectory/bar.txt');
@@ -123,7 +123,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingBasename()
     {
-        $this->assertEquals('foo.txt', $this->fileSystem->getBasename(__DIR__ . '/subdirectory/foo.txt'));
+        $this->assertEquals('foo.txt', $this->fileSystem->getBasename(__DIR__ . '/files/subdirectory/foo.txt'));
         $this->expectException(FileSystemException::class);
         $this->fileSystem->getBasename(__DIR__ . '/doesnotexist.txt');
     }
@@ -134,9 +134,9 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
     public function testGettingDirectoriesWithRecursion()
     {
         $this->assertEquals([
-            __DIR__ . DIRECTORY_SEPARATOR . 'subdirectory',
-            __DIR__ . DIRECTORY_SEPARATOR . 'subdirectory' . DIRECTORY_SEPARATOR . 'subdirectory'
-        ], $this->fileSystem->getDirectories(__DIR__, true));
+            __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'subdirectory',
+            __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'subdirectory' . DIRECTORY_SEPARATOR . 'subdirectory'
+        ], $this->fileSystem->getDirectories(__DIR__ . DIRECTORY_SEPARATOR . 'files', true));
     }
 
     /**
@@ -145,8 +145,8 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
     public function testGettingDirectoriesWithoutRecursion()
     {
         $this->assertEquals(
-            [__DIR__ . DIRECTORY_SEPARATOR . 'subdirectory'],
-            $this->fileSystem->getDirectories(__DIR__)
+            [__DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'subdirectory'],
+            $this->fileSystem->getDirectories(__DIR__ . DIRECTORY_SEPARATOR . 'files')
         );
     }
 
@@ -155,8 +155,8 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDirectoryName()
     {
-        $this->assertEquals(__DIR__ . '/subdirectory',
-            $this->fileSystem->getDirectoryName(__DIR__ . '/subdirectory/foo.txt'));
+        $this->assertEquals(__DIR__ . '/files/subdirectory',
+            $this->fileSystem->getDirectoryName(__DIR__ . '/files/subdirectory/foo.txt'));
         $this->expectException(FileSystemException::class);
         $this->fileSystem->getDirectoryName(__DIR__ . '/doesnotexist.txt');
     }
@@ -166,7 +166,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingExtension()
     {
-        $this->assertEquals('txt', $this->fileSystem->getExtension(__DIR__ . '/subdirectory/foo.txt'));
+        $this->assertEquals('txt', $this->fileSystem->getExtension(__DIR__ . '/files/subdirectory/foo.txt'));
         $this->expectException(FileSystemException::class);
         $this->fileSystem->getExtension(__DIR__ . '/doesnotexist.txt');
     }
@@ -176,7 +176,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingFileName()
     {
-        $this->assertEquals('foo', $this->fileSystem->getFileName(__DIR__ . '/subdirectory/foo.txt'));
+        $this->assertEquals('foo', $this->fileSystem->getFileName(__DIR__ . '/files/subdirectory/foo.txt'));
         $this->expectException(FileSystemException::class);
         $this->fileSystem->getFileName(__DIR__ . '/doesnotexist.txt');
     }
@@ -186,7 +186,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingFileSize()
     {
-        $path = __DIR__ . '/subdirectory/foo.txt';
+        $path = __DIR__ . '/files/subdirectory/foo.txt';
         $this->assertEquals(filesize($path), $this->fileSystem->getFileSize($path));
         $this->expectException(FileSystemException::class);
         $this->fileSystem->getFileSize(__DIR__ . '/doesnotexist.txt');
@@ -198,8 +198,8 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
     public function testGettingFilesWithGlob()
     {
         $this->assertCount(0, array_diff([
-                __DIR__ . '/subdirectory/foo.txt'
-            ], $this->fileSystem->glob(__DIR__ . '/subdirectory/*.txt')));
+                __DIR__ . '/files/subdirectory/foo.txt'
+            ], $this->fileSystem->glob(__DIR__ . '/files/subdirectory/*.txt')));
     }
 
     /**
@@ -216,8 +216,8 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
     public function testGettingFilesWithRecursion()
     {
         $this->assertCount(0, array_diff([
-                __DIR__ . DIRECTORY_SEPARATOR . 'subdirectory' . DIRECTORY_SEPARATOR . 'subdirectory' . DIRECTORY_SEPARATOR . 'bar.txt',
-                __DIR__ . DIRECTORY_SEPARATOR . 'subdirectory' . DIRECTORY_SEPARATOR . 'foo.txt',
+                __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'subdirectory' . DIRECTORY_SEPARATOR . 'subdirectory' . DIRECTORY_SEPARATOR . 'bar.txt',
+                __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'subdirectory' . DIRECTORY_SEPARATOR . 'foo.txt',
                 __FILE__
             ], $this->fileSystem->getFiles(__DIR__, true)));
     }
@@ -235,7 +235,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingLastModifiedTime()
     {
-        $path = __DIR__ . '/subdirectory/foo.txt';
+        $path = __DIR__ . '/files/subdirectory/foo.txt';
         $this->assertEquals(DateTime::createFromFormat('U', filemtime($path)),
             $this->fileSystem->getLastModified($path));
         $this->expectException(FileSystemException::class);
