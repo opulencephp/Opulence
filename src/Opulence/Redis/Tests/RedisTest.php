@@ -11,8 +11,8 @@
 namespace Opulence\Redis\Tests;
 
 use InvalidArgumentException;
-use Predis\Client;
 use Opulence\Redis\Redis;
+use Predis\Client;
 
 /**
  * Tests the Redis wrapper

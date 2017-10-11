@@ -12,7 +12,6 @@ namespace Opulence\Validation\Tests\Rules\Models;
 
 use Opulence\Validation\Factories\IValidatorFactory;
 use Opulence\Validation\IValidator;
-use Opulence\Validation\Models\ModelState;
 use Opulence\Validation\Rules\Errors\ErrorCollection;
 use Opulence\Validation\Rules\Rules;
 use Opulence\Validation\Tests\Rules\Models\Mocks\User;

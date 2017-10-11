@@ -19,9 +19,9 @@ use Opulence\Orm\Ids\Generators\IIdGeneratorRegistry;
 use Opulence\Orm\Ids\Generators\IntSequenceIdGenerator;
 use Opulence\Orm\OrmException;
 use Opulence\Orm\Repositories\Repository;
-use Opulence\Orm\UnitOfWork;
-use Opulence\Orm\Tests\Repositories\Mocks\User;
 use Opulence\Orm\Tests\DataMappers\Mocks\SqlDataMapper;
+use Opulence\Orm\Tests\Repositories\Mocks\User;
+use Opulence\Orm\UnitOfWork;
 
 /**
  * Tests the repository class

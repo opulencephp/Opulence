@@ -10,8 +10,8 @@
 
 namespace Opulence\QueryBuilders\Tests\Conditions;
 
-use Opulence\QueryBuilders\Conditions\ConditionFactory;
 use Opulence\QueryBuilders\Conditions\BetweenCondition;
+use Opulence\QueryBuilders\Conditions\ConditionFactory;
 use Opulence\QueryBuilders\Conditions\InCondition;
 use Opulence\QueryBuilders\Conditions\NotBetweenCondition;
 use Opulence\QueryBuilders\Conditions\NotInCondition;

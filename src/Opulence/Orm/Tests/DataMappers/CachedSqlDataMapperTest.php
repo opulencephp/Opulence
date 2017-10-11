@@ -10,8 +10,8 @@
 
 namespace Opulence\Orm\Tests\DataMappers;
 
-use Opulence\Orm\DataMappers\SqlDataMapper;
 use Opulence\Orm\DataMappers\ICacheDataMapper;
+use Opulence\Orm\DataMappers\SqlDataMapper;
 use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 use Opulence\Orm\OrmException;
 use Opulence\Orm\Tests\DataMappers\Mocks\CachedSqlDataMapper;

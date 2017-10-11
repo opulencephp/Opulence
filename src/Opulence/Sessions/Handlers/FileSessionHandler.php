@@ -51,7 +51,7 @@ class FileSessionHandler extends SessionHandler
     {
         $sessionFiles = glob($this->path . '/*', GLOB_NOSORT);
         $limit = time() - $maxLifetime;
-        
+
         foreach ($sessionFiles as $sessionFile) {
             $lastModified = filemtime($sessionFile);
             if ($lastModified < $limit) {
