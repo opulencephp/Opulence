@@ -16,6 +16,7 @@ use InvalidArgumentException;
 use LogicException;
 use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
+use Opulence\Validation\Rules\IRule;
 
 /**
  * Defines the rules for validation

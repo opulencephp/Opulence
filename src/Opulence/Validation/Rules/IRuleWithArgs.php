@@ -11,6 +11,7 @@
 namespace Opulence\Validation\Rules;
 
 use InvalidArgumentException;
+use Opulence\Validation\Rules\IRule;
 
 /**
  * Defines the interface for rules with extra arguments

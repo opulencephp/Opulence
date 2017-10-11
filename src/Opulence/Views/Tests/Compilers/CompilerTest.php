@@ -11,6 +11,7 @@
 namespace Opulence\Views\Tests\Compilers;
 
 use Opulence\Views\Compilers\Compiler;
+use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Compilers\ICompilerRegistry;
 use Opulence\Views\IView;
 

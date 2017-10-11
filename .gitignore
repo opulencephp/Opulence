@@ -1,8 +1,8 @@
-.idea
-.php_cs.cache
-.subsplit/
-composer.lock
-composer.phar
-nbproject/
-phpunit.phar
-vendor/
+/.idea
+/.php_cs.cache
+/.subsplit/
+/composer.lock
+/composer.phar
+/nbproject/
+/phpunit.phar
+/vendor/
