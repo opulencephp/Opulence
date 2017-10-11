@@ -1,4 +1,4 @@
-REPOS=(Applications Authentication Authorization Cache Console Cryptography Databases Debug Environments Events Files Framework Http Ioc Memcached Orm Pipelines QueryBuilders Redis Routing Sessions Validation Views)
+REPOS=(Applications Authentication Authorization Cache Console Cryptography Databases Debug Environments Events Framework Http IO Ioc Memcached Orm Pipelines QueryBuilders Redis Routing Sessions Validation Views)
 BRANCHES_TO_SPLIT=(master 1.0)
 
 function checkOutPullRequest()

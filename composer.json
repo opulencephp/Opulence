@@ -28,11 +28,6 @@
         "**/Tests/"
     ]
   },
-  "autoload-dev": {
-    "psr-4": {
-      "Opulence\\Tests\\": "tests/src/Opulence"
-    }
-  },
   "require": {
     "php": "^7.1",
     "ext-openssl": "*",

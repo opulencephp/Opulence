@@ -16,8 +16,8 @@ use Opulence\Console\Prompts\Questions\Confirmation;
 use Opulence\Console\Requests\Argument;
 use Opulence\Console\Requests\ArgumentTypes;
 use Opulence\Console\Responses\IResponse;
-use Opulence\Files\FileSystem;
 use Opulence\Framework\Configuration\Config;
+use Opulence\IO\FileSystem;
 
 /**
  * Defines the command that renames an application

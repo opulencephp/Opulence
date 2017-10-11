@@ -16,8 +16,8 @@ use Opulence\Console\Requests\Argument;
 use Opulence\Console\Requests\ArgumentTypes;
 use Opulence\Console\Responses\IResponse;
 use Opulence\Console\StatusCodes;
-use Opulence\Files\FileSystem;
 use Opulence\Framework\Composer\Composer;
+use Opulence\IO\FileSystem;
 
 /**
  * Defines the base class for "make:" commands to extend
