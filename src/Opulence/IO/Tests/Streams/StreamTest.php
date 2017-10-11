@@ -8,9 +8,10 @@
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 
-namespace Opulence\IO\Streams;
+namespace Opulence\IO\Tests\Streams;
 
 use InvalidArgumentException;
+use Opulence\IO\Streams\Stream;
 use RuntimeException;
 
 class StreamTest extends \PHPUnit\Framework\TestCase

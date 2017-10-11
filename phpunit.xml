@@ -9,6 +9,7 @@
         <directory>src/Opulence/Authentication/*/Tests</directory>
         <directory>src/Opulence/Authorization/*/Tests</directory>
         <directory>src/Opulence/Cache/*/Tests</directory>
+        <directory>src/Opulence/Collections/*/Tests</directory>
         <directory>src/Opulence/Console/*/Tests</directory>
         <directory>src/Opulence/Cryptography/*/Tests</directory>
         <directory>src/Opulence/Databases/*/Tests</directory>

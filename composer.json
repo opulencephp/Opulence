@@ -60,6 +60,7 @@
     "opulence/authentication": "self.version",
     "opulence/authorization": "self.version",
     "opulence/cache": "self.version",
+    "opulence/collections": "self.version",
     "opulence/console": "self.version",
     "opulence/cryptography": "self.version",
     "opulence/databases": "self.version",

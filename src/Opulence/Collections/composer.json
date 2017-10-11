@@ -1,0 +1,35 @@
+{
+  "name": "opulence/collections",
+  "description": "The Opulence collection library",
+  "keywords": [
+    "PHP",
+    "collections",
+    "hash tables",
+    "lists"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dave@opulencephp.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Collections\\": ""
+    },
+    "exclude-from-classmap": [
+        "/Tests/"
+    ]
+  },
+  "require": {
+    "php": "^7.1"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}
