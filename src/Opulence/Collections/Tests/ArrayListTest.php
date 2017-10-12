@@ -97,16 +97,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests exchanging the array
-     */
-    public function testExchangingArray() : void
-    {
-        $this->arrayList->add('foo');
-        $this->assertEquals(['foo'], $this->arrayList->exchangeArray(['bar']));
-        $this->assertEquals(['bar'], $this->arrayList->toArray());
-    }
-
-    /**
      * Tests getting a parameter
      */
     public function testGetting() : void
@@ -161,6 +151,16 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('baz', $this->arrayList->get(1));
         $this->assertEquals('bar', $this->arrayList->get(2));
         $this->assertEquals(['foo', 'baz', 'bar'], $this->arrayList->toArray());
+    }
+
+    /**
+     * Tests that intersecting values intersects that values of the array list and the array
+     */
+    public function testIntersectingIntersectsValuesOfSetAndArray() : void
+    {
+        $this->arrayList->addRange(['foo', 'bar']);
+        $this->arrayList->intersect(['bar', 'baz']);
+        $this->assertEquals(['bar'], $this->arrayList->toArray());
     }
 
     /**
@@ -252,6 +252,16 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->arrayList->add('bar');
         $this->arrayList->sort($comparer);
         $this->assertEquals(['bar', 'foo'], $this->arrayList->toArray());
+    }
+
+    /**
+     * Tests that unioning values unions that values of the array list and the array
+     */
+    public function testUnionUnionsValuesOfSetAndArray() : void
+    {
+        $this->arrayList->add('foo');
+        $this->arrayList->union(['bar', 'baz']);
+        $this->assertEquals(['foo', 'bar', 'baz'], $this->arrayList->toArray());
     }
 
     /**

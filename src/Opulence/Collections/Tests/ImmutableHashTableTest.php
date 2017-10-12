@@ -10,19 +10,20 @@
 
 namespace Opulence\Collections\Tests;
 
-use Opulence\Collections\ReadOnlyHashTable;
+use Opulence\Collections\ImmutableHashTable;
+use RuntimeException;
 
 /**
- * Tests the read-only hash table
+ * Tests the immutable hash table
  */
-class ReadOnlyHashTableTest extends \PHPUnit\Framework\TestCase
+class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests whether the hash table has a certain key
      */
     public function testContainsKey() : void
     {
-        $hashTable = new ReadOnlyHashTable(['foo' => 'bar']);
+        $hashTable = new ImmutableHashTable(['foo' => 'bar']);
         $this->assertFalse($hashTable->containsKey('baz'));
         $this->assertTrue($hashTable->containsKey('foo'));
     }
@@ -32,7 +33,7 @@ class ReadOnlyHashTableTest extends \PHPUnit\Framework\TestCase
      */
     public function testContainsKeyReturnsTrueEvenIfValuesIsNull() : void
     {
-        $hashTable = new ReadOnlyHashTable(['foo' => null]);
+        $hashTable = new ImmutableHashTable(['foo' => null]);
         $this->assertTrue($hashTable->containsKey('foo'));
     }
 
@@ -41,7 +42,7 @@ class ReadOnlyHashTableTest extends \PHPUnit\Framework\TestCase
      */
     public function testContainsValue() : void
     {
-        $hashTable = new ReadOnlyHashTable(['foo' => 'bar']);
+        $hashTable = new ImmutableHashTable(['foo' => 'bar']);
         $this->assertFalse($hashTable->containsValue('baz'));
         $this->assertTrue($hashTable->containsValue('bar'));
     }
@@ -51,7 +52,7 @@ class ReadOnlyHashTableTest extends \PHPUnit\Framework\TestCase
      */
     public function testCount() : void
     {
-        $hashTable = new ReadOnlyHashTable(['foo' => 'bar', 'baz' => 'blah']);
+        $hashTable = new ImmutableHashTable(['foo' => 'bar', 'baz' => 'blah']);
         $this->assertEquals(2, $hashTable->count());
     }
 
@@ -60,7 +61,7 @@ class ReadOnlyHashTableTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetting() : void
     {
-        $hashTable = new ReadOnlyHashTable(['foo' => 'bar']);
+        $hashTable = new ImmutableHashTable(['foo' => 'bar']);
         $this->assertEquals('bar', $hashTable->get('foo'));
     }
 
@@ -69,7 +70,7 @@ class ReadOnlyHashTableTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAbsentVariableWithDefault() : void
     {
-        $hashTable = new ReadOnlyHashTable([]);
+        $hashTable = new ImmutableHashTable([]);
         $this->assertEquals('blah', $hashTable->get('does not exist', 'blah'));
     }
 
@@ -78,7 +79,7 @@ class ReadOnlyHashTableTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAbsentVariableWithNoDefault() : void
     {
-        $hashTable = new ReadOnlyHashTable([]);
+        $hashTable = new ImmutableHashTable([]);
         $this->assertNull($hashTable->get('does not exist'));
     }
 
@@ -87,7 +88,7 @@ class ReadOnlyHashTableTest extends \PHPUnit\Framework\TestCase
      */
     public function testIteratingOverValues() : void
     {
-        $hashTable = new ReadOnlyHashTable(['foo' => 'bar', 'baz' => 'blah']);
+        $hashTable = new ImmutableHashTable(['foo' => 'bar', 'baz' => 'blah']);
         $actualValues = [];
 
         foreach ($hashTable as $key => $value) {
@@ -98,11 +99,31 @@ class ReadOnlyHashTableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests that setting a value throws an exception
+     */
+    public function testSettingValueThrowsException() : void
+    {
+        $this->expectException(RuntimeException::class);
+        $hashTable = new ImmutableHashTable([]);
+        $hashTable['foo'] = 'bar';
+    }
+
+    /**
      * Tests getting as array
      */
     public function testToArray() : void
     {
-        $hashTable = new ReadOnlyHashTable(['foo' => 'bar', 'baz' => 'blah']);
+        $hashTable = new ImmutableHashTable(['foo' => 'bar', 'baz' => 'blah']);
         $this->assertEquals(['foo' => 'bar', 'baz' => 'blah'], $hashTable->toArray());
+    }
+
+    /**
+     * Tests that unsetting a value throws an exception
+     */
+    public function testUnsettingValueThrowsException() : void
+    {
+        $this->expectException(RuntimeException::class);
+        $hashTable = new ImmutableHashTable([]);
+        unset($hashTable['foo']);
     }
 }

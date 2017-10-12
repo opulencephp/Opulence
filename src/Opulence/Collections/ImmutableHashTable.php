@@ -10,15 +10,17 @@
 
 namespace Opulence\Collections;
 
+use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use RuntimeException;
 use Traversable;
 
 /**
- * Defines a read-only hash table
+ * Defines an immutable hash table
  */
-class ReadOnlyHashTable implements Countable, IteratorAggregate
+class ImmutableHashTable implements ArrayAccess, Countable, IteratorAggregate
 {
     /** @var array The list of values */
     protected $values = [];
@@ -81,6 +83,38 @@ class ReadOnlyHashTable implements Countable, IteratorAggregate
     public function getIterator() : Traversable
     {
         return new ArrayIterator($this->values);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetExists($key) : bool
+    {
+        return $this->containsKey($key);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetGet($key)
+    {
+        return $this->get($key, null);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetSet($key, $value) : void
+    {
+        throw new RuntimeException('Cannot set a value in an immutable hash table');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetUnset($key) : void
+    {
+        throw new RuntimeException('Cannot unset an index in an immutable hash table');
     }
 
     /**

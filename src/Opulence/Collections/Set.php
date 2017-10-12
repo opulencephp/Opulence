@@ -14,18 +14,20 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use RuntimeException;
+use Throwable;
 use Traversable;
 
 /**
- * Defines an array list
+ * Defines a set
  */
-class ArrayList implements ArrayAccess, Countable, IteratorAggregate
+class Set implements ArrayAccess, Countable, IteratorAggregate
 {
-    /** @var array The list of values */
+    /** @var array The set of values */
     protected $values = [];
 
     /**
-     * @param array $values The list of values
+     * @param array $values The set of values
      */
     public function __construct(array $values = [])
     {
@@ -36,16 +38,22 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
      * Adds a value
      *
      * @param mixed $value The value to add
+     * @throws RuntimeException Thrown if the value cannot be serialized
      */
     public function add($value) : void
     {
-        $this->values[] = $value;
+        try {
+            $this->values[(string)$value] = $value;
+        } catch (Throwable $ex) {
+            throw new RuntimeException('Could not serialize value', 0, $ex);
+        }
     }
 
     /**
      * Adds a range of values
      *
      * @param array $values The values to add
+     * @throws RuntimeException Thrown if any of the values cannot be serialized
      */
     public function addRange(array $values) : void
     {
@@ -55,7 +63,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Clears all values from the list
+     * Clears all values from the set
      */
     public function clear() : void
     {
@@ -67,10 +75,15 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
      *
      * @param mixed $value The value to search for
      * @return bool True if the value exists, otherwise false
+     * @throws RuntimeException Thrown if the value cannot be serialized
      */
     public function containsValue($value) : bool
     {
-        return $this->indexOf($value) !== null;
+        try {
+            return isset($this->values[(string)$value]);
+        } catch (Throwable $ex) {
+            throw new RuntimeException('Could not serialize value', 0, $ex);
+        }
     }
 
     /**
@@ -82,18 +95,6 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets the value at an index
-     *
-     * @param int $index The index to get
-     * @param mixed $default The default value
-     * @return mixed The value if it was found, otherwise the default value
-     */
-    public function get(int $index, $default = null)
-    {
-        return $this->values[$index] ?? $default;
-    }
-
-    /**
      * @inheritdoc
      */
     public function getIterator() : Traversable
@@ -102,39 +103,14 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets the index of a value
-     *
-     * @param mixed $value The value to search for
-     * @return int|null The index of the value if it was found, otherwise null
-     */
-    public function indexOf($value) : ?int
-    {
-        if (($index = array_search($value, $this->values)) === false) {
-            return null;
-        }
-
-        return (int)$index;
-    }
-
-    /**
-     * Inserts the value at an index
-     *
-     * @param int $index The index to insert at
-     * @param mixed $value The value to insert
-     */
-    public function insert(int $index, $value) : void
-    {
-        array_splice($this->values, $index, 0, $value);
-    }
-
-    /**
-     * Intersects the values of the input array with the values already in the array list
+     * Intersects the values of the input array with the values already in the set
      *
      * @param array $values The values to intersect with
+     * @throws RuntimeException Thrown if any of the values cannot be serialized
      */
     public function intersect(array $values) : void
     {
-        $intersectedValues = array_intersect($this->values, $values);
+        $intersectedValues = array_intersect(array_values($this->values), $values);
         $this->clear();
         $this->addRange($intersectedValues);
     }
@@ -144,7 +120,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
      */
     public function offsetExists($index) : bool
     {
-        return array_key_exists($index, $this->values);
+        throw new RuntimeException('Cannot use isset on set - use containsValue() instead');
     }
 
     /**
@@ -152,7 +128,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
      */
     public function offsetGet($index)
     {
-        return $this->get($index, null);
+        throw new RuntimeException('Cannot get a value from a set');
     }
 
     /**
@@ -160,7 +136,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
      */
     public function offsetSet($index, $value) : void
     {
-        $this->insert($index, $value);
+        $this->add($value);
     }
 
     /**
@@ -168,43 +144,26 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
      */
     public function offsetUnset($index) : void
     {
-        $this->removeIndex($index);
+        throw new RuntimeException('Cannot use unset on set');
     }
 
     /**
-     * Removes the value at an index
-     *
-     * @param int $index The index to remove
-     */
-    public function removeIndex(int $index) : void
-    {
-        unset($this->values[$index]);
-    }
-
-    /**
-     * Removes the value from the list
+     * Removes a value from the set
      *
      * @param mixed $value The value to remove
+     * @throws RuntimeException Thrown if the value cannot be serialized
      */
     public function removeValue($value) : void
     {
-        $index = $this->indexOf($value);
-
-        if ($index !== null) {
-            $this->removeIndex($index);
+        try {
+            unset($this->values[(string)$value]);
+        } catch (Throwable $ex) {
+            throw new RuntimeException('Could not serialize value', 0, $ex);
         }
     }
 
     /**
-     * Reverses the list
-     */
-    public function reverse() : void
-    {
-        $this->values = array_reverse($this->values);
-    }
-
-    /**
-     * Sorts the values of the list
+     * Sorts the values of the set
      *
      * @param callable $comparer The comparer to sort with
      */
@@ -220,17 +179,18 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
      */
     public function toArray() : array
     {
-        return $this->values;
+        return array_values($this->values);
     }
 
     /**
-     * Unions the values of the input array with the values already in the array list
+     * Unions the values of the input array with the values already in the set
      *
      * @param array $values The values to union with
+     * @throws RuntimeException Thrown if any of the values cannot be serialized
      */
     public function union(array $values) : void
     {
-        $unionedValues = array_merge(($this->values), $values);
+        $unionedValues = array_merge(array_values($this->values), $values);
         $this->clear();
         $this->addRange($unionedValues);
     }

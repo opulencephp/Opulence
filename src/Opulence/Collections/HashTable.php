@@ -29,9 +29,7 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
      */
     public function __construct(array $values = [])
     {
-        foreach ($values as $key => $value) {
-            $this->add($key, $value);
-        }
+        $this->addRange($values);
     }
 
     /**
@@ -43,6 +41,18 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
     public function add(string $key, $value) : void
     {
         $this->values[$key] = $value;
+    }
+
+    /**
+     * Adds multiple values
+     *
+     * @param array $values The values to add
+     */
+    public function addRange(array $values) : void
+    {
+        foreach ($values as $key => $value) {
+            $this->add($key, $value);
+        }
     }
 
     /**
@@ -84,20 +94,6 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Exchanges the current values with the input
-     *
-     * @param mixed $array The values to exchange with
-     * @return array The old array
-     */
-    public function exchangeArray($array) : array
-    {
-        $oldValues = $this->values;
-        $this->values = $array;
-
-        return $oldValues;
-    }
-
-    /**
      * Gets the value of the key
      *
      * @param string $key The key to get
@@ -115,6 +111,19 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
     public function getIterator() : Traversable
     {
         return new ArrayIterator($this->values);
+    }
+
+    /**
+     * Intersects the values of the input array with the values already in the hash table
+     * Keys and values are compared when intersecting
+     *
+     * @param array $values The values to intersect with
+     */
+    public function intersect(array $values) : void
+    {
+        $intersectedValues = array_intersect_assoc($this->values, $values);
+        $this->clear();
+        $this->addRange($intersectedValues);
     }
 
     /**
@@ -167,5 +176,18 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
     public function toArray() : array
     {
         return $this->values;
+    }
+
+    /**
+     * Unions the values of the input array with the values already in the hash table
+     * If the hash table and array have the same key, the value from the array will be used
+     *
+     * @param array $values The values to union with
+     */
+    public function union(array $values) : void
+    {
+        $unionedValues = array_merge(($this->values), $values);
+        $this->clear();
+        $this->addRange($unionedValues);
     }
 }
