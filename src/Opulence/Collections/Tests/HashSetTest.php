@@ -17,7 +17,7 @@ use RuntimeException;
 /**
  * Tests a hash set
  */
-class SetTest extends \PHPUnit\Framework\TestCase
+class HashSetTest extends \PHPUnit\Framework\TestCase
 {
     /** @var HashSet The set to use in tests */
     private $set = null;

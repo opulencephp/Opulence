@@ -17,7 +17,7 @@ use RuntimeException;
 /**
  * Tests an immutable hash set
  */
-class ImmutableSetTest extends \PHPUnit\Framework\TestCase
+class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that adding an array value is acceptable
