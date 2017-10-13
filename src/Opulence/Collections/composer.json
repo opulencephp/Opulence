@@ -5,7 +5,10 @@
     "PHP",
     "collections",
     "hash tables",
-    "lists"
+    "lists",
+    "stacks",
+    "queues",
+    "sets"
   ],
   "authors": [
     {

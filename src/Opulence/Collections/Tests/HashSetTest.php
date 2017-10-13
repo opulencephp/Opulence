@@ -10,17 +10,16 @@
 
 namespace Opulence\Collections\Tests;
 
-use Opulence\Collections\Set;
-use Opulence\Collections\Tests\Mocks\SerializableObject;
-use Opulence\Collections\Tests\Mocks\UnserializableObject;
+use Opulence\Collections\HashSet;
+use Opulence\Collections\Tests\Mocks\MockObject;
 use RuntimeException;
 
 /**
- * Tests a set
+ * Tests a hash set
  */
 class SetTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Set The set to use in tests */
+    /** @var HashSet The set to use in tests */
     private $set = null;
 
     /**
@@ -28,7 +27,43 @@ class SetTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp() : void
     {
-        $this->set = new Set();
+        $this->set = new HashSet();
+    }
+
+    /**
+     * Tests that adding an array value is acceptable
+     */
+    public function testAddingArrayValueIsAcceptable() : void
+    {
+        $array = ['foo'];
+        $this->set->add($array);
+        $this->assertTrue($this->set->containsValue($array));
+        $this->assertEquals([$array], $this->set->toArray());
+    }
+
+    /**
+     * Tests that adding primitive values is acceptable
+     */
+    public function testAddingPrimitiveValuesIsAcceptable() : void
+    {
+        $int = 1;
+        $string = 'foo';
+        $this->set->add($int);
+        $this->set->add($string);
+        $this->assertTrue($this->set->containsValue($int));
+        $this->assertTrue($this->set->containsValue($string));
+        $this->assertEquals([$int, $string], $this->set->toArray());
+    }
+
+    /**
+     * Tests that adding resource values is acceptable
+     */
+    public function testAddingResourceValuesIsAcceptable() : void
+    {
+        $resource = fopen('php://temp', 'r+');
+        $this->set->add($resource);
+        $this->assertTrue($this->set->containsValue($resource));
+        $this->assertEquals([$resource], $this->set->toArray());
     }
 
     /**
@@ -36,18 +71,9 @@ class SetTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingValue() : void
     {
-        $object = new SerializableObject('foo');
+        $object = new MockObject();
         $this->set->add($object);
         $this->assertEquals([$object], $this->set->toArray());
-    }
-
-    /**
-     * Tests that adding an unserializable object throws an exception
-     */
-    public function testAddingUnserializableObjectThrowsException() : void
-    {
-        $this->expectException(RuntimeException::class);
-        $this->set->add(new UnserializableObject());
     }
 
     /**
@@ -58,19 +84,10 @@ class SetTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->set->containsValue('foo'));
         $this->set->add('foo');
         $this->assertTrue($this->set->containsValue('foo'));
-        $object = new SerializableObject('bar');
+        $object = new MockObject();
         $this->assertFalse($this->set->containsValue($object));
         $this->set->add($object);
         $this->assertTrue($this->set->containsValue($object));
-    }
-
-    /**
-     * Tests that checking the existence of an unserializable object throws an exception
-     */
-    public function testCheckingExistenceOfUnserializableObjectThrowsException() : void
-    {
-        $this->expectException(RuntimeException::class);
-        $this->set->containsValue(new UnserializableObject());
     }
 
     /**
@@ -78,7 +95,7 @@ class SetTest extends \PHPUnit\Framework\TestCase
      */
     public function testClearingSetRemovesAllValues() : void
     {
-        $this->set->add(new SerializableObject('foo'));
+        $this->set->add(new MockObject());
         $this->set->clear();
         $this->assertEquals([], $this->set->toArray());
     }
@@ -88,8 +105,8 @@ class SetTest extends \PHPUnit\Framework\TestCase
      */
     public function testCountReturnsNumberOfUniqueValuesInSet() : void
     {
-        $object1 = new SerializableObject('foo');
-        $object2 = new SerializableObject('bar');
+        $object1 = new MockObject();
+        $object2 = new MockObject();
         $this->assertEquals(0, $this->set->count());
         $this->set->add($object1);
         $this->assertEquals(1, $this->set->count());
@@ -105,7 +122,7 @@ class SetTest extends \PHPUnit\Framework\TestCase
     public function testGettingValueThrowsException() : void
     {
         $this->expectException(RuntimeException::class);
-        $this->set[new SerializableObject('foo')];
+        $this->set[new MockObject()];
     }
 
     /**
@@ -113,12 +130,24 @@ class SetTest extends \PHPUnit\Framework\TestCase
      */
     public function testIntersectingIntersectsValuesOfSetAndArray() : void
     {
-        $object1 = new SerializableObject('foo');
-        $object2 = new SerializableObject('bar');
+        $object1 = new MockObject();
+        $object2 = new MockObject();
         $this->set->add($object1);
         $this->set->add($object2);
-        $this->set->intersect(['bar', 'baz']);
-        $this->assertEquals(['bar'], $this->set->toArray());
+        $this->set->intersect([$object2]);
+        $this->assertEquals([$object2], $this->set->toArray());
+    }
+
+    /**
+     * Tests that equal but not same objects are not intersected
+     */
+    public function testEqualButNotSameObjectsAreNotIntersected() : void
+    {
+        $object1 = new MockObject();
+        $object2 = clone $object1;
+        $this->set->add($object1);
+        $this->set->intersect([$object2]);
+        $this->assertEquals([], $this->set->toArray());
     }
 
     /**
@@ -127,16 +156,7 @@ class SetTest extends \PHPUnit\Framework\TestCase
     public function testIssetThrowsException() : void
     {
         $this->expectException(RuntimeException::class);
-        isset($this->set[new SerializableObject('foo')]);
-    }
-
-    /**
-     * Tests that removing an unserializable object throws an exception
-     */
-    public function testRemovingUnserializableObjectThrowsException() : void
-    {
-        $this->expectException(RuntimeException::class);
-        $this->set->removeValue(new UnserializableObject());
+        isset($this->set[new MockObject()]);
     }
 
     /**
@@ -144,7 +164,7 @@ class SetTest extends \PHPUnit\Framework\TestCase
      */
     public function testRemovingValue() : void
     {
-        $object = new SerializableObject('foo');
+        $object = new MockObject();
         $this->set->add($object);
         $this->set->removeValue($object);
         $this->assertEquals([], $this->set->toArray());
@@ -173,10 +193,10 @@ class SetTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnionUnionsValuesOfSetAndArray() : void
     {
-        $object = new SerializableObject('foo');
+        $object = new MockObject();
         $this->set->add($object);
         $this->set->union(['bar', 'baz']);
-        $this->assertEquals(['foo', 'bar', 'baz'], $this->set->toArray());
+        $this->assertEquals([$object, 'bar', 'baz'], $this->set->toArray());
     }
 
     /**
@@ -185,6 +205,6 @@ class SetTest extends \PHPUnit\Framework\TestCase
     public function testUnsettingIndexThrowsException() : void
     {
         $this->expectException(RuntimeException::class);
-        unset($this->set[new SerializableObject('foo')]);
+        unset($this->set[new MockObject()]);
     }
 }

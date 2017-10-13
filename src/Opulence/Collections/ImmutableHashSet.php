@@ -19,25 +19,21 @@ use Throwable;
 use Traversable;
 
 /**
- * Defines an immutable set
+ * Defines an immutable hash set
  */
-class ImmutableSet implements ArrayAccess, Countable, IteratorAggregate
+class ImmutableHashSet implements ArrayAccess, Countable, IteratorAggregate
 {
     /** @var array The set of values */
     protected $values = [];
 
     /**
      * @param array $values The set of values
-     * @throws RuntimeException Thrown if any of the values could not be serialized
+     * @throws RuntimeException Thrown if the values' keys could not be calculated
      */
     public function __construct(array $values)
     {
-        try {
-            foreach ($values as $value) {
-                $this->values[(string)$value] = $value;
-            }
-        } catch (Throwable $ex) {
-            throw new RuntimeException('Could not serialize value', 0, $ex);
+        foreach ($values as $value) {
+            $this->values[$this->getKey($value)] = $value;
         }
     }
 
@@ -46,15 +42,11 @@ class ImmutableSet implements ArrayAccess, Countable, IteratorAggregate
      *
      * @param mixed $value The value to search for
      * @return bool True if the value exists, otherwise false
-     * @throws RuntimeException Thrown if the value cannot be serialized
+     * @throws RuntimeException Thrown if the value's key could not be calculated
      */
     public function containsValue($value) : bool
     {
-        try {
-            return isset($this->values[(string)$value]);
-        } catch (Throwable $ex) {
-            throw new RuntimeException('Could not serialize value', 0, $ex);
-        }
+        return isset($this->values[$this->getKey($value)]);
     }
 
     /**
@@ -123,5 +115,33 @@ class ImmutableSet implements ArrayAccess, Countable, IteratorAggregate
     public function toArray() : array
     {
         return array_values($this->values);
+    }
+
+    /**
+     * Gets the key for a value to use in the set
+     *
+     * @param mixed $value The value whose key we want
+     * @return string The key for the value
+     * @throws RuntimeException Thrown if the value's key could not be calculated
+     */
+    protected function getKey($value) : string
+    {
+        if (is_object($value)) {
+            return spl_object_hash($value);
+        }
+
+        if (is_array($value)) {
+            return md5(serialize($value));
+        }
+
+        if (is_resource($value)) {
+            return "$value";
+        }
+
+        try {
+            return (string)$value;
+        } catch (Throwable $ex) {
+            throw new RuntimeException('Value could not be converted to a key', 0, $ex);
+        }
     }
 }

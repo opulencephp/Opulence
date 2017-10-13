@@ -11,9 +11,9 @@
 namespace Opulence\Collections\Tests\Mocks;
 
 /**
- * Mocks an userializable object
+ * Mocks an object
  */
-class UnserializableObject
+class MockObject
 {
     // Don't do anything
 }
