@@ -11,6 +11,7 @@
 namespace Opulence\Collections\Tests;
 
 use Opulence\Collections\HashTable;
+use Opulence\Collections\KeyValuePair;
 
 /**
  * Tests the hash table
@@ -29,21 +30,22 @@ class HashTableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests adding a value
+     * Tests adding multiple values make each one retrievable
      */
-    public function testAdding() : void
+    public function testAddingRangeMakesEachValueRetrievable() : void
     {
-        $this->hashTable->add('foo', 'bar');
+        $this->hashTable->addRange(['foo' => 'bar', 'baz' => 'blah']);
         $this->assertEquals('bar', $this->hashTable->get('foo'));
+        $this->assertEquals('blah', $this->hashTable->get('baz'));
     }
 
     /**
-     * Tests adding multiple values
+     * Tests adding a value makes it retrievable
      */
-    public function testAddingRange() : void
+    public function testAddingValueMakesItRetrievable() : void
     {
-        $this->hashTable->addRange(['foo' => 'bar', 'baz' => 'blah']);
-        $this->assertEquals(['foo' => 'bar', 'baz' => 'blah'], $this->hashTable->toArray());
+        $this->hashTable->add('foo', 'bar');
+        $this->assertEquals('bar', $this->hashTable->get('foo'));
     }
 
     /**
@@ -140,30 +142,23 @@ class HashTableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that intersecting with an array intersects the values of the hash table and the array
-     */
-    public function testIntersectingIntersectsValuesOfHashTableAndArray() : void
-    {
-        $this->hashTable->add('foo', 'bar');
-        $this->hashTable->add('baz', 'blah');
-        $this->hashTable->intersect(['baz' => 'blah', 'dave' => 'young']);
-        $this->assertEquals(['baz' => 'blah'], $this->hashTable->toArray());
-    }
-
-    /**
      * Tests iterating over the values
      */
     public function testIteratingOverValues() : void
     {
         $this->hashTable->add('foo', 'bar');
         $this->hashTable->add('baz', 'blah');
+        $expectedArray = [
+            new KeyValuePair('foo', 'bar'),
+            new KeyValuePair('baz', 'blah')
+        ];
         $actualValues = [];
 
-        foreach ($this->hashTable as $key => $value) {
-            $actualValues[$key] = $value;
+        foreach ($this->hashTable as $value) {
+            $actualValues[] = $value;
         }
 
-        $this->assertEquals(['foo' => 'bar', 'baz' => 'blah'], $actualValues);
+        $this->assertEquals($expectedArray, $actualValues);
     }
 
     /**
@@ -173,7 +168,8 @@ class HashTableTest extends \PHPUnit\Framework\TestCase
     {
         $parametersArray = ['foo' => 'bar', 'bar' => 'foo'];
         $hashTable = new HashTable($parametersArray);
-        $this->assertEquals($parametersArray, $hashTable->toArray());
+        $this->assertEquals('bar', $hashTable->get('foo'));
+        $this->assertEquals('foo', $hashTable->get('bar'));
     }
 
     /**
@@ -202,18 +198,11 @@ class HashTableTest extends \PHPUnit\Framework\TestCase
     {
         $this->hashTable->add('foo', 'bar');
         $this->hashTable->add('baz', 'blah');
-        $this->assertEquals(['foo' => 'bar', 'baz' => 'blah'], $this->hashTable->toArray());
-    }
-
-    /**
-     * Tests that unioning with an array unions the values of the hash table and the array
-     */
-    public function testUnioningUnionsValuesOfHashTableAndArray() : void
-    {
-        $this->hashTable->add('foo', 'bar');
-        $this->hashTable->add('baz', 'blah');
-        $this->hashTable->union(['baz' => 'ah', 'dave' => 'young']);
-        $this->assertEquals(['foo' => 'bar', 'baz' => 'ah', 'dave' => 'young'], $this->hashTable->toArray());
+        $expectedArray = [
+            new KeyValuePair('foo', 'bar'),
+            new KeyValuePair('baz', 'blah')
+        ];
+        $this->assertEquals($expectedArray, $this->hashTable->toArray());
     }
 
     /**

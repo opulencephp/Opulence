@@ -14,6 +14,7 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use RuntimeException;
 use Traversable;
 
 /**
@@ -21,11 +22,11 @@ use Traversable;
  */
 class HashTable implements ArrayAccess, Countable, IteratorAggregate
 {
-    /** @var array The list of values */
-    protected $values = [];
+    /** @var KeyValuePair[] The list of values */
+    protected $hashKeysToKvps = [];
 
     /**
-     * @param array $values The list of values
+     * @param array $values The list of values to add
      */
     public function __construct(array $values = [])
     {
@@ -35,18 +36,20 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
     /**
      * Adds a value
      *
-     * @param string $key The key to add
+     * @param mixed $key The key to add
      * @param mixed $value The value to add
+     * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function add(string $key, $value) : void
+    public function add($key, $value) : void
     {
-        $this->values[$key] = $value;
+        $this->hashKeysToKvps[$this->getHashKey($key)] = new KeyValuePair($key, $value);
     }
 
     /**
      * Adds multiple values
      *
      * @param array $values The values to add
+     * @throws RuntimeException Thrown if the values' keys could not be calculated
      */
     public function addRange(array $values) : void
     {
@@ -60,18 +63,19 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
      */
     public function clear() : void
     {
-        $this->values = [];
+        $this->hashKeysToKvps = [];
     }
 
     /**
      * Gets whether or not the key exists
      *
-     * @param string $key The key to check for
+     * @param mixed $key The key to check for
      * @return bool True if the key exists, otherwise false
+     * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function containsKey(string $key) : bool
+    public function containsKey($key) : bool
     {
-        return array_key_exists($key, $this->values);
+        return array_key_exists($this->getHashKey($key), $this->hashKeysToKvps);
     }
 
     /**
@@ -82,7 +86,13 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
      */
     public function containsValue($value) : bool
     {
-        return array_search($value, $this->values) !== false;
+        foreach ($this->hashKeysToKvps as $hashKey => $kvp) {
+            if ($kvp->getValue() == $value) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -90,19 +100,22 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
      */
     public function count() : int
     {
-        return count($this->values);
+        return count($this->hashKeysToKvps);
     }
 
     /**
      * Gets the value of the key
      *
-     * @param string $key The key to get
+     * @param mixed $key The key to get
      * @param mixed $default The default value
      * @return mixed The value if it was found, otherwise the default value
+     * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function get(string $key, $default = null)
+    public function get($key, $default = null)
     {
-        return $this->containsKey($key) ? $this->values[$key] : $default;
+        $hashKey = $this->getHashKey($key);
+
+        return $this->containsKey($hashKey) ? $this->hashKeysToKvps[$hashKey]->getValue() : $default;
     }
 
     /**
@@ -110,24 +123,12 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
      */
     public function getIterator() : Traversable
     {
-        return new ArrayIterator($this->values);
-    }
-
-    /**
-     * Intersects the values of the input array with the values already in the hash table
-     * Keys and values are compared when intersecting
-     *
-     * @param array $values The values to intersect with
-     */
-    public function intersect(array $values) : void
-    {
-        $intersectedValues = array_intersect_assoc($this->values, $values);
-        $this->clear();
-        $this->addRange($intersectedValues);
+        return new ArrayIterator($this->hashKeysToKvps);
     }
 
     /**
      * @inheritdoc
+     * @throws RuntimeException Thrown if the value's key could not be calculated
      */
     public function offsetExists($key) : bool
     {
@@ -136,6 +137,7 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * @inheritdoc
+     * @throws RuntimeException Thrown if the value's key could not be calculated
      */
     public function offsetGet($key)
     {
@@ -144,6 +146,7 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * @inheritdoc
+     * @throws RuntimeException Thrown if the value's key could not be calculated
      */
     public function offsetSet($key, $value) : void
     {
@@ -152,42 +155,59 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * @inheritdoc
+     * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function offsetUnset($offset) : void
+    public function offsetUnset($key) : void
     {
-        $this->removeKey($offset);
+        $this->removeKey($key);
     }
 
     /**
      * Removes a key
      *
-     * @param string $key The key to remove
+     * @param mixed $key The key to remove
+     * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function removeKey(string $key) : void
+    public function removeKey($key) : void
     {
-        unset($this->values[$key]);
+        unset($this->hashKeysToKvps[$this->getHashKey($key)]);
     }
 
     /**
-     * Gets all of the values as an array
+     * Gets all of the values as an array of key-value pairs
      *
-     * @return array All of the values
+     * @return array All of the values as a list of key-value pairs
      */
     public function toArray() : array
     {
-        return $this->values;
+        return array_values($this->hashKeysToKvps);
     }
 
     /**
-     * Unions the values of the input array with the values already in the hash table
-     * If the hash table and array have the same key, the value from the array will be used
+     * Gets the key for a value to use in the hash table
      *
-     * @param array $values The values to union with
+     * @param mixed $value The value whose key we want
+     * @return string The key for the value
+     * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function union(array $values) : void
+    protected function getHashKey($value) : string
     {
-        $unionedValues = array_merge(($this->values), $values);
-        $this->clear();
-        $this->addRange($unionedValues);
+        if (is_object($value)) {
+            return spl_object_hash($value);
+        }
+
+        if (is_array($value)) {
+            return md5(serialize($value));
+        }
+
+        if (is_resource($value)) {
+            return "$value";
+        }
+
+        try {
+            return (string)$value;
+        } catch (Throwable $ex) {
+            throw new RuntimeException('Value could not be converted to a key', 0, $ex);
+        }
     }
 }

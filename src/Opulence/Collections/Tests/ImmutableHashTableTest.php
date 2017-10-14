@@ -11,6 +11,7 @@
 namespace Opulence\Collections\Tests;
 
 use Opulence\Collections\ImmutableHashTable;
+use Opulence\Collections\KeyValuePair;
 use RuntimeException;
 
 /**
@@ -89,13 +90,17 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     public function testIteratingOverValues() : void
     {
         $hashTable = new ImmutableHashTable(['foo' => 'bar', 'baz' => 'blah']);
+        $expectedArray = [
+            new KeyValuePair('foo', 'bar'),
+            new KeyValuePair('baz', 'blah')
+        ];
         $actualValues = [];
 
-        foreach ($hashTable as $key => $value) {
-            $actualValues[$key] = $value;
+        foreach ($hashTable as $value) {
+            $actualValues[] = $value;
         }
 
-        $this->assertEquals(['foo' => 'bar', 'baz' => 'blah'], $actualValues);
+        $this->assertEquals($expectedArray, $actualValues);
     }
 
     /**
@@ -114,7 +119,11 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     public function testToArray() : void
     {
         $hashTable = new ImmutableHashTable(['foo' => 'bar', 'baz' => 'blah']);
-        $this->assertEquals(['foo' => 'bar', 'baz' => 'blah'], $hashTable->toArray());
+        $expectedArray = [
+            new KeyValuePair('foo', 'bar'),
+            new KeyValuePair('baz', 'blah')
+        ];
+        $this->assertEquals($expectedArray, $hashTable->toArray());
     }
 
     /**

@@ -22,28 +22,29 @@ use Traversable;
  */
 class ImmutableHashTable implements ArrayAccess, Countable, IteratorAggregate
 {
-    /** @var array The list of values */
-    protected $values = [];
+    /** @var KeyValuePair[] The list of values */
+    protected $hashKeysToKvps = [];
 
     /**
-     * @param array $values The list of values
+     * @param array $values The list of values to add
      */
     public function __construct(array $values)
     {
         foreach ($values as $key => $value) {
-            $this->values[$key] = $value;
+            $this->hashKeysToKvps[$this->getHashKey($key)] = new KeyValuePair($key, $value);
         }
     }
 
     /**
      * Gets whether or not the key exists
      *
-     * @param string $key The key to check for
+     * @param mixed $key The key to check for
      * @return bool True if the key exists, otherwise false
+     * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function containsKey(string $key) : bool
+    public function containsKey($key) : bool
     {
-        return array_key_exists($key, $this->values);
+        return array_key_exists($this->getHashKey($key), $this->hashKeysToKvps);
     }
 
     /**
@@ -54,7 +55,13 @@ class ImmutableHashTable implements ArrayAccess, Countable, IteratorAggregate
      */
     public function containsValue($value) : bool
     {
-        return array_search($value, $this->values) !== false;
+        foreach ($this->hashKeysToKvps as $hashKey => $kvp) {
+            if ($kvp->getValue() == $value) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -62,19 +69,22 @@ class ImmutableHashTable implements ArrayAccess, Countable, IteratorAggregate
      */
     public function count() : int
     {
-        return count($this->values);
+        return count($this->hashKeysToKvps);
     }
 
     /**
      * Gets the value of the key
      *
-     * @param string $key The key to get
+     * @param mixed $key The key to get
      * @param mixed $default The default value
      * @return mixed The value if it was found, otherwise the default value
+     * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function get(string $key, $default = null)
+    public function get($key, $default = null)
     {
-        return $this->containsKey($key) ? $this->values[$key] : $default;
+        $hashKey = $this->getHashKey($key);
+
+        return $this->containsKey($hashKey) ? $this->hashKeysToKvps[$hashKey]->getValue() : $default;
     }
 
     /**
@@ -82,11 +92,12 @@ class ImmutableHashTable implements ArrayAccess, Countable, IteratorAggregate
      */
     public function getIterator() : Traversable
     {
-        return new ArrayIterator($this->values);
+        return new ArrayIterator($this->hashKeysToKvps);
     }
 
     /**
      * @inheritdoc
+     * @throws RuntimeException Thrown if the value's key could not be calculated
      */
     public function offsetExists($key) : bool
     {
@@ -95,6 +106,7 @@ class ImmutableHashTable implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * @inheritdoc
+     * @throws RuntimeException Thrown if the value's key could not be calculated
      */
     public function offsetGet($key)
     {
@@ -103,27 +115,57 @@ class ImmutableHashTable implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * @inheritdoc
+     * @throws RuntimeException Thrown because this is immutable
      */
     public function offsetSet($key, $value) : void
     {
-        throw new RuntimeException('Cannot set a value in an immutable hash table');
+        throw new RuntimeException('offsetUnset is not supported in ' . self::class);
     }
 
     /**
      * @inheritdoc
+     * @throws RuntimeException Thrown because this is immutable
      */
     public function offsetUnset($key) : void
     {
-        throw new RuntimeException('Cannot unset an index in an immutable hash table');
+        throw new RuntimeException('offsetUnset is not supported in ' . self::class);
     }
 
     /**
-     * Gets all of the values as an array
+     * Gets all of the values as an array of key-value pairs
      *
-     * @return array All of the values
+     * @return array All of the values as a list of key-value pairs
      */
     public function toArray() : array
     {
-        return $this->values;
+        return array_values($this->hashKeysToKvps);
+    }
+
+    /**
+     * Gets the key for a value to use in the hash table
+     *
+     * @param mixed $value The value whose key we want
+     * @return string The key for the value
+     * @throws RuntimeException Thrown if the value's key could not be calculated
+     */
+    protected function getHashKey($value) : string
+    {
+        if (is_object($value)) {
+            return spl_object_hash($value);
+        }
+
+        if (is_array($value)) {
+            return md5(serialize($value));
+        }
+
+        if (is_resource($value)) {
+            return "$value";
+        }
+
+        try {
+            return (string)$value;
+        } catch (Throwable $ex) {
+            throw new RuntimeException('Value could not be converted to a key', 0, $ex);
+        }
     }
 }
