@@ -91,7 +91,7 @@ class HashSet implements ArrayAccess, Countable, IteratorAggregate
      */
     public function getIterator() : Traversable
     {
-        return new ArrayIterator($this->values);
+        return new ArrayIterator(array_values($this->values));
     }
 
     /**

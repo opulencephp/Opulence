@@ -115,6 +115,27 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests iterating over the values returns the values - not the hash keys
+     */
+    public function testIteratingOverValuesReturnsValuesNotHashKeys() : void
+    {
+        $expectedValues = [
+            new MockObject(),
+            new MockObject()
+        ];
+        $set = new ImmutableHashSet($expectedValues);
+        $actualValues = [];
+
+        foreach ($set as $key => $value) {
+            // Make sure the hash keys aren't returned by the iterator
+            $this->assertTrue(is_int($key));
+            $actualValues[] = $value;
+        }
+
+        $this->assertEquals($expectedValues, $actualValues);
+    }
+
+    /**
      * Tests unsetting an index throws an exception
      */
     public function testUnsettingIndexThrowsException() : void

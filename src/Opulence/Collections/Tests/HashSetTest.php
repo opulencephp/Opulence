@@ -117,6 +117,18 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests that equal but not same objects are not intersected
+     */
+    public function testEqualButNotSameObjectsAreNotIntersected() : void
+    {
+        $object1 = new MockObject();
+        $object2 = clone $object1;
+        $this->set->add($object1);
+        $this->set->intersect([$object2]);
+        $this->assertEquals([], $this->set->toArray());
+    }
+
+    /**
      * Tests that getting a value throws an exception
      */
     public function testGettingValueThrowsException() : void
@@ -139,24 +151,33 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that equal but not same objects are not intersected
-     */
-    public function testEqualButNotSameObjectsAreNotIntersected() : void
-    {
-        $object1 = new MockObject();
-        $object2 = clone $object1;
-        $this->set->add($object1);
-        $this->set->intersect([$object2]);
-        $this->assertEquals([], $this->set->toArray());
-    }
-
-    /**
      * Tests that using isset throws an exception
      */
     public function testIssetThrowsException() : void
     {
         $this->expectException(RuntimeException::class);
         isset($this->set[new MockObject()]);
+    }
+
+    /**
+     * Tests iterating over the values returns the values - not the hash keys
+     */
+    public function testIteratingOverValuesReturnsValuesNotHashKeys() : void
+    {
+        $expectedValues = [
+            new MockObject(),
+            new MockObject()
+        ];
+        $this->set->addRange($expectedValues);
+        $actualValues = [];
+
+        foreach ($this->set as $key => $value) {
+            // Make sure the hash keys aren't returned by the iterator
+            $this->assertTrue(is_int($key));
+            $actualValues[] = $value;
+        }
+
+        $this->assertEquals($expectedValues, $actualValues);
     }
 
     /**

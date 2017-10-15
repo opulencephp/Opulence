@@ -92,7 +92,7 @@ class ImmutableHashTable implements ArrayAccess, Countable, IteratorAggregate
      */
     public function getIterator() : Traversable
     {
-        return new ArrayIterator($this->hashKeysToKvps);
+        return new ArrayIterator(array_values($this->hashKeysToKvps));
     }
 
     /**
