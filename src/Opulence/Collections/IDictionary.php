@@ -13,6 +13,7 @@ namespace Opulence\Collections;
 use ArrayAccess;
 use Countable;
 use IteratorAggregate;
+use OutOfBoundsException;
 use RuntimeException;
 
 /**
@@ -63,11 +64,11 @@ interface IDictionary extends ArrayAccess, Countable, IteratorAggregate
      * Gets the value of the key
      *
      * @param mixed $key The key to get
-     * @param mixed $default The default value
-     * @return mixed The value if it was found, otherwise the default value
+     * @return mixed The value at the key
+     * @throws OutOfBoundsException Thrown if the key could not be found
      * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function get($key, $default = null);
+    public function get($key);
 
     /**
      * Gets the list of keys in the dictionary
@@ -97,4 +98,13 @@ interface IDictionary extends ArrayAccess, Countable, IteratorAggregate
      * @return array All of the values as a list of key-value pairs
      */
     public function toArray() : array;
+
+    /**
+     * Attempts to get the value at a key
+     *
+     * @param mixed $key The key to get
+     * @param mixed $value The value of the key, if it exists
+     * @return bool True if the key existed, otherwise false
+     */
+    public function tryGet($key, &$value) : bool;
 }

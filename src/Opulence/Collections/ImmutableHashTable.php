@@ -12,6 +12,7 @@ namespace Opulence\Collections;
 
 use ArrayIterator;
 use InvalidArgumentException;
+use OutOfBoundsException;
 use RuntimeException;
 use Traversable;
 
@@ -51,7 +52,7 @@ class ImmutableHashTable implements IImmutableDictionary
      */
     public function containsValue($value) : bool
     {
-        foreach ($this->hashKeysToKvps as $hashKey => $kvp) {
+        foreach ($this->hashKeysToKvps as $kvp) {
             if ($kvp->getValue() == $value) {
                 return true;
             }
@@ -71,11 +72,15 @@ class ImmutableHashTable implements IImmutableDictionary
     /**
      * @inheritdoc
      */
-    public function get($key, $default = null)
+    public function get($key)
     {
         $hashKey = $this->getHashKey($key);
 
-        return $this->containsKey($hashKey) ? $this->hashKeysToKvps[$hashKey]->getValue() : $default;
+        if (!$this->containsKey($key)) {
+            throw new OutOfBoundsException("Hash key $hashKey not found");
+        }
+
+        return $this->hashKeysToKvps[$hashKey]->getValue();
     }
 
     /**
@@ -93,7 +98,7 @@ class ImmutableHashTable implements IImmutableDictionary
     {
         $keys = [];
 
-        foreach ($this->hashKeysToKvps as $hashKey => $kvp) {
+        foreach ($this->hashKeysToKvps as $kvp) {
             $keys[] = $kvp->getKey();
         }
 
@@ -107,7 +112,7 @@ class ImmutableHashTable implements IImmutableDictionary
     {
         $values = [];
 
-        foreach ($this->hashKeysToKvps as $hashKey => $kvp) {
+        foreach ($this->hashKeysToKvps as $kvp) {
             $values[] = $kvp->getValue();
         }
 
@@ -125,11 +130,12 @@ class ImmutableHashTable implements IImmutableDictionary
 
     /**
      * @inheritdoc
+     * @throws OutOfBoundsException Thrown if the key could not be found
      * @throws RuntimeException Thrown if the value's key could not be calculated
      */
     public function offsetGet($key)
     {
-        return $this->get($key, null);
+        return $this->get($key);
     }
 
     /**
@@ -156,6 +162,22 @@ class ImmutableHashTable implements IImmutableDictionary
     public function toArray() : array
     {
         return array_values($this->hashKeysToKvps);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function tryGet($key, &$value) : bool
+    {
+        try {
+            $value = $this->get($key);
+
+            return true;
+        } catch (OutOfBoundsException $ex) {
+            return false;
+        }
+
+        return false;
     }
 
     /**

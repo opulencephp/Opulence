@@ -11,6 +11,7 @@
 namespace Opulence\Collections;
 
 use ArrayIterator;
+use OutOfRangeException;
 use Traversable;
 
 /**
@@ -74,9 +75,13 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function get(int $index, $default = null)
+    public function get(int $index)
     {
-        return $this->values[$index] ?? $default;
+        if ($index < 0 || $index >= count($this)) {
+            throw new OutOfRangeException("Index $index is out of range");
+        }
+
+        return $this->values[$index];
     }
 
     /**

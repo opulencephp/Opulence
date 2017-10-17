@@ -14,6 +14,7 @@ use InvalidArgumentException;
 use Opulence\Collections\HashTable;
 use Opulence\Collections\KeyValuePair;
 use Opulence\Collections\Tests\Mocks\MockObject;
+use OutOfBoundsException;
 
 /**
  * Tests the hash table
@@ -119,19 +120,12 @@ class HashTableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an absent variable with a default
+     * Tests getting an absent variable throws an exception
      */
-    public function testGettingAbsentVariableWithDefault() : void
+    public function testGettingAbsentVariableThrowsException() : void
     {
-        $this->assertEquals('blah', $this->hashTable->get('does not exist', 'blah'));
-    }
-
-    /**
-     * Tests getting an absent variable with no default
-     */
-    public function testGettingAbsentVariableWithNoDefault() : void
-    {
-        $this->assertNull($this->hashTable->get('does not exist'));
+        $this->expectException(OutOfBoundsException::class);
+        $this->hashTable->get('does not exist');
     }
 
     /**
@@ -222,7 +216,7 @@ class HashTableTest extends \PHPUnit\Framework\TestCase
     {
         $this->hashTable->add('foo', 'bar');
         $this->hashTable->removeKey('foo');
-        $this->assertNull($this->hashTable->get('foo'));
+        $this->assertFalse($this->hashTable->containsKey('foo'));
     }
 
     /**
@@ -249,12 +243,25 @@ class HashTableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests the trying to get a value returns true if the key exists and false if it doesn't
+     */
+    public function testTryGetReturnsTrueIfKeyExistsAndFalseIfValueDoesNotExist() : void
+    {
+        $value = null;
+        $this->assertFalse($this->hashTable->tryGet('foo', $value));
+        $this->assertNull($value);
+        $this->hashTable->add('foo', 'bar');
+        $this->assertTrue($this->hashTable->tryGet('foo', $value));
+        $this->assertEquals('bar', $value);
+    }
+
+    /**
      * Tests unsetting a parameter
      */
     public function testUnsetting() : void
     {
         $this->hashTable['foo'] = 'bar';
         unset($this->hashTable['foo']);
-        $this->assertNull($this->hashTable->get('foo'));
+        $this->assertFalse($this->hashTable->containsKey('foo'));
     }
 }

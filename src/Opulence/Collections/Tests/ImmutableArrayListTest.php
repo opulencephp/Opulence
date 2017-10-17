@@ -11,6 +11,7 @@
 namespace Opulence\Collections\Tests;
 
 use Opulence\Collections\ImmutableArrayList;
+use OutOfRangeException;
 use RuntimeException;
 
 /**
@@ -67,30 +68,32 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an absent variable with a default
-     */
-    public function testGettingAbsentVariableWithDefault() : void
-    {
-        $arrayList = new ImmutableArrayList([]);
-        $this->assertEquals('blah', $arrayList->get(0, 'blah'));
-    }
-
-    /**
-     * Tests getting an absent variable with no default
-     */
-    public function testGettingAbsentVariableWithNoDefault() : void
-    {
-        $arrayList = new ImmutableArrayList([]);
-        $this->assertNull($arrayList->get(0));
-    }
-
-    /**
      * Tests getting as array
      */
     public function testGettingAsArray() : void
     {
         $arrayList = new ImmutableArrayList(['foo']);
         $this->assertEquals('foo', $arrayList[0]);
+    }
+
+    /**
+     * Tests that getting an index greater than the list length throws an exception
+     */
+    public function testGettingIndexGreaterThanListLengthThrowsException() : void
+    {
+        $this->expectException(OutOfRangeException::class);
+        $arrayList = new ImmutableArrayList(['foo']);
+        $arrayList->get(1);
+    }
+
+    /**
+     * Tests that getting an index less than zero throws an exception
+     */
+    public function testGettingIndexLessThanZeroThrowsException() : void
+    {
+        $this->expectException(OutOfRangeException::class);
+        $arrayList = new ImmutableArrayList(['foo']);
+        $arrayList->get(-1);
     }
 
     /**

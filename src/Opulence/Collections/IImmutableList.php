@@ -33,8 +33,9 @@ interface IImmutableList extends ArrayAccess, Countable, IteratorAggregate
      * @param int $index The index to get
      * @param mixed $default The default value
      * @return mixed The value if it was found, otherwise the default value
+     * @throws OutOfRangeException Thrown if the index is < 0 or >= than the length of the list
      */
-    public function get(int $index, $default = null);
+    public function get(int $index);
 
     /**
      * Gets the index of a value

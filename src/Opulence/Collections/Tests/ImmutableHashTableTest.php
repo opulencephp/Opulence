@@ -14,6 +14,7 @@ use InvalidArgumentException;
 use Opulence\Collections\ImmutableHashTable;
 use Opulence\Collections\KeyValuePair;
 use Opulence\Collections\Tests\Mocks\MockObject;
+use OutOfBoundsException;
 use RuntimeException;
 
 /**
@@ -69,21 +70,13 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an absent variable with a default
+     * Tests getting an absent variable throws an exception
      */
-    public function testGettingAbsentVariableWithDefault() : void
+    public function testGettingAbsentVariableThrowsException() : void
     {
+        $this->expectException(OutOfBoundsException::class);
         $hashTable = new ImmutableHashTable([]);
-        $this->assertEquals('blah', $hashTable->get('does not exist', 'blah'));
-    }
-
-    /**
-     * Tests getting an absent variable with no default
-     */
-    public function testGettingAbsentVariableWithNoDefault() : void
-    {
-        $hashTable = new ImmutableHashTable([]);
-        $this->assertNull($hashTable->get('does not exist'));
+        $hashTable->get('does not exist');
     }
 
     /**
@@ -159,6 +152,19 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
             new KeyValuePair('baz', 'blah')
         ];
         $this->assertEquals($expectedArray, $hashTable->toArray());
+    }
+
+    /**
+     * Tests the trying to get a value returns true if the key exists and false if it doesn't
+     */
+    public function testTryGetReturnsTrueIfKeyExistsAndFalseIfValueDoesNotExist() : void
+    {
+        $hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar')]);
+        $value = null;
+        $this->assertFalse($hashTable->tryGet('baz', $value));
+        $this->assertNull($value);
+        $this->assertTrue($hashTable->tryGet('foo', $value));
+        $this->assertEquals('bar', $value);
     }
 
     /**

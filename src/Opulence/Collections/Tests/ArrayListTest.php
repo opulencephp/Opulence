@@ -11,6 +11,7 @@
 namespace Opulence\Collections\Tests;
 
 use Opulence\Collections\ArrayList;
+use OutOfRangeException;
 
 /**
  * Tests the array list
@@ -106,19 +107,23 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests getting an absent variable with a default
+     * Tests that getting an index greater than the list length throws an exception
      */
-    public function testGettingAbsentVariableWithDefault() : void
+    public function testGettingIndexGreaterThanListLengthThrowsException() : void
     {
-        $this->assertEquals('blah', $this->arrayList->get(0, 'blah'));
+        $this->expectException(OutOfRangeException::class);
+        $this->arrayList->add('foo');
+        $this->arrayList->get(1);
     }
 
     /**
-     * Tests getting an absent variable with no default
+     * Tests that getting an index less than zero throws an exception
      */
-    public function testGettingAbsentVariableWithNoDefault() : void
+    public function testGettingIndexLessThanZeroThrowsException() : void
     {
-        $this->assertNull($this->arrayList->get(0));
+        $this->expectException(OutOfRangeException::class);
+        $this->arrayList->add('foo');
+        $this->arrayList->get(-1);
     }
 
     /**
@@ -196,7 +201,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     {
         $this->arrayList->add('foo');
         $this->arrayList->removeValue('foo');
-        $this->assertNull($this->arrayList->get(0));
+        $this->assertEquals(0, $this->arrayList->count());
         $this->assertFalse($this->arrayList->containsValue('foo'));
         $this->assertEquals([], $this->arrayList->toArray());
     }
@@ -208,7 +213,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     {
         $this->arrayList->add('foo');
         $this->arrayList->removeIndex(0);
-        $this->assertNull($this->arrayList->get(0));
+        $this->assertEquals(0, $this->arrayList->count());
         $this->assertFalse($this->arrayList->containsValue('foo'));
         $this->assertEquals([], $this->arrayList->toArray());
     }
@@ -271,7 +276,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     {
         $this->arrayList->add('foo');
         unset($this->arrayList[0]);
-        $this->assertNull($this->arrayList->get(0));
+        $this->assertEquals(0, $this->arrayList->count());
         $this->assertFalse($this->arrayList->containsValue('foo'));
         $this->assertEquals([], $this->arrayList->toArray());
     }

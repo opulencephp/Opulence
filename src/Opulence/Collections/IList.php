@@ -13,6 +13,7 @@ namespace Opulence\Collections;
 use ArrayAccess;
 use Countable;
 use IteratorAggregate;
+use OutOfRangeException;
 
 /**
  * Defines the interface for lists to implement
@@ -50,10 +51,10 @@ interface IList extends ArrayAccess, Countable, IteratorAggregate
      * Gets the value at an index
      *
      * @param int $index The index to get
-     * @param mixed $default The default value
      * @return mixed The value if it was found, otherwise the default value
+     * @throws OutOfRangeException Thrown if the index is < 0 or >= than the length of the list
      */
-    public function get(int $index, $default = null);
+    public function get(int $index);
 
     /**
      * Gets the index of a value

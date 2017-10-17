@@ -11,6 +11,7 @@
 namespace Opulence\Collections;
 
 use ArrayIterator;
+use OutOfRangeException;
 use RuntimeException;
 use Traversable;
 
@@ -51,9 +52,13 @@ class ImmutableArrayList implements IImmutableList
     /**
      * @inheritdoc
      */
-    public function get(int $index, $default = null)
+    public function get(int $index)
     {
-        return $this->values[$index] ?? $default;
+        if ($index < 0 || $index >= count($this)) {
+            throw new OutOfRangeException("Index $index is out of range");
+        }
+
+        return $this->values[$index];
     }
 
     /**

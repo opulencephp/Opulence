@@ -12,6 +12,7 @@ namespace Opulence\Collections;
 
 use ArrayIterator;
 use InvalidArgumentException;
+use OutOfBoundsException;
 use RuntimeException;
 use Traversable;
 
@@ -95,11 +96,15 @@ class HashTable implements IDictionary
     /**
      * @inheritdoc
      */
-    public function get($key, $default = null)
+    public function get($key)
     {
         $hashKey = $this->getHashKey($key);
 
-        return $this->containsKey($hashKey) ? $this->hashKeysToKvps[$hashKey]->getValue() : $default;
+        if (!$this->containsKey($key)) {
+            throw new OutOfBoundsException("Hash key \"$hashKey\" not found");
+        }
+
+        return $this->hashKeysToKvps[$hashKey]->getValue();
     }
 
     /**
@@ -149,11 +154,12 @@ class HashTable implements IDictionary
 
     /**
      * @inheritdoc
+     * @throws OutOfBoundsException Thrown if the key could not be found
      * @throws RuntimeException Thrown if the value's key could not be calculated
      */
     public function offsetGet($key)
     {
-        return $this->get($key, null);
+        return $this->get($key);
     }
 
     /**
@@ -188,6 +194,22 @@ class HashTable implements IDictionary
     public function toArray() : array
     {
         return array_values($this->hashKeysToKvps);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function tryGet($key, &$value) : bool
+    {
+        try {
+            $value = $this->get($key);
+
+            return true;
+        } catch (OutOfBoundsException $ex) {
+            return false;
+        }
+
+        return false;
     }
 
     /**
