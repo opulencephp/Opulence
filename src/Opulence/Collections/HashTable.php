@@ -24,7 +24,7 @@ class HashTable implements IDictionary
     protected $hashKeysToKvps = [];
 
     /**
-     * @param KeyValuePair[] $kvps The list of values to add
+     * @param KeyValuePair[] $kvps The list of key-value pairs to add
      * @throws InvalidArgumentException Thrown if the array contains a non-key-value pair
      */
     public function __construct(array $kvps = [])
@@ -75,7 +75,7 @@ class HashTable implements IDictionary
      */
     public function containsValue($value) : bool
     {
-        foreach ($this->hashKeysToKvps as $hashKey => $kvp) {
+        foreach ($this->hashKeysToKvps as $kvp) {
             if ($kvp->getValue() == $value) {
                 return true;
             }
@@ -109,7 +109,7 @@ class HashTable implements IDictionary
     {
         $keys = [];
 
-        foreach ($this->hashKeysToKvps as $hashKey => $kvp) {
+        foreach ($this->hashKeysToKvps as $kvp) {
             $keys[] = $kvp->getKey();
         }
 
@@ -123,7 +123,7 @@ class HashTable implements IDictionary
     {
         $values = [];
 
-        foreach ($this->hashKeysToKvps as $hashKey => $kvp) {
+        foreach ($this->hashKeysToKvps as $kvp) {
             $values[] = $kvp->getValue();
         }
 

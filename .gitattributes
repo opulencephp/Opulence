@@ -13,4 +13,4 @@ CONTRIBUTING.md export-ignore
 phpunit.xml export-ignore
 /build export-ignore
 /configs export-ignore
-/tests export-ignore
+/src/Opulence/*/Tests export-ignore
