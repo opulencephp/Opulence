@@ -10,37 +10,36 @@
 
 namespace Opulence\Collections;
 
-use ArrayAccess;
 use ArrayIterator;
-use Countable;
-use IteratorAggregate;
+use InvalidArgumentException;
 use RuntimeException;
 use Traversable;
 
 /**
  * Defines an immutable hash table
  */
-class ImmutableHashTable implements ArrayAccess, Countable, IteratorAggregate
+class ImmutableHashTable implements IImmutableDictionary
 {
     /** @var KeyValuePair[] The list of values */
     protected $hashKeysToKvps = [];
 
     /**
-     * @param array $values The list of values to add
+     * @param KeyValuePair[] $kvps The list of values to add
+     * @throws InvalidArgumentException Thrown if the array contains a non-key-value pair
      */
-    public function __construct(array $values)
+    public function __construct(array $kvps)
     {
-        foreach ($values as $key => $value) {
-            $this->hashKeysToKvps[$this->getHashKey($key)] = new KeyValuePair($key, $value);
+        foreach ($kvps as $kvp) {
+            if (!$kvp instanceof KeyValuePair) {
+                throw new InvalidArgumentException('Value must be instance of ' . KeyValuePair::class);
+            }
+
+            $this->hashKeysToKvps[$this->getHashKey($kvp->getKey())] = $kvp;
         }
     }
 
     /**
-     * Gets whether or not the key exists
-     *
-     * @param mixed $key The key to check for
-     * @return bool True if the key exists, otherwise false
-     * @throws RuntimeException Thrown if the value's key could not be calculated
+     * @inheritdoc
      */
     public function containsKey($key) : bool
     {
@@ -48,10 +47,7 @@ class ImmutableHashTable implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets whether or not the value exists in the hash table
-     *
-     * @param mixed $value The value to search for
-     * @return bool True if the value exists, otherwise false
+     * @inheritdoc
      */
     public function containsValue($value) : bool
     {
@@ -73,12 +69,7 @@ class ImmutableHashTable implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets the value of the key
-     *
-     * @param mixed $key The key to get
-     * @param mixed $default The default value
-     * @return mixed The value if it was found, otherwise the default value
-     * @throws RuntimeException Thrown if the value's key could not be calculated
+     * @inheritdoc
      */
     public function get($key, $default = null)
     {
@@ -93,6 +84,34 @@ class ImmutableHashTable implements ArrayAccess, Countable, IteratorAggregate
     public function getIterator() : Traversable
     {
         return new ArrayIterator(array_values($this->hashKeysToKvps));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getKeys() : array
+    {
+        $keys = [];
+
+        foreach ($this->hashKeysToKvps as $hashKey => $kvp) {
+            $keys[] = $kvp->getKey();
+        }
+
+        return $keys;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getValues() : array
+    {
+        $values = [];
+
+        foreach ($this->hashKeysToKvps as $hashKey => $kvp) {
+            $values[] = $kvp->getValue();
+        }
+
+        return $values;
     }
 
     /**
@@ -132,9 +151,7 @@ class ImmutableHashTable implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets all of the values as an array of key-value pairs
-     *
-     * @return array All of the values as a list of key-value pairs
+     * @inheritdoc
      */
     public function toArray() : array
     {

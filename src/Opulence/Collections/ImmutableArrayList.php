@@ -10,17 +10,14 @@
 
 namespace Opulence\Collections;
 
-use ArrayAccess;
 use ArrayIterator;
-use Countable;
-use IteratorAggregate;
 use RuntimeException;
 use Traversable;
 
 /**
  * Defines an immutable array list
  */
-class ImmutableArrayList implements ArrayAccess, Countable, IteratorAggregate
+class ImmutableArrayList implements IImmutableList
 {
     /** @var array The list of values */
     protected $values = [];
@@ -36,10 +33,7 @@ class ImmutableArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets whether or not the value exists
-     *
-     * @param mixed $value The value to search for
-     * @return bool True if the value exists, otherwise false
+     * @inheritdoc
      */
     public function containsValue($value) : bool
     {
@@ -55,11 +49,7 @@ class ImmutableArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets the value at an index
-     *
-     * @param int $index The index to get
-     * @param mixed $default The default value
-     * @return mixed The value if it was found, otherwise the default value
+     * @inheritdoc
      */
     public function get(int $index, $default = null)
     {
@@ -75,10 +65,7 @@ class ImmutableArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets the index of a value
-     *
-     * @param mixed $value The value to search for
-     * @return int|null The index of the value if it was found, otherwise null
+     * @inheritdoc
      */
     public function indexOf($value) : ?int
     {
@@ -122,9 +109,7 @@ class ImmutableArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets all of the values as an array
-     *
-     * @return array All of the values
+     * @inheritdoc
      */
     public function toArray() : array
     {

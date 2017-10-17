@@ -10,10 +10,7 @@
 
 namespace Opulence\Collections;
 
-use ArrayAccess;
 use ArrayIterator;
-use Countable;
-use IteratorAggregate;
 use RuntimeException;
 use Throwable;
 use Traversable;
@@ -21,7 +18,7 @@ use Traversable;
 /**
  * Defines a hash set
  */
-class HashSet implements ArrayAccess, Countable, IteratorAggregate
+class HashSet implements ISet
 {
     /** @var array The set of values */
     protected $values = [];
@@ -35,21 +32,15 @@ class HashSet implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Adds a value
-     *
-     * @param mixed $value The value to add
-     * @throws RuntimeException Thrown if the value's key could not be calculated
+     * @inheritdoc
      */
     public function add($value) : void
     {
-        $this->values[$this->getKey($value)] = $value;
+        $this->values[$this->getHashKey($value)] = $value;
     }
 
     /**
-     * Adds a range of values
-     *
-     * @param array $values The values to add
-     * @throws RuntimeException Thrown if the values' keys could not be calculated
+     * @inheritdoc
      */
     public function addRange(array $values) : void
     {
@@ -59,7 +50,7 @@ class HashSet implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Clears all values from the set
+     * @inheritdoc
      */
     public function clear() : void
     {
@@ -67,15 +58,11 @@ class HashSet implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets whether or not the value exists
-     *
-     * @param mixed $value The value to search for
-     * @return bool True if the value exists, otherwise false
-     * @throws RuntimeException Thrown if the value's key could not be calculated
+     * @inheritdoc
      */
     public function containsValue($value) : bool
     {
-        return isset($this->values[$this->getKey($value)]);
+        return isset($this->values[$this->getHashKey($value)]);
     }
 
     /**
@@ -95,10 +82,7 @@ class HashSet implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Intersects the values of the input array with the values already in the set
-     *
-     * @param array $values The values to intersect with
-     * @throws RuntimeException Thrown if the values' keys could not be calculated
+     * @inheritdoc
      */
     public function intersect(array $values) : void
     {
@@ -149,20 +133,15 @@ class HashSet implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Removes a value from the set
-     *
-     * @param mixed $value The value to remove
-     * @throws RuntimeException Thrown if the value's key could not be calculated
+     * @inheritdoc
      */
     public function removeValue($value) : void
     {
-        unset($this->values[$this->getKey($value)]);
+        unset($this->values[$this->getHashKey($value)]);
     }
 
     /**
-     * Sorts the values of the set
-     *
-     * @param callable $comparer The comparer to sort with
+     * @inheritdoc
      */
     public function sort(callable $comparer) : void
     {
@@ -170,9 +149,7 @@ class HashSet implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets all of the values as an array
-     *
-     * @return array All of the values
+     * @inheritdoc
      */
     public function toArray() : array
     {
@@ -180,10 +157,7 @@ class HashSet implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Unions the values of the input array with the values already in the set
-     *
-     * @param array $values The values to union with
-     * @throws RuntimeException Thrown if the values' keys could not be calculated
+     * @inheritdoc
      */
     public function union(array $values) : void
     {
@@ -199,7 +173,7 @@ class HashSet implements ArrayAccess, Countable, IteratorAggregate
      * @return string The key for the value
      * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    protected function getKey($value) : string
+    protected function getHashKey($value) : string
     {
         if (is_object($value)) {
             return spl_object_hash($value);

@@ -10,16 +10,13 @@
 
 namespace Opulence\Collections;
 
-use ArrayAccess;
 use ArrayIterator;
-use Countable;
-use IteratorAggregate;
 use Traversable;
 
 /**
  * Defines an array list
  */
-class ArrayList implements ArrayAccess, Countable, IteratorAggregate
+class ArrayList implements IList
 {
     /** @var array The list of values */
     protected $values = [];
@@ -33,9 +30,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Adds a value
-     *
-     * @param mixed $value The value to add
+     * @inheritdoc
      */
     public function add($value) : void
     {
@@ -43,9 +38,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Adds a range of values
-     *
-     * @param array $values The values to add
+     * @inheritdoc
      */
     public function addRange(array $values) : void
     {
@@ -55,7 +48,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Clears all values from the list
+     * @inheritdoc
      */
     public function clear() : void
     {
@@ -63,10 +56,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets whether or not the value exists
-     *
-     * @param mixed $value The value to search for
-     * @return bool True if the value exists, otherwise false
+     * @inheritdoc
      */
     public function containsValue($value) : bool
     {
@@ -82,11 +72,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets the value at an index
-     *
-     * @param int $index The index to get
-     * @param mixed $default The default value
-     * @return mixed The value if it was found, otherwise the default value
+     * @inheritdoc
      */
     public function get(int $index, $default = null)
     {
@@ -102,10 +88,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets the index of a value
-     *
-     * @param mixed $value The value to search for
-     * @return int|null The index of the value if it was found, otherwise null
+     * @inheritdoc
      */
     public function indexOf($value) : ?int
     {
@@ -117,10 +100,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Inserts the value at an index
-     *
-     * @param int $index The index to insert at
-     * @param mixed $value The value to insert
+     * @inheritdoc
      */
     public function insert(int $index, $value) : void
     {
@@ -128,9 +108,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Intersects the values of the input array with the values already in the array list
-     *
-     * @param array $values The values to intersect with
+     * @inheritdoc
      */
     public function intersect(array $values) : void
     {
@@ -172,9 +150,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Removes the value at an index
-     *
-     * @param int $index The index to remove
+     * @inheritdoc
      */
     public function removeIndex(int $index) : void
     {
@@ -182,9 +158,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Removes the value from the list
-     *
-     * @param mixed $value The value to remove
+     * @inheritdoc
      */
     public function removeValue($value) : void
     {
@@ -196,7 +170,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Reverses the list
+     * @inheritdoc
      */
     public function reverse() : void
     {
@@ -204,9 +178,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Sorts the values of the list
-     *
-     * @param callable $comparer The comparer to sort with
+     * @inheritdoc
      */
     public function sort(callable $comparer) : void
     {
@@ -214,9 +186,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets all of the values as an array
-     *
-     * @return array All of the values
+     * @inheritdoc
      */
     public function toArray() : array
     {
@@ -224,9 +194,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Unions the values of the input array with the values already in the array list
-     *
-     * @param array $values The values to union with
+     * @inheritdoc
      */
     public function union(array $values) : void
     {

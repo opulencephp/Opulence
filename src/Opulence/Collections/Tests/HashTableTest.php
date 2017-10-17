@@ -10,8 +10,10 @@
 
 namespace Opulence\Collections\Tests;
 
+use InvalidArgumentException;
 use Opulence\Collections\HashTable;
 use Opulence\Collections\KeyValuePair;
+use Opulence\Collections\Tests\Mocks\MockObject;
 
 /**
  * Tests the hash table
@@ -34,7 +36,7 @@ class HashTableTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingRangeMakesEachValueRetrievable() : void
     {
-        $this->hashTable->addRange(['foo' => 'bar', 'baz' => 'blah']);
+        $this->hashTable->addRange([new KeyValuePair('foo', 'bar'), new KeyValuePair('baz', 'blah')]);
         $this->assertEquals('bar', $this->hashTable->get('foo'));
         $this->assertEquals('blah', $this->hashTable->get('baz'));
     }
@@ -142,6 +144,28 @@ class HashTableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests that getting the keys returns the original keys, not the hash keys
+     */
+    public function testGettingKeysReturnsOriginalKeysNotHashKeys() : void
+    {
+        $key1 = new MockObject();
+        $key2 = new MockObject();
+        $this->hashTable->add($key1, 'foo');
+        $this->hashTable->add($key2, 'bar');
+        $this->assertEquals([$key1, $key2], $this->hashTable->getKeys());
+    }
+
+    /**
+     * Tests that getting the values returns a list of values
+     */
+    public function testGettingValuesReturnsListOfValues() : void
+    {
+        $this->hashTable->add('foo', 'bar');
+        $this->hashTable->add('baz', 'blah');
+        $this->assertEquals(['bar', 'blah'], $this->hashTable->getValues());
+    }
+
+    /**
      * Tests iterating over the values
      */
     public function testIteratingOverValues() : void
@@ -164,20 +188,37 @@ class HashTableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests that a non-key-value pair in the add-range method throws an exception
+     */
+    public function testNonKeyValuePairInAddRangeThrowsException() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->hashTable->addRange(['foo' => 'bar']);
+    }
+
+    /**
+     * Tests that a non-key-value pair in the constructor throws an exception
+     */
+    public function testNonKeyValuePairInConstructorThrowsException() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new HashTable(['foo' => 'bar']);
+    }
+
+    /**
      * Tests passing parameters through the constructor
      */
     public function testPassingParametersInConstructor() : void
     {
-        $parametersArray = ['foo' => 'bar', 'bar' => 'foo'];
-        $hashTable = new HashTable($parametersArray);
+        $hashTable = new HashTable([new KeyValuePair('foo', 'bar'), new KeyValuePair('baz', 'blah')]);
         $this->assertEquals('bar', $hashTable->get('foo'));
-        $this->assertEquals('foo', $hashTable->get('bar'));
+        $this->assertEquals('blah', $hashTable->get('baz'));
     }
 
     /**
-     * Tests removing a parameter
+     * Tests removing a key
      */
-    public function testRemove() : void
+    public function testRemoveKey() : void
     {
         $this->hashTable->add('foo', 'bar');
         $this->hashTable->removeKey('foo');

@@ -10,10 +10,7 @@
 
 namespace Opulence\Collections;
 
-use ArrayAccess;
 use ArrayIterator;
-use Countable;
-use IteratorAggregate;
 use RuntimeException;
 use Throwable;
 use Traversable;
@@ -21,7 +18,7 @@ use Traversable;
 /**
  * Defines an immutable hash set
  */
-class ImmutableHashSet implements ArrayAccess, Countable, IteratorAggregate
+class ImmutableHashSet implements IImmutableSet
 {
     /** @var array The set of values */
     protected $values = [];
@@ -33,20 +30,16 @@ class ImmutableHashSet implements ArrayAccess, Countable, IteratorAggregate
     public function __construct(array $values)
     {
         foreach ($values as $value) {
-            $this->values[$this->getKey($value)] = $value;
+            $this->values[$this->getHashKey($value)] = $value;
         }
     }
 
     /**
-     * Gets whether or not the value exists
-     *
-     * @param mixed $value The value to search for
-     * @return bool True if the value exists, otherwise false
-     * @throws RuntimeException Thrown if the value's key could not be calculated
+     * @inheritdoc
      */
     public function containsValue($value) : bool
     {
-        return isset($this->values[$this->getKey($value)]);
+        return isset($this->values[$this->getHashKey($value)]);
     }
 
     /**
@@ -98,19 +91,7 @@ class ImmutableHashSet implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Sorts the values of the set
-     *
-     * @param callable $comparer The comparer to sort with
-     */
-    public function sort(callable $comparer) : void
-    {
-        usort($this->values, $comparer);
-    }
-
-    /**
-     * Gets all of the values as an array
-     *
-     * @return array All of the values
+     * @inheritdoc
      */
     public function toArray() : array
     {
@@ -124,7 +105,7 @@ class ImmutableHashSet implements ArrayAccess, Countable, IteratorAggregate
      * @return string The key for the value
      * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    protected function getKey($value) : string
+    protected function getHashKey($value) : string
     {
         if (is_object($value)) {
             return spl_object_hash($value);

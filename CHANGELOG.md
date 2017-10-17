@@ -2,7 +2,7 @@
 
 <h3>General</h3>
 
-* Moved all test directories into a `test` directory within each library
+* Moved all test directories into a `Test` directory within each library
 
 <h3>Applications</h3>
 

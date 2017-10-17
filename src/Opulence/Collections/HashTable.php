@@ -10,35 +10,30 @@
 
 namespace Opulence\Collections;
 
-use ArrayAccess;
 use ArrayIterator;
-use Countable;
-use IteratorAggregate;
+use InvalidArgumentException;
 use RuntimeException;
 use Traversable;
 
 /**
  * Defines a hash table
  */
-class HashTable implements ArrayAccess, Countable, IteratorAggregate
+class HashTable implements IDictionary
 {
     /** @var KeyValuePair[] The list of values */
     protected $hashKeysToKvps = [];
 
     /**
-     * @param array $values The list of values to add
+     * @param KeyValuePair[] $kvps The list of values to add
+     * @throws InvalidArgumentException Thrown if the array contains a non-key-value pair
      */
-    public function __construct(array $values = [])
+    public function __construct(array $kvps = [])
     {
-        $this->addRange($values);
+        $this->addRange($kvps);
     }
 
     /**
-     * Adds a value
-     *
-     * @param mixed $key The key to add
-     * @param mixed $value The value to add
-     * @throws RuntimeException Thrown if the value's key could not be calculated
+     * @inheritdoc
      */
     public function add($key, $value) : void
     {
@@ -46,20 +41,21 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Adds multiple values
-     *
-     * @param array $values The values to add
-     * @throws RuntimeException Thrown if the values' keys could not be calculated
+     * @inheritdoc
      */
-    public function addRange(array $values) : void
+    public function addRange(array $kvps) : void
     {
-        foreach ($values as $key => $value) {
-            $this->add($key, $value);
+        foreach ($kvps as $kvp) {
+            if (!$kvp instanceof KeyValuePair) {
+                throw new InvalidArgumentException('Value must be instance of ' . KeyValuePair::class);
+            }
+
+            $this->hashKeysToKvps[$this->getHashKey($kvp->getKey())] = $kvp;
         }
     }
 
     /**
-     * Clears all values from the hash table
+     * @inheritdoc
      */
     public function clear() : void
     {
@@ -67,11 +63,7 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets whether or not the key exists
-     *
-     * @param mixed $key The key to check for
-     * @return bool True if the key exists, otherwise false
-     * @throws RuntimeException Thrown if the value's key could not be calculated
+     * @inheritdoc
      */
     public function containsKey($key) : bool
     {
@@ -79,10 +71,7 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets whether or not the value exists in the hash table
-     *
-     * @param mixed $value The value to search for
-     * @return bool True if the value exists, otherwise false
+     * @inheritdoc
      */
     public function containsValue($value) : bool
     {
@@ -104,18 +93,41 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets the value of the key
-     *
-     * @param mixed $key The key to get
-     * @param mixed $default The default value
-     * @return mixed The value if it was found, otherwise the default value
-     * @throws RuntimeException Thrown if the value's key could not be calculated
+     * @inheritdoc
      */
     public function get($key, $default = null)
     {
         $hashKey = $this->getHashKey($key);
 
         return $this->containsKey($hashKey) ? $this->hashKeysToKvps[$hashKey]->getValue() : $default;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getKeys() : array
+    {
+        $keys = [];
+
+        foreach ($this->hashKeysToKvps as $hashKey => $kvp) {
+            $keys[] = $kvp->getKey();
+        }
+
+        return $keys;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getValues() : array
+    {
+        $values = [];
+
+        foreach ($this->hashKeysToKvps as $hashKey => $kvp) {
+            $values[] = $kvp->getValue();
+        }
+
+        return $values;
     }
 
     /**
@@ -163,10 +175,7 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Removes a key
-     *
-     * @param mixed $key The key to remove
-     * @throws RuntimeException Thrown if the value's key could not be calculated
+     * @inheritdoc
      */
     public function removeKey($key) : void
     {
@@ -174,9 +183,7 @@ class HashTable implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Gets all of the values as an array of key-value pairs
-     *
-     * @return array All of the values as a list of key-value pairs
+     * @inheritdoc
      */
     public function toArray() : array
     {
