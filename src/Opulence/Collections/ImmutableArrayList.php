@@ -102,7 +102,7 @@ class ImmutableArrayList implements IImmutableList
      */
     public function offsetSet($index, $value) : void
     {
-        throw new RuntimeException('Cannot set a value in an immutable array list');
+        throw new RuntimeException('Cannot set values in ' . self::class);
     }
 
     /**
@@ -110,7 +110,7 @@ class ImmutableArrayList implements IImmutableList
      */
     public function offsetUnset($index) : void
     {
-        throw new RuntimeException('Cannot unset an index in an immutable array list');
+        throw new RuntimeException('Cannot unset values in ' . self::class);
     }
 
     /**

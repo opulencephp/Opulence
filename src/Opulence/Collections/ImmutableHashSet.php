@@ -71,7 +71,7 @@ class ImmutableHashSet implements IImmutableSet
      */
     public function offsetGet($index)
     {
-        throw new RuntimeException('Cannot get a value from a set');
+        throw new RuntimeException('Cannot get a value in ' . self::class);
     }
 
     /**
@@ -79,7 +79,7 @@ class ImmutableHashSet implements IImmutableSet
      */
     public function offsetSet($index, $value) : void
     {
-        throw new RuntimeException('Cannot add values to an immutable sets');
+        throw new RuntimeException('Cannot set values in ' . self::class);
     }
 
     /**
@@ -87,7 +87,7 @@ class ImmutableHashSet implements IImmutableSet
      */
     public function offsetUnset($index) : void
     {
-        throw new RuntimeException('Cannot use unset on immutable sets');
+        throw new RuntimeException('Cannot unset values in ' . self::class);
     }
 
     /**

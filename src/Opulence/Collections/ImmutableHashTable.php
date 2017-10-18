@@ -77,7 +77,7 @@ class ImmutableHashTable implements IImmutableDictionary
         $hashKey = $this->getHashKey($key);
 
         if (!$this->containsKey($key)) {
-            throw new OutOfBoundsException("Hash key $hashKey not found");
+            throw new OutOfBoundsException("Hash key \"$hashKey\" not found");
         }
 
         return $this->hashKeysToKvps[$hashKey]->getValue();
@@ -144,7 +144,7 @@ class ImmutableHashTable implements IImmutableDictionary
      */
     public function offsetSet($key, $value) : void
     {
-        throw new RuntimeException('offsetUnset is not supported in ' . self::class);
+        throw new RuntimeException('Cannot set values in ' . self::class);
     }
 
     /**
@@ -153,7 +153,7 @@ class ImmutableHashTable implements IImmutableDictionary
      */
     public function offsetUnset($key) : void
     {
-        throw new RuntimeException('offsetUnset is not supported in ' . self::class);
+        throw new RuntimeException('Cannot unset values in ' . self::class);
     }
 
     /**
