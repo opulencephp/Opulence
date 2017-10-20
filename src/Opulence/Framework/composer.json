@@ -23,7 +23,7 @@
     ]
   },
   "require": {
-    "php": "^7.0",
+    "php": "^7.1",
     "opulence/applications": "1.0.*",
     "opulence/authentication": "1.0.*",
     "opulence/authorization": "1.0.*",

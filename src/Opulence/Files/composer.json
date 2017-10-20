@@ -22,7 +22,7 @@
     ]
   },
   "require": {
-    "php": "^7.0",
+    "php": "^7.1",
     "opulence/io": "1.0.*"
   },
   "extra": {
