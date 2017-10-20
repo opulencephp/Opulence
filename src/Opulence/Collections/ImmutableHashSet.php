@@ -12,7 +12,6 @@ namespace Opulence\Collections;
 
 use ArrayIterator;
 use RuntimeException;
-use Throwable;
 use Traversable;
 
 /**
@@ -22,6 +21,8 @@ class ImmutableHashSet implements IImmutableSet
 {
     /** @var array The set of values */
     protected $values = [];
+    /** @var KeyHasher The key hasher to use */
+    private $keyHasher = null;
 
     /**
      * @param array $values The set of values
@@ -29,8 +30,10 @@ class ImmutableHashSet implements IImmutableSet
      */
     public function __construct(array $values)
     {
+        $this->keyHasher = new KeyHasher();
+
         foreach ($values as $value) {
-            $this->values[$this->getHashKey($value)] = $value;
+            $this->values[$this->keyHasher->getHashKey($value)] = $value;
         }
     }
 
@@ -39,7 +42,7 @@ class ImmutableHashSet implements IImmutableSet
      */
     public function containsValue($value) : bool
     {
-        return isset($this->values[$this->getHashKey($value)]);
+        return isset($this->values[$this->keyHasher->getHashKey($value)]);
     }
 
     /**
@@ -96,33 +99,5 @@ class ImmutableHashSet implements IImmutableSet
     public function toArray() : array
     {
         return array_values($this->values);
-    }
-
-    /**
-     * Gets the key for a value to use in the set
-     *
-     * @param mixed $value The value whose key we want
-     * @return string The key for the value
-     * @throws RuntimeException Thrown if the value's key could not be calculated
-     */
-    protected function getHashKey($value) : string
-    {
-        if (is_object($value)) {
-            return spl_object_hash($value);
-        }
-
-        if (is_array($value)) {
-            return md5(serialize($value));
-        }
-
-        if (is_resource($value)) {
-            return "$value";
-        }
-
-        try {
-            return (string)$value;
-        } catch (Throwable $ex) {
-            throw new RuntimeException('Value could not be converted to a key', 0, $ex);
-        }
     }
 }

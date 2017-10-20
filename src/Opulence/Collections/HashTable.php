@@ -23,6 +23,8 @@ class HashTable implements IDictionary
 {
     /** @var KeyValuePair[] The list of values */
     protected $hashKeysToKvps = [];
+    /** @var KeyHasher The key hasher to use */
+    private $keyHasher = null;
 
     /**
      * @param KeyValuePair[] $kvps The list of key-value pairs to add
@@ -30,6 +32,7 @@ class HashTable implements IDictionary
      */
     public function __construct(array $kvps = [])
     {
+        $this->keyHasher = new KeyHasher();
         $this->addRange($kvps);
     }
 
@@ -38,7 +41,7 @@ class HashTable implements IDictionary
      */
     public function add($key, $value) : void
     {
-        $this->hashKeysToKvps[$this->getHashKey($key)] = new KeyValuePair($key, $value);
+        $this->hashKeysToKvps[$this->keyHasher->getHashKey($key)] = new KeyValuePair($key, $value);
     }
 
     /**
@@ -51,7 +54,7 @@ class HashTable implements IDictionary
                 throw new InvalidArgumentException('Value must be instance of ' . KeyValuePair::class);
             }
 
-            $this->hashKeysToKvps[$this->getHashKey($kvp->getKey())] = $kvp;
+            $this->hashKeysToKvps[$this->keyHasher->getHashKey($kvp->getKey())] = $kvp;
         }
     }
 
@@ -68,7 +71,7 @@ class HashTable implements IDictionary
      */
     public function containsKey($key) : bool
     {
-        return array_key_exists($this->getHashKey($key), $this->hashKeysToKvps);
+        return array_key_exists($this->keyHasher->getHashKey($key), $this->hashKeysToKvps);
     }
 
     /**
@@ -98,7 +101,7 @@ class HashTable implements IDictionary
      */
     public function get($key)
     {
-        $hashKey = $this->getHashKey($key);
+        $hashKey = $this->keyHasher->getHashKey($key);
 
         if (!$this->containsKey($key)) {
             throw new OutOfBoundsException("Hash key \"$hashKey\" not found");
@@ -185,7 +188,7 @@ class HashTable implements IDictionary
      */
     public function removeKey($key) : void
     {
-        unset($this->hashKeysToKvps[$this->getHashKey($key)]);
+        unset($this->hashKeysToKvps[$this->keyHasher->getHashKey($key)]);
     }
 
     /**
@@ -210,33 +213,5 @@ class HashTable implements IDictionary
         }
 
         return false;
-    }
-
-    /**
-     * Gets the key for a value to use in the hash table
-     *
-     * @param mixed $value The value whose key we want
-     * @return string The key for the value
-     * @throws RuntimeException Thrown if the value's key could not be calculated
-     */
-    protected function getHashKey($value) : string
-    {
-        if (is_object($value)) {
-            return spl_object_hash($value);
-        }
-
-        if (is_array($value)) {
-            return md5(serialize($value));
-        }
-
-        if (is_resource($value)) {
-            return "$value";
-        }
-
-        try {
-            return (string)$value;
-        } catch (Throwable $ex) {
-            throw new RuntimeException('Value could not be converted to a key', 0, $ex);
-        }
     }
 }
