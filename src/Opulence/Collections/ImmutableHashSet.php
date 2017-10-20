@@ -64,38 +64,6 @@ class ImmutableHashSet implements IImmutableSet
     /**
      * @inheritdoc
      */
-    public function offsetExists($index) : bool
-    {
-        throw new RuntimeException('Cannot use isset on set - use containsValue() instead');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function offsetGet($index)
-    {
-        throw new RuntimeException('Cannot get a value in ' . self::class);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function offsetSet($index, $value) : void
-    {
-        throw new RuntimeException('Cannot set values in ' . self::class);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function offsetUnset($index) : void
-    {
-        throw new RuntimeException('Cannot unset values in ' . self::class);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function toArray() : array
     {
         return array_values($this->values);

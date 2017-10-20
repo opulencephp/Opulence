@@ -12,7 +12,6 @@ namespace Opulence\Collections\Tests;
 
 use Opulence\Collections\HashSet;
 use Opulence\Collections\Tests\Mocks\MockObject;
-use RuntimeException;
 
 /**
  * Tests a hash set
@@ -129,15 +128,6 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that getting a value throws an exception
-     */
-    public function testGettingValueThrowsException() : void
-    {
-        $this->expectException(RuntimeException::class);
-        $this->set[new MockObject()];
-    }
-
-    /**
      * Tests that intersecting values intersects that values of the set and the array
      */
     public function testIntersectingIntersectsValuesOfSetAndArray() : void
@@ -148,15 +138,6 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
         $this->set->add($object2);
         $this->set->intersect([$object2]);
         $this->assertEquals([$object2], $this->set->toArray());
-    }
-
-    /**
-     * Tests that using isset throws an exception
-     */
-    public function testIssetThrowsException() : void
-    {
-        $this->expectException(RuntimeException::class);
-        isset($this->set[new MockObject()]);
     }
 
     /**
@@ -218,14 +199,5 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
         $this->set->add($object);
         $this->set->union(['bar', 'baz']);
         $this->assertEquals([$object, 'bar', 'baz'], $this->set->toArray());
-    }
-
-    /**
-     * Tests unsetting an index throws an exception
-     */
-    public function testUnsettingIndexThrowsException() : void
-    {
-        $this->expectException(RuntimeException::class);
-        unset($this->set[new MockObject()]);
     }
 }

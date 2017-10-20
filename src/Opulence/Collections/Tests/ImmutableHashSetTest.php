@@ -12,7 +12,6 @@ namespace Opulence\Collections\Tests;
 
 use Opulence\Collections\ImmutableHashSet;
 use Opulence\Collections\Tests\Mocks\MockObject;
-use RuntimeException;
 
 /**
  * Tests an immutable hash set
@@ -95,26 +94,6 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that getting a value throws an exception
-     */
-    public function testGettingValueThrowsException() : void
-    {
-        $this->expectException(RuntimeException::class);
-        $set = new ImmutableHashSet([]);
-        $set[new MockObject('foo')];
-    }
-
-    /**
-     * Tests that using isset throws an exception
-     */
-    public function testIssetThrowsException() : void
-    {
-        $this->expectException(RuntimeException::class);
-        $set = new ImmutableHashSet([]);
-        isset($set[new MockObject('foo')]);
-    }
-
-    /**
      * Tests iterating over the values returns the values - not the hash keys
      */
     public function testIteratingOverValuesReturnsValuesNotHashKeys() : void
@@ -133,15 +112,5 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
         }
 
         $this->assertEquals($expectedValues, $actualValues);
-    }
-
-    /**
-     * Tests unsetting an index throws an exception
-     */
-    public function testUnsettingIndexThrowsException() : void
-    {
-        $this->expectException(RuntimeException::class);
-        $set = new ImmutableHashSet([]);
-        unset($set[new MockObject('foo')]);
     }
 }

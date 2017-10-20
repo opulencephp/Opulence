@@ -10,14 +10,13 @@
 
 namespace Opulence\Collections;
 
-use ArrayAccess;
 use Countable;
 use IteratorAggregate;
 
 /**
  * Defines the interface for immutable sets to implement
  */
-interface IImmutableSet extends ArrayAccess, Countable, IteratorAggregate
+interface IImmutableSet extends Countable, IteratorAggregate
 {
     /**
      * Gets whether or not the value exists

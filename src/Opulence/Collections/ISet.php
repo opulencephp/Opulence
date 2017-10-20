@@ -10,14 +10,13 @@
 
 namespace Opulence\Collections;
 
-use ArrayAccess;
 use Countable;
 use IteratorAggregate;
 
 /**
  * Defines the interface for sets to implement
  */
-interface ISet extends ArrayAccess, Countable, IteratorAggregate
+interface ISet extends Countable, IteratorAggregate
 {
     /**
      * Adds a value

@@ -11,7 +11,6 @@
 namespace Opulence\Collections;
 
 use ArrayIterator;
-use RuntimeException;
 use Traversable;
 
 /**
@@ -99,39 +98,6 @@ class HashSet implements ISet
 
         $this->clear();
         $this->addRange($intersectedValues);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function offsetExists($index) : bool
-    {
-        throw new RuntimeException('Cannot use isset on set - use containsValue() instead');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function offsetGet($index)
-    {
-        throw new RuntimeException('Cannot get a value from a set');
-    }
-
-    /**
-     * @inheritdoc
-     * @throws RuntimeException Thrown if the value's key could not be calculated
-     */
-    public function offsetSet($index, $value) : void
-    {
-        $this->add($value);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function offsetUnset($index) : void
-    {
-        throw new RuntimeException('Cannot use unset on set');
     }
 
     /**
