@@ -2,6 +2,8 @@
 
 <h3>General</h3>
 
+* Opulence now requires at least PHP 7.1
+* Updated PHPUnit to 6.2
 * Moved all test directories into a `Test` directory within each library
 
 <h3>Applications</h3>
@@ -25,6 +27,10 @@
 * Added `php apex make:migration`
 * Added `php apex migrations:up`
 * Added `php apex migrations:down`
+
+<h3>IO</h3>
+
+* Added stream support
 
 <h3>IoC</h3>
 

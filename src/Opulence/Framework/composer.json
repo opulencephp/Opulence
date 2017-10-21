@@ -24,24 +24,24 @@
   },
   "require": {
     "php": "^7.1",
-    "opulence/applications": "1.0.*",
-    "opulence/authentication": "1.0.*",
-    "opulence/authorization": "1.0.*",
-    "opulence/console": "1.0.*",
-    "opulence/cryptography": "1.0.*",
-    "opulence/debug": "1.0.*",
-    "opulence/environments": "1.0.*",
-    "opulence/events": "1.0.*",
-    "opulence/files": "1.0.*",
-    "opulence/http": "1.0.*",
-    "opulence/ioc": "1.0.*",
-    "opulence/routing": "1.0.*",
-    "opulence/sessions": "1.0.*",
-    "opulence/validation": "1.0.*",
-    "opulence/views": "1.0.*"
+    "opulence/applications": "1.1.*",
+    "opulence/authentication": "1.1.*",
+    "opulence/authorization": "1.1.*",
+    "opulence/console": "1.1.*",
+    "opulence/cryptography": "1.1.*",
+    "opulence/debug": "1.1.*",
+    "opulence/environments": "1.1.*",
+    "opulence/events": "1.1.*",
+    "opulence/http": "1.1.*",
+    "opulence/io": "1.1.*",
+    "opulence/ioc": "1.1.*",
+    "opulence/routing": "1.1.*",
+    "opulence/sessions": "1.1.*",
+    "opulence/validation": "1.1.*",
+    "opulence/views": "1.1.*"
   },
   "require-dev": {
-    "phpunit/phpunit": "5.6.*"
+    "phpunit/phpunit": "~6.2"
   },
   "extra": {
     "branch-alias": {

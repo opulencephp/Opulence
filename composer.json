@@ -39,7 +39,7 @@
     "ext-pdo": "*",
     "phpredis": "3.0.*",
     "predis/predis": "1.1.*@dev",
-    "phpunit/phpunit": "~6.0"
+    "phpunit/phpunit": "~6.2"
   },
   "repositories": [
     {

@@ -56,6 +56,7 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
      */
     public function add(string $migrationClassName) : void
     {
+        $this->createTableIfDoesNotExist();
         $typeMapper = $this->typeMapperFactory->createTypeMapper($this->connection->getDatabaseProvider());
         $query = $this->queryBuilder->insert(
             $this->tableName,
@@ -74,6 +75,7 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
      */
     public function delete(string $migrationClassName) : void
     {
+        $this->createTableIfDoesNotExist();
         $query = $this->queryBuilder->delete($this->tableName)
             ->where('migration = :migration')
             ->addNamedPlaceholderValue('migration', $migrationClassName);
@@ -87,6 +89,7 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
      */
     public function getAll() : array
     {
+        $this->createTableIfDoesNotExist();
         $query = $this->queryBuilder->select('migration')
             ->from($this->tableName)
             ->orderBy('dateran DESC');
@@ -101,15 +104,28 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
      */
     public function getLast(int $number = 1) : array
     {
+        $this->createTableIfDoesNotExist();
         $query = $this->queryBuilder->select('migration')
             ->from($this->tableName)
             ->orderBy('dateran DESC')
-            ->limit('number')
+            ->limit(':number')
             ->addNamedPlaceholderValue('number', $number, PDO::PARAM_INT);
         $statement = $this->connection->prepare($query->getSql());
         $statement->bindValues($query->getParameters());
         $statement->execute();
 
         return $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
+
+    /**
+     * Creates the table that the migrations are stored in
+     */
+    protected function createTableIfDoesNotExist() : void
+    {
+        $sql = 'CREATE TABLE IF NOT EXISTS ' .
+            $this->tableName .
+            ' (migration text primary key, dateran timestamp with time zone NOT NULL);';
+        $statement = $this->connection->prepare($sql);
+        $statement->execute();
     }
 }

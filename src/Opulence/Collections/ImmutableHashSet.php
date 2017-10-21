@@ -33,7 +33,7 @@ class ImmutableHashSet implements IImmutableSet
         $this->keyHasher = new KeyHasher();
 
         foreach ($values as $value) {
-            $this->values[$this->keyHasher->getHashKey($value)] = $value;
+            $this->values[$this->getHashKey($value)] = $value;
         }
     }
 
@@ -42,7 +42,7 @@ class ImmutableHashSet implements IImmutableSet
      */
     public function containsValue($value) : bool
     {
-        return isset($this->values[$this->keyHasher->getHashKey($value)]);
+        return isset($this->values[$this->getHashKey($value)]);
     }
 
     /**
@@ -67,5 +67,18 @@ class ImmutableHashSet implements IImmutableSet
     public function toArray() : array
     {
         return array_values($this->values);
+    }
+
+    /**
+     * Gets the hash key for a value
+     * This method allows extending classes to customize how hash keys are calculated
+     *
+     * @param string|int|float|array|object|resource $value The value whose hash key we want
+     * @return string The hash key
+     * @throws RuntimeException Thrown if the hash key could not be calculated
+     */
+    protected function getHashKey($value) : string
+    {
+        return $this->keyHasher->getHashKey($value);
     }
 }

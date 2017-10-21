@@ -37,7 +37,7 @@ class HashSet implements ISet
      */
     public function add($value) : void
     {
-        $this->values[$this->keyHasher->getHashKey($value)] = $value;
+        $this->values[$this->getHashKey($value)] = $value;
     }
 
     /**
@@ -63,7 +63,7 @@ class HashSet implements ISet
      */
     public function containsValue($value) : bool
     {
-        return isset($this->values[$this->keyHasher->getHashKey($value)]);
+        return isset($this->values[$this->getHashKey($value)]);
     }
 
     /**
@@ -90,7 +90,7 @@ class HashSet implements ISet
         $intersectedValues = [];
 
         // We don't use array_intersect because that does string comparisons, which requires __toString()
-        foreach ($this->values as $key => $value) {
+        foreach ($this->values as $value) {
             if (in_array($value, $values, true)) {
                 $intersectedValues[] = $value;
             }
@@ -105,7 +105,7 @@ class HashSet implements ISet
      */
     public function removeValue($value) : void
     {
-        unset($this->values[$this->keyHasher->getHashKey($value)]);
+        unset($this->values[$this->getHashKey($value)]);
     }
 
     /**
@@ -132,5 +132,18 @@ class HashSet implements ISet
         $unionedValues = array_merge(array_values($this->values), $values);
         $this->clear();
         $this->addRange($unionedValues);
+    }
+
+    /**
+     * Gets the hash key for a value
+     * This method allows extending classes to customize how hash keys are calculated
+     *
+     * @param string|int|float|array|object|resource $value The value whose hash key we want
+     * @return string The hash key
+     * @throws RuntimeException Thrown if the hash key could not be calculated
+     */
+    protected function getHashKey($value) : string
+    {
+        return $this->keyHasher->getHashKey($value);
     }
 }

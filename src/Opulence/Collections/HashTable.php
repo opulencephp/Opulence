@@ -41,7 +41,7 @@ class HashTable implements IDictionary
      */
     public function add($key, $value) : void
     {
-        $this->hashKeysToKvps[$this->keyHasher->getHashKey($key)] = new KeyValuePair($key, $value);
+        $this->hashKeysToKvps[$this->getHashKey($key)] = new KeyValuePair($key, $value);
     }
 
     /**
@@ -54,7 +54,7 @@ class HashTable implements IDictionary
                 throw new InvalidArgumentException('Value must be instance of ' . KeyValuePair::class);
             }
 
-            $this->hashKeysToKvps[$this->keyHasher->getHashKey($kvp->getKey())] = $kvp;
+            $this->hashKeysToKvps[$this->getHashKey($kvp->getKey())] = $kvp;
         }
     }
 
@@ -71,7 +71,7 @@ class HashTable implements IDictionary
      */
     public function containsKey($key) : bool
     {
-        return array_key_exists($this->keyHasher->getHashKey($key), $this->hashKeysToKvps);
+        return array_key_exists($this->getHashKey($key), $this->hashKeysToKvps);
     }
 
     /**
@@ -101,7 +101,7 @@ class HashTable implements IDictionary
      */
     public function get($key)
     {
-        $hashKey = $this->keyHasher->getHashKey($key);
+        $hashKey = $this->getHashKey($key);
 
         if (!$this->containsKey($key)) {
             throw new OutOfBoundsException("Hash key \"$hashKey\" not found");
@@ -188,7 +188,7 @@ class HashTable implements IDictionary
      */
     public function removeKey($key) : void
     {
-        unset($this->hashKeysToKvps[$this->keyHasher->getHashKey($key)]);
+        unset($this->hashKeysToKvps[$this->getHashKey($key)]);
     }
 
     /**
@@ -213,5 +213,18 @@ class HashTable implements IDictionary
         }
 
         return false;
+    }
+
+    /**
+     * Gets the hash key for a value
+     * This method allows extending classes to customize how hash keys are calculated
+     *
+     * @param string|int|float|array|object|resource $value The value whose hash key we want
+     * @return string The hash key
+     * @throws RuntimeException Thrown if the hash key could not be calculated
+     */
+    protected function getHashKey($value) : string
+    {
+        return $this->keyHasher->getHashKey($value);
     }
 }

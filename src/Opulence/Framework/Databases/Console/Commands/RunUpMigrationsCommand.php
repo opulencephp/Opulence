@@ -48,10 +48,15 @@ class RunUpMigrationsCommand extends Command
     {
         $response->writeln('Running "up" migrations...');
         $migrationsRun = $this->migrator->runMigrations();
-        $response->writeln('<success>Successfully ran the following migrations:</success>');
 
-        foreach ($migrationsRun as $migrationRun) {
-            $response->writeln("<info>$migrationRun</info>");
+        if (count($migrationsRun) === 0) {
+            $response->writeln('<info>No migrations to run</info>');
+        } else {
+            $response->writeln('<success>Successfully ran the following migrations:</success>');
+
+            foreach ($migrationsRun as $migrationRun) {
+                $response->writeln("<info>$migrationRun</info>");
+            }
         }
     }
 }

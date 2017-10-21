@@ -57,17 +57,27 @@ class RunDownMigrationsCommand extends Command
     {
         if ($this->optionIsSet('number')) {
             $numMigrations = (int)$this->getOptionValue('number');
-            $response->writeln("Rolling back last $numMigrations migrations...");
+
+            if ($numMigrations === 1) {
+                $response->writeln('Rolling back last migration...');
+            } else {
+                $response->writeln("Rolling back last $numMigrations migrations...");
+            }
+
             $migrationsRolledBack = $this->migrator->rollBackMigrations($numMigrations);
         } else {
             $response->writeln('Rolling back all migrations...');
             $migrationsRolledBack = $this->migrator->rollBackAllMigrations();
         }
 
-        $response->writeln('<success>Successfully rolled back the following migrations:</success>');
+        if (count($migrationsRolledBack) === 0) {
+            $response->writeln('<info>No migrations to roll back</info>');
+        } else {
+            $response->writeln('<success>Successfully rolled back the following migrations:</success>');
 
-        foreach ($migrationsRolledBack as $migration) {
-            $response->writeln("<info>$migration</info>");
+            foreach ($migrationsRolledBack as $migration) {
+                $response->writeln("<info>$migration</info>");
+            }
         }
     }
 }
