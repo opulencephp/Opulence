@@ -1,3 +1,13 @@
+<h2>v1.1.1 (2017-10-23)</h2>
+
+<h3>General</h3>
+
+* Fixed build scripts
+
+<h3>IO</h3>
+
+* Fixed the package name (was `opulence/files`, now is `opulence/io`)
+
 <h2>v1.1.0 (2017-10-22)</h2>
 
 <h3>General</h3>

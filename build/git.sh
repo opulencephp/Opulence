@@ -1,5 +1,5 @@
 REPOS=(Applications Authentication Authorization Cache Collections Console Cryptography Databases Debug Environments Events Framework Http IO Ioc Memcached Orm Pipelines QueryBuilders Redis Routing Sessions Validation Views)
-BRANCHES_TO_SPLIT=(master 1.0)
+BRANCHES_TO_SPLIT=(master 1.1)
 
 function checkOutPullRequest()
 {
@@ -37,17 +37,6 @@ function mergePullRequest()
     cd ../opulence
 }
 
-function split()
-{
-    git subsplit init git@github.com:opulencephp/Opulence.git
-
-    for repo in ${REPOS[@]}
-    do
-        lowerrepo=$(echo "$repo" | awk '{print tolower($0)}')
-        git subsplit publish src/Opulence/$repo:git@github.com:opulencephp/$lowerrepo.git --heads="${BRANCHES_TO_SPLIT[@]}" --no-tags
-    done
-}
-
 function tag()
 {
     hasacknowledgedprompt=false
@@ -60,8 +49,9 @@ function tag()
     git tag -a $tagname -m "$message"
     git push origin $tagname
 
-    # Tag the subtrees
+    # Initialize (if necessary) and update the subtree
     git subsplit init git@github.com:opulencephp/Opulence.git
+    git subsplit update
 
     for repo in ${REPOS[@]}
     do
@@ -74,7 +64,6 @@ while true; do
     # Display options
     echo "   Select an action"
     echo "   t: Tag"
-    echo "   s: Split Subtree"
     echo "   c: Check Out Pull Request"
     echo "   m: Merge Pull Request"
     echo "   e: Exit"
@@ -83,7 +72,6 @@ while true; do
 
     case $choice in
         [tT]* ) tag;;
-        [sS]* ) split;;
         [cC]* ) checkOutPullRequest;;
         [mM]* ) mergePullRequest;;
         [eE]* ) exit 0;;
