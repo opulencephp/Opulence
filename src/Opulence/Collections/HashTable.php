@@ -211,8 +211,6 @@ class HashTable implements IDictionary
         } catch (OutOfBoundsException $ex) {
             return false;
         }
-
-        return false;
     }
 
     /**

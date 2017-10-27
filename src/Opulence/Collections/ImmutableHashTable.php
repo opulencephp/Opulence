@@ -181,8 +181,6 @@ class ImmutableHashTable implements IImmutableDictionary
         } catch (OutOfBoundsException $ex) {
             return false;
         }
-
-        return false;
     }
 
     /**
