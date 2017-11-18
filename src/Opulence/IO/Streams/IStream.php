@@ -113,11 +113,11 @@ interface IStream
     /**
      * Seeks to a certain position in the stream
      *
-     * @param int $position The position to seek to
+     * @param int $offset The offset to seek to
      * @param int $whence How the position will be calculated from the offset (identical to fseek())
      * @throws RuntimeException Thrown if the stream is not seekable
      */
-    public function seek(int $position, int $whence = SEEK_SET) : void;
+    public function seek(int $offset, int $whence = SEEK_SET) : void;
 
     /**
      * Writes to the stream

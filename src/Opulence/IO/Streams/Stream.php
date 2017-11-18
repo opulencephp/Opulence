@@ -254,13 +254,13 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function seek(int $position, int $whence = SEEK_SET) : void
+    public function seek(int $offset, int $whence = SEEK_SET) : void
     {
-        if (!$this->isSeekable || fseek($this->handle, $position, $whence)) {
+        if (!$this->isSeekable || fseek($this->handle, $offset, $whence)) {
             throw new RuntimeException('Stream is not seekable');
         }
 
-        if (fseek($this->handle, $position, $whence) === -1) {
+        if (fseek($this->handle, $offset, $whence) === -1) {
             throw new RuntimeException('Error while seeking stream');
         }
     }

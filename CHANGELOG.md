@@ -1,3 +1,9 @@
+<h2>v1.1.1 (2017-11-?)</h2>
+
+<h3>IO</h3>
+
+* Added `Opulence\IO\Streams\MultiStream`
+
 <h2>v1.1.1 (2017-10-23)</h2>
 
 <h3>General</h3>
