@@ -1,3 +1,9 @@
+<h2>v1.1.3 (2017-?-?)</h2>
+
+<h3>IO</h3>
+
+* Namespaced all sensitive native PHP functions for better security
+
 <h2>v1.1.2 (2017-11-18)</h2>
 
 <h3>IO</h3>
