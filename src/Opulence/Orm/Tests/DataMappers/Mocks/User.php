@@ -37,7 +37,7 @@ class User
     /**
      * @return int
      */
-    public function getAggregateRootId()
+    public function getAggregateRootId() : int
     {
         return $this->aggregateRootId;
     }
@@ -45,7 +45,7 @@ class User
     /**
      * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -53,7 +53,7 @@ class User
     /**
      * @return int
      */
-    public function getSecondAggregateRootId()
+    public function getSecondAggregateRootId() : int
     {
         return $this->secondAggregateRootId;
     }
@@ -69,7 +69,7 @@ class User
     /**
      * @param int $aggregateRootId
      */
-    public function setAggregateRootId($aggregateRootId)
+    public function setAggregateRootId(int $aggregateRootId) : void
     {
         $this->aggregateRootId = $aggregateRootId;
     }
@@ -77,7 +77,7 @@ class User
     /**
      * @param int $id
      */
-    public function setId($id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
@@ -85,7 +85,7 @@ class User
     /**
      * @param int $secondAggregateRootId
      */
-    public function setSecondAggregateRootId($secondAggregateRootId)
+    public function setSecondAggregateRootId(int $secondAggregateRootId) : void
     {
         $this->secondAggregateRootId = $secondAggregateRootId;
     }
@@ -93,7 +93,7 @@ class User
     /**
      * @param string $username
      */
-    public function setUsername($username)
+    public function setUsername(string $username) : void
     {
         $this->username = $username;
     }

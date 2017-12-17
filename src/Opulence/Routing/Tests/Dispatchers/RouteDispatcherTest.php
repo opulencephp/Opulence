@@ -46,7 +46,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->dependencyResolver = $this->createMock(IDependencyResolver::class);
         $this->dependencyResolver->expects($this->any())
@@ -84,7 +84,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests calling a closure as a controller
      */
-    public function testCallingClosure()
+    public function testCallingClosure() : void
     {
         $route = $this->getCompiledRoute(
             new Route(['GET'], '/foo', function () {
@@ -101,7 +101,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests calling a closure with a dependency
      */
-    public function testCallingClosureWithDependencies()
+    public function testCallingClosureWithDependencies() : void
     {
         $this->dependencyResolver->expects($this->once())
             ->method('resolve')
@@ -123,7 +123,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests calling a method that throws an HTTP exception
      */
-    public function testCallingMethodThatThrowsHttpException()
+    public function testCallingMethodThatThrowsHttpException() : void
     {
         $this->expectException(HttpException::class);
         $route = $this->getCompiledRoute(
@@ -135,7 +135,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests calling a non-existent controller
      */
-    public function testCallingNonExistentController()
+    public function testCallingNonExistentController() : void
     {
         $this->expectException(RouteException::class);
         $route = $this->getCompiledRoute(
@@ -147,7 +147,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests calling a method that does not exists in a controller
      */
-    public function testCallingNonExistentMethod()
+    public function testCallingNonExistentMethod() : void
     {
         $this->expectException(RouteException::class);
         $route = $this->getCompiledRoute(
@@ -159,7 +159,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests calling a non-Opulence controller
      */
-    public function testCallingNonOpulenceController()
+    public function testCallingNonOpulenceController() : void
     {
         $route = $this->getCompiledRoute(
             new Route(['GET'], '/foo/123', NonOpulenceController::class . '@index')
@@ -175,7 +175,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests calling a private method in a controller
      */
-    public function testCallingPrivateMethod()
+    public function testCallingPrivateMethod() : void
     {
         $this->expectException(RouteException::class);
         $route = $this->getCompiledRoute(
@@ -187,7 +187,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests calling a protected method in a controller
      */
-    public function testCallingProtectedMethod()
+    public function testCallingProtectedMethod() : void
     {
         $route = $this->getCompiledRoute(
             new Route(['GET'], '/foo', MockController::class . '@protectedMethod')
@@ -198,7 +198,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests chaining middleware that do and do not return something
      */
-    public function testChainingMiddlewareThatDoAndDoNotReturnSomething()
+    public function testChainingMiddlewareThatDoAndDoNotReturnSomething() : void
     {
         $controller = MockController::class . '@noParameters';
         $options = [
@@ -217,7 +217,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that text from a closure response is wrapped into response object
      */
-    public function testClosureResponseTextIsWrappedInObject()
+    public function testClosureResponseTextIsWrappedInObject() : void
     {
         $route = $this->getCompiledRoute(
             new Route(['GET'], '/foo', function () {
@@ -233,7 +233,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests specifying an invalid middleware
      */
-    public function testInvalidMiddleware()
+    public function testInvalidMiddleware() : void
     {
         $this->expectException(RouteException::class);
         $controller = MockController::class . '@returnsNothing';
@@ -247,7 +247,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests using a middleware that returns something with a controller that also returns something
      */
-    public function testMiddlewareThatAddsToControllerResponse()
+    public function testMiddlewareThatAddsToControllerResponse() : void
     {
         $controller = MockController::class . '@noParameters';
         $options = [
@@ -263,7 +263,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not passing required path variable to closure
      */
-    public function testNotPassingRequiredPathVariableToClosure()
+    public function testNotPassingRequiredPathVariableToClosure() : void
     {
         $this->expectException(RouteException::class);
         $route = $this->getCompiledRoute(
@@ -277,7 +277,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing path variable to closure
      */
-    public function testPassingPathVariableToClosure()
+    public function testPassingPathVariableToClosure() : void
     {
         $route = $this->getCompiledRoute(
             new Route(['GET'], '/foo/{id}', function ($id) {
@@ -295,7 +295,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that text returned by a controller is wrapped in a response object
      */
-    public function testTextReturnedByControllerIsWrappedInResponseObject()
+    public function testTextReturnedByControllerIsWrappedInResponseObject() : void
     {
         $route = $this->getCompiledRoute(
             new Route(['GET'], '/foo', MockController::class . '@returnsText')
@@ -308,7 +308,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that controller is set
      */
-    public function testThatControllerIsSet()
+    public function testThatControllerIsSet() : void
     {
         $controller = null;
         $expectedControllerClass = MockController::class;
@@ -320,7 +320,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests using default value for a path variable in a closure
      */
-    public function testUsingDefaultValueForPathVariableInClosure()
+    public function testUsingDefaultValueForPathVariableInClosure() : void
     {
         $route = $this->getCompiledRoute(
             new Route(['GET'], '/foo/{id}', function ($id = '123') {
@@ -337,7 +337,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests using a middleware that does not return anything
      */
-    public function testUsingMiddlewareThatDoesNotReturnAnything()
+    public function testUsingMiddlewareThatDoesNotReturnAnything() : void
     {
         $controller = MockController::class . '@returnsNothing';
         $options = [
@@ -350,7 +350,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests using parameterized middleware
      */
-    public function testUsingParameterizedMiddleware()
+    public function testUsingParameterizedMiddleware() : void
     {
         $controller = MockController::class . '@returnsNothing';
         $options = [
@@ -367,7 +367,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
      * @param Route $route The route to compile
      * @return CompiledRoute The compiled route
      */
-    private function getCompiledRoute(Route $route)
+    private function getCompiledRoute(Route $route) : CompiledRoute
     {
         $parsedRoute = new ParsedRoute($route);
 

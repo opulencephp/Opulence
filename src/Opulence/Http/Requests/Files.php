@@ -20,7 +20,7 @@ class Files extends Collection
     /**
      * @inheritdoc
      */
-    public function add(string $name, $value)
+    public function add(string $name, $value) : void
     {
         $this->values[$name] = new UploadedFile(
             $value['tmp_name'],

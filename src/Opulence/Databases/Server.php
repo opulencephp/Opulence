@@ -104,7 +104,7 @@ class Server
     /**
      * @return int|null
      */
-    public function getPort()
+    public function getPort() : ?int
     {
         return $this->port;
     }
@@ -120,7 +120,7 @@ class Server
     /**
      * @param string $charset
      */
-    public function setCharset(string $charset)
+    public function setCharset(string $charset) : void
     {
         $this->charset = $charset;
     }
@@ -128,7 +128,7 @@ class Server
     /**
      * @param string $databaseName
      */
-    public function setDatabaseName(string $databaseName)
+    public function setDatabaseName(string $databaseName) : void
     {
         $this->databaseName = $databaseName;
     }
@@ -136,7 +136,7 @@ class Server
     /**
      * @param string $host
      */
-    public function setHost(string $host)
+    public function setHost(string $host) : void
     {
         $this->host = $host;
     }
@@ -144,7 +144,7 @@ class Server
     /**
      * @param string $password
      */
-    public function setPassword(string $password)
+    public function setPassword(string $password) : void
     {
         $this->password = $password;
     }
@@ -152,7 +152,7 @@ class Server
     /**
      * @param int $port
      */
-    public function setPort(int $port)
+    public function setPort(int $port) : void
     {
         $this->port = $port;
     }
@@ -160,7 +160,7 @@ class Server
     /**
      * @param string $username
      */
-    public function setUsername(string $username)
+    public function setUsername(string $username) : void
     {
         $this->username = $username;
     }

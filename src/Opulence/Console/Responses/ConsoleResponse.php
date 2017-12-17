@@ -28,7 +28,7 @@ class ConsoleResponse extends StreamResponse
     /**
      * @inheritdoc
      */
-    public function clear()
+    public function clear() : void
     {
         $this->write(chr(27) . '[2J' . chr(27) . '[;H');
     }

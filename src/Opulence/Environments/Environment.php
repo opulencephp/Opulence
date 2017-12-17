@@ -31,7 +31,7 @@ class Environment
      * @param mixed $default The default value if none existed
      * @return string|null The value of the environment value if one was set, otherwise null
      */
-    public static function getVar(string $name, $default = null)
+    public static function getVar(string $name, $default = null) : ?string
     {
         if (array_key_exists($name, $_ENV)) {
             return $_ENV[$name];
@@ -64,7 +64,7 @@ class Environment
      * @param string $name The name of the environment variable to set
      * @param mixed $value The value
      */
-    public static function setVar(string $name, $value)
+    public static function setVar(string $name, $value) : void
     {
         // Do not overwrite the variable if it already exists
         if (self::getVar($name) === null) {

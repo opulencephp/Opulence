@@ -20,14 +20,14 @@ interface IResponse
     /**
      * Clears the response from view
      */
-    public function clear();
+    public function clear() : void;
 
     /**
      * Sets whether or not messages should be styled
      *
      * @param bool $isStyled Whether or not messages should be styled
      */
-    public function setStyled(bool $isStyled);
+    public function setStyled(bool $isStyled) : void;
 
     /**
      * Writes to output
@@ -35,7 +35,7 @@ interface IResponse
      * @param string|array $messages The message or messages to display
      * @throws RuntimeException Thrown if there was an issue writing the messages
      */
-    public function write($messages);
+    public function write($messages) : void;
 
     /**
      * Writes to output with a newline character at the end
@@ -43,5 +43,5 @@ interface IResponse
      * @param string|array $messages The message or messages to display
      * @throws RuntimeException Thrown if there was an issue writing the messages
      */
-    public function writeln($messages);
+    public function writeln($messages) : void;
 }

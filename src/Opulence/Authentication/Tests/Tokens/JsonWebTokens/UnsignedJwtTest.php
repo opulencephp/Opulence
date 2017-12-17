@@ -29,7 +29,7 @@ class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->header = new JwtHeader();
         $this->payload = new JwtPayload();
@@ -39,7 +39,7 @@ class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the header
      */
-    public function testGettingHeader()
+    public function testGettingHeader() : void
     {
         $this->assertSame($this->header, $this->jwt->getHeader());
     }
@@ -47,7 +47,7 @@ class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the payload
      */
-    public function testGettingPayload()
+    public function testGettingPayload() : void
     {
         $this->assertSame($this->payload, $this->jwt->getPayload());
     }
@@ -55,7 +55,7 @@ class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the unsigned value
      */
-    public function testGettingUnsignedValue()
+    public function testGettingUnsignedValue() : void
     {
         $this->assertEquals(
             "{$this->jwt->getHeader()->encode()}.{$this->jwt->getPayload()->encode()}",
@@ -66,7 +66,7 @@ class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the unsigned value with a "none" algorithm
      */
-    public function testGettingUnsignedValueWithNoneAlgorithm()
+    public function testGettingUnsignedValueWithNoneAlgorithm() : void
     {
         $this->header->add('alg', 'none');
         $this->assertEquals(

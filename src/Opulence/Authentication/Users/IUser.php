@@ -41,12 +41,12 @@ interface IUser
      *
      * @param string $hashedPassword The user's hashed password
      */
-    public function setHashedPassword(string $hashedPassword);
+    public function setHashedPassword(string $hashedPassword) : void;
 
     /**
      * Sets the database Id of the entity
      *
      * @param int|string $id The database Id
      */
-    public function setId($id);
+    public function setId($id) : void;
 }

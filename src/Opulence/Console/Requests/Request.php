@@ -27,7 +27,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function addArgumentValue($value)
+    public function addArgumentValue($value) : void
     {
         $this->arguments[] = $value;
     }
@@ -35,7 +35,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function addOptionValue(string $name, $value)
+    public function addOptionValue(string $name, $value) : void
     {
         if ($this->optionIsSet($name)) {
             // We now consider this option to have multiple values
@@ -97,7 +97,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function setCommandName(string $name)
+    public function setCommandName(string $name) : void
     {
         $this->commandName = $name;
     }

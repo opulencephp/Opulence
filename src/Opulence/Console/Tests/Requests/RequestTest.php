@@ -24,7 +24,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->request = new Request();
     }
@@ -32,7 +32,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding multiple values for an option
      */
-    public function testAddingMultipleValuesForOption()
+    public function testAddingMultipleValuesForOption() : void
     {
         $this->request->addOptionValue('foo', 'bar');
         $this->assertEquals('bar', $this->request->getOptionValue('foo'));
@@ -43,7 +43,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an option with a value is set
      */
-    public function testCheckingIfOptionWithValueIsSet()
+    public function testCheckingIfOptionWithValueIsSet() : void
     {
         $this->request->addOptionValue('foo', 'bar');
         $this->assertTrue($this->request->optionIsSet('foo'));
@@ -52,7 +52,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an option without a value is set
      */
-    public function testCheckingIfOptionWithoutValueIsSet()
+    public function testCheckingIfOptionWithoutValueIsSet() : void
     {
         $this->request->addOptionValue('foo', null);
         $this->assertTrue($this->request->optionIsSet('foo'));
@@ -61,7 +61,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all arguments
      */
-    public function testGettingAllArguments()
+    public function testGettingAllArguments() : void
     {
         $this->request->addArgumentValue('foo');
         $this->request->addArgumentValue('bar');
@@ -71,7 +71,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all options
      */
-    public function testGettingAllOptions()
+    public function testGettingAllOptions() : void
     {
         $this->request->addOptionValue('foo', 'bar');
         $this->request->addOptionValue('baz', 'blah');
@@ -81,7 +81,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the command name
      */
-    public function testGettingCommandName()
+    public function testGettingCommandName() : void
     {
         $this->request->setCommandName('foo');
         $this->assertEquals('foo', $this->request->getCommandName());
@@ -90,7 +90,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a non-existent option
      */
-    public function testGettingNonExistentOption()
+    public function testGettingNonExistentOption() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->request->getOptionValue('foo');
@@ -99,7 +99,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an option
      */
-    public function testGettingOption()
+    public function testGettingOption() : void
     {
         $this->request->addOptionValue('foo', 'bar');
         $this->assertEquals('bar', $this->request->getOptionValue('foo'));

@@ -70,7 +70,7 @@ class CompiledRoute extends ParsedRoute
     /**
      * @param bool $isMatch
      */
-    public function setMatch(bool $isMatch)
+    public function setMatch(bool $isMatch) : void
     {
         $this->isMatch = $isMatch;
     }
@@ -78,7 +78,7 @@ class CompiledRoute extends ParsedRoute
     /**
      * @param array $pathVars
      */
-    public function setPathVars($pathVars)
+    public function setPathVars($pathVars) : void
     {
         $this->pathVars = $pathVars;
     }

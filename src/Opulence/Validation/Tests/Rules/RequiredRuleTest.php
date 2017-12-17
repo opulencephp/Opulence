@@ -21,7 +21,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an empty array fails
      */
-    public function testEmptyArrayFails()
+    public function testEmptyArrayFails() : void
     {
         $rule = new RequiredRule();
         $this->assertFalse($rule->passes([]));
@@ -35,7 +35,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug()
+    public function testGettingSlug() : void
     {
         $rule = new RequiredRule();
         $this->assertEquals('required', $rule->getSlug());
@@ -44,7 +44,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a set value passes
      */
-    public function testSetValuePasses()
+    public function testSetValuePasses() : void
     {
         $rule = new RequiredRule();
         $this->assertTrue($rule->passes(0));
@@ -56,7 +56,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unset value fails
      */
-    public function testUnsetValueFails()
+    public function testUnsetValueFails() : void
     {
         $rule = new RequiredRule();
         $this->assertFalse($rule->passes(null));

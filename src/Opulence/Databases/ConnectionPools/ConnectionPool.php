@@ -83,7 +83,7 @@ abstract class ConnectionPool
     /**
      * @return Server|null
      */
-    public function getMaster()
+    public function getMaster() : ?Server
     {
         return $this->servers['master']['server'];
     }
@@ -129,7 +129,7 @@ abstract class ConnectionPool
     /**
      * @param Server $master
      */
-    public function setMaster(Server $master)
+    public function setMaster(Server $master) : void
     {
         $this->addServer('master', $master);
     }
@@ -140,7 +140,7 @@ abstract class ConnectionPool
      * @param Server $preferredServer The preferred server to connect to
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
-    abstract protected function setReadConnection(Server $preferredServer = null);
+    abstract protected function setReadConnection(Server $preferredServer = null) : void;
 
     /**
      * Sets the connection to use for write queries
@@ -148,7 +148,7 @@ abstract class ConnectionPool
      * @param Server $preferredServer The preferred server to connect to
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
-    abstract protected function setWriteConnection(Server $preferredServer = null);
+    abstract protected function setWriteConnection(Server $preferredServer = null) : void;
 
     /**
      * Adds a server to our list of servers
@@ -156,7 +156,7 @@ abstract class ConnectionPool
      * @param string $type The type of server we're trying to add, eg "master", "custom"
      * @param Server $server The server to add
      */
-    protected function addServer(string $type, Server $server)
+    protected function addServer(string $type, Server $server) : void
     {
         switch ($type) {
             case 'master':

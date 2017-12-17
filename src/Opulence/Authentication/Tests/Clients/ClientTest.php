@@ -23,7 +23,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->client = new Client(123, 'foo', 'bar');
     }
@@ -31,7 +31,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the Id
      */
-    public function testGettingId()
+    public function testGettingId() : void
     {
         $this->assertEquals(123, $this->client->getId());
     }
@@ -39,7 +39,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the name
      */
-    public function testGettingName()
+    public function testGettingName() : void
     {
         $this->assertEquals('foo', $this->client->getName());
     }
@@ -47,7 +47,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the secret
      */
-    public function testGettingSecret()
+    public function testGettingSecret() : void
     {
         $this->assertEquals('bar', $this->client->getSecret());
     }
@@ -55,7 +55,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the Id
      */
-    public function testSettingId()
+    public function testSettingId() : void
     {
         $this->client->setId('new');
         $this->assertEquals('new', $this->client->getId());
@@ -64,7 +64,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the name
      */
-    public function testSettingName()
+    public function testSettingName() : void
     {
         $this->client->setName('new');
         $this->assertEquals('new', $this->client->getName());

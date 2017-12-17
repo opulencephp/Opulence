@@ -27,15 +27,15 @@ interface IErrorHandler
      * @param array $context The symbol table
      * @throws ErrorException Thrown because the error is converted to an exception
      */
-    public function handle(int $level, string $message, string $file = '', int $line = 0, array $context = []);
+    public function handle(int $level, string $message, string $file = '', int $line = 0, array $context = []) : void;
 
     /**
      * Handles a PHP shutdown
      */
-    public function handleShutdown();
+    public function handleShutdown() : void;
 
     /**
      * Registers the handler with PHP
      */
-    public function register();
+    public function register() : void;
 }

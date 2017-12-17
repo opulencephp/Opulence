@@ -43,7 +43,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->container = new Container();
         $this->bootstrapperRegistry = new BootstrapperRegistry();
@@ -65,7 +65,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests dispatching all bootstrappers eagerly
      */
-    public function testDispatchingAllBootstrappersEagerly()
+    public function testDispatchingAllBootstrappersEagerly() : void
     {
         $this->bootstrapperRegistry->registerEagerBootstrapper(EagerBootstrapper::class);
         $this->bootstrapperRegistry->registerLazyBootstrapper([LazyFooInterface::class], LazyBootstrapper::class);
@@ -77,7 +77,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests dispatching an eager bootstrapper that depends on a dependency set in a lazy bootstrapper
      */
-    public function testDispatchingEagerDispatcherThatDependsOnDependencyFromLazyBootstrapper()
+    public function testDispatchingEagerDispatcherThatDependsOnDependencyFromLazyBootstrapper() : void
     {
         $this->bootstrapperRegistry->registerEagerBootstrapper(EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper::class);
         $this->bootstrapperRegistry->registerLazyBootstrapper([LazyFooInterface::class], LazyBootstrapper::class);
@@ -89,7 +89,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests dispatching a lazy bootstrapper (registered first) that depends on a dependency set in a lazy bootstrapper
      */
-    public function testDispatchingLazyDispatcherThatDependsOnDependencyFromLazyBootstrapperAndRegisteringItFirst()
+    public function testDispatchingLazyDispatcherThatDependsOnDependencyFromLazyBootstrapperAndRegisteringItFirst() : void
     {
         $this->bootstrapperRegistry->registerLazyBootstrapper(
             [EagerFooInterface::class],
@@ -105,7 +105,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests dispatching a lazy bootstrapper (registered second) that depends on a dependency set in a lazy bootstrapper
      */
-    public function testDispatchingLazyDispatcherThatDependsOnDependencyFromLazyBootstrapperAndRegisteringItSecond()
+    public function testDispatchingLazyDispatcherThatDependsOnDependencyFromLazyBootstrapperAndRegisteringItSecond() : void
     {
         $this->bootstrapperRegistry->registerLazyBootstrapper([LazyFooInterface::class], LazyBootstrapper::class);
         $this->bootstrapperRegistry->registerLazyBootstrapper(
@@ -121,7 +121,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a lazy bootstrapper's bindings are available to the container
      */
-    public function testLazyBootstrappersBindingsAreAvailableToContainer()
+    public function testLazyBootstrappersBindingsAreAvailableToContainer() : void
     {
         $this->bootstrapperRegistry->registerLazyBootstrapper([LazyFooInterface::class], LazyBootstrapper::class);
         $this->dispatcher->dispatch(false);
@@ -131,7 +131,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that lazy targeted bindings are available in the container
      */
-    public function testLazyTargetedBindingsAreAvailableInContainer()
+    public function testLazyTargetedBindingsAreAvailableInContainer() : void
     {
         $this->bootstrapperRegistry->registerLazyBootstrapper(
             [[LazyFooInterface::class => EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper::class]],
@@ -173,7 +173,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not dispatching all bootstrappers eagerly
      */
-    public function testNotDispatchingAllBootstrappersEagerly()
+    public function testNotDispatchingAllBootstrappersEagerly() : void
     {
         $this->bootstrapperRegistry->registerEagerBootstrapper(EagerBootstrapper::class);
         $this->bootstrapperRegistry->registerLazyBootstrapper([LazyFooInterface::class], LazyBootstrapper::class);

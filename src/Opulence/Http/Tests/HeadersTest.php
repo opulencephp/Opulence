@@ -23,7 +23,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->headers = new Headers();
     }
@@ -31,7 +31,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that added names are normalized
      */
-    public function testAddedNamesAreNormalized()
+    public function testAddedNamesAreNormalized() : void
     {
         $this->headers->add('FOO', 'fooval');
         $this->assertEquals('fooval', $this->headers->get('foo'));
@@ -41,7 +41,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a string value
      */
-    public function testAddingStringValue()
+    public function testAddingStringValue() : void
     {
         $this->headers->add('foo', 'bar');
         $this->assertEquals('bar', $this->headers->get('foo'));
@@ -50,7 +50,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests returning all the values when the key does not exist
      */
-    public function testGettingAllValuesWhenKeyDoesNotExist()
+    public function testGettingAllValuesWhenKeyDoesNotExist() : void
     {
         $this->assertEquals('foo', $this->headers->get('THIS_DOES_NOT_EXIST', 'foo', false));
     }
@@ -58,7 +58,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests returning only the first value
      */
-    public function testGettingFirstValue()
+    public function testGettingFirstValue() : void
     {
         $this->headers->set('FOO', 'bar');
         $this->assertEquals('bar', $this->headers->get('FOO', null, true));
@@ -67,7 +67,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests returning only the first value when the key does not exist
      */
-    public function testGettingFirstValueWhenKeyDoesNotExist()
+    public function testGettingFirstValueWhenKeyDoesNotExist() : void
     {
         $this->assertEquals('foo', $this->headers->get('THIS_DOES_NOT_EXIST', 'foo', true));
     }
@@ -75,7 +75,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests returning a value
      */
-    public function testGettingValue()
+    public function testGettingValue() : void
     {
         $this->headers->set('FOO', 'bar');
         $this->assertEquals(['bar'], $this->headers->get('FOO', null, false));
@@ -84,7 +84,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that names are case insensitive
      */
-    public function testNamesAreCaseInsensitive()
+    public function testNamesAreCaseInsensitive() : void
     {
         $headers = new Headers();
         $headers->add('FOO', 'fooval');
@@ -109,7 +109,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that set names are normalized
      */
-    public function testSetNamesAreNormalized()
+    public function testSetNamesAreNormalized() : void
     {
         $this->headers->set('FOO', 'fooval');
         $this->assertEquals('fooval', $this->headers->get('foo'));

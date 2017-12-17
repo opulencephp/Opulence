@@ -40,7 +40,7 @@ class Subject implements ISubject
     /**
      * @inheritdoc
      */
-    public function addCredential(ICredential $credential)
+    public function addCredential(ICredential $credential) : void
     {
         $this->credentials[$credential->getType()] = $credential;
     }
@@ -48,7 +48,7 @@ class Subject implements ISubject
     /**
      * @inheritdoc
      */
-    public function addPrincipal(IPrincipal $principal)
+    public function addPrincipal(IPrincipal $principal) : void
     {
         $this->principals[$principal->getType()] = $principal;
     }
@@ -56,7 +56,7 @@ class Subject implements ISubject
     /**
      * @inheritdoc
      */
-    public function getCredential(string $type)
+    public function getCredential(string $type) : ?ICredential
     {
         if (!isset($this->credentials[$type])) {
             return null;
@@ -76,7 +76,7 @@ class Subject implements ISubject
     /**
      * @inheritdoc
      */
-    public function getPrimaryPrincipal()
+    public function getPrimaryPrincipal() : ?IPrincipal
     {
         if (!isset($this->principals[PrincipalTypes::PRIMARY])) {
             return null;
@@ -88,7 +88,7 @@ class Subject implements ISubject
     /**
      * @inheritdoc
      */
-    public function getPrincipal(string $type)
+    public function getPrincipal(string $type) : ?IPrincipal
     {
         if (!isset($this->principals[$type])) {
             return null;

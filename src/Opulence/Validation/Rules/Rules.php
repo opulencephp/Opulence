@@ -386,7 +386,7 @@ class Rules
      *
      * @param IRule $rule The rule that failed
      */
-    protected function addError(IRule $rule)
+    protected function addError(IRule $rule) : void
     {
         if ($rule instanceof ConditionalRule) {
             $rules = $rule->getRules();
@@ -407,7 +407,7 @@ class Rules
      *
      * @param IRule $rule The rule to add
      */
-    protected function addRule(IRule $rule)
+    protected function addRule(IRule $rule) : void
     {
         if ($this->inCondition) {
             /** @var ConditionalRule $lastRule */
@@ -425,7 +425,7 @@ class Rules
      * @param array $args The extra arguments
      * @throws InvalidArgumentException Thrown if no rule exists with the input name
      */
-    protected function createRule(string $className, array $args = [])
+    protected function createRule(string $className, array $args = []) : void
     {
         if (!class_exists($className)) {
             throw new InvalidArgumentException("Class \"$className\" does not exist");

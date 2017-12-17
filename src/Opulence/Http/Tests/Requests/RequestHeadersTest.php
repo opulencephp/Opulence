@@ -37,7 +37,7 @@ class RequestHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->headers = new RequestHeaders($this->serverArray);
     }
@@ -45,7 +45,7 @@ class RequestHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that added names are normalized
      */
-    public function testAddedNamesAreNormalized()
+    public function testAddedNamesAreNormalized() : void
     {
         $this->headers->add('HTTP_FOO', 'fooval');
         $this->assertEquals('fooval', $this->headers->get('foo'));
@@ -55,7 +55,7 @@ class RequestHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all the headers after setting them in the constructor
      */
-    public function testGettingAllAfterSettingInConstructor()
+    public function testGettingAllAfterSettingInConstructor() : void
     {
         $headerParameters = [];
 
@@ -83,7 +83,7 @@ class RequestHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that set names are normalized
      */
-    public function testSetNamesAreNormalized()
+    public function testSetNamesAreNormalized() : void
     {
         $this->headers->set('HTTP_FOO', 'fooval');
         $this->assertEquals('fooval', $this->headers->get('foo'));

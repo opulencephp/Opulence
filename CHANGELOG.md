@@ -4,6 +4,8 @@
 
 * Deleted the Application and File libraries
 * Removed all methods that were deprecated in v1.1.0
+* Added `void` return type to all void methods
+* Added nullable  type to all nullable method return types and parameters
 
 <h2>v1.1.3 (2017-?-?)</h2>
 

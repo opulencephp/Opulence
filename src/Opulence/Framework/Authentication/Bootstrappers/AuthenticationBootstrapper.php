@@ -42,7 +42,7 @@ abstract class AuthenticationBootstrapper extends Bootstrapper implements ILazyB
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         // Create the components
         $authenticationContext = $this->getAuthenticationContext($container);

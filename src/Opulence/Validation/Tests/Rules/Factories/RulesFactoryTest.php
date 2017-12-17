@@ -24,7 +24,7 @@ class RulesFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that rules are created
      */
-    public function testRulesCreated()
+    public function testRulesCreated() : void
     {
         /** @var RuleExtensionRegistry|\PHPUnit_Framework_MockObject_MockObject $ruleExtensionRegistry */
         $ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);

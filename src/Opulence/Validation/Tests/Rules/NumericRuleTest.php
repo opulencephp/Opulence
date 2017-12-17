@@ -20,7 +20,7 @@ class NumericRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a failing value
      */
-    public function testFailingValue()
+    public function testFailingValue() : void
     {
         $rule = new NumericRule();
         $this->assertFalse($rule->passes(false));
@@ -30,7 +30,7 @@ class NumericRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug()
+    public function testGettingSlug() : void
     {
         $rule = new NumericRule();
         $this->assertEquals('numeric', $rule->getSlug());
@@ -39,7 +39,7 @@ class NumericRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a passing value
      */
-    public function testPassingValue()
+    public function testPassingValue() : void
     {
         $rule = new NumericRule();
         $this->assertTrue($rule->passes(0));

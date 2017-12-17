@@ -27,7 +27,7 @@ abstract class SessionBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         $container->bindInstance(ISession::class, $this->getSession($container));
         $container->bindInstance(SessionHandlerInterface::class, $this->getSessionHandler($container));

@@ -20,7 +20,7 @@ class CommentNodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the "is a" methods
      */
-    public function testIsAMethods()
+    public function testIsAMethods() : void
     {
         $node = new CommentNode();
         $this->assertTrue($node->isComment());

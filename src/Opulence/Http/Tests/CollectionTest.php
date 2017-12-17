@@ -23,7 +23,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->parameters = new Collection([]);
     }
@@ -31,7 +31,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a parameter
      */
-    public function testAdding()
+    public function testAdding() : void
     {
         $this->parameters->add('foo', 'bar');
         $this->assertEquals('bar', $this->parameters->get('foo'));
@@ -40,7 +40,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an offset exists
      */
-    public function testCheckingOffsetExists()
+    public function testCheckingOffsetExists() : void
     {
         $this->parameters['foo'] = 'bar';
         $this->assertTrue(isset($this->parameters['foo']));
@@ -49,7 +49,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests counting
      */
-    public function testCount()
+    public function testCount() : void
     {
         $this->parameters->add('foo', 'bar');
         $this->assertEquals(1, $this->parameters->count());
@@ -60,7 +60,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests exchanging the array
      */
-    public function testExchangingArray()
+    public function testExchangingArray() : void
     {
         $this->parameters->add('foo', 'bar');
         $this->assertEquals(['foo' => 'bar'], $this->parameters->exchangeArray(['bar' => 'foo']));
@@ -70,7 +70,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a parameter
      */
-    public function testGetting()
+    public function testGetting() : void
     {
         $this->parameters->add('foo', 'bar');
         $this->assertEquals('bar', $this->parameters->get('foo'));
@@ -79,7 +79,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an absent variable with a default
      */
-    public function testGettingAbsentVariableWithDefault()
+    public function testGettingAbsentVariableWithDefault() : void
     {
         $this->assertEquals('blah', $this->parameters->get('does not exist', 'blah'));
     }
@@ -87,7 +87,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an absent variable with no default
      */
-    public function testGettingAbsentVariableWithNoDefault()
+    public function testGettingAbsentVariableWithNoDefault() : void
     {
         $this->assertNull($this->parameters->get('does not exist'));
     }
@@ -95,7 +95,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all the parameters
      */
-    public function testGettingAll()
+    public function testGettingAll() : void
     {
         $this->parameters->add('foo', 'bar');
         $this->parameters->add('bar', 'foo');
@@ -108,7 +108,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting as array
      */
-    public function testGettingAsArray()
+    public function testGettingAsArray() : void
     {
         $this->parameters->add('foo', 'bar');
         $this->assertEquals('bar', $this->parameters['foo']);
@@ -117,7 +117,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests whether the parameters has a certain parameter
      */
-    public function testHas()
+    public function testHas() : void
     {
         $this->assertFalse($this->parameters->has('foo'));
         $this->parameters->add('foo', 'bar');
@@ -127,7 +127,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing parameters through the constructor
      */
-    public function testPassingParametersInConstructor()
+    public function testPassingParametersInConstructor() : void
     {
         $parametersArray = ['foo' => 'bar', 'bar' => 'foo'];
         $parameters = new Collection($parametersArray);
@@ -137,7 +137,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removing a parameter
      */
-    public function testRemove()
+    public function testRemove() : void
     {
         $this->parameters->add('foo', 'bar');
         $this->parameters->remove('foo');
@@ -147,7 +147,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a parameter
      */
-    public function testSetting()
+    public function testSetting() : void
     {
         $this->parameters->set('foo', 'bar');
         $this->assertEquals('bar', $this->parameters->get('foo'));
@@ -156,7 +156,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting an item
      */
-    public function testSettingItem()
+    public function testSettingItem() : void
     {
         $this->parameters['foo'] = 'bar';
         $this->assertEquals('bar', $this->parameters['foo']);
@@ -165,7 +165,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests unsetting a parameter
      */
-    public function testUnsetting()
+    public function testUnsetting() : void
     {
         $this->parameters['foo'] = 'bar';
         unset($this->parameters['foo']);
@@ -175,7 +175,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests unsetting an item
      */
-    public function testUnsettingItem()
+    public function testUnsettingItem() : void
     {
         $this->parameters->add('foo', 'bar');
         unset($this->parameters['foo']);

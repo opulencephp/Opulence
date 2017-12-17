@@ -43,7 +43,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false)
+    public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false) : void
     {
         $binding = new FactoryBinding($factory, $resolveAsSingleton);
 
@@ -55,7 +55,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function bindInstance($interfaces, $instance)
+    public function bindInstance($interfaces, $instance) : void
     {
         $binding = new InstanceBinding($instance);
 
@@ -67,7 +67,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = [])
+    public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = []) : void
     {
         foreach ((array)$interfaces as $interface) {
             $this->addBinding($interface, new ClassBinding($concreteClass ?? $interface, $primitives, false));
@@ -77,7 +77,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = [])
+    public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = []) : void
     {
         foreach ((array)$interfaces as $interface) {
             $this->addBinding($interface, new ClassBinding($concreteClass ?? $interface, $primitives, true));
@@ -188,7 +188,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function unbind($interfaces)
+    public function unbind($interfaces) : void
     {
         foreach ((array)$interfaces as $interface) {
             unset($this->bindings[$this->currentTarget][$interface]);
@@ -201,7 +201,7 @@ class Container implements IContainer
      * @param string $interface The interface to bind to
      * @param IBinding $binding The binding to add
      */
-    protected function addBinding(string $interface, IBinding $binding)
+    protected function addBinding(string $interface, IBinding $binding) : void
     {
         if (!isset($this->bindings[$this->currentTarget])) {
             $this->bindings[$this->currentTarget] = [];
@@ -216,7 +216,7 @@ class Container implements IContainer
      * @param string $interface The interface whose binding we want
      * @return IBinding|null The binding if one exists, otherwise null
      */
-    protected function getBinding(string $interface)
+    protected function getBinding(string $interface) : ?IBinding
     {
         // If there's a targeted binding, use it
         if ($this->currentTarget !== self::$emptyTarget && isset($this->bindings[$this->currentTarget][$interface])) {

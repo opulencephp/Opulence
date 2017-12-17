@@ -20,7 +20,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a child
      */
-    public function testAddingChild()
+    public function testAddingChild() : void
     {
         /** @var Node $parent */
         $parent = $this->getMockForAbstractClass(Node::class, ['foo']);
@@ -34,7 +34,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if nodes are leaves
      */
-    public function testCheckingIfLeaves()
+    public function testCheckingIfLeaves() : void
     {
         /** @var Node $parent */
         $parent = $this->getMockForAbstractClass(Node::class, ['foo']);
@@ -48,7 +48,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if nodes are roots
      */
-    public function testCheckingIfRoots()
+    public function testCheckingIfRoots() : void
     {
         /** @var Node $parent */
         $parent = $this->getMockForAbstractClass(Node::class, ['foo']);
@@ -62,7 +62,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the value
      */
-    public function testGettingValue()
+    public function testGettingValue() : void
     {
         /** @var Node $node */
         $node = $this->getMockForAbstractClass(Node::class, ['foo']);

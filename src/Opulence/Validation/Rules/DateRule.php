@@ -48,7 +48,7 @@ class DateRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function setArgs(array $args)
+    public function setArgs(array $args) : void
     {
         if (count($args) !== 1 || (!is_string($args[0]) && !is_array($args[0]))) {
             throw new InvalidArgumentException('Must pass an expected date format');

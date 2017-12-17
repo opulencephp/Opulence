@@ -35,7 +35,7 @@ class NonOpulenceController
      * @param int $statusCode The status code
      * @return Response The response
      */
-    public function customHttpError($statusCode)
+    public function customHttpError($statusCode) : Response
     {
         return new Response("Error: $statusCode", $statusCode);
     }
@@ -46,7 +46,7 @@ class NonOpulenceController
      * @param string $id The Id from the path
      * @return Response The response
      */
-    public function index($id)
+    public function index($id) : Response
     {
         return new Response("Id: $id");
     }
@@ -56,7 +56,7 @@ class NonOpulenceController
      *
      * @return Response The response
      */
-    public function showFoo()
+    public function showFoo() : Response
     {
         return new Response('foo');
     }

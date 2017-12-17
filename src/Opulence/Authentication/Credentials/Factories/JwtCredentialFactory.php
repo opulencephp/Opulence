@@ -81,7 +81,7 @@ abstract class JwtCredentialFactory
      * @param JwtPayload $payload The current payload
      * @param ISubject $subject The subject whose credential we're creating
      */
-    protected function addCustomClaims(JwtPayload $payload, ISubject $subject)
+    protected function addCustomClaims(JwtPayload $payload, ISubject $subject) : void
     {
         // Let extending classes define this
     }

@@ -85,7 +85,7 @@ class TableFormatter
     /**
      * @param string $cellPaddingString
      */
-    public function setCellPaddingString(string $cellPaddingString)
+    public function setCellPaddingString(string $cellPaddingString) : void
     {
         $this->cellPaddingString = $cellPaddingString;
     }
@@ -93,7 +93,7 @@ class TableFormatter
     /**
      * @param string $eolChar
      */
-    public function setEolChar(string $eolChar)
+    public function setEolChar(string $eolChar) : void
     {
         $this->padding->setEolChar($eolChar);
     }
@@ -101,7 +101,7 @@ class TableFormatter
     /**
      * @param string $horizontalBorderChar
      */
-    public function setHorizontalBorderChar(string $horizontalBorderChar)
+    public function setHorizontalBorderChar(string $horizontalBorderChar) : void
     {
         $this->horizontalBorderChar = $horizontalBorderChar;
     }
@@ -109,7 +109,7 @@ class TableFormatter
     /**
      * @param string $intersectionChar
      */
-    public function setIntersectionChar(string $intersectionChar)
+    public function setIntersectionChar(string $intersectionChar) : void
     {
         $this->intersectionChar = $intersectionChar;
     }
@@ -117,7 +117,7 @@ class TableFormatter
     /**
      * @param bool $padAfter
      */
-    public function setPadAfter(bool $padAfter)
+    public function setPadAfter(bool $padAfter) : void
     {
         $this->padding->setPadAfter($padAfter);
     }
@@ -125,7 +125,7 @@ class TableFormatter
     /**
      * @param string $verticalBorderChar
      */
-    public function setVerticalBorderChar(string $verticalBorderChar)
+    public function setVerticalBorderChar(string $verticalBorderChar) : void
     {
         $this->verticalBorderChar = $verticalBorderChar;
     }

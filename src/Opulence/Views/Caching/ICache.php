@@ -27,12 +27,12 @@ interface ICache
     /**
      * Flushes all of the compiled views from cache
      */
-    public function flush();
+    public function flush() : void;
 
     /**
      * Performs garbage collection of expired views
      */
-    public function gc();
+    public function gc() : void;
 
     /**
      * Gets the compiled view contents
@@ -41,7 +41,7 @@ interface ICache
      * @param bool $checkVars Whether or not we want to also check for variable value equivalence when looking up cached views
      * @return string|null The compiled view contents if it existed, otherwise null
      */
-    public function get(IView $view, bool $checkVars = false);
+    public function get(IView $view, bool $checkVars = false) : ?string;
 
     /**
      * Gets whether or not the cache has the compiled contents for the input view
@@ -59,7 +59,7 @@ interface ICache
      * @param string $compiledContents The compiled view contents
      * @param bool $checkVars Whether or not we want to also check for variable value equivalence when looking up cached views
      */
-    public function set(IView $view, string $compiledContents, bool $checkVars = false);
+    public function set(IView $view, string $compiledContents, bool $checkVars = false) : void;
 
     /**
      * Sets the chance that garbage collection will be run
@@ -68,5 +68,5 @@ interface ICache
      * @param int $chance The chance (out of the total) that garbage collection will be run
      * @param int $divisor The number the chance will be divided by to calculate the probability
      */
-    public function setGCChance(int $chance, int $divisor = 100);
+    public function setGCChance(int $chance, int $divisor = 100) : void;
 }

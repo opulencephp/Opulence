@@ -40,7 +40,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up all of the tests
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$cookieClone = $_COOKIE;
         self::$serverClone = $_SERVER;
@@ -51,7 +51,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->request = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV);
     }
@@ -59,7 +59,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         $_COOKIE = self::$cookieClone;
         $_SERVER = self::$serverClone;
@@ -70,7 +70,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests automatically detecting the method
      */
-    public function testAutomaticallyDetectingMethod()
+    public function testAutomaticallyDetectingMethod() : void
     {
         $_SERVER['REQUEST_METHOD'] = 'PUT';
         $request = Request::createFromGlobals();
@@ -80,7 +80,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the bug with PHP that writes CONTENT_ headers to HTTP_CONTENT_
      */
-    public function testBugWithHttpContentHeaders()
+    public function testBugWithHttpContentHeaders() : void
     {
         $_SERVER['HTTP_CONTENT_TYPE'] = 'application/json';
         $_SERVER['HTTP_CONTENT_LENGTH'] = 24;
@@ -100,7 +100,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests uploaded files are converted to an array
      */
-    public function testBuildingRequestWithFiles()
+    public function testBuildingRequestWithFiles() : void
     {
         $files = [new UploadedFile('tmp', 'temp-filename', 123, 'plain/text', UPLOAD_ERR_OK)];
         $request = Request::createFromUrl('/foo', 'GET', [], [], [], $files);
@@ -110,7 +110,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking that an unset DELETE variable is not set
      */
-    public function testCheckingIfDeletePostVarIsNotSet()
+    public function testCheckingIfDeletePostVarIsNotSet() : void
     {
         $this->assertFalse($this->request->getDelete()->has('foo'));
     }
@@ -118,7 +118,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking that a set COOKIE is set
      */
-    public function testCheckingIfSetCookieIsSet()
+    public function testCheckingIfSetCookieIsSet() : void
     {
         $_COOKIE['foo'] = 'bar';
         $this->request->getCookies()->exchangeArray($_COOKIE);
@@ -128,7 +128,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking that a set GET variable is set
      */
-    public function testCheckingIfSetGetVarIsSet()
+    public function testCheckingIfSetGetVarIsSet() : void
     {
         $_GET['foo'] = 'bar';
         $this->request->getQuery()->exchangeArray($_GET);
@@ -138,7 +138,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking that a set POST variable is set
      */
-    public function testCheckingIfSetPostVarIsSet()
+    public function testCheckingIfSetPostVarIsSet() : void
     {
         $_POST['foo'] = 'bar';
         $this->request->getPost()->exchangeArray($_POST);
@@ -148,7 +148,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking that an unset COOKIE is set
      */
-    public function testCheckingIfUnsetCookieIsSet()
+    public function testCheckingIfUnsetCookieIsSet() : void
     {
         $this->assertFalse($this->request->getCookies()->has('foo'));
     }
@@ -156,7 +156,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking that an unset GET variable is not set
      */
-    public function testCheckingIfUnsetGetVarIsNotSet()
+    public function testCheckingIfUnsetGetVarIsNotSet() : void
     {
         $this->assertFalse($this->request->getQuery()->has('foo'));
     }
@@ -164,7 +164,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking that an unset PATCH variable is not set
      */
-    public function testCheckingIfUnsetPatchVarIsNotSet()
+    public function testCheckingIfUnsetPatchVarIsNotSet() : void
     {
         $this->assertFalse($this->request->getPatch()->has('foo'));
     }
@@ -172,7 +172,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking that an unset POST variable is not set
      */
-    public function testCheckingIfUnsetPostVarIsNotSet()
+    public function testCheckingIfUnsetPostVarIsNotSet() : void
     {
         $this->assertFalse($this->request->getPost()->has('foo'));
     }
@@ -180,7 +180,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking that an unset PUT variable is not set
      */
-    public function testCheckingIfUnsetPutVarIsNotSet()
+    public function testCheckingIfUnsetPutVarIsNotSet() : void
     {
         $this->assertFalse($this->request->getPut()->has('foo'));
     }
@@ -188,7 +188,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the client IP header is used when set
      */
-    public function testClientIPHeaderUsedWhenSet()
+    public function testClientIPHeaderUsedWhenSet() : void
     {
         Request::setTrustedHeaderName(RequestHeaders::CLIENT_IP, 'HTTP_CLIENT_IP');
         $_SERVER['HTTP_CLIENT_IP'] = '192.168.1.1';
@@ -199,7 +199,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the client port is used with a trusted proxy
      */
-    public function testClientPortUsedToDeterminePortWithTrustedProxy()
+    public function testClientPortUsedToDeterminePortWithTrustedProxy() : void
     {
         $_SERVER['REMOTE_ADDR'] = '192.168.1.1';
         $_SERVER['X-Forwarded-Port'] = 8080;
@@ -212,7 +212,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the client proto is used with a trusted proxy
      */
-    public function testClientProtoUsedToCheckIfSecureWithTrustedProxy()
+    public function testClientProtoUsedToCheckIfSecureWithTrustedProxy() : void
     {
         // Try with HTTPS
         $_SERVER['REMOTE_ADDR'] = '192.168.1.1';
@@ -241,7 +241,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the client proto is used with a trusted proxy
      */
-    public function testClientProtoUsedToDeterminePortWithTrustedProxy()
+    public function testClientProtoUsedToDeterminePortWithTrustedProxy() : void
     {
         $_SERVER['REMOTE_ADDR'] = '192.168.1.1';
         $_SERVER['X-Forwarded-Proto'] = 'https';
@@ -254,7 +254,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests cloning the credential
      */
-    public function testCloning()
+    public function testCloning() : void
     {
         $clone = clone $this->request;
         $this->assertNotSame($clone, $this->request);
@@ -273,7 +273,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the content type header is set for unsupported methods
      */
-    public function testContentTypeSetForUnsupportedMethods()
+    public function testContentTypeSetForUnsupportedMethods() : void
     {
         $patchRequest = Request::createFromUrl('/url', 'PATCH');
         $this->assertEquals('application/x-www-form-urlencoded', $patchRequest->getServer()->get('CONTENT_TYPE'));
@@ -286,7 +286,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the cookies are set from the URL
      */
-    public function testCookiesAreSetFromUrl()
+    public function testCookiesAreSetFromUrl() : void
     {
         $vars = ['foo' => 'bar'];
         $request = Request::createFromUrl('/foo', 'GET', [], $vars);
@@ -296,7 +296,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that checking that a correct path returns true
      */
-    public function testCorrectPathReturnsTrue()
+    public function testCorrectPathReturnsTrue() : void
     {
         $_SERVER['REQUEST_URI'] = '/foo/bar/baz';
         $request = Request::createFromGlobals();
@@ -306,7 +306,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that checking that a correct regex path returns true
      */
-    public function testCorrectRegexPathReturnsTrue()
+    public function testCorrectRegexPathReturnsTrue() : void
     {
         $_SERVER['REQUEST_URI'] = '/foo/bar/baz';
         $request = Request::createFromGlobals();
@@ -316,7 +316,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that checking that a correct regex URL returns true
      */
-    public function testCorrectRegexUrlReturnsTrue()
+    public function testCorrectRegexUrlReturnsTrue() : void
     {
         $_SERVER['SERVER_PORT'] = '80';
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
@@ -329,7 +329,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that checking that a correct URL returns true
      */
-    public function testCorrectUrlReturnsTrue()
+    public function testCorrectUrlReturnsTrue() : void
     {
         $_SERVER['SERVER_PORT'] = '80';
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
@@ -342,7 +342,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating from globals
      */
-    public function testCreatingFromGlobals()
+    public function testCreatingFromGlobals() : void
     {
         $requestFromConstructor = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV);
         $this->assertEquals($requestFromConstructor, Request::createFromGlobals());
@@ -351,7 +351,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating from globals with overridden globals and raw body
      */
-    public function testCreatingFromGlobalsWithOverriddenGlobalsAndRawBody()
+    public function testCreatingFromGlobalsWithOverriddenGlobalsAndRawBody() : void
     {
         $get = ['get' => 'foo'];
         $post = ['post' => 'foo'];
@@ -378,7 +378,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a custom default value is returned when no input is found
      */
-    public function testCustomDefaultIsReturnedWhenNoInputFound()
+    public function testCustomDefaultIsReturnedWhenNoInputFound() : void
     {
         $request = Request::createFromGlobals();
         $this->assertEquals('bar', $request->getInput('foo', 'bar'));
@@ -387,7 +387,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the default value is returned when getting non-existent input on a JSON request
      */
-    public function testDefaultIsReturnedWhenGettingNonExistentInputOnJsonRequest()
+    public function testDefaultIsReturnedWhenGettingNonExistentInputOnJsonRequest() : void
     {
         $request = JsonRequest::createFromGlobals();
         $this->assertEquals('blah', $request->getInput('baz', 'blah'));
@@ -396,7 +396,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the default server vars are overwritten from the URL
      */
-    public function testDefaultServerVarsAreOverwrittenFromUrl()
+    public function testDefaultServerVarsAreOverwrittenFromUrl() : void
     {
         $server = [
             'HTTP_ACCEPT' => 'the-accept',
@@ -420,7 +420,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that default server vars are set from the URL
      */
-    public function testDefaultServerVarsSetFromUrl()
+    public function testDefaultServerVarsSetFromUrl() : void
     {
         $server = [
             'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -442,7 +442,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the DELETE collection is returned on delete requests
      */
-    public function testDeleteCollectionIsReturnedOnDeleteRequestWhenVarExists()
+    public function testDeleteCollectionIsReturnedOnDeleteRequestWhenVarExists() : void
     {
         $methods = ['PUT', 'PATCH', 'DELETE'];
 
@@ -457,7 +457,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an empty string is returned when no referrer nor previous URL is set
      */
-    public function testEmptyStringWhenNoReferrerNorPreviousUrlIsSet()
+    public function testEmptyStringWhenNoReferrerNorPreviousUrlIsSet() : void
     {
         $request = Request::createFromGlobals();
         $this->assertEquals('', $request->getPreviousUrl());
@@ -466,7 +466,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the env vars are set from the URL
      */
-    public function testEnvIsSetFromUrl()
+    public function testEnvIsSetFromUrl() : void
     {
         $vars = ['foo' => 'bar'];
         $request = Request::createFromUrl('/foo', 'GET', [], [], [], [], $vars);
@@ -476,7 +476,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown when using an untrusted proxy
      */
-    public function testExceptionThrownWithUntrustedProxy()
+    public function testExceptionThrownWithUntrustedProxy() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $_SERVER['HTTP_HOST'] = '192.168.1.1, 192.168.1.2, 192.168.1.3';
@@ -487,7 +487,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the full URL is the same as the URL passed into the create method
      */
-    public function testFullUrlIsSetFromUrl()
+    public function testFullUrlIsSetFromUrl() : void
     {
         $url = 'https://foo.com:8080/bar/baz?dave=young';
         $request = Request::createFromUrl($url, 'GET');
@@ -497,7 +497,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting raw body when the body is set in the constructor
      */
-    public function testGetRawBodyWithRequestSetInConstructor()
+    public function testGetRawBodyWithRequestSetInConstructor() : void
     {
         $testBody = "It's not Rocket Appliances Julian";
         $this->request = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV, $testBody);
@@ -507,7 +507,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the connect method
      */
-    public function testGettingConnectMethod()
+    public function testGettingConnectMethod() : void
     {
         $_SERVER['REQUEST_METHOD'] = 'CONNECT';
         $this->request->getServer()->exchangeArray($_SERVER);
@@ -517,7 +517,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the cookies
      */
-    public function testGettingCookies()
+    public function testGettingCookies() : void
     {
         $this->assertSame($_COOKIE, $this->request->getCookies()->getAll());
     }
@@ -525,7 +525,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting data from put, patch, and delete methods
      */
-    public function testGettingDataFromPutPatchDeleteMethods()
+    public function testGettingDataFromPutPatchDeleteMethods() : void
     {
         $methods = ['PUT', 'PATCH', 'DELETE'];
 
@@ -561,7 +561,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the delete method
      */
-    public function testGettingDeleteMethod()
+    public function testGettingDeleteMethod() : void
     {
         $_SERVER['REQUEST_METHOD'] = 'DELETE';
         $this->request->getServer()->exchangeArray($_SERVER);
@@ -571,7 +571,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the environment variables
      */
-    public function testGettingEnvironmentVariables()
+    public function testGettingEnvironmentVariables() : void
     {
         $this->assertSame($_ENV, $this->request->getEnv()->getAll());
     }
@@ -579,7 +579,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the files
      */
-    public function testGettingFiles()
+    public function testGettingFiles() : void
     {
         $files = [
             'foo' => [
@@ -607,7 +607,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a forbidden host
      */
-    public function testGettingForbiddenHost()
+    public function testGettingForbiddenHost() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $_SERVER['HTTP_HOST'] = '!';
@@ -618,7 +618,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the get method
      */
-    public function testGettingGetMethod()
+    public function testGettingGetMethod() : void
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $this->request->getServer()->exchangeArray($_SERVER);
@@ -628,7 +628,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the headers
      */
-    public function testGettingHeaders()
+    public function testGettingHeaders() : void
     {
         $headerParameters = [];
 
@@ -645,7 +645,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the host as it's set in Gogo inflight wifi
      */
-    public function testGettingHostFromGogoInflightWifiHeaders()
+    public function testGettingHostFromGogoInflightWifiHeaders() : void
     {
         $_SERVER['HTTP_X_FORWARDED_HOST'] = '172.19.131.152, 10.33.185.152';
         $_SERVER['HTTP_HOST'] = '123.456.789.101';
@@ -656,7 +656,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the host from the HTTP_HOST header
      */
-    public function testGettingHostFromHttpHost()
+    public function testGettingHostFromHttpHost() : void
     {
         $_SERVER['HTTP_HOST'] = 'foo.com';
         $request = Request::createFromGlobals();
@@ -666,7 +666,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the host from the SERVER_ADDR header
      */
-    public function testGettingHostFromServerAddr()
+    public function testGettingHostFromServerAddr() : void
     {
         $_SERVER['SERVER_ADDR'] = 'foo.com';
         $request = Request::createFromGlobals();
@@ -676,7 +676,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the host from the SERVER_NAME header
      */
-    public function testGettingHostFromServerName()
+    public function testGettingHostFromServerName() : void
     {
         $_SERVER['SERVER_NAME'] = 'foo.com';
         $request = Request::createFromGlobals();
@@ -686,7 +686,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an HTTP URL
      */
-    public function testGettingHttpUrl()
+    public function testGettingHttpUrl() : void
     {
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
         $_SERVER['SERVER_PORT'] = 80;
@@ -699,7 +699,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an HTTPS URL
      */
-    public function testGettingHttpsURL()
+    public function testGettingHttpsURL() : void
     {
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
         $_SERVER['SERVER_PORT'] = 443;
@@ -713,7 +713,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the JSON body
      */
-    public function testGettingJsonBody()
+    public function testGettingJsonBody() : void
     {
         $request = JsonRequest::createFromGlobals();
         $this->assertEquals(['foo' => 'bar'], $request->getJsonBody());
@@ -722,7 +722,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the JSON body when the content is not JSON
      */
-    public function testGettingJsonBodyWhenContentIsNotJson()
+    public function testGettingJsonBodyWhenContentIsNotJson() : void
     {
         $this->expectException(RuntimeException::class);
         $request = FormUrlEncodedRequest::createFromGlobals();
@@ -732,7 +732,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the method from the override header on a GET request
      */
-    public function testGettingMethodFromOverrideHeaderOnGetRequest()
+    public function testGettingMethodFromOverrideHeaderOnGetRequest() : void
     {
         $_SERVER['REQUEST_METHOD'] = RequestMethods::GET;
         $_SERVER['X-HTTP-METHOD-OVERRIDE'] = RequestMethods::PUT;
@@ -743,7 +743,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the method from the override header on a POST request
      */
-    public function testGettingMethodFromOverrideHeaderOnPostRequest()
+    public function testGettingMethodFromOverrideHeaderOnPostRequest() : void
     {
         $_SERVER['REQUEST_METHOD'] = RequestMethods::POST;
         $_SERVER['X-HTTP-METHOD-OVERRIDE'] = RequestMethods::PUT;
@@ -754,7 +754,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the method when there is none set in the $_SERVER
      */
-    public function testGettingMethodWhenNoneIsSet()
+    public function testGettingMethodWhenNoneIsSet() : void
     {
         $this->request->getServer()->remove('REQUEST_METHOD');
         $this->assertNull($this->request->getServer()->get('REQUEST_METHOD'));
@@ -763,7 +763,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a non-standard port URL
      */
-    public function testGettingNonStandardURL()
+    public function testGettingNonStandardURL() : void
     {
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
         $_SERVER['SERVER_PORT'] = 8080;
@@ -776,7 +776,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the options method
      */
-    public function testGettingOptionsMethod()
+    public function testGettingOptionsMethod() : void
     {
         $_SERVER['REQUEST_METHOD'] = 'OPTIONS';
         $this->request->getServer()->exchangeArray($_SERVER);
@@ -786,7 +786,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the auth password
      */
-    public function testGettingPassword()
+    public function testGettingPassword() : void
     {
         $_SERVER['PHP_AUTH_PW'] = 'myPassword';
         $request = Request::createFromGlobals();
@@ -796,7 +796,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the patch method
      */
-    public function testGettingPatchMethod()
+    public function testGettingPatchMethod() : void
     {
         $_SERVER['REQUEST_METHOD'] = 'PATCH';
         $this->request->getServer()->exchangeArray($_SERVER);
@@ -806,7 +806,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the path
      */
-    public function testGettingPath()
+    public function testGettingPath() : void
     {
         $_SERVER['REQUEST_URI'] = '/foo/bar/baz';
         $request = Request::createFromGlobals();
@@ -816,7 +816,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the path when it is empty
      */
-    public function testGettingPathWhenEmpty()
+    public function testGettingPathWhenEmpty() : void
     {
         $_SERVER['REQUEST_URI'] = '';
         $request = Request::createFromGlobals();
@@ -826,7 +826,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the path when the URI has a query string
      */
-    public function testGettingPathWithQueryStringInURI()
+    public function testGettingPathWithQueryStringInURI() : void
     {
         $_SERVER['REQUEST_URI'] = '/foo/bar/baz?a=1&b=2';
         $request = Request::createFromGlobals();
@@ -836,7 +836,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the post
      */
-    public function testGettingPost()
+    public function testGettingPost() : void
     {
         $this->assertSame($_POST, $this->request->getPost()->getAll());
     }
@@ -844,7 +844,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the post method
      */
-    public function testGettingPostMethod()
+    public function testGettingPostMethod() : void
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $this->request->getServer()->exchangeArray($_SERVER);
@@ -854,7 +854,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the purge method
      */
-    public function testGettingPurgeMethod()
+    public function testGettingPurgeMethod() : void
     {
         $_SERVER['REQUEST_METHOD'] = 'PURGE';
         $this->request->getServer()->exchangeArray($_SERVER);
@@ -864,7 +864,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the put method
      */
-    public function testGettingPutMethod()
+    public function testGettingPutMethod() : void
     {
         $_SERVER['REQUEST_METHOD'] = 'PUT';
         $this->request->getServer()->exchangeArray($_SERVER);
@@ -874,7 +874,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the query
      */
-    public function testGettingQuery()
+    public function testGettingQuery() : void
     {
         $this->assertSame($_GET, $this->request->getQuery()->getAll());
     }
@@ -882,7 +882,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the query string
      */
-    public function testGettingQueryString()
+    public function testGettingQueryString() : void
     {
         $queryString = 'foo=bar&blah=asdf';
         $_SERVER['QUERY_STRING'] = $queryString;
@@ -893,7 +893,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the raw body
      */
-    public function testGettingRawBody()
+    public function testGettingRawBody() : void
     {
         $this->assertEmpty($this->request->getRawBody());
     }
@@ -901,7 +901,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the request URI
      */
-    public function testGettingRequestURI()
+    public function testGettingRequestURI() : void
     {
         $_SERVER['REQUEST_URI'] = '/foo/bar';
         $this->request->getServer()->exchangeArray($_SERVER);
@@ -911,7 +911,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the request URI when none was set
      */
-    public function testGettingRequestURIWhenNoneWasSet()
+    public function testGettingRequestURIWhenNoneWasSet() : void
     {
         $this->request->getServer()->remove('REQUEST_URI');
         $this->assertEmpty($this->request->getServer()->get('REQUEST_URI'));
@@ -920,7 +920,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the server
      */
-    public function testGettingServer()
+    public function testGettingServer() : void
     {
         $this->assertSame($_SERVER, $this->request->getServer()->getAll());
     }
@@ -928,7 +928,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a set cookie
      */
-    public function testGettingSetCookie()
+    public function testGettingSetCookie() : void
     {
         $_COOKIE['foo'] = 'bar';
         $this->request->getCookies()->exchangeArray($_COOKIE);
@@ -938,7 +938,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a set GET variable
      */
-    public function testGettingSetGetVar()
+    public function testGettingSetGetVar() : void
     {
         $_GET['foo'] = 'bar';
         $this->request->getQuery()->exchangeArray($_GET);
@@ -948,7 +948,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a set POST variable
      */
-    public function testGettingSetPostVar()
+    public function testGettingSetPostVar() : void
     {
         $_POST['foo'] = 'bar';
         $this->request->getPost()->exchangeArray($_POST);
@@ -958,7 +958,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the trace method
      */
-    public function testGettingTraceMethod()
+    public function testGettingTraceMethod() : void
     {
         $_SERVER['REQUEST_METHOD'] = 'TRACE';
         $this->request->getServer()->exchangeArray($_SERVER);
@@ -968,7 +968,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an unset cookie
      */
-    public function testGettingUnsetCookie()
+    public function testGettingUnsetCookie() : void
     {
         $this->assertNull($this->request->getCookies()->get('foo'));
     }
@@ -976,7 +976,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an unset GET variable
      */
-    public function testGettingUnsetGetVar()
+    public function testGettingUnsetGetVar() : void
     {
         $this->assertNull($this->request->getQuery()->get('foo'));
     }
@@ -984,7 +984,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an unset POST variable
      */
-    public function testGettingUnsetPostVar()
+    public function testGettingUnsetPostVar() : void
     {
         $this->assertNull($this->request->getPost()->get('foo'));
     }
@@ -992,7 +992,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a URL with a query string
      */
-    public function testGettingUrlWithQueryString()
+    public function testGettingUrlWithQueryString() : void
     {
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
         $_SERVER['SERVER_PORT'] = 80;
@@ -1005,7 +1005,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the auth user
      */
-    public function testGettingUser()
+    public function testGettingUser() : void
     {
         $_SERVER['PHP_AUTH_USER'] = 'dave';
         $request = Request::createFromGlobals();
@@ -1015,7 +1015,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that any headers without the HTTP_ prefix are set
      */
-    public function testHeadersWithoutHttpPrefixAreSet()
+    public function testHeadersWithoutHttpPrefixAreSet() : void
     {
         $_SERVER['CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
         $_SERVER['CONTENT_LENGTH'] = 24;
@@ -1027,7 +1027,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the host is set from the URL
      */
-    public function testHostIsSetFromUrl()
+    public function testHostIsSetFromUrl() : void
     {
         $request = Request::createFromUrl('http://foo.com/bar', 'GET');
         $this->assertEquals('foo.com', $request->getHost());
@@ -1042,7 +1042,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the host is set correctly when using a trusted proxy
      */
-    public function testHostSetCorrectlyWithTrustedProxy()
+    public function testHostSetCorrectlyWithTrustedProxy() : void
     {
         $_SERVER['HTTP_X_FORWARDED_HOST'] = 'foo.com, bar.com';
         $_SERVER['REMOTE_ADDR'] = '192.168.2.1';
@@ -1054,7 +1054,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an insecure request is secure
      */
-    public function testIfInsecureRequestIsSecure()
+    public function testIfInsecureRequestIsSecure() : void
     {
         $this->assertFalse($this->request->isSecure());
         // Test for IIS
@@ -1065,7 +1065,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if a secure request is secure
      */
-    public function testIfSecureRequestIsSecure()
+    public function testIfSecureRequestIsSecure() : void
     {
         // Test for IIS
         $this->request->getServer()->set('HTTPS', 'on');
@@ -1075,7 +1075,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that checking that an incorrect path returns false
      */
-    public function testIncorrectPathReturnsFalse()
+    public function testIncorrectPathReturnsFalse() : void
     {
         $_SERVER['REQUEST_URI'] = '/foo/bar';
         $request = Request::createFromGlobals();
@@ -1086,7 +1086,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that checking that an incorrect URL returns true
      */
-    public function testIncorrectUrlReturnsFalse()
+    public function testIncorrectUrlReturnsFalse() : void
     {
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
         $_SERVER['HTTP_HOST'] = 'baz.com';
@@ -1100,7 +1100,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an invalid object method
      */
-    public function testInvalidObjectMethod()
+    public function testInvalidObjectMethod() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $_SERVER['REQUEST_METHOD'] = new stdClass();
@@ -1110,7 +1110,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an invalid string method
      */
-    public function testInvalidStringMethod()
+    public function testInvalidStringMethod() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $_SERVER['REQUEST_METHOD'] = 'foo';
@@ -1120,7 +1120,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if a request was made by AJAX
      */
-    public function testIsAjax()
+    public function testIsAjax() : void
     {
         $this->request->getHeaders()->set('X_REQUESTED_WITH', 'XMLHttpRequest');
         $this->assertTrue($this->request->isAjax());
@@ -1131,7 +1131,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if a request is JSON
      */
-    public function testIsJson()
+    public function testIsJson() : void
     {
         $_SERVER['HTTP_CONTENT_TYPE'] = 'text/plain';
         $request = Request::createFromGlobals();
@@ -1147,7 +1147,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a property from JSON is returned when getting input from a JSON request
      */
-    public function testJsonIsReturnedWhenGettingInputFromJsonRequest()
+    public function testJsonIsReturnedWhenGettingInputFromJsonRequest() : void
     {
         $request = JsonRequest::createFromGlobals();
         $this->assertEquals('bar', $request->getInput('foo'));
@@ -1156,7 +1156,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that null is returned when no input is found
      */
-    public function testNullIsReturnedWhenNoInputFound()
+    public function testNullIsReturnedWhenNoInputFound() : void
     {
         $request = Request::createFromGlobals();
         $this->assertNull($request->getInput('foo'));
@@ -1165,7 +1165,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that parameters in GET request are assigned to query
      */
-    public function testParametersInGetRequestAreAssignedToQuery()
+    public function testParametersInGetRequestAreAssignedToQuery() : void
     {
         $parameters = ['name' => 'val'];
         $request = Request::createFromUrl('/foo', 'GET', $parameters);
@@ -1175,7 +1175,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that parameters in POST request are assigned to post
      */
-    public function testParametersInPostRequestAreAssignedTPost()
+    public function testParametersInPostRequestAreAssignedTPost() : void
     {
         $parameters = ['name' => 'val'];
         $request = Request::createFromUrl('/foo', 'POST', $parameters);
@@ -1185,7 +1185,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing the method in a GET request
      */
-    public function testPassingMethodInGetRequest()
+    public function testPassingMethodInGetRequest() : void
     {
         $_GET['_method'] = RequestMethods::PUT;
         $_SERVER['REQUEST_METHOD'] = RequestMethods::GET;
@@ -1196,7 +1196,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing the method in a POST request
      */
-    public function testPassingMethodInPostRequest()
+    public function testPassingMethodInPostRequest() : void
     {
         $_POST['_method'] = RequestMethods::PUT;
         $_SERVER['REQUEST_METHOD'] = RequestMethods::POST;
@@ -1207,7 +1207,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the path is set from the URL
      */
-    public function testPathSetFromUrl()
+    public function testPathSetFromUrl() : void
     {
         $request = Request::createFromUrl('http://foo.com/bar', 'GET');
         $this->assertEquals('/bar', $request->getPath());
@@ -1216,7 +1216,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that POST data is not overwritten on POST request
      */
-    public function testPostDataNotOverwrittenOnPostRequest()
+    public function testPostDataNotOverwrittenOnPostRequest() : void
     {
         $_POST['foo'] = 'blahblahblah';
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -1228,7 +1228,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the post is returned when getting input
      */
-    public function testPostIsReturnedFromInput()
+    public function testPostIsReturnedFromInput() : void
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST['foo'] = 'bar';
@@ -1239,7 +1239,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the previous URL is just the referrer header when it wasn't specifically set
      */
-    public function testPreviousUrlIsReferrerWhenItIsNotSet()
+    public function testPreviousUrlIsReferrerWhenItIsNotSet() : void
     {
         $_SERVER['HTTP_REFERER'] = 'http://foo.com';
         $request = Request::createFromGlobals();
@@ -1250,7 +1250,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the previous URL take precedence over the referrer header when it is set
      */
-    public function testPreviousUrlTakesPrecedenceOverReferrerWhenSet()
+    public function testPreviousUrlTakesPrecedenceOverReferrerWhenSet() : void
     {
         $_SERVER['HTTP_REFERER'] = 'http://foo.com';
         $request = Request::createFromGlobals();
@@ -1261,7 +1261,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the query is given preference when getting input
      */
-    public function testQueryIsGivenPreferenceWhenGettingInput()
+    public function testQueryIsGivenPreferenceWhenGettingInput() : void
     {
         $_GET['foo'] = 'bar';
         $_POST['foo'] = 'baz';
@@ -1272,7 +1272,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the query is returned when getting input
      */
-    public function testQueryIsReturnedFromInput()
+    public function testQueryIsReturnedFromInput() : void
     {
         $_GET['foo'] = 'bar';
         $request = Request::createFromGlobals();
@@ -1282,7 +1282,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the query var is returned when no matching var exists in post data on post request
      */
-    public function testQueryIsReturnedOnPostRequestWhenNoPostVarExists()
+    public function testQueryIsReturnedOnPostRequestWhenNoPostVarExists() : void
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_GET['foo'] = 'bar';
@@ -1293,7 +1293,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the query string is set from the URL
      */
-    public function testQueryStringSetFromUrl()
+    public function testQueryStringSetFromUrl() : void
     {
         $request = Request::createFromUrl('http://foo.com/bar/?baz=blah&dave=young', 'GET');
         $expectedQuery = [
@@ -1308,7 +1308,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the query string vars in URL are overwritten by parameters
      */
-    public function testQueryStringVarsInUrlAreOverwrittenByParameters()
+    public function testQueryStringVarsInUrlAreOverwrittenByParameters() : void
     {
         $request = Request::createFromUrl('http://foo.com/bar/?baz=blah&dave=young', 'GET', ['baz' => 'yay']);
         $expectedQuery = [
@@ -1323,7 +1323,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the raw body is set from the Url
      */
-    public function testRawBodySetFromUrl()
+    public function testRawBodySetFromUrl() : void
     {
         $request = Request::createFromUrl('/foo', 'GET', [], [], [], [], [], 'foo-bar-baz');
         $this->assertEquals('foo-bar-baz', $request->getRawBody());
@@ -1332,7 +1332,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the remote address is used with a trusted proxy
      */
-    public function testRemoteAddrUsedWithTrustedProxy()
+    public function testRemoteAddrUsedWithTrustedProxy() : void
     {
         $_SERVER['REMOTE_ADDR'] = '192.168.1.1';
         Request::setTrustedProxies('192.168.1.1');
@@ -1343,7 +1343,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the scheme and port are set from the URL
      */
-    public function testSchemeAndPortSetFromUrl()
+    public function testSchemeAndPortSetFromUrl() : void
     {
         $httpsRequest = Request::createFromUrl('https://foo.com/bar', 'GET');
         $this->assertEquals('on', $httpsRequest->getServer()->get('HTTPS'));
@@ -1356,7 +1356,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the server vars are set from the URL
      */
-    public function testServerIsSetFromUrl()
+    public function testServerIsSetFromUrl() : void
     {
         $vars = ['foo' => 'bar'];
         $request = Request::createFromUrl('/foo', 'GET', [], [], $vars);
@@ -1384,7 +1384,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
      *
      * @link https://tools.ietf.org/html/rfc7239
      */
-    public function testSettingIPThroughForwardedHeader()
+    public function testSettingIPThroughForwardedHeader() : void
     {
         $ipData = [
             ['for="_gazonk"', '_gazonk'],
@@ -1404,7 +1404,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the method
      */
-    public function testSettingMethod()
+    public function testSettingMethod() : void
     {
         $this->request->setMethod('put');
         $this->assertEquals('PUT', $this->request->getMethod());
@@ -1413,7 +1413,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the path
      */
-    public function testSettingPath()
+    public function testSettingPath() : void
     {
         $this->request->setPath('/foo');
         $this->assertEquals('/foo', $this->request->getPath());
@@ -1422,7 +1422,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the port is removed from the host
      */
-    public function testThatPortIsRemovedFromHost()
+    public function testThatPortIsRemovedFromHost() : void
     {
         $_SERVER['HTTP_HOST'] = 'foo.com:8080';
         $request = Request::createFromGlobals();

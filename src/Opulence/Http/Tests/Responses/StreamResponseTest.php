@@ -21,7 +21,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the contents are output once
      */
-    public function testContentsAreOutputOnce()
+    public function testContentsAreOutputOnce() : void
     {
         $response = new StreamResponse(function () {
             echo 'foo';
@@ -37,7 +37,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not setting the callback and then sending the content
      */
-    public function testNotSettingCallbackThenSendingContent()
+    public function testNotSettingCallbackThenSendingContent() : void
     {
         $response = new StreamResponse();
         ob_start();
@@ -48,7 +48,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the content
      */
-    public function testSettingContent()
+    public function testSettingContent() : void
     {
         $this->expectException(LogicException::class);
         $response = new StreamResponse();
@@ -58,7 +58,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the stream callback
      */
-    public function testSettingStreamCallback()
+    public function testSettingStreamCallback() : void
     {
         $response = new StreamResponse();
         $response->setStreamCallback(function () {

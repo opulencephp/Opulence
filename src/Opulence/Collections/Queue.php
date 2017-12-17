@@ -69,7 +69,7 @@ class Queue implements Countable, IteratorAggregate
      *
      * @param mixed $value The value to enqueue
      */
-    public function enqueue($value)
+    public function enqueue($value) : void
     {
         $this->values[] = $value;
     }

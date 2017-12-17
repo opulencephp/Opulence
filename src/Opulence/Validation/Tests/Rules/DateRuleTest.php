@@ -22,7 +22,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that equal values pass
      */
-    public function testEqualValuesPass()
+    public function testEqualValuesPass() : void
     {
         $rule = new DateRule();
         $format1 = 'F j';
@@ -36,7 +36,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug()
+    public function testGettingSlug() : void
     {
         $rule = new DateRule();
         $this->assertEquals('date', $rule->getSlug());
@@ -45,7 +45,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an invalid arg type
      */
-    public function testInvalidArgType()
+    public function testInvalidArgType() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new DateRule();
@@ -55,7 +55,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an empty arg array
      */
-    public function testPassingEmptyArgArray()
+    public function testPassingEmptyArgArray() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new DateRule();
@@ -65,7 +65,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that unequal values fail
      */
-    public function testUnequalValuesFail()
+    public function testUnequalValuesFail() : void
     {
         $rule = new DateRule();
         $format1 = 'F j';

@@ -33,7 +33,7 @@ class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->signer->expects($this->any())
@@ -59,7 +59,7 @@ class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the claims are added
      */
-    public function testClaimsAdded()
+    public function testClaimsAdded() : void
     {
         $credential = $this->factory->createCredentialForSubject($this->subject);
         $tokenString = $credential->getValue('token');

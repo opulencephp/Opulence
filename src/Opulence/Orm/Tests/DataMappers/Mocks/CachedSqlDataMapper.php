@@ -70,7 +70,7 @@ class CachedSqlDataMapper extends BaseCachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    protected function setCacheDataMapper($cache)
+    protected function setCacheDataMapper($cache) : void
     {
         $this->cacheDataMapper = new CacheDataMapper();
     }
@@ -78,7 +78,7 @@ class CachedSqlDataMapper extends BaseCachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    protected function setSqlDataMapper(IConnection $readConnection, IConnection $writeConnection)
+    protected function setSqlDataMapper(IConnection $readConnection, IConnection $writeConnection) : void
     {
         $this->sqlDataMapper = new SqlDataMapper();
     }

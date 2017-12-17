@@ -35,19 +35,19 @@ interface IExceptionRenderer extends IBaseRenderer
      *
      * @param Request $request The current request
      */
-    public function setRequest(Request $request);
+    public function setRequest(Request $request) : void;
 
     /**
      * Sets the view compiler
      *
      * @param ICompiler $viewCompiler The view compiler
      */
-    public function setViewCompiler(ICompiler $viewCompiler);
+    public function setViewCompiler(ICompiler $viewCompiler) : void;
 
     /**
      * Sets the view factory
      *
      * @param IViewFactory $viewFactory The view factory
      */
-    public function setViewFactory(IViewFactory $viewFactory);
+    public function setViewFactory(IViewFactory $viewFactory) : void;
 }

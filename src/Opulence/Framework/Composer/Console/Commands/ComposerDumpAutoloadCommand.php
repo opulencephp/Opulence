@@ -35,7 +35,7 @@ class ComposerDumpAutoloadCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('composer:dump-autoload')
             ->setDescription('Dumps the Composer autoload');

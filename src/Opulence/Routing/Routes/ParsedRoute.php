@@ -75,7 +75,7 @@ class ParsedRoute extends Route
      * @param string $variableName The name of the variable whose default value we're setting
      * @param mixed $defaultValue The default value for the variable
      */
-    public function setDefaultValue(string $variableName, $defaultValue)
+    public function setDefaultValue(string $variableName, $defaultValue) : void
     {
         $this->defaultValues[$variableName] = $defaultValue;
     }
@@ -83,7 +83,7 @@ class ParsedRoute extends Route
     /**
      * @param string $hostRegex
      */
-    public function setHostRegex(string $hostRegex)
+    public function setHostRegex(string $hostRegex) : void
     {
         $this->hostRegex = $hostRegex;
     }
@@ -91,7 +91,7 @@ class ParsedRoute extends Route
     /**
      * @param string $regex
      */
-    public function setPathRegex(string $regex)
+    public function setPathRegex(string $regex) : void
     {
         $this->pathRegex = $regex;
     }

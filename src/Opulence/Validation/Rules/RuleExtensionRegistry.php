@@ -55,7 +55,7 @@ class RuleExtensionRegistry
      * @param string $slug The slug name of the rule (only used if the rule is a callback)
      * @throws InvalidArgumentException Thrown if the rule was incorrectly formatted
      */
-    public function registerRuleExtension($rule, string $slug = '')
+    public function registerRuleExtension($rule, string $slug = '') : void
     {
         if ($rule instanceof IRule) {
             $slug = $rule->getSlug();

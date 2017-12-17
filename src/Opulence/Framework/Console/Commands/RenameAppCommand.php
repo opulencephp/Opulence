@@ -44,7 +44,7 @@ class RenameAppCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('app:rename')
             ->setDescription('Renames an Opulence application')
@@ -106,7 +106,7 @@ class RenameAppCommand extends Command
      * @param string $currName The current application name
      * @param string $newName The new application name
      */
-    protected function updateComposer(string $currName, string $newName)
+    protected function updateComposer(string $currName, string $newName) : void
     {
         $rootPath = Config::get('paths', 'root');
         $currComposerContents = $this->fileSystem->read("$rootPath/composer.json");
@@ -125,7 +125,7 @@ class RenameAppCommand extends Command
      * @param string $currName The current application name
      * @param string $newName The new application name
      */
-    protected function updateConfigs(string $currName, string $newName)
+    protected function updateConfigs(string $currName, string $newName) : void
     {
         $configFiles = $this->fileSystem->getFiles(Config::get('paths', 'config'), true);
 
@@ -146,7 +146,7 @@ class RenameAppCommand extends Command
      * @param string $currName The current application name
      * @param string $newName The new application name
      */
-    protected function updateNamespaces(string $currName, string $newName)
+    protected function updateNamespaces(string $currName, string $newName) : void
     {
         $paths = [Config::get('paths', 'src'), Config::get('paths', 'tests')];
 
@@ -190,7 +190,7 @@ class RenameAppCommand extends Command
      * @param string $currName The current application name
      * @param string $newName The new application name
      */
-    protected function updateSrcAndTestDirectories(string $currName, string $newName)
+    protected function updateSrcAndTestDirectories(string $currName, string $newName) : void
     {
         $paths = [Config::get('paths', 'src'), Config::get('paths', 'tests')];
 

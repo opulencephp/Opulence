@@ -44,5 +44,5 @@ interface IViewFactory
      * @param string|array $names The alias(es) or path(s) of the view relative to the root view directory
      * @param callable $callback The callback that will return the built view
      */
-    public function registerBuilder($names, callable $callback);
+    public function registerBuilder($names, callable $callback) : void;
 }

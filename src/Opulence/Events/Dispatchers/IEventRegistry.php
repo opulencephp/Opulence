@@ -37,7 +37,7 @@ interface IEventRegistry
      * @param string $eventName The name of the event the listener listens to
      * @param callable $listener The listener to add
      */
-    public function registerListener(string $eventName, callable $listener);
+    public function registerListener(string $eventName, callable $listener) : void;
 
     /**
      * Removes a listener from an event name
@@ -45,5 +45,5 @@ interface IEventRegistry
      * @param string $eventName The event name to look for
      * @param callable $listener the listener to remove
      */
-    public function removeListener(string $eventName, callable $listener);
+    public function removeListener(string $eventName, callable $listener) : void;
 }

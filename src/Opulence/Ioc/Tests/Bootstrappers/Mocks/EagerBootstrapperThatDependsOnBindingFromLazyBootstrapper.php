@@ -21,7 +21,7 @@ class EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper extends BaseBoot
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         $foo = $container->resolve(LazyFooInterface::class);
         echo $foo->getClass();

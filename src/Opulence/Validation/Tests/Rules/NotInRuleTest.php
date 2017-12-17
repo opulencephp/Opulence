@@ -22,7 +22,7 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug()
+    public function testGettingSlug() : void
     {
         $rule = new NotInRule();
         $this->assertEquals('notIn', $rule->getSlug());
@@ -31,7 +31,7 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that matching values pass
      */
-    public function testMatchingValuesPass()
+    public function testMatchingValuesPass() : void
     {
         $rule = new NotInRule();
         $rule->setArgs([['foo', 'bar']]);
@@ -41,7 +41,7 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that non-matching values fail
      */
-    public function testNonMatchingValuesFail()
+    public function testNonMatchingValuesFail() : void
     {
         $rule = new NotInRule();
         $rule->setArgs([['foo', 'bar']]);
@@ -51,7 +51,7 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not setting the args before passes
      */
-    public function testNotSettingArgBeforePasses()
+    public function testNotSettingArgBeforePasses() : void
     {
         $this->expectException(LogicException::class);
         $rule = new NotInRule();
@@ -61,7 +61,7 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an empty arg array
      */
-    public function testPassingEmptyArgArray()
+    public function testPassingEmptyArgArray() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new NotInRule();
@@ -71,7 +71,7 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing invalid args
      */
-    public function testPassingInvalidArgs()
+    public function testPassingInvalidArgs() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new NotInRule();

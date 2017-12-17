@@ -40,7 +40,7 @@ class StreamResponse extends Response
     /**
      * @inheritdoc
      */
-    public function clear()
+    public function clear() : void
     {
         // Don't do anything
     }
@@ -56,7 +56,7 @@ class StreamResponse extends Response
     /**
      * @inheritdoc
      */
-    protected function doWrite(string $message, bool $includeNewLine)
+    protected function doWrite(string $message, bool $includeNewLine) : void
     {
         fwrite($this->stream, $message . ($includeNewLine ? PHP_EOL : ''));
         fflush($this->stream);

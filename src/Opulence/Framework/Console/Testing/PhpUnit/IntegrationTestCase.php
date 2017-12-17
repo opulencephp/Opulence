@@ -101,7 +101,7 @@ abstract class IntegrationTestCase extends TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->requestParser = new ArrayListParser();
         $this->commandCollection = $this->container->resolve(CommandCollection::class);
@@ -128,7 +128,7 @@ abstract class IntegrationTestCase extends TestCase
      * @param string $commandName The name of the command
      * @param array $answers The list of answers to return for each question
      */
-    private function setPromptAnswers(string $commandName, array $answers)
+    private function setPromptAnswers(string $commandName, array $answers) : void
     {
         $commandClassName = get_class($this->commandCollection->get($commandName));
 

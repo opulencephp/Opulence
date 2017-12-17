@@ -20,7 +20,7 @@ class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding multiple columns
      */
-    public function testAddingMultipleColumns()
+    public function testAddingMultipleColumns() : void
     {
         $queryBuilder = new AugmentingQueryBuilder();
         $queryBuilder->addColumnValues(['name' => 'dave']);
@@ -31,7 +31,7 @@ class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a single column
      */
-    public function testAddingSingleColumn()
+    public function testAddingSingleColumn() : void
     {
         $queryBuilder = new AugmentingQueryBuilder();
         $queryBuilder->addColumnValues(['name' => 'dave']);

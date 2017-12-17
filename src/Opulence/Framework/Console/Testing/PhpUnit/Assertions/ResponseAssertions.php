@@ -93,7 +93,7 @@ class ResponseAssertions extends TestCase
      * @param StreamResponse $response The response
      * @param int $statusCode The status code
      */
-    public function setResponse(StreamResponse $response, int $statusCode)
+    public function setResponse(StreamResponse $response, int $statusCode) : void
     {
         $this->response = $response;
         $this->statusCode = $statusCode;
@@ -117,7 +117,7 @@ class ResponseAssertions extends TestCase
      * Checks if the response was set
      * Useful for making sure the response was set before making any assertions on it
      */
-    private function checkResponseIsSet()
+    private function checkResponseIsSet() : void
     {
         if ($this->response === null) {
             $this->fail('Must call call() before assertions');

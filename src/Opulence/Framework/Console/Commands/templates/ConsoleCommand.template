@@ -10,7 +10,7 @@ class {{class}} extends Command
      * Sets the arguments and options for this command
      * Provides a convenient place to write down the definition for a command
      */
-    protected function define()
+    protected function define() : void
     {
 
     }

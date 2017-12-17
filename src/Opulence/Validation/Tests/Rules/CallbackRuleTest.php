@@ -22,7 +22,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the callback is executed
      */
-    public function testCallbackIsExecuted()
+    public function testCallbackIsExecuted() : void
     {
         $correctInputWasPassed = false;
         $callback = function ($value, array $inputs = []) use (&$correctInputWasPassed) {
@@ -39,7 +39,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the callback's return value is respected
      */
-    public function testCallbackReturnValueIsRespected()
+    public function testCallbackReturnValueIsRespected() : void
     {
         $trueCallback = function () {
             return true;
@@ -58,7 +58,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug()
+    public function testGettingSlug() : void
     {
         $rule = new CallbackRule();
         $this->assertEquals('callback', $rule->getSlug());
@@ -67,7 +67,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not setting the args before passes
      */
-    public function testNotSettingArgBeforePasses()
+    public function testNotSettingArgBeforePasses() : void
     {
         $this->expectException(LogicException::class);
         $rule = new CallbackRule();
@@ -77,7 +77,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an empty arg array
      */
-    public function testPassingEmptyArgArray()
+    public function testPassingEmptyArgArray() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new CallbackRule();
@@ -87,7 +87,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an invalid arg
      */
-    public function testPassingInvalidArg()
+    public function testPassingInvalidArg() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new CallbackRule();

@@ -24,7 +24,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a slave
      */
-    public function testAddingSlave()
+    public function testAddingSlave() : void
     {
         $slave = $this->createServer();
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer());
@@ -35,7 +35,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding slaves
      */
-    public function testAddingSlaves()
+    public function testAddingSlaves() : void
     {
         $slave1 = $this->createServer();
         $slave2 = $this->createServer();
@@ -48,7 +48,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating a connection with no slaves
      */
-    public function testCreatingConnectionWithNoSlaves()
+    public function testCreatingConnectionWithNoSlaves() : void
     {
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer());
         $this->assertEquals([], $connectionPool->getSlaves());
@@ -57,7 +57,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the read connection with no slaves
      */
-    public function testGettingReadConnectionWithNoSlaves()
+    public function testGettingReadConnectionWithNoSlaves() : void
     {
         $master = $this->createServer();
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $master);
@@ -68,7 +68,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the read connection with a preferred server
      */
-    public function testGettingReadConnectionWithPreferredServer()
+    public function testGettingReadConnectionWithPreferredServer() : void
     {
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer());
         $preferredServer = new Server();
@@ -79,7 +79,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the read connection with slaves
      */
-    public function testGettingReadConnectionWithSlaves()
+    public function testGettingReadConnectionWithSlaves() : void
     {
         $slave1 = $this->createServer();
         $slave2 = $this->createServer();
@@ -101,7 +101,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the write connection with no slaves
      */
-    public function testGettingWriteConnectionWithNoSlaves()
+    public function testGettingWriteConnectionWithNoSlaves() : void
     {
         $master = $this->createServer();
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $master);
@@ -112,7 +112,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the write connection with a preferred server
      */
-    public function testGettingWriteConnectionWithPreferredServer()
+    public function testGettingWriteConnectionWithPreferredServer() : void
     {
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer());
         $preferredServer = $this->createServer();
@@ -123,7 +123,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removing a slave
      */
-    public function testRemovingSlave()
+    public function testRemovingSlave() : void
     {
         $slave1 = $this->createServer();
         $slave1->setDatabaseName('slave1');
@@ -138,7 +138,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests specifying a slave server selection strategy
      */
-    public function testSpecifyingSlaveServerSelectionStrategy()
+    public function testSpecifyingSlaveServerSelectionStrategy() : void
     {
         $slave = $this->createServer();
         $strategy = $this->createMock(IServerSelectionStrategy::class);
@@ -162,7 +162,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
      *
      * @return Driver A driver
      */
-    private function createDriver()
+    private function createDriver() : Driver
     {
         return new Driver();
     }
@@ -172,7 +172,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
      *
      * @return Server A server
      */
-    private function createServer()
+    private function createServer() : Server
     {
         return new Server();
     }

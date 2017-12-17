@@ -23,7 +23,7 @@ class ArgvTokenizerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->tokenizer = new ArgvTokenizer();
     }
@@ -31,7 +31,7 @@ class ArgvTokenizerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests tokenizing an escaped double quote
      */
-    public function testTokenizingEscapedDoubleQuote()
+    public function testTokenizingEscapedDoubleQuote() : void
     {
         $tokens = $this->tokenizer->tokenize(['foo', 'Dave\"s']);
         $this->assertEquals(['Dave"s'], $tokens);
@@ -40,7 +40,7 @@ class ArgvTokenizerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests tokenizing an escaped single quote
      */
-    public function testTokenizingEscapedSingleQuote()
+    public function testTokenizingEscapedSingleQuote() : void
     {
         $tokens = $this->tokenizer->tokenize(['foo', "Dave\'s"]);
         $this->assertEquals(["Dave's"], $tokens);

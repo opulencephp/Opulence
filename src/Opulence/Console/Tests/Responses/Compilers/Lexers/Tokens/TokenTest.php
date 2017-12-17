@@ -24,7 +24,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->token = new Token(TokenTypes::T_WORD, 'foo', 24);
     }
@@ -32,7 +32,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the position
      */
-    public function testGettingPosition()
+    public function testGettingPosition() : void
     {
         $this->assertEquals(24, $this->token->getPosition());
     }
@@ -40,7 +40,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the type
      */
-    public function testGettingType()
+    public function testGettingType() : void
     {
         $this->assertEquals(TokenTypes::T_WORD, $this->token->getType());
     }
@@ -48,7 +48,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the value
      */
-    public function testGettingValue()
+    public function testGettingValue() : void
     {
         $this->assertEquals('foo', $this->token->getValue());
     }

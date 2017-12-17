@@ -23,5 +23,5 @@ interface IExceptionRenderer
      *
      * @param Throwable|Exception $ex The thrown exception
      */
-    public function render($ex);
+    public function render($ex) : void;
 }

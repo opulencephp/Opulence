@@ -41,7 +41,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $idAccessorRegistry = new IdAccessorRegistry();
         $idAccessorRegistry->registerIdAccessors(
@@ -73,7 +73,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an entity is still marked as registered after making changes to it
      */
-    public function testCheckingIfEntityIsRegisteredAfterMakingChangesToIt()
+    public function testCheckingIfEntityIsRegisteredAfterMakingChangesToIt() : void
     {
         $this->entityRegistry->registerEntity($this->entity1);
         $this->entity1->setUsername('blah');
@@ -83,7 +83,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an entity is registered without registering an Id getter
      */
-    public function testCheckingIfEntityIsRegisteredWithoutRegisteringIdGetter()
+    public function testCheckingIfEntityIsRegisteredWithoutRegisteringIdGetter() : void
     {
         $entity = $this->getMockBuilder(User::class)
             ->disableOriginalConstructor()
@@ -95,7 +95,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests clearing the registry
      */
-    public function testClear()
+    public function testClear() : void
     {
         $this->entityRegistry->registerEntity($this->entity1);
         $this->entityRegistry->registerEntity($this->entity2);
@@ -109,7 +109,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests clearing the registry also clears aggregate root child functions
      */
-    public function testClearingAlsoClearsAggregateRootChildFunctions()
+    public function testClearingAlsoClearsAggregateRootChildFunctions() : void
     {
         $this->entityRegistry->registerAggregateRootCallback($this->entity1, $this->entity2, function ($root, $child) {
             throw new RuntimeException('Should not get here');
@@ -123,7 +123,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deregestering also removes aggregate root child function
      */
-    public function testDeregesteringAlsoRemovesAggregateRootChildFunction()
+    public function testDeregesteringAlsoRemovesAggregateRootChildFunction() : void
     {
         $this->entityRegistry->registerAggregateRootCallback($this->entity1, $this->entity2, function ($root, $child) {
             throw new RuntimeException('Should not get here');
@@ -137,7 +137,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deregistering a registered entity
      */
-    public function testDeregisteringEntity()
+    public function testDeregisteringEntity() : void
     {
         $this->entityRegistry->registerEntity($this->entity1);
         $this->entityRegistry->deregisterEntity($this->entity1);
@@ -148,7 +148,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deregistering an entity without registering an Id getter
      */
-    public function testDeregisteringEntityWithoutRegisteringIdGetter()
+    public function testDeregisteringEntityWithoutRegisteringIdGetter() : void
     {
         $this->expectException(OrmException::class);
         $entity = $this->getMockBuilder(User::class)
@@ -162,7 +162,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an object's class name
      */
-    public function testGettingClassName()
+    public function testGettingClassName() : void
     {
         $this->assertEquals(get_class($this->entity1), $this->entityRegistry->getClassName($this->entity1));
     }
@@ -170,7 +170,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the entities
      */
-    public function testGettingEntities()
+    public function testGettingEntities() : void
     {
         $this->entityRegistry->registerEntity($this->entity1);
         $this->entityRegistry->registerEntity($this->entity2);
@@ -180,7 +180,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the entities when there isn't one
      */
-    public function testGettingEntitiesWhenThereIsNotOne()
+    public function testGettingEntitiesWhenThereIsNotOne() : void
     {
         $this->assertEquals([], $this->entityRegistry->getEntities());
     }
@@ -188,7 +188,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the entity state for a registered entity
      */
-    public function testGettingEntityStateForRegisteredEntity()
+    public function testGettingEntityStateForRegisteredEntity() : void
     {
         $this->entityRegistry->registerEntity($this->entity1);
         $this->assertEquals(EntityStates::REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
@@ -197,7 +197,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the entity state for an unregistered entity
      */
-    public function testGettingEntityStateForUnregisteredEntity()
+    public function testGettingEntityStateForUnregisteredEntity() : void
     {
         $this->assertEquals(EntityStates::NEVER_REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
     }
@@ -205,7 +205,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an entity that isn't registered
      */
-    public function testGettingEntityThatIsNotRegistered()
+    public function testGettingEntityThatIsNotRegistered() : void
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->assertNull($this->entityRegistry->getEntity($className, $this->entity1->getId()));
@@ -214,7 +214,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the object hash Id
      */
-    public function testGettingObjectHashId()
+    public function testGettingObjectHashId() : void
     {
         $this->assertEquals(spl_object_hash($this->entity1), $this->entityRegistry->getObjectHashId($this->entity1));
     }
@@ -222,7 +222,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests registering an entity without registering an Id getter
      */
-    public function testRegisteringEntityWithoutRegisteringIdGetter()
+    public function testRegisteringEntityWithoutRegisteringIdGetter() : void
     {
         $this->expectException(OrmException::class);
         $entity = $this->getMockBuilder(User::class)
@@ -235,7 +235,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting an entity's state
      */
-    public function testSettingState()
+    public function testSettingState() : void
     {
         $this->entityRegistry->registerEntity($this->entity1);
         $this->entityRegistry->setState($this->entity1, EntityStates::DEQUEUED);
@@ -245,7 +245,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting two aggregate roots for a single child
      */
-    public function testSettingTwoAggregateRootsForChild()
+    public function testSettingTwoAggregateRootsForChild() : void
     {
         $this->entityRegistry->registerAggregateRootCallback($this->entity1, $this->entity3,
             function ($aggregateRoot, $child) {

@@ -85,7 +85,7 @@ class Style
      * @param string $style The name of the text style
      * @throws InvalidArgumentException Thrown if the text style does not exist
      */
-    public function addTextStyle(string $style)
+    public function addTextStyle(string $style) : void
     {
         if (!isset(self::$supportedTextStyles[$style])) {
             throw new InvalidArgumentException("Invalid text style \"$style\"");
@@ -103,7 +103,7 @@ class Style
      * @param array $styles The names of the text styles
      * @throws InvalidArgumentException Thrown if the text styles do not exist
      */
-    public function addTextStyles(array $styles)
+    public function addTextStyles(array $styles) : void
     {
         foreach ($styles as $style) {
             $this->addTextStyle($style);
@@ -156,7 +156,7 @@ class Style
     /**
      * @return string|null
      */
-    public function getBackgroundColor()
+    public function getBackgroundColor() : ?string
     {
         return $this->backgroundColor;
     }
@@ -164,7 +164,7 @@ class Style
     /**
      * @return string|null
      */
-    public function getForegroundColor()
+    public function getForegroundColor() : ?string
     {
         return $this->foregroundColor;
     }
@@ -183,7 +183,7 @@ class Style
      * @param string $style The style to remove
      * @throws InvalidArgumentException Thrown if the text style is invalid
      */
-    public function removeTextStyle(string $style)
+    public function removeTextStyle(string $style) : void
     {
         if (!isset(self::$supportedTextStyles[$style])) {
             throw new InvalidArgumentException("Invalid text style \"$style\"");
@@ -198,7 +198,7 @@ class Style
      * @param string|null $backgroundColor
      * @throws InvalidArgumentException Thrown if the color was invalid
      */
-    public function setBackgroundColor(string $backgroundColor = null)
+    public function setBackgroundColor(string $backgroundColor = null) : void
     {
         if ($backgroundColor !== null && !isset(self::$supportedBackgroundColors[$backgroundColor])) {
             throw new InvalidArgumentException("Invalid background color \"$backgroundColor\"");
@@ -211,7 +211,7 @@ class Style
      * @param string|null $foregroundColor
      * @throws InvalidArgumentException Thrown if the color was invalid
      */
-    public function setForegroundColor(string $foregroundColor = null)
+    public function setForegroundColor(string $foregroundColor = null) : void
     {
         if ($foregroundColor !== null && !isset(self::$supportedForegroundColors[$foregroundColor])) {
             throw new InvalidArgumentException("Invalid foreground color \"$foregroundColor\"");

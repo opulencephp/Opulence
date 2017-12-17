@@ -27,7 +27,7 @@ class ElementRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->registrant = new ElementRegistrant();
     }
@@ -35,7 +35,7 @@ class ElementRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the correct elements are registered
      */
-    public function testCorrectElementsAreRegistered()
+    public function testCorrectElementsAreRegistered() : void
     {
         /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $compiler */
         $compiler = $this->createMock(ICompiler::class);

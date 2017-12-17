@@ -29,7 +29,7 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->matcher = new SchemeMatcher();
         $this->request = $this->getMockBuilder(Request::class)
@@ -43,7 +43,7 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that there is a match when on an HTTP scheme with an insecure route
      */
-    public function testMatchOnHttpWithInsecureRoute()
+    public function testMatchOnHttpWithInsecureRoute() : void
     {
         $this->route->expects($this->any())->method('isSecure')->willReturn(false);
         $this->request->expects($this->any())->method('isSecure')->willReturn(false);
@@ -53,7 +53,7 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that there is a match when on an HTTPS scheme with a secure route
      */
-    public function testMatchOnHttpsWithSecureRoute()
+    public function testMatchOnHttpsWithSecureRoute() : void
     {
         $this->route->expects($this->any())->method('isSecure')->willReturn(true);
         $this->request->expects($this->any())->method('isSecure')->willReturn(true);
@@ -63,7 +63,7 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that there is no match when on an HTTP scheme with a secure route
      */
-    public function testNoMatchOnHttpWithSecureRoute()
+    public function testNoMatchOnHttpWithSecureRoute() : void
     {
         $this->route->expects($this->any())->method('isSecure')->willReturn(true);
         $this->request->expects($this->any())->method('isSecure')->willReturn(false);

@@ -43,7 +43,7 @@ class CommandCollection
      * @param bool $overwrite True if we will overwrite a command with the same name if it already exists
      * @throws InvalidArgumentException Thrown if a command with the input name already exists
      */
-    public function add(ICommand $command, bool $overwrite = false)
+    public function add(ICommand $command, bool $overwrite = false) : void
     {
         if (!$overwrite && $this->has($command->getName())) {
             throw new InvalidArgumentException("A command with name \"{$command->getName()}\" already exists");
@@ -63,7 +63,7 @@ class CommandCollection
      * @return int|null The status code of the command
      * @throws InvalidArgumentException Thrown if no command exists with the input name
      */
-    public function call(string $commandName, IResponse $response, array $arguments = [], array $options = [])
+    public function call(string $commandName, IResponse $response, array $arguments = [], array $options = []) : ?int
     {
         $request = $this->requestParser->parse([
             'name' => $commandName,

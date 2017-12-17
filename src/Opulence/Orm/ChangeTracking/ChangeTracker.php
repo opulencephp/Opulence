@@ -52,7 +52,7 @@ class ChangeTracker implements IChangeTracker
     /**
      * @inheritdoc
      */
-    public function registerComparator(string $className, callable $comparator)
+    public function registerComparator(string $className, callable $comparator) : void
     {
         $this->comparators[$className] = $comparator;
     }
@@ -60,7 +60,7 @@ class ChangeTracker implements IChangeTracker
     /**
      * @inheritdoc
      */
-    public function startTracking($entity)
+    public function startTracking($entity) : void
     {
         $objectHashId = spl_object_hash($entity);
         $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;
@@ -69,7 +69,7 @@ class ChangeTracker implements IChangeTracker
     /**
      * @inheritdoc
      */
-    public function stopTracking($entity)
+    public function stopTracking($entity) : void
     {
         unset($this->objectHashIdsToOriginalData[spl_object_hash($entity)]);
     }
@@ -77,7 +77,7 @@ class ChangeTracker implements IChangeTracker
     /**
      * @inheritdoc
      */
-    public function stopTrackingAll()
+    public function stopTrackingAll() : void
     {
         $this->objectHashIdsToOriginalData = [];
     }

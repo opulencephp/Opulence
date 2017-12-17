@@ -20,5 +20,5 @@ interface IPerson
      *
      * @return string The last name
      */
-    public function getLastName();
+    public function getLastName() : string;
 }

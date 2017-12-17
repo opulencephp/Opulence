@@ -61,7 +61,6 @@ class Connection extends PDO implements IConnection
      * Nested transactions are permitted
      *
      * @inheritdoc
-     *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function beginTransaction()
@@ -77,7 +76,6 @@ class Connection extends PDO implements IConnection
      * If we are in a nested transaction and this isn't the final commit of the nested transactions, nothing happens
      *
      * @inheritdoc
-     *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function commit()
@@ -134,7 +132,7 @@ class Connection extends PDO implements IConnection
     /**
      * @inheritdoc
      */
-    public function getDatabaseProvider()
+    public function getDatabaseProvider() : Provider
     {
         return $this->provider;
     }
@@ -142,7 +140,7 @@ class Connection extends PDO implements IConnection
     /**
      * @inheritdoc
      */
-    public function getServer()
+    public function getServer() : Server
     {
         return $this->server;
     }
@@ -232,7 +230,7 @@ class Connection extends PDO implements IConnection
      *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
-    private function connect()
+    private function connect() : void
     {
         if (!$this->isConnected) {
             parent::__construct(

@@ -27,7 +27,7 @@ interface IAuthenticationContext
      *
      * @return ISubject|null The current subject, if there is one, otherwise null
      */
-    public function getSubject();
+    public function getSubject() : ?ISubject;
 
     /**
      * Gets whether or not the current subject has been authenticated
@@ -41,12 +41,12 @@ interface IAuthenticationContext
      *
      * @param string $status The current status
      */
-    public function setStatus(string $status);
+    public function setStatus(string $status) : void;
 
     /**
      * Sets the current subject
      *
      * @param ISubject $subject The current subject
      */
-    public function setSubject(ISubject $subject);
+    public function setSubject(ISubject $subject) : void;
 }

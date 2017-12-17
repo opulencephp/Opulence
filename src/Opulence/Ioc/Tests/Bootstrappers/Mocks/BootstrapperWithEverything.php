@@ -30,7 +30,7 @@ class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootst
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         echo 'registerBindings';
         $container->bindSingleton(LazyFooInterface::class, LazyConcreteFoo::class);

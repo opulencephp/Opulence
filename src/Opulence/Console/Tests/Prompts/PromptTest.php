@@ -33,7 +33,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->response = new Response(new Compiler(new Lexer(), new Parser()));
         $this->paddingFormatter = new PaddingFormatter();
@@ -42,7 +42,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an answer with spaces
      */
-    public function testAnsweringWithSpaces()
+    public function testAnsweringWithSpaces() : void
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream('  Dave  '));
         $question = new Question('Name of dev', 'unknown');
@@ -56,7 +56,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asking an indexed multiple choice question
      */
-    public function testAskingIndexedMultipleChoiceQuestion()
+    public function testAskingIndexedMultipleChoiceQuestion() : void
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream('2'));
         $question = new MultipleChoice('Pick', ['foo', 'bar']);
@@ -71,7 +71,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asking a keyed multiple choice question
      */
-    public function testAskingKeyedMultipleChoiceQuestion()
+    public function testAskingKeyedMultipleChoiceQuestion() : void
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream('c'));
         $question = new MultipleChoice('Pick', ['a' => 'b', 'c' => 'd']);
@@ -86,7 +86,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asking a multiple choice question with custom answer line string
      */
-    public function testAskingMultipleChoiceQuestionWithCustomAnswerLineString()
+    public function testAskingMultipleChoiceQuestionWithCustomAnswerLineString() : void
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream('1'));
         $question = new MultipleChoice('Pick', ['foo', 'bar']);
@@ -102,7 +102,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asking a question
      */
-    public function testAskingQuestion()
+    public function testAskingQuestion() : void
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream('Dave'));
         $question = new Question('Name of dev', 'unknown');
@@ -116,7 +116,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an empty default answer to indexed choices
      */
-    public function testEmptyDefaultAnswerToIndexedChoices()
+    public function testEmptyDefaultAnswerToIndexedChoices() : void
     {
         $triggeredException = false;
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream(' '));
@@ -136,7 +136,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an empty default answer to keyed choices
      */
-    public function testEmptyDefaultAnswerToKeyedChoices()
+    public function testEmptyDefaultAnswerToKeyedChoices() : void
     {
         $triggeredException = false;
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream(' '));
@@ -156,7 +156,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not receiving a response
      */
-    public function testNotReceivingResponse()
+    public function testNotReceivingResponse() : void
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream(' '));
         $question = new Question('Name of dev', 'unknown');
@@ -170,7 +170,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting an invalid input stream through the constructor
      */
-    public function testSettingInvalidInputStreamThroughConstructor()
+    public function testSettingInvalidInputStreamThroughConstructor() : void
     {
         $this->expectException(InvalidArgumentException::class);
         new Prompt($this->paddingFormatter, 'foo');
@@ -179,7 +179,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting an invalid input stream through the setter
      */
-    public function testSettingInvalidInputStreamThroughSetter()
+    public function testSettingInvalidInputStreamThroughSetter() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream('foo'));

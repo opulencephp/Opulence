@@ -29,7 +29,7 @@ class BootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->resolver = $this->createMock(IBootstrapperResolver::class);
         $this->factory = new BootstrapperRegistryFactory($this->resolver);
@@ -38,7 +38,7 @@ class BootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that creating a registry resolves the bootstrappers
      */
-    public function testCreatingRegistryResolvesBootstrappers()
+    public function testCreatingRegistryResolvesBootstrappers() : void
     {
         $bootstrapperClasses = [Bootstrapper::class, BootstrapperWithEverything::class];
         $bootstrapperObjects = [new Bootstrapper(), new BootstrapperWithEverything()];

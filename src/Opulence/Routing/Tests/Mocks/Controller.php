@@ -27,7 +27,7 @@ class Controller extends BaseController
      * @param mixed $blah The optional third parameter
      * @return Response The parameter names to their values
      */
-    public function multipleParametersWithDefaultValues($foo, $bar, $blah = '724')
+    public function multipleParametersWithDefaultValues($foo, $bar, $blah = '724') : Response
     {
         return new Response("foo:$foo, bar:$bar, blah:$blah");
     }
@@ -37,7 +37,7 @@ class Controller extends BaseController
      *
      * @return Response An empty string
      */
-    public function noParameters()
+    public function noParameters() : Response
     {
         return new Response('noParameters');
     }
@@ -48,7 +48,7 @@ class Controller extends BaseController
      * @param mixed $foo The parameter
      * @return Response The parameter name to its value
      */
-    public function oneParameter($foo)
+    public function oneParameter($foo) : Response
     {
         return new Response("foo:$foo");
     }
@@ -56,7 +56,7 @@ class Controller extends BaseController
     /**
      * Mocks a method that does not return anything
      */
-    public function returnsNothing()
+    public function returnsNothing() : void
     {
         // Don't do anything
     }
@@ -64,7 +64,7 @@ class Controller extends BaseController
     /**
      * Mocks a method that returns text
      */
-    public function returnsText()
+    public function returnsText() : string
     {
         return 'returnsText';
     }
@@ -78,7 +78,7 @@ class Controller extends BaseController
      * @param mixed $blah The fourth parameter
      * @return Response The parameter names to their values
      */
-    public function severalParameters($foo, $bar, $baz, $blah)
+    public function severalParameters($foo, $bar, $baz, $blah) : Response
     {
         return new Response("foo:$foo, bar:$bar, baz:$baz, blah:$blah");
     }
@@ -86,7 +86,7 @@ class Controller extends BaseController
     /**
      * @inheritdoc
      */
-    public function showHttpError($statusCode)
+    public function showHttpError($statusCode) : Response
     {
         return new Response('foo', $statusCode);
     }
@@ -94,7 +94,7 @@ class Controller extends BaseController
     /**
      * Mocks a method that throws an HTTP exception
      */
-    public function throwsHttpException()
+    public function throwsHttpException() : void
     {
         throw new HttpException(400);
     }
@@ -106,7 +106,7 @@ class Controller extends BaseController
      * @param mixed $bar The second parameter
      * @return Response The parameter names to their values
      */
-    public function twoParameters($foo, $bar)
+    public function twoParameters($foo, $bar) : Response
     {
         return new Response("foo:$foo, bar:$bar");
     }
@@ -116,7 +116,7 @@ class Controller extends BaseController
      *
      * @return Response The name of the method
      */
-    protected function protectedMethod()
+    protected function protectedMethod() : Response
     {
         return new Response('protectedMethod');
     }
@@ -126,7 +126,7 @@ class Controller extends BaseController
      *
      * @return Response The name of the method
      */
-    private function privateMethod()
+    private function privateMethod() : Response
     {
         return new Response('privateMethod');
     }

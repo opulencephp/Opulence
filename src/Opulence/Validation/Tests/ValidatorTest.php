@@ -37,7 +37,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);
         /** @var ErrorTemplateRegistry|\PHPUnit_Framework_MockObject_MockObject $errorTemplateRegistry */
@@ -57,7 +57,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the errors are empty before running the validator
      */
-    public function testErrorsAreEmptyBeforeRunningValidator()
+    public function testErrorsAreEmptyBeforeRunningValidator() : void
     {
         $errors = $this->validator->getErrors();
         $this->assertInstanceOf(ErrorCollection::class, $errors);
@@ -67,7 +67,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that errors are reset when validating twice
      */
-    public function testErrorsAreResetWhenValidatingTwice()
+    public function testErrorsAreResetWhenValidatingTwice() : void
     {
         $rules = $this->getRules();
         $rules->expects($this->exactly(2))
@@ -90,7 +90,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that field returns rules
      */
-    public function testFieldReturnsRules()
+    public function testFieldReturnsRules() : void
     {
         $rules = $this->getRules();
         $this->rulesFactory->expects($this->once())
@@ -102,7 +102,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that rule pass results are respected
      */
-    public function testRulePassResultsAreRespected()
+    public function testRulePassResultsAreRespected() : void
     {
         $rules = $this->getRules();
         $rules->expects($this->at(0))
@@ -129,7 +129,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the same rules are returned when specifying same field
      */
-    public function testSameRulesAreReturnedWhenSpecifyingSameField()
+    public function testSameRulesAreReturnedWhenSpecifyingSameField() : void
     {
         $rules = $this->getRules();
         $this->rulesFactory->expects($this->once())

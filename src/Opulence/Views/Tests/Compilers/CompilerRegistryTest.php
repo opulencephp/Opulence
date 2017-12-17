@@ -26,7 +26,7 @@ class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->registry = new CompilerRegistry();
     }
@@ -34,7 +34,7 @@ class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a view that does not have a compiler
      */
-    public function testCompilingViewThatDoesNotHaveCompiler()
+    public function testCompilingViewThatDoesNotHaveCompiler() : void
     {
         $this->expectException(InvalidArgumentException::class);
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
@@ -48,7 +48,7 @@ class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests registering a compiler
      */
-    public function testRegisteringCompiler()
+    public function testRegisteringCompiler() : void
     {
         /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $compiler */
         $compiler = $this->createMock(ICompiler::class);

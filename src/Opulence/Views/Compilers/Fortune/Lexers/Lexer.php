@@ -65,7 +65,7 @@ class Lexer implements ILexer
     /**
      * Flushes the expression buffer
      */
-    private function flushExpressionBuffer()
+    private function flushExpressionBuffer() : void
     {
         if ($this->expressionBuffer !== '') {
             $this->tokens[] = new Token(TokenTypes::T_EXPRESSION, $this->expressionBuffer, $this->line);
@@ -160,7 +160,7 @@ class Lexer implements ILexer
      *
      * @param IView $view The view that's being lexed
      */
-    private function initializeVars(IView $view)
+    private function initializeVars(IView $view) : void
     {
         $this->directiveDelimiters = $view->getDelimiters(IView::DELIMITER_TYPE_DIRECTIVE);
         $this->sanitizedTagDelimiters = $view->getDelimiters(IView::DELIMITER_TYPE_SANITIZED_TAG);
@@ -179,7 +179,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if the statement has an invalid token
      */
-    private function lexCommentStatement()
+    private function lexCommentStatement() : void
     {
         $this->lexDelimitedExpressionStatement(
             TokenTypes::T_COMMENT_OPEN,
@@ -195,7 +195,7 @@ class Lexer implements ILexer
      *
      * @param string $closeDelimiter The close delimiter
      */
-    private function lexDelimitedExpression(string $closeDelimiter)
+    private function lexDelimitedExpression(string $closeDelimiter) : void
     {
         $expressionBuffer = '';
         $newLinesAfterExpression = 0;
@@ -243,7 +243,7 @@ class Lexer implements ILexer
         string $closeTokenType,
         string $closeDelimiter,
         bool $closeDelimiterOptional
-    ) {
+    ) : void {
         $this->flushExpressionBuffer();
         $this->tokens[] = new Token($openTokenType, $openDelimiter, $this->line);
         $this->lexDelimitedExpression($closeDelimiter);
@@ -267,7 +267,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if there's an unmatched parenthesis
      */
-    private function lexDirectiveExpression()
+    private function lexDirectiveExpression() : void
     {
         $this->lexDirectiveName();
 
@@ -321,7 +321,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if the directive did not have a name
      */
-    private function lexDirectiveName()
+    private function lexDirectiveName() : void
     {
         $name = '';
         $newLinesAfterName = 0;
@@ -367,7 +367,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if the statement has an invalid token
      */
-    private function lexDirectiveStatement()
+    private function lexDirectiveStatement() : void
     {
         $this->flushExpressionBuffer();
         $this->tokens[] = new Token(TokenTypes::T_DIRECTIVE_OPEN, $this->directiveDelimiters[0], $this->line);
@@ -392,7 +392,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if there was an invalid token
      */
-    private function lexExpression()
+    private function lexExpression() : void
     {
         $statementMethods = $this->getStatementLexingMethods();
 
@@ -444,7 +444,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if the statement was not delimited correctly
      */
-    private function lexPhpStatement()
+    private function lexPhpStatement() : void
     {
         $this->lexDelimitedExpressionStatement(
             TokenTypes::T_PHP_TAG_OPEN,
@@ -460,7 +460,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if the statement has an invalid token
      */
-    private function lexSanitizedTagStatement()
+    private function lexSanitizedTagStatement() : void
     {
         $this->lexDelimitedExpressionStatement(
             TokenTypes::T_SANITIZED_TAG_OPEN,
@@ -476,7 +476,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if the statement has an invalid token
      */
-    private function lexUnsanitizedTagStatement()
+    private function lexUnsanitizedTagStatement() : void
     {
         $this->lexDelimitedExpressionStatement(
             TokenTypes::T_UNSANITIZED_TAG_OPEN,

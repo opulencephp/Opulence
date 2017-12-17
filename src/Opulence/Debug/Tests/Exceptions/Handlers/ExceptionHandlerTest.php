@@ -31,7 +31,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->renderer = $this->createMock(IExceptionRenderer::class);
@@ -42,7 +42,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         restore_exception_handler();
     }
@@ -50,7 +50,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that exception is reported and rendered
      */
-    public function testExceptionIsReportedAndRendered()
+    public function testExceptionIsReportedAndRendered() : void
     {
         $exception = new Exception();
         $this->logger->expects($this->once())
@@ -65,7 +65,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that exceptions are not logged when told not to
      */
-    public function testExceptionNotLoggedWhenToldNotTo()
+    public function testExceptionNotLoggedWhenToldNotTo() : void
     {
         /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);

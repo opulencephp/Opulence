@@ -24,7 +24,7 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->redirectResponse = new RedirectResponse('/foo', ResponseHeaders::HTTP_ACCEPTED, ['FOO' => 'bar']);
     }
@@ -32,7 +32,7 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the headers after setting them in the constructor
      */
-    public function testGettingHeadersAfterSettingInConstructor()
+    public function testGettingHeadersAfterSettingInConstructor() : void
     {
         $this->assertEquals([
             'foo' => ['bar'],
@@ -43,7 +43,7 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the status code after setting it in the constructor
      */
-    public function testGettingStatusCodeAfterSettingInConstructor()
+    public function testGettingStatusCodeAfterSettingInConstructor() : void
     {
         $this->assertEquals(ResponseHeaders::HTTP_ACCEPTED, $this->redirectResponse->getStatusCode());
     }
@@ -51,7 +51,7 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the target URL after setting it in the constructor
      */
-    public function testGettingTargetUrlAfterSettingInConstructor()
+    public function testGettingTargetUrlAfterSettingInConstructor() : void
     {
         $this->assertEquals('/foo', $this->redirectResponse->getTargetUrl());
         $this->assertEquals('/foo', $this->redirectResponse->getHeaders()->get('Location'));
@@ -60,7 +60,7 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the target URL
      */
-    public function testSettingTargetUrl()
+    public function testSettingTargetUrl() : void
     {
         $this->redirectResponse->setTargetUrl('/bar');
         $this->assertEquals('/bar', $this->redirectResponse->getTargetUrl());

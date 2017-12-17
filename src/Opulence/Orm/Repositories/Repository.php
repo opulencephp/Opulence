@@ -42,7 +42,7 @@ class Repository implements IRepository
     /**
      * @inheritdoc
      */
-    public function add($entity)
+    public function add($entity) : void
     {
         $this->unitOfWork->scheduleForInsertion($entity);
     }
@@ -50,7 +50,7 @@ class Repository implements IRepository
     /**
      * @inheritdoc
      */
-    public function delete($entity)
+    public function delete($entity) : void
     {
         $this->unitOfWork->scheduleForDeletion($entity);
     }

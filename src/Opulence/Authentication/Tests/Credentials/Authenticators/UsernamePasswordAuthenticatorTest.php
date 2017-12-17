@@ -35,7 +35,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->userRepository = $this->createMock(IUserRepository::class);
         $this->roleRepository = $this->createMock(IRoleRepository::class);
@@ -46,7 +46,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a correct password returns true
      */
-    public function testCorrectPasswordReturnsTrue()
+    public function testCorrectPasswordReturnsTrue() : void
     {
         $this->roleRepository->expects($this->once())
             ->method('getRoleNamesForSubject')
@@ -82,7 +82,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an incorrect password returns false
      */
-    public function testIncorrectPasswordReturnsFalse()
+    public function testIncorrectPasswordReturnsFalse() : void
     {
         $this->credential->expects($this->at(0))
             ->method('getValue')
@@ -109,7 +109,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a non-existent username returns false
      */
-    public function testNonExistentUsernameReturnsFalse()
+    public function testNonExistentUsernameReturnsFalse() : void
     {
         $this->credential->expects($this->at(0))
             ->method('getValue')
@@ -132,7 +132,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unset password credential returns false
      */
-    public function testUnsetPasswordCredentialReturnsFalse()
+    public function testUnsetPasswordCredentialReturnsFalse() : void
     {
         $this->credential->expects($this->at(0))
             ->method('getValue')
@@ -151,7 +151,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unset username credential returns false
      */
-    public function testUnsetUsernameCredentialReturnsFalse()
+    public function testUnsetUsernameCredentialReturnsFalse() : void
     {
         $this->credential->expects($this->at(0))
             ->method('getValue')

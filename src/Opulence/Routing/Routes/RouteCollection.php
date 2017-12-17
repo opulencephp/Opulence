@@ -106,7 +106,7 @@ class RouteCollection
      *
      * @param ParsedRoute $route The route to add
      */
-    public function add(ParsedRoute $route)
+    public function add(ParsedRoute $route) : void
     {
         foreach ($route->getMethods() as $method) {
             $this->routes[$method][] = $route;
@@ -141,7 +141,7 @@ class RouteCollection
      * @param string $name The name to search for
      * @return ParsedRoute|null The route with the input name if one existed, otherwise null
      */
-    public function getNamedRoute(string $name)
+    public function getNamedRoute(string $name) : ?ParsedRoute
     {
         if (isset($this->namedRoutes[$name])) {
             return $this->namedRoutes[$name];

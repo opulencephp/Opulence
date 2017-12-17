@@ -20,7 +20,7 @@ class TagNodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if a root node is a tag
      */
-    public function testIsTag()
+    public function testIsTag() : void
     {
         $node = new TagNode('foo');
         $this->assertTrue($node->isTag());

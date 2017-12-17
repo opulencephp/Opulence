@@ -29,7 +29,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->compiler = new Compiler(new Lexer(), new Parser());
         $this->response = new StreamResponse(fopen('php://memory', 'w'), $this->compiler);
@@ -38,7 +38,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the stream
      */
-    public function testGettingStream()
+    public function testGettingStream() : void
     {
         $this->assertTrue(is_resource($this->response->getStream()));
     }
@@ -46,7 +46,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an invalid stream
      */
-    public function testInvalidStream()
+    public function testInvalidStream() : void
     {
         $this->expectException(InvalidArgumentException::class);
         new StreamResponse('foo', $this->compiler);
@@ -55,7 +55,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Test writing an array message
      */
-    public function testWriteOnArray()
+    public function testWriteOnArray() : void
     {
         $this->response->write(['foo', 'bar']);
         rewind($this->response->getStream());
@@ -65,7 +65,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing a string message
      */
-    public function testWriteOnString()
+    public function testWriteOnString() : void
     {
         $this->response->write('foo');
         rewind($this->response->getStream());
@@ -75,7 +75,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Test writing an array message to a line
      */
-    public function testWritelnOnArray()
+    public function testWritelnOnArray() : void
     {
         $this->response->writeln(['foo', 'bar']);
         rewind($this->response->getStream());
@@ -85,7 +85,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing a string message to a line
      */
-    public function testWritelnOnString()
+    public function testWritelnOnString() : void
     {
         $this->response->writeln('foo');
         rewind($this->response->getStream());

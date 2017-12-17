@@ -64,7 +64,7 @@ class JwtHeader
      * @param string $name The name of the header to add
      * @param mixed $value The value to add
      */
-    public function add(string $name, $value)
+    public function add(string $name, $value) : void
     {
         switch ($name) {
             case 'alg':
@@ -139,7 +139,7 @@ class JwtHeader
      * @param string $algorithm
      * @throws InvalidArgumentException Thrown if the algorithm is not supported
      */
-    private function setAlgorithm(string $algorithm)
+    private function setAlgorithm(string $algorithm) : void
     {
         if (!in_array($algorithm, self::$validAlgorithms)) {
             throw new InvalidArgumentException("Algorithm \"$algorithm\" is not supported");

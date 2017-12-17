@@ -25,7 +25,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->typeMapper = new TypeMapper();
     }
@@ -33,7 +33,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting from a false Memcached boolean
      */
-    public function testConvertingFromFalseMemcachedBoolean()
+    public function testConvertingFromFalseMemcachedBoolean() : void
     {
         $this->assertFalse($this->typeMapper->fromMemcachedBoolean(0));
     }
@@ -41,7 +41,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting from a Memcached timestamp
      */
-    public function testConvertingFromMemcachedTimestamp()
+    public function testConvertingFromMemcachedTimestamp() : void
     {
         $time = new DateTime('now');
         $this->assertEquals($time->getTimestamp(),
@@ -51,7 +51,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting from a true Memcached boolean
      */
-    public function testConvertingFromTrueMemcachedBoolean()
+    public function testConvertingFromTrueMemcachedBoolean() : void
     {
         $this->assertTrue($this->typeMapper->fromMemcachedBoolean(1));
     }
@@ -59,7 +59,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting to a false Memcached boolean
      */
-    public function testConvertingToFalseMemcachedBoolean()
+    public function testConvertingToFalseMemcachedBoolean() : void
     {
         $this->assertSame(0, $this->typeMapper->toMemcachedBoolean(false));
     }
@@ -67,7 +67,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting to a Memcached timestamp
      */
-    public function testConvertingToMemcachedTimestamp()
+    public function testConvertingToMemcachedTimestamp() : void
     {
         $time = new DateTime('now');
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toMemcachedTimestamp($time));
@@ -76,7 +76,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting to a Memcached timestamp from an immutable date time
      */
-    public function testConvertingToMemcachedTimestampFromImmutable()
+    public function testConvertingToMemcachedTimestampFromImmutable() : void
     {
         $time = new DateTimeImmutable('now');
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toMemcachedTimestamp($time));
@@ -85,7 +85,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting to a true Memcached boolean
      */
-    public function testConvertingToTrueMemcachedBoolean()
+    public function testConvertingToTrueMemcachedBoolean() : void
     {
         $this->assertSame(1, $this->typeMapper->toMemcachedBoolean(true));
     }
@@ -93,7 +93,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the timezone is set
      */
-    public function testTimezoneSet()
+    public function testTimezoneSet() : void
     {
         $currTimezone = date_default_timezone_get();
         $newTimezone = 'Australia/Canberra';

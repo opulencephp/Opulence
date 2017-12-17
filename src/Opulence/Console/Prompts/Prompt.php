@@ -96,7 +96,7 @@ class Prompt
      * @param resource $inputStream The input stream to look for answers in
      * @throws InvalidArgumentException Thrown if the input stream is not a resource
      */
-    public function setInputStream($inputStream)
+    public function setInputStream($inputStream) : void
     {
         if (!is_resource($inputStream)) {
             throw new InvalidArgumentException('Input stream must be resource');

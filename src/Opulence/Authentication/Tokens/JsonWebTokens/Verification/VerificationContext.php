@@ -45,7 +45,7 @@ class VerificationContext
     /**
      * @return string|null
      */
-    public function getIssuer()
+    public function getIssuer() : ?string
     {
         return $this->issuer;
     }
@@ -61,7 +61,7 @@ class VerificationContext
     /**
      * @return string|null
      */
-    public function getSubject()
+    public function getSubject() : ?string
     {
         return $this->subject;
     }
@@ -69,7 +69,7 @@ class VerificationContext
     /**
      * @param array $audience
      */
-    public function setAudience(array $audience)
+    public function setAudience(array $audience) : void
     {
         $this->audience = $audience;
     }
@@ -77,7 +77,7 @@ class VerificationContext
     /**
      * @param string $issuer
      */
-    public function setIssuer(string $issuer)
+    public function setIssuer(string $issuer) : void
     {
         $this->issuer = $issuer;
     }
@@ -85,7 +85,7 @@ class VerificationContext
     /**
      * @param ISigner $signer
      */
-    public function setSigner(ISigner $signer)
+    public function setSigner(ISigner $signer) : void
     {
         $this->signer = $signer;
     }
@@ -93,7 +93,7 @@ class VerificationContext
     /**
      * @param string $subject
      */
-    public function setSubject(string $subject)
+    public function setSubject(string $subject) : void
     {
         $this->subject = $subject;
     }

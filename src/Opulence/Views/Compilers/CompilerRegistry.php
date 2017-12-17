@@ -38,7 +38,7 @@ class CompilerRegistry implements ICompilerRegistry
     /**
      * @inheritdoc
      */
-    public function registerCompiler(string $extension, ICompiler $compiler)
+    public function registerCompiler(string $extension, ICompiler $compiler) : void
     {
         $this->compilers[$extension] = $compiler;
     }

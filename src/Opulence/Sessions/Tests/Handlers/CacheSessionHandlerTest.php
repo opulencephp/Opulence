@@ -26,7 +26,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->bridge = $this->createMock(ICacheBridge::class);
         $this->handler = new CacheSessionHandler($this->bridge, 123);
@@ -35,7 +35,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that delete is called on destroy
      */
-    public function testCacheDeleteIsCalledOnDestroy()
+    public function testCacheDeleteIsCalledOnDestroy() : void
     {
         $this->bridge->expects($this->once())->method('delete')->with('foo');
         $this->handler->destroy('foo');
@@ -44,7 +44,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that get is called on read
      */
-    public function testCacheGetIsCalledOnRead()
+    public function testCacheGetIsCalledOnRead() : void
     {
         $this->bridge->expects($this->once())->method('get')->with('foo')->willReturn('bar');
         $this->assertEquals('bar', $this->handler->read('foo'));
@@ -53,7 +53,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that set is called on write
      */
-    public function testCacheSetIsCalledOnWrite()
+    public function testCacheSetIsCalledOnWrite() : void
     {
         $this->bridge->expects($this->once())->method('set')->with('foo', 'bar', 123);
         $this->handler->write('foo', 'bar');
@@ -62,7 +62,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that close returns true
      */
-    public function testCloseReturnsTrue()
+    public function testCloseReturnsTrue() : void
     {
         $this->assertTrue($this->handler->close());
     }
@@ -70,7 +70,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that gc returns true
      */
-    public function testGCReturnsTrue()
+    public function testGCReturnsTrue() : void
     {
         $this->assertTrue($this->handler->gc(60));
     }
@@ -78,7 +78,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that open returns true
      */
-    public function testOpenReturnsTrue()
+    public function testOpenReturnsTrue() : void
     {
         $this->assertTrue($this->handler->open('foo', 'bar'));
     }
@@ -86,7 +86,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests reading a non-existent session
      */
-    public function testReadingNonExistentSession()
+    public function testReadingNonExistentSession() : void
     {
         $this->assertEmpty($this->handler->read('non-existent'));
     }

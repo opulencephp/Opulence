@@ -35,7 +35,7 @@ class AuthenticatorRegistry implements IAuthenticatorRegistry
     /**
      * @inheritdoc
      */
-    public function registerAuthenticator(string $credentialType, IAuthenticator $authenticator)
+    public function registerAuthenticator(string $credentialType, IAuthenticator $authenticator) : void
     {
         if (!isset($this->credentialTypesToAuthenticators[$credentialType])) {
             $this->credentialTypesToAuthenticators[$credentialType] = [];

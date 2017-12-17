@@ -76,7 +76,7 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
      * @param array $bootstrapperClasses The list of bootstrapper classes to dispatch
      * @throws RuntimeException Thrown if there was a problem dispatching the bootstrappers
      */
-    private function dispatchEagerly(array $bootstrapperClasses)
+    private function dispatchEagerly(array $bootstrapperClasses) : void
     {
         foreach ($bootstrapperClasses as $bootstrapperClass) {
             /** @var Bootstrapper $bootstrapper */
@@ -92,7 +92,7 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
      * @param array $boundClassesToBindingData The mapping of bound classes to their targets and bootstrappers
      * @throws RuntimeException Thrown if there was a problem dispatching the bootstrappers
      */
-    private function dispatchLazily(array $boundClassesToBindingData)
+    private function dispatchLazily(array $boundClassesToBindingData) : void
     {
         foreach ($boundClassesToBindingData as $boundClass => $bindingData) {
             $bootstrapperClass = $bindingData['bootstrapper'];

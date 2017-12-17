@@ -20,14 +20,14 @@ interface ISession extends ArrayAccess
     /**
      * Marks newly flashed data as old, and old data is deleted
      */
-    public function ageFlashData();
+    public function ageFlashData() : void;
 
     /**
      * Deletes a variable
      *
      * @param string $key The name of the variable to delete
      */
-    public function delete(string $key);
+    public function delete(string $key) : void;
 
     /**
      * Flashes data for exactly one request
@@ -35,12 +35,12 @@ interface ISession extends ArrayAccess
      * @param string $key The name of the variable to set
      * @param mixed $value The value of the variable
      */
-    public function flash(string $key, $value);
+    public function flash(string $key, $value) : void;
 
     /**
      * Flushes all the session variables
      */
-    public function flush();
+    public function flush() : void;
 
     /**
      * Gets the value of a variable
@@ -90,12 +90,12 @@ interface ISession extends ArrayAccess
     /**
      * Reflashes all of the flash data
      */
-    public function reflash();
+    public function reflash() : void;
 
     /**
      * Regenerates the Id
      */
-    public function regenerateId();
+    public function regenerateId() : void;
 
     /**
      * Sets the value of a variable
@@ -103,14 +103,14 @@ interface ISession extends ArrayAccess
      * @param string $key The name of the variable to set
      * @param mixed $value The value of the variable
      */
-    public function set(string $key, $value);
+    public function set(string $key, $value) : void;
 
     /**
      * Sets the session Id
      *
      * @param int|string $id The session Id
      */
-    public function setId($id);
+    public function setId($id) : void;
 
     /**
      * Sets the value of many variables
@@ -119,14 +119,14 @@ interface ISession extends ArrayAccess
      *
      * @param array $variables The name => value pairings of session variables
      */
-    public function setMany(array $variables);
+    public function setMany(array $variables) : void;
 
     /**
      * Sets the session name
      *
      * @param string $name The session name
      */
-    public function setName(string $name);
+    public function setName(string $name) : void;
 
     /**
      * Starts the session

@@ -88,7 +88,7 @@ class Connection implements IConnection
     /**
      * @inheritdoc
      */
-    public function getDatabaseProvider()
+    public function getDatabaseProvider() : Provider
     {
         return $this->provider;
     }
@@ -96,7 +96,7 @@ class Connection implements IConnection
     /**
      * @inheritdoc
      */
-    public function getServer()
+    public function getServer() : Server
     {
         return $this->server;
     }
@@ -158,7 +158,7 @@ class Connection implements IConnection
     /**
      * @param bool $shouldFailOnPurpose
      */
-    public function setToFailOnPurpose($shouldFailOnPurpose)
+    public function setToFailOnPurpose($shouldFailOnPurpose) : void
     {
         $this->shouldFailOnPurpose = $shouldFailOnPurpose;
     }

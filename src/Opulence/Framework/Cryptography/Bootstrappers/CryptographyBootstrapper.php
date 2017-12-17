@@ -36,7 +36,7 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         $container->bindInstance(IEncrypter::class, $this->getEncrypter());
         $container->bindInstance(IHasher::class, $this->getHasher());

@@ -45,7 +45,7 @@ class ExceptionHandler implements IExceptionHandler
     /**
      * @inheritdoc
      */
-    public function handle($ex)
+    public function handle($ex) : void
     {
         // It's Throwable, but not an Exception
         if (!$ex instanceof Exception) {
@@ -62,7 +62,7 @@ class ExceptionHandler implements IExceptionHandler
     /**
      * @inheritdoc
      */
-    public function register()
+    public function register() : void
     {
         set_exception_handler([$this, 'handle']);
     }

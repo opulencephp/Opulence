@@ -39,7 +39,7 @@ class PostgreSqlProvider extends Provider
     /**
      * @inheritdoc
      */
-    public function convertFromSqlBoolean($value)
+    public function convertFromSqlBoolean($value) : ?bool
     {
         if (in_array(strtolower($value), $this->falseBooleanValues, true)) {
             return false;

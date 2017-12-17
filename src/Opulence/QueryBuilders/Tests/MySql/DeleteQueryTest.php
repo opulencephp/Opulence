@@ -21,7 +21,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests all the methods in a single, complicated query
      */
-    public function testEverything()
+    public function testEverything() : void
     {
         $query = new DeleteQuery('users', 'u');
         $query->where('u.id = :userId')
@@ -41,7 +41,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the limit clause
      */
-    public function testLimit()
+    public function testLimit() : void
     {
         $query = new DeleteQuery('users');
         $query->limit(1);
@@ -51,7 +51,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the limit clause with a named placeholder
      */
-    public function testLimitWithNamedPlaceholder()
+    public function testLimitWithNamedPlaceholder() : void
     {
         $query = new DeleteQuery('users');
         $query->limit(':limit');

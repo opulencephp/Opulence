@@ -21,7 +21,7 @@ interface IIdGeneratorRegistry
      * @param string $className The class whose Id generator we want
      * @return IIdGenerator|null The Id generator if one exists for the class, otherwise null
      */
-    public function getIdGenerator(string $className);
+    public function getIdGenerator(string $className) : ?IIdGenerator;
 
     /**
      * Registers the Id generator for all instances of the input class
@@ -29,5 +29,5 @@ interface IIdGeneratorRegistry
      * @param string $className The name of the class
      * @param IIdGenerator $generator The generator for the class
      */
-    public function registerIdGenerator(string $className, IIdGenerator $generator);
+    public function registerIdGenerator(string $className, IIdGenerator $generator) : void;
 }

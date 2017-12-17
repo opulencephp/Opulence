@@ -38,7 +38,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->name = 'foo';
         $this->value = 'bar';
@@ -54,7 +54,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the domain
      */
-    public function testGettingDomain()
+    public function testGettingDomain() : void
     {
         $this->assertEquals($this->domain, $this->cookie->getDomain());
     }
@@ -62,7 +62,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the expiration
      */
-    public function testGettingExpiration()
+    public function testGettingExpiration() : void
     {
         $this->assertEquals($this->expiration->format('U'), $this->cookie->getExpiration());
     }
@@ -70,7 +70,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the HTTP-only flag
      */
-    public function testGettingIsHttpOnly()
+    public function testGettingIsHttpOnly() : void
     {
         $this->assertEquals($this->isHttpOnly, $this->cookie->isHttpOnly());
     }
@@ -78,7 +78,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the secure flag
      */
-    public function testGettingIsSecure()
+    public function testGettingIsSecure() : void
     {
         $this->assertEquals($this->isSecure, $this->cookie->isSecure());
     }
@@ -86,7 +86,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the name
      */
-    public function testGettingName()
+    public function testGettingName() : void
     {
         $this->assertEquals($this->name, $this->cookie->getName());
     }
@@ -94,7 +94,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the path
      */
-    public function testGettingPath()
+    public function testGettingPath() : void
     {
         $this->assertEquals($this->path, $this->cookie->getPath());
     }
@@ -102,7 +102,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the value
      */
-    public function testGettingValue()
+    public function testGettingValue() : void
     {
         $this->assertEquals($this->value, $this->cookie->getValue());
     }
@@ -110,7 +110,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing a timestamp for the expiration
      */
-    public function testPassingTimestampForExpiration()
+    public function testPassingTimestampForExpiration() : void
     {
         $time = time();
         $cookie = new Cookie($this->name, $this->value, $time);
@@ -120,7 +120,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the domain
      */
-    public function testSettingDomain()
+    public function testSettingDomain() : void
     {
         $this->cookie->setDomain('blah.com');
         $this->assertEquals('blah.com', $this->cookie->getDomain());
@@ -129,7 +129,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the expiration
      */
-    public function testSettingExpiration()
+    public function testSettingExpiration() : void
     {
         $expiration = new DateTime('+1 day');
         $this->cookie->setExpiration($expiration);
@@ -139,7 +139,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the HTTP-only flag
      */
-    public function testSettingIsHttpOnly()
+    public function testSettingIsHttpOnly() : void
     {
         $this->cookie->setHttpOnly(true);
         $this->assertTrue($this->cookie->isHttpOnly());
@@ -148,7 +148,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the secure flag
      */
-    public function testSettingIsSecure()
+    public function testSettingIsSecure() : void
     {
         $this->cookie->setSecure(false);
         $this->assertFalse($this->cookie->isSecure());
@@ -157,7 +157,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the name
      */
-    public function testSettingName()
+    public function testSettingName() : void
     {
         $this->cookie->setName('blah');
         $this->assertEquals('blah', $this->cookie->getName());
@@ -166,7 +166,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the path
      */
-    public function testSettingPath()
+    public function testSettingPath() : void
     {
         $this->cookie->setPath('blah');
         $this->assertEquals('blah', $this->cookie->getPath());
@@ -175,7 +175,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the value
      */
-    public function testSettingValue()
+    public function testSettingValue() : void
     {
         $this->cookie->setValue('blah');
         $this->assertEquals('blah', $this->cookie->getValue());

@@ -21,7 +21,7 @@ class NamelessCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         // Don't do anything
     }

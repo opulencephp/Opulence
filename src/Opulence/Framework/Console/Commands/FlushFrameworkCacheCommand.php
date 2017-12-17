@@ -54,7 +54,7 @@ class FlushFrameworkCacheCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('framework:flushcache')
             ->setDescription("Flushes all of the framework's cached files");
@@ -76,7 +76,7 @@ class FlushFrameworkCacheCommand extends Command
      *
      * @param IResponse $response The response to write to
      */
-    private function flushBootstrapperCache(IResponse $response)
+    private function flushBootstrapperCache(IResponse $response) : void
     {
         $this->httpBootstrapperCache->flush();
         $this->consoleBootstrapperCache->flush();
@@ -89,7 +89,7 @@ class FlushFrameworkCacheCommand extends Command
      *
      * @param IResponse $response The response to write to
      */
-    private function flushRouteCache(IResponse $response)
+    private function flushRouteCache(IResponse $response) : void
     {
         if (($path = Config::get('paths', 'routes.cache')) !== null) {
             $this->routeCache->flush("$path/" . RouteCache::DEFAULT_CACHED_ROUTES_FILE_NAME);
@@ -103,7 +103,7 @@ class FlushFrameworkCacheCommand extends Command
      *
      * @param IResponse $response The response to write to
      */
-    private function flushViewCache(IResponse $response)
+    private function flushViewCache(IResponse $response) : void
     {
         $this->viewCache->flush();
         $response->writeln('<info>View cache flushed</info>');

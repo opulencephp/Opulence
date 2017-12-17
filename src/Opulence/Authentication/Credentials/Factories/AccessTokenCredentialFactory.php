@@ -54,7 +54,7 @@ class AccessTokenCredentialFactory extends JwtCredentialFactory
     /**
      * @inheritdoc
      */
-    protected function addCustomClaims(JwtPayload $payload, ISubject $subject)
+    protected function addCustomClaims(JwtPayload $payload, ISubject $subject) : void
     {
         $payload->add('roles', $this->roleRepository->getRoleNamesForSubject($subject->getPrimaryPrincipal()->getId()));
         $userClaims = [

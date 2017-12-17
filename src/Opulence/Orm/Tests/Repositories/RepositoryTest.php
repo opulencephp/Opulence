@@ -42,7 +42,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $idAccessorRegistry = new IdAccessorRegistry();
         $idAccessorRegistry->registerIdAccessors(
@@ -82,7 +82,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an entity
      */
-    public function testAddingEntity()
+    public function testAddingEntity() : void
     {
         $this->repo->add($this->entity1);
         $this->unitOfWork->commit();
@@ -92,7 +92,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deleting an entity
      */
-    public function testDeletingEntity()
+    public function testDeletingEntity() : void
     {
         $this->repo->add($this->entity1);
         $this->unitOfWork->commit();
@@ -105,7 +105,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all the entities
      */
-    public function testGettingAll()
+    public function testGettingAll() : void
     {
         $this->repo->add($this->entity1);
         $this->repo->add($this->entity2);
@@ -116,7 +116,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all the entities after adding them in different transactions
      */
-    public function testGettingAllAfterAddingEntitiesInDifferentTransactions()
+    public function testGettingAllAfterAddingEntitiesInDifferentTransactions() : void
     {
         $this->repo->add($this->entity1);
         $this->unitOfWork->commit();
@@ -128,7 +128,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an entity by Id
      */
-    public function testGettingById()
+    public function testGettingById() : void
     {
         $this->repo->add($this->entity1);
         $this->unitOfWork->commit();
@@ -138,7 +138,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the repo and unit of work to make sure the same instance of an already-managed entity is returned by getAll
      */
-    public function testGettingEntityByIdAndThenAllEntities()
+    public function testGettingEntityByIdAndThenAllEntities() : void
     {
         $this->repo->add($this->entity1);
         $this->unitOfWork->commit();
@@ -168,7 +168,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an entity that doesn't exist by Id
      */
-    public function testGettingEntityThatDoesNotExistById()
+    public function testGettingEntityThatDoesNotExistById() : void
     {
         $this->expectException(OrmException::class);
         $this->repo->getById(123);
@@ -177,7 +177,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an entity that's in the data mapper but not the repo
      */
-    public function testGettingEntityThatExistsInDataMapperButNotRepo()
+    public function testGettingEntityThatExistsInDataMapperButNotRepo() : void
     {
         $this->dataMapper->add($this->entity1);
         $this->assertEquals($this->entity1, $this->repo->getById($this->entity1->getId()));

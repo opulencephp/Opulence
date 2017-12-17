@@ -101,7 +101,7 @@ class PaddingFormatter
     /**
      * @param string $eolChar
      */
-    public function setEolChar(string $eolChar)
+    public function setEolChar(string $eolChar) : void
     {
         $this->eolChar = $eolChar;
     }
@@ -109,7 +109,7 @@ class PaddingFormatter
     /**
      * @param bool $padAfter
      */
-    public function setPadAfter(bool $padAfter)
+    public function setPadAfter(bool $padAfter) : void
     {
         $this->padAfter = $padAfter;
     }
@@ -117,7 +117,7 @@ class PaddingFormatter
     /**
      * @param string $paddingString
      */
-    public function setPaddingString(string $paddingString)
+    public function setPaddingString(string $paddingString) : void
     {
         $this->paddingString = $paddingString;
     }

@@ -20,7 +20,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a child
      */
-    public function testAddingChild()
+    public function testAddingChild() : void
     {
         $parent = new Node('foo');
         $child = new Node('bar');
@@ -32,7 +32,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if nodes are leaves
      */
-    public function testCheckingIfLeaves()
+    public function testCheckingIfLeaves() : void
     {
         $parent = new Node('foo');
         $child = new Node('bar');
@@ -44,7 +44,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if nodes are roots
      */
-    public function testCheckingIfRoots()
+    public function testCheckingIfRoots() : void
     {
         $parent = new Node('foo');
         $child = new Node('bar');
@@ -56,7 +56,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the value
      */
-    public function testGettingValue()
+    public function testGettingValue() : void
     {
         $node = new Node('foo');
         $this->assertEquals('foo', $node->getValue());

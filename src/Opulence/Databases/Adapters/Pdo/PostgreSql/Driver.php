@@ -41,7 +41,7 @@ class Driver extends BaseDriver
     /**
      * @inheritdoc
      */
-    protected function setProvider()
+    protected function setProvider() : void
     {
         $this->provider = new PostgreSqlProvider();
     }

@@ -22,7 +22,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting parameters for IN condition with parameters
      */
-    public function testGettingParametersForInConditionWithParameters()
+    public function testGettingParametersForInConditionWithParameters() : void
     {
         $condition = new InCondition('foo', [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);
         $this->assertEquals(
@@ -34,7 +34,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting parameters for IN condition with a sub-expression
      */
-    public function testGettingParametersForInConditionWithSubExpression()
+    public function testGettingParametersForInConditionWithSubExpression() : void
     {
         $condition = new InCondition('foo', 'SELECT bar FROM baz');
         $this->assertEquals([], $condition->getParameters());
@@ -43,7 +43,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting SQL for IN condition with parameters
      */
-    public function testGettingSqlForInConditionWithParameters()
+    public function testGettingSqlForInConditionWithParameters() : void
     {
         $condition = new InCondition('foo', [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);
         $this->assertEquals('foo IN (?,?,?)', $condition->getSql());
@@ -52,7 +52,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting SQL for IN condition with a sub-expression
      */
-    public function testGettingSqlForInConditionWithSubExpression()
+    public function testGettingSqlForInConditionWithSubExpression() : void
     {
         $condition = new InCondition('foo', 'SELECT bar FROM baz');
         $this->assertEquals('foo IN (SELECT bar FROM baz)', $condition->getSql());
@@ -61,7 +61,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an invalid argument throws an exception
      */
-    public function testPassingInvalidArgumentThrowsException()
+    public function testPassingInvalidArgumentThrowsException() : void
     {
         $this->expectException(InvalidArgumentException::class);
         new InCondition('foo', $this);

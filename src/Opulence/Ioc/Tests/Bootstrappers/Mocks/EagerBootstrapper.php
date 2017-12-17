@@ -21,7 +21,7 @@ class EagerBootstrapper extends BaseBootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         $container->bindSingleton(EagerFooInterface::class, EagerConcreteFoo::class);
     }

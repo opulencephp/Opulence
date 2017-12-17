@@ -18,7 +18,7 @@ class Dave implements IPerson
     /**
      * @inheritdoc
      */
-    public function getLastName()
+    public function getLastName() : string
     {
         return 'Young';
     }

@@ -33,5 +33,5 @@ interface ICompilerRegistry
      * @param string $extension The extension (without preceding period) this compiler compiles
      * @param ICompiler $compiler The compiler for the input view class
      */
-    public function registerCompiler(string $extension, ICompiler $compiler);
+    public function registerCompiler(string $extension, ICompiler $compiler) : void;
 }

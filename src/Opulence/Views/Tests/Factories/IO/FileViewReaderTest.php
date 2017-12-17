@@ -24,7 +24,7 @@ class FileViewReaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->reader = new FileViewReader();
     }
@@ -32,7 +32,7 @@ class FileViewReaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests exception is thrown for in valid path
      */
-    public function testExceptionThrownForInvalidPath()
+    public function testExceptionThrownForInvalidPath() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->reader->read(__DIR__ . '/fileThatDoesNotExist.html');
@@ -41,7 +41,7 @@ class FileViewReaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests reading an existing file
      */
-    public function testReadingExistingFile()
+    public function testReadingExistingFile() : void
     {
         $this->assertEquals('Foo', $this->reader->read(__DIR__ . '/../../files/Foo.html'));
     }

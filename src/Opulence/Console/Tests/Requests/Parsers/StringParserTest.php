@@ -24,7 +24,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->parser = new StringParser(new StringTokenizer());
     }
@@ -32,7 +32,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that backslashes are respected
      */
-    public function testBackslashesAreRespected()
+    public function testBackslashesAreRespected() : void
     {
         $request = $this->parser->parse('foo bar\\baz');
         $this->assertEquals(['bar\\baz'], $request->getArgumentValues());
@@ -41,7 +41,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing argument and short option and long option
      */
-    public function testParsingArgumentShortOptionLongOption()
+    public function testParsingArgumentShortOptionLongOption() : void
     {
         $request = $this->parser->parse('foo bar -r --name=dave');
         $this->assertEquals('foo', $request->getCommandName());
@@ -53,7 +53,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing an array long option with an equals sign
      */
-    public function testParsingArrayLongOptionWithEqualsSign()
+    public function testParsingArrayLongOptionWithEqualsSign() : void
     {
         $request = $this->parser->parse('foo --name=dave --name=young');
         $this->assertEquals('foo', $request->getCommandName());
@@ -64,7 +64,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing an array long option without an equals sign
      */
-    public function testParsingArrayLongOptionWithoutEqualsSign()
+    public function testParsingArrayLongOptionWithoutEqualsSign() : void
     {
         $request = $this->parser->parse('foo --name dave --name young');
         $this->assertEquals('foo', $request->getCommandName());
@@ -75,7 +75,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing just a command name
      */
-    public function testParsingCommandName()
+    public function testParsingCommandName() : void
     {
         $request = $this->parser->parse('foo');
         $this->assertEquals('foo', $request->getCommandName());
@@ -86,7 +86,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing long option with equals sign
      */
-    public function testParsingLongOptionWithEqualsSign()
+    public function testParsingLongOptionWithEqualsSign() : void
     {
         $request = $this->parser->parse('foo --name=dave');
         $this->assertEquals('foo', $request->getCommandName());
@@ -97,7 +97,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing long option without an equals sign
      */
-    public function testParsingLongOptionWithoutEqualsSign()
+    public function testParsingLongOptionWithoutEqualsSign() : void
     {
         $request = $this->parser->parse('foo --name dave');
         $this->assertEquals('foo', $request->getCommandName());
@@ -108,7 +108,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing long option without an equals sign with an argument after
      */
-    public function testParsingLongOptionWithoutEqualsSignWithArgumentAfter()
+    public function testParsingLongOptionWithoutEqualsSignWithArgumentAfter() : void
     {
         $request = $this->parser->parse('foo --name dave bar');
         $this->assertEquals('foo', $request->getCommandName());
@@ -119,7 +119,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing long option without an equals sign with quoted value
      */
-    public function testParsingLongOptionWithoutEqualsSignWithQuotedValue()
+    public function testParsingLongOptionWithoutEqualsSignWithQuotedValue() : void
     {
         $request = $this->parser->parse("foo --first 'dave' --last=\"young\"");
         $this->assertEquals('foo', $request->getCommandName());
@@ -131,7 +131,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing multiple arguments
      */
-    public function testParsingMultipleArgument()
+    public function testParsingMultipleArgument() : void
     {
         $request = $this->parser->parse('foo bar baz blah');
         $this->assertEquals('foo', $request->getCommandName());
@@ -142,7 +142,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing multiple separate short options
      */
-    public function testParsingMultipleSeparateShortOptions()
+    public function testParsingMultipleSeparateShortOptions() : void
     {
         $request = $this->parser->parse('foo -r -f -d');
         $this->assertEquals('foo', $request->getCommandName());
@@ -155,7 +155,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing multiple short options
      */
-    public function testParsingMultipleShortOptions()
+    public function testParsingMultipleShortOptions() : void
     {
         $request = $this->parser->parse('foo -rfd');
         $this->assertEquals('foo', $request->getCommandName());
@@ -168,7 +168,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a single argument
      */
-    public function testParsingSingleArgument()
+    public function testParsingSingleArgument() : void
     {
         $request = $this->parser->parse('foo bar');
         $this->assertEquals('foo', $request->getCommandName());
@@ -179,7 +179,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a single short option
      */
-    public function testParsingSingleShortOption()
+    public function testParsingSingleShortOption() : void
     {
         $request = $this->parser->parse('foo -r');
         $this->assertEquals('foo', $request->getCommandName());
@@ -190,7 +190,7 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing two consecutive long options
      */
-    public function testParsingTwoConsecutiveLongOptions()
+    public function testParsingTwoConsecutiveLongOptions() : void
     {
         $request = $this->parser->parse('foo --bar --baz');
         $this->assertEquals('foo', $request->getCommandName());

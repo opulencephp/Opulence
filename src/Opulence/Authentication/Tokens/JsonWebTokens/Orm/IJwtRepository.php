@@ -22,21 +22,21 @@ interface IJwtRepository
      *
      * @param SignedJwt $jwt The token to add
      */
-    public function add(SignedJwt $jwt);
+    public function add(SignedJwt $jwt) : void;
 
     /**
      * Deletes a token
      *
      * @param SignedJwt $jwt The token to delete
      */
-    public function delete(SignedJwt $jwt);
+    public function delete(SignedJwt $jwt) : void;
 
     /**
      * Deletes all tokens for a subject
      *
      * @param string $subjectId The Id of the subject whose tokens we're deleting
      */
-    public function deleteAllForSubject(string $subjectId);
+    public function deleteAllForSubject(string $subjectId) : void;
 
     /**
      * Gets all the tokens

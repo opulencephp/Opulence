@@ -45,7 +45,7 @@ interface IStatement
      *      If mapping to an array, the first item should be the value and the second should be the data type constant
      * @return bool True if successful, otherwise false
      */
-    public function bindValues(array $values);
+    public function bindValues(array $values) : bool;
 
     /**
      * Frees up the connection to the server, but lets the statement be executed again

@@ -52,7 +52,7 @@ interface ICommand
      * @return int|null Null or the status code of the command
      * @throws RuntimeException Thrown if the command was not setup correctly or could not be executed
      */
-    public function execute(IResponse $response);
+    public function execute(IResponse $response) : ?int;
 
     /**
      * Gets the argument with the input name
@@ -140,14 +140,14 @@ interface ICommand
      * @param string $name The name of the argument to set
      * @param mixed $value The value to set
      */
-    public function setArgumentValue(string $name, $value);
+    public function setArgumentValue(string $name, $value) : void;
 
     /**
      * Sets the list of registered commands
      *
      * @param CommandCollection $commandCollection The list of registered commands
      */
-    public function setCommandCollection(CommandCollection $commandCollection);
+    public function setCommandCollection(CommandCollection $commandCollection) : void;
 
     /**
      * Sets the value of an option
@@ -155,5 +155,5 @@ interface ICommand
      * @param string $name The name of the option to set
      * @param mixed $value The value to set
      */
-    public function setOptionValue(string $name, $value);
+    public function setOptionValue(string $name, $value) : void;
 }

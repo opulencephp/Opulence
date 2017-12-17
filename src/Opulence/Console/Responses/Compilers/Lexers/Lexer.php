@@ -152,7 +152,7 @@ class Lexer implements ILexer
      * @param int $currPosition The current position
      * @return string|null The previous character if there is one, otherwise null
      */
-    private function lookBehind(array $charArray, int $currPosition)
+    private function lookBehind(array $charArray, int $currPosition) : ?string
     {
         if ($currPosition === 0 || count($charArray) === 0) {
             return null;
@@ -168,7 +168,7 @@ class Lexer implements ILexer
      * @param int $currPosition The current position
      * @return string|null The next character if there is one, otherwise null
      */
-    private function peek(array $charArray, int $currPosition)
+    private function peek(array $charArray, int $currPosition) : ?string
     {
         $charArrayLength = count($charArray);
 

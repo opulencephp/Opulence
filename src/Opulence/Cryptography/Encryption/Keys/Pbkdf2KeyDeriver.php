@@ -64,7 +64,7 @@ class Pbkdf2KeyDeriver implements IKeyDeriver
      * @param string $salt The salt to validate
      * @throws InvalidArgumentException Thrown if the salt is not the correct length
      */
-    private function validateSaltLength(string $salt)
+    private function validateSaltLength(string $salt) : void
     {
         if (\mb_strlen($salt, '8bit') !== self::KEY_SALT_BYTE_LENGTH) {
             throw new InvalidArgumentException('Salt must be ' . self::KEY_SALT_BYTE_LENGTH . ' bytes long');

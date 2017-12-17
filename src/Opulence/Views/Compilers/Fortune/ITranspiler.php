@@ -24,14 +24,14 @@ interface ITranspiler
      * @param IView $parent The parent to add
      * @param IView $child The child to add parents to
      */
-    public function addParent(IView $parent, IView $child);
+    public function addParent(IView $parent, IView $child) : void;
 
     /**
      * Appends text to the end of the transpiled contents
      *
      * @param string $text The text to append
      */
-    public function append(string $text);
+    public function append(string $text) : void;
 
     /**
      * Calls a view function
@@ -47,14 +47,14 @@ interface ITranspiler
     /**
      * Ends a view part
      */
-    public function endPart();
+    public function endPart() : void;
 
     /**
      * Prepends text to the beginning of the transpiled contents
      *
      * @param string $text The text to prepend
      */
-    public function prepend(string $text);
+    public function prepend(string $text) : void;
 
     /**
      * Registers a directive transpiler
@@ -62,7 +62,7 @@ interface ITranspiler
      * @param string $name The name of the directive whose transpiler we're registering
      * @param callable $transpiler The transpiler, which accepts a noncompulsory expression from the directive
      */
-    public function registerDirectiveTranspiler(string $name, callable $transpiler);
+    public function registerDirectiveTranspiler(string $name, callable $transpiler) : void;
 
     /**
      * Registers a function that appears in a view
@@ -72,7 +72,7 @@ interface ITranspiler
      * @param callable $function The function that returns the replacement string for the function in a view
      *      It must accept one parameter (the view's contents) and return a printable value
      */
-    public function registerViewFunction(string $functionName, callable $function);
+    public function registerViewFunction(string $functionName, callable $function) : void;
 
     /**
      * Sanitizes a value
@@ -95,7 +95,7 @@ interface ITranspiler
      *
      * @param string $name The name of the part to start
      */
-    public function startPart(string $name);
+    public function startPart(string $name) : void;
 
     /**
      * Transpiles a view to PHP code

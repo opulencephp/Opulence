@@ -22,14 +22,14 @@ interface IUserRepository
      *
      * @param IUser $user The user to add
      */
-    public function add($user);
+    public function add($user) : void;
 
     /**
      * Deletes a user from the repo
      *
      * @param IUser $user The user to delete
      */
-    public function delete($user);
+    public function delete($user) : void;
 
     /**
      * Gets all the users
@@ -52,5 +52,5 @@ interface IUserRepository
      * @param string $username The input username
      * @return IUser|null The user, if one was found, otherwise null
      */
-    public function getByUsername(string $username);
+    public function getByUsername(string $username) : ?IUser;
 }

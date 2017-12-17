@@ -22,10 +22,10 @@ interface IExceptionHandler
      *
      * @param Throwable $ex The exception to handle
      */
-    public function handle($ex);
+    public function handle($ex) : void;
 
     /**
      * Registers the handler with PHP
      */
-    public function register();
+    public function register() : void;
 }

@@ -33,7 +33,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->cache = new FileCache();
         $this->cachedRouteFilePath = __DIR__ . '/files/' . FileCache::DEFAULT_CACHED_ROUTES_FILE_NAME;
@@ -43,7 +43,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tears down the tests
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         if (file_exists($this->cachedRouteFilePath)) {
             @unlink($this->cachedRouteFilePath);
@@ -53,7 +53,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests flushing the cache
      */
-    public function testFlushing()
+    public function testFlushing() : void
     {
         file_put_contents($this->cachedRouteFilePath, 'foo');
         $this->cache->flush($this->cachedRouteFilePath);
@@ -63,7 +63,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the routes are cached after a miss
      */
-    public function testRoutesAreCachedAfterMiss()
+    public function testRoutesAreCachedAfterMiss() : void
     {
         $router = $this->getRouter();
         $this->assertFileNotExists($this->cachedRouteFilePath);
@@ -75,7 +75,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the routes are read from cache
      */
-    public function testRoutesAreReadFromCache()
+    public function testRoutesAreReadFromCache() : void
     {
         $router = $this->getRouter();
         require $this->rawRouteFilePath;
@@ -89,7 +89,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting and then getting from cache
      */
-    public function testSettingAndGettingFromCache()
+    public function testSettingAndGettingFromCache() : void
     {
         $router = $this->getRouter();
         require $this->rawRouteFilePath;
@@ -106,7 +106,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      *
      * @return Router The router to use
      */
-    private function getRouter()
+    private function getRouter() : Router
     {
         return new Router(
             new RouteDispatcher(new DependencyResolver(), new MiddlewarePipeline()),

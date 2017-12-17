@@ -18,7 +18,7 @@ class Bar implements IFoo
     /**
      * @inheritdoc
      */
-    public function getClassName()
+    public function getClassName() : string
     {
         return __CLASS__;
     }

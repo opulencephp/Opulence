@@ -23,7 +23,7 @@ class RunAppLocallyCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('app:runlocally')
             ->setDescription('Runs your application locally')

@@ -46,7 +46,7 @@ EOF;
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('about')
             ->setDescription('Describes the Apex console application');

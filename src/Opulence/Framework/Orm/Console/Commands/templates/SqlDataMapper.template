@@ -12,7 +12,7 @@ class {{class}} extends SqlDataMapper
      * @param {{entityType}} ${{entityVarName}} The entity to add
      * @throws OrmException Thrown if the entity couldn't be added
      */
-    public function add(${{entityVarName}})
+    public function add(${{entityVarName}}) : void
     {
 
     }
@@ -23,7 +23,7 @@ class {{class}} extends SqlDataMapper
      * @param {{entityType}} ${{entityVarName}} The entity to delete
      * @throws OrmException Thrown if the entity couldn't be deleted
      */
-    public function delete(${{entityVarName}})
+    public function delete(${{entityVarName}}) : void
     {
 
     }
@@ -57,7 +57,7 @@ class {{class}} extends SqlDataMapper
      * @param {{entityType}} ${{entityVarName}} The entity to save
      * @throws OrmException Thrown if the entity couldn't be saved
      */
-    public function update(${{entityVarName}})
+    public function update(${{entityVarName}}) : void
     {
 
     }

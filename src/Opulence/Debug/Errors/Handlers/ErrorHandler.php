@@ -50,7 +50,7 @@ class ErrorHandler implements IErrorHandler
     /**
      * @inheritdoc
      */
-    public function handle(int $level, string $message, string $file = '', int $line = 0, array $context = [])
+    public function handle(int $level, string $message, string $file = '', int $line = 0, array $context = []) : void
     {
         if ($this->levelIsLoggable($level)) {
             $this->logger->log($level, $message, $context);
@@ -64,7 +64,7 @@ class ErrorHandler implements IErrorHandler
     /**
      * @inheritdoc
      */
-    public function handleShutdown()
+    public function handleShutdown() : void
     {
         $error = error_get_last();
 
@@ -82,7 +82,7 @@ class ErrorHandler implements IErrorHandler
     /**
      * @inheritdoc
      */
-    public function register()
+    public function register() : void
     {
         ini_set('display_errors', 'off');
         error_reporting(-1);

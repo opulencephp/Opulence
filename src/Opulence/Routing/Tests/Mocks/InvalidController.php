@@ -20,7 +20,7 @@ class InvalidController
      *
      * @return string A dummy string
      */
-    public function foo()
+    public function foo() : string
     {
         return 'fooWasCalled';
     }

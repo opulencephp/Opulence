@@ -25,7 +25,7 @@ class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->strategy = new SingleServerSelectionStrategy();
     }
@@ -33,7 +33,7 @@ class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown when passing an empty list of servers
      */
-    public function testExceptionThrownWithEmptyListOfServers()
+    public function testExceptionThrownWithEmptyListOfServers() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->strategy->select([]);
@@ -42,7 +42,7 @@ class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that selecting from a list of a servers always returns first
      */
-    public function testSelectingFromListOfServersAlwaysReturnsFirst()
+    public function testSelectingFromListOfServersAlwaysReturnsFirst() : void
     {
         $server1 = $this->getServerMock();
         $server2 = $this->getServerMock();
@@ -56,7 +56,7 @@ class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests selecting from a list of a single server
      */
-    public function testSelectingFromListOfSingleServer()
+    public function testSelectingFromListOfSingleServer() : void
     {
         $server = $this->getServerMock();
         $this->assertSame($server, $this->strategy->select([$server]));
@@ -65,7 +65,7 @@ class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests selecting from a single server
      */
-    public function testSelectingFromSingleServer()
+    public function testSelectingFromSingleServer() : void
     {
         $server = $this->getServerMock();
         $this->assertSame($server, $this->strategy->select($server));

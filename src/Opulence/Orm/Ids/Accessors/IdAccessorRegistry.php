@@ -67,7 +67,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     /**
      * @inheritdoc
      */
-    public function registerIdAccessors($classNames, callable $getter, callable $setter = null)
+    public function registerIdAccessors($classNames, callable $getter, callable $setter = null) : void
     {
         foreach ((array)$classNames as $className) {
             $this->idAccessorFunctions[$className] = [
@@ -80,7 +80,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     /**
      * @inheritdoc
      */
-    public function registerReflectionIdAccessors($classNames, string $idPropertyName)
+    public function registerReflectionIdAccessors($classNames, string $idPropertyName) : void
     {
         foreach ((array)$classNames as $className) {
             try {
@@ -104,7 +104,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     /**
      * @inheritdoc
      */
-    public function setEntityId($entity, $id)
+    public function setEntityId($entity, $id) : void
     {
         $className = get_class($entity);
 

@@ -36,7 +36,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function flush()
+    public function flush() : void
     {
         if (file_exists($this->filePath)) {
             @unlink($this->filePath);
@@ -46,7 +46,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function get()
+    public function get() : ?IBootstrapperRegistry
     {
         if (!file_exists($this->filePath)) {
             return null;
@@ -84,7 +84,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function set(IBootstrapperRegistry $registry)
+    public function set(IBootstrapperRegistry $registry) : void
     {
         $data = [
             'eager' => $registry->getEagerBootstrappers(),

@@ -23,7 +23,7 @@ class ConfirmationTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->question = new Confirmation('Is Dave cool (yn)');
     }
@@ -31,7 +31,7 @@ class ConfirmationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting false values
      */
-    public function testFormattingFalseValues()
+    public function testFormattingFalseValues() : void
     {
         $this->assertFalse($this->question->formatAnswer('n'));
         $this->assertFalse($this->question->formatAnswer('N'));
@@ -42,7 +42,7 @@ class ConfirmationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting true values
      */
-    public function testFormattingTrueValues()
+    public function testFormattingTrueValues() : void
     {
         $this->assertTrue($this->question->formatAnswer('y'));
         $this->assertTrue($this->question->formatAnswer('Y'));

@@ -25,7 +25,7 @@ class ConstructorWithSetters
     /**
      * @return Bar
      */
-    public function getConcrete()
+    public function getConcrete() : Bar
     {
         return $this->concrete;
     }
@@ -33,7 +33,7 @@ class ConstructorWithSetters
     /**
      * @return IFoo
      */
-    public function getInterface()
+    public function getInterface() : IFoo
     {
         return $this->interface;
     }
@@ -41,7 +41,7 @@ class ConstructorWithSetters
     /**
      * @return string
      */
-    public function getPrimitive()
+    public function getPrimitive() : string
     {
         return $this->primitive;
     }
@@ -50,7 +50,7 @@ class ConstructorWithSetters
      * @param IFoo $interface The dependency to set
      * @param mixed $primitive The primitive to set
      */
-    public function setBoth(IFoo $interface, $primitive)
+    public function setBoth(IFoo $interface, $primitive) : void
     {
         $this->setInterface($interface);
         $this->setPrimitive($primitive);
@@ -59,7 +59,7 @@ class ConstructorWithSetters
     /**
      * @param Bar $concrete
      */
-    public function setConcrete($concrete)
+    public function setConcrete($concrete) : void
     {
         $this->concrete = $concrete;
     }
@@ -67,7 +67,7 @@ class ConstructorWithSetters
     /**
      * @param IFoo $interface
      */
-    public function setInterface(IFoo $interface)
+    public function setInterface(IFoo $interface) : void
     {
         $this->interface = $interface;
     }
@@ -75,7 +75,7 @@ class ConstructorWithSetters
     /**
      * @param string $foo
      */
-    public function setPrimitive($foo)
+    public function setPrimitive($foo) : void
     {
         $this->primitive = $foo;
     }

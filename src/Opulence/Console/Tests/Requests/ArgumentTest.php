@@ -25,7 +25,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->argument = new Argument('foo', ArgumentTypes::OPTIONAL, 'Foo argument', 'bar');
     }
@@ -33,7 +33,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking whether or not the argument is an array
      */
-    public function testCheckingIsArray()
+    public function testCheckingIsArray() : void
     {
         $requiredArgument = new Argument('foo', ArgumentTypes::REQUIRED, 'Foo argument', 'bar');
         $optionalArgument = new Argument('foo', ArgumentTypes::OPTIONAL, 'Foo argument', 'bar');
@@ -50,7 +50,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking whether or not the argument is optional
      */
-    public function testCheckingIsOptional()
+    public function testCheckingIsOptional() : void
     {
         $requiredArgument = new Argument('foo', ArgumentTypes::REQUIRED, 'Foo argument', 'bar');
         $optionalArgument = new Argument('foo', ArgumentTypes::OPTIONAL, 'Foo argument', 'bar');
@@ -63,7 +63,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking whether or not the argument is required
      */
-    public function testCheckingIsRequired()
+    public function testCheckingIsRequired() : void
     {
         $requiredArgument = new Argument('foo', ArgumentTypes::REQUIRED, 'Foo argument', 'bar');
         $requiredArrayArgument = new Argument('foo', ArgumentTypes::REQUIRED | ArgumentTypes::IS_ARRAY, 'Foo argument');
@@ -76,7 +76,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the default value
      */
-    public function testGettingDefaultValue()
+    public function testGettingDefaultValue() : void
     {
         $this->assertEquals('bar', $this->argument->getDefaultValue());
     }
@@ -84,7 +84,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the description
      */
-    public function testGettingDescription()
+    public function testGettingDescription() : void
     {
         $this->assertEquals('Foo argument', $this->argument->getDescription());
     }
@@ -92,7 +92,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the name
      */
-    public function testGettingName()
+    public function testGettingName() : void
     {
         $this->assertEquals('foo', $this->argument->getName());
     }
@@ -100,7 +100,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the type to both optional and required
      */
-    public function testSettingTypeToOptionalAndRequired()
+    public function testSettingTypeToOptionalAndRequired() : void
     {
         $this->expectException(InvalidArgumentException::class);
         new Argument('foo', ArgumentTypes::OPTIONAL | ArgumentTypes::REQUIRED, 'Foo argument');

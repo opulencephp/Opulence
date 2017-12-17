@@ -24,7 +24,7 @@ class IntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Test checking if this generator is post-insert
      */
-    public function testCheckingIfPostInsert()
+    public function testCheckingIfPostInsert() : void
     {
         $generator = new IntSequenceIdGenerator('foo');
         $this->assertTrue($generator->isPostInsert());
@@ -33,7 +33,7 @@ class IntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown when no connection is set
      */
-    public function testExceptionThrownWhenConnectionNotSet()
+    public function testExceptionThrownWhenConnectionNotSet() : void
     {
         $this->expectException(OrmException::class);
         $idGenerator = new IntSequenceIdGenerator('foo');
@@ -43,7 +43,7 @@ class IntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests generating an Id
      */
-    public function testGeneratingId()
+    public function testGeneratingId() : void
     {
         $server = new Server();
         $connection = new Connection($server);
@@ -57,7 +57,7 @@ class IntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
      *
      * Test getting empty value
      */
-    public function testGettingEmptyValue()
+    public function testGettingEmptyValue() : void
     {
         $generator = new IntSequenceIdGenerator('foo');
         $this->assertNull($generator->getEmptyValue(new stdClass()));
@@ -66,7 +66,7 @@ class IntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting new connection overrides connection in constructor
      */
-    public function testSettingNewConnectionOverridesConnectionInConstructor()
+    public function testSettingNewConnectionOverridesConnectionInConstructor() : void
     {
         $server = new Server();
         $connection = new Connection($server);

@@ -60,7 +60,7 @@ EOF;
      *
      * @param ICommand $command The command to help with
      */
-    public function setCommand(ICommand $command)
+    public function setCommand(ICommand $command) : void
     {
         $this->command = $command;
     }
@@ -68,7 +68,7 @@ EOF;
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('help')
             ->setDescription('Displays information about a command')

@@ -25,7 +25,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->condition = $this->createMock(ICondition::class);
         $this->condition->expects($this->any())
@@ -39,7 +39,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "GROUP BY" statement to one that was already started
      */
-    public function testAddingGroupBy()
+    public function testAddingGroupBy() : void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -51,7 +51,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "AND"ed and an "OR"ed "WHERE" clause
      */
-    public function testAddingOrWhereAndWhere()
+    public function testAddingOrWhereAndWhere() : void
     {
         $query = new SelectQuery('id');
         $query->from('users')
@@ -65,7 +65,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "ORDER BY" statement to one that was already started
      */
-    public function testAddingOrderBy()
+    public function testAddingOrderBy() : void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -74,7 +74,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('SELECT id, name FROM users ORDER BY id ASC, name DESC', $query->getSql());
     }
 
-    public function testAddingSelectExpression()
+    public function testAddingSelectExpression() : void
     {
         $query = new SelectQuery('id');
         $query->from('users')
@@ -85,7 +85,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "HAVING" condition that will be "AND"ed
      */
-    public function testAndHaving()
+    public function testAndHaving() : void
     {
         $query = new SelectQuery('name');
         $query->from('users')
@@ -99,7 +99,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "HAVING" condition object that will be "AND"ed
      */
-    public function testAndHavingConditionObject()
+    public function testAndHavingConditionObject() : void
     {
         $query = new SelectQuery('name');
         $query->from('users')
@@ -114,7 +114,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "WHERE" condition that will be "AND"ed
      */
-    public function testAndWhere()
+    public function testAndWhere() : void
     {
         $query = new SelectQuery('id');
         $query->from('users')
@@ -126,7 +126,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "WHERE" condition object that will be "AND"ed
      */
-    public function testAndWhereConditionObject()
+    public function testAndWhereConditionObject() : void
     {
         $query = new SelectQuery('id');
         $query->from('users')
@@ -139,7 +139,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a basic query
      */
-    public function testBasicQuery()
+    public function testBasicQuery() : void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users');
@@ -149,7 +149,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a basic query with a table alias
      */
-    public function testBasicQueryWithAlias()
+    public function testBasicQueryWithAlias() : void
     {
         $query = new SelectQuery('u.id', 'u.name');
         $query->from('users', 'u');
@@ -159,7 +159,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests all the methods in a single, complicated query
      */
-    public function testEverything()
+    public function testEverything() : void
     {
         $query = new SelectQuery('u.id', 'u.name', 'e.email');
         $query->addSelectExpression('p.password')
@@ -193,7 +193,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "GROUP BY" statement
      */
-    public function testGroupBy()
+    public function testGroupBy() : void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -204,7 +204,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "HAVING" condition
      */
-    public function testHaving()
+    public function testHaving() : void
     {
         $query = new SelectQuery('name');
         $query->from('users')
@@ -216,7 +216,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "HAVING" condition object
      */
-    public function testHavingConditionObject()
+    public function testHavingConditionObject() : void
     {
         $query = new SelectQuery('name');
         $query->from('users')
@@ -229,7 +229,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "INNER JOIN" statement
      */
-    public function testInnerJoin()
+    public function testInnerJoin() : void
     {
         $query = new SelectQuery('id');
         $query->from('users', 'u')
@@ -240,7 +240,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "JOIN" statement
      */
-    public function testJoin()
+    public function testJoin() : void
     {
         $query = new SelectQuery('u.id');
         $query->from('users', 'u')
@@ -251,7 +251,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "LEFT JOIN" statement
      */
-    public function testLeftJoin()
+    public function testLeftJoin() : void
     {
         $query = new SelectQuery('id');
         $query->from('users', 'u')
@@ -262,7 +262,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "LIMIT" statement
      */
-    public function testLimit()
+    public function testLimit() : void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -273,7 +273,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "LIMIT" statement with a named placeholder
      */
-    public function testLimitWithNamedPlaceholder()
+    public function testLimitWithNamedPlaceholder() : void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -284,7 +284,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests mixing a WHERE expression and a WHERE condition object
      */
-    public function testMixingWhereExpessionAndObject()
+    public function testMixingWhereExpessionAndObject() : void
     {
         $query = new SelectQuery('id');
         $query->from('users')
@@ -297,7 +297,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding multiple "JOIN" statements
      */
-    public function testMultipleJoins()
+    public function testMultipleJoins() : void
     {
         $query = new SelectQuery('id');
         $query->from('users', 'u')
@@ -310,7 +310,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "OFFSET" statement
      */
-    public function testOffset()
+    public function testOffset() : void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -321,7 +321,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "OFFSET" statement with a named placeholder
      */
-    public function testOffsetWithNamedPlaceholder()
+    public function testOffsetWithNamedPlaceholder() : void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -332,7 +332,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "HAVING" condition that will be "OR"ed
      */
-    public function testOrHaving()
+    public function testOrHaving() : void
     {
         $query = new SelectQuery('name');
         $query->from('users')
@@ -346,7 +346,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "HAVING" condition object that will be "OR"ed
      */
-    public function testOrHavingConditionObject()
+    public function testOrHavingConditionObject() : void
     {
         $query = new SelectQuery('name');
         $query->from('users')
@@ -361,7 +361,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "WHERE" condition that will be "OR"ed
      */
-    public function testOrWhere()
+    public function testOrWhere() : void
     {
         $query = new SelectQuery('id');
         $query->from('users')
@@ -373,7 +373,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "WHERE" condition object that will be "OR"ed
      */
-    public function testOrWhereConditionObject()
+    public function testOrWhereConditionObject() : void
     {
         $query = new SelectQuery('id');
         $query->from('users')
@@ -386,7 +386,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "ORDER BY" statement
      */
-    public function testOrderBy()
+    public function testOrderBy() : void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -397,7 +397,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a really basic query
      */
-    public function testReallyBasicQuery()
+    public function testReallyBasicQuery() : void
     {
         $query = new SelectQuery('id');
         $this->assertEquals('SELECT id', $query->getSql());
@@ -406,7 +406,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "RIGHT JOIN" statement
      */
-    public function testRightJoin()
+    public function testRightJoin() : void
     {
         $query = new SelectQuery('id');
         $query->from('users', 'u')
@@ -417,7 +417,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a "HAVING" condition, then resetting it
      */
-    public function testSettingHavingConditionWhenItWasAlreadySet()
+    public function testSettingHavingConditionWhenItWasAlreadySet() : void
     {
         $query = new SelectQuery('name');
         $query->from('users')
@@ -430,7 +430,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a "WHERE" condition, then resetting it
      */
-    public function testSettingWhereConditionWhenItWasAlreadySet()
+    public function testSettingWhereConditionWhenItWasAlreadySet() : void
     {
         $query = new SelectQuery('name');
         $query->from('users')
@@ -442,7 +442,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "WHERE" condition
      */
-    public function testWhere()
+    public function testWhere() : void
     {
         $query = new SelectQuery('id');
         $query->from('users')
@@ -453,7 +453,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "WHERE" condition object
      */
-    public function testWhereConditionObject()
+    public function testWhereConditionObject() : void
     {
         $query = new SelectQuery('id');
         $query->from('users')

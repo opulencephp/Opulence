@@ -29,7 +29,7 @@ class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->assertions = new ViewAssertions();
         $this->mockView = $this->createMock(IView::class);
@@ -38,7 +38,7 @@ class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that a view has a variable
      */
-    public function testAssertViewHasVariable()
+    public function testAssertViewHasVariable() : void
     {
         $this->mockView->expects($this->any())
             ->method('getVar')
@@ -56,7 +56,7 @@ class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a logic exception is thrown if checking if a view has a variable when using a non-Opulence controller
      */
-    public function testLogicExceptionCheckingIfViewHasVariableFromNonOpulenceController()
+    public function testLogicExceptionCheckingIfViewHasVariableFromNonOpulenceController() : void
     {
         $this->expectException(LogicException::class);
         $this->assertions->setController(new stdClass());
@@ -66,7 +66,7 @@ class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a logic exception is thrown if getting a view variable when using a non-Opulence controller
      */
-    public function testLogicExceptionGettingViewVariableFromNonOpulenceController()
+    public function testLogicExceptionGettingViewVariableFromNonOpulenceController() : void
     {
         $this->expectException(LogicException::class);
         $this->assertions->setController(new stdClass());

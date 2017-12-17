@@ -20,7 +20,7 @@ class AlphaNumericRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a failing value
      */
-    public function testFailingValue()
+    public function testFailingValue() : void
     {
         $rule = new AlphaNumericRule();
         $this->assertFalse($rule->passes(''));
@@ -31,7 +31,7 @@ class AlphaNumericRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug()
+    public function testGettingSlug() : void
     {
         $rule = new AlphaNumericRule();
         $this->assertEquals('alphaNumeric', $rule->getSlug());
@@ -40,7 +40,7 @@ class AlphaNumericRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a passing value
      */
-    public function testPassingValue()
+    public function testPassingValue() : void
     {
         $rule = new AlphaNumericRule();
         $this->assertTrue($rule->passes('1'));

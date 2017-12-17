@@ -74,7 +74,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function addParent(IView $parent, IView $child)
+    public function addParent(IView $parent, IView $child) : void
     {
         foreach ($parent->getVars() as $name => $value) {
             if (!$child->hasVar($name)) {
@@ -86,7 +86,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function append(string $text)
+    public function append(string $text) : void
     {
         $this->appendedText[] = $text;
     }
@@ -106,7 +106,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function endPart()
+    public function endPart() : void
     {
         $partName = array_pop($this->partStack);
         $content = ob_get_clean();
@@ -123,7 +123,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function prepend(string $text)
+    public function prepend(string $text) : void
     {
         $this->prependedText[] = $text;
     }
@@ -131,7 +131,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function registerDirectiveTranspiler(string $name, callable $transpiler)
+    public function registerDirectiveTranspiler(string $name, callable $transpiler) : void
     {
         $this->directiveTranspilers[$name] = $transpiler;
     }
@@ -139,7 +139,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function registerViewFunction(string $functionName, callable $function)
+    public function registerViewFunction(string $functionName, callable $function) : void
     {
         $this->viewFunctions[$functionName] = $function;
     }
@@ -173,7 +173,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function startPart(string $name)
+    public function startPart(string $name) : void
     {
         // If this part already exists, we consider it to be a parent part
         $this->inParentPart = isset($this->parts[$name]);

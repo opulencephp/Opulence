@@ -37,7 +37,7 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function assignRoles($subjectId, $roleNames)
+    public function assignRoles($subjectId, $roleNames) : void
     {
         foreach ((array)$roleNames as $roleName) {
             if (($role = $this->roleRepository->getByName($roleName)) === null) {
@@ -63,7 +63,7 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function deleteRole(string $roleName)
+    public function deleteRole(string $roleName) : void
     {
         if (($role = $this->roleRepository->getByName($roleName)) !== null) {
             $this->roleRepository->delete($role);
@@ -99,7 +99,7 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function removeAllRolesFromSubject($subjectId)
+    public function removeAllRolesFromSubject($subjectId) : void
     {
         // Pass membership by reference because delete() accepts references
         foreach ($this->roleMembershipRepository->getBySubjectId($subjectId) as &$membership) {
@@ -110,7 +110,7 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function removeRolesFromSubject($subjectId, $roleNames)
+    public function removeRolesFromSubject($subjectId, $roleNames) : void
     {
         $roleNames = (array)$roleNames;
 

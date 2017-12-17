@@ -36,7 +36,7 @@ class MultiplePromptsCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('multipleprompts');
         $this->setDescription('Asks multiple questions');

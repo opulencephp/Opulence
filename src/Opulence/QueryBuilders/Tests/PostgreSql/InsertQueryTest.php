@@ -21,7 +21,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a column to return
      */
-    public function testAddReturning()
+    public function testAddReturning() : void
     {
         $query = new InsertQuery('users', ['name' => 'dave']);
         $query->returning('id')
@@ -35,7 +35,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests all the methods in a single, complicated query
      */
-    public function testEverything()
+    public function testEverything() : void
     {
         $query = new InsertQuery('users', ['name' => 'dave']);
         $query->addColumnValues(['email' => 'foo@bar.com'])
@@ -51,7 +51,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests returning a column value
      */
-    public function testReturning()
+    public function testReturning() : void
     {
         $query = new InsertQuery('users', ['name' => 'dave']);
         $query->returning('id', 'name');

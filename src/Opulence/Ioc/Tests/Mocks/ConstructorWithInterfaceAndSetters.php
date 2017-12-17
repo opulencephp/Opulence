@@ -28,7 +28,7 @@ class ConstructorWithInterfaceAndSetters
     /**
      * @return IFoo
      */
-    public function getConstructorDependency()
+    public function getConstructorDependency() : IFoo
     {
         return $this->constructorDependency;
     }
@@ -36,7 +36,7 @@ class ConstructorWithInterfaceAndSetters
     /**
      * @return IPerson
      */
-    public function getSetterDependency()
+    public function getSetterDependency() : IPerson
     {
         return $this->setterDependency;
     }
@@ -44,7 +44,7 @@ class ConstructorWithInterfaceAndSetters
     /**
      * @param IPerson $setterDependency
      */
-    public function setSetterDependency(IPerson $setterDependency)
+    public function setSetterDependency(IPerson $setterDependency) : void
     {
         $this->setterDependency = $setterDependency;
     }

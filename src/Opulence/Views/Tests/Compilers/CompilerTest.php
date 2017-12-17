@@ -28,7 +28,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->registry = $this->createMock(ICompilerRegistry::class);
         $this->compiler = new Compiler($this->registry);
@@ -37,7 +37,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the correct compiler is used
      */
-    public function testCorrectCompilerIsUsed()
+    public function testCorrectCompilerIsUsed() : void
     {
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->getMockBuilder(IView::class)

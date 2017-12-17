@@ -23,7 +23,7 @@ class SingleServerConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the read connection without a preferred server
      */
-    public function testGettingReadConnection()
+    public function testGettingReadConnection() : void
     {
         $connectionPool = $this->getConnectionPool();
         $master = new Server();
@@ -35,7 +35,7 @@ class SingleServerConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the read connection with a preferred server
      */
-    public function testGettingReadConnectionWithPreferredServer()
+    public function testGettingReadConnectionWithPreferredServer() : void
     {
         $connectionPool = $this->getConnectionPool();
         $preferredServer = new Server();
@@ -46,7 +46,7 @@ class SingleServerConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the write connection without a preferred server
      */
-    public function testGettingWriteConnection()
+    public function testGettingWriteConnection() : void
     {
         $connectionPool = $this->getConnectionPool();
         $master = new Server();
@@ -58,7 +58,7 @@ class SingleServerConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the write connection with a preferred server
      */
-    public function testGettingWriteConnectionWithPreferredServer()
+    public function testGettingWriteConnectionWithPreferredServer() : void
     {
         $connectionPool = $this->getConnectionPool();
         $preferredServer = new Server();
@@ -71,7 +71,7 @@ class SingleServerConnectionPoolTest extends \PHPUnit\Framework\TestCase
      *
      * @return SingleServerConnectionPool The connection pool to use
      */
-    private function getConnectionPool()
+    private function getConnectionPool() : SingleServerConnectionPool
     {
         return new SingleServerConnectionPool(new Driver(), new Server());
     }

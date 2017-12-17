@@ -58,7 +58,7 @@ class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function setArgs(array $args)
+    public function setArgs(array $args) : void
     {
         if (count($args) === 0 || !is_numeric($args[0])) {
             throw new InvalidArgumentException('Must pass a minimum value to compare against');

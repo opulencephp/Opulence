@@ -22,7 +22,7 @@ class BetweenRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a failing rule
      */
-    public function testFailingRule()
+    public function testFailingRule() : void
     {
         $rule = new BetweenRule();
         $rule->setArgs([1, 2]);
@@ -33,7 +33,7 @@ class BetweenRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting error placeholders
      */
-    public function testGettingErrorPlaceholders()
+    public function testGettingErrorPlaceholders() : void
     {
         $rule = new BetweenRule();
         $rule->setArgs([1, 2]);
@@ -43,7 +43,7 @@ class BetweenRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug()
+    public function testGettingSlug() : void
     {
         $rule = new BetweenRule();
         $this->assertEquals('between', $rule->getSlug());
@@ -52,7 +52,7 @@ class BetweenRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not setting the args before passes
      */
-    public function testNotSettingArgBeforePasses()
+    public function testNotSettingArgBeforePasses() : void
     {
         $this->expectException(LogicException::class);
         $rule = new BetweenRule();
@@ -62,7 +62,7 @@ class BetweenRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an empty arg array
      */
-    public function testPassingEmptyArgArray()
+    public function testPassingEmptyArgArray() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new BetweenRule();
@@ -72,7 +72,7 @@ class BetweenRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an invalid arg
      */
-    public function testPassingInvalidArg()
+    public function testPassingInvalidArg() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new BetweenRule();
@@ -87,7 +87,7 @@ class BetweenRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a passing value
      */
-    public function testPassingValue()
+    public function testPassingValue() : void
     {
         $rule = new BetweenRule();
         $rule->setArgs([1, 2]);
@@ -99,7 +99,7 @@ class BetweenRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a value that is not inclusive
      */
-    public function testValueThatIsNotInclusive()
+    public function testValueThatIsNotInclusive() : void
     {
         $rule = new BetweenRule();
         $rule->setArgs([1, 2, false]);

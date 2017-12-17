@@ -24,7 +24,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->integrationTest = new MockIntegrationTestCase();
         $this->integrationTest->setUp();
@@ -33,7 +33,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that verbs return request builders
      */
-    public function testVerbsReturnRequestBuilders()
+    public function testVerbsReturnRequestBuilders() : void
     {
         $this->assertInstanceOf(RequestBuilder::class, $this->integrationTest->delete());
         $this->assertInstanceOf(RequestBuilder::class, $this->integrationTest->get());

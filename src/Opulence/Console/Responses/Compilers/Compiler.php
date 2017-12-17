@@ -65,7 +65,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function registerElement(string $name, Style $style)
+    public function registerElement(string $name, Style $style) : void
     {
         $this->elements[$name] = $style;
     }
@@ -73,7 +73,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function setStyled(bool $isStyled)
+    public function setStyled(bool $isStyled) : void
     {
         $this->isStyled = $isStyled;
     }

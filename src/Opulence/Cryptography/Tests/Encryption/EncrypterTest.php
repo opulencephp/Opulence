@@ -29,7 +29,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->encrypterWithPassword = new Encrypter(new Password('abcdefghijklmnoq'));
         $this->encrypterWithKey = new Encrypter(new Key(str_repeat('a', 32)));
@@ -38,7 +38,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests decrypting data without a cipher
      */
-    public function testDecryptingDataWithoutCipher()
+    public function testDecryptingDataWithoutCipher() : void
     {
         $this->expectException(EncryptionException::class);
         $data = [
@@ -54,7 +54,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests decrypting data without an HMAC
      */
-    public function testDecryptingDataWithoutHmac()
+    public function testDecryptingDataWithoutHmac() : void
     {
         $this->expectException(EncryptionException::class);
         $data = [
@@ -70,7 +70,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests decrypting data without an IV
      */
-    public function testDecryptingDataWithoutIV()
+    public function testDecryptingDataWithoutIV() : void
     {
         $this->expectException(EncryptionException::class);
         $data = [
@@ -86,7 +86,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests decrypting data without a key salt
      */
-    public function testDecryptingDataWithoutKeySalt()
+    public function testDecryptingDataWithoutKeySalt() : void
     {
         $this->expectException(EncryptionException::class);
         $data = [
@@ -102,7 +102,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests decrypting data without a value
      */
-    public function testDecryptingDataWithoutValue()
+    public function testDecryptingDataWithoutValue() : void
     {
         $this->expectException(EncryptionException::class);
         $data = [
@@ -118,7 +118,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests decrypting data without a version
      */
-    public function testDecryptingDataWithoutVersion()
+    public function testDecryptingDataWithoutVersion() : void
     {
         $this->expectException(EncryptionException::class);
         $data = [
@@ -134,7 +134,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests decrypting that is not valid JSON
      */
-    public function testDecryptingInvalidJson()
+    public function testDecryptingInvalidJson() : void
     {
         $this->expectException(EncryptionException::class);
         $this->encrypterWithPassword->decrypt('foo');
@@ -143,7 +143,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests decrypting a value that used a cipher that is different from the encrypter's
      */
-    public function testDecryptingWithCipherThatIsDifferentFromEncrypters()
+    public function testDecryptingWithCipherThatIsDifferentFromEncrypters() : void
     {
         $key = str_repeat('a', 16);
         $encrypter1 = new Encrypter(new Key($key), Ciphers::AES_128_CBC);
@@ -155,7 +155,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests empty password throws an exception
      */
-    public function testEmptyPasswordThrowsException()
+    public function testEmptyPasswordThrowsException() : void
     {
         $this->expectException(EncryptionException::class);
         new Encrypter(new Password(''));
@@ -164,7 +164,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests encrypting and decrypting a value
      */
-    public function testEncryptingAndDecryptingValue()
+    public function testEncryptingAndDecryptingValue() : void
     {
         $decryptedValue = 'foobar';
         $encryptedValueWithPassword = $this->encrypterWithPassword->encrypt($decryptedValue);
@@ -179,7 +179,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an incorrect length key throws an exception
      */
-    public function testIncorrectLengthKeyThrowsException()
+    public function testIncorrectLengthKeyThrowsException() : void
     {
         $this->expectException(EncryptionException::class);
         new Encrypter(new Key(str_repeat('a', 16)), Ciphers::AES_256_CTR);
@@ -188,7 +188,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing a custom cipher through the constructor
      */
-    public function testPassingCustomCipherThroughConstructor()
+    public function testPassingCustomCipherThroughConstructor() : void
     {
         $approvedCiphersToKeyByteLengths = [
             Ciphers::AES_128_CBC => 16,
@@ -221,7 +221,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting an invalid cipher
      */
-    public function testSettingInvalidCipher()
+    public function testSettingInvalidCipher() : void
     {
         $this->expectException(EncryptionException::class);
         new Encrypter(new Password('foo'), 'bar');

@@ -104,7 +104,7 @@ abstract class Node
     /**
      * @param Node|null $parent
      */
-    public function setParent($parent)
+    public function setParent(?Node $parent) : void
     {
         $this->parent = $parent;
     }

@@ -32,7 +32,7 @@ class LazyBootstrapperWithTargetedBinding extends BaseBootstrapper implements IL
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         $container->for(
             EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper::class,

@@ -26,7 +26,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->pipeline = new Pipeline();
     }
@@ -34,7 +34,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests closures with callback
      */
-    public function testClosuresWithCallback()
+    public function testClosuresWithCallback() : void
     {
         $stages = [
             function ($input, $next) {
@@ -56,7 +56,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the methods are chainable
      */
-    public function testMethodsAreChainable()
+    public function testMethodsAreChainable() : void
     {
         $this->assertSame($this->pipeline, $this->pipeline->send('foo'));
         $this->assertSame($this->pipeline, $this->pipeline->through([]));
@@ -67,7 +67,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests multiple closure stages
      */
-    public function testMultipleClosureStages()
+    public function testMultipleClosureStages() : void
     {
         $stages = [
             function ($input, $next) {
@@ -85,7 +85,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests multiple object stages
      */
-    public function testMultipleObjectStages()
+    public function testMultipleObjectStages() : void
     {
         $stages = [new Stage1(), new Stage2()];
         $this->pipeline->send('input')
@@ -96,7 +96,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not setting a method to call
      */
-    public function testNotSettingMethodToCall()
+    public function testNotSettingMethodToCall() : void
     {
         $this->expectException(PipelineException::class);
         $stages = [new Stage1()];
@@ -108,7 +108,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests object stages with callback
      */
-    public function testObjectStagesWithCallback()
+    public function testObjectStagesWithCallback() : void
     {
         $stages = [new Stage1(), new Stage2()];
         $callback = function ($input) {
@@ -123,7 +123,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a single closure pipe
      */
-    public function testSingleClosurePipe()
+    public function testSingleClosurePipe() : void
     {
         $stages = [
             function ($input, $next) {
@@ -138,7 +138,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a single object pipe
      */
-    public function testSingleObjectPipe()
+    public function testSingleObjectPipe() : void
     {
         $stages = [new Stage1()];
         $this->pipeline->send('input')
@@ -149,7 +149,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a pipe that does not call next
      */
-    public function testStageThatDoesNotCallNext()
+    public function testStageThatDoesNotCallNext() : void
     {
         $stages = [
             function ($input, $next) {
@@ -167,7 +167,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a pipe that does not call next but has callback
      */
-    public function testStageThatDoesNotCallNextButHasCallback()
+    public function testStageThatDoesNotCallNextButHasCallback() : void
     {
         $stages = [
             function ($input, $next) {
@@ -189,7 +189,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests closure then object stages
      */
-    public function testThenClosureThenObjectStages()
+    public function testThenClosureThenObjectStages() : void
     {
         $stages = [
             function ($input, $next) {

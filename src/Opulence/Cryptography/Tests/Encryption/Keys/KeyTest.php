@@ -21,7 +21,7 @@ class KeyTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a valid key
      */
-    public function testValidKey()
+    public function testValidKey() : void
     {
         $value = str_repeat('a', 32);
         $key = new Key($value);

@@ -64,7 +64,7 @@ class BetweenRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function setArgs(array $args)
+    public function setArgs(array $args) : void
     {
         if (count($args) < 2 || !is_numeric($args[0]) || !is_numeric($args[1])) {
             throw new InvalidArgumentException('Must pass minimum and maximum values to compare against');

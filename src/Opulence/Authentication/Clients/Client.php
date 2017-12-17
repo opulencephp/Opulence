@@ -61,7 +61,7 @@ class Client implements IClient
     /**
      * @inheritdoc
      */
-    public function setId($id)
+    public function setId($id) : void
     {
         $this->id = $id;
     }
@@ -69,7 +69,7 @@ class Client implements IClient
     /**
      * @inheritdoc
      */
-    public function setName(string $name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }

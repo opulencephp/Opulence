@@ -25,7 +25,7 @@ class ConditionalRule extends CallbackRule
      *
      * @param IRule $rule
      */
-    public function addRule(IRule $rule)
+    public function addRule(IRule $rule) : void
     {
         $this->rules[] = $rule;
     }

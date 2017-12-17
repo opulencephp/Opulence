@@ -20,7 +20,7 @@ class SanitizedTagNodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the "is a" methods
      */
-    public function testIsAMethods()
+    public function testIsAMethods() : void
     {
         $node = new SanitizedTagNode();
         $this->assertFalse($node->isComment());

@@ -23,7 +23,7 @@ interface IViewNameResolver
      * @param string $extension The extension to register
      * @param int $priority The priority of this extension when matching it (lower numbers mean higher priority)
      */
-    public function registerExtension(string $extension, int $priority = -1);
+    public function registerExtension(string $extension, int $priority = -1) : void;
 
     /**
      * Registers a path to match against when resolving a view name
@@ -31,7 +31,7 @@ interface IViewNameResolver
      * @param string $path The path to register
      * @param int $priority The priority of this path when matching it (lower numbers mean higher priority)
      */
-    public function registerPath(string $path, int $priority = -1);
+    public function registerPath(string $path, int $priority = -1) : void;
 
     /**
      * Resolves a view name by matching it against registered extensions and paths

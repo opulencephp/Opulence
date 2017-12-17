@@ -27,7 +27,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->conditionFactory = new ConditionFactory();
     }
@@ -35,7 +35,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating a BETWEEN condition
      */
-    public function testCreatingBetweenCondition()
+    public function testCreatingBetweenCondition() : void
     {
         $this->assertInstanceOf(BetweenCondition::class, $this->conditionFactory->between('foo', 1, 2));
     }
@@ -43,7 +43,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating an IN condition
      */
-    public function testCreatingInCondition()
+    public function testCreatingInCondition() : void
     {
         $this->assertInstanceOf(InCondition::class, $this->conditionFactory->in('foo', [1, 2]));
     }
@@ -51,7 +51,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating a NOT BETWEEN condition
      */
-    public function testCreatingNotBetweenCondition()
+    public function testCreatingNotBetweenCondition() : void
     {
         $this->assertInstanceOf(NotBetweenCondition::class, $this->conditionFactory->notBetween('foo', 1, 2));
     }
@@ -59,7 +59,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating a NOT IN condition
      */
-    public function testCreatingNotInCondition()
+    public function testCreatingNotInCondition() : void
     {
         $this->assertInstanceOf(NotInCondition::class, $this->conditionFactory->notIn('foo', [1, 2]));
     }

@@ -27,7 +27,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->assertions = new ResponseAssertions();
         $this->mockResponse = $this->getMockBuilder(StreamResponse::class)
@@ -38,7 +38,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that the status code is an error
      */
-    public function testAssertStatusCodeIsError()
+    public function testAssertStatusCodeIsError() : void
     {
         $this->assertions->setResponse($this->mockResponse, StatusCodes::ERROR);
         $this->assertSame($this->assertions, $this->assertions->isError());
@@ -47,7 +47,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that the status code is fatal
      */
-    public function testAssertStatusCodeIsFatal()
+    public function testAssertStatusCodeIsFatal() : void
     {
         $this->assertions->setResponse($this->mockResponse, StatusCodes::FATAL);
         $this->assertSame($this->assertions, $this->assertions->isFatal());
@@ -56,7 +56,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that the status code is OK
      */
-    public function testAssertStatusCodeIsOK()
+    public function testAssertStatusCodeIsOK() : void
     {
         $this->assertions->setResponse($this->mockResponse, StatusCodes::OK);
         $this->assertSame($this->assertions, $this->assertions->isOK());
@@ -65,7 +65,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that the status code is a warning
      */
-    public function testAssertStatusCodeIsWarning()
+    public function testAssertStatusCodeIsWarning() : void
     {
         $this->assertions->setResponse($this->mockResponse, StatusCodes::WARNING);
         $this->assertSame($this->assertions, $this->assertions->isWarning());
@@ -74,7 +74,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that the status code equals the right value
      */
-    public function testAssertingStatusCodeEquals()
+    public function testAssertingStatusCodeEquals() : void
     {
         $this->assertions->setResponse($this->mockResponse, StatusCodes::OK);
         $this->assertSame($this->assertions, $this->assertions->statusCodeEquals(StatusCodes::OK));

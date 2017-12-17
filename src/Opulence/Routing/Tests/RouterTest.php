@@ -46,7 +46,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         /** @var IDependencyResolver|\PHPUnit_Framework_MockObject_MockObject $dependencyResolver */
         $dependencyResolver = $this->createMock(IDependencyResolver::class);
@@ -79,7 +79,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that adding a route returns the instance of the route
      */
-    public function testAddingRouteReturnsInstance()
+    public function testAddingRouteReturnsInstance() : void
     {
         $path = '/foo';
         $controller = 'foo@bar';
@@ -99,7 +99,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding routes through their specific methods
      */
-    public function testAddingRoutesThroughTheirSpecificMethods()
+    public function testAddingRoutesThroughTheirSpecificMethods() : void
     {
         $path = '/foo';
         $controller = 'foo@bar';
@@ -114,7 +114,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the matched route when there is none
      */
-    public function testGettingMatchedRouteWhenThereIsNone()
+    public function testGettingMatchedRouteWhenThereIsNone() : void
     {
         $this->assertNull($this->router->getMatchedRoute());
     }
@@ -122,7 +122,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that group settings are getting applied to returned routes
      */
-    public function testGroupSettingsAreGettingAppliedToReturnedRoutes()
+    public function testGroupSettingsAreGettingAppliedToReturnedRoutes() : void
     {
         $getRoute = null;
 
@@ -136,7 +136,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a group with variable regexes
      */
-    public function testGroupWithVariableRegexes()
+    public function testGroupWithVariableRegexes() : void
     {
         $this->router->group(['path' => '/users/:userId', 'vars' => ['id' => "\d+"]], function (Router $router) {
             $router->get('/foo', 'foo@bar');
@@ -153,7 +153,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that grouped routes do not overwrite any controller settings for a closure route
      */
-    public function testGroupedRoutesDoNotOverwriteControllerSettingsInClosureRoute()
+    public function testGroupedRoutesDoNotOverwriteControllerSettingsInClosureRoute() : void
     {
         $controller = function () {
             return 'Foo';
@@ -169,7 +169,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests grouping routes
      */
-    public function testGroupingRoutes()
+    public function testGroupingRoutes() : void
     {
         $groupOptions = [
             'path' => '/foo',
@@ -193,7 +193,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests grouping the routes and then adding another route
      */
-    public function testGroupingRoutesThenAddingAnotherRoute()
+    public function testGroupingRoutesThenAddingAnotherRoute() : void
     {
         $controller = MockController::class . '@noParameters';
         $routeOptions = [
@@ -223,7 +223,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests grouping routes that use a string for the middleware
      */
-    public function testGroupingRoutesWithStringMiddleware()
+    public function testGroupingRoutesWithStringMiddleware() : void
     {
         $controller = MockController::class . '@noParameters';
         $routeOptions = [
@@ -248,7 +248,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the matched controller is null before routing
      */
-    public function testMatchedControllerIsNullBeforeRouting()
+    public function testMatchedControllerIsNullBeforeRouting() : void
     {
         $this->assertNull($this->router->getMatchedController());
     }
@@ -256,7 +256,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests mixing HTTPS on nested groups
      */
-    public function testMixingHttpsOnNestedGroups()
+    public function testMixingHttpsOnNestedGroups() : void
     {
         $this->router->group(['https' => true], function (Router $router) {
             $router->group(['https' => false], function (Router $router) {
@@ -275,7 +275,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests nested grouped routes
      */
-    public function testNestedGroupedRoutes()
+    public function testNestedGroupedRoutes() : void
     {
         $outerGroupOptions = [
             'path' => '/foo',
@@ -315,7 +315,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that nested groups with variable regexes overwrite one another
      */
-    public function testNestingGroupVariableRegexesOverwriteOneAnother()
+    public function testNestingGroupVariableRegexesOverwriteOneAnother() : void
     {
         $this->router->group(['path' => '/users/:userId', 'vars' => ['id' => "\d*"]], function (Router $router) {
             $router->get('/foo', 'foo@bar');
@@ -336,7 +336,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests routing for any method
      */
-    public function testRoutingAnyMethod()
+    public function testRoutingAnyMethod() : void
     {
         $controller = MockController::class . '@noParameters';
         $this->router->any('/foo', $controller);
@@ -350,7 +350,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests routing a DELETE request
      */
-    public function testRoutingDeleteRequest()
+    public function testRoutingDeleteRequest() : void
     {
         $this->doTestForHttpMethod(RequestMethods::DELETE);
     }
@@ -358,7 +358,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests routing a GET request
      */
-    public function testRoutingGetRequest()
+    public function testRoutingGetRequest() : void
     {
         $this->doTestForHttpMethod(RequestMethods::GET);
     }
@@ -366,7 +366,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests routing a HEAD request
      */
-    public function testRoutingHeadRequest()
+    public function testRoutingHeadRequest() : void
     {
         $this->doTestForHttpMethod(RequestMethods::HEAD);
     }
@@ -374,7 +374,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests routing a missing path
      */
-    public function testRoutingMissingPath()
+    public function testRoutingMissingPath() : void
     {
         $this->expectException(HttpException::class);
         $request = new Request([], [], [], [
@@ -387,7 +387,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests routing for multiple methods
      */
-    public function testRoutingMultipleMethods()
+    public function testRoutingMultipleMethods() : void
     {
         $controller = MockController::class . '@noParameters';
         $this->router->multiple([RequestMethods::GET, RequestMethods::POST], '/foo', $controller);
@@ -404,7 +404,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests routing a OPTIONS request
      */
-    public function testRoutingOptionsRequest()
+    public function testRoutingOptionsRequest() : void
     {
         $this->doTestForHttpMethod(RequestMethods::OPTIONS);
     }
@@ -412,7 +412,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests routing a PATCH request
      */
-    public function testRoutingPatchRequest()
+    public function testRoutingPatchRequest() : void
     {
         $this->doTestForHttpMethod(RequestMethods::PATCH);
     }
@@ -420,7 +420,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests routing a POST request
      */
-    public function testRoutingPostRequest()
+    public function testRoutingPostRequest() : void
     {
         $this->doTestForHttpMethod(RequestMethods::POST);
     }
@@ -428,7 +428,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests routing a PUT request
      */
-    public function testRoutingPutRequest()
+    public function testRoutingPutRequest() : void
     {
         $this->doTestForHttpMethod(RequestMethods::PUT);
     }
@@ -436,7 +436,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests routing to a non-Opulence controller
      */
-    public function testRoutingToNonOpulenceController()
+    public function testRoutingToNonOpulenceController() : void
     {
         $controller = NonOpulenceController::class . '@index';
         $this->router->get('/foo/:id', $controller);
@@ -455,7 +455,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a secure group
      */
-    public function testSecureGroup()
+    public function testSecureGroup() : void
     {
         $this->router->group(['https' => true], function (Router $router) {
             $router->get('/foo', 'foo@bar');
@@ -472,7 +472,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the route collection
      */
-    public function testSettingRouteCollection()
+    public function testSettingRouteCollection() : void
     {
         /** @var RouteCollection $collection */
         $collection = $this->createMock(RouteCollection::class);
@@ -483,7 +483,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests specifying a group host
      */
-    public function testSpecifyingGroupHost()
+    public function testSpecifyingGroupHost() : void
     {
         $this->router->group(['host' => 'google.com'], function (Router $router) {
             $router->get('/foo', 'foo@bar');
@@ -500,7 +500,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests specifying a namespace prefix
      */
-    public function testSpecifyingNamespacePrefix()
+    public function testSpecifyingNamespacePrefix() : void
     {
         $this->router->group(['controllerNamespace' => 'MyApp\\Controllers\\'], function (Router $router) {
             $router->get('/foo', 'ControllerA@myMethod');
@@ -517,7 +517,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests specifying a namespace prefix with no trailing slash
      */
-    public function testSpecifyingNamespacePrefixWithNoTrailingSlash()
+    public function testSpecifyingNamespacePrefixWithNoTrailingSlash() : void
     {
         $this->router->group(['controllerNamespace' => 'MyApp\\Controllers'], function () {
             $this->router->get('/foo', 'ControllerA@myMethod');
@@ -534,7 +534,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests specifying a nested group hosts
      */
-    public function testSpecifyingNestedGroupHosts()
+    public function testSpecifyingNestedGroupHosts() : void
     {
         $this->router->group(['host' => 'google.com'], function (Router $router) {
             $router->group(['host' => 'mail.'], function (Router $router) {
@@ -569,7 +569,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $hostToRoute,
         $controllerName,
         $controllerMethod
-    ) {
+    ) : void {
         $controller = "$controllerName@$controllerMethod";
         $options = [
             'host' => $rawHost
@@ -646,7 +646,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      *
      * @param string $httpMethod The HTTP method to test
      */
-    private function doTestForHttpMethod($httpMethod)
+    private function doTestForHttpMethod($httpMethod) : void
     {
         $this->doRoute(
             $httpMethod,

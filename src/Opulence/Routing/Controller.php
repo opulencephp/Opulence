@@ -58,7 +58,7 @@ class Controller
     /**
      * @return IView|null
      */
-    public function getView()
+    public function getView() : ?IView
     {
         return $this->view;
     }
@@ -66,7 +66,7 @@ class Controller
     /**
      * @param Request $request
      */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request) : void
     {
         $this->request = $request;
     }
@@ -74,7 +74,7 @@ class Controller
     /**
      * @param ICompiler $viewCompiler
      */
-    public function setViewCompiler(ICompiler $viewCompiler)
+    public function setViewCompiler(ICompiler $viewCompiler) : void
     {
         $this->viewCompiler = $viewCompiler;
     }
@@ -82,7 +82,7 @@ class Controller
     /**
      * @param IViewFactory $viewFactory
      */
-    public function setViewFactory(IViewFactory $viewFactory)
+    public function setViewFactory(IViewFactory $viewFactory) : void
     {
         $this->viewFactory = $viewFactory;
     }
@@ -91,7 +91,7 @@ class Controller
      * Sets up the view
      * Useful for setting up a view's components that are the same across controller methods
      */
-    protected function setUpView()
+    protected function setUpView() : void
     {
         // Don't do anything
     }

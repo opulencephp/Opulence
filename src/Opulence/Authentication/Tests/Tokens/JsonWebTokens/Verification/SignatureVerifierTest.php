@@ -32,7 +32,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->verifier = new SignatureVerifier($this->signer);
@@ -44,7 +44,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an empty signature
      */
-    public function testEmptySignature()
+    public function testEmptySignature() : void
     {
         $this->jwt->expects($this->once())
             ->method('getSignature')
@@ -56,7 +56,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an incorrect signature
      */
-    public function testIncorrectSignature()
+    public function testIncorrectSignature() : void
     {
         $this->jwt->expects($this->once())
             ->method('getSignature')
@@ -71,7 +71,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests mismatched algorithm
      */
-    public function testMismatchedAlgorithm()
+    public function testMismatchedAlgorithm() : void
     {
         $this->jwt->expects($this->once())
             ->method('getSignature')
@@ -96,7 +96,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests verifying valid token
      */
-    public function testVerifyingValidToken()
+    public function testVerifyingValidToken() : void
     {
         $this->jwt->expects($this->once())
             ->method('getSignature')

@@ -49,7 +49,7 @@ class Role
     /**
      * @param int|string $id
      */
-    public function setId($id)
+    public function setId($id) : void
     {
         $this->id = $id;
     }

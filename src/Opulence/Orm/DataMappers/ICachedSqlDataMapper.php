@@ -24,7 +24,7 @@ interface ICachedSqlDataMapper extends IDataMapper
      *
      * @throws OrmException Thrown if there was an error committing to cache
      */
-    public function commit();
+    public function commit() : void;
 
     /**
      * Gets the cache data mapper
@@ -68,5 +68,5 @@ interface ICachedSqlDataMapper extends IDataMapper
      * @param int|string $id The Id of the entity to sync
      * @throws OrmException Thrown if there was an error refreshing the entity
      */
-    public function refreshEntity($id);
+    public function refreshEntity($id) : void;
 }

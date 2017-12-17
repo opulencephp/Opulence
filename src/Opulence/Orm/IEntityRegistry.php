@@ -19,12 +19,12 @@ interface IEntityRegistry
      * Clears all the contents of the registry
      * This should only be called through a unit of work
      */
-    public function clear();
+    public function clear() : void;
 
     /**
      * Clears all aggregate root child functions
      */
-    public function clearAggregateRoots();
+    public function clearAggregateRoots() : void;
 
     /**
      * Deregisters an entity
@@ -32,7 +32,7 @@ interface IEntityRegistry
      *
      * @param object $entity The entity to detach
      */
-    public function deregisterEntity($entity);
+    public function deregisterEntity($entity) : void;
 
     /**
      * Gets the object's class name
@@ -90,7 +90,7 @@ interface IEntityRegistry
      * @param object $child The child of the aggregate root
      * @param callable $function The function that contains the logic to set the aggregate root Id in the child
      */
-    public function registerAggregateRootCallback($aggregateRoot, $child, callable $function);
+    public function registerAggregateRootCallback($aggregateRoot, $child, callable $function) : void;
 
     /**
      * Registers an entity
@@ -98,14 +98,14 @@ interface IEntityRegistry
      * @param object $entity The entity to register
      * @throws OrmException Thrown if there was an error registering the entity
      */
-    public function registerEntity(&$entity);
+    public function registerEntity(&$entity) : void;
 
     /**
      * Runs any aggregate root child functions registered for the entity
      *
      * @param object $child The child whose aggregate root functions we're running
      */
-    public function runAggregateRootCallbacks($child);
+    public function runAggregateRootCallbacks($child) : void;
 
     /**
      * Sets an entity's state
@@ -113,5 +113,5 @@ interface IEntityRegistry
      * @param object $entity The entity whose state we're setting
      * @param int $entityState The entity state
      */
-    public function setState($entity, int $entityState);
+    public function setState($entity, int $entityState) : void;
 }

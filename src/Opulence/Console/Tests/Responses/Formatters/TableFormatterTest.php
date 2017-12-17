@@ -24,7 +24,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->formatter = new TableFormatter(new PaddingFormatter());
     }
@@ -32,7 +32,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting an empty table
      */
-    public function testFormattingEmptyTable()
+    public function testFormattingEmptyTable() : void
     {
         $this->assertEmpty($this->formatter->format([]));
     }
@@ -40,7 +40,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with a single header and column
      */
-    public function testFormattingSingleHeaderAndColumn()
+    public function testFormattingSingleHeaderAndColumn() : void
     {
         $headers = ['foo'];
         $rows = [['a']];
@@ -56,7 +56,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with a single row
      */
-    public function testFormattingSingleRow()
+    public function testFormattingSingleRow() : void
     {
         $rows = [['a', 'bb', 'ccc']];
         $expected =
@@ -69,7 +69,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with a single row and column
      */
-    public function testFormattingSingleRowAndColumn()
+    public function testFormattingSingleRowAndColumn() : void
     {
         $rows = [['a']];
         $expected =
@@ -82,7 +82,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with all custom characters
      */
-    public function testFormattingTableWithCustomCharacters()
+    public function testFormattingTableWithCustomCharacters() : void
     {
         $headers = ['foo', 'bar'];
         $rows = [
@@ -110,7 +110,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with a custom padding string
      */
-    public function testFormattingTableWithCustomPaddingString()
+    public function testFormattingTableWithCustomPaddingString() : void
     {
         $rows = [['a']];
         $this->formatter->setCellPaddingString('__');
@@ -124,7 +124,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with headers but without rows
      */
-    public function testFormattingTableWithHeadersButWithoutRows()
+    public function testFormattingTableWithHeadersButWithoutRows() : void
     {
         $this->assertEmpty($this->formatter->format([], ['foo', 'bar']));
     }
@@ -132,7 +132,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with more headers than row columns
      */
-    public function testFormattingTableWithMoreHeadersThanRowColumns()
+    public function testFormattingTableWithMoreHeadersThanRowColumns() : void
     {
         $headers = ['foo', 'bar', 'baz', 'blah'];
         $rows = [
@@ -154,7 +154,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with more row columns than headers
      */
-    public function testFormattingTableWithMoreRowColumnsThanHeaders()
+    public function testFormattingTableWithMoreRowColumnsThanHeaders() : void
     {
         $headers = ['foo', 'bar'];
         $rows = [
@@ -176,7 +176,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table without headers
      */
-    public function testFormattingTableWithoutHeaders()
+    public function testFormattingTableWithoutHeaders() : void
     {
         $rows = [
             ['a'],
@@ -195,7 +195,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the rows to non-array values
      */
-    public function testSettingRowsWithNonArrayValues()
+    public function testSettingRowsWithNonArrayValues() : void
     {
         $expected =
             '+-----+' . PHP_EOL .

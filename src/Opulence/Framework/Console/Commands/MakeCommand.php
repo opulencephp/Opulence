@@ -73,7 +73,7 @@ abstract class MakeCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->addArgument(new Argument(
             'class',
@@ -127,7 +127,7 @@ abstract class MakeCommand extends Command
      *
      * @param string $path The fully-qualified class name
      */
-    protected function makeDirectories(string $path)
+    protected function makeDirectories(string $path) : void
     {
         $directoryName = dirname($path);
 

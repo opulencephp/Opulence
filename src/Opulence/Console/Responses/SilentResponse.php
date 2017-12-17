@@ -25,7 +25,7 @@ class SilentResponse extends Response
     /**
      * @inheritdoc
      */
-    public function clear()
+    public function clear() : void
     {
         // Don't do anything
     }
@@ -33,7 +33,7 @@ class SilentResponse extends Response
     /**
      * @inheritdoc
      */
-    public function write($messages)
+    public function write($messages) : void
     {
         // Don't do anything
     }
@@ -41,7 +41,7 @@ class SilentResponse extends Response
     /**
      * @inheritdoc
      */
-    public function writeln($messages)
+    public function writeln($messages) : void
     {
         // Don't do anything
     }
@@ -49,7 +49,7 @@ class SilentResponse extends Response
     /**
      * @inheritdoc
      */
-    protected function doWrite(string $message, bool $includeNewLine)
+    protected function doWrite(string $message, bool $includeNewLine) : void
     {
         // Don't do anything
     }

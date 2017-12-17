@@ -36,7 +36,7 @@ interface IBootstrapperRegistry
      *
      * @param string|array $eagerBootstrapperClasses The eager bootstrapper classes
      */
-    public function registerEagerBootstrapper($eagerBootstrapperClasses);
+    public function registerEagerBootstrapper($eagerBootstrapperClasses) : void;
 
     /**
      * Registers bound classes and their bootstrappers
@@ -45,5 +45,5 @@ interface IBootstrapperRegistry
      * @param string $lazyBootstrapperClass The bootstrapper class
      * @throws InvalidArgumentException Thrown if the bindings are not of the correct format
      */
-    public function registerLazyBootstrapper(array $bindings, string $lazyBootstrapperClass);
+    public function registerLazyBootstrapper(array $bindings, string $lazyBootstrapperClass) : void;
 }

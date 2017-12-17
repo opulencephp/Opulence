@@ -98,7 +98,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    final public function execute(IResponse $response)
+    final public function execute(IResponse $response) : ?int
     {
         if (!$this->constructorCalled) {
             throw new RuntimeException('Command class "' . static::class . '" does not call parent::__construct()');
@@ -211,7 +211,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function setArgumentValue(string $name, $value)
+    public function setArgumentValue(string $name, $value) : void
     {
         $this->argumentValues[$name] = $value;
     }
@@ -219,7 +219,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function setCommandCollection(CommandCollection $commandCollection)
+    public function setCommandCollection(CommandCollection $commandCollection) : void
     {
         $this->commandCollection = $commandCollection;
     }
@@ -227,7 +227,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function setOptionValue(string $name, $value)
+    public function setOptionValue(string $name, $value) : void
     {
         $this->optionValues[$name] = $value;
     }
@@ -236,7 +236,7 @@ abstract class Command implements ICommand
      * Sets the arguments and options for this command
      * Provides a convenient place to write down the definition for a command
      */
-    abstract protected function define();
+    abstract protected function define() : void;
 
     /**
      * Actually executes the command

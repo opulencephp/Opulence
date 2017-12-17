@@ -22,7 +22,7 @@ interface IContainer
      * @param callable $factory The factory to bind
      * @param bool $resolveAsSingleton Whether or not to resolve the factory as a singleton
      */
-    public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false);
+    public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false) : void;
 
     /**
      * Binds a concrete instance to the interface
@@ -30,7 +30,7 @@ interface IContainer
      * @param string|array $interfaces The interface or interfaces to bind to
      * @param object $instance The instance to bind
      */
-    public function bindInstance($interfaces, $instance);
+    public function bindInstance($interfaces, $instance) : void;
 
     /**
      * Binds a non-singleton concrete class to an interface
@@ -39,7 +39,7 @@ interface IContainer
      * @param string|null $concreteClass The concrete class to bind, or null if the interface actually is a concrete class
      * @param array $primitives The list of primitives to inject (must be in same order they appear in constructor)
      */
-    public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = []);
+    public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = []) : void;
 
     /**
      * Binds a singleton concrete class to an interface
@@ -48,7 +48,7 @@ interface IContainer
      * @param string|null $concreteClass The concrete class to bind, or null if the interface actually is a concrete class
      * @param array $primitives The list of primitives to inject (must be in same order they appear in constructor)
      */
-    public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = []);
+    public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = []) : void;
 
     /**
      * Resolves a closure's parameters and calls it
@@ -107,5 +107,5 @@ interface IContainer
      *
      * @param string|array $interfaces The interface or interfaces to unbind from
      */
-    public function unbind($interfaces);
+    public function unbind($interfaces) : void;
 }

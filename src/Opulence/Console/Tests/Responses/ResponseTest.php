@@ -26,7 +26,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->response = new Response(new Compiler(new Lexer(), new Parser()));
     }
@@ -34,7 +34,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests clearing the response
      */
-    public function testClearingResponse()
+    public function testClearingResponse() : void
     {
         ob_start();
         $this->response->clear();
@@ -44,7 +44,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing multiple messages with new lines
      */
-    public function testWritingMultipleMessagesWithNewLines()
+    public function testWritingMultipleMessagesWithNewLines() : void
     {
         ob_start();
         $this->response->writeln(['foo', 'bar']);
@@ -54,7 +54,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing multiple messages with no new lines
      */
-    public function testWritingMultipleMessagesWithNoNewLines()
+    public function testWritingMultipleMessagesWithNoNewLines() : void
     {
         ob_start();
         $this->response->write(['foo', 'bar']);
@@ -64,7 +64,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing a single message with a new line
      */
-    public function testWritingSingleMessageWithNewLine()
+    public function testWritingSingleMessageWithNewLine() : void
     {
         ob_start();
         $this->response->writeln('foo');
@@ -74,7 +74,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing a single message with no new line
      */
-    public function testWritingSingleMessageWithNoNewLine()
+    public function testWritingSingleMessageWithNoNewLine() : void
     {
         ob_start();
         $this->response->write('foo');
@@ -84,7 +84,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing a styled message with styling disabled
      */
-    public function testWritingStyledMessageWithStylingDisabled()
+    public function testWritingStyledMessageWithStylingDisabled() : void
     {
         ob_start();
         $this->response->setStyled(false);

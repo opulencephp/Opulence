@@ -42,7 +42,7 @@ class TypeMapper
      * @param Provider $provider The provider to convert from
      * @return bool|null The PHP boolean if it was a boolean value, otherwise null
      */
-    public function fromSqlBoolean($sqlBoolean, Provider $provider = null)
+    public function fromSqlBoolean($sqlBoolean, Provider $provider = null) : ?bool
     {
         $this->setParameterProvider($provider);
 
@@ -57,7 +57,7 @@ class TypeMapper
      * @return DateTime|null The PHP date
      * @throws InvalidArgumentException Thrown if the input date couldn't be cast to a PHP date
      */
-    public function fromSqlDate($sqlDate, Provider $provider = null)
+    public function fromSqlDate($sqlDate, Provider $provider = null) : ?DateTime
     {
         if ($sqlDate === null) {
             return null;
@@ -98,7 +98,7 @@ class TypeMapper
      * @return DateTime|null The PHP time
      * @throws InvalidArgumentException Thrown if the input time couldn't be cast to a PHP time
      */
-    public function fromSqlTimeWithTimeZone($sqlTime, Provider $provider = null)
+    public function fromSqlTimeWithTimeZone($sqlTime, Provider $provider = null) : ?DateTime
     {
         if ($sqlTime === null) {
             return null;
@@ -122,7 +122,7 @@ class TypeMapper
      * @return DateTime|null The PHP time
      * @throws InvalidArgumentException Thrown if the input time couldn't be cast to a PHP time
      */
-    public function fromSqlTimeWithoutTimeZone($sqlTime, Provider $provider = null)
+    public function fromSqlTimeWithoutTimeZone($sqlTime, Provider $provider = null) : ?DateTime
     {
         if ($sqlTime === null) {
             return null;
@@ -146,7 +146,7 @@ class TypeMapper
      * @return DateTime|null The PHP date time
      * @throws InvalidArgumentException Thrown if the input timestamp couldn't be cast to a PHP timestamp
      */
-    public function fromSqlTimestampWithTimeZone($sqlTimestamp, Provider $provider = null)
+    public function fromSqlTimestampWithTimeZone($sqlTimestamp, Provider $provider = null) : ?DateTime
     {
         if ($sqlTimestamp === null) {
             return null;
@@ -171,7 +171,7 @@ class TypeMapper
      * @return DateTime|null The PHP date time
      * @throws InvalidArgumentException Thrown if the input timestamp couldn't be cast to a PHP timestamp
      */
-    public function fromSqlTimestampWithoutTimeZone($sqlTimestamp, Provider $provider = null)
+    public function fromSqlTimestampWithoutTimeZone($sqlTimestamp, Provider $provider = null) : ?DateTime
     {
         if ($sqlTimestamp === null) {
             return null;
@@ -306,7 +306,7 @@ class TypeMapper
      * @param Provider $provider The provider to set
      * @throws RuntimeException Thrown if neither the input provider nor the object provider are specified
      */
-    protected function setParameterProvider(Provider &$provider = null)
+    protected function setParameterProvider(Provider &$provider = null) : void
     {
         if ($provider === null) {
             if ($this->provider === null) {

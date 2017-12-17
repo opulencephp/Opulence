@@ -41,12 +41,12 @@ interface IClient
      *
      * @param int|string $id The client Id
      */
-    public function setId($id);
+    public function setId($id) : void;
 
     /**
      * Sets the client name
      *
      * @param string $name The client name
      */
-    public function setName(string $name);
+    public function setName(string $name) : void;
 }

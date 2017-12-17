@@ -50,7 +50,7 @@ class ErrorTemplateRegistry
      *      Field error templates should be formatted "{field}.{slug}" => "{template}"
      * @throws InvalidArgumentException Thrown if the config was invalid
      */
-    public function registerErrorTemplatesFromConfig(array $config)
+    public function registerErrorTemplatesFromConfig(array $config) : void
     {
         foreach ($config as $key => $template) {
             if (trim($key) === '') {
@@ -78,7 +78,7 @@ class ErrorTemplateRegistry
      * @param string $ruleSlug The rule slug whose template we're registering
      * @param string $template The template to register
      */
-    public function registerFieldErrorTemplate(string $field, string $ruleSlug, string $template)
+    public function registerFieldErrorTemplate(string $field, string $ruleSlug, string $template) : void
     {
         if (!isset($this->fieldTemplates[$field])) {
             $this->fieldTemplates[$field] = [];
@@ -93,7 +93,7 @@ class ErrorTemplateRegistry
      * @param string $ruleSlug The rule slug whose template we're registering
      * @param string $template The template to register
      */
-    public function registerGlobalErrorTemplate(string $ruleSlug, string $template)
+    public function registerGlobalErrorTemplate(string $ruleSlug, string $template) : void
     {
         $this->globalTemplates[$ruleSlug] = $template;
     }

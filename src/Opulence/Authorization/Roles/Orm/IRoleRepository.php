@@ -22,14 +22,14 @@ interface IRoleRepository
      *
      * @param Role $role The role to add
      */
-    public function add($role);
+    public function add($role) : void;
 
     /**
      * Deletes a role
      *
      * @param Role $role The role to delete
      */
-    public function delete($role);
+    public function delete($role) : void;
 
     /**
      * Gets all the roles
@@ -52,5 +52,5 @@ interface IRoleRepository
      * @param string $name The name of the role we're searching for
      * @return Role|null The role with the input name if one exists, otherwise null
      */
-    public function getByName(string $name);
+    public function getByName(string $name) : ?Role;
 }

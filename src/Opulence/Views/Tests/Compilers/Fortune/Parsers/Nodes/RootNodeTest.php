@@ -20,7 +20,7 @@ class RootNodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the parent
      */
-    public function testGettingParent()
+    public function testGettingParent() : void
     {
         $node = new RootNode();
         $this->assertSame($node, $node->getParent());
@@ -29,7 +29,7 @@ class RootNodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the "is a" methods
      */
-    public function testIsAMethods()
+    public function testIsAMethods() : void
     {
         $node = new RootNode();
         $this->assertTrue($node->isRoot());

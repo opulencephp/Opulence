@@ -41,7 +41,7 @@ class EventRegistry implements IEventRegistry
     /**
      * @inheritdoc
      */
-    public function registerListener(string $eventName, callable $listener)
+    public function registerListener(string $eventName, callable $listener) : void
     {
         if (!isset($this->eventNamesToListeners[$eventName])) {
             $this->eventNamesToListeners[$eventName] = [];
@@ -55,7 +55,7 @@ class EventRegistry implements IEventRegistry
     /**
      * @inheritdoc
      */
-    public function removeListener(string $eventName, callable $listener)
+    public function removeListener(string $eventName, callable $listener) : void
     {
         if (
             isset($this->eventNamesToListeners[$eventName]) &&

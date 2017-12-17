@@ -74,7 +74,7 @@ interface IView
      *
      * @param string $contents The uncompiled contents
      */
-    public function setContents(string $contents);
+    public function setContents(string $contents) : void;
 
     /**
      * Sets the values for a delimiter type
@@ -82,14 +82,14 @@ interface IView
      * @param mixed $type The type of delimiter to set
      * @param array $values An array containing the open and close delimiter values
      */
-    public function setDelimiters($type, array $values);
+    public function setDelimiters($type, array $values) : void;
 
     /**
      * Sets the path of the raw view
      *
      * @param string $path The path of the raw view
      */
-    public function setPath(string $path);
+    public function setPath(string $path) : void;
 
     /**
      * Sets the value for a variable in the view
@@ -98,12 +98,12 @@ interface IView
      *      For example, if we are setting the value of a variable named "$email" in the view, pass in "email"
      * @param mixed $value The value of the variable
      */
-    public function setVar(string $name, $value);
+    public function setVar(string $name, $value) : void;
 
     /**
      * Sets multiple variables' values in the view
      *
      * @param array $namesToValues The mapping of variable names to their respective values
      */
-    public function setVars(array $namesToValues);
+    public function setVars(array $namesToValues) : void;
 }

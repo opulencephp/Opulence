@@ -37,7 +37,7 @@ class ConstructorWithMixOfConcreteClassesAndPrimitives
     /**
      * @return Bar
      */
-    public function getFoo()
+    public function getFoo() : Bar
     {
         return $this->foo;
     }
@@ -45,7 +45,7 @@ class ConstructorWithMixOfConcreteClassesAndPrimitives
     /**
      * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -53,7 +53,7 @@ class ConstructorWithMixOfConcreteClassesAndPrimitives
     /**
      * @return Dave
      */
-    public function getPerson()
+    public function getPerson() : Dave
     {
         return $this->person;
     }

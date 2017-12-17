@@ -67,7 +67,7 @@ class ViewFactory implements IViewFactory
     /**
      * @inheritdoc
      */
-    public function registerBuilder($names, callable $callback)
+    public function registerBuilder($names, callable $callback) : void
     {
         foreach ((array)$names as $name) {
             if (!isset($this->builders[$name])) {

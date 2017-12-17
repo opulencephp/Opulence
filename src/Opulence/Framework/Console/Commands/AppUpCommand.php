@@ -22,7 +22,7 @@ class AppUpCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('app:up')
             ->setDescription('Takes the application out of maintenance mode');

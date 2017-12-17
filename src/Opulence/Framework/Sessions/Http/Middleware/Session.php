@@ -68,7 +68,7 @@ abstract class Session implements IMiddleware
     /**
      * Runs garbage collection, if necessary
      */
-    abstract protected function gc();
+    abstract protected function gc() : void;
 
     /**
      * Writes any session data needed in the response
@@ -83,7 +83,7 @@ abstract class Session implements IMiddleware
      *
      * @param Request $request The current request
      */
-    protected function startSession(Request $request)
+    protected function startSession(Request $request) : void
     {
         $this->gc();
         $this->session->setId($request->getCookies()->get($this->session->getName()));
@@ -102,7 +102,7 @@ abstract class Session implements IMiddleware
      *
      * @param Response $response The response
      */
-    protected function writeSession(Response $response)
+    protected function writeSession(Response $response) : void
     {
         $this->session->ageFlashData();
         $this->sessionHandler->write($this->session->getId(), serialize($this->session->getAll()));

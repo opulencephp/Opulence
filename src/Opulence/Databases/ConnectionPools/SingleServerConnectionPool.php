@@ -20,7 +20,7 @@ class SingleServerConnectionPool extends ConnectionPool
     /**
      * @inheritdoc
      */
-    protected function setReadConnection(Server $preferredServer = null)
+    protected function setReadConnection(Server $preferredServer = null) : void
     {
         if ($preferredServer !== null) {
             $this->readConnection = $this->getConnection('custom', $preferredServer);
@@ -32,7 +32,7 @@ class SingleServerConnectionPool extends ConnectionPool
     /**
      * @inheritdoc
      */
-    protected function setWriteConnection(Server $preferredServer = null)
+    protected function setWriteConnection(Server $preferredServer = null) : void
     {
         if ($preferredServer !== null) {
             $this->writeConnection = $this->getConnection('custom', $preferredServer);

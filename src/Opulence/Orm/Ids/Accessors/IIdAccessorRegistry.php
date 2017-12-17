@@ -33,7 +33,7 @@ interface IIdAccessorRegistry
      * @param callable $getter The function that accepts an entity as a parameter and returns its Id
      * @param callable $setter The function that accepts an entity and new Id as parameters and sets the Id
      */
-    public function registerIdAccessors($classNames, callable $getter, callable $setter = null);
+    public function registerIdAccessors($classNames, callable $getter, callable $setter = null) : void;
 
     /**
      * Registers accessors that use reflection to set Id properties in the input classes
@@ -42,7 +42,7 @@ interface IIdAccessorRegistry
      * @param string $idPropertyName The name of the Id property we're registering
      * @throws OrmException Thrown if there was an exception performing the reflection
      */
-    public function registerReflectionIdAccessors($classNames, string $idPropertyName);
+    public function registerReflectionIdAccessors($classNames, string $idPropertyName) : void;
 
     /**
      * Sets the entity Id
@@ -51,5 +51,5 @@ interface IIdAccessorRegistry
      * @param mixed $id The Id to set
      * @throws OrmException Thrown if no Id setter has been registered for this entity
      */
-    public function setEntityId($entity, $id);
+    public function setEntityId($entity, $id) : void;
 }

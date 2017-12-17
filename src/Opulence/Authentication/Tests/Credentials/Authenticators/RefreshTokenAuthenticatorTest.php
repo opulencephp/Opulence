@@ -42,7 +42,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->refreshTokenRepository = $this->createMock(IJwtRepository::class);
         /** @var ISigner $signer */
@@ -74,7 +74,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unset token credential will return false
      */
-    public function testUnsetTokenCredentialReturnsFalse()
+    public function testUnsetTokenCredentialReturnsFalse() : void
     {
         /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
         $credential = $this->createMock(ICredential::class);
@@ -91,7 +91,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unverified JWT returns false
      */
-    public function testUnverifiedJwtReturnsFalse()
+    public function testUnverifiedJwtReturnsFalse() : void
     {
         $this->jwtVerifier
             ->expects($this->any())
@@ -106,7 +106,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a verified JWT that does not exist in the repository returns false
      */
-    public function testVerifiedJwtThatDoesNotExistInRepositoryReturnsFalse()
+    public function testVerifiedJwtThatDoesNotExistInRepositoryReturnsFalse() : void
     {
         $this->jwtVerifier
             ->expects($this->any())
@@ -124,7 +124,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a verified JWT that exists in the repository returns true
      */
-    public function testVerifiedJwtThatExistsInRepositoryReturnsTrue()
+    public function testVerifiedJwtThatExistsInRepositoryReturnsTrue() : void
     {
         $this->jwtVerifier
             ->expects($this->any())

@@ -32,7 +32,7 @@ class MakeMigrationCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         parent::define();
 

@@ -27,5 +27,5 @@ interface IEntity
      *
      * @param int|string $id The Id
      */
-    public function setId($id);
+    public function setId($id) : void;
 }

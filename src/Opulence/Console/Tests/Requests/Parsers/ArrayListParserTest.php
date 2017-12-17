@@ -24,7 +24,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->parser = new ArrayListParser();
     }
@@ -32,7 +32,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that backslashes are respected
      */
-    public function testBackslashesAreRespected()
+    public function testBackslashesAreRespected() : void
     {
         $request = $this->parser->parse([
             'name' => 'foo',
@@ -44,7 +44,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Test not passing arguments
      */
-    public function testNotPassingArguments()
+    public function testNotPassingArguments() : void
     {
         $request = $this->parser->parse([
             'name' => 'foo',
@@ -59,7 +59,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Test not passing options
      */
-    public function testNotPassingOptions()
+    public function testNotPassingOptions() : void
     {
         $request = $this->parser->parse([
             'name' => 'foo',
@@ -73,7 +73,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing arguments and options
      */
-    public function testParsingArgumentsAndOptions()
+    public function testParsingArgumentsAndOptions() : void
     {
         $request = $this->parser->parse([
             'name' => 'foo',
@@ -89,7 +89,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Test passing the command name
      */
-    public function testPassingCommandName()
+    public function testPassingCommandName() : void
     {
         $request = $this->parser->parse([
             'name' => 'mycommand'
@@ -100,7 +100,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing in an invalid input type
      */
-    public function testPassingInvalidInputType()
+    public function testPassingInvalidInputType() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->parser->parse('foo');

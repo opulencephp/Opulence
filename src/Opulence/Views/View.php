@@ -127,7 +127,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function setContents(string $contents)
+    public function setContents(string $contents) : void
     {
         $this->contents = $contents;
     }
@@ -135,7 +135,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function setDelimiters($type, array $values)
+    public function setDelimiters($type, array $values) : void
     {
         $this->delimiters[$type] = $values;
     }
@@ -143,7 +143,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function setPath(string $path)
+    public function setPath(string $path) : void
     {
         $this->path = $path;
     }
@@ -151,7 +151,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function setVar(string $name, $value)
+    public function setVar(string $name, $value) : void
     {
         $this->vars[$name] = $value;
     }
@@ -159,7 +159,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function setVars(array $namesToValues)
+    public function setVars(array $namesToValues) : void
     {
         foreach ($namesToValues as $name => $value) {
             $this->setVar($name, $value);

@@ -45,7 +45,7 @@ class ViewAssertions extends TestCase
     /**
      * @param Controller|mixed $controller
      */
-    public function setController($controller)
+    public function setController($controller) : void
     {
         $this->controller = $controller;
     }
@@ -75,7 +75,7 @@ class ViewAssertions extends TestCase
      * Checks if the controller was set
      * Useful for making sure the controller was set before making any assertions on it
      */
-    private function checkControllerSet()
+    private function checkControllerSet() : void
     {
         if ($this->controller === null) {
             $this->fail('Must call route() before assertions');

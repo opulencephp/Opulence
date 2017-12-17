@@ -20,7 +20,7 @@ class MakeEntityCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         parent::define();
 

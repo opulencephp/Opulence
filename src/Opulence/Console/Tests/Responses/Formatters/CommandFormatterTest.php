@@ -32,7 +32,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->formatter = new CommandFormatter();
         $this->commandCollection = new CommandCollection(new Compiler());
@@ -41,7 +41,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a command with mix of arguments
      */
-    public function testFormattingCommandWithMixOfArguments()
+    public function testFormattingCommandWithMixOfArguments() : void
     {
         $command = new SimpleCommand('foo', 'Foo command');
         $command->addArgument(new Argument(
@@ -65,7 +65,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a command with multiple arguments
      */
-    public function testFormattingCommandWithMultipleArguments()
+    public function testFormattingCommandWithMultipleArguments() : void
     {
         $command = new SimpleCommand('foo', 'Foo command');
         $command->addArgument(new Argument(
@@ -84,7 +84,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a command with no arguments or options
      */
-    public function testFormattingCommandWithNoArgumentsOrOptions()
+    public function testFormattingCommandWithNoArgumentsOrOptions() : void
     {
         $command = new SimpleCommand('foo', 'Foo command');
         $this->assertEquals('foo [--help|-h]', $this->formatter->format($command));
@@ -93,7 +93,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a command with one argument
      */
-    public function testFormattingCommandWithOneArgument()
+    public function testFormattingCommandWithOneArgument() : void
     {
         $command = new SimpleCommand('foo', 'Foo command');
         $command->addArgument(new Argument(
@@ -107,7 +107,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a command with one option with a default value
      */
-    public function testFormattingCommandWithOneOptionWithDefaultValue()
+    public function testFormattingCommandWithOneOptionWithDefaultValue() : void
     {
         $command = new SimpleCommand('foo', 'Foo command');
         $command->addOption(new Option(
@@ -123,7 +123,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a command with one option with default value but no short name
      */
-    public function testFormattingCommandWithOneOptionWithDefaultValueButNoShortName()
+    public function testFormattingCommandWithOneOptionWithDefaultValueButNoShortName() : void
     {
         $command = new SimpleCommand('foo', 'Foo command');
         $command->addOption(new Option(
@@ -139,7 +139,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a command with one option with no short name
      */
-    public function testFormattingCommandWithOneOptionWithoutShortName()
+    public function testFormattingCommandWithOneOptionWithoutShortName() : void
     {
         $command = new SimpleCommand('foo', 'Foo command');
         $command->addOption(new Option(
@@ -154,7 +154,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a command with one optional argument
      */
-    public function testFormattingCommandWithOneOptionalArgument()
+    public function testFormattingCommandWithOneOptionalArgument() : void
     {
         $command = new SimpleCommand('foo', 'Foo command');
         $command->addArgument(new Argument(
@@ -168,7 +168,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a command with an optional array argument
      */
-    public function testFormattingCommandWithOptionalArrayArgument()
+    public function testFormattingCommandWithOptionalArrayArgument() : void
     {
         $command = new SimpleCommand('foo', 'Foo command');
         $command->addArgument(new Argument(

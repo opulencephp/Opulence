@@ -29,7 +29,7 @@ class ConstructorWithInterface
     /**
      * @return IFoo
      */
-    public function getFoo()
+    public function getFoo() : IFoo
     {
         return $this->foo;
     }

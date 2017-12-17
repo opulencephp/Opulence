@@ -50,7 +50,7 @@ class Statement extends PDOStatement implements IStatement
      *      If mapping to an array, the first item should be the value and the second should be the data type constant
      * @return bool True if successful, otherwise false
      */
-    public function bindValues(array $values)
+    public function bindValues(array $values) : bool
     {
         $isAssociativeArray = count(array_filter(array_keys($values), 'is_string')) > 0;
 

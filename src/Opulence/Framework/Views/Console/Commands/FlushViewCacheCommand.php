@@ -35,9 +35,9 @@ class FlushViewCacheCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
-        $this->setName('views:flush')
+        $this->setName('views:flushcache')
             ->setDescription('Flushes all of the compiled views from cache');
     }
 

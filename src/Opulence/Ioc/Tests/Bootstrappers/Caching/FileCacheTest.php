@@ -65,7 +65,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->cachedRegistryFilePath = __DIR__ . '/files/cachedRegistry.json';
         $this->cache = new FileCache($this->cachedRegistryFilePath);
@@ -75,7 +75,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tears down the tests
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         if (file_exists($this->cachedRegistryFilePath)) {
             @unlink($this->cachedRegistryFilePath);
@@ -85,7 +85,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests flushing the cache
      */
-    public function testFlushing()
+    public function testFlushing() : void
     {
         file_put_contents($this->cachedRegistryFilePath, 'foo');
         $this->cache->flush();
@@ -95,7 +95,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests reading from an expired cache flushes it
      */
-    public function testReadingFromExpiredCacheFlushesIt()
+    public function testReadingFromExpiredCacheFlushesIt() : void
     {
         // Set the expiration so that it will definitely be more recent than the cached file's last modified time
         $cache = new FileCache($this->cachedRegistryFilePath, time() + 3600);
@@ -110,7 +110,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests reading when there is a cached registry
      */
-    public function testReadingWhenCachedRegistryExists()
+    public function testReadingWhenCachedRegistryExists() : void
     {
         $this->writeRegistry([
             'eager' => [EagerBootstrapper::class],
@@ -128,7 +128,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests reading when there is no cached registry
      */
-    public function testReadingWhenNoCachedRegistryExists()
+    public function testReadingWhenNoCachedRegistryExists() : void
     {
         $this->assertNull($this->cache->get());
     }
@@ -136,7 +136,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing a registry and then reading from it
      */
-    public function testWritingAndThenReadingRegistry()
+    public function testWritingAndThenReadingRegistry() : void
     {
         $lazyBootstrapper = new LazyBootstrapper();
         $setRegistry = new BootstrapperRegistry();
@@ -149,7 +149,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing a registry with targeted binding and then reading from it
      */
-    public function testWritingAndThenReadingRegistryWithTargetedBinding()
+    public function testWritingAndThenReadingRegistryWithTargetedBinding() : void
     {
         $lazyBootstrapper = new LazyBootstrapperWithTargetedBinding();
         $setRegistry = new BootstrapperRegistry();
@@ -162,7 +162,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing a registry
      */
-    public function testWritingRegistry()
+    public function testWritingRegistry() : void
     {
         $lazyBootstrapper = new LazyBootstrapper();
         $registry = new BootstrapperRegistry();
@@ -181,7 +181,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing a registry with no eager bootstrappers
      */
-    public function testWritingRegistryWithNoEagerBootstrappers()
+    public function testWritingRegistryWithNoEagerBootstrappers() : void
     {
         $lazyBootstrapper = new LazyBootstrapper();
         $registry = new BootstrapperRegistry();
@@ -199,7 +199,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing a registry with no lazy bootstrappers
      */
-    public function testWritingRegistryWithNoLazyBootstrappers()
+    public function testWritingRegistryWithNoLazyBootstrappers() : void
     {
         $registry = new BootstrapperRegistry();
         $registry->registerEagerBootstrapper(EagerBootstrapper::class);
@@ -228,7 +228,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      *
      * @param array $data The data to write
      */
-    private function writeRegistry(array $data)
+    private function writeRegistry(array $data) : void
     {
         file_put_contents($this->cachedRegistryFilePath, json_encode($data));
     }

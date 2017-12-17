@@ -20,7 +20,7 @@ class IntegerRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a failing value
      */
-    public function testFailingValue()
+    public function testFailingValue() : void
     {
         $rule = new IntegerRule();
         $this->assertFalse($rule->passes(false));
@@ -32,7 +32,7 @@ class IntegerRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug()
+    public function testGettingSlug() : void
     {
         $rule = new IntegerRule();
         $this->assertEquals('integer', $rule->getSlug());
@@ -41,7 +41,7 @@ class IntegerRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a passing value
      */
-    public function testPassingValue()
+    public function testPassingValue() : void
     {
         $rule = new IntegerRule();
         $this->assertTrue($rule->passes(0));

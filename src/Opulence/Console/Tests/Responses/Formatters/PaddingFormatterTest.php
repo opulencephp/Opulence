@@ -23,7 +23,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->formatter = new PaddingFormatter();
     }
@@ -31,7 +31,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a custom padding string with array rows
      */
-    public function testCustomPaddingStringWithArrayRows()
+    public function testCustomPaddingStringWithArrayRows() : void
     {
         $rows = [
             ['a', 'b '],
@@ -50,7 +50,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a custom padding string with string rows
      */
-    public function testCustomPaddingStringWithStringRows()
+    public function testCustomPaddingStringWithStringRows() : void
     {
         $rows = [
             'a',
@@ -68,7 +68,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a custom row separator with row arrays
      */
-    public function testCustomRowSeparatorWithRowArrays()
+    public function testCustomRowSeparatorWithRowArrays() : void
     {
         $rows = [
             ['a', '  b'],
@@ -86,7 +86,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a custom row separator with string rows
      */
-    public function testCustomRowSeparatorWithStringRows()
+    public function testCustomRowSeparatorWithStringRows() : void
     {
         $rows = [
             'a',
@@ -104,7 +104,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the EOL char
      */
-    public function testGettingEOLChar()
+    public function testGettingEOLChar() : void
     {
         $this->formatter->setEolChar('foo');
         $this->assertEquals('foo', $this->formatter->getEolChar());
@@ -113,7 +113,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests normalizing the columns
      */
-    public function testNormalizingColumns()
+    public function testNormalizingColumns() : void
     {
         $rows = [
             ['a'],
@@ -134,7 +134,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests padding array rows
      */
-    public function testPaddingArrayRows()
+    public function testPaddingArrayRows() : void
     {
         $rows = [
             ['a', 'b'],
@@ -161,7 +161,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests padding empty array
      */
-    public function testPaddingEmptyArray()
+    public function testPaddingEmptyArray() : void
     {
         $this->assertEquals('', $this->formatter->format([], function ($row) {
             return $row[0];
@@ -171,7 +171,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests padding a single array
      */
-    public function testPaddingSingleArray()
+    public function testPaddingSingleArray() : void
     {
         $this->assertEquals('foo' . PHP_EOL . 'bar', $this->formatter->format(['  foo  ', 'bar'], function ($row) {
             return $row[0];
@@ -181,7 +181,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests padding a single string
      */
-    public function testPaddingSingleString()
+    public function testPaddingSingleString() : void
     {
         $this->assertEquals('foo', $this->formatter->format(['  foo  '], function ($row) {
             return $row[0];
@@ -191,7 +191,7 @@ class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests padding string rows
      */
-    public function testPaddingStringRows()
+    public function testPaddingStringRows() : void
     {
         $rows = [
             'a',

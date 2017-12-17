@@ -25,7 +25,7 @@ class AuthenticatorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->registry = new AuthenticatorRegistry();
     }
@@ -33,7 +33,7 @@ class AuthenticatorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the correct authenticator is returned
      */
-    public function testCorrectAuthenticatorReturned()
+    public function testCorrectAuthenticatorReturned() : void
     {
         /** @var IAuthenticator $authenticator */
         $authenticator = $this->createMock(IAuthenticator::class);
@@ -44,7 +44,7 @@ class AuthenticatorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown with a non-existent authenticator
      */
-    public function testExceptionThrownOnNonExistentAuthenticator()
+    public function testExceptionThrownOnNonExistentAuthenticator() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->registry->getAuthenticators('foo');

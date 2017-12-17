@@ -21,7 +21,7 @@ class StyledCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('stylish');
         $this->setDescription('Shows an output with style');

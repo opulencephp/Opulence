@@ -26,7 +26,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->previousException = new Exception();
         $this->exception = new HttpException(
@@ -41,7 +41,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the code
      */
-    public function testGettingCode()
+    public function testGettingCode() : void
     {
         $this->assertEquals(4, $this->exception->getCode());
     }
@@ -49,7 +49,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the headers
      */
-    public function testGettingHeaders()
+    public function testGettingHeaders() : void
     {
         $this->assertEquals(['bar' => 'baz'], $this->exception->getHeaders());
     }
@@ -57,7 +57,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the message
      */
-    public function testGettingMessage()
+    public function testGettingMessage() : void
     {
         $this->assertEquals('foo', $this->exception->getMessage());
     }
@@ -65,7 +65,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the previous exception
      */
-    public function testGettingPreviousException()
+    public function testGettingPreviousException() : void
     {
         $this->assertSame($this->previousException, $this->exception->getPrevious());
     }
@@ -73,7 +73,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the status code
      */
-    public function testGettingStatusCode()
+    public function testGettingStatusCode() : void
     {
         $this->assertEquals(404, $this->exception->getStatusCode());
     }

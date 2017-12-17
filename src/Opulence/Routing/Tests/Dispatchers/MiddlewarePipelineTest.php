@@ -27,7 +27,7 @@ class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->middlewarePipeline = new MiddlewarePipeline();
     }
@@ -35,7 +35,7 @@ class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an empty response is returned when no response is otherwise returned
      */
-    public function testEmptyResponseReturnedWhenNoResponseIsOtherwiseReturned()
+    public function testEmptyResponseReturnedWhenNoResponseIsOtherwiseReturned() : void
     {
         $controller = function () {
             // Don't do anything
@@ -50,7 +50,7 @@ class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that middleware can affect the response
      */
-    public function testMiddlewareCanAffectResponse()
+    public function testMiddlewareCanAffectResponse() : void
     {
         $middleware = [
             new ReturnsSomethingMiddleware(),

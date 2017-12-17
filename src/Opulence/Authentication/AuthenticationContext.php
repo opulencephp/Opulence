@@ -46,7 +46,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function getSubject()
+    public function getSubject() : ?ISubject
     {
         return $this->subject;
     }
@@ -62,7 +62,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function setStatus(string $status)
+    public function setStatus(string $status) : void
     {
         $this->status = $status;
     }
@@ -70,7 +70,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function setSubject(ISubject $subject)
+    public function setSubject(ISubject $subject) : void
     {
         $this->subject = $subject;
     }

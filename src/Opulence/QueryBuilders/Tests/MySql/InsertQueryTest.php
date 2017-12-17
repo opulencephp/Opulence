@@ -21,7 +21,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding columns to the update portion of an INSERT/UPDATE
      */
-    public function testAddingColumnsToUpdate()
+    public function testAddingColumnsToUpdate() : void
     {
         $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);
         $query->update(['name' => 'dave'])
@@ -37,7 +37,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a basic query
      */
-    public function testBasicQuery()
+    public function testBasicQuery() : void
     {
         $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);
         $this->assertEquals('INSERT INTO users (name, email) VALUES (?, ?)', $query->getSql());
@@ -50,7 +50,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests all the methods in a single, complicated query
      */
-    public function testEverything()
+    public function testEverything() : void
     {
         $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);
         $query->update(['name' => 'dave'])
@@ -66,7 +66,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the INSERT/UPDATE ability
      */
-    public function testInsertUpdate()
+    public function testInsertUpdate() : void
     {
         $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);
         $query->update(['name' => 'dave', 'email' => 'foo@bar.com']);

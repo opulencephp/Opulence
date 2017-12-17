@@ -22,5 +22,5 @@ interface ICacheDataMapper extends IDataMapper
      *
      * @throws OrmException Thrown if the cache couldn't be flushed
      */
-    public function flush();
+    public function flush() : void;
 }

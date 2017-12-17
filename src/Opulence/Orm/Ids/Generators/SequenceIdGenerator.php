@@ -48,7 +48,7 @@ abstract class SequenceIdGenerator implements IIdGenerator
      *
      * @param IConnection $connection The connection to use
      */
-    public function setConnection(IConnection $connection)
+    public function setConnection(IConnection $connection) : void
     {
         $this->connection = $connection;
     }

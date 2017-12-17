@@ -23,7 +23,7 @@ class {{class}} implements IEntity
      *
      * @param int|string $id The database Id
      */
-    public function setId($id)
+    public function setId($id) : void
     {
         $this->id = $id;
     }

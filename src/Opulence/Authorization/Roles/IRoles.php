@@ -24,7 +24,7 @@ interface IRoles
      * @param string|string[] $roleNames The name of the role or roles to assign
      * @throws InvalidArgumentException Thrown if the input rule names do not exist
      */
-    public function assignRoles($subjectId, $roleNames);
+    public function assignRoles($subjectId, $roleNames) : void;
 
     /**
      * Creates a role
@@ -39,7 +39,7 @@ interface IRoles
      *
      * @param string $roleName The name of the role to delete
      */
-    public function deleteRole(string $roleName);
+    public function deleteRole(string $roleName) : void;
 
     /**
      * Gets all roles for a subject
@@ -62,7 +62,7 @@ interface IRoles
      *
      * @param int|string $subjectId The primary identity of the subject to remove
      */
-    public function removeAllRolesFromSubject($subjectId);
+    public function removeAllRolesFromSubject($subjectId) : void;
 
     /**
      * Removes roles from a subject
@@ -70,7 +70,7 @@ interface IRoles
      * @param int|string $subjectId The identity of the subject to remove
      * @param string|string[] $roleNames The name of the role or roles to remove
      */
-    public function removeRolesFromSubject($subjectId, $roleNames);
+    public function removeRolesFromSubject($subjectId, $roleNames) : void;
 
     /**
      * Gets whether or not a role exists

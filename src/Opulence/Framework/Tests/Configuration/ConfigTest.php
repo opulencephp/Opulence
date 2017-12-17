@@ -20,7 +20,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a non-existent value
      */
-    public function testGettingNonExistentValue()
+    public function testGettingNonExistentValue() : void
     {
         $this->assertNull(Config::get('foo', 'bar'));
         $this->assertEquals('baz', Config::get('foo', 'bar', 'baz'));
@@ -30,7 +30,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting many settings by category
      */
-    public function testSettingCategory()
+    public function testSettingCategory() : void
     {
         Config::setCategory('foo', ['bar' => 'baz']);
         $this->assertEquals('baz', Config::get('foo', 'bar'));
@@ -43,7 +43,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a single setting
      */
-    public function testSettingSingleSetting()
+    public function testSettingSingleSetting() : void
     {
         Config::set('foo', 'bar', 'baz');
         $this->assertEquals('baz', Config::get('foo', 'bar'));

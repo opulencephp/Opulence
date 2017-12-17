@@ -76,7 +76,7 @@ class InsertQuery extends Query
     /**
      * @inheritdoc
      */
-    public function setTable(string $tableName, string $tableAlias = '')
+    public function setTable(string $tableName, string $tableAlias = '') : void
     {
         parent::setTable($tableName);
     }

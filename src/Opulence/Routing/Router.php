@@ -127,7 +127,7 @@ class Router
     /**
      * @return CompiledRoute|null
      */
-    public function getMatchedRoute()
+    public function getMatchedRoute() : ?CompiledRoute
     {
         return $this->matchedRoute;
     }
@@ -153,7 +153,7 @@ class Router
      *          "vars" => The list of path variable regular expressions all the routes must match
      * @param callable $callback A function that adds routes to the router
      */
-    public function group(array $options, callable $callback)
+    public function group(array $options, callable $callback) : void
     {
         array_push($this->groupOptionsStack, $options);
         $callback($this);
@@ -287,7 +287,7 @@ class Router
     /**
      * @param RouteCollection $routeCollection
      */
-    public function setRouteCollection(RouteCollection $routeCollection)
+    public function setRouteCollection(RouteCollection $routeCollection) : void
     {
         $this->routeCollection = $routeCollection;
     }

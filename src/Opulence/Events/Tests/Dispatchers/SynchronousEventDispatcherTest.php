@@ -32,7 +32,7 @@ class SynchronousEventDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->eventRegistry = $this->createMock(IEventRegistry::class);
         $this->dispatcher = new SynchronousEventDispatcher($this->eventRegistry);
@@ -43,7 +43,7 @@ class SynchronousEventDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests dispatching to multiple listeners
      */
-    public function testDispatchingToMultipleListeners()
+    public function testDispatchingToMultipleListeners() : void
     {
         $listeners = [
             [$this->listener, 'doNothing1'],
@@ -60,7 +60,7 @@ class SynchronousEventDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests dispatching to a single listener
      */
-    public function testDispatchingToSingleListener()
+    public function testDispatchingToSingleListener() : void
     {
         $listeners = [
             [$this->listener, 'doNothing1']
@@ -75,7 +75,7 @@ class SynchronousEventDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests dispatching with no listeners
      */
-    public function testDispatchingWithNoListeners()
+    public function testDispatchingWithNoListeners() : void
     {
         $this->dispatcher->dispatch('foo', $this->event);
         // Essentially just test that we got here

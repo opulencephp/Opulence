@@ -28,7 +28,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->opulenceEncrypter = $this->createMock(IEncrypter::class);
         $this->sessionEncrypter = new SessionEncrypter($this->opulenceEncrypter);
@@ -37,7 +37,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the Opulence encrypter's exceptions are converted when decrypting
      */
-    public function testOpulenceEncrypterExceptionIsConvertedWhenDecrypting()
+    public function testOpulenceEncrypterExceptionIsConvertedWhenDecrypting() : void
     {
         $this->expectException(SessionEncryptionException::class);
         $this->opulenceEncrypter->expects($this->once())
@@ -50,7 +50,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the Opulence encrypter's exceptions are converted when encrypting
      */
-    public function testOpulenceEncrypterExceptionIsConvertedWhenEncrypting()
+    public function testOpulenceEncrypterExceptionIsConvertedWhenEncrypting() : void
     {
         $this->expectException(SessionEncryptionException::class);
         $this->opulenceEncrypter->expects($this->once())
@@ -63,7 +63,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the Opulence encrypter is used to decrypt data
      */
-    public function testOpulenceEncrypterUsedToDecryptData()
+    public function testOpulenceEncrypterUsedToDecryptData() : void
     {
         $this->opulenceEncrypter->expects($this->once())
             ->method('decrypt')
@@ -75,7 +75,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the Opulence encrypter is used to encrypt data
      */
-    public function testOpulenceEncrypterUsedToEncryptData()
+    public function testOpulenceEncrypterUsedToEncryptData() : void
     {
         $this->opulenceEncrypter->expects($this->once())
             ->method('encrypt')

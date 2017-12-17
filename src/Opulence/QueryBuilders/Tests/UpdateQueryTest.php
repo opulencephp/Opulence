@@ -25,7 +25,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->condition = $this->createMock(ICondition::class);
         $this->condition->expects($this->any())
@@ -39,7 +39,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding more columns
      */
-    public function testAddingMoreColumns()
+    public function testAddingMoreColumns() : void
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->addColumnValues(['email' => 'bar@foo.com']);
@@ -53,7 +53,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a basic query
      */
-    public function testBasicQuery()
+    public function testBasicQuery() : void
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $this->assertEquals('UPDATE users SET name = ?', $query->getSql());
@@ -65,7 +65,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests all the methods in a single, complicated query
      */
-    public function testEverything()
+    public function testEverything() : void
     {
         $query = new UpdateQuery('users', 'u', ['name' => 'david']);
         $query->addColumnValues(['email' => 'bar@foo.com'])
@@ -87,7 +87,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "WHERE" clause
      */
-    public function testWhere()
+    public function testWhere() : void
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->where('id = ?')
@@ -102,7 +102,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "WHERE" clause condition object
      */
-    public function testWhereConditionObject()
+    public function testWhereConditionObject() : void
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->where($this->condition)

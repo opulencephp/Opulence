@@ -20,7 +20,7 @@ class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding to a "RETURNING" clause
      */
-    public function testAddReturning()
+    public function testAddReturning() : void
     {
         $queryBuilder = new AugmentingQueryBuilder();
         $queryBuilder->returning('id')
@@ -31,7 +31,7 @@ class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "RETURNING" clause
      */
-    public function testReturning()
+    public function testReturning() : void
     {
         $queryBuilder = new AugmentingQueryBuilder();
         $queryBuilder->returning('id');

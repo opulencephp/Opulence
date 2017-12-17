@@ -40,5 +40,5 @@ interface IEncrypter
      *
      * @param Secret $secret The secret to use
      */
-    public function setSecret(Secret $secret);
+    public function setSecret(Secret $secret) : void;
 }

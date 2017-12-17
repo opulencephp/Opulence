@@ -37,7 +37,7 @@ class Collection implements ArrayAccess, Countable
      * @param string $name The key to add
      * @param mixed $value The value to add
      */
-    public function add(string $name, $value)
+    public function add(string $name, $value) : void
     {
         $this->values[$name] = $value;
     }
@@ -118,7 +118,7 @@ class Collection implements ArrayAccess, Countable
     /**
      * @inheritdoc
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value) : void
     {
         $this->set($offset, $value);
     }
@@ -126,7 +126,7 @@ class Collection implements ArrayAccess, Countable
     /**
      * @inheritdoc
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset) : void
     {
         $this->remove($offset);
     }
@@ -136,7 +136,7 @@ class Collection implements ArrayAccess, Countable
      *
      * @param string $name The name of the key to remove
      */
-    public function remove(string $name)
+    public function remove(string $name) : void
     {
         unset($this->values[$name]);
     }
@@ -147,7 +147,7 @@ class Collection implements ArrayAccess, Countable
      * @param string $name The key to set
      * @param mixed $value The value to set
      */
-    public function set(string $name, $value)
+    public function set(string $name, $value) : void
     {
         $this->values[$name] = $value;
     }

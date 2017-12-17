@@ -271,7 +271,7 @@ class ResponseAssertions extends TestCase
     /**
      * @param Response $response
      */
-    public function setResponse($response)
+    public function setResponse($response) : void
     {
         $this->response = $response;
     }
@@ -294,7 +294,7 @@ class ResponseAssertions extends TestCase
      * Checks if the response was set
      * Useful for making sure the response was set before making any assertions on it
      */
-    private function checkResponseIsSet()
+    private function checkResponseIsSet() : void
     {
         if ($this->response === null) {
             $this->fail('Must call route() before assertions');

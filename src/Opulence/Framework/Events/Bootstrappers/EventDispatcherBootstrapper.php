@@ -25,7 +25,7 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         $container->bindInstance(IEventDispatcher::class, $this->getEventDispatcher($container));
     }

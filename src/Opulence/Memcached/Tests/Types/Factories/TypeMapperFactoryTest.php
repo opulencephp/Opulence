@@ -21,7 +21,7 @@ class TypeMapperFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a type mapper is created
      */
-    public function testTypeMapperIsCreated()
+    public function testTypeMapperIsCreated() : void
     {
         $this->assertInstanceOf(TypeMapper::class, (new TypeMapperFactory)->createTypeMapper());
     }

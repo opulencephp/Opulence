@@ -36,7 +36,7 @@ class SinglePromptCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('singleprompt');
         $this->setDescription('Asks a question');

@@ -26,7 +26,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->cache = new ArrayCache();
         $this->view = $this->createMock(IView::class);
@@ -35,7 +35,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests flushing the cache removes views
      */
-    public function testFlushingCacheRemovesViews()
+    public function testFlushingCacheRemovesViews() : void
     {
         $this->cache->set($this->view, 'foo');
         $this->cache->flush();
@@ -46,7 +46,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an existing view
      */
-    public function testGettingExistingView()
+    public function testGettingExistingView() : void
     {
         $this->cache->set($this->view, 'foo');
         $this->assertEquals('foo', $this->cache->get($this->view));
@@ -56,7 +56,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a non-existent view
      */
-    public function testGettingNonExistentView()
+    public function testGettingNonExistentView() : void
     {
         $this->assertNull($this->cache->get($this->view));
         $this->assertFalse($this->cache->has($this->view));
@@ -65,7 +65,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting views with the same content but different view variables
      */
-    public function testGettingViewsWithSameContentButDifferentViewVariables()
+    public function testGettingViewsWithSameContentButDifferentViewVariables() : void
     {
         $view1 = $this->createMock(IView::class);
         $view2 = $this->createMock(IView::class);

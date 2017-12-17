@@ -34,7 +34,7 @@ class UserModelState extends ModelState
     /**
      * @inheritdoc
      */
-    protected function registerFields(IValidator $validator)
+    protected function registerFields(IValidator $validator) : void
     {
         $validator->field('id')
             ->integer();

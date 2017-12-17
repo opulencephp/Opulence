@@ -29,7 +29,7 @@ class PathMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->matcher = new PathMatcher();
         $this->request = $this->getMockBuilder(Request::class)
@@ -43,7 +43,7 @@ class PathMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that there is a match when the regex matches
      */
-    public function testMatchWithMatchingRegex()
+    public function testMatchWithMatchingRegex() : void
     {
         $this->route->expects($this->any())->method('getPathRegex')->willReturn('#^foo$#');
         $this->request->expects($this->any())->method('getPath')->willReturn('foo');
@@ -53,7 +53,7 @@ class PathMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that there is not match when the regex does not match
      */
-    public function testNoMatchWithNoMatchingRegex()
+    public function testNoMatchWithNoMatchingRegex() : void
     {
         $this->route->expects($this->any())->method('getPathRegex')->willReturn('#^foo$#');
         $this->request->expects($this->any())->method('getPath')->willReturn('bar');

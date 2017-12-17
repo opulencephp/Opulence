@@ -51,5 +51,5 @@ abstract class Driver implements IDriver
     /**
      * Sets the provider used by this driver's connections
      */
-    abstract protected function setProvider();
+    abstract protected function setProvider() : void;
 }

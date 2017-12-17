@@ -29,7 +29,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->parser = new Parser();
     }
@@ -37,7 +37,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests incorrectly nested tags
      */
-    public function testIncorrectlyNestedTags()
+    public function testIncorrectlyNestedTags() : void
     {
         $this->expectException(RuntimeException::class);
         $tokens = [
@@ -54,7 +54,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing adjacent elements
      */
-    public function testParsingAdjacentElements()
+    public function testParsingAdjacentElements() : void
     {
         $tokens = [
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 1),
@@ -81,7 +81,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing an element with no children
      */
-    public function testParsingElementWithNoChildren()
+    public function testParsingElementWithNoChildren() : void
     {
         $tokens = [
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 1),
@@ -100,7 +100,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing an escaped tag at the beginning of the string
      */
-    public function testParsingEscapedTagAtBeginning()
+    public function testParsingEscapedTagAtBeginning() : void
     {
         $tokens = [
             new Token(TokenTypes::T_WORD, '<bar>', 1),
@@ -115,7 +115,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing an escaped tag in between tags
      */
-    public function testParsingEscapedTagInBetweenTags()
+    public function testParsingEscapedTagInBetweenTags() : void
     {
         $tokens = [
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 1),
@@ -133,7 +133,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing nested elements
      */
-    public function testParsingNestedElements()
+    public function testParsingNestedElements() : void
     {
         $tokens = [
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 1),
@@ -162,7 +162,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing nested elements surrounded by words
      */
-    public function testParsingNestedElementsSurroundedByWords()
+    public function testParsingNestedElementsSurroundedByWords() : void
     {
         $tokens = [
             new Token(TokenTypes::T_WORD, 'dave', 1),
@@ -195,7 +195,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing nested elements with no children
      */
-    public function testParsingNestedElementsWithNoChildren()
+    public function testParsingNestedElementsWithNoChildren() : void
     {
         $tokens = [
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 1),
@@ -217,7 +217,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing plain text
      */
-    public function testParsingPlainText()
+    public function testParsingPlainText() : void
     {
         $tokens = [
             new Token(TokenTypes::T_WORD, 'foobar', 1),
@@ -235,7 +235,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a single element
      */
-    public function testParsingSingleElement()
+    public function testParsingSingleElement() : void
     {
         $tokens = [
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 1),
@@ -253,7 +253,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing with an unclosed tag
      */
-    public function testParsingWithUnclosedTag()
+    public function testParsingWithUnclosedTag() : void
     {
         $this->expectException(RuntimeException::class);
         $tokens = [
@@ -267,7 +267,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing with an unopened tag
      */
-    public function testParsingWithUnopenedTag()
+    public function testParsingWithUnopenedTag() : void
     {
         $this->expectException(RuntimeException::class);
         $tokens = [

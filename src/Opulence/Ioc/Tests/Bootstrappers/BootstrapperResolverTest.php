@@ -26,7 +26,7 @@ class BootstrapperResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->resolver = new BootstrapperResolver();
     }
@@ -34,7 +34,7 @@ class BootstrapperResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests resolving a bootstrapper
      */
-    public function testResolvingBootstrapper()
+    public function testResolvingBootstrapper() : void
     {
         $bootstrapper = $this->resolver->resolve(Bootstrapper::class);
         $this->assertInstanceOf(Bootstrapper::class, $bootstrapper);
@@ -43,7 +43,7 @@ class BootstrapperResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests resolving a bootstrapper twice returns the same instance
      */
-    public function testResolvingBootstrapperTwiceReturnsSameInstance()
+    public function testResolvingBootstrapperTwiceReturnsSameInstance() : void
     {
         $this->assertSame($this->resolver->resolve(Bootstrapper::class), $this->resolver->resolve(Bootstrapper::class));
     }
@@ -51,7 +51,7 @@ class BootstrapperResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests resolving an invalid bootstrapper
      */
-    public function testResolvingInvalidBootstrapper()
+    public function testResolvingInvalidBootstrapper() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->resolver->resolve(self::class);
@@ -60,7 +60,7 @@ class BootstrapperResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests resolving many bootstrappers
      */
-    public function testResolvingManyBootstrappers()
+    public function testResolvingManyBootstrappers() : void
     {
         $bootstrappers = $this->resolver->resolveMany([Bootstrapper::class, BootstrapperWithEverything::class]);
         $this->assertInstanceOf(Bootstrapper::class, $bootstrappers[0]);
@@ -70,7 +70,7 @@ class BootstrapperResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests resolving many bootstrappers twice returns the same instances
      */
-    public function testResolvingManyBootstrappersTwiceReturnsSameInstances()
+    public function testResolvingManyBootstrappersTwiceReturnsSameInstances() : void
     {
         $bootstrappers1 = $this->resolver->resolveMany([Bootstrapper::class, BootstrapperWithEverything::class]);
         $bootstrappers2 = $this->resolver->resolveMany([Bootstrapper::class, BootstrapperWithEverything::class]);

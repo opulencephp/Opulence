@@ -29,7 +29,7 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->eventRegistry = new EventRegistry();
         $this->event = new Event();
@@ -39,7 +39,7 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding listeners
      */
-    public function testAddingListeners()
+    public function testAddingListeners() : void
     {
         $listener1 = [$this->listener, 'doNothing1'];
         $listener2 = [$this->listener, 'doNothing2'];
@@ -54,7 +54,7 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an event has listeners
      */
-    public function testCheckingIfEventHasListeners()
+    public function testCheckingIfEventHasListeners() : void
     {
         $this->assertFalse($this->eventRegistry->hasListeners('foo'));
         $this->eventRegistry->registerListener('foo', [$this->listener, 'doNothing1']);
@@ -64,7 +64,7 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting listeners
      */
-    public function testGettingListeners()
+    public function testGettingListeners() : void
     {
         $this->assertEquals([], $this->eventRegistry->getListeners('foo'));
         $listener1 = [$this->listener, 'doNothing1'];
@@ -77,7 +77,7 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Test that a listener cannot be added twice
      */
-    public function testListenerCannotBeAddedTwice()
+    public function testListenerCannotBeAddedTwice() : void
     {
         $listener = [$this->listener, 'doNothing1'];
         $this->eventRegistry->registerListener('foo', $listener);
@@ -88,7 +88,7 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removing listeners
      */
-    public function testRemovingListeners()
+    public function testRemovingListeners() : void
     {
         $listener1 = [$this->listener, 'doNothing1'];
         $listener2 = [$this->listener, 'doNothing2'];

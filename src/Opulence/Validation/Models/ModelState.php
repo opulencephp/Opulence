@@ -72,5 +72,5 @@ abstract class ModelState
      *
      * @param IValidator $validator The validator to register with
      */
-    abstract protected function registerFields(IValidator $validator);
+    abstract protected function registerFields(IValidator $validator) : void;
 }

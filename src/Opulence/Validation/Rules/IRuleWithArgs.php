@@ -23,5 +23,5 @@ interface IRuleWithArgs extends IRule
      * @param array $args The list of arguments
      * @throws InvalidArgumentException Thrown if the arguments were invalid
      */
-    public function setArgs(array $args);
+    public function setArgs(array $args) : void;
 }

@@ -37,7 +37,7 @@ class GenericCache implements ICache
     /**
      * @inheritdoc
      */
-    public function flush()
+    public function flush() : void
     {
         $this->bridge->flush();
     }
@@ -45,7 +45,7 @@ class GenericCache implements ICache
     /**
      * @inheritdoc
      */
-    public function gc()
+    public function gc() : void
     {
         // Garbage collection is not needed with a cache bridge
     }
@@ -53,7 +53,7 @@ class GenericCache implements ICache
     /**
      * @inheritdoc
      */
-    public function get(IView $view, bool $checkVars = false)
+    public function get(IView $view, bool $checkVars = false) : ?string
     {
         return $this->bridge->get($this->getKey($view, $checkVars));
     }
@@ -69,7 +69,7 @@ class GenericCache implements ICache
     /**
      * @inheritdoc
      */
-    public function set(IView $view, string $compiledContents, bool $checkVars = false)
+    public function set(IView $view, string $compiledContents, bool $checkVars = false) : void
     {
         $this->bridge->set($this->getKey($view, $checkVars), $compiledContents, $this->lifetime);
     }
@@ -77,7 +77,7 @@ class GenericCache implements ICache
     /**
      * @inheritdoc
      */
-    public function setGCChance(int $chance, int $divisor = 100)
+    public function setGCChance(int $chance, int $divisor = 100) : void
     {
         // Garbage collection is not needed with a cache bridge
     }

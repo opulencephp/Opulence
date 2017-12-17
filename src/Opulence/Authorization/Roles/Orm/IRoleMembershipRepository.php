@@ -22,14 +22,14 @@ interface IRoleMembershipRepository
      *
      * @param RoleMembership $roleMembership The role membership to add
      */
-    public function add($roleMembership);
+    public function add($roleMembership) : void;
 
     /**
      * Deletes a role membership
      *
      * @param RoleMembership $roleMembership The role membership to delete
      */
-    public function delete($roleMembership);
+    public function delete($roleMembership) : void;
 
     /**
      * Gets all the role memberships
@@ -61,7 +61,7 @@ interface IRoleMembershipRepository
      * @param int|string $roleId The role Id to search for
      * @return RoleMembership|null The role membership if one was found, otherwise false
      */
-    public function getBySubjectAndRoleId($subjectId, $roleId);
+    public function getBySubjectAndRoleId($subjectId, $roleId) : ?RoleMembership;
 
     /**
      * Gets the list of role memberships for a subject

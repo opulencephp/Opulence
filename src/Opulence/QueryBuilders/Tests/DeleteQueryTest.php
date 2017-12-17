@@ -25,7 +25,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->condition = $this->createMock(ICondition::class);
         $this->condition->expects($this->any())
@@ -39,7 +39,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "USING" expression
      */
-    public function testAddingUsing()
+    public function testAddingUsing() : void
     {
         $query = new DeleteQuery('users');
         $query->using('emails')
@@ -53,7 +53,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "AND" where condition
      */
-    public function testAndWhere()
+    public function testAndWhere() : void
     {
         $query = new DeleteQuery('users');
         $query->where('id = 1')
@@ -64,7 +64,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "AND" where condition object
      */
-    public function testAndWhereConditionObject()
+    public function testAndWhereConditionObject() : void
     {
         $query = new DeleteQuery('users');
         $query->where('id = 1')
@@ -76,7 +76,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the most basic query we can run
      */
-    public function testBasicQuery()
+    public function testBasicQuery() : void
     {
         $query = new DeleteQuery('users');
         $this->assertEquals('DELETE FROM users', $query->getSql());
@@ -85,7 +85,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests all the methods in a single, complicated query
      */
-    public function testEverything()
+    public function testEverything() : void
     {
         $query = new DeleteQuery('users', 'u');
         $query->using('emails')
@@ -101,7 +101,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "OR" where condition
      */
-    public function testOrWhere()
+    public function testOrWhere() : void
     {
         $query = new DeleteQuery('users');
         $query->where('id = 1')
@@ -112,7 +112,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "OR" where condition
      */
-    public function testOrWhereConditionObject()
+    public function testOrWhereConditionObject() : void
     {
         $query = new DeleteQuery('users');
         $query->where('id = 1')
@@ -124,7 +124,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests using an alias on the table name
      */
-    public function testTableAlias()
+    public function testTableAlias() : void
     {
         $query = new DeleteQuery('users', 'u');
         $this->assertEquals('DELETE FROM users AS u', $query->getSql());
@@ -133,7 +133,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the "USING" expression
      */
-    public function testUsing()
+    public function testUsing() : void
     {
         $query = new DeleteQuery('users');
         $query->using('emails')
@@ -145,7 +145,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a simple where clause
      */
-    public function testWhere()
+    public function testWhere() : void
     {
         $query = new DeleteQuery('users');
         $query->where('id = 1');
@@ -155,7 +155,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a simple where clause with a condition object
      */
-    public function testWhereConditionObject()
+    public function testWhereConditionObject() : void
     {
         $query = new DeleteQuery('users');
         $query->where($this->condition);

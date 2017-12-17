@@ -49,7 +49,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function add($entity)
+    public function add($entity) : void
     {
         $this->sqlDataMapper->add($entity);
         $this->scheduleForCacheInsertion($entity);
@@ -58,7 +58,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function commit()
+    public function commit() : void
     {
         try {
             foreach ($this->scheduledActions as $action) {
@@ -87,7 +87,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function delete($entity)
+    public function delete($entity) : void
     {
         $this->sqlDataMapper->delete($entity);
         $this->scheduleForCacheDeletion($entity);
@@ -144,7 +144,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function refreshEntity($id)
+    public function refreshEntity($id) : void
     {
         /**
          * We're refreshing because the entity in cache might have different properties than the one in the SQL database
@@ -165,7 +165,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function update($entity)
+    public function update($entity) : void
     {
         $this->sqlDataMapper->update($entity);
         $this->scheduleForCacheUpdate($entity);
@@ -176,7 +176,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      *
      * @param mixed $cache The cache object used in the data mapper
      */
-    abstract protected function setCacheDataMapper($cache);
+    abstract protected function setCacheDataMapper($cache) : void;
 
     /**
      * Sets the SQL data mapper to use in this repo
@@ -184,7 +184,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      * @param IConnection $readConnection The read connection
      * @param IConnection $writeConnection The write connection
      */
-    abstract protected function setSqlDataMapper(IConnection $readConnection, IConnection $writeConnection);
+    abstract protected function setSqlDataMapper(IConnection $readConnection, IConnection $writeConnection) : void;
 
     /**
      * Attempts to retrieve an entity(ies) from the cache data mapper before resorting to an SQL database
@@ -234,7 +234,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      *
      * @param object $entity The entity to schedule
      */
-    protected function scheduleForCacheDeletion($entity)
+    protected function scheduleForCacheDeletion($entity) : void
     {
         $this->scheduledActions[] = ['delete', $entity];
     }
@@ -244,7 +244,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      *
      * @param object $entity The entity to schedule
      */
-    protected function scheduleForCacheInsertion($entity)
+    protected function scheduleForCacheInsertion($entity) : void
     {
         $this->scheduledActions[] = ['insert', $entity];
     }
@@ -254,7 +254,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      *
      * @param object $entity The entity to schedule
      */
-    protected function scheduleForCacheUpdate($entity)
+    protected function scheduleForCacheUpdate($entity) : void
     {
         $this->scheduledActions[] = ['update', $entity];
     }

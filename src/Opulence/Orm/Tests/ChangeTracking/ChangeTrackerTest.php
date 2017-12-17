@@ -29,7 +29,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->changeTracker = new ChangeTracker();
         /**
@@ -45,7 +45,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests seeing if a change is detected with a comparison function
      */
-    public function testCheckingForChangeWithComparisonFunction()
+    public function testCheckingForChangeWithComparisonFunction() : void
     {
         $className = get_class($this->entity1);
         $this->changeTracker->startTracking($this->entity1);
@@ -62,7 +62,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests seeing if a change is detected without a comparison function
      */
-    public function testCheckingForChangeWithoutComparisonFunction()
+    public function testCheckingForChangeWithoutComparisonFunction() : void
     {
         $this->changeTracker->startTracking($this->entity1);
         $this->entity1->setUsername('blah');
@@ -72,7 +72,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for changes on an unregistered entity
      */
-    public function testCheckingForChangesOnUnregisteredEntity()
+    public function testCheckingForChangesOnUnregisteredEntity() : void
     {
         $this->expectException(OrmException::class);
         $this->changeTracker->hasChanged($this->entity1);
@@ -81,7 +81,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking that nothing has changed with a comparison function
      */
-    public function testCheckingForNoChangeWithComparisonFunction()
+    public function testCheckingForNoChangeWithComparisonFunction() : void
     {
         $className = get_class($this->entity1);
         $this->changeTracker->startTracking($this->entity1);
@@ -94,7 +94,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking that nothing has changed without a comparison function
      */
-    public function testCheckingForNoChangeWithoutComparisonFunction()
+    public function testCheckingForNoChangeWithoutComparisonFunction() : void
     {
         $this->changeTracker->startTracking($this->entity1);
         $this->assertFalse($this->changeTracker->hasChanged($this->entity1));

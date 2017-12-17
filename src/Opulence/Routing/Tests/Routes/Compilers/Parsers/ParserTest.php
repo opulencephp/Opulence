@@ -26,7 +26,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->parser = new Parser();
     }
@@ -34,7 +34,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not specifying a host
      */
-    public function testNotSpecifyingHost()
+    public function testNotSpecifyingHost() : void
     {
         $route = new Route(['get'], '/foo', 'foo@bar');
         $parsedRoute = $this->parser->parse($route);
@@ -44,7 +44,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an optional slash and variable
      */
-    public function testOptionalSlashAndVariable()
+    public function testOptionalSlashAndVariable() : void
     {
         $rawString = '/:foo/bar[/:blah]';
         $options = [
@@ -66,7 +66,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an optional variable
      */
-    public function testOptionalVariable()
+    public function testOptionalVariable() : void
     {
         $rawString = '/:foo/bar/[:blah]';
         $options = [
@@ -88,7 +88,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an optional variable with a default value
      */
-    public function testOptionalVariableWithDefaultValue()
+    public function testOptionalVariableWithDefaultValue() : void
     {
         $rawString = '/:foo/bar/[:blah=123]';
         $options = [
@@ -111,7 +111,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a path with multiple variables
      */
-    public function testParsingMultipleVariables()
+    public function testParsingMultipleVariables() : void
     {
         $rawString = '/:foo/bar/:blah';
         $options = [
@@ -133,7 +133,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a path with multiple variables with regexes
      */
-    public function testParsingMultipleVariablesWithRegexes()
+    public function testParsingMultipleVariablesWithRegexes() : void
     {
         $rawString = '/:foo/bar/:blah';
         $options = [
@@ -159,7 +159,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a path with a single variable
      */
-    public function testParsingSingleVariable()
+    public function testParsingSingleVariable() : void
     {
         $rawString = '/:foo';
         $options = [
@@ -181,7 +181,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a path with a single variable
      */
-    public function testParsingSingleVariableWithFirstDigit()
+    public function testParsingSingleVariableWithFirstDigit() : void
     {
         $this->expectException(RouteException::class);
         $route = new Route(['get'], '/:0foo', 'foo@bar');
@@ -191,7 +191,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing with too long a variable name
      */
-    public function testParsingWithTooLongVariableName()
+    public function testParsingWithTooLongVariableName() : void
     {
         $this->expectException(RouteException::class);
         $route = new Route(['get'], '/:' . str_repeat('a', Parser::VARIABLE_MAXIMUM_LENGTH + 1), 'foo@bar');
@@ -201,7 +201,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a path with a single variable with a default value
      */
-    public function testParsingSingleVariableWithDefaultValue()
+    public function testParsingSingleVariableWithDefaultValue() : void
     {
         $rawString = '/:foo=23';
         $options = [
@@ -224,7 +224,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a path with a single variable with options
      */
-    public function testParsingSingleVariableWithRegexes()
+    public function testParsingSingleVariableWithRegexes() : void
     {
         $rawString = '/:foo';
         $options = [
@@ -247,7 +247,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a static path
      */
-    public function testParsingStaticPath()
+    public function testParsingStaticPath() : void
     {
         $rawString = '/foo/bar/blah';
         $options = [
@@ -269,7 +269,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a path with duplicate variables
      */
-    public function testParsingWithDuplicateVariables()
+    public function testParsingWithDuplicateVariables() : void
     {
         $this->expectException(RouteException::class);
         $route = new Route(['get'], '/:foo/:foo', 'foo@bar');
@@ -279,7 +279,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a path with empty variable
      */
-    public function testParsingWithEmptyVariable()
+    public function testParsingWithEmptyVariable() : void
     {
         $this->expectException(RouteException::class);
         $route = new Route(['get'], '/:/bar', 'foo@bar');
@@ -289,7 +289,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a path with an unclosed open bracket
      */
-    public function testParsingWithUnclosedOpenBracket()
+    public function testParsingWithUnclosedOpenBracket() : void
     {
         $this->expectException(RouteException::class);
         $route = new Route(['get'], '/:foo/[bar', 'foo@bar');
@@ -299,7 +299,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a path with an unopened close bracket
      */
-    public function testParsingWithUnopenedCloseBracket()
+    public function testParsingWithUnopenedCloseBracket() : void
     {
         $this->expectException(RouteException::class);
         $route = new Route(['get'], '/:foo/:bar]', 'foo@bar');
@@ -309,7 +309,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests specifying an empty path
      */
-    public function testSpecifyingEmptyPath()
+    public function testSpecifyingEmptyPath() : void
     {
         $route = new Route(['get'], '', 'foo@bar');
         $parsedRoute = $this->parser->parse($route);
@@ -323,7 +323,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      * @param string $regex The expected regex
      * @return bool True if the regexes match, otherwise false
      */
-    private function regexesMach(ParsedRoute $route, $regex)
+    private function regexesMach(ParsedRoute $route, $regex) : bool
     {
         return $route->getPathRegex() == $regex && $route->getHostRegex() == $regex;
     }

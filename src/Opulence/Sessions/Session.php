@@ -52,7 +52,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function ageFlashData()
+    public function ageFlashData() : void
     {
         foreach ($this->getStaleFlashKeys() as $oldKey) {
             $this->delete($oldKey);
@@ -65,7 +65,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function delete(string $key)
+    public function delete(string $key) : void
     {
         unset($this->vars[$key]);
     }
@@ -73,7 +73,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function flash(string $key, $value)
+    public function flash(string $key, $value) : void
     {
         $this->set($key, $value);
         $newFlashKeys = $this->getNewFlashKeys();
@@ -92,7 +92,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function flush()
+    public function flush() : void
     {
         $this->vars = [];
     }
@@ -168,7 +168,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function offsetSet($key, $value)
+    public function offsetSet($key, $value) : void
     {
         if ($key === null) {
             throw new InvalidArgumentException('Key cannot be empty');
@@ -180,7 +180,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function offsetUnset($key)
+    public function offsetUnset($key) : void
     {
         unset($this->vars[$key]);
     }
@@ -188,7 +188,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function reflash()
+    public function reflash() : void
     {
         $newFlashKeys = $this->getNewFlashKeys();
         $staleFlashKeys = $this->getStaleFlashKeys();
@@ -199,7 +199,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function regenerateId()
+    public function regenerateId() : void
     {
         $this->setId($this->idGenerator->generate());
     }
@@ -207,7 +207,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function set(string $key, $value)
+    public function set(string $key, $value) : void
     {
         $this->vars[$key] = $value;
     }
@@ -215,7 +215,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function setId($id)
+    public function setId($id) : void
     {
         if ($this->idGenerator->idIsValid($id)) {
             $this->id = $id;
@@ -227,7 +227,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function setMany(array $variables)
+    public function setMany(array $variables) : void
     {
         $this->vars = array_merge($this->vars, $variables);
     }
@@ -235,7 +235,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function setName(string $name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }

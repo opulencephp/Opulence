@@ -24,7 +24,7 @@ class StatusCodeCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('statuscode');
         $this->setDescription('Returns a status code based on the options');

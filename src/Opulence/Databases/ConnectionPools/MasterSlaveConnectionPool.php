@@ -60,7 +60,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
      *
      * @param Server $slave The slave to add
      */
-    public function addSlave(Server $slave)
+    public function addSlave(Server $slave) : void
     {
         $this->addServer('slaves', $slave);
     }
@@ -70,7 +70,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
      *
      * @param Server[] $slaves The slaves to add
      */
-    public function addSlaves(array $slaves)
+    public function addSlaves(array $slaves) : void
     {
         foreach ($slaves as $slave) {
             $this->addSlave($slave);
@@ -90,7 +90,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
      *
      * @param Server $slave The slave to remove
      */
-    public function removeSlave(Server $slave)
+    public function removeSlave(Server $slave) : void
     {
         $slaveHashId = spl_object_hash($slave);
 
@@ -102,7 +102,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     /**
      * @inheritdoc
      */
-    protected function setReadConnection(Server $preferredServer = null)
+    protected function setReadConnection(Server $preferredServer = null) : void
     {
         if ($preferredServer !== null) {
             $this->readConnection = $this->getConnection('custom', $preferredServer);
@@ -117,7 +117,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     /**
      * @inheritdoc
      */
-    protected function setWriteConnection(Server $preferredServer = null)
+    protected function setWriteConnection(Server $preferredServer = null) : void
     {
         if ($preferredServer !== null) {
             $this->writeConnection = $this->getConnection('custom', $preferredServer);

@@ -60,7 +60,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         $this->viewCache = $this->getViewCache($container);
         $this->viewFactory = $this->getViewFactory($container);

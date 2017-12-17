@@ -10,7 +10,6 @@
 
 namespace Opulence\Ioc\Bootstrappers;
 
-use BadMethodCallException;
 use Opulence\Ioc\IContainer;
 use RuntimeException;
 
@@ -30,7 +29,7 @@ abstract class Bootstrapper
      * @param IContainer $container The IoC container to bind to
      * @throws RuntimeException Thrown if there was an error registering the bindings
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         // Let extending classes define this
     }

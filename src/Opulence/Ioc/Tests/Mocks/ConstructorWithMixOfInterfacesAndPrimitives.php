@@ -37,7 +37,7 @@ class ConstructorWithMixOfInterfacesAndPrimitives
     /**
      * @return IFoo
      */
-    public function getFoo()
+    public function getFoo() : IFoo
     {
         return $this->foo;
     }
@@ -45,7 +45,7 @@ class ConstructorWithMixOfInterfacesAndPrimitives
     /**
      * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -53,7 +53,7 @@ class ConstructorWithMixOfInterfacesAndPrimitives
     /**
      * @return IPerson
      */
-    public function getPerson()
+    public function getPerson() : IPerson
     {
         return $this->person;
     }

@@ -31,7 +31,7 @@ class AbstractSyntaxTree
     /**
      * Clears all the non-root nodes
      */
-    public function clearNodes()
+    public function clearNodes() : void
     {
         $this->rootNode = new RootNode();
         $this->setCurrentNode($this->rootNode);

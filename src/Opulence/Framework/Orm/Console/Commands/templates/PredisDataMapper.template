@@ -12,7 +12,7 @@ class {{class}} extends PredisDataMapper
      * @param {{entityType}} ${{entityVarName}} The entity to add
      * @throws OrmException Thrown if the entity couldn't be added
      */
-    public function add(${{entityVarName}})
+    public function add(${{entityVarName}}) : void
     {
 
     }
@@ -23,7 +23,7 @@ class {{class}} extends PredisDataMapper
      * @param {{entityType}} ${{entityVarName}} The entity to delete
      * @throws OrmException Thrown if the entity couldn't be deleted
      */
-    public function delete(${{entityVarName}})
+    public function delete(${{entityVarName}}) : void
     {
 
     }
@@ -33,7 +33,7 @@ class {{class}} extends PredisDataMapper
      *
      * @throws OrmException Thrown if the cache couldn't be flushed
      */
-    public function flush()
+    public function flush() : void
     {
 
     }
@@ -66,7 +66,7 @@ class {{class}} extends PredisDataMapper
      * @param {{entityType}} ${{entityVarName}} The entity to save
      * @throws OrmException Thrown if the entity couldn't be saved
      */
-    public function update(${{entityVarName}})
+    public function update(${{entityVarName}}) : void
     {
 
     }
@@ -77,7 +77,7 @@ class {{class}} extends PredisDataMapper
      * @param int|string $id The Id of the entity whose hash we're searching for
      * @return array|null The entity's hash if successful, otherwise null
      */
-    protected function getEntityHashById($id)
+    protected function getEntityHashById($id) : ?array
     {
 
     }

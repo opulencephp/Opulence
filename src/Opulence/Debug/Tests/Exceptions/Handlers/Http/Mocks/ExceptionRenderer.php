@@ -26,7 +26,7 @@ class ExceptionRenderer extends BaseRenderer
      *
      * @param string $requestFormat The format to use
      */
-    public function setRequestFormat(string $requestFormat)
+    public function setRequestFormat(string $requestFormat) : void
     {
         $this->requestFormat = $requestFormat;
     }

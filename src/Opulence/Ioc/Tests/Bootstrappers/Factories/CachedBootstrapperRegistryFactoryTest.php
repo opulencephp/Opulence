@@ -34,7 +34,7 @@ class CachedBootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->resolver = $this->createMock(IBootstrapperResolver::class);
         $this->cache = $this->createMock(ICache::class);
@@ -44,7 +44,7 @@ class CachedBootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a cache hit returns that registry
      */
-    public function testCacheHitReturnsThatRegistry()
+    public function testCacheHitReturnsThatRegistry() : void
     {
         $bootstrapperRegistry = new BootstrapperRegistry();
         $this->cache->expects($this->any())
@@ -56,7 +56,7 @@ class CachedBootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a cache miss manually creates the registry
      */
-    public function testCacheMissManuallyCreatesRegistry()
+    public function testCacheMissManuallyCreatesRegistry() : void
     {
         $bootstrapperClasses = [Bootstrapper::class, BootstrapperWithEverything::class];
         $bootstrapperObjects = [new Bootstrapper(), new BootstrapperWithEverything()];

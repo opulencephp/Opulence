@@ -25,7 +25,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->header = new JwtHeader(Algorithms::SHA512);
     }
@@ -33,7 +33,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the default algorithm is SHA256
      */
-    public function testDefaultAlgorithmIsSha256()
+    public function testDefaultAlgorithmIsSha256() : void
     {
         $header = new JwtHeader();
         $this->assertEquals('HS256', $header->getAlgorithm());
@@ -42,7 +42,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the algorithm
      */
-    public function testGettingAlgorithm()
+    public function testGettingAlgorithm() : void
     {
         $this->assertEquals('HS512', $this->header->getAlgorithm());
     }
@@ -50,7 +50,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all values
      */
-    public function testGettingAllValues()
+    public function testGettingAllValues() : void
     {
         $expected = [
             'typ' => 'JWT',
@@ -65,7 +65,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the content type
      */
-    public function testGettingContentType()
+    public function testGettingContentType() : void
     {
         $this->header->add('cty', 'JWT');
         $this->assertEquals('JWT', $this->header->getContentType());
@@ -74,7 +74,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the encoded string
      */
-    public function testGettingEncodedString()
+    public function testGettingEncodedString() : void
     {
         $headers = [
             'typ' => 'JWT',
@@ -95,7 +95,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the token type
      */
-    public function testGettingTokenType()
+    public function testGettingTokenType() : void
     {
         $this->assertEquals('JWT', $this->header->getTokenType());
     }
@@ -103,7 +103,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the value for an extra header
      */
-    public function testGettingValue()
+    public function testGettingValue() : void
     {
         $this->assertNull($this->header->get('foo'));
         $this->header->add('foo', 'bar');
@@ -115,7 +115,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an invalid algorithm in the constructor throws an exception
      */
-    public function testInvalidAlgorithmInConstructorThrowsException()
+    public function testInvalidAlgorithmInConstructorThrowsException() : void
     {
         $this->expectException(InvalidArgumentException::class);
         new JwtHeader('foo');
@@ -124,7 +124,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the "none" algorithm
      */
-    public function testSettingNoneAlgorithm()
+    public function testSettingNoneAlgorithm() : void
     {
         $this->header->add('alg', 'none');
         $this->assertEquals('none', $this->header->getAlgorithm());

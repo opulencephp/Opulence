@@ -21,7 +21,7 @@ class UuidV4GeneratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Test checking if this generator is post-insert
      */
-    public function testCheckingIfPostInsert()
+    public function testCheckingIfPostInsert() : void
     {
         $generator = new UuidV4Generator();
         $this->assertFalse($generator->isPostInsert());
@@ -30,7 +30,7 @@ class UuidV4GeneratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests generating an Id
      */
-    public function testGeneratingId()
+    public function testGeneratingId() : void
     {
         $entity = new stdClass();
         $idGenerator = new UuidV4Generator();
@@ -45,7 +45,7 @@ class UuidV4GeneratorTest extends \PHPUnit\Framework\TestCase
      *
      * Test getting empty value
      */
-    public function testGettingEmptyValue()
+    public function testGettingEmptyValue() : void
     {
         $generator = new UuidV4Generator();
         $this->assertSame('', $generator->getEmptyValue(new stdClass()));

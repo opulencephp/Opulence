@@ -21,7 +21,7 @@ class PasswordTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the value
      */
-    public function testGettingValue()
+    public function testGettingValue() : void
     {
         $key = new Password('foo');
         $this->assertEquals(SecretTypes::PASSWORD, $key->getType());

@@ -26,7 +26,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->context = new VerificationContext($this->signer);
@@ -35,7 +35,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Test getting the default values
      */
-    public function testGettingDefaultValues()
+    public function testGettingDefaultValues() : void
     {
         $this->assertEquals([], $this->context->getAudience());
         $this->assertNull($this->context->getIssuer());
@@ -46,7 +46,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting an audience
      */
-    public function testSettingAudience()
+    public function testSettingAudience() : void
     {
         $this->context->setAudience(['foo']);
         $this->assertEquals(['foo'], $this->context->getAudience());
@@ -55,7 +55,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a issuer
      */
-    public function testSettingIssuer()
+    public function testSettingIssuer() : void
     {
         $this->context->setIssuer('foo');
         $this->assertEquals('foo', $this->context->getIssuer());
@@ -64,7 +64,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a signer
      */
-    public function testSettingSigner()
+    public function testSettingSigner() : void
     {
         /** @var ISigner $signer */
         $signer = $this->createMock(ISigner::class);
@@ -75,7 +75,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a subject
      */
-    public function testSettingSubject()
+    public function testSettingSubject() : void
     {
         $this->context->setSubject('foo');
         $this->assertEquals('foo', $this->context->getSubject());

@@ -137,7 +137,7 @@ class Composer
      *
      * @return string|null The root namespace
      */
-    public function getRootNamespace()
+    public function getRootNamespace() : ?string
     {
         if (($psr4 = $this->get('autoload.psr-4')) === null) {
             return null;
@@ -160,7 +160,7 @@ class Composer
      *
      * @return array|null The root namespace paths
      */
-    public function getRootNamespacePaths()
+    public function getRootNamespacePaths() : ?array
     {
         if (($rootNamespace = $this->getRootNamespace()) === null) {
             return null;

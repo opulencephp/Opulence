@@ -37,7 +37,7 @@ class Statement implements IStatement
     /**
      * @inheritdoc
      */
-    public function bindValues(array $values)
+    public function bindValues(array $values) : bool
     {
         return true;
     }

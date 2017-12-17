@@ -24,7 +24,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->controller = new Controller();
         $this->controller->setRequest(Request::createFromGlobals());
@@ -33,7 +33,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the view
      */
-    public function testGettingView()
+    public function testGettingView() : void
     {
         $this->assertNull($this->controller->getView());
     }

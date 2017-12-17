@@ -62,7 +62,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function flush()
+    public function flush() : void
     {
         foreach ($this->getCompiledViewPaths($this->path) as $viewPath) {
             if (basename($viewPath) !== '.gitignore') {
@@ -74,7 +74,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function gc()
+    public function gc() : void
     {
         foreach ($this->getCompiledViewPaths($this->path) as $viewPath) {
             if ($this->isExpired($viewPath) && basename($viewPath) !== '.gitignore') {
@@ -86,7 +86,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function get(IView $view, bool $checkVars = false)
+    public function get(IView $view, bool $checkVars = false) : ?string
     {
         if (!$this->has($view, $checkVars)) {
             return null;
@@ -124,7 +124,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function set(IView $view, string $compiledContents, bool $checkVars = false)
+    public function set(IView $view, string $compiledContents, bool $checkVars = false) : void
     {
         if ($this->cachingIsEnabled()) {
             file_put_contents($this->getViewPath($view, $checkVars), $compiledContents, 0);
@@ -134,7 +134,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function setGCChance(int $chance, int $divisor = 100)
+    public function setGCChance(int $chance, int $divisor = 100) : void
     {
         $this->gcChance = $chance;
         $this->gcDivisor = $divisor;
@@ -143,7 +143,7 @@ class FileCache implements ICache
     /**
      * @param string $path
      */
-    public function setPath(string $path)
+    public function setPath(string $path) : void
     {
         $this->path = rtrim($path, '/');
 

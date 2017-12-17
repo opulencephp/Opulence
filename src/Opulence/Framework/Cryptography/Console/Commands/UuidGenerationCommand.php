@@ -21,7 +21,7 @@ class UuidGenerationCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('uuid:generate')
             ->setDescription('Creates a UUID');

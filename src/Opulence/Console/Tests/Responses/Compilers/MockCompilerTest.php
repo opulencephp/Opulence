@@ -20,7 +20,7 @@ class MockCompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a styled message
      */
-    public function testCompilingStyledMessage()
+    public function testCompilingStyledMessage() : void
     {
         $compiler = new MockCompiler();
         $compiler->setStyled(true);
@@ -30,7 +30,7 @@ class MockCompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling an unstyled message
      */
-    public function testCompilingUnstyledMessage()
+    public function testCompilingUnstyledMessage() : void
     {
         $compiler = new MockCompiler();
         $compiler->setStyled(false);

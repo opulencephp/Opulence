@@ -21,7 +21,7 @@ class IdGeneratorRegistry implements IIdGeneratorRegistry
     /**
      * @inheritdoc
      */
-    public function getIdGenerator(string $className)
+    public function getIdGenerator(string $className) : ?IIdGenerator
     {
         if (!isset($this->generators[$className])) {
             return null;
@@ -33,7 +33,7 @@ class IdGeneratorRegistry implements IIdGeneratorRegistry
     /**
      * @inheritdoc
      */
-    public function registerIdGenerator(string $className, IIdGenerator $generator)
+    public function registerIdGenerator(string $className, IIdGenerator $generator) : void
     {
         $this->generators[$className] = $generator;
     }

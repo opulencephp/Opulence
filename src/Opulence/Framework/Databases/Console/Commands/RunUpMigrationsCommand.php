@@ -35,7 +35,7 @@ class RunUpMigrationsCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('migrations:up')
             ->setDescription('Runs the "up" database migrations');

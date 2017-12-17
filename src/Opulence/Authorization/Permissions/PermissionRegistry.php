@@ -25,7 +25,7 @@ class PermissionRegistry implements IPermissionRegistry
     /**
      * @inheritdoc
      */
-    public function getCallback(string $permission)
+    public function getCallback(string $permission) : ?callable
     {
         if (!isset($this->permissionCallbacks[$permission])) {
             return null;
@@ -45,7 +45,7 @@ class PermissionRegistry implements IPermissionRegistry
     /**
      * @inheritdoc
      */
-    public function getRoles(string $permission)
+    public function getRoles(string $permission) : ?array
     {
         if (!isset($this->permissionsToRoles[$permission])) {
             return null;
@@ -57,7 +57,7 @@ class PermissionRegistry implements IPermissionRegistry
     /**
      * @inheritdoc
      */
-    public function registerCallback(string $permission, callable $callback)
+    public function registerCallback(string $permission, callable $callback) : void
     {
         $this->permissionCallbacks[$permission] = $callback;
     }
@@ -65,7 +65,7 @@ class PermissionRegistry implements IPermissionRegistry
     /**
      * @inheritdoc
      */
-    public function registerOverrideCallback(callable $callback)
+    public function registerOverrideCallback(callable $callback) : void
     {
         $this->overrideCallbacks[] = $callback;
     }
@@ -73,7 +73,7 @@ class PermissionRegistry implements IPermissionRegistry
     /**
      * @inheritdoc
      */
-    public function registerRoles(string $permission, $roles)
+    public function registerRoles(string $permission, $roles) : void
     {
         $roles = is_array($roles) ? $roles : [$roles];
 

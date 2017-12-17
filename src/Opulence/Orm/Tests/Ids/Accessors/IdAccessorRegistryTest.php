@@ -30,7 +30,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->registry = new IdAccessorRegistry();
         $this->registry->registerIdAccessors(
@@ -50,7 +50,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the entity interface's accessors are automatically set
      */
-    public function testEntityInterfaceAccessorsAutomaticallySet()
+    public function testEntityInterfaceAccessorsAutomaticallySet() : void
     {
         $entity = $this->createMock(IEntity::class);
         $entity->expects($this->at(0))
@@ -70,7 +70,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an entity Id
      */
-    public function testGettingEntityId()
+    public function testGettingEntityId() : void
     {
         $this->assertEquals(724, $this->registry->getEntityId($this->entity1));
     }
@@ -78,7 +78,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an entity Id without registering a getter
      */
-    public function testGettingEntityIdWithoutRegisteringGetter()
+    public function testGettingEntityIdWithoutRegisteringGetter() : void
     {
         $this->expectException(OrmException::class);
         $entity = $this->getMockBuilder(User::class)
@@ -91,7 +91,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the Id with reflection for a non-existent property
      */
-    public function testGettingIdWithReflectionForNonExistentProperty()
+    public function testGettingIdWithReflectionForNonExistentProperty() : void
     {
         $this->expectException(OrmException::class);
         $this->registry->registerReflectionIdAccessors(Foo::class, 'doesNotExist');
@@ -101,7 +101,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests reflection accessors
      */
-    public function testReflectionAccessors()
+    public function testReflectionAccessors() : void
     {
         $this->registry->registerReflectionIdAccessors(Foo::class, 'id');
         $foo = new Foo();
@@ -112,7 +112,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests reflection accessors
      */
-    public function testReflectionAccessorsWithTwoClasses()
+    public function testReflectionAccessorsWithTwoClasses() : void
     {
         $this->registry->registerReflectionIdAccessors([Foo::class, Bar::class], 'id');
         $foo = new Foo();
@@ -126,7 +126,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests registering an array of class names
      */
-    public function testRegisteringArrayOfClassNames()
+    public function testRegisteringArrayOfClassNames() : void
     {
         $entity1 = $this->getMockBuilder(User::class)
             ->setMockClassName('FooEntity')
@@ -159,7 +159,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting an entity Id
      */
-    public function testSettingEntityId()
+    public function testSettingEntityId() : void
     {
         $this->registry->setEntityId($this->entity1, 333);
         $this->assertEquals(333, $this->entity1->getId());
@@ -168,7 +168,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting an entity Id without registering a setter
      */
-    public function testSettingEntityIdWithoutRegisteringGetter()
+    public function testSettingEntityIdWithoutRegisteringGetter() : void
     {
         $this->expectException(OrmException::class);
         $entity = $this->getMockBuilder(User::class)
@@ -181,7 +181,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the Id with reflection for a non-existent property
      */
-    public function testSettingIdWithReflectionForNonExistentProperty()
+    public function testSettingIdWithReflectionForNonExistentProperty() : void
     {
         $this->expectException(OrmException::class);
         $this->registry->registerReflectionIdAccessors(Foo::class, 'doesNotExist');

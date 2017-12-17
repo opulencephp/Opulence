@@ -26,7 +26,7 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->compiler = new PhpCompiler();
     }
@@ -34,7 +34,7 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that any exception thrown as itself
      */
-    public function testExceptionsThrownAsThemselves()
+    public function testExceptionsThrownAsThemselves() : void
     {
         $this->expectException(Exception::class);
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
@@ -51,7 +51,7 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the output buffer level is reset on exception
      */
-    public function testOutputBufferLevelIsResetAfterException()
+    public function testOutputBufferLevelIsResetAfterException() : void
     {
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->createMock(IView::class);
@@ -75,7 +75,7 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that vars are set in the view
      */
-    public function testThatVarsAreSet()
+    public function testThatVarsAreSet() : void
     {
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->createMock(IView::class);

@@ -47,7 +47,7 @@ class RedisBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function delete(string $key)
+    public function delete(string $key) : void
     {
         $this->getClient()->del($this->getPrefixedKey($key));
     }
@@ -55,7 +55,7 @@ class RedisBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function flush()
+    public function flush() : void
     {
         $this->getClient()->flushAll();
     }
@@ -99,7 +99,7 @@ class RedisBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function set(string $key, $value, int $lifetime)
+    public function set(string $key, $value, int $lifetime) : void
     {
         $this->getClient()->setEx($this->getPrefixedKey($key), $lifetime, $value);
     }

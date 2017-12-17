@@ -25,7 +25,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->context = new AuthenticationContext();
     }
@@ -33,7 +33,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if the user is authenticated
      */
-    public function testCheckingIfAuthenticated()
+    public function testCheckingIfAuthenticated() : void
     {
         $this->context->setStatus(AuthenticationStatusTypes::AUTHENTICATED);
         $this->assertTrue($this->context->isAuthenticated());
@@ -44,7 +44,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the status in the constructor
      */
-    public function testSettingStatusInConstructor()
+    public function testSettingStatusInConstructor() : void
     {
         $context = new AuthenticationContext(null, 'foo');
         $this->assertEquals('foo', $context->getStatus());
@@ -53,7 +53,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the status in the setter
      */
-    public function testSettingStatusInSetter()
+    public function testSettingStatusInSetter() : void
     {
         $this->context->setStatus('foo');
         $this->assertEquals('foo', $this->context->getStatus());
@@ -62,7 +62,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the subject in the constructor
      */
-    public function testSettingSubjectInConstructor()
+    public function testSettingSubjectInConstructor() : void
     {
         /** @var ISubject $subject */
         $subject = $this->createMock(ISubject::class);
@@ -73,7 +73,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the subject in the setter
      */
-    public function testSettingSubjectInSetter()
+    public function testSettingSubjectInSetter() : void
     {
         /** @var ISubject $subject */
         $subject = $this->createMock(ISubject::class);

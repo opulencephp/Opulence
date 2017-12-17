@@ -146,7 +146,7 @@ class Encrypter implements IEncrypter
     /**
      * @inheritdoc
      */
-    public function setSecret(Secret $secret)
+    public function setSecret(Secret $secret) : void
     {
         $this->secret = $secret;
         $this->validateSecret($this->cipher);
@@ -241,7 +241,7 @@ class Encrypter implements IEncrypter
     /**
      * @inheritdoc
      */
-    private function setCipher(string $cipher)
+    private function setCipher(string $cipher) : void
     {
         $cipher = \mb_strtoupper($cipher, '8bit');
 
@@ -258,7 +258,7 @@ class Encrypter implements IEncrypter
      * @param string $cipher The cipher used
      * @throws EncryptionException Thrown if the secret is not valid
      */
-    private function validateSecret(string $cipher)
+    private function validateSecret(string $cipher) : void
     {
         if ($this->secret->getType() === SecretTypes::KEY) {
             if (\mb_strlen($this->secret->getValue(), '8bit') < $this->getKeyByteLengthForCipher($cipher)) {

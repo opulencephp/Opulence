@@ -21,7 +21,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating a parsed route
      */
-    public function testCreatingParsedRoute()
+    public function testCreatingParsedRoute() : void
     {
         $route = new Route('GET', '/foo/{bar}', 'foo@bar', [
             'https' => true,
@@ -46,7 +46,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the default value for a variable without a default value
      */
-    public function testGettingDefaultValueForVariableWithoutDefaultValue()
+    public function testGettingDefaultValueForVariableWithoutDefaultValue() : void
     {
         $route = new Route('get', '/{foo}', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
@@ -56,7 +56,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the host regex when it's not set
      */
-    public function testGettingHostRegexWhenNotSet()
+    public function testGettingHostRegexWhenNotSet() : void
     {
         $route = new Route('get', '/foo', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
@@ -66,7 +66,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a default value
      */
-    public function testSettingADefaultValue()
+    public function testSettingADefaultValue() : void
     {
         $route = new Route('get', '/{foo}', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
@@ -77,7 +77,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the host regex
      */
-    public function testSettingHostRegex()
+    public function testSettingHostRegex() : void
     {
         $route = new Route('get', '/foo', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
@@ -88,7 +88,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the path regex
      */
-    public function testSettingPathRegex()
+    public function testSettingPathRegex() : void
     {
         $route = new Route('get', '/foo/{id}', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);

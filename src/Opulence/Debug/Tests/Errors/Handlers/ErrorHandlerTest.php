@@ -28,7 +28,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->exceptionHandler = $this->getMockBuilder(IExceptionHandler::class)
             ->disableOriginalConstructor()
@@ -39,7 +39,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         restore_error_handler();
     }
@@ -47,7 +47,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that default levels are not thrown
      */
-    public function testDefaultLevelsAreNotThrown()
+    public function testDefaultLevelsAreNotThrown() : void
     {
         $handler = $this->getErrorHandler();
         $handler->handle(E_DEPRECATED, 'foo');
@@ -59,7 +59,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the error handler is set
      */
-    public function testErrorHandlerIsSet()
+    public function testErrorHandlerIsSet() : void
     {
         $this->expectException(ErrorException::class);
         $handler = $this->getErrorHandler();
@@ -70,7 +70,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an error is converted to an exception
      */
-    public function testErrorIsConvertedToException()
+    public function testErrorIsConvertedToException() : void
     {
         $exceptionCaught = false;
 
@@ -92,7 +92,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the logger is never used by default
      */
-    public function testLoggerIsNeverUsedByDefault()
+    public function testLoggerIsNeverUsedByDefault() : void
     {
         $this->expectException(ErrorException::class);
         $handler = $this->getErrorHandler();
@@ -104,7 +104,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that specified levels are logged
      */
-    public function testSpecifiedLevelsAreLogged()
+    public function testSpecifiedLevelsAreLogged() : void
     {
         $handler = $this->getErrorHandler(E_NOTICE, 0);
         $this->logger->expects($this->once())
@@ -116,7 +116,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that specified levels are thrown
      */
-    public function testSpecifiedLevelsAreThrown()
+    public function testSpecifiedLevelsAreThrown() : void
     {
         $this->expectException(ErrorException::class);
         $handler = $this->getErrorHandler(null, E_DEPRECATED);
@@ -130,7 +130,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
      * @param int|null $thrownErrors The errors that are converted to exceptions
      * @return ErrorHandler The handler to use in tests
      */
-    private function getErrorHandler($loggedErrors = null, $thrownErrors = null)
+    private function getErrorHandler(?int $loggedErrors = null, ?int $thrownErrors = null) : ErrorHandler
     {
         return new ErrorHandler(
             $this->logger,

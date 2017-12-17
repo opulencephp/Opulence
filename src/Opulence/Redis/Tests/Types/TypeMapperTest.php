@@ -25,7 +25,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->typeMapper = new TypeMapper();
     }
@@ -33,7 +33,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting from a false Redis boolean
      */
-    public function testConvertingFromFalseRedisBoolean()
+    public function testConvertingFromFalseRedisBoolean() : void
     {
         $this->assertFalse($this->typeMapper->fromRedisBoolean(0));
     }
@@ -41,7 +41,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting from a Redis timestamp
      */
-    public function testConvertingFromRedisTimestamp()
+    public function testConvertingFromRedisTimestamp() : void
     {
         $time = new DateTime('now');
         $this->assertEquals($time->getTimestamp(),
@@ -51,7 +51,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting from a true Redis boolean
      */
-    public function testConvertingFromTrueRedisBoolean()
+    public function testConvertingFromTrueRedisBoolean() : void
     {
         $this->assertTrue($this->typeMapper->fromRedisBoolean(1));
     }
@@ -59,7 +59,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting to a false Redis boolean
      */
-    public function testConvertingToFalseRedisBoolean()
+    public function testConvertingToFalseRedisBoolean() : void
     {
         $this->assertSame(0, $this->typeMapper->toRedisBoolean(false));
     }
@@ -67,7 +67,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting to a Redis timestamp
      */
-    public function testConvertingToRedisTimestamp()
+    public function testConvertingToRedisTimestamp() : void
     {
         $time = new DateTime('now');
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toRedisTimestamp($time));
@@ -76,7 +76,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting to a Redis timestamp from an immutable date time
      */
-    public function testConvertingToRedisTimestampFromImmutable()
+    public function testConvertingToRedisTimestampFromImmutable() : void
     {
         $time = new DateTimeImmutable('now');
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toRedisTimestamp($time));
@@ -85,7 +85,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting to a true Redis boolean
      */
-    public function testConvertingToTrueRedisBoolean()
+    public function testConvertingToTrueRedisBoolean() : void
     {
         $this->assertSame(1, $this->typeMapper->toRedisBoolean(true));
     }
@@ -93,7 +93,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the timezone is set
      */
-    public function testTimezoneSet()
+    public function testTimezoneSet() : void
     {
         $currTimezone = date_default_timezone_get();
         $newTimezone = 'Australia/Canberra';

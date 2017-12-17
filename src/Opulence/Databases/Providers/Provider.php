@@ -32,7 +32,7 @@ class Provider
      * @param mixed $value The value to convert
      * @return bool|null The boolean value if the input was not null, otherwise null
      */
-    public function convertFromSqlBoolean($value)
+    public function convertFromSqlBoolean($value) : ?bool
     {
         if ($value === null) {
             return null;

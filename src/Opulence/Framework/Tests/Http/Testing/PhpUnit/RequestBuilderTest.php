@@ -27,7 +27,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->integrationTest = $this->createMock(IntegrationTestCase::class);
     }
@@ -35,7 +35,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building an HTTPS request
      */
-    public function testBuildingHttpsRequest()
+    public function testBuildingHttpsRequest() : void
     {
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET');
         $requestBuilder->from('https://foo.com/bar');
@@ -49,7 +49,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a JSON request
      */
-    public function testBuildingJsonRequest()
+    public function testBuildingJsonRequest() : void
     {
         $jsonArray = ['bar' => 'baz'];
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
@@ -73,7 +73,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a request with content
      */
-    public function testBuildingRequestWithContent()
+    public function testBuildingRequestWithContent() : void
     {
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
         $this->assertSame($requestBuilder, $requestBuilder->withRawBody('my-content'));
@@ -87,7 +87,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a request with cookies
      */
-    public function testBuildingRequestWithCookies()
+    public function testBuildingRequestWithCookies() : void
     {
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
         $cookies = ['cooke-name' => 'cookie-val'];
@@ -102,7 +102,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a request with env vars
      */
-    public function testBuildingRequestWithEnvVars()
+    public function testBuildingRequestWithEnvVars() : void
     {
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
         $env = ['env-name' => 'env-val'];
@@ -117,7 +117,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a request with files
      */
-    public function testBuildingRequestWithFiles()
+    public function testBuildingRequestWithFiles() : void
     {
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
         $files = [new UploadedFile('/tmp/foo', 'temp-filename', 123, 'plain/text', UPLOAD_ERR_OK)];
@@ -137,7 +137,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a request with a port
      */
-    public function testBuildingRequestWithPort()
+    public function testBuildingRequestWithPort() : void
     {
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET');
         $requestBuilder->from('http://foo.com:8080/bar');
@@ -151,7 +151,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a request with server vars
      */
-    public function testBuildingRequestWithServerVars()
+    public function testBuildingRequestWithServerVars() : void
     {
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
         $serverVars = ['server-name' => 'server-val'];
@@ -166,7 +166,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that from() sets the Url in the request
      */
-    public function testFromSetsUrlInRequest()
+    public function testFromSetsUrlInRequest() : void
     {
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET');
         $requestBuilder->from('/foo');
@@ -180,7 +180,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that headers are prefixed with HTTP_
      */
-    public function testHeadersArePrefixedWithHTTP()
+    public function testHeadersArePrefixedWithHTTP() : void
     {
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
         $this->assertSame($requestBuilder, $requestBuilder->withHeaders(['FOO' => 'bar']));
@@ -194,7 +194,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that not setting the method throws an exception
      */
-    public function testNotSettingMethodThrowsException()
+    public function testNotSettingMethodThrowsException() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET');
@@ -204,7 +204,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that not setting the URL throws an exception
      */
-    public function testNotSettingUrlThrowsException()
+    public function testNotSettingUrlThrowsException() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET');
@@ -214,7 +214,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that parameters in GET request are assigned to query
      */
-    public function testParametersInGetRequestAreAssignedToQuery()
+    public function testParametersInGetRequestAreAssignedToQuery() : void
     {
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
         $parameters = ['name' => 'val'];
@@ -229,7 +229,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that parameters in POST request are assigned to post
      */
-    public function testParametersInPostRequestAreAssignedToPost()
+    public function testParametersInPostRequestAreAssignedToPost() : void
     {
         $requestBuilder = new RequestBuilder($this->integrationTest, 'POST', '/foo');
         $parameters = ['name' => 'val'];
@@ -244,7 +244,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that to() sets the URL in the request
      */
-    public function testToSetsUrlInRequest()
+    public function testToSetsUrlInRequest() : void
     {
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET');
         $requestBuilder->to('/foo');
@@ -258,7 +258,7 @@ class RequestBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that URL is set in constructor
      */
-    public function testUrlSetInConstructor()
+    public function testUrlSetInConstructor() : void
     {
         $requestBuilder = new RequestBuilder($this->integrationTest, 'GET', '/foo');
         $request = Request::createFromUrl('/foo', 'GET');

@@ -21,7 +21,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding to a "RETURNING" clause
      */
-    public function testAddReturning()
+    public function testAddReturning() : void
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->returning('id')
@@ -35,7 +35,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests all the methods in a single, complicated query
      */
-    public function testEverything()
+    public function testEverything() : void
     {
         $query = new UpdateQuery('users', 'u', ['name' => 'david']);
         $query->addColumnValues(['email' => 'bar@foo.com'])
@@ -59,7 +59,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "RETURNING" clause
      */
-    public function testReturning()
+    public function testReturning() : void
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->returning('id');

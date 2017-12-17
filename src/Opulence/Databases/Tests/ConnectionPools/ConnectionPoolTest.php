@@ -22,7 +22,7 @@ class ConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the list of driver names
      */
-    public function testGettingDriverNames()
+    public function testGettingDriverNames() : void
     {
         $this->assertEquals(['pdo_mysql', 'pdo_pgsql'], ConnectionPool::getDriverNames());
     }
@@ -30,7 +30,7 @@ class ConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the master
      */
-    public function testSettingMaster()
+    public function testSettingMaster() : void
     {
         $connectionPool = new ConnectionPool(new Driver(), new MockServer());
         $master = new MockServer();

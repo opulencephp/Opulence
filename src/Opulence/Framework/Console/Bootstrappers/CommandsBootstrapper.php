@@ -71,7 +71,7 @@ class CommandsBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         // Use a factory to defer the resolution of the commands
         // The commands may have dependencies set in other bootstrappers
@@ -95,7 +95,7 @@ class CommandsBootstrapper extends Bootstrapper
      * @param CommandCollection $commands The collection to add commands to
      * @param IContainer $container The dependency injection container to use
      */
-    protected function bindCommands(CommandCollection $commands, IContainer $container)
+    protected function bindCommands(CommandCollection $commands, IContainer $container) : void
     {
         // Resolve and add each command class
         foreach (self::$commandClasses as $commandClass) {

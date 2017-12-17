@@ -54,7 +54,7 @@ class JwtPayload
      * @param string $name The name of the claim to add
      * @param mixed $value The value to add
      */
-    public function add(string $name, $value)
+    public function add(string $name, $value) : void
     {
         if (in_array($name, ['exp', 'nbf', 'iat']) && is_int($value)) {
             $value = DateTimeImmutable::createFromFormat('U', $value);
@@ -128,7 +128,7 @@ class JwtPayload
     /**
      * @return string|null
      */
-    public function getId()
+    public function getId() : ?string
     {
         if (isset($this->claims['jti'])) {
             return $this->claims['jti'];
@@ -140,7 +140,7 @@ class JwtPayload
     /**
      * @return DateTimeImmutable|null
      */
-    public function getIssuedAt()
+    public function getIssuedAt() : ?DateTimeImmutable
     {
         return $this->claims['iat'];
     }
@@ -148,7 +148,7 @@ class JwtPayload
     /**
      * @return string|null
      */
-    public function getIssuer()
+    public function getIssuer() : ?string
     {
         return $this->claims['iss'];
     }
@@ -156,7 +156,7 @@ class JwtPayload
     /**
      * @return string|null
      */
-    public function getSubject()
+    public function getSubject() : ?string
     {
         return $this->claims['sub'];
     }
@@ -164,7 +164,7 @@ class JwtPayload
     /**
      * @return DateTimeImmutable|null
      */
-    public function getValidFrom()
+    public function getValidFrom() : ?DateTimeImmutable
     {
         return $this->claims['nbf'];
     }
@@ -172,7 +172,7 @@ class JwtPayload
     /**
      * @return DateTimeImmutable|null
      */
-    public function getValidTo()
+    public function getValidTo() : ?DateTimeImmutable
     {
         return $this->claims['exp'];
     }
@@ -181,7 +181,7 @@ class JwtPayload
      * @param array|string $audience
      * @throws InvalidArgumentException Thrown if the audience is not the correct type
      */
-    public function setAudience($audience)
+    public function setAudience($audience) : void
     {
         if (!is_string($audience) && !is_array($audience)) {
             throw new InvalidArgumentException('Audience must be of type string or array');
@@ -193,7 +193,7 @@ class JwtPayload
     /**
      * @param string $id
      */
-    public function setId(string $id)
+    public function setId(string $id) : void
     {
         $this->claims['jti'] = $id;
     }
@@ -201,7 +201,7 @@ class JwtPayload
     /**
      * @param DateTimeImmutable $issuedAt
      */
-    public function setIssuedAt(DateTimeImmutable $issuedAt)
+    public function setIssuedAt(DateTimeImmutable $issuedAt) : void
     {
         $this->claims['iat'] = $issuedAt;
     }
@@ -209,7 +209,7 @@ class JwtPayload
     /**
      * @param string $issuer
      */
-    public function setIssuer(string $issuer)
+    public function setIssuer(string $issuer) : void
     {
         $this->claims['iss'] = $issuer;
     }
@@ -217,7 +217,7 @@ class JwtPayload
     /**
      * @param string $subject
      */
-    public function setSubject(string $subject)
+    public function setSubject(string $subject) : void
     {
         $this->claims['sub'] = $subject;
     }
@@ -225,7 +225,7 @@ class JwtPayload
     /**
      * @param DateTimeImmutable $validFrom
      */
-    public function setValidFrom(DateTimeImmutable $validFrom)
+    public function setValidFrom(DateTimeImmutable $validFrom) : void
     {
         $this->claims['nbf'] = $validFrom;
     }
@@ -233,7 +233,7 @@ class JwtPayload
     /**
      * @param DateTimeImmutable $validTo
      */
-    public function setValidTo(DateTimeImmutable $validTo)
+    public function setValidTo(DateTimeImmutable $validTo) : void
     {
         $this->claims['exp'] = $validTo;
     }

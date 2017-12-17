@@ -24,7 +24,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->parser = new ArgvParser();
     }
@@ -32,7 +32,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that backslashes are respected
      */
-    public function testBackslashesAreRespected()
+    public function testBackslashesAreRespected() : void
     {
         $request = $this->parser->parse(['apex', 'foo', 'bar\\baz']);
         $this->assertEquals(['bar\\baz'], $request->getArgumentValues());
@@ -41,7 +41,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing arguments and options
      */
-    public function testParsingArgumentsAndOptions()
+    public function testParsingArgumentsAndOptions() : void
     {
         $request = $this->parser->parse(['apex', 'foo', 'bar', '-r', '--name=dave']);
         $this->assertEquals('foo', $request->getCommandName());
@@ -53,7 +53,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a null string
      */
-    public function testParsingNullString()
+    public function testParsingNullString() : void
     {
         $_SERVER['argv'] = ['apex', 'foo', 'bar', '-r', '--name=dave'];
         $request = $this->parser->parse(null);
@@ -66,7 +66,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing option with no value
      */
-    public function testParsingOptionWithNoValue()
+    public function testParsingOptionWithNoValue() : void
     {
         $request = $this->parser->parse(['apex', 'foo', '--name']);
         $this->assertNull($request->getOptionValue('name'));
@@ -75,7 +75,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing in an invalid input type
      */
-    public function testPassingInvalidInputType()
+    public function testPassingInvalidInputType() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->parser->parse('foo');

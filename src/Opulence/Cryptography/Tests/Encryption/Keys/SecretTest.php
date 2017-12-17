@@ -24,7 +24,7 @@ class SecretTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->secret = new Secret(SecretTypes::PASSWORD, 'foo');
     }
@@ -32,7 +32,7 @@ class SecretTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the type
      */
-    public function testGettingType()
+    public function testGettingType() : void
     {
         $this->assertEquals(SecretTypes::PASSWORD, $this->secret->getType());
     }
@@ -40,7 +40,7 @@ class SecretTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the value
      */
-    public function testGettingValue()
+    public function testGettingValue() : void
     {
         $this->assertEquals('foo', $this->secret->getValue());
     }
@@ -48,7 +48,7 @@ class SecretTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a valid key
      */
-    public function testValidKey()
+    public function testValidKey() : void
     {
         $key = str_repeat('a', 32);
         $secret = new Secret(SecretTypes::KEY, $key);

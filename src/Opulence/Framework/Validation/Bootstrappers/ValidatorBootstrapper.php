@@ -54,7 +54,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         $this->ruleExtensionRegistry = $this->getRuleExtensionRegistry($container);
         $this->registerRuleExtensions($this->ruleExtensionRegistry);
@@ -75,7 +75,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
      *
      * @param ErrorTemplateRegistry $errorTemplateRegistry The registry to register to
      */
-    abstract protected function registerErrorTemplates(ErrorTemplateRegistry $errorTemplateRegistry);
+    abstract protected function registerErrorTemplates(ErrorTemplateRegistry $errorTemplateRegistry) : void;
 
     /**
      * Gets the error template compiler
@@ -141,7 +141,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
      *
      * @param RuleExtensionRegistry $ruleExtensionRegistry The registry to register rules to
      */
-    protected function registerRuleExtensions(RuleExtensionRegistry $ruleExtensionRegistry)
+    protected function registerRuleExtensions(RuleExtensionRegistry $ruleExtensionRegistry) : void
     {
         // Let extending classes override this
     }

@@ -25,7 +25,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->keyDeriver = new Pbkdf2KeyDeriver();
     }
@@ -33,7 +33,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     /**
      * Test deriving keys from a key
      */
-    public function testDerivingKeysFromKey()
+    public function testDerivingKeysFromKey() : void
     {
         $salt = random_bytes(IKeyDeriver::KEY_SALT_BYTE_LENGTH);
         $keyLengths = [16, 24, 32];
@@ -50,7 +50,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     /**
      * Test deriving keys from a password
      */
-    public function testDerivingKeysFromPassword()
+    public function testDerivingKeysFromPassword() : void
     {
         $salt = random_bytes(IKeyDeriver::KEY_SALT_BYTE_LENGTH);
         $keyLengths = [16, 24, 32];
@@ -66,7 +66,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an invalid salt length throws an exception
      */
-    public function testInvalidSaltLengthThrowsException()
+    public function testInvalidSaltLengthThrowsException() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->keyDeriver->deriveKeysFromPassword('foo', 'bar', 512);

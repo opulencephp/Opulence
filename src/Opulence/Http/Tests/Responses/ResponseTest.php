@@ -25,7 +25,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->response = new Response();
     }
@@ -33,7 +33,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the content
      */
-    public function testGettingContent()
+    public function testGettingContent() : void
     {
         $response = new Response('foo');
         $this->assertEquals('foo', $response->getContent());
@@ -42,7 +42,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the default HTTP version
      */
-    public function testGettingDefaultHttpVersion()
+    public function testGettingDefaultHttpVersion() : void
     {
         $this->assertEquals('1.1', $this->response->getHttpVersion());
     }
@@ -50,7 +50,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the default status code
      */
-    public function testGettingDefaultStatusCode()
+    public function testGettingDefaultStatusCode() : void
     {
         $this->assertEquals(ResponseHeaders::HTTP_OK, $this->response->getStatusCode());
     }
@@ -60,7 +60,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
      *
      * @runInSeparateProcess
      */
-    public function testSendingContent()
+    public function testSendingContent() : void
     {
         $this->response->setContent('foo');
         ob_start();
@@ -71,7 +71,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the content
      */
-    public function testSettingContent()
+    public function testSettingContent() : void
     {
         $this->response->setContent('foo');
         $this->assertEquals('foo', $this->response->getContent());
@@ -80,7 +80,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting an expiration
      */
-    public function testSettingExpiration()
+    public function testSettingExpiration() : void
     {
         $expiration = new DateTime('now');
         $this->response->setExpiration($expiration);
@@ -90,7 +90,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the HTTP version
      */
-    public function testSettingHttpVersion()
+    public function testSettingHttpVersion() : void
     {
         $this->response->setHttpVersion('2.0');
         $this->assertEquals('2.0', $this->response->getHttpVersion());
@@ -99,7 +99,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the status code
      */
-    public function testSettingStatusCode()
+    public function testSettingStatusCode() : void
     {
         $this->response->setStatusCode(ResponseHeaders::HTTP_ACCEPTED);
         $this->assertEquals(ResponseHeaders::HTTP_ACCEPTED, $this->response->getStatusCode());
@@ -108,7 +108,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the status code with text
      */
-    public function testSettingStatusCodeWithText()
+    public function testSettingStatusCodeWithText() : void
     {
         $this->response->setStatusCode(ResponseHeaders::HTTP_ACCEPTED,
             ResponseHeaders::$statusTexts[ResponseHeaders::HTTP_ACCEPTED]);

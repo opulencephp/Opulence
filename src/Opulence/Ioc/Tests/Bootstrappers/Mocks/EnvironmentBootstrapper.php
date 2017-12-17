@@ -30,7 +30,7 @@ class EnvironmentBootstrapper extends BaseBootstrapper implements ILazyBootstrap
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         $container->bindSingleton(LazyFooInterface::class, LazyConcreteFoo::class);
     }

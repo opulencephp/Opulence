@@ -22,7 +22,7 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that commands go to the default client
      */
-    public function testCommandsGoToDefaultClient()
+    public function testCommandsGoToDefaultClient() : void
     {
         $default = $this->getMockBuilder(Client::class)
             ->setMethods(['get'])
@@ -51,7 +51,7 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not passing a default
      */
-    public function testNotPassingDefault()
+    public function testNotPassingDefault() : void
     {
         $this->expectException(InvalidArgumentException::class);
         new Memcached(['foo' => 'bar']);
@@ -60,7 +60,7 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an array of clients
      */
-    public function testPassingArrayOfClients()
+    public function testPassingArrayOfClients() : void
     {
         $default = $this->createMock(Client::class);
         $foo = $this->createMock(Client::class);
@@ -78,7 +78,7 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing a single client
      */
-    public function testPassingSingleClient()
+    public function testPassingSingleClient() : void
     {
         $default = $this->createMock(Client::class);
         $memcached = new Memcached($default);

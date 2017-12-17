@@ -192,7 +192,7 @@ abstract class Query
      * @param string $tableName The name of the table we're querying
      * @param string $tableAlias The table alias
      */
-    protected function setTable(string $tableName, string $tableAlias = '')
+    protected function setTable(string $tableName, string $tableAlias = '') : void
     {
         $this->tableName = $tableName;
         $this->tableAlias = $tableAlias;

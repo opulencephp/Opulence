@@ -49,7 +49,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     /**
      * @inheritdoc
      */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request) : void
     {
         $this->request = $request;
     }
@@ -57,7 +57,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     /**
      * @inheritdoc
      */
-    public function setViewCompiler(ICompiler $viewCompiler)
+    public function setViewCompiler(ICompiler $viewCompiler) : void
     {
         $this->viewCompiler = $viewCompiler;
     }
@@ -65,7 +65,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     /**
      * @inheritdoc
      */
-    public function setViewFactory(IViewFactory $viewFactory)
+    public function setViewFactory(IViewFactory $viewFactory) : void
     {
         $this->viewFactory = $viewFactory;
     }

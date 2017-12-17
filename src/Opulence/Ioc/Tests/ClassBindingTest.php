@@ -23,7 +23,7 @@ class ClassBindingTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->binding = new ClassBinding('foo', ['bar'], false);
     }
@@ -31,7 +31,7 @@ class ClassBindingTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if the binding returns the correct flag for resolving as a singleton
      */
-    public function testCheckingIfShouldResolveAsSingleton()
+    public function testCheckingIfShouldResolveAsSingleton() : void
     {
         $singletonBinding = new ClassBinding('foo', [], true);
         $prototypeBinding = new ClassBinding('foo', [], false);
@@ -42,7 +42,7 @@ class ClassBindingTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the concrete class
      */
-    public function testGettingConcreteClass()
+    public function testGettingConcreteClass() : void
     {
         $this->assertEquals('foo', $this->binding->getConcreteClass());
     }
@@ -50,7 +50,7 @@ class ClassBindingTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the constructor primitives
      */
-    public function testGettingConstructorPrimitives()
+    public function testGettingConstructorPrimitives() : void
     {
         $this->assertEquals(['bar'], $this->binding->getConstructorPrimitives());
     }

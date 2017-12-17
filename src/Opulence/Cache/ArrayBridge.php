@@ -31,7 +31,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function delete(string $key)
+    public function delete(string $key) : void
     {
         unset($this->storage[$key]);
     }
@@ -39,7 +39,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function flush()
+    public function flush() : void
     {
         $this->storage = [];
     }
@@ -77,7 +77,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function set(string $key, $value, int $lifetime)
+    public function set(string $key, $value, int $lifetime) : void
     {
         if ($lifetime > 0) {
             $this->storage[$key] = $value;

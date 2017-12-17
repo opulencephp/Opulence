@@ -29,7 +29,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $routeMatchers = [
             new PathMatcher(),
@@ -42,7 +42,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling an insecure route over HTTPS
      */
-    public function testCompilingInsecureRouteOnHttps()
+    public function testCompilingInsecureRouteOnHttps() : void
     {
         $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*', '\/');
         $request = new Request([], [], [], [
@@ -58,7 +58,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a route with path variables
      */
-    public function testCompilingRouteWitPathVariables()
+    public function testCompilingRouteWitPathVariables() : void
     {
         $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*',
             '\/foo\/(?P<bar>[^\/]+)\/(?P<baz>[^\/]+)');
@@ -80,7 +80,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a route with an optional variable
      */
-    public function testCompilingRouteWithOptionalVariable()
+    public function testCompilingRouteWithOptionalVariable() : void
     {
         $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*', '\/foo\/(?P<bar>[^\/]+)?');
         $request = new Request([], [], [], [
@@ -95,7 +95,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a route with an optional variable with a default value
      */
-    public function testCompilingRouteWithOptionalVariableWithDefaultValue()
+    public function testCompilingRouteWithOptionalVariableWithDefaultValue() : void
     {
         $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*', '\/bar\/(?P<foo>[^\/]+)?');
         $request = new Request([], [], [], [
@@ -110,7 +110,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the route variables for an unmatched route
      */
-    public function testGettingRouteVariablesForUnmatchedRoute()
+    public function testGettingRouteVariablesForUnmatchedRoute() : void
     {
         $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*', '\/foo');
         $request = new Request([], [], [], [
@@ -124,7 +124,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests matching a secure route
      */
-    public function testMatchingSecureRoute()
+    public function testMatchingSecureRoute() : void
     {
         $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', true, '.*', '\/');
         $request = new Request([], [], [], [
@@ -140,7 +140,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests trying to match a secure route when not running on HTTPS
      */
-    public function testNotBeingHttpsAndMatchingSecureRoute()
+    public function testNotBeingHttpsAndMatchingSecureRoute() : void
     {
         $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', true, '.*', '\/');
         $request = new Request([], [], [], [

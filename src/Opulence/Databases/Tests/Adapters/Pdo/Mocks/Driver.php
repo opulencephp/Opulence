@@ -22,7 +22,7 @@ class Driver extends BaseDriver
     /**
      * @inheritdoc
      */
-    protected function getDsn(Server $server, array $options = [])
+    protected function getDsn(Server $server, array $options = []) : string
     {
         return 'fakedsn';
     }
@@ -30,7 +30,7 @@ class Driver extends BaseDriver
     /**
      * @inheritdoc
      */
-    protected function setProvider()
+    protected function setProvider() : void
     {
         $this->provider = new Provider();
     }

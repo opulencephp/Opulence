@@ -27,7 +27,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->compiler = new Compiler(new Lexer(), new Parser());
     }
@@ -35,7 +35,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling adjacent elements
      */
-    public function testCompilingAdjacentElements()
+    public function testCompilingAdjacentElements() : void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
         $this->compiler->registerElement('bar', new Style('cyan'));
@@ -49,7 +49,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling an element with no children
      */
-    public function testCompilingElementWithNoChildren()
+    public function testCompilingElementWithNoChildren() : void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
         $this->compiler->registerElement('bar', new Style('cyan'));
@@ -63,7 +63,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling an element without applying styles
      */
-    public function testCompilingElementWithoutApplyingStyles()
+    public function testCompilingElementWithoutApplyingStyles() : void
     {
         $this->compiler->setStyled(false);
         $this->compiler->registerElement('foo', new Style('green', 'white'));
@@ -74,7 +74,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling an escaped tag at the beginning of the string
      */
-    public function testCompilingEscapedTagAtBeginning()
+    public function testCompilingEscapedTagAtBeginning() : void
     {
         $this->compiler->registerElement('foo', new Style('green'));
         $expectedOutput = '<bar>';
@@ -84,7 +84,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling an escaped tag in between tags
      */
-    public function testCompilingEscapedTagInBetweenTags()
+    public function testCompilingEscapedTagInBetweenTags() : void
     {
         $this->compiler->registerElement('foo', new Style('green'));
         $expectedOutput = "\033[32m<bar>\033[39m";
@@ -94,7 +94,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling nested elements
      */
-    public function testCompilingNestedElements()
+    public function testCompilingNestedElements() : void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
         $this->compiler->registerElement('bar', new Style('cyan'));
@@ -108,7 +108,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling nested elements with no children
      */
-    public function testCompilingNestedElementsWithNoChildren()
+    public function testCompilingNestedElementsWithNoChildren() : void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
         $this->compiler->registerElement('bar', new Style('cyan'));
@@ -122,7 +122,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling nested elements with words in between
      */
-    public function testCompilingNestedElementsWithWordsInBetween()
+    public function testCompilingNestedElementsWithWordsInBetween() : void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
         $this->compiler->registerElement('bar', new Style('cyan'));
@@ -136,7 +136,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling plain text
      */
-    public function testCompilingPlainText()
+    public function testCompilingPlainText() : void
     {
         $expectedOutput = 'foobar';
         $this->assertEquals(
@@ -148,7 +148,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a single element
      */
-    public function testCompilingSingleElement()
+    public function testCompilingSingleElement() : void
     {
         $this->compiler->registerElement('foo', new Style('green'));
         $expectedOutput = "\033[32mbar\033[39m";
@@ -158,7 +158,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling unclosed element
      */
-    public function testCompilingUnclosedElement()
+    public function testCompilingUnclosedElement() : void
     {
         $this->expectException(RuntimeException::class);
         $this->compiler->compile('<foo>bar');
@@ -167,7 +167,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling unregistered element
      */
-    public function testCompilingUnregisteredElement()
+    public function testCompilingUnregisteredElement() : void
     {
         $this->expectException(RuntimeException::class);
         $this->compiler->compile('<foo>bar</foo>');
@@ -176,7 +176,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests incorrectly nested elements
      */
-    public function testIncorrectlyNestedElements()
+    public function testIncorrectlyNestedElements() : void
     {
         $this->expectException(RuntimeException::class);
         $this->compiler->registerElement('foo', new Style('green'));

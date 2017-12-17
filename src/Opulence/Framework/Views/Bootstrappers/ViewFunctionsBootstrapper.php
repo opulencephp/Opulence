@@ -26,7 +26,7 @@ class ViewFunctionsBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         $request = $container->resolve(Request::class);
         $transpiler = $container->resolve(ITranspiler::class);

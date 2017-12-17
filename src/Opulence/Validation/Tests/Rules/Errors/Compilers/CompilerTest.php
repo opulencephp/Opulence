@@ -23,7 +23,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->compiler = new Compiler();
     }
@@ -31,7 +31,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a template with arg placeholders
      */
-    public function testCompilingTemplateWithArgPlaceholders()
+    public function testCompilingTemplateWithArgPlaceholders() : void
     {
         $this->assertEquals(
             'foo dave baz young',
@@ -46,7 +46,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a template with arg placeholders not in same order as args
      */
-    public function testCompilingTemplateWithArgPlaceholdersNotInSameOrderAsArgs()
+    public function testCompilingTemplateWithArgPlaceholdersNotInSameOrderAsArgs() : void
     {
         $this->assertEquals(
             'foo dave baz young',
@@ -61,7 +61,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a template with field and arg placeholders
      */
-    public function testCompilingTemplateWithFieldAndArgPlaceholders()
+    public function testCompilingTemplateWithFieldAndArgPlaceholders() : void
     {
         $this->assertEquals(
             'foo the-field dave baz young',
@@ -76,7 +76,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a template with a field placeholder
      */
-    public function testCompilingTemplateWithFieldPlaceholder()
+    public function testCompilingTemplateWithFieldPlaceholder() : void
     {
         $this->assertEquals(
             'foo bar',
@@ -87,7 +87,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a with leftover placeholders
      */
-    public function testCompilingTemplateWithLeftoverPlaceholders()
+    public function testCompilingTemplateWithLeftoverPlaceholders() : void
     {
         $this->assertEquals(
             'foo dave',
@@ -101,7 +101,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a template with no placeholders
      */
-    public function testCompilingTemplateWithNoPlaceholders()
+    public function testCompilingTemplateWithNoPlaceholders() : void
     {
         $this->assertEquals(
             'foo bar',

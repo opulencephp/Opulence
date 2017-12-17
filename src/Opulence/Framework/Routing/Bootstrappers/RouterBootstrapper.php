@@ -42,7 +42,7 @@ class RouterBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         $this->cache = $this->getRouteCache($container);
         $dispatcher = $this->getRouteDispatcher($container);
@@ -63,7 +63,7 @@ class RouterBootstrapper extends Bootstrapper
      *
      * @param Router $router The router to configure
      */
-    protected function configureRouter(Router $router)
+    protected function configureRouter(Router $router) : void
     {
         // Let extending classes define this
     }

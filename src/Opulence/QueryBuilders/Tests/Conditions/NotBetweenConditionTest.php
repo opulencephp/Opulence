@@ -20,7 +20,7 @@ class NotBetweenConditionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the SQL
      */
-    public function testGettingSql()
+    public function testGettingSql() : void
     {
         $condition = new NotBetweenCondition('foo', 1, 2);
         $this->assertEquals('foo NOT BETWEEN ? AND ?', $condition->getSql());

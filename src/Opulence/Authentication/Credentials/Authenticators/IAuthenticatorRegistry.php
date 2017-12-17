@@ -32,5 +32,5 @@ interface IAuthenticatorRegistry
      * @param string $credentialType The credential type
      * @param IAuthenticator $authenticator The authenticator to register
      */
-    public function registerAuthenticator(string $credentialType, IAuthenticator $authenticator);
+    public function registerAuthenticator(string $credentialType, IAuthenticator $authenticator) : void;
 }

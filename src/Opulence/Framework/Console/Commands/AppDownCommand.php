@@ -22,7 +22,7 @@ class AppDownCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('app:down')
             ->setDescription('Puts the application into maintenance mode');

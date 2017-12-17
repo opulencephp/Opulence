@@ -21,7 +21,7 @@ class FilesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding files creates files
      */
-    public function testAddingFilesCreatesFiles()
+    public function testAddingFilesCreatesFiles() : void
     {
         $files = new Files([]);
         $files->add('foo', [
@@ -44,7 +44,7 @@ class FilesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing files through constructor creates files
      */
-    public function testPassingFilesThroughConstructorCreatesFiles()
+    public function testPassingFilesThroughConstructorCreatesFiles() : void
     {
         $files = new Files([
             'foo' => [

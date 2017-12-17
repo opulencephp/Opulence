@@ -24,7 +24,7 @@ class ArrayListTokenizerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->tokenizer = new ArrayListTokenizer();
     }
@@ -32,7 +32,7 @@ class ArrayListTokenizerTest extends \PHPUnit\Framework\TestCase
     /**
      * Test not passing the command name
      */
-    public function testNotPassingCommandName()
+    public function testNotPassingCommandName() : void
     {
         $this->expectException(RuntimeException::class);
         $this->tokenizer->tokenize([
@@ -43,7 +43,7 @@ class ArrayListTokenizerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests tokenizing arguments and options
      */
-    public function testTokenizingArgumentsAndOptions()
+    public function testTokenizingArgumentsAndOptions() : void
     {
         $tokens = $this->tokenizer->tokenize([
             'name' => 'foo',

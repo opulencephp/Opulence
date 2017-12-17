@@ -35,7 +35,7 @@ class ComposerUpdateCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('composer:update')
             ->setDescription('Updates any Composer dependencies');

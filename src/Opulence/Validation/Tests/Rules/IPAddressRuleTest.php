@@ -20,7 +20,7 @@ class IPAddressRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a failing value
      */
-    public function testFailingValue()
+    public function testFailingValue() : void
     {
         $rule = new IPAddressRule();
         $this->assertFalse($rule->passes(''));
@@ -30,7 +30,7 @@ class IPAddressRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug()
+    public function testGettingSlug() : void
     {
         $rule = new IPAddressRule();
         $this->assertEquals('ipAddress', $rule->getSlug());
@@ -39,7 +39,7 @@ class IPAddressRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a passing value
      */
-    public function testPassingValue()
+    public function testPassingValue() : void
     {
         $rule = new IPAddressRule();
         $this->assertTrue($rule->passes('127.0.0.1'));

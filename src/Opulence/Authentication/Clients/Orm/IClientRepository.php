@@ -22,14 +22,14 @@ interface IClientRepository
      *
      * @param IClient $client The client to add
      */
-    public function add(IClient $client);
+    public function add(IClient $client) : void;
 
     /**
      * Deletes a client
      *
      * @param IClient $client The client to delete
      */
-    public function delete(IClient $client);
+    public function delete(IClient $client) : void;
 
     /**
      * Gets the client with the input Id

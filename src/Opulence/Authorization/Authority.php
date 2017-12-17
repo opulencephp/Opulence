@@ -80,7 +80,7 @@ class Authority implements IAuthority
     /**
      * @inheritdoc
      */
-    public function setSubject($subjectId, array $subjectRoles)
+    public function setSubject($subjectId, array $subjectRoles) : void
     {
         $this->subjectId = $subjectId;
         $this->subjectRoles = $subjectRoles;

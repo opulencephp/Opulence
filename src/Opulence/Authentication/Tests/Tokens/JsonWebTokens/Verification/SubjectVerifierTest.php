@@ -30,7 +30,7 @@ class SubjectVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->verifier = new SubjectVerifier('foo');
         $this->jwt = $this->getMockBuilder(SignedJwt::class)
@@ -45,7 +45,7 @@ class SubjectVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an invalid subject
      */
-    public function testInvalidSubject()
+    public function testInvalidSubject() : void
     {
         $this->jwtPayload->expects($this->once())
             ->method('getSubject')
@@ -57,7 +57,7 @@ class SubjectVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests verifying valid token
      */
-    public function testVerifyingValidToken()
+    public function testVerifyingValidToken() : void
     {
         $this->jwtPayload->expects($this->once())
             ->method('getSubject')

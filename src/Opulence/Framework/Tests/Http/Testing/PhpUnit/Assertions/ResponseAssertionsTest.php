@@ -29,7 +29,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->assertions = new ResponseAssertions();
     }
@@ -37,7 +37,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that a path redirects to another
      */
-    public function testAssertingRedirect()
+    public function testAssertingRedirect() : void
     {
         $this->assertions->setResponse(new RedirectResponse('/redirectedPath'));
         $this->assertSame($this->assertions, $this->assertions->redirectsTo('/redirectedPath'));
@@ -46,7 +46,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that a response has certain content
      */
-    public function testAssertingResponseHasContent()
+    public function testAssertingResponseHasContent() : void
     {
         $this->assertions->setResponse(new Response('FooBar'));
         $this->assertSame($this->assertions, $this->assertions->contentEquals('FooBar'));
@@ -55,7 +55,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that a response has a certain cookie
      */
-    public function testAssertingResponseHasCookie()
+    public function testAssertingResponseHasCookie() : void
     {
         $response = new Response();
         $response->getHeaders()->setCookie(
@@ -69,7 +69,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that a response has a certain header
      */
-    public function testAssertingResponseHasHeader()
+    public function testAssertingResponseHasHeader() : void
     {
         $response = new Response();
         $response->getHeaders()->set('foo', 'bar');
@@ -81,7 +81,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that a response has status code
      */
-    public function testAssertingResponseHasStatusCode()
+    public function testAssertingResponseHasStatusCode() : void
     {
         $response = new Response('', ResponseHeaders::HTTP_BAD_GATEWAY);
         $this->assertions->setResponse($response);
@@ -94,7 +94,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that a response is an internal server error
      */
-    public function testAssertingResponseIsInternalServerError()
+    public function testAssertingResponseIsInternalServerError() : void
     {
         $response = new Response('', ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
         $this->assertions->setResponse($response);
@@ -104,7 +104,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that a response is not found
      */
-    public function testAssertingResponseIsNotFound()
+    public function testAssertingResponseIsNotFound() : void
     {
         $response = new Response('', ResponseHeaders::HTTP_NOT_FOUND);
         $this->assertions->setResponse($response);
@@ -114,7 +114,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that a response is OK
      */
-    public function testAssertingResponseIsOK()
+    public function testAssertingResponseIsOK() : void
     {
         $response = new Response('', ResponseHeaders::HTTP_OK);
         $this->assertions->setResponse($response);
@@ -124,7 +124,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting that a response is unauthorized
      */
-    public function testAssertingResponseIsUnauthorized()
+    public function testAssertingResponseIsUnauthorized() : void
     {
         $response = new Response('', ResponseHeaders::HTTP_UNAUTHORIZED);
         $this->assertions->setResponse($response);
@@ -134,7 +134,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting response JSON contains
      */
-    public function testAssertingResponseJsonContains()
+    public function testAssertingResponseJsonContains() : void
     {
         $response = new JsonResponse(['foo' => 'bar', 'baz' => ['subkey' => 'subvalue']]);
         $this->assertions->setResponse($response);
@@ -152,7 +152,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting response JSON contains key
      */
-    public function testAssertingResponseJsonContainsKey()
+    public function testAssertingResponseJsonContainsKey() : void
     {
         $response = new JsonResponse(['foo' => 'bar', 'baz' => ['subkey' => 'subvalue']]);
         $this->assertions->setResponse($response);
@@ -163,7 +163,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asserting response JSON equals
      */
-    public function testAssertingResponseJsonEquals()
+    public function testAssertingResponseJsonEquals() : void
     {
         $response = new JsonResponse(['foo' => 'bar', 'baz' => ['subkey' => 'subvalue']]);
         $this->assertions->setResponse($response);

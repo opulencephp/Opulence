@@ -153,7 +153,7 @@ class Parser implements IParser
      * @param Token $token The invalid token
      * @throws RuntimeException Always thrown
      */
-    private function throwImproperlyNestedNodeException(Token $token)
+    private function throwImproperlyNestedNodeException(Token $token) : void
     {
         throw new RuntimeException(
             sprintf(
@@ -170,7 +170,7 @@ class Parser implements IParser
      * @param Token $token The invalid token
      * @throws RuntimeException Always thrown
      */
-    private function throwUnopenedDelimiterException(Token $token)
+    private function throwUnopenedDelimiterException(Token $token) : void
     {
         throw new RuntimeException(
             sprintf(

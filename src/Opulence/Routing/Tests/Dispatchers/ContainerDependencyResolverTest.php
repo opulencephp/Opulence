@@ -28,7 +28,7 @@ class ContainerDependencyResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->container = $this->createMock(IContainer::class);
         $this->dependencyResolver = new ContainerDependencyResolver($this->container);
@@ -37,7 +37,7 @@ class ContainerDependencyResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the container is used to resolve dependencies
      */
-    public function testContainerIsUsedToResolveDependencies()
+    public function testContainerIsUsedToResolveDependencies() : void
     {
         $this->container->expects($this->once())
             ->method('resolve')
@@ -49,7 +49,7 @@ class ContainerDependencyResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that IoC exceptions are converted
      */
-    public function testIocExceptionsAreConverted()
+    public function testIocExceptionsAreConverted() : void
     {
         $this->expectException(DependencyResolutionException::class);
         $this->container->expects($this->once())

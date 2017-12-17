@@ -21,7 +21,7 @@ class Foo
     /**
      * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -29,7 +29,7 @@ class Foo
     /**
      * @param int $id
      */
-    public function setId($id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }

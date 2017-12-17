@@ -32,7 +32,7 @@ interface IHttpCredentialIO
      *
      * @param Response $response The response to remove from
      */
-    public function remove(Response $response);
+    public function remove(Response $response) : void;
 
     /**
      * Writes a credential to the response
@@ -40,5 +40,5 @@ interface IHttpCredentialIO
      * @param ICredential $credential The credential to write
      * @param Response $response The response to write to
      */
-    public function write(ICredential $credential, Response $response);
+    public function write(ICredential $credential, Response $response) : void;
 }

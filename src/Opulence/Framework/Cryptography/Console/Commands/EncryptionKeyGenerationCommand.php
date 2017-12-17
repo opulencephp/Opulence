@@ -24,7 +24,7 @@ class EncryptionKeyGenerationCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('encryption:generatekey')
             ->setDescription('Creates an encryption key')

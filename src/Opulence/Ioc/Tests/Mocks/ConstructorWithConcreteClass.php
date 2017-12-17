@@ -29,7 +29,7 @@ class ConstructorWithConcreteClass
     /**
      * @return Bar
      */
-    public function getFoo()
+    public function getFoo() : Bar
     {
         return $this->foo;
     }

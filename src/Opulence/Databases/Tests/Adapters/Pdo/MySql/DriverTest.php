@@ -21,7 +21,7 @@ class DriverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating the DSN with a Unix socket specified
      */
-    public function testCreatingDSNWithUnixSocket()
+    public function testCreatingDSNWithUnixSocket() : void
     {
         $server = new Server();
         $driver = new Driver();
@@ -35,7 +35,7 @@ class DriverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating the DSN without a Unix socket specified
      */
-    public function testCreatingDSNWithoutUnixSocket()
+    public function testCreatingDSNWithoutUnixSocket() : void
     {
         $server = new Server();
         $driver = new Driver();
@@ -52,7 +52,7 @@ class DriverTest extends \PHPUnit\Framework\TestCase
      * @param array $connectionOptions The connection options
      * @return string The DSN for the input driver and server
      */
-    private function getDSN(Driver $driver, Server $server, array $connectionOptions = [])
+    private function getDSN(Driver $driver, Server $server, array $connectionOptions = []) : string
     {
         $class = new \ReflectionClass(get_class($driver));
         $method = $class->getMethod('getDSN');

@@ -44,7 +44,7 @@ abstract class AuthorizationBootstrapper extends Bootstrapper implements ILazyBo
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         $container->bindInstance(IAuthority::class, $this->getAuthority($container));
     }

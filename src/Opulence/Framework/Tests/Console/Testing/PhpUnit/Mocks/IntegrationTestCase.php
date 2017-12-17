@@ -41,7 +41,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * @return CommandCollection
      */
-    public function getCommandCollection()
+    public function getCommandCollection() : CommandCollection
     {
         return $this->commandCollection;
     }
@@ -51,7 +51,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return ResponseAssertions The response assertions
      */
-    public function getResponseAssertions()
+    public function getResponseAssertions() : ResponseAssertions
     {
         return $this->assertResponse;
     }
@@ -59,7 +59,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * Sets up the application and container
      */
-    public function setUp()
+    public function setUp() : void
     {
         Config::setCategory('paths', [
             'configs' => realpath(__DIR__ . '/../../configs'),

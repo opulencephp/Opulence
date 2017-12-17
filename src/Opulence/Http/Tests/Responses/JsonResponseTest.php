@@ -23,7 +23,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the content type
      */
-    public function testGettingContentType()
+    public function testGettingContentType() : void
     {
         $response = new JsonResponse();
         $this->assertEquals(ResponseHeaders::CONTENT_TYPE_JSON, $response->getHeaders()->get('Content-Type'));
@@ -32,7 +32,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the status code after setting it in the constructor
      */
-    public function testGettingStatusCodeAfterSettingInConstructor()
+    public function testGettingStatusCodeAfterSettingInConstructor() : void
     {
         $response = new JsonResponse([], ResponseHeaders::HTTP_ACCEPTED);
         $this->assertEquals(ResponseHeaders::HTTP_ACCEPTED, $response->getStatusCode());
@@ -41,7 +41,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the content to an invalid type in the constructor
      */
-    public function testSettingContentOfIncorrectTypeInConstructor()
+    public function testSettingContentOfIncorrectTypeInConstructor() : void
     {
         $this->expectException(InvalidArgumentException::class);
         new JsonResponse("\xB1\x31");
@@ -50,7 +50,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the content to an invalid type in the setter
      */
-    public function testSettingContentOfIncorrectTypeInSetter()
+    public function testSettingContentOfIncorrectTypeInSetter() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $response = new JsonResponse();
@@ -60,7 +60,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the content to an array in the constructor
      */
-    public function testSettingContentToArrayInConstructor()
+    public function testSettingContentToArrayInConstructor() : void
     {
         $content = ['foo' => 'bar'];
         $response = new JsonResponse($content);
@@ -70,7 +70,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the content to an array in the setter
      */
-    public function testSettingContentToArrayInSetter()
+    public function testSettingContentToArrayInSetter() : void
     {
         $content = ['foo' => 'bar'];
         $response = new JsonResponse();
@@ -81,7 +81,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the content to an ArrayObject in the constructor
      */
-    public function testSettingContentToArrayObjectInConstructor()
+    public function testSettingContentToArrayObjectInConstructor() : void
     {
         $content = new ArrayObject(['foo' => 'bar']);
         $response = new JsonResponse($content);
@@ -91,7 +91,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the content to an ArrayObject in the setter
      */
-    public function testSettingContentToArrayObjectInSetter()
+    public function testSettingContentToArrayObjectInSetter() : void
     {
         $content = new ArrayObject(['foo' => 'bar']);
         $response = new JsonResponse();
@@ -102,7 +102,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the headers in the constructor
      */
-    public function testSettingHeadersInConstructor()
+    public function testSettingHeadersInConstructor() : void
     {
         $response = new JsonResponse([], ResponseHeaders::HTTP_OK, ['FOO' => 'bar']);
         $this->assertEquals('bar', $response->getHeaders()->get('FOO'));

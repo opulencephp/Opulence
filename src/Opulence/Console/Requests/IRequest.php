@@ -22,7 +22,7 @@ interface IRequest
      *
      * @param mixed $value The value of the argument
      */
-    public function addArgumentValue($value);
+    public function addArgumentValue($value) : void;
 
     /**
      * Sets the value of an option
@@ -32,7 +32,7 @@ interface IRequest
      * @param string $name The name of the option
      * @param mixed $value The value of the option
      */
-    public function addOptionValue(string $name, $value);
+    public function addOptionValue(string $name, $value) : void;
 
     /**
      * Gets all the values of arguments
@@ -77,5 +77,5 @@ interface IRequest
      *
      * @param string $name The name of the command the request calls
      */
-    public function setCommandName(string $name);
+    public function setCommandName(string $name) : void;
 }

@@ -50,7 +50,7 @@ class PhpCompiler implements ICompiler
      * @param int $obStartLevel The starting output buffer level
      * @throws $ex Always rethrown
      */
-    protected function handleException($ex, int $obStartLevel)
+    protected function handleException($ex, int $obStartLevel) : void
     {
         // Clean the output buffer
         while (ob_get_level() > $obStartLevel) {

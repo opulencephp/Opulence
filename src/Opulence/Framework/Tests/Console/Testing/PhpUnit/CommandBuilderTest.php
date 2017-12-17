@@ -26,7 +26,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->integrationTest = $this->createMock(IntegrationTestCase::class);
         $this->integrationTest->expects($this->any())
@@ -38,7 +38,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a basic command
      */
-    public function testBuildingBasicCommand()
+    public function testBuildingBasicCommand() : void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')
@@ -49,7 +49,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a command with multiple arguments
      */
-    public function testBuildingCommandWithMultipleArguments()
+    public function testBuildingCommandWithMultipleArguments() : void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')
@@ -64,7 +64,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a command with multiple options
      */
-    public function testBuildingCommandWithMultipleOptions()
+    public function testBuildingCommandWithMultipleOptions() : void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')
@@ -79,7 +79,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a command with multiple prompt answers
      */
-    public function testBuildingCommandWithMultiplePromptAnswers()
+    public function testBuildingCommandWithMultiplePromptAnswers() : void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')
@@ -94,7 +94,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a command with a single argument
      */
-    public function testBuildingCommandWithSingleArgument()
+    public function testBuildingCommandWithSingleArgument() : void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')
@@ -109,7 +109,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a command with a single option
      */
-    public function testBuildingCommandWithSingleOption()
+    public function testBuildingCommandWithSingleOption() : void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')
@@ -124,7 +124,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a command with a single prompt answer
      */
-    public function testBuildingCommandWithSinglePromptAnswer()
+    public function testBuildingCommandWithSinglePromptAnswer() : void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')
@@ -139,7 +139,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a command with an unstyled response
      */
-    public function testBuildingCommandWithUnstyledResponse()
+    public function testBuildingCommandWithUnstyledResponse() : void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')

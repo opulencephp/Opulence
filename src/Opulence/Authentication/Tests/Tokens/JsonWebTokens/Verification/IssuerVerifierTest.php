@@ -30,7 +30,7 @@ class IssuerVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->verifier = new IssuerVerifier('foo');
         $this->jwt = $this->getMockBuilder(SignedJwt::class)
@@ -45,7 +45,7 @@ class IssuerVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an invalid issuer
      */
-    public function testInvalidIssuer()
+    public function testInvalidIssuer() : void
     {
         $this->jwtPayload->expects($this->once())
             ->method('getIssuer')
@@ -57,7 +57,7 @@ class IssuerVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests verifying valid token
      */
-    public function testVerifyingValidToken()
+    public function testVerifyingValidToken() : void
     {
         $this->jwtPayload->expects($this->once())
             ->method('getIssuer')

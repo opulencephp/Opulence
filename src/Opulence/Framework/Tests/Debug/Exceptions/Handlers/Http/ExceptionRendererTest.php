@@ -36,7 +36,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->viewFactory = $this->createMock(IViewFactory::class);
         $this->viewCompiler = $this->createMock(ICompiler::class);
@@ -49,7 +49,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         ob_end_clean();
     }
@@ -57,7 +57,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the response is null before being rendered
      */
-    public function testExceptionThrownWhenGettingResponseBeforeItIsRendered()
+    public function testExceptionThrownWhenGettingResponseBeforeItIsRendered() : void
     {
         $this->expectException(LogicException::class);
         $this->renderer->getResponse();
@@ -66,7 +66,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering an HTTP exception with an HTML view
      */
-    public function testRenderingHttpExceptionWithView()
+    public function testRenderingHttpExceptionWithView() : void
     {
         $this->setViewComponents();
         $ex = new HttpException(404, 'foo');
@@ -92,7 +92,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering an HTTP exception without setting view compiler and factory
      */
-    public function testRenderingHttpExceptionWithoutSettingViewCompilerAndFactory()
+    public function testRenderingHttpExceptionWithoutSettingViewCompilerAndFactory() : void
     {
         $ex = new HttpException(404, 'foo');
         $this->viewFactory->expects($this->never())
@@ -105,7 +105,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering an HTTP exception without a view in the development environment
      */
-    public function testRenderingHttpExceptionWithoutViewInDevelopmentEnvironment()
+    public function testRenderingHttpExceptionWithoutViewInDevelopmentEnvironment() : void
     {
         $this->setViewComponents();
         $ex = new HttpException(404, 'foo');
@@ -121,7 +121,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering an HTTP exception without a view in the production environment
      */
-    public function testRenderingHttpExceptionWithoutViewInProductionEnvironment()
+    public function testRenderingHttpExceptionWithoutViewInProductionEnvironment() : void
     {
         $this->renderer = new MockRenderer(false);
         $this->setViewComponents();
@@ -138,7 +138,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering a JSON view
      */
-    public function testRenderingJsonView()
+    public function testRenderingJsonView() : void
     {
         $this->setViewComponents();
         $this->viewCompiler->expects($this->once())
@@ -175,7 +175,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering a non-HTTP exception with a view
      */
-    public function testRenderingNonHttpExceptionWithView()
+    public function testRenderingNonHttpExceptionWithView() : void
     {
         $this->setViewComponents();
         $ex = new Exception('foo');
@@ -200,7 +200,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering a non-HTTP exception without a view in the development environment
      */
-    public function testRenderingNonHttpExceptionWithoutViewInDevelopmentEnvironment()
+    public function testRenderingNonHttpExceptionWithoutViewInDevelopmentEnvironment() : void
     {
         $this->setViewComponents();
         $ex = new Exception('foo');
@@ -216,7 +216,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering a non-HTTP exception without a view in the production environment
      */
-    public function testRenderingNonHttpExceptionWithoutViewInProductionEnvironment()
+    public function testRenderingNonHttpExceptionWithoutViewInProductionEnvironment() : void
     {
         $this->renderer = new MockRenderer(false);
         $this->setViewComponents();
@@ -233,7 +233,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets view components in the renderer
      */
-    private function setViewComponents()
+    private function setViewComponents() : void
     {
         $this->renderer->setViewFactory($this->viewFactory);
         $this->renderer->setViewCompiler($this->viewCompiler);

@@ -23,7 +23,7 @@ class ArrayCache implements ICache
     /**
      * @inheritdoc
      */
-    public function flush()
+    public function flush() : void
     {
         $this->storage = [];
     }
@@ -31,7 +31,7 @@ class ArrayCache implements ICache
     /**
      * @inheritdoc
      */
-    public function gc()
+    public function gc() : void
     {
         // Don't do anything
     }
@@ -39,7 +39,7 @@ class ArrayCache implements ICache
     /**
      * @inheritdoc
      */
-    public function get(IView $view, bool $checkVars = false)
+    public function get(IView $view, bool $checkVars = false) : ?string
     {
         if (!$this->has($view)) {
             return null;
@@ -59,7 +59,7 @@ class ArrayCache implements ICache
     /**
      * @inheritdoc
      */
-    public function set(IView $view, string $compiledContents, bool $checkVars = false)
+    public function set(IView $view, string $compiledContents, bool $checkVars = false) : void
     {
         $this->storage[$this->getViewKey($view, $checkVars)] = $compiledContents;
     }
@@ -67,7 +67,7 @@ class ArrayCache implements ICache
     /**
      * @inheritdoc
      */
-    public function setGCChance(int $chance, int $divisor = 100)
+    public function setGCChance(int $chance, int $divisor = 100) : void
     {
         // Don't do anything
     }

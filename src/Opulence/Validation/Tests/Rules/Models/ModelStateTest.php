@@ -32,7 +32,7 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->rules = $this->getMockBuilder(Rules::class)
             ->disableOriginalConstructor()
@@ -50,7 +50,7 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an invalid model
      */
-    public function testInvalidModel()
+    public function testInvalidModel() : void
     {
         $user = new User(1, 'Dave', 'foo');
         $this->validator->expects($this->at(0))
@@ -84,7 +84,7 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a valid model
      */
-    public function testValidModel()
+    public function testValidModel() : void
     {
         $user = new User(1, 'Dave', 'foo@bar.com');
         $this->validator->expects($this->at(0))

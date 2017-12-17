@@ -31,7 +31,7 @@ abstract class Response implements IResponse
     /**
      * @inheritdoc
      */
-    public function setStyled(bool $isStyled)
+    public function setStyled(bool $isStyled) : void
     {
         $this->compiler->setStyled($isStyled);
     }
@@ -39,7 +39,7 @@ abstract class Response implements IResponse
     /**
      * @inheritdoc
      */
-    public function write($messages)
+    public function write($messages) : void
     {
         foreach ((array)$messages as $message) {
             $this->doWrite($this->compiler->compile($message), false);
@@ -49,7 +49,7 @@ abstract class Response implements IResponse
     /**
      * @inheritdoc
      */
-    public function writeln($messages)
+    public function writeln($messages) : void
     {
         foreach ((array)$messages as $message) {
             $this->doWrite($this->compiler->compile($message), true);
@@ -62,5 +62,5 @@ abstract class Response implements IResponse
      * @param string $message The message to write
      * @param bool $includeNewLine True if we are to include a new line character at the end of the message
      */
-    abstract protected function doWrite(string $message, bool $includeNewLine);
+    abstract protected function doWrite(string $message, bool $includeNewLine) : void;
 }

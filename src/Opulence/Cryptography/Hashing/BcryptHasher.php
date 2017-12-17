@@ -45,7 +45,7 @@ class BcryptHasher extends Hasher
     /**
      * @inheritdoc
      */
-    protected function setHashAlgorithm()
+    protected function setHashAlgorithm() : void
     {
         $this->hashAlgorithm = PASSWORD_BCRYPT;
     }

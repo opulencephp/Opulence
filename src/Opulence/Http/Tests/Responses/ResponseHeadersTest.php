@@ -25,7 +25,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->headers = new ResponseHeaders();
     }
@@ -33,7 +33,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deleting a cookie
      */
-    public function testDeletingCookie()
+    public function testDeletingCookie() : void
     {
         $cookie = new Cookie('foo', 'bar', new DateTime('+1 week'));
         $this->headers->setCookie($cookie);
@@ -45,7 +45,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deleting multiple cookies
      */
-    public function testDeletingMultipleCookies()
+    public function testDeletingMultipleCookies() : void
     {
         $cookie1 = new Cookie('foo', 'bar', new DateTime('+1 week'));
         $cookie2 = new Cookie('bar', 'foo', new DateTime('+1 week'));
@@ -62,7 +62,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all the cookies
      */
-    public function testGettingCookies()
+    public function testGettingCookies() : void
     {
         $cookie1 = new Cookie('foo', 'bar', new DateTime('+1 week'));
         $cookie2 = new Cookie('bar', 'foo', new DateTime('+2 weeks'));
@@ -76,7 +76,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a cookie
      */
-    public function testSettingCookie()
+    public function testSettingCookie() : void
     {
         $cookie = new Cookie('foo', 'bar', new DateTime('+1 week'));
         $this->headers->setCookie($cookie);
@@ -86,7 +86,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting multiple cookies
      */
-    public function testSettingMultipleCookies()
+    public function testSettingMultipleCookies() : void
     {
         $cookie1 = new Cookie('foo', 'bar', new DateTime('+1 week'));
         $cookie2 = new Cookie('bar', 'foo', new DateTime('+1 week'));

@@ -22,7 +22,7 @@ class DriverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests connecting to a server
      */
-    public function testConnectingToServer()
+    public function testConnectingToServer() : void
     {
         $server = new Server();
         $driver = new Driver();

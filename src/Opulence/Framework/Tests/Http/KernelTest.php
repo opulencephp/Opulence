@@ -41,7 +41,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding empty middleware
      */
-    public function testAddingEmptyMiddleware()
+    public function testAddingEmptyMiddleware() : void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware([]);
@@ -51,7 +51,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding middleware
      */
-    public function testAddingMiddleware()
+    public function testAddingMiddleware() : void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         // Test a single middleware
@@ -65,7 +65,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests disabling all middleware
      */
-    public function testDisablingAllMiddleware()
+    public function testDisablingAllMiddleware() : void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware('foo');
@@ -76,7 +76,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests disabling certain middleware
      */
-    public function testDisablingCertainMiddleware()
+    public function testDisablingCertainMiddleware() : void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $parameterizedMiddleware = new MiddlewareParameters('parameterized', []);
@@ -95,7 +95,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests enabling certain middleware
      */
-    public function testEnablingCertainMiddleware()
+    public function testEnablingCertainMiddleware() : void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware('foo');
@@ -107,7 +107,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting middleware
      */
-    public function testGettingMiddleware()
+    public function testGettingMiddleware() : void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $this->assertEquals([], $kernel->getMiddleware());
@@ -118,7 +118,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling an exceptional request
      */
-    public function testHandlingExceptionalRequest()
+    public function testHandlingExceptionalRequest() : void
     {
         $kernel = $this->getKernel(RequestMethods::GET, true);
         $request = Request::createFromGlobals();
@@ -129,7 +129,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling a request
      */
-    public function testHandlingRequest()
+    public function testHandlingRequest() : void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $request = Request::createFromGlobals();
@@ -141,7 +141,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling a request with middleware
      */
-    public function testHandlingWithMiddleware()
+    public function testHandlingWithMiddleware() : void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware(HeaderSetter::class);
@@ -153,7 +153,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling a request with parameterized middleware
      */
-    public function testHandlingWithParameterizedMiddleware()
+    public function testHandlingWithParameterizedMiddleware() : void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware(ParameterizedMiddleware::withParameters(['foo' => 'bar']));
@@ -169,7 +169,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
      * @param bool $shouldThrowException True if the router should throw an exception, otherwise false
      * @return Kernel The kernel
      */
-    private function getKernel($method, $shouldThrowException)
+    private function getKernel($method, $shouldThrowException) : Kernel
     {
         $container = new Container();
         $dependencyResolver = new ContainerDependencyResolver($container);

@@ -32,7 +32,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->roleRepository = $this->createMock(IRoleRepository::class);
         $this->roleMembershipRepository = $this->createMock(IRoleMembershipRepository::class);
@@ -42,7 +42,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that assigning a non-existent role throws an exception
      */
-    public function testAssigningNonExistentRoleThrowsException()
+    public function testAssigningNonExistentRoleThrowsException() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->roleRepository->expects($this->once())
@@ -55,7 +55,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for existing role
      */
-    public function testCheckingForExistingRole()
+    public function testCheckingForExistingRole() : void
     {
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -67,7 +67,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for non-existent role
      */
-    public function testCheckingForNonExistentRole()
+    public function testCheckingForNonExistentRole() : void
     {
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -79,7 +79,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that creating a role adds it to the repository
      */
-    public function testCreatingRoleAddsToRepository()
+    public function testCreatingRoleAddsToRepository() : void
     {
         $role = new Role(-1, 'foo');
         $this->roleRepository->expects($this->once())
@@ -91,7 +91,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deleting an existing role
      */
-    public function testDeletingExistingRole()
+    public function testDeletingExistingRole() : void
     {
         $role = new Role(1, 'foo');
         $this->roleRepository->expects($this->once())
@@ -104,7 +104,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deleting a non-existent role
      */
-    public function testDeletingNonExistentRole()
+    public function testDeletingNonExistentRole() : void
     {
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -116,7 +116,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the user Ids with a non-existent role
      */
-    public function testGettingUserIdsWithNonExistentRole()
+    public function testGettingUserIdsWithNonExistentRole() : void
     {
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -128,7 +128,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the user Ids with a role
      */
-    public function testGettingUserIdsWithRole()
+    public function testGettingUserIdsWithRole() : void
     {
         $memberships = [
             new RoleMembership(1, 2, new Role(3, 'foo')),
@@ -148,7 +148,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a membership is added on assignment
      */
-    public function testMembershipIsAddedOnAssignment()
+    public function testMembershipIsAddedOnAssignment() : void
     {
         $role = new Role(3, 'foo');
         $membership = new RoleMembership(-1, 2, $role);
@@ -165,7 +165,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests all removing roles from a user
      */
-    public function testRemovingAllRolesFromUser()
+    public function testRemovingAllRolesFromUser() : void
     {
         $memberships = [
             new RoleMembership(1, 2, new Role(3, 'foo')),
@@ -191,7 +191,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removing roles from a user
      */
-    public function testRemovingRolesFromUser()
+    public function testRemovingRolesFromUser() : void
     {
         $memberships = [
             new RoleMembership(1, 2, new Role(3, 'foo')),
@@ -214,7 +214,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a user does not have a non-existent role
      */
-    public function testUserDoesNotHaveNonExistentRole()
+    public function testUserDoesNotHaveNonExistentRole() : void
     {
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -226,7 +226,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a user does not have a role
      */
-    public function testUserDoesNotHaveRole()
+    public function testUserDoesNotHaveRole() : void
     {
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -242,7 +242,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a user has a role
      */
-    public function testUserHasRole()
+    public function testUserHasRole() : void
     {
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -251,14 +251,14 @@ class RolesTest extends \PHPUnit\Framework\TestCase
         $this->roleMembershipRepository->expects($this->once())
             ->method('getBySubjectAndRoleId')
             ->with(2, 3)
-            ->willReturn([new RoleMembership(1, 2, new Role(3, 'foo'))]);
+            ->willReturn(new RoleMembership(1, 2, new Role(3, 'foo')));
         $this->assertTrue($this->roles->subjectHasRole(2, 'foo'));
     }
 
     /**
      * Tests that the user roles are returned
      */
-    public function testUserRolesAreReturned()
+    public function testUserRolesAreReturned() : void
     {
         $membership = new RoleMembership(1, 2, new Role(3, 'foo'));
         $this->roleMembershipRepository->expects($this->once())

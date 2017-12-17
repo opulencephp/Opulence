@@ -20,12 +20,12 @@ interface IEncryptableSessionHandler
      *
      * @param ISessionEncrypter $encrypter The encrypter to use
      */
-    public function setEncrypter(ISessionEncrypter $encrypter);
+    public function setEncrypter(ISessionEncrypter $encrypter) : void;
 
     /**
      * Sets whether or not to use encryption
      *
      * @param bool $useEncryption Whether or not to use encryption
      */
-    public function useEncryption(bool $useEncryption);
+    public function useEncryption(bool $useEncryption) : void;
 }

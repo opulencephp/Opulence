@@ -29,12 +29,12 @@ interface ICacheBridge
      *
      * @param string $key The key to delete
      */
-    public function delete(string $key);
+    public function delete(string $key) : void;
 
     /**
      * Flushes all of the data from cache
      */
-    public function flush();
+    public function flush() : void;
 
     /**
      * Gets the value stored at the input key
@@ -68,5 +68,5 @@ interface ICacheBridge
      * @param mixed $value The value to setICacheBridge
      * @param int $lifetime The number of seconds to live in cache
      */
-    public function set(string $key, $value, int $lifetime);
+    public function set(string $key, $value, int $lifetime) : void;
 }

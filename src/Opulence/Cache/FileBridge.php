@@ -45,7 +45,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function delete(string $key)
+    public function delete(string $key) : void
     {
         @unlink($this->getPath($key));
     }
@@ -53,7 +53,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function flush()
+    public function flush() : void
     {
         foreach (glob("{$this->path}/*") as $file) {
             if (is_file($file)) {
@@ -97,7 +97,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function set(string $key, $value, int $lifetime)
+    public function set(string $key, $value, int $lifetime) : void
     {
         file_put_contents($this->getPath($key), $this->serialize($value, $lifetime));
     }

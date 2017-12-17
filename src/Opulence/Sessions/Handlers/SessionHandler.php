@@ -34,7 +34,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     /**
      * @inheritdoc
      */
-    public function setEncrypter(ISessionEncrypter $encrypter)
+    public function setEncrypter(ISessionEncrypter $encrypter) : void
     {
         $this->encrypter = $encrypter;
     }
@@ -42,7 +42,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     /**
      * @inheritdoc
      */
-    public function useEncryption(bool $useEncryption)
+    public function useEncryption(bool $useEncryption) : void
     {
         $this->usesEncryption = $useEncryption;
     }

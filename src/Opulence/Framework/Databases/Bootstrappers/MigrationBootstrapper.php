@@ -40,7 +40,7 @@ class MigrationBootstrapper extends Bootstrapper implements ILazyBootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container)
+    public function registerBindings(IContainer $container) : void
     {
         $container->bindFactory(IMigrator::class, function () use ($container) {
             return new Migrator(

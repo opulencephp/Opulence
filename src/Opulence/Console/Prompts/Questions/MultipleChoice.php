@@ -110,7 +110,7 @@ class MultipleChoice extends Question
     /**
      * @param bool $allowsMultipleChoices
      */
-    public function setAllowsMultipleChoices(bool $allowsMultipleChoices)
+    public function setAllowsMultipleChoices(bool $allowsMultipleChoices) : void
     {
         $this->allowsMultipleChoices = $allowsMultipleChoices;
     }
@@ -118,7 +118,7 @@ class MultipleChoice extends Question
     /**
      * @param string $answerLineString
      */
-    public function setAnswerLineString(string $answerLineString)
+    public function setAnswerLineString(string $answerLineString) : void
     {
         $this->answerLineString = $answerLineString;
     }

@@ -20,7 +20,7 @@ class ExpressionNodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the "is a" methods
      */
-    public function testIsAMethods()
+    public function testIsAMethods() : void
     {
         $node = new ExpressionNode();
         $this->assertFalse($node->isComment());

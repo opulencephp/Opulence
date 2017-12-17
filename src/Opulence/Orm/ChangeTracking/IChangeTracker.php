@@ -32,24 +32,24 @@ interface IChangeTracker
      * @param string $className The name of the class whose comparator we're registering
      * @param callable $comparator The function that accepts two entities and returns whether or not they're the same
      */
-    public function registerComparator(string $className, callable $comparator);
+    public function registerComparator(string $className, callable $comparator) : void;
 
     /**
      * Starts tracking an entity
      *
      * @param object $entity The entity to start tracking
      */
-    public function startTracking($entity);
+    public function startTracking($entity) : void;
 
     /**
      * Stops tracking an entity
      *
      * @param object $entity The entity to deregister
      */
-    public function stopTracking($entity);
+    public function stopTracking($entity) : void;
 
     /**
      * Stops tracking all entities
      */
-    public function stopTrackingAll();
+    public function stopTrackingAll() : void;
 }

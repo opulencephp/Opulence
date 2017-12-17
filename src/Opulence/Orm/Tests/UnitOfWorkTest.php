@@ -46,7 +46,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $idAccessorRegistry = new IdAccessorRegistry();
         $idAccessorRegistry->registerIdAccessors(
@@ -92,7 +92,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests seeing if the unit of work picks up on an update made outside of it
      */
-    public function testCheckingIfEntityUpdateIsDetected()
+    public function testCheckingIfEntityUpdateIsDetected() : void
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
@@ -110,7 +110,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an entity update is detected after copying its pointer to another variable
      */
-    public function testCheckingIfEntityUpdateIsDetectedAfterCopyingPointer()
+    public function testCheckingIfEntityUpdateIsDetectedAfterCopyingPointer() : void
     {
         $foo = $this->getInsertedEntity();
         $bar = $foo;
@@ -122,7 +122,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an entity update is detected after it is returned by a function
      */
-    public function testCheckingIfEntityUpdateIsDetectedAfterReturningFromFunction()
+    public function testCheckingIfEntityUpdateIsDetectedAfterReturningFromFunction() : void
     {
         $foo = $this->getInsertedEntity();
         $foo->setUsername('bar');
@@ -133,7 +133,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests detaching a registered entity after scheduling it for deletion, insertion, and update
      */
-    public function testDetachingEntityAfterSchedulingForDeletionInsertionUpdate()
+    public function testDetachingEntityAfterSchedulingForDeletionInsertionUpdate() : void
     {
         $this->entityRegistry->registerEntity($this->entity1);
         $this->unitOfWork->scheduleForDeletion($this->entity1);
@@ -150,7 +150,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests disposing of the unit of work
      */
-    public function testDisposing()
+    public function testDisposing() : void
     {
         $this->entityRegistry->registerEntity($this->entity1);
         $this->unitOfWork->dispose();
@@ -164,7 +164,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the entity registry
      */
-    public function testGettingEntityRegistry()
+    public function testGettingEntityRegistry() : void
     {
         $this->assertSame($this->entityRegistry, $this->unitOfWork->getEntityRegistry());
     }
@@ -172,7 +172,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the Id is not generated and set when no generator is registered
      */
-    public function testIdNotGeneratedNorSetWhenGeneratorNotRegistered()
+    public function testIdNotGeneratedNorSetWhenGeneratorNotRegistered() : void
     {
         $idAccessorRegistry = new IdAccessorRegistry();
         $idAccessorRegistry->registerIdAccessors(
@@ -217,7 +217,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the Id is not generated and set when no generator is registered
      */
-    public function testIdNotResetOnRollbackWhenGeneratorNotRegistered()
+    public function testIdNotResetOnRollbackWhenGeneratorNotRegistered() : void
     {
         $idAccessorRegistry = new IdAccessorRegistry();
         $idAccessorRegistry->registerIdAccessors(
@@ -265,7 +265,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests inserting and deleting an entity in a single transaction
      */
-    public function testInsertingAndDeletingEntity()
+    public function testInsertingAndDeletingEntity() : void
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
@@ -282,7 +282,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests making sure an unchanged registered entity isn't scheduled for update
      */
-    public function testMakingSureUnchangedEntityIsNotScheduledForUpdate()
+    public function testMakingSureUnchangedEntityIsNotScheduledForUpdate() : void
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
@@ -298,7 +298,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the post-commit hook for a cached data mapper
      */
-    public function testPostCommitOnCachedDataMapper()
+    public function testPostCommitOnCachedDataMapper() : void
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
         $dataMapper = new CachedSqlDataMapper();
@@ -313,7 +313,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests scheduling a deletion for an entity
      */
-    public function testSchedulingDeletionEntity()
+    public function testSchedulingDeletionEntity() : void
     {
         $this->unitOfWork->registerDataMapper($this->entityRegistry->getClassName($this->entity1), $this->dataMapper);
         $this->unitOfWork->scheduleForDeletion($this->entity1);
@@ -333,7 +333,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests scheduling an insertion for an entity
      */
-    public function testSchedulingInsertionEntity()
+    public function testSchedulingInsertionEntity() : void
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
@@ -356,7 +356,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests scheduling an update for an entity
      */
-    public function testSchedulingUpdate()
+    public function testSchedulingUpdate() : void
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
@@ -377,7 +377,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the aggregate root on inserted entities
      */
-    public function testSettingAggregateRootOnInsertedEntities()
+    public function testSettingAggregateRootOnInsertedEntities() : void
     {
         $originalAggregateRootId = $this->entity1->getId();
         $className = $this->entityRegistry->getClassName($this->entity1);
@@ -398,7 +398,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the aggregate root on updated entities
      */
-    public function testSettingAggregateRootOnUpdatedEntities()
+    public function testSettingAggregateRootOnUpdatedEntities() : void
     {
         $originalAggregateRootId = $this->entity1->getId();
         $className = $this->entityRegistry->getClassName($this->entity1);
@@ -419,7 +419,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests to make sure that an entity's Id is being set after it's committed
      */
-    public function testThatEntityIdIsBeingSetAfterCommit()
+    public function testThatEntityIdIsBeingSetAfterCommit() : void
     {
         $foo = $this->getInsertedEntity();
         $this->assertEquals(1, $foo->getId());
@@ -428,7 +428,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an unsuccessful commit
      */
-    public function testUnsuccessfulCommit()
+    public function testUnsuccessfulCommit() : void
     {
         $exceptionThrown = false;
         $idAccessorRegistry = new IdAccessorRegistry();
@@ -490,7 +490,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
      * @return User The entity from the data mapper
      * @throws OrmException Thrown if there was an error committing the transaction
      */
-    private function getInsertedEntity()
+    private function getInsertedEntity() : User
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);

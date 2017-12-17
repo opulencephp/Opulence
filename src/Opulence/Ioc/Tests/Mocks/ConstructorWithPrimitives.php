@@ -33,7 +33,7 @@ class ConstructorWithPrimitives
     /**
      * @return string
      */
-    public function getBar()
+    public function getBar() : string
     {
         return $this->bar;
     }
@@ -41,7 +41,7 @@ class ConstructorWithPrimitives
     /**
      * @return string
      */
-    public function getFoo()
+    public function getFoo() : string
     {
         return $this->foo;
     }

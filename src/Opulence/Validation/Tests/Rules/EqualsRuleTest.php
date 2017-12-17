@@ -21,7 +21,7 @@ class EqualsRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that equal values pass
      */
-    public function testEqualValuesPass()
+    public function testEqualValuesPass() : void
     {
         $rule = new EqualsRule();
         $rule->setArgs(['foo']);
@@ -31,7 +31,7 @@ class EqualsRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug()
+    public function testGettingSlug() : void
     {
         $rule = new EqualsRule();
         $this->assertEquals('equals', $rule->getSlug());
@@ -40,7 +40,7 @@ class EqualsRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an empty arg array
      */
-    public function testPassingEmptyArgArray()
+    public function testPassingEmptyArgArray() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new EqualsRule();
@@ -50,7 +50,7 @@ class EqualsRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that unequal values fail
      */
-    public function testUnequalValuesFail()
+    public function testUnequalValuesFail() : void
     {
         $rule = new EqualsRule();
         $rule->setArgs(['foo']);

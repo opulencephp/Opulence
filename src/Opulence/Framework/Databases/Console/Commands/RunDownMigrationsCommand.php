@@ -37,7 +37,7 @@ class RunDownMigrationsCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('migrations:down')
             ->setDescription('Runs the "down" database migrations')

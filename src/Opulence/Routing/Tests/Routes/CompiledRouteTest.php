@@ -27,7 +27,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->parsedRoute = new ParsedRoute(new Route('GET', '/', 'foo@bar'));
         $this->compiledRoute = new CompiledRoute($this->parsedRoute, true, ['foo' => 'bar']);
@@ -36,7 +36,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if a matched route is matched
      */
-    public function testCheckingIfMatched()
+    public function testCheckingIfMatched() : void
     {
         $this->assertTrue($this->compiledRoute->isMatch());
     }
@@ -44,7 +44,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating a compiled route
      */
-    public function testCreatingCompiledRoute()
+    public function testCreatingCompiledRoute() : void
     {
         $route = new Route('GET', '/foo/{bar=baz}', 'foo@bar', [
             'https' => true,
@@ -65,7 +65,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a non-existent path variable
      */
-    public function testGettingNonExistentPathVariable()
+    public function testGettingNonExistentPathVariable() : void
     {
         $this->assertNull($this->compiledRoute->getPathVar('doesNotExist'));
     }
@@ -73,7 +73,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a single path variable
      */
-    public function testGettingPathVariable()
+    public function testGettingPathVariable() : void
     {
         $this->assertEquals('bar', $this->compiledRoute->getPathVar('foo'));
     }
@@ -81,7 +81,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the path variables
      */
-    public function testGettingPathVariables()
+    public function testGettingPathVariables() : void
     {
         $this->assertEquals(['foo' => 'bar'], $this->compiledRoute->getPathVars());
     }
@@ -89,7 +89,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not specifying path variables
      */
-    public function testNotSpecifyingPathVariables()
+    public function testNotSpecifyingPathVariables() : void
     {
         $compiledRoute = new CompiledRoute($this->parsedRoute, true);
         $this->assertEquals([], $compiledRoute->getPathVars());
@@ -98,7 +98,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the match
      */
-    public function testSettingMatch()
+    public function testSettingMatch() : void
     {
         $this->compiledRoute->setMatch(false);
         $this->assertFalse($this->compiledRoute->isMatch());
@@ -107,7 +107,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the path variables
      */
-    public function testSettingPathVariables()
+    public function testSettingPathVariables() : void
     {
         $this->compiledRoute->setPathVars(['dave' => 'young']);
         $this->assertEquals(['dave' => 'young'], $this->compiledRoute->getPathVars());

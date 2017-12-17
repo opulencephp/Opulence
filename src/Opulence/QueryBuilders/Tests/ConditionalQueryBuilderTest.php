@@ -20,7 +20,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a condition to an empty clause
      */
-    public function testAddingConditionToEmptyClause()
+    public function testAddingConditionToEmptyClause() : void
     {
         $conditions = [];
         $queryBuilder = new ConditionalQueryBuilder();
@@ -31,7 +31,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a condition to a non-empty clause
      */
-    public function testAddingConditionToNonEmptyClause()
+    public function testAddingConditionToNonEmptyClause() : void
     {
         $conditions = [['operation' => 'OR', 'condition' => "email = 'foo@bar.com'"]];
         $queryBuilder = new ConditionalQueryBuilder();
@@ -45,7 +45,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "AND"ed "WHERE" statement
      */
-    public function testAndWhere()
+    public function testAndWhere() : void
     {
         $queryBuilder = new ConditionalQueryBuilder();
         $queryBuilder->andWhere("name = 'dave'");
@@ -56,7 +56,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the SQL for a conditional clause
      */
-    public function testGettingSql()
+    public function testGettingSql() : void
     {
         $queryBuilder = new ConditionalQueryBuilder();
         $queryBuilder->where("name = 'dave'")
@@ -69,7 +69,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "OR"ed "WHERE" statement
      */
-    public function testOrWhere()
+    public function testOrWhere() : void
     {
         $queryBuilder = new ConditionalQueryBuilder();
         $queryBuilder->orWhere("name = 'dave'");
@@ -80,7 +80,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding "WHERE" statement
      */
-    public function testWhere()
+    public function testWhere() : void
     {
         $queryBuilder = new ConditionalQueryBuilder();
         $queryBuilder->where("name = 'dave'");

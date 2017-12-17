@@ -12,7 +12,7 @@ class {{class}} extends RedisCachedSqlDataMapper
      *
      * @param Redis $cache The cache object used in the data mapper
      */
-    protected function setCacheDataMapper($cache)
+    protected function setCacheDataMapper($cache) : void
     {
 
     }
@@ -23,7 +23,7 @@ class {{class}} extends RedisCachedSqlDataMapper
      * @param IConnection $readConnection The read connection
      * @param IConnection $writeConnection The write connection
      */
-    protected function setSqlDataMapper(IConnection $readConnection, IConnection $writeConnection)
+    protected function setSqlDataMapper(IConnection $readConnection, IConnection $writeConnection) : void
     {
 
     }

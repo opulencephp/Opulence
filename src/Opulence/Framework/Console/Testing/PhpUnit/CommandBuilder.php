@@ -119,7 +119,7 @@ class CommandBuilder
      * @param array $collection The collection to add to
      * @param bool $overwriteOld Whether or not clear the collection before adding the new values
      */
-    private function addValuesToCollection(array $values, array &$collection, bool $overwriteOld)
+    private function addValuesToCollection(array $values, array &$collection, bool $overwriteOld) : void
     {
         if ($overwriteOld) {
             $collection = [];

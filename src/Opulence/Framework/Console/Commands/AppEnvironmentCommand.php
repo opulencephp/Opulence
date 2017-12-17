@@ -21,7 +21,7 @@ class AppEnvironmentCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('app:env')
             ->setDescription('Displays the current application environment');

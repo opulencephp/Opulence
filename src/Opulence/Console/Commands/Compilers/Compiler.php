@@ -37,7 +37,7 @@ class Compiler implements ICompiler
      * @param IRequest $request The user request
      * @throws RuntimeException Thrown if there are too many arguments
      */
-    protected function compileArguments(ICommand $command, IRequest $request)
+    protected function compileArguments(ICommand $command, IRequest $request) : void
     {
         $argumentValues = $request->getArgumentValues();
         $commandArguments = $command->getArguments();
@@ -83,7 +83,7 @@ class Compiler implements ICompiler
      * @param ICommand $command The command to compile
      * @param IRequest $request The user request
      */
-    protected function compileOptions(ICommand $command, IRequest $request)
+    protected function compileOptions(ICommand $command, IRequest $request) : void
     {
         foreach ($command->getOptions() as $option) {
             $shortNameIsSet = $option->getShortName() === null ?

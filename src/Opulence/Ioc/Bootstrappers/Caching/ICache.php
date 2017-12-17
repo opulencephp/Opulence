@@ -20,19 +20,19 @@ interface ICache
     /**
      * Flushes the cache
      */
-    public function flush();
+    public function flush() : void;
 
     /**
      * Gets the bootstrapper registry from cache if it exists
      *
      * @return IBootstrapperRegistry|null The bootstrapper registry if one was found, otherwise null
      */
-    public function get();
+    public function get() : ?IBootstrapperRegistry;
 
     /**
      * Writes the bootstrapper registry
      *
      * @param IBootstrapperRegistry $registry The config to write
      */
-    public function set(IBootstrapperRegistry $registry);
+    public function set(IBootstrapperRegistry $registry) : void;
 }

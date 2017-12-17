@@ -24,7 +24,7 @@ class ParameterizedMiddlewareTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->middleware = new ParameterizedMiddlewareMock();
     }
@@ -32,7 +32,7 @@ class ParameterizedMiddlewareTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that middleware parameters are created correctly
      */
-    public function testWithCreatesMiddlewareParametersCorrectly()
+    public function testWithCreatesMiddlewareParametersCorrectly() : void
     {
         /** @var MiddlewareParameters $parameters */
         $parameters = ParameterizedMiddlewareMock::withParameters(['bar' => 'baz']);

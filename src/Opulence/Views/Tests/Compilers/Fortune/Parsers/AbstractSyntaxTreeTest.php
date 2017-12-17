@@ -25,7 +25,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->tree = new AbstractSyntaxTree();
     }
@@ -33,7 +33,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests clearing the nodes
      */
-    public function testClearingNodes()
+    public function testClearingNodes() : void
     {
         /** @var Node|\PHPUnit_Framework_MockObject_MockObject $childNode */
         $childNode = $this->getMockForAbstractClass(Node::class);
@@ -46,7 +46,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the current node when none is set
      */
-    public function testGettingCurrentNodeWhenNoneIsSet()
+    public function testGettingCurrentNodeWhenNoneIsSet() : void
     {
         $this->assertEquals(new RootNode(), $this->tree->getCurrentNode());
     }
@@ -54,7 +54,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the root node
      */
-    public function testGettingRootNode()
+    public function testGettingRootNode() : void
     {
         $this->assertEquals(new RootNode(), $this->tree->getRootNode());
     }
@@ -62,7 +62,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the current node
      */
-    public function testSettingCurrentNode()
+    public function testSettingCurrentNode() : void
     {
         /** @var Node $currentNode */
         $currentNode = $this->getMockForAbstractClass(Node::class, ['foo']);

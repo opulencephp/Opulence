@@ -21,7 +21,7 @@ class InstanceBindingTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the binding is always resolved as a singleton
      */
-    public function testAlwaysResolvedAsSingleton()
+    public function testAlwaysResolvedAsSingleton() : void
     {
         $binding = new InstanceBinding(new stdClass());
         $this->assertTrue($binding->resolveAsSingleton());
@@ -30,7 +30,7 @@ class InstanceBindingTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the correct instance is returned
      */
-    public function testCorrectInstanceIsReturned()
+    public function testCorrectInstanceIsReturned() : void
     {
         $instance = new stdClass();
         $binding = new InstanceBinding($instance);

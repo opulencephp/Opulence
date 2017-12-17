@@ -30,7 +30,7 @@ class CommandThatDoesNotCallParentConstructor extends Command
     /**
      * @inheritdoc
      */
-    protected function define()
+    protected function define() : void
     {
         $this->setName('holiday');
         $this->setDescription('Wishes someone a happy holiday');

@@ -27,7 +27,7 @@ class Statement extends BaseStatement
      * @inheritdoc
      * We have to mock this because attempting to bind a value to an unopened connection will always fail
      */
-    public function bindValues(array $values)
+    public function bindValues(array $values) : bool
     {
         foreach ($values as $parameterName => $value) {
             if (!is_array($value)) {

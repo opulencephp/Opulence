@@ -69,7 +69,7 @@ class Kernel
      *
      * @param string|object|array $middleware The middleware object, class, or list of middleware classes to add
      */
-    public function addMiddleware($middleware)
+    public function addMiddleware($middleware) : void
     {
         if (!is_array($middleware)) {
             $middleware = [$middleware];
@@ -81,7 +81,7 @@ class Kernel
     /**
      * Disables all middleware
      */
-    public function disableAllMiddleware()
+    public function disableAllMiddleware() : void
     {
         $this->middlewareAreDisabled = true;
     }
@@ -156,7 +156,7 @@ class Kernel
      *
      * @param array $middleware The list of middleware classes to disable
      */
-    public function onlyDisableMiddleware(array $middleware)
+    public function onlyDisableMiddleware(array $middleware) : void
     {
         $this->disabledMiddleware = $middleware;
     }
@@ -166,7 +166,7 @@ class Kernel
      *
      * @param array $middleware The list of middleware classes to enable
      */
-    public function onlyEnableMiddleware(array $middleware)
+    public function onlyEnableMiddleware(array $middleware) : void
     {
         $this->enabledMiddleware = $middleware;
     }
@@ -203,7 +203,7 @@ class Kernel
      *
      * @param Request $request The current HTTP request
      */
-    private function setExceptionRendererVars(Request $request)
+    private function setExceptionRendererVars(Request $request) : void
     {
         $this->exceptionRenderer->setRequest($request);
 

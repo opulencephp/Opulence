@@ -22,14 +22,14 @@ interface ISubject
      *
      * @param ICredential $credential The credential to add
      */
-    public function addCredential(ICredential $credential);
+    public function addCredential(ICredential $credential) : void;
 
     /**
      * Adds a principal
      *
      * @param IPrincipal $principal The principal to add
      */
-    public function addPrincipal(IPrincipal $principal);
+    public function addPrincipal(IPrincipal $principal) : void;
 
     /**
      * Gets the credential with the input type
@@ -37,7 +37,7 @@ interface ISubject
      * @param string $type The credential type
      * @return ICredential|null The credential, if there was one, otherwise null
      */
-    public function getCredential(string $type);
+    public function getCredential(string $type) : ?ICredential;
 
     /**
      * Gets the list of credentials this subject has
@@ -49,9 +49,9 @@ interface ISubject
     /**
      * Gets the primary principal
      *
-     * @return IPrincipal The primary principal
+     * @return IPrincipal|null The primary principal, if there was one, otherwise null
      */
-    public function getPrimaryPrincipal();
+    public function getPrimaryPrincipal() : ?IPrincipal;
 
     /**
      * Gets the principal with the input type
@@ -59,7 +59,7 @@ interface ISubject
      * @param string $type The principal type
      * @return IPrincipal|null The principal, if there was one, otherwise null
      */
-    public function getPrincipal(string $type);
+    public function getPrincipal(string $type) : ?IPrincipal;
 
     /**
      * Gets the list of all principals

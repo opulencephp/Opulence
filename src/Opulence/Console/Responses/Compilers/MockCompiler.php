@@ -25,7 +25,7 @@ class MockCompiler implements ICompiler
         return $message;
     }
 
-    public function registerElement(string $name, Style $style)
+    public function registerElement(string $name, Style $style) : void
     {
         // Don't do anything
     }
@@ -33,7 +33,7 @@ class MockCompiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function setStyled(bool $isStyled)
+    public function setStyled(bool $isStyled) : void
     {
         // Don't do anything
     }

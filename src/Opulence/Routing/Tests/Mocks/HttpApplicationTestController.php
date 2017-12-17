@@ -29,7 +29,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return RedirectResponse The response
      */
-    public function redirect()
+    public function redirect() : RedirectResponse
     {
         return new RedirectResponse('/redirectedPath');
     }
@@ -39,7 +39,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function setBadGateway()
+    public function setBadGateway() : Response
     {
         return new Response('FooBar', ResponseHeaders::HTTP_BAD_GATEWAY);
     }
@@ -49,7 +49,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function setCookie()
+    public function setCookie() : Response
     {
         $response = new Response('FooBar');
         $response->getHeaders()->setCookie(new Cookie('foo', 'bar', new DateTime()));
@@ -62,7 +62,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function setHeader()
+    public function setHeader() : Response
     {
         $response = new Response('FooBar');
         $response->getHeaders()->set('foo', 'bar');
@@ -75,7 +75,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function setISE()
+    public function setISE() : Response
     {
         return new Response('FooBar', ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
     }
@@ -85,7 +85,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function setOK()
+    public function setOK() : Response
     {
         return new Response('FooBar', ResponseHeaders::HTTP_OK);
     }
@@ -95,7 +95,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function setUnauthorized()
+    public function setUnauthorized() : Response
     {
         return new Response('FooBar', ResponseHeaders::HTTP_UNAUTHORIZED);
     }
@@ -105,7 +105,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function setVar()
+    public function setVar() : Response
     {
         $this->view = new View('thecontent');
         $this->view->setVar('foo', 'bar');
@@ -118,7 +118,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function showFooBar()
+    public function showFooBar() : Response
     {
         return new Response('FooBar');
     }
@@ -128,7 +128,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return JsonResponse The response
      */
-    public function showJson()
+    public function showJson() : JsonResponse
     {
         return new JsonResponse(['foo' => 'bar', 'baz' => ['subkey' => 'subvalue']]);
     }

@@ -23,7 +23,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some setup before any tests
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         if (!is_dir(__DIR__ . '/tmp')) {
             mkdir(__DIR__ . '/tmp');
@@ -33,7 +33,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Performs some garbage collection
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass() : void
     {
         $files = glob(__DIR__ . '/tmp/*');
 
@@ -47,7 +47,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->bridge = new FileBridge(__DIR__ . '/tmp');
     }
@@ -55,7 +55,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if a key exists
      */
-    public function testCheckingIfKeyExists()
+    public function testCheckingIfKeyExists() : void
     {
         $this->assertFalse($this->bridge->has('foo'));
         // Try a null value
@@ -69,7 +69,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests decrementing values
      */
-    public function testDecrementingValues()
+    public function testDecrementingValues() : void
     {
         $this->bridge->set('foo', 11, 60);
         // Test using default value
@@ -81,7 +81,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deleting a key
      */
-    public function testDeletingKey()
+    public function testDeletingKey() : void
     {
         $this->bridge->set('foo', 'bar', 60);
         $this->bridge->delete('foo');
@@ -91,7 +91,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that expired key is not read
      */
-    public function testExpiredKeyIsNotRead()
+    public function testExpiredKeyIsNotRead() : void
     {
         $this->bridge->set('foo', 'bar', -1);
         $this->assertFalse($this->bridge->has('foo'));
@@ -101,7 +101,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests flushing
      */
-    public function testFlushing()
+    public function testFlushing() : void
     {
         $this->bridge->set('foo', 'bar', 60);
         $this->bridge->set('baz', 'blah', 60);
@@ -113,7 +113,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a non-existent key
      */
-    public function testGettingNonExistentKey()
+    public function testGettingNonExistentKey() : void
     {
         $this->assertNull($this->bridge->get('foo'));
     }
@@ -121,7 +121,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a set value
      */
-    public function testGettingSetValue()
+    public function testGettingSetValue() : void
     {
         $this->bridge->set('foo', 'bar', 60);
         $this->assertEquals('bar', $this->bridge->get('foo'));
@@ -130,7 +130,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests incrementing values
      */
-    public function testIncrementingValues()
+    public function testIncrementingValues() : void
     {
         $this->bridge->set('foo', 1, 60);
         // Test using default value
@@ -142,7 +142,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the trailing slash gets trimmed
      */
-    public function testTrailingSlashGetsTrimmed()
+    public function testTrailingSlashGetsTrimmed() : void
     {
         $bridge = new FileBridge(__DIR__ . '/tmp/');
         $bridge->set('foo', 'bar', 60);

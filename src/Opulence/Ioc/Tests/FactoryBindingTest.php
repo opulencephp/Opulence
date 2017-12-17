@@ -20,7 +20,7 @@ class FactoryBindingTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if we should resolve as a singleton
      */
-    public function testCheckingIfResolvedAsSingleton()
+    public function testCheckingIfResolvedAsSingleton() : void
     {
         $factory = function () {
         };
@@ -33,7 +33,7 @@ class FactoryBindingTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the factory
      */
-    public function testGettingFactory()
+    public function testGettingFactory() : void
     {
         $factory = function () {
         };

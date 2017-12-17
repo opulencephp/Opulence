@@ -34,7 +34,7 @@ class ExceptionRenderer implements IExceptionRenderer
     /**
      * @inheritdoc
      */
-    public function render($ex)
+    public function render($ex) : void
     {
         // Add support for HTTP library without having to necessarily depend on it
         if (get_class($ex) === HttpException::class) {

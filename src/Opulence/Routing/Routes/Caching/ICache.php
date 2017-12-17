@@ -26,7 +26,7 @@ interface ICache
      *
      * @param string $filePath The path where the route collection resides
      */
-    public function flush(string $filePath);
+    public function flush(string $filePath) : void;
 
     /**
      * Gets the route collection from cache
@@ -44,5 +44,5 @@ interface ICache
      * @param string $filePath The path where the route collection resides
      * @param RouteCollection $routes The route collection to store
      */
-    public function set(string $filePath, RouteCollection $routes);
+    public function set(string $filePath, RouteCollection $routes) : void;
 }

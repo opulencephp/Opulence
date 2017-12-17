@@ -20,7 +20,7 @@ class EmailRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug()
+    public function testGettingSlug() : void
     {
         $rule = new EmailRule();
         $this->assertEquals('email', $rule->getSlug());
@@ -29,7 +29,7 @@ class EmailRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an invalid email fails
      */
-    public function testInvalidEmailFails()
+    public function testInvalidEmailFails() : void
     {
         $rule = new EmailRule();
         $this->assertFalse($rule->passes('foo'));
@@ -38,7 +38,7 @@ class EmailRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a valid email passes
      */
-    public function testValidEmailPasses()
+    public function testValidEmailPasses() : void
     {
         $rule = new EmailRule();
         $this->assertTrue($rule->passes('foo@bar.com'));

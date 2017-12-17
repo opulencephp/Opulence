@@ -26,7 +26,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->registry = new RuleExtensionRegistry();
     }
@@ -34,7 +34,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a callback is converted to a rule
      */
-    public function testCallbackGetsConvertedToRule()
+    public function testCallbackGetsConvertedToRule() : void
     {
         $rule = function () {
             return true;
@@ -48,7 +48,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if the registry has a rule
      */
-    public function testCheckingIfRegistryHasRule()
+    public function testCheckingIfRegistryHasRule() : void
     {
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
         $rule = $this->createMock(IRule::class);
@@ -63,7 +63,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an exception is thrown when no extension is found
      */
-    public function testExceptionThrownWhenNoExtensionExists()
+    public function testExceptionThrownWhenNoExtensionExists() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->registry->getRule('foo');
@@ -72,7 +72,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an exception is thrown when registering an invalid rule
      */
-    public function testExceptionThrownWhenRegisteringAnInvalidRule()
+    public function testExceptionThrownWhenRegisteringAnInvalidRule() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->registry->registerRuleExtension('foo', 'bar');
@@ -81,7 +81,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a rule object
      */
-    public function testGettingRuleObject()
+    public function testGettingRuleObject() : void
     {
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
         $rule = $this->createMock(IRule::class);
@@ -95,7 +95,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the slug is ignored if registering a rule object
      */
-    public function testSlugIgnoredIfRegisteringRuleObject()
+    public function testSlugIgnoredIfRegisteringRuleObject() : void
     {
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
         $rule = $this->createMock(IRule::class);

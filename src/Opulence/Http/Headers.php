@@ -43,7 +43,7 @@ class Headers extends Collection
      * @param string|array $values The value or values
      * @param bool $shouldReplace Whether or not to replace the value
      */
-    public function add(string $name, $values, bool $shouldReplace = true)
+    public function add(string $name, $values, bool $shouldReplace = true) : void
     {
         $this->set($name, $values, $shouldReplace);
     }
@@ -78,7 +78,7 @@ class Headers extends Collection
     /**
      * @inheritdoc
      */
-    public function remove(string $name)
+    public function remove(string $name) : void
     {
         parent::remove($this->normalizeName($name));
     }
@@ -90,7 +90,7 @@ class Headers extends Collection
      * @param string|array $values The value or values
      * @param bool $shouldReplace Whether or not to replace the value
      */
-    public function set(string $name, $values, bool $shouldReplace = true)
+    public function set(string $name, $values, bool $shouldReplace = true) : void
     {
         $name = $this->normalizeName($name);
         $values = (array)$values;

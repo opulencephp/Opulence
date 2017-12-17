@@ -21,7 +21,7 @@ class AlgorithmsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for a supported algorithm
      */
-    public function testCheckingForSupportedAlgorithm()
+    public function testCheckingForSupportedAlgorithm() : void
     {
         foreach (Algorithms::getAll() as $algorithm) {
             $this->assertTrue(Algorithms::has($algorithm));
@@ -31,7 +31,7 @@ class AlgorithmsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for an unsupported algorithm
      */
-    public function testCheckingForUnsupportedAlgorithm()
+    public function testCheckingForUnsupportedAlgorithm() : void
     {
         $this->assertFalse(Algorithms::has('foo'));
     }
@@ -39,7 +39,7 @@ class AlgorithmsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an algorithm is symmetric
      */
-    public function testCheckingIfAlgorithmIsSymmetric()
+    public function testCheckingIfAlgorithmIsSymmetric() : void
     {
         $this->assertTrue(Algorithms::isSymmetric(Algorithms::SHA256));
         $this->assertTrue(Algorithms::isSymmetric(Algorithms::SHA384));
@@ -52,7 +52,7 @@ class AlgorithmsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown when checking if an invalid algorithm is symmetric
      */
-    public function testExceptionThrownOnInvalidAlgorithmSymmetryCheck()
+    public function testExceptionThrownOnInvalidAlgorithmSymmetryCheck() : void
     {
         $this->expectException(InvalidArgumentException::class);
         Algorithms::isSymmetric('foo');
@@ -61,7 +61,7 @@ class AlgorithmsTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all algorithms
      */
-    public function testGettingAllAlgorithms()
+    public function testGettingAllAlgorithms() : void
     {
         $expected = [
             Algorithms::RSA_SHA256,

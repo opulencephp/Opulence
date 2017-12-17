@@ -238,7 +238,7 @@ class RequestBuilder
      * @param array $collection The collection to add to
      * @param bool $overwriteOld Whether or not clear the collection before adding the new values
      */
-    private function addValuesToCollection(array $values, array &$collection, bool $overwriteOld)
+    private function addValuesToCollection(array $values, array &$collection, bool $overwriteOld) : void
     {
         if ($overwriteOld) {
             $collection = [];
@@ -252,7 +252,7 @@ class RequestBuilder
      *
      * @throws InvalidArgumentException Thrown if the properties were not set properly
      */
-    private function validate()
+    private function validate() : void
     {
         if ($this->method === null) {
             throw new InvalidArgumentException('Method not set in request builder');

@@ -39,7 +39,7 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         /** @var ISigner $signer */
         $signer = $this->createMock(ISigner::class);
@@ -66,7 +66,7 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unset token credential will return false
      */
-    public function testUnsetTokenCredentialReturnsFalse()
+    public function testUnsetTokenCredentialReturnsFalse() : void
     {
         /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
         $credential = $this->createMock(ICredential::class);
@@ -83,7 +83,7 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unverified JWT returns false
      */
-    public function testUnverifiedJwtReturnsFalse()
+    public function testUnverifiedJwtReturnsFalse() : void
     {
         $this->jwtVerifier
             ->expects($this->any())
@@ -98,7 +98,7 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a verified JWT returns true
      */
-    public function testVerifiedJwtReturnsTrue()
+    public function testVerifiedJwtReturnsTrue() : void
     {
         $this->jwtVerifier
             ->expects($this->any())

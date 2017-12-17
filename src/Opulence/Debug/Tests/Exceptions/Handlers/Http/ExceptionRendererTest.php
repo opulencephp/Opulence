@@ -49,7 +49,7 @@ namespace Opulence\Debug\Tests\Exceptions\Handlers\Http
         /**
          * Sets up the tests
          */
-        public function setUp()
+        public function setUp() : void
         {
             $this->renderer = new MockRenderer(true);
         }
@@ -57,7 +57,7 @@ namespace Opulence\Debug\Tests\Exceptions\Handlers\Http
         /**
          * Tests that JSON headers are set
          */
-        public function testJsonHeadersSet()
+        public function testJsonHeadersSet() : void
         {
             $this->renderer = new MockRenderer(false);
             $this->renderer->setRequestFormat('json');
@@ -73,7 +73,7 @@ namespace Opulence\Debug\Tests\Exceptions\Handlers\Http
         /**
          * Tests rendering an exception without a view in the development environment
          */
-        public function testRenderingExceptionWithoutViewInDevelopmentEnvironment()
+        public function testRenderingExceptionWithoutViewInDevelopmentEnvironment() : void
         {
             $ex = new Exception('foo');
             ob_start();
@@ -86,7 +86,7 @@ namespace Opulence\Debug\Tests\Exceptions\Handlers\Http
         /**
          * Tests rendering an exception without a view in the production environment
          */
-        public function testRenderingExceptionWithoutViewInProductionEnvironment()
+        public function testRenderingExceptionWithoutViewInProductionEnvironment() : void
         {
             $this->renderer = new MockRenderer(false);
             $ex = new Exception('foo');
@@ -103,7 +103,7 @@ namespace Opulence\Debug\Tests\Exceptions\Handlers\Http
          * @param string $rawContents The raw contents
          * @return string The content without the headers
          */
-        private function getContentWithoutHeaders($rawContents)
+        private function getContentWithoutHeaders($rawContents) : string
         {
             return preg_replace('/header::.*\$\$/', '', $rawContents);
         }
@@ -115,7 +115,7 @@ namespace Opulence\Debug\Tests\Exceptions\Handlers\Http
          * @param string $string The string to search for
          * @return bool Whether or not the header string exists
          */
-        private function hasHeaderString($rawContents, $string)
+        private function hasHeaderString($rawContents, $string) : bool
         {
             return strpos($rawContents, "header::$string$$") !== false;
         }

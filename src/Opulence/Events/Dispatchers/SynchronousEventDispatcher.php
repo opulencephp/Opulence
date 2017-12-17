@@ -29,7 +29,7 @@ class SynchronousEventDispatcher implements IEventDispatcher
     /**
      * @inheritdoc
      */
-    public function dispatch(string $eventName, $event)
+    public function dispatch(string $eventName, $event) : void
     {
         foreach ($this->eventRegistry->getListeners($eventName) as $listener) {
             $listener($event, $eventName, $this);

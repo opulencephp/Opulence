@@ -21,7 +21,7 @@ class StaticSetters
     /**
      * @param IPerson $setterDependency
      */
-    public static function setStaticSetterDependency(IPerson $setterDependency)
+    public static function setStaticSetterDependency(IPerson $setterDependency) : void
     {
         self::$staticDependency = $setterDependency;
     }
