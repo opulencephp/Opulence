@@ -25,30 +25,6 @@ abstract class Bootstrapper
     }
 
     /**
-     * Handles the case that the bootstrapper did not implement the initialize(), run(), or shutdown() methods
-     *
-     * @param string $name The name of the method to call
-     * @param array $arguments The list of arguments to pass in
-     * @throws BadMethodCallException Thrown if a method other than "run" is called
-     * @deprecated 1.1.0 run() and shutdown() will soon not be supported
-     */
-    public function __call(string $name, array $arguments)
-    {
-        if ($name !== 'run' && $name !== 'shutdown') {
-            throw new BadMethodCallException(
-                sprintf(
-                    'Only %s, and %s are supported',
-                    'Bootstrapper::run()',
-                    'Bootstrapper::shutdown()'
-                )
-            );
-        }
-
-        // The user must have not specified a "run" or "shutdown" function, so just return
-        return;
-    }
-
-    /**
      * Registers any bindings to the IoC container
      *
      * @param IContainer $container The IoC container to bind to

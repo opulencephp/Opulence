@@ -71,46 +71,12 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     }
 
     /**
-     * @inheritdoc
-     */
-    public function shutDownBootstrappers()
-    {
-        foreach ($this->bootstrapperObjects as $bootstrapper) {
-            $this->container->callMethod($bootstrapper, 'shutdown', [], true);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function startBootstrappers(bool $forceEagerLoading)
-    {
-        if ($forceEagerLoading) {
-            $eagerBootstrapperClasses = $this->bootstrapperRegistry->getEagerBootstrappers();
-            $lazyBootstrapperClasses = [];
-
-            foreach (array_values($this->bootstrapperRegistry->getLazyBootstrapperBindings()) as $bindingData) {
-                $lazyBootstrapperClasses[] = $bindingData['bootstrapper'];
-            }
-
-            $lazyBootstrapperClasses = array_unique($lazyBootstrapperClasses);
-            $bootstrapperClasses = array_merge($eagerBootstrapperClasses, $lazyBootstrapperClasses);
-            $this->dispatchEagerly($bootstrapperClasses, true);
-        } else {
-            // We must dispatch lazy bootstrappers first in case their bindings are used by eager bootstrappers
-            $this->dispatchLazily($this->bootstrapperRegistry->getLazyBootstrapperBindings(), true);
-            $this->dispatchEagerly($this->bootstrapperRegistry->getEagerBootstrappers(), true);
-        }
-    }
-
-    /**
      * Dispatches the registry eagerly
      *
      * @param array $bootstrapperClasses The list of bootstrapper classes to dispatch
-     * @param bool $run Whether or not to run the bootstrapper (deprecated)
      * @throws RuntimeException Thrown if there was a problem dispatching the bootstrappers
      */
-    private function dispatchEagerly(array $bootstrapperClasses, bool $run)
+    private function dispatchEagerly(array $bootstrapperClasses)
     {
         foreach ($bootstrapperClasses as $bootstrapperClass) {
             /** @var Bootstrapper $bootstrapper */
@@ -118,28 +84,21 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
             $this->bootstrapperObjects[] = $bootstrapper;
             $bootstrapper->registerBindings($this->container);
         }
-
-        if ($run) {
-            foreach ($this->bootstrapperObjects as $bootstrapper) {
-                $this->container->callMethod($bootstrapper, 'run', [], true);
-            }
-        }
     }
 
     /**
      * Dispatches the registry lazily
      *
      * @param array $boundClassesToBindingData The mapping of bound classes to their targets and bootstrappers
-     * @param bool $run Whether or not to run the bootstrapper (deprecated)
      * @throws RuntimeException Thrown if there was a problem dispatching the bootstrappers
      */
-    private function dispatchLazily(array $boundClassesToBindingData, bool $run)
+    private function dispatchLazily(array $boundClassesToBindingData)
     {
         foreach ($boundClassesToBindingData as $boundClass => $bindingData) {
             $bootstrapperClass = $bindingData['bootstrapper'];
             $target = $bindingData['target'];
 
-            $factory = function () use ($boundClass, $bootstrapperClass, $target, $run) {
+            $factory = function () use ($boundClass, $bootstrapperClass, $target) {
                 // To make sure this factory isn't used anymore to resolve the bound class, unbind it
                 // Otherwise, we'd get into an infinite loop every time we tried to resolve it
                 if ($target === null) {
@@ -158,11 +117,6 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
 
                 if (!isset($this->dispatchedBootstrappers[$bootstrapperClass])) {
                     $bootstrapper->registerBindings($this->container);
-
-                    if ($run) {
-                        $this->container->callMethod($bootstrapper, 'run', [], true);
-                    }
-
                     $this->dispatchedBootstrappers[$bootstrapperClass] = true;
                 }
 

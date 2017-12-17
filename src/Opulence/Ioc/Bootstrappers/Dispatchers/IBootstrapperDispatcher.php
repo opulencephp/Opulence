@@ -21,18 +21,4 @@ interface IBootstrapperDispatcher
      * @param bool $forceEagerLoading Whether or not to force eager loading
      */
     public function dispatch(bool $forceEagerLoading) : void;
-
-    /**
-     * Shuts down the bootstrappers
-     *
-     * @deprecated 1.1.0 Bootstrappers will no longer be shut down
-     */
-    public function shutDownBootstrappers();
-
-    /**
-     * Starts the bootstrappers
-     *
-     * @param bool $forceEagerLoading Whether or not to force eager loading
-     */
-    public function startBootstrappers(bool $forceEagerLoading);
 }

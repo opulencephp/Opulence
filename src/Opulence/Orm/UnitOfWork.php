@@ -82,16 +82,13 @@ class UnitOfWork implements IUnitOfWork
         IIdAccessorRegistry $idAccessorRegistry,
         IIdGeneratorRegistry $idGeneratorRegistry,
         IChangeTracker $changeTracker,
-        IConnection $connection = null
+        IConnection $connection
     ) {
         $this->entityRegistry = $entityRegistry;
         $this->idAccessorRegistry = $idAccessorRegistry;
         $this->idGeneratorRegistry = $idGeneratorRegistry;
         $this->changeTracker = $changeTracker;
-
-        if ($connection !== null) {
-            $this->setConnection($connection);
-        }
+        $this->connection = $connection;
     }
 
     /**
@@ -225,14 +222,6 @@ class UnitOfWork implements IUnitOfWork
         $this->scheduledActions[] = ['update', $entity];
         $this->scheduledActionCount++;
         $this->scheduledForUpdate[$objectHashId] = $this->scheduledActionCount - 1;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setConnection(IConnection $connection)
-    {
-        $this->connection = $connection;
     }
 
     /**

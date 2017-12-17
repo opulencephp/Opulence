@@ -1,3 +1,10 @@
+<h2>v2.0.0 (2018-?-?)</h2>
+
+<h3>General</h3>
+
+* Deleted the Application and File libraries
+* Removed all methods that were deprecated in v1.1.0
+
 <h2>v1.1.3 (2017-?-?)</h2>
 
 <h3>IO</h3>

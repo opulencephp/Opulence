@@ -73,12 +73,4 @@ interface IUnitOfWork
      * @param object $entity The entity to schedule for insertion
      */
     public function scheduleForUpdate($entity);
-
-    /**
-     * Sets the database connection
-     *
-     * @param IConnection $connection The connection to use
-     * @deprecated 1.1.0 Connections should only be passed into the unit of work's constructor
-     */
-    public function setConnection(IConnection $connection);
 }

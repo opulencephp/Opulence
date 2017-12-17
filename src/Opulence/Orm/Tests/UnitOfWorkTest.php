@@ -296,27 +296,6 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests not setting the connection
-     */
-    public function testNotSettingConnection()
-    {
-        $this->expectException(OrmException::class);
-        /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
-        $idGeneratorRegistry = $this->createMock(IIdGeneratorRegistry::class);
-        $idGeneratorRegistry->expects($this->any())
-            ->method('getIdGenerator')
-            ->with(User::class)
-            ->willReturn(new IntSequenceIdGenerator('foo'));
-        $unitOfWork = new MockUnitOfWork(
-            $this->entityRegistry,
-            new IdAccessorRegistry(),
-            $idGeneratorRegistry,
-            new ChangeTracker()
-        );
-        $unitOfWork->commit();
-    }
-
-    /**
      * Tests the post-commit hook for a cached data mapper
      */
     public function testPostCommitOnCachedDataMapper()
