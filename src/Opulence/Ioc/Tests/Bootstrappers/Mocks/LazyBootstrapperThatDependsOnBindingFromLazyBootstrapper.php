@@ -10,14 +10,13 @@
 
 namespace Opulence\Ioc\Tests\Bootstrappers\Mocks;
 
-use Opulence\Ioc\Bootstrappers\Bootstrapper as BaseBootstrapper;
-use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
  * Defines a bootstrapper that depends on a binding from a lazy bootstrapper
  */
-class LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper extends BaseBootstrapper implements ILazyBootstrapper
+class LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper extends LazyBootstrapper
 {
     /**
      * @inheritdoc

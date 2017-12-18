@@ -12,9 +12,9 @@ namespace Opulence\Ioc\Tests\Bootstrappers\Caching;
 
 use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
 use Opulence\Ioc\Bootstrappers\Caching\FileCache;
-use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 use Opulence\Ioc\Tests\Bootstrappers\Mocks\EagerBootstrapper;
-use Opulence\Ioc\Tests\Bootstrappers\Mocks\LazyBootstrapper;
+use Opulence\Ioc\Tests\Bootstrappers\Mocks\LazyBootstrapper as MockBootstrapper;
 use Opulence\Ioc\Tests\Bootstrappers\Mocks\LazyBootstrapperWithTargetedBinding;
 
 /**
@@ -41,7 +41,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $bindingsToLazyBootstrappers = [];
 
         foreach ($lazyBootstrapperClasses as $lazyBootstrapperClass) {
-            /** @var ILazyBootstrapper $lazyBootstrapper */
+            /** @var LazyBootstrapper $lazyBootstrapper */
             $lazyBootstrapper = new $lazyBootstrapperClass();
 
             foreach ($lazyBootstrapper->getBindings() as $boundClass) {
@@ -101,7 +101,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $cache = new FileCache($this->cachedRegistryFilePath, time() + 3600);
         $this->writeRegistry([
             'eager' => [EagerBootstrapper::class],
-            'lazy' => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
+            'lazy' => self::getBindingsToLazyBootstrappers(MockBootstrapper::class)
         ]);
         $this->assertNull($cache->get());
         $this->assertFileNotExists($this->cachedRegistryFilePath);
@@ -114,13 +114,13 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     {
         $this->writeRegistry([
             'eager' => [EagerBootstrapper::class],
-            'lazy' => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
+            'lazy' => self::getBindingsToLazyBootstrappers(MockBootstrapper::class)
         ]);
         $registry = $this->cache->get();
         $this->assertInstanceOf(BootstrapperRegistry::class, $registry);
         $this->assertEquals([EagerBootstrapper::class], $registry->getEagerBootstrappers());
         $this->assertEquals(
-            self::getBindingsToLazyBootstrappers(LazyBootstrapper::class),
+            self::getBindingsToLazyBootstrappers(MockBootstrapper::class),
             $registry->getLazyBootstrapperBindings()
         );
     }
@@ -138,10 +138,10 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testWritingAndThenReadingRegistry() : void
     {
-        $lazyBootstrapper = new LazyBootstrapper();
+        $lazyBootstrapper = new MockBootstrapper();
         $setRegistry = new BootstrapperRegistry();
         $setRegistry->registerEagerBootstrapper(EagerBootstrapper::class);
-        $setRegistry->registerLazyBootstrapper($lazyBootstrapper->getBindings(), LazyBootstrapper::class);
+        $setRegistry->registerLazyBootstrapper($lazyBootstrapper->getBindings(), MockBootstrapper::class);
         $this->cache->set($setRegistry);
         $this->assertEquals($setRegistry, $this->cache->get());
     }
@@ -154,7 +154,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $lazyBootstrapper = new LazyBootstrapperWithTargetedBinding();
         $setRegistry = new BootstrapperRegistry();
         $setRegistry->registerEagerBootstrapper(EagerBootstrapper::class);
-        $setRegistry->registerLazyBootstrapper($lazyBootstrapper->getBindings(), LazyBootstrapper::class);
+        $setRegistry->registerLazyBootstrapper($lazyBootstrapper->getBindings(), MockBootstrapper::class);
         $this->cache->set($setRegistry);
         $this->assertEquals($setRegistry, $this->cache->get());
     }
@@ -164,15 +164,15 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testWritingRegistry() : void
     {
-        $lazyBootstrapper = new LazyBootstrapper();
+        $lazyBootstrapper = new MockBootstrapper();
         $registry = new BootstrapperRegistry();
         $registry->registerEagerBootstrapper(EagerBootstrapper::class);
-        $registry->registerLazyBootstrapper($lazyBootstrapper->getBindings(), LazyBootstrapper::class);
+        $registry->registerLazyBootstrapper($lazyBootstrapper->getBindings(), MockBootstrapper::class);
         $this->cache->set($registry);
         $this->assertEquals(
             [
                 'eager' => [EagerBootstrapper::class],
-                'lazy' => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
+                'lazy' => self::getBindingsToLazyBootstrappers(MockBootstrapper::class)
             ],
             $this->readFromCachedRegistryFile()
         );
@@ -183,14 +183,14 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testWritingRegistryWithNoEagerBootstrappers() : void
     {
-        $lazyBootstrapper = new LazyBootstrapper();
+        $lazyBootstrapper = new MockBootstrapper();
         $registry = new BootstrapperRegistry();
-        $registry->registerLazyBootstrapper($lazyBootstrapper->getBindings(), LazyBootstrapper::class);
+        $registry->registerLazyBootstrapper($lazyBootstrapper->getBindings(), MockBootstrapper::class);
         $this->cache->set($registry);
         $this->assertEquals(
             [
                 'eager' => [],
-                'lazy' => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
+                'lazy' => self::getBindingsToLazyBootstrappers(MockBootstrapper::class)
             ],
             $this->readFromCachedRegistryFile()
         );

@@ -11,14 +11,14 @@
 namespace Opulence\Ioc\Bootstrappers;
 
 /**
- * Defines the interface for lazy bootstrappers to implement
+ * Defines the lazy bootstrapper
  */
-interface ILazyBootstrapper
+abstract class LazyBootstrapper extends Bootstrapper
 {
     /**
      * Gets the list of classes and interfaces bound by this bootstrapper to the IoC container
      *
      * @return array The list of bound classes
      */
-    public function getBindings() : array;
+    abstract public function getBindings() : array;
 }

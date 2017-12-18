@@ -19,15 +19,14 @@ use Opulence\Databases\Providers\Types\Factories\TypeMapperFactory;
 use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Databases\Migrations\ContainerMigrationResolver;
 use Opulence\Framework\Databases\Migrations\SqlExecutedMigrationRepository;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\QueryBuilders\PostgreSql\QueryBuilder;
 
 /**
  * Defines the database migration bootstrapper
  */
-class MigrationBootstrapper extends Bootstrapper implements ILazyBootstrapper
+class MigrationBootstrapper extends LazyBootstrapper
 {
     /**
      * @inheritdoc

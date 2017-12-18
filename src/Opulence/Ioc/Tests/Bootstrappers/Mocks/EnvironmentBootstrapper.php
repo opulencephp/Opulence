@@ -10,14 +10,13 @@
 
 namespace Opulence\Ioc\Tests\Bootstrappers\Mocks;
 
-use Opulence\Ioc\Bootstrappers\Bootstrapper as BaseBootstrapper;
-use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
  * Defines a bootstrapper that manipulates the environment
  */
-class EnvironmentBootstrapper extends BaseBootstrapper implements ILazyBootstrapper
+class EnvironmentBootstrapper extends LazyBootstrapper
 {
     /**
      * @inheritdoc

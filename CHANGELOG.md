@@ -7,6 +7,11 @@
 * Added `void` return type to all void methods
 * Added nullable  type to all nullable method return types and parameters
 
+<h3>IoC</h3>
+
+* Made `Opulence\Ioc\Bootstrappers\Bootstrapper` abstract
+* Removed `ILazyBootstrapper` and made a new, abstract `LazyBootstrapper` to be used instead
+
 <h2>v1.1.3 (2017-?-?)</h2>
 
 <h3>IO</h3>

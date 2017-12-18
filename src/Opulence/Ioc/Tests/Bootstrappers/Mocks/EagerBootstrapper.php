@@ -10,13 +10,13 @@
 
 namespace Opulence\Ioc\Tests\Bootstrappers\Mocks;
 
-use Opulence\Ioc\Bootstrappers\Bootstrapper as BaseBootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
- * Mocks a lazy bootstrapper
+ * Mocks an eager bootstrapper
  */
-class EagerBootstrapper extends BaseBootstrapper
+class EagerBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc

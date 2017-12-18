@@ -13,14 +13,13 @@ namespace Opulence\Framework\Composer\Bootstrappers;
 use Opulence\Framework\Composer\Composer;
 use Opulence\Framework\Composer\Executable;
 use Opulence\Framework\Configuration\Config;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
  * Defines the Composer bootstrapper
  */
-class ComposerBootstrapper extends Bootstrapper implements ILazyBootstrapper
+class ComposerBootstrapper extends LazyBootstrapper
 {
     /**
      * @inheritdoc

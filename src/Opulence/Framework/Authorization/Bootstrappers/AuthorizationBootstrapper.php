@@ -18,14 +18,13 @@ use Opulence\Authorization\Roles\IRoles;
 use Opulence\Authorization\Roles\Orm\IRoleMembershipRepository;
 use Opulence\Authorization\Roles\Orm\IRoleRepository;
 use Opulence\Authorization\Roles\Roles;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
  * Defines the authorization bootstrapper
  */
-abstract class AuthorizationBootstrapper extends Bootstrapper implements ILazyBootstrapper
+abstract class AuthorizationBootstrapper extends LazyBootstrapper
 {
     /**
      * @inheritdoc

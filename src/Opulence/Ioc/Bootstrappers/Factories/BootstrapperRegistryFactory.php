@@ -13,7 +13,7 @@ namespace Opulence\Ioc\Bootstrappers\Factories;
 use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
 use Opulence\Ioc\Bootstrappers\IBootstrapperRegistry;
 use Opulence\Ioc\Bootstrappers\IBootstrapperResolver;
-use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 
 /**
  * Defines the bootstrapper registry factory
@@ -40,7 +40,7 @@ class BootstrapperRegistryFactory implements IBootstrapperRegistryFactory
         $bootstrapperRegistry = new BootstrapperRegistry();
 
         foreach ($bootstrapperObjects as $bootstrapperObject) {
-            if ($bootstrapperObject instanceof ILazyBootstrapper) {
+            if ($bootstrapperObject instanceof LazyBootstrapper) {
                 $bootstrapperRegistry->registerLazyBootstrapper(
                     $bootstrapperObject->getBindings(),
                     get_class($bootstrapperObject)

@@ -14,23 +14,15 @@ use Opulence\Ioc\IContainer;
 use RuntimeException;
 
 /**
- * Defines the base bootstrapper
+ * Defines the base class for bootstrappers
  */
 abstract class Bootstrapper
 {
-    public function __construct()
-    {
-        // Don't do anything
-    }
-
     /**
      * Registers any bindings to the IoC container
      *
      * @param IContainer $container The IoC container to bind to
      * @throws RuntimeException Thrown if there was an error registering the bindings
      */
-    public function registerBindings(IContainer $container) : void
-    {
-        // Let extending classes define this
-    }
+    abstract public function registerBindings(IContainer $container) : void;
 }

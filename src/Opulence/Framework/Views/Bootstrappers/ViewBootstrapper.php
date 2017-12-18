@@ -12,8 +12,7 @@ namespace Opulence\Framework\Views\Bootstrappers;
 
 use Opulence\Environments\Environment;
 use Opulence\Framework\Configuration\Config;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Compiler;
@@ -36,7 +35,7 @@ use Opulence\Views\Filters\XssFilter;
 /**
  * Defines the view bootstrapper
  */
-abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrapper
+abstract class ViewBootstrapper extends LazyBootstrapper
 {
     /** @var ICache The view cache */
     protected $viewCache = null;
