@@ -20,6 +20,19 @@ use Opulence\Console\Responses\IResponse;
  */
 class RunAppLocallyCommand extends Command
 {
+    /** @var string The path to the default router file */
+    private $defaultRouterPath = '';
+
+    /**
+     * @param string $defaultRouterPath The path to the default router file
+     */
+    public function __construct(string $defaultRouterPath)
+    {
+        parent::__construct();
+
+        $this->defaultRouterPath = $defaultRouterPath;
+    }
+
     /**
      * @inheritdoc
      */
@@ -53,7 +66,7 @@ class RunAppLocallyCommand extends Command
                 null,
                 OptionTypes::REQUIRED_VALUE,
                 'The router file in your application',
-                'localhost_router.php'
+                $this->defaultRouterPath
             ));
     }
 

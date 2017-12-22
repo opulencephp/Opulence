@@ -1,3 +1,9 @@
+<h2>v1.1.3 (2017-12-22)</h2>
+
+<h3>Framework</h3>
+
+* Fixed #92, which caused `php apex app:runlocally` to not work on Ubuntu due to the file path to the router not being correct
+
 <h2>v1.1.2 (2017-11-18)</h2>
 
 <h3>IO</h3>

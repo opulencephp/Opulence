@@ -62,7 +62,6 @@ class CommandsBootstrapper extends Bootstrapper
         MakeEntityCommand::class,
         MakeHttpMiddlewareCommand::class,
         RenameAppCommand::class,
-        RunAppLocallyCommand::class,
         RunDownMigrationsCommand::class,
         RunUpMigrationsCommand::class,
         UuidGenerationCommand::class
@@ -101,6 +100,9 @@ class CommandsBootstrapper extends Bootstrapper
         foreach (self::$commandClasses as $commandClass) {
             $commands->add($container->resolve($commandClass));
         }
+
+        // The command to run Opulence locally requires a path to the router file
+        $commands->add(new RunAppLocallyCommand(Config::get('paths', 'root') . '/localhost_router.php'));
 
         // The flush-cache command requires some special configuration
         try {
