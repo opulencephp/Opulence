@@ -12,7 +12,11 @@
 * Made `Opulence\Ioc\Bootstrappers\Bootstrapper` abstract
 * Removed `ILazyBootstrapper` and made a new, abstract `LazyBootstrapper` to be used instead
 
-<h2>v1.1.3 (2017-?-?)</h2>
+<h2>v1.1.3 (2017-12-22)</h2>
+
+<h3>Framework</h3>
+
+* Fixed #92, which caused `php apex app:runlocally` to not work on Ubuntu due to the file path to the router not being correct
 
 <h3>IO</h3>
 
