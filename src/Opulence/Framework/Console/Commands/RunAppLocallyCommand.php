@@ -53,7 +53,7 @@ class RunAppLocallyCommand extends Command
                 null,
                 OptionTypes::REQUIRED_VALUE,
                 'The router file in your application',
-                'localhost_router.php'
+                '../localhost_router.php'
             ));
     }
 
