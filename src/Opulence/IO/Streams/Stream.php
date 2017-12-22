@@ -80,7 +80,7 @@ class Stream implements IStream
 
         $this->handle = $handle;
         $this->length = $length;
-        $streamMetadata = stream_get_meta_data($this->handle);
+        $streamMetadata = \stream_get_meta_data($this->handle);
         $this->isReadable = in_array($streamMetadata['mode'], self::$readStreamModes, true);
         $this->isSeekable = $streamMetadata['seekable'];
         $this->isWritable = in_array($streamMetadata['mode'], self::$writeStreamModes, true);
@@ -113,7 +113,7 @@ class Stream implements IStream
      */
     public function close() : void
     {
-        if (is_resource($this->handle) && fclose($this->handle) === false) {
+        if (\is_resource($this->handle) && \fclose($this->handle) === false) {
             throw new RuntimeException('Failed to close stream');
         }
 
@@ -148,7 +148,7 @@ class Stream implements IStream
             return $this->length;
         }
 
-        $fileStats = fstat($this->handle);
+        $fileStats = \fstat($this->handle);
 
         if (isset($fileStats['size'])) {
             $this->length = $fileStats['size'];
@@ -164,11 +164,11 @@ class Stream implements IStream
      */
     public function getPosition() : int
     {
-        if (!is_resource($this->handle)) {
+        if (!\is_resource($this->handle)) {
             throw new RuntimeException('Unable to get position of closed stream');
         }
 
-        if (($position = ftell($this->handle)) === false) {
+        if (($position = \ftell($this->handle)) === false) {
             throw new RuntimeException('Failed to get position of stream');
         }
 
@@ -180,11 +180,11 @@ class Stream implements IStream
      */
     public function isEof() : bool
     {
-        if (!is_resource($this->handle)) {
+        if (!\is_resource($this->handle)) {
             throw new RuntimeException('Unable to tell if at EOF on closed stream');
         }
 
-        return feof($this->handle);
+        return \feof($this->handle);
     }
 
     /**
@@ -220,7 +220,7 @@ class Stream implements IStream
             throw new RuntimeException('Stream is not readable');
         }
 
-        if (($content = fread($this->handle, $length)) === false) {
+        if (($content = \fread($this->handle, $length)) === false) {
             throw new RuntimeException('Failed to read stream');
         }
 
@@ -236,7 +236,7 @@ class Stream implements IStream
             throw new RuntimeException('Stream is not readable');
         }
 
-        if (($content = stream_get_contents($this->handle)) === false) {
+        if (($content = \stream_get_contents($this->handle)) === false) {
             throw new RuntimeException('Failed to read stream');
         }
 
@@ -256,11 +256,11 @@ class Stream implements IStream
      */
     public function seek(int $offset, int $whence = SEEK_SET) : void
     {
-        if (!$this->isSeekable || fseek($this->handle, $offset, $whence)) {
+        if (!$this->isSeekable || \fseek($this->handle, $offset, $whence)) {
             throw new RuntimeException('Stream is not seekable');
         }
 
-        if (fseek($this->handle, $offset, $whence) === -1) {
+        if (\fseek($this->handle, $offset, $whence) === -1) {
             throw new RuntimeException('Error while seeking stream');
         }
     }
@@ -274,7 +274,7 @@ class Stream implements IStream
             throw new RuntimeException('Stream is not writable');
         }
 
-        if (fwrite($this->handle, $data) === false) {
+        if (\fwrite($this->handle, $data) === false) {
             throw new RuntimeException('Failed to write to stream');
         }
 
