@@ -14,8 +14,11 @@ use DateTime;
 use Opulence\Databases\IConnection;
 use Opulence\Databases\Migrations\IExecutedMigrationRepository;
 use Opulence\Databases\Providers\Types\Factories\TypeMapperFactory;
-use Opulence\QueryBuilders\QueryBuilder;
+use Opulence\QueryBuilders\MySql\QueryBuilder as MySqlQueryBuilder;
+use Opulence\QueryBuilders\PostgreSql\QueryBuilder as PostgreSqlQueryBuilder;
+use Opulence\QueryBuilders\QueryBuilder as BaseQueryBuilder;
 use PDO;
+use RuntimeException;
 
 /**
  * Defines the SQL executed migration repository
@@ -28,7 +31,7 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
     protected $tableName = '';
     /** @var IConnection The database connection */
     protected $connection = null;
-    /** @var QueryBuilder The query builder */
+    /** @var BaseQueryBuilder The query builder */
     protected $queryBuilder = null;
     /** @var TypeMapperFactory The type mapper factory */
     protected $typeMapperFactory = null;
@@ -36,13 +39,13 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
     /**
      * @param string $tableName The name of the table to read and write to
      * @param IConnection $connection The database connection
-     * @param QueryBuilder $queryBuilder The query builder
+     * @param BaseQueryBuilder $queryBuilder The query builder
      * @param TypeMapperFactory $typeMapperFactory The type mapper factory
      */
     public function __construct(
         string $tableName,
         IConnection $connection,
-        QueryBuilder $queryBuilder,
+        BaseQueryBuilder $queryBuilder,
         TypeMapperFactory $typeMapperFactory
     ) {
         $this->tableName = $tableName;
@@ -119,12 +122,31 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
 
     /**
      * Creates the table that the migrations are stored in
+     *
+     * @throws RuntimeException Thrown if the query builder wasn't a MySQL or PostgreSQL query builder
      */
     protected function createTableIfDoesNotExist() : void
     {
-        $sql = 'CREATE TABLE IF NOT EXISTS ' .
-            $this->tableName .
-            ' (migration text primary key, dateran timestamp with time zone NOT NULL);';
+        /**
+         * Note: This is a somewhat hacky way to determine which database driver we're using
+         * Ideally, in the future, the query builder will be able to create tables for us
+         * Until then, we'll infer the database driver from the query builder type
+         */
+        switch (get_class($this->queryBuilder)) {
+            case MySqlQueryBuilder::class:
+                $sql = 'CREATE TABLE IF NOT EXISTS ' .
+                    $this->tableName .
+                    ' (migration varchar(255), dateran timestamp NOT NULL, PRIMARY KEY (migration));';
+                break;
+            case PostgreSqlQueryBuilder::class:
+                $sql = 'CREATE TABLE IF NOT EXISTS ' .
+                    $this->tableName .
+                    ' (migration text primary key, dateran timestamp with time zone NOT NULL);';
+                break;
+            default:
+                throw new RuntimeException('Unexpected query builder type ' . get_class($this->queryBuilder));
+        }
+
         $statement = $this->connection->prepare($sql);
         $statement->execute();
     }

@@ -1,3 +1,10 @@
+<h2>v1.1.4 (2017-22-23)</h2>
+
+<h3>Databases</h3>
+
+* Fixed bugs that caused DB migrations to not work with MySQL
+* Migration bootstrapper now reads from an environment var to determine the database driver to use
+
 <h2>v1.1.3 (2017-12-22)</h2>
 
 <h3>Framework</h3>
