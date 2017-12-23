@@ -328,7 +328,6 @@ class MultiStreamTest extends \PHPUnit\Framework\TestCase
         $this->multiStream->addStream($stream);
         $this->multiStream->seek(1);
         $this->assertEquals('oo', $this->multiStream->readToEnd());
-        echo var_export($this->multiStream, true);
         $this->assertTrue($this->multiStream->isEof());
     }
 
