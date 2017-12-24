@@ -13,7 +13,7 @@ class {{class}} extends Migration
      */
     public static function getCreationDate() : DateTime
     {
-        return DateTime::createFromFormat(DateTime::ATOM, "{{creationDate}}");
+        return DateTime::createFromFormat(DateTime::ATOM, '{{creationDate}}');
     }
     
     /**
