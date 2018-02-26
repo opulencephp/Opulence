@@ -69,6 +69,7 @@ class Rules
         $rule = $this->ruleExtensionRegistry->getRule($methodName);
 
         if ($rule instanceof IRuleWithArgs) {
+            $rule = clone $rule;
             $rule->setArgs($args);
         }
 
