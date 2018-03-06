@@ -11,8 +11,6 @@
 namespace Opulence\Routing\Dispatchers;
 
 use Closure;
-use Exception;
-use Opulence\Http\HttpException;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Routing\Controller;
@@ -73,62 +71,54 @@ class RouteDispatcher implements IRouteDispatcher
      * @param CompiledRoute $route The route being dispatched
      * @return Response Returns the value from the controller method
      * @throws RouteException Thrown if the method could not be called on the controller
-     * @throws HttpException Thrown if the controller threw an HttpException
      */
     private function callController($controller, CompiledRoute $route) : Response
     {
-        try {
-            if (is_callable($controller)) {
+        if (is_callable($controller)) {
+            try {
                 $reflection = new ReflectionFunction($controller);
-                $parameters = $this->resolveControllerParameters(
-                    $reflection->getParameters(),
-                    $route->getPathVars(),
-                    $route,
-                    true
-                );
-
-                $response = $controller(...$parameters);
-            } else {
-                $reflection = new ReflectionMethod($controller, $route->getControllerMethod());
-                $parameters = $this->resolveControllerParameters(
-                    $reflection->getParameters(),
-                    $route->getPathVars(),
-                    $route,
-                    false
-                );
-
-                if ($reflection->isPrivate()) {
-                    throw new RouteException("Method {$route->getControllerMethod()} is private");
-                }
-
-                if ($controller instanceof Controller) {
-                    $response = $controller->callMethod(
-                        $route->getControllerMethod(), $parameters
-                    );
-                } else {
-                    $response = $controller->{$route->getControllerMethod()}(...$parameters);
-                }
+            } catch (\ReflectionException $e) {
+                throw new RouteException("Function {$controller} does not exist");
             }
-
-            if (is_string($response)) {
-                $response = new Response($response);
-            }
-
-            return $response;
-        } catch (HttpException $ex) {
-            // We don't want to catch these exceptions, but we want to catch all others
-            throw $ex;
-        } catch (Exception $ex) {
-            throw new RouteException(
-                sprintf(
-                    'Reflection failed for %s: %s',
-                    $route->usesCallable() ? 'closure' : "{$route->getControllerName()}::{$route->getControllerMethod()}",
-                    $ex
-                ),
-                0,
-                $ex
+            $parameters = $this->resolveControllerParameters(
+                $reflection->getParameters(),
+                $route->getPathVars(),
+                $route,
+                true
             );
+
+            $response = $controller(...$parameters);
+        } else {
+            try {
+                $reflection = new ReflectionMethod($controller, $route->getControllerMethod());
+            } catch (\ReflectionException $e) {
+                throw new RouteException("Method {$route->getControllerMethod()} does not exist");
+            }
+            $parameters = $this->resolveControllerParameters(
+                $reflection->getParameters(),
+                $route->getPathVars(),
+                $route,
+                false
+            );
+
+            if ($reflection->isPrivate()) {
+                throw new RouteException("Method {$route->getControllerMethod()} is private");
+            }
+
+            if ($controller instanceof Controller) {
+                $response = $controller->callMethod(
+                    $route->getControllerMethod(), $parameters
+                );
+            } else {
+                $response = $controller->{$route->getControllerMethod()}(...$parameters);
+            }
         }
+
+        if (is_string($response)) {
+            $response = new Response($response);
+        }
+
+        return $response;
     }
 
     /**
