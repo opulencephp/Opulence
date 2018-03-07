@@ -78,7 +78,7 @@ class EntityRegistry implements IEntityRegistry
         if ($entityState === EntityStates::QUEUED || $entityState === EntityStates::REGISTERED) {
             $className = $this->getClassName($entity);
             $objectHashId = $this->getObjectHashId($entity);
-            $entityId = $this->idAccessorRegistry->getEntityId($entity);
+            $entityId = (string) $this->idAccessorRegistry->getEntityId($entity);
             $this->entityStates[$objectHashId] = EntityStates::UNREGISTERED;
             unset($this->entities[$className][$entityId]);
             $this->changeTracker->stopTracking($entity);
@@ -116,11 +116,12 @@ class EntityRegistry implements IEntityRegistry
      */
     public function getEntity(string $className, $id)
     {
-        if (!isset($this->entities[$className][$id])) {
+        $index = (string) $id;
+        if (!isset($this->entities[$className][$index])) {
             return null;
         }
 
-        return $this->entities[$className][$id];
+        return $this->entities[$className][$index];
     }
 
     /**
@@ -151,7 +152,7 @@ class EntityRegistry implements IEntityRegistry
     public function isRegistered($entity) : bool
     {
         try {
-            $entityId = $this->idAccessorRegistry->getEntityId($entity);
+            $entityId = (string) $this->idAccessorRegistry->getEntityId($entity);
 
             return $this->getEntityState($entity) === EntityStates::REGISTERED
             || isset($this->entities[$this->getClassName($entity)][$entityId]);
@@ -189,7 +190,7 @@ class EntityRegistry implements IEntityRegistry
     public function registerEntity(&$entity)
     {
         $className = $this->getClassName($entity);
-        $entityId = $this->idAccessorRegistry->getEntityId($entity);
+        $entityId = (string) $this->idAccessorRegistry->getEntityId($entity);
 
         if (!isset($this->entities[$className])) {
             $this->entities[$className] = [];
