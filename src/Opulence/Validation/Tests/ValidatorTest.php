@@ -10,6 +10,7 @@
 
 namespace Opulence\Validation\Tests;
 
+use Opulence\Validation\Rules\BetweenRule;
 use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
 use Opulence\Validation\Rules\Errors\ErrorCollection;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
@@ -153,5 +154,32 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
                 $this->errorTemplateCompiler
             ])
             ->getMock();
+    }
+
+    /**
+     * Test using custom rules twice does not change their arguments
+     */
+    public function testUsingCustomRulesTwiceDoesNotChangeThem()
+    {
+        $customRule = new class extends BetweenRule {
+            public function getSlug(): string
+            {
+                return 'customRule';
+            }
+        };
+
+        $ruleExtensionRegistry = new RuleExtensionRegistry();
+        $ruleExtensionRegistry->registerRuleExtension($customRule, 'customRule');
+        $rulesFactory = new RulesFactory(
+            $ruleExtensionRegistry,
+            $this->errorTemplateRegistry,
+            $this->errorTemplateCompiler
+        );
+
+        $validator = new Validator($rulesFactory);
+        $validator->field('field1')->customRule(0, 5);
+        $validator->field('field2')->customRule(0, 20);
+
+        $this->assertFalse($validator->isValid(['field1' => 6, 'field2' => 15]));
     }
 }

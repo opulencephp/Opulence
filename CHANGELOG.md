@@ -1,3 +1,17 @@
+<h2>v1.15 (2018-03-13)</h2>
+
+<h3>Databases</h3>
+
+* Fixed migrations, which were running in reverse order
+
+<h3>ORM</h3>
+
+* Added support for IDs that are objects
+
+<h3>Validation</h3>
+
+* Fixed bug that prevented you from using custom rules twice
+
 <h2>v1.1.4 (2017-22-23)</h2>
 
 <h3>Databases</h3>

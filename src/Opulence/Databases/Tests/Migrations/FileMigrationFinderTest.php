@@ -59,9 +59,9 @@ class FileMigrationFinderTest extends \PHPUnit\Framework\TestCase
     public function testMigrationsAreFoundInSubdirectories() : void
     {
         $expectedMigrations = [
-            MigrationB::class,
+            MigrationC::class,
             MigrationA::class,
-            MigrationC::class
+            MigrationB::class,
         ];
         $this->assertEquals(
             $expectedMigrations,
