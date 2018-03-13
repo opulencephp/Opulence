@@ -67,7 +67,7 @@ class FileMigrationFinder
 
         // Sort the migration classes by their creation dates
         usort($migrationClassNames, function (string $a, string $b) {
-            return $b::getCreationDate() <=> $a::getCreationDate();
+            return $a::getCreationDate() <=> $b::getCreationDate();
         });
 
         return $migrationClassNames;
