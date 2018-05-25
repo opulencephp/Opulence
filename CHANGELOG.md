@@ -1,4 +1,10 @@
-<h2>v1.0.10 (2017-04-15)</h3>
+<h2>v1.0.11 (2018-05-25)</h2>
+
+<h3>Sessions</h3>
+
+* Fixed bug that was caused by cache bridge returning `null` for value that didn't exist
+
+<h2>v1.0.10 (2017-04-15)</h2>
 
 <h3>Framework</h3>
 * Added more PHPDoc to some template files
