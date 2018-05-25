@@ -71,7 +71,7 @@ class CacheSessionHandler extends SessionHandler
      */
     protected function doRead(string $sessionId) : string
     {
-        return $this->cache->get($sessionId);
+        return $this->cache->get($sessionId) ?? '';
     }
 
     /**

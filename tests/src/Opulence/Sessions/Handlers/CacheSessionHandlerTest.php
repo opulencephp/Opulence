@@ -50,6 +50,15 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests that get that returns null causes handler to return empty string
+     */
+    public function testCacheGetThatReturnsNullCausesHandlerToReturnEmptyString()
+    {
+        $this->bridge->expects($this->once())->method('get')->with('foo')->willReturn(null);
+        $this->assertSame('', $this->handler->read('foo'));
+    }
+
+    /**
      * Tests that set is called on write
      */
     public function testCacheSetIsCalledOnWrite()
