@@ -1,5 +1,5 @@
 # Opulence
-[![Build Status](https://travis-ci.org/opulencephp/Opulence.svg?branch=master)](https://travis-ci.org/opulencephp/Opulence)
+[![Build Status](https://travis-ci.com/opulencephp/Opulence.svg)](https://travis-ci.com/opulencephp/Opulence)
 [![Latest Stable Version](https://poser.pugx.org/opulence/opulence/v/stable.svg)](https://packagist.org/packages/opulence/opulence)
 [![Latest Unstable Version](https://poser.pugx.org/opulence/opulence/v/unstable.svg)](https://packagist.org/packages/opulence/opulence)
 [![License](https://poser.pugx.org/opulence/opulence/license.svg)](https://packagist.org/packages/opulence/opulence)
