@@ -37,7 +37,7 @@
   },
   "require-dev": {
     "ext-pdo": "*",
-    "phpredis": "3.0.*",
+    "phpredis/phpredis": "3.0.*",
     "predis/predis": "1.1.*@dev",
     "phpunit/phpunit": "~6.2"
   },
@@ -45,7 +45,7 @@
     {
       "type": "package",
       "package": {
-        "name": "phpredis",
+        "name": "phpredis/phpredis",
         "version": "3.0.0",
         "source": {
           "url": "https://github.com/phpredis/phpredis.git",
