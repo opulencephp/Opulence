@@ -1,3 +1,9 @@
+<h2>v1.1.6 (2019-02-16)</h2>
+
+<h3>HTTP</h3>
+
+* Fixed bug that prevented CSRF checks from working when using `_method` to manually set the request method
+
 <h2>v1.1.5 (2018-03-13)</h2>
 
 <h3>Databases</h3>

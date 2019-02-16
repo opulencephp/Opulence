@@ -72,6 +72,8 @@ class Request
     private $previousUrl = '';
     /** @var string The raw body of the request */
     private $rawBody = null;
+    /** @var Collection The original collection if we're faking the method via a form input value */
+    private $originalMethodCollection = null;
 
     /**
      * @param array $query The GET parameters
@@ -680,9 +682,13 @@ class Request
             if ($method == RequestMethods::POST) {
                 if (($overrideMethod = $this->server->get('X-HTTP-METHOD-OVERRIDE')) !== null) {
                     $method = $overrideMethod;
-                } else {
-                    $method = $this->post->get('_method', $this->query->get('_method', $method));
+                } elseif (($overrideMethod = $this->post->get('_method')) !== null) {
+                    $method = $overrideMethod;
+                } elseif (($overrideMethod = $this->query->get('_method')) !== null) {
+                    $method = $overrideMethod;
                 }
+
+                $this->originalMethodCollection = $this->post;
             }
         }
 
@@ -797,15 +803,22 @@ class Request
     private function setUnsupportedMethodsCollections()
     {
         /**
-         * PHP doesn't pass in data from PUT/PATCH/DELETE requests through globals
-         * So, we have to manually read from the input stream to grab their data
-         * If the content is not from a form, we don't bother and just let users look the data up in the raw body
+         * PHP doesn't pass in data from PUT/PATCH/DELETE requests through globals.
+         * In the case that we faked the method via a "_method" input, we need to use
+         * the original method's collection.  Otherwise, we have to manually read from
+         * the input stream to grab their data.  If the content is not from a form, we
+         * don't bother and just let users look the data up in the raw body.
          */
         if (
-            mb_strpos($this->headers->get('CONTENT_TYPE'), 'application/x-www-form-urlencoded') === 0 &&
+            (mb_strpos($this->headers->get('CONTENT_TYPE'), 'application/x-www-form-urlencoded') === 0
+                || mb_strpos($this->headers->get('CONTENT_TYPE'), 'multipart/form-data') === 0) &&
             in_array($this->method, [RequestMethods::PUT, RequestMethods::PATCH, RequestMethods::DELETE])
         ) {
-            parse_str($this->getRawBody(), $collection);
+            if ($this->originalMethodCollection === null) {
+                parse_str($this->getRawBody(), $collection);
+            } else {
+                $collection = $this->originalMethodCollection->getAll();
+            }
 
             switch ($this->method) {
                 case RequestMethods::PUT:

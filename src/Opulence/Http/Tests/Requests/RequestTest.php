@@ -525,7 +525,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting data from put, patch, and delete methods
      */
-    public function testGettingDataFromPutPatchDeleteMethods()
+    public function testGettingDataFromPutPatchDeleteMethodsForFormRequest()
     {
         $methods = ['PUT', 'PATCH', 'DELETE'];
 
@@ -534,6 +534,42 @@ class RequestTest extends \PHPUnit\Framework\TestCase
             $_SERVER['CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
             $request = FormUrlEncodedRequest::createFromGlobals();
             $this->assertEquals('foo=bar', $request->getRawBody());
+
+            switch ($method) {
+                case 'PUT':
+                    $this->assertEquals('bar', $request->getPut()->get('foo'));
+                    $this->assertNull($request->getPatch()->get('foo'));
+                    $this->assertNull($request->getDelete()->get('foo'));
+
+                    break;
+                case 'PATCH':
+                    $this->assertEquals('bar', $request->getPatch()->get('foo'));
+                    $this->assertNull($request->getPut()->get('foo'));
+                    $this->assertNull($request->getDelete()->get('foo'));
+
+                    break;
+                case 'DELETE':
+                    $this->assertEquals('bar', $request->getDelete()->get('foo'));
+                    $this->assertNull($request->getPut()->get('foo'));
+                    $this->assertNull($request->getPatch()->get('foo'));
+
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Tests getting data from put, patch, and delete methods from a faked (eg uses _method input) method
+     */
+    public function testGettingDataFromPutPatchDeleteMethodsForFakedMethodUsesRealMethodsCollection()
+    {
+        $methods = ['PUT', 'PATCH', 'DELETE'];
+
+        foreach ($methods as $method) {
+            $_SERVER['REQUEST_METHOD'] = 'POST';
+            $_SERVER['CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
+            $expectedCollection = ['foo' => 'bar', '_method' => $method];
+            $request = Request::createFromGlobals(null, $expectedCollection);
 
             switch ($method) {
                 case 'PUT':
