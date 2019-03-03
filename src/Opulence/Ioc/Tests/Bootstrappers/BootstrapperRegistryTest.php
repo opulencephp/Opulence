@@ -13,7 +13,6 @@ namespace Opulence\Ioc\Tests\Bootstrappers;
 use InvalidArgumentException;
 use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
 use Opulence\Ioc\Tests\Bootstrappers\Mocks\EagerBootstrapper;
-use Opulence\Ioc\Tests\Bootstrappers\Mocks\EagerFooInterface;
 use Opulence\Ioc\Tests\Bootstrappers\Mocks\LazyBootstrapper;
 use Opulence\Ioc\Tests\Bootstrappers\Mocks\LazyFooInterface;
 
@@ -47,24 +46,9 @@ class BootstrapperRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringAndGettingEagerBootstrapper()
     {
-        $this->registry->registerEagerBootstrapper(EagerBootstrapper::class);
+        $expectedBootstrapper = new EagerBootstrapper();
+        $this->registry->registerBootstrapper($expectedBootstrapper);
         $this->assertEquals([EagerBootstrapper::class], $this->registry->getEagerBootstrappers());
-    }
-
-    /**
-     * Tests registering and getting a lazy bootstrapper with an array of bindings
-     */
-    public function testRegisteringAndGettingLazyBootstrapperWithManyBindings()
-    {
-        $bindings = [LazyFooInterface::class, EagerFooInterface::class];
-        $this->registry->registerLazyBootstrapper($bindings, LazyBootstrapper::class);
-        $this->assertEquals(
-            [
-                LazyFooInterface::class => ['bootstrapper' => LazyBootstrapper::class, 'target' => null],
-                EagerFooInterface::class => ['bootstrapper' => LazyBootstrapper::class, 'target' => null]
-            ],
-            $this->registry->getLazyBootstrapperBindings()
-        );
     }
 
     /**
@@ -72,7 +56,8 @@ class BootstrapperRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringAndGettingLazyBootstrapperWithSingleBinding()
     {
-        $this->registry->registerLazyBootstrapper([LazyFooInterface::class], LazyBootstrapper::class);
+        $expectedBinding = new LazyBootstrapper();
+        $this->registry->registerBootstrapper($expectedBinding);
         $this->assertEquals(
             [
                 LazyFooInterface::class => ['bootstrapper' => LazyBootstrapper::class, 'target' => null]
@@ -86,10 +71,14 @@ class BootstrapperRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringAndGettingLazyBootstrapperWithSingleTargetedBinding()
     {
-        $this->registry->registerLazyBootstrapper([['foo' => 'bar']], 'baz');
+        /** @var LazyBootstrapper|\PHPUnit_Framework_MockObject_MockObject $expectedBinding */
+        $expectedBinding = $this->createMock(LazyBootstrapper::class);
+        $expectedBinding->method('getBindings')
+            ->willReturn([['foo' => 'bar']]);
+        $this->registry->registerBootstrapper($expectedBinding);
         $this->assertEquals(
             [
-                'foo' => ['bootstrapper' => 'baz', 'target' => 'bar']
+                'foo' => ['bootstrapper' => get_class($expectedBinding), 'target' => 'bar']
             ],
             $this->registry->getLazyBootstrapperBindings()
         );

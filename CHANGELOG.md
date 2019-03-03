@@ -1,3 +1,10 @@
+<h2>v1.1.7 (2019-03-03)</h2>
+
+<h3>IOC</h3>
+
+* Added `IBootstrapperRegistry::registerBootstrapper()`
+* Deprecated `IBootstrapperRegistry::registerEagerBootstrapper()` and `IBootstrapperRegistry::registerLazyBootstrapper()`
+
 <h2>v1.1.6 (2019-02-16)</h2>
 
 <h3>HTTP</h3>

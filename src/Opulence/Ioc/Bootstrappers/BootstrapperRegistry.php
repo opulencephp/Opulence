@@ -41,6 +41,21 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     /**
      * @inheritdoc
      */
+    public function registerBootstrapper(Bootstrapper $bootstrapper)
+    {
+        if ($bootstrapper instanceof ILazyBootstrapper) {
+            $this->registerLazyBootstrapper(
+                $bootstrapper->getBindings(),
+                get_class($bootstrapper)
+            );
+        } else {
+            $this->registerEagerBootstrapper(get_class($bootstrapper));
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function registerEagerBootstrapper($eagerBootstrapperClasses)
     {
         $eagerBootstrapperClasses = (array)$eagerBootstrapperClasses;
@@ -71,6 +86,16 @@ class BootstrapperRegistry implements IBootstrapperRegistry
                 'bootstrapper' => $lazyBootstrapperClass,
                 'target' => $targetClass
             ];
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function registerManyBootstrappers(array $boostrappers)
+    {
+        foreach ($boostrappers as $boostrapper) {
+            $this->registerBootstrapper($boostrapper);
         }
     }
 }

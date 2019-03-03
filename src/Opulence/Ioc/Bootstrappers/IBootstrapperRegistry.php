@@ -32,9 +32,17 @@ interface IBootstrapperRegistry
     public function getLazyBootstrapperBindings() : array;
 
     /**
+     * Registers a bootstrapper
+     *
+     * @param Bootstrapper $bootstrapper The bootstrapper to register
+     */
+    public function registerBootstrapper(Bootstrapper $bootstrapper);
+
+    /**
      * Registers eager bootstrappers
      *
      * @param string|array $eagerBootstrapperClasses The eager bootstrapper classes
+     * @deprecated 1.1.7 Will be removed in next major version
      */
     public function registerEagerBootstrapper($eagerBootstrapperClasses);
 
@@ -44,6 +52,14 @@ interface IBootstrapperRegistry
      * @param array $bindings The bindings registered by the bootstrapper
      * @param string $lazyBootstrapperClass The bootstrapper class
      * @throws InvalidArgumentException Thrown if the bindings are not of the correct format
+     * @deprecated 1.1.7 Will be removed in next major version
      */
     public function registerLazyBootstrapper(array $bindings, string $lazyBootstrapperClass);
+
+    /**
+     * Registers many bootstrappers
+     *
+     * @param Bootstrapper[] $boostrappers The bootstrappers to register
+     */
+    public function registerManyBootstrappers(array $boostrappers);
 }
