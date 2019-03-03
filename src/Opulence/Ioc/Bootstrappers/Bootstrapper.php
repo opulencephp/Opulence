@@ -18,6 +18,11 @@ use RuntimeException;
  */
 abstract class Bootstrapper
 {
+    final public function __construct()
+    {
+        // Don't do anything
+    }
+
     /**
      * Registers any bindings to the IoC container
      *

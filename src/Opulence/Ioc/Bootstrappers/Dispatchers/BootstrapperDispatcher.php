@@ -12,7 +12,6 @@ namespace Opulence\Ioc\Bootstrappers\Dispatchers;
 
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\Bootstrappers\IBootstrapperRegistry;
-use Opulence\Ioc\Bootstrappers\IBootstrapperResolver;
 use Opulence\Ioc\IContainer;
 use RuntimeException;
 
@@ -25,8 +24,6 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     private $container = null;
     /** @var IBootstrapperRegistry The bootstrapper registry */
     private $bootstrapperRegistry = null;
-    /** @var IBootstrapperResolver The bootstrapper resolver */
-    private $bootstrapperResolver = null;
     /** @var array The list of bootstrapper classes that have been run */
     private $dispatchedBootstrappers = [];
     /** @var Bootstrapper[] The list of instantiated bootstrappers */
@@ -35,16 +32,13 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     /**
      * @param IContainer $container The IoC container
      * @param IBootstrapperRegistry $bootstrapperRegistry The bootstrapper registry
-     * @param IBootstrapperResolver $bootstrapperResolver The bootstrapper resolver
      */
     public function __construct(
         IContainer $container,
-        IBootstrapperRegistry $bootstrapperRegistry,
-        IBootstrapperResolver $bootstrapperResolver
+        IBootstrapperRegistry $bootstrapperRegistry
     ) {
         $this->container = $container;
         $this->bootstrapperRegistry = $bootstrapperRegistry;
-        $this->bootstrapperResolver = $bootstrapperResolver;
     }
 
     /**
@@ -62,11 +56,11 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
 
             $lazyBootstrapperClasses = array_unique($lazyBootstrapperClasses);
             $bootstrapperClasses = array_merge($eagerBootstrapperClasses, $lazyBootstrapperClasses);
-            $this->dispatchEagerly($bootstrapperClasses, false);
+            $this->dispatchEagerly($bootstrapperClasses);
         } else {
             // We must dispatch lazy bootstrappers first in case their bindings are used by eager bootstrappers
-            $this->dispatchLazily($this->bootstrapperRegistry->getLazyBootstrapperBindings(), false);
-            $this->dispatchEagerly($this->bootstrapperRegistry->getEagerBootstrappers(), false);
+            $this->dispatchLazily($this->bootstrapperRegistry->getLazyBootstrapperBindings());
+            $this->dispatchEagerly($this->bootstrapperRegistry->getEagerBootstrappers());
         }
     }
 
@@ -80,7 +74,7 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     {
         foreach ($bootstrapperClasses as $bootstrapperClass) {
             /** @var Bootstrapper $bootstrapper */
-            $bootstrapper = $this->bootstrapperResolver->resolve($bootstrapperClass);
+            $bootstrapper = new $bootstrapperClass();
             $this->bootstrapperObjects[] = $bootstrapper;
             $bootstrapper->registerBindings($this->container);
         }
@@ -109,7 +103,8 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
                     });
                 }
 
-                $bootstrapper = $this->bootstrapperResolver->resolve($bootstrapperClass);
+                /** @var Bootstrapper $bootstrapper */
+                $bootstrapper = new $bootstrapperClass();
 
                 if (!in_array($bootstrapper, $this->bootstrapperObjects)) {
                     $this->bootstrapperObjects[] = $bootstrapper;
@@ -122,11 +117,11 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
 
                 if ($target === null) {
                     return $this->container->resolve($boundClass);
-                } else {
-                    return $this->container->for($target, function (IContainer $container) use ($boundClass) {
-                        return $container->resolve($boundClass);
-                    });
                 }
+
+                return $this->container->for($target, function (IContainer $container) use ($boundClass) {
+                    return $container->resolve($boundClass);
+                });
             };
 
             if ($target === null) {

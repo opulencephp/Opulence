@@ -12,7 +12,6 @@ namespace Opulence\Ioc\Bootstrappers\Factories;
 
 use Opulence\Ioc\Bootstrappers\Caching\ICache;
 use Opulence\Ioc\Bootstrappers\IBootstrapperRegistry;
-use Opulence\Ioc\Bootstrappers\IBootstrapperResolver;
 
 /**
  * Defines the cached bootstrapper registry factory
@@ -26,10 +25,8 @@ class CachedBootstrapperRegistryFactory extends BootstrapperRegistryFactory
      * @inheritdoc
      * @param ICache $bootstrapperRegistryCache The bootstrapper registry cache
      */
-    public function __construct(IBootstrapperResolver $bootstrapperResolver, ICache $bootstrapperRegistryCache)
+    public function __construct(ICache $bootstrapperRegistryCache)
     {
-        parent::__construct($bootstrapperResolver);
-
         $this->bootstrapperRegistryCache = $bootstrapperRegistryCache;
     }
 

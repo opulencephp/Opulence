@@ -10,8 +10,6 @@
 
 namespace Opulence\Ioc\Bootstrappers;
 
-use InvalidArgumentException;
-
 /**
  * Defines the interface for bootstrapper registries to implement
  */
@@ -32,18 +30,16 @@ interface IBootstrapperRegistry
     public function getLazyBootstrapperBindings() : array;
 
     /**
-     * Registers eager bootstrappers
+     * Registers a bootstrapper
      *
-     * @param string|array $eagerBootstrapperClasses The eager bootstrapper classes
+     * @param Bootstrapper $bootstrapper The bootstrapper to register
      */
-    public function registerEagerBootstrapper($eagerBootstrapperClasses) : void;
+    public function registerBootstrapper(Bootstrapper $bootstrapper): void;
 
     /**
-     * Registers bound classes and their bootstrappers
+     * Registers many bootstrappers
      *
-     * @param array $bindings The bindings registered by the bootstrapper
-     * @param string $lazyBootstrapperClass The bootstrapper class
-     * @throws InvalidArgumentException Thrown if the bindings are not of the correct format
+     * @param Bootstrapper[] $bootstrappers The bootstrappers to register
      */
-    public function registerLazyBootstrapper(array $bindings, string $lazyBootstrapperClass) : void;
+    public function registerManyBootstrappers(array $bootstrappers): void;
 }

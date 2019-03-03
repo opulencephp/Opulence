@@ -41,16 +41,47 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     /**
      * @inheritdoc
      */
-    public function registerEagerBootstrapper($eagerBootstrapperClasses) : void
+    public function registerBootstrapper(Bootstrapper $bootstrapper): void
+    {
+        if ($bootstrapper instanceof LazyBootstrapper) {
+            $this->registerLazyBootstrapper(
+                $bootstrapper->getBindings(),
+                get_class($bootstrapper)
+            );
+        } else {
+            $this->registerEagerBootstrapper(get_class($bootstrapper));
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function registerManyBootstrappers(array $bootstrappers): void
+    {
+        foreach ($bootstrappers as $bootstrapper) {
+            $this->registerBootstrapper($bootstrapper);
+        }
+    }
+
+    /**
+     * Registers eager bootstrappers
+     *
+     * @param string|array $eagerBootstrapperClasses The eager bootstrapper classes
+     */
+    private function registerEagerBootstrapper($eagerBootstrapperClasses): void
     {
         $eagerBootstrapperClasses = (array)$eagerBootstrapperClasses;
         $this->eagerBootstrapperClasses = array_merge($this->eagerBootstrapperClasses, $eagerBootstrapperClasses);
     }
 
     /**
-     * @inheritdoc
+     * Registers bound classes and their bootstrappers
+     *
+     * @param array $bindings The bindings registered by the bootstrapper
+     * @param string $lazyBootstrapperClass The bootstrapper class
+     * @throws InvalidArgumentException Thrown if the bindings are not of the correct format
      */
-    public function registerLazyBootstrapper(array $bindings, string $lazyBootstrapperClass) : void
+    private function registerLazyBootstrapper(array $bindings, string $lazyBootstrapperClass): void
     {
         foreach ($bindings as $boundClass) {
             $targetClass = null;

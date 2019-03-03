@@ -1,3 +1,10 @@
+<h2>v1.1.7 (2019-03-03)</h2>
+
+<h3>IOC</h3>
+
+* Added `IBootstrapperRegistry::registerBootstrapper()`
+* Deprecated `IBootstrapperRegistry::registerEagerBootstrapper()` and `IBootstrapperRegistry::registerLazyBootstrapper()`
+
 <h2>v1.1.6 (2019-02-16)</h2>
 
 <h3>HTTP</h3>
@@ -36,8 +43,9 @@
 
 <h3>IoC</h3>
 
-* Made `Opulence\Ioc\Bootstrappers\Bootstrapper` abstract
+* Made `Opulence\Ioc\Bootstrappers\Bootstrapper` abstract, added final constructor
 * Removed `ILazyBootstrapper` and made a new, abstract `LazyBootstrapper` to be used instead
+* Removed `IBootstrapperResolver` and `BootstrapperResolver`
 
 <h2>v1.1.3 (2017-12-22)</h2>
 

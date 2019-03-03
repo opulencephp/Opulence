@@ -64,18 +64,11 @@ class FileCache implements ICache
         $registry = new BootstrapperRegistry();
 
         foreach ($decodedContents['eager'] as $eagerBootstrapperClass) {
-            $registry->registerEagerBootstrapper($eagerBootstrapperClass);
+            $registry->registerBootstrapper(new $eagerBootstrapperClass());
         }
 
         foreach ($decodedContents['lazy'] as $boundClass => $bindingData) {
-            if ($bindingData['target'] === null) {
-                $registry->registerLazyBootstrapper([$boundClass], $bindingData['bootstrapper']);
-            } else {
-                $registry->registerLazyBootstrapper(
-                    [[$boundClass => $bindingData['target']]],
-                    $bindingData['bootstrapper']
-                );
-            }
+            $registry->registerBootstrapper(new $bindingData['bootstrapper']());
         }
 
         return $registry;

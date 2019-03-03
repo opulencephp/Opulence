@@ -12,7 +12,6 @@ namespace Opulence\Framework\Tests\Http\Testing\PhpUnit\Mocks;
 
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
-use Opulence\Environments\Environment;
 use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
 use Opulence\Framework\Http\Bootstrappers\RequestBootstrapper;
@@ -22,7 +21,6 @@ use Opulence\Framework\Http\Testing\PhpUnit\IntegrationTestCase as BaseIntegrati
 use Opulence\Framework\Routing\Bootstrappers\RouterBootstrapper;
 use Opulence\Http\Responses\Response;
 use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
-use Opulence\Ioc\Bootstrappers\BootstrapperResolver;
 use Opulence\Ioc\Bootstrappers\Dispatchers\BootstrapperDispatcher;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
@@ -78,20 +76,20 @@ class IntegrationTestCase extends BaseIntegrationTestCase
             'src' => realpath(__DIR__ . '/../../../../../../src')
         ]);
         // Create and bind all of the components of our application
-        // Purposely set this to a weird value so we can test that it gets overwritten with the "test" environment
-        $this->environment = new Environment('foo');
         $this->container = new Container();
-        $this->container->bindInstance(Environment::class, $this->environment);
         $this->container->bindInstance(IContainer::class, $this->container);
 
         // Setup the bootstrappers
         $bootstrapperRegistry = new BootstrapperRegistry();
         $bootstrapperDispatcher = new BootstrapperDispatcher(
             $this->container,
-            $bootstrapperRegistry,
-            new BootstrapperResolver()
+            $bootstrapperRegistry
         );
-        $bootstrapperRegistry->registerEagerBootstrapper(self::$bootstrappers);
+
+        foreach (self::$bootstrappers as $bootstrapperClass) {
+            $bootstrapperRegistry->registerBootstrapper(new $bootstrapperClass());
+        }
+
         $bootstrapperDispatcher->dispatch(false);
 
         parent::setUp();

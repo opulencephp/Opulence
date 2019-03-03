@@ -12,14 +12,12 @@ namespace Opulence\Framework\Tests\Console\Testing\PhpUnit\Mocks;
 
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Databases\Migrations\IMigrator;
-use Opulence\Environments\Environment;
 use Opulence\Framework\Composer\Bootstrappers\ComposerBootstrapper;
 use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Console\Bootstrappers\CommandsBootstrapper;
 use Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions;
 use Opulence\Framework\Console\Testing\PhpUnit\IntegrationTestCase as BaseIntegrationTestCase;
 use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
-use Opulence\Ioc\Bootstrappers\BootstrapperResolver;
 use Opulence\Ioc\Bootstrappers\Caching\ICache as BootstrapperCache;
 use Opulence\Ioc\Bootstrappers\Dispatchers\BootstrapperDispatcher;
 use Opulence\Ioc\Container;
@@ -67,9 +65,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
             'src' => realpath(__DIR__ . '/../../../../../../src')
         ]);
         // Purposely set this to a weird value so we can test that it gets overwritten with the "test" environment
-        $this->environment = new Environment('foo');
         $this->container = new Container();
-        $this->container->bindInstance(Environment::class, $this->environment);
         $this->container->bindInstance(BootstrapperCache::class, $this->createMock(BootstrapperCache::class));
         $this->container->bindInstance(RouteCache::class, $this->createMock(RouteCache::class));
         $this->container->bindInstance(ViewCache::class, $this->createMock(ViewCache::class));
@@ -80,10 +76,13 @@ class IntegrationTestCase extends BaseIntegrationTestCase
         $bootstrapperRegistry = new BootstrapperRegistry();
         $bootstrapperDispatcher = new BootstrapperDispatcher(
             $this->container,
-            $bootstrapperRegistry,
-            new BootstrapperResolver()
+            $bootstrapperRegistry
         );
-        $bootstrapperRegistry->registerEagerBootstrapper(self::$bootstrappers);
+
+        foreach (self::$bootstrappers as $bootstrapperClass) {
+            $bootstrapperRegistry->registerBootstrapper(new $bootstrapperClass());
+        }
+
         $bootstrapperDispatcher->dispatch(false);
 
         parent::setUp();
