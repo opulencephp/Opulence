@@ -42,8 +42,8 @@ class ContainerDependencyResolverTest extends \PHPUnit\Framework\TestCase
         $this->container->expects($this->once())
             ->method('resolve')
             ->with('foo')
-            ->willReturn([]);
-        $this->assertEquals([], $this->dependencyResolver->resolve('foo'));
+            ->willReturn($this);
+        $this->assertEquals($this, $this->dependencyResolver->resolve('foo'));
     }
 
     /**

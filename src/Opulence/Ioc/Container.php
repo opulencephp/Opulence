@@ -188,6 +188,20 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
+    public function tryResolve(string $interface, &$instance): bool
+    {
+        try {
+            $instance = $this->resolve($interface);
+
+            return true;
+        } catch (IocException $ex) {
+            return false;
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function unbind($interfaces) : void
     {
         foreach ((array)$interfaces as $interface) {

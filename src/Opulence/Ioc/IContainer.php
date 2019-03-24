@@ -103,6 +103,15 @@ interface IContainer
     public function resolve(string $interface);
 
     /**
+     * Tries to resolve an instance of the interface
+     *
+     * @param string $interface The interface to resolve
+     * @param object|null $instance The resolved instance if successful
+     * @return bool True if the binding was successful, otherwise false
+     */
+    public function tryResolve(string $interface, &$instance): bool;
+
+    /**
      * Unbinds the interface from the container
      *
      * @param string|array $interfaces The interface or interfaces to unbind from

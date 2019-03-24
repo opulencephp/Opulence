@@ -43,6 +43,7 @@
 
 <h3>IoC</h3>
 
+* Added `IContainer::tryResolve()` to simplify trying to resolve something without needing `try`/`catch` blocks
 * Made `Opulence\Ioc\Bootstrappers\Bootstrapper` abstract, added final constructor
 * Removed `ILazyBootstrapper` and made a new, abstract `LazyBootstrapper` to be used instead
 * Removed `IBootstrapperResolver` and `BootstrapperResolver`

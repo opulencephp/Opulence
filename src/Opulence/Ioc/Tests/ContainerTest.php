@@ -817,6 +817,22 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         }));
     }
 
+    public function testTryResolvingReturnsFalseOnFailure(): void
+    {
+        $instance = null;
+        $this->assertFalse($this->container->tryResolve(IFoo::class, $instance));
+        $this->assertNull($instance);
+    }
+
+    public function testTryResolvingReturnsTrueAndSetsInstanceOnSuccess(): void
+    {
+        $expectedInstance = new Bar();
+        $this->container->bindInstance(IFoo::class, $expectedInstance);
+        $instance = null;
+        $this->assertTrue($this->container->tryResolve(IFoo::class, $instance));
+        $this->assertSame($expectedInstance, $instance);
+    }
+
     /**
      * Tests unbinding a factory
      */
