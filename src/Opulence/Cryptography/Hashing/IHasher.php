@@ -18,16 +18,6 @@ use RuntimeException;
 interface IHasher
 {
     /**
-     * Verifies that an unhashed value matches the hashed value
-     *
-     * @param string $hashedValue The hashed value to verify against
-     * @param string $unhashedValue The unhashed value to verify
-     * @param string $pepper The optional pepper to append prior to verifying the value
-     * @return bool True if the unhashed value matches the hashed value
-     */
-    public static function verify(string $hashedValue, string $unhashedValue, string $pepper = '') : bool;
-
-    /**
      * Gets the hash of a value, which is suitable for storage
      *
      * @param string $unhashedValue The unhashed value to hash
@@ -46,4 +36,14 @@ interface IHasher
      * @return bool True if the hash needs to be rehashed, otherwise false
      */
     public function needsRehash(string $hashedValue, array $options = []) : bool;
+
+    /**
+     * Verifies that an unhashed value matches the hashed value
+     *
+     * @param string $hashedValue The hashed value to verify against
+     * @param string $unhashedValue The unhashed value to verify
+     * @param string $pepper The optional pepper to append prior to verifying the value
+     * @return bool True if the unhashed value matches the hashed value
+     */
+    public function verify(string $hashedValue, string $unhashedValue, string $pepper = '') : bool;
 }

@@ -41,6 +41,10 @@
 * Added `void` return type to all void methods
 * Added nullable  type to all nullable method return types and parameters
 
+<h3>Cryptography</h3>
+
+* Made `IHasher::verify()` and instance method (helps with unit testing)
+
 <h3>IoC</h3>
 
 * Added `IContainer::tryResolve()` to simplify trying to resolve something without needing `try`/`catch` blocks
