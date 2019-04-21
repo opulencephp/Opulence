@@ -10,15 +10,17 @@
 
 namespace Opulence\Ioc\Bootstrappers\Dispatchers;
 
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
+
 /**
  * Defines the bootstrapper dispatcher
  */
 interface IBootstrapperDispatcher
 {
     /**
-     * Dispatches the bootstrappers
+     * Dispatchers a list of bootstrappers
      *
-     * @param bool $forceEagerLoading Whether or not to force eager loading
+     * @param Bootstrapper[] $bootstrappers The bootstrappers to dispatch
      */
-    public function dispatch(bool $forceEagerLoading) : void;
+    public function dispatch(array $bootstrappers): void;
 }

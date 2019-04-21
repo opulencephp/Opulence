@@ -10,8 +10,9 @@
 
 namespace Opulence\Ioc\Bootstrappers\Dispatchers;
 
+use InvalidArgumentException;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\Bootstrappers\IBootstrapperRegistry;
+use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 use Opulence\Ioc\IContainer;
 use RuntimeException;
 
@@ -21,9 +22,7 @@ use RuntimeException;
 class BootstrapperDispatcher implements IBootstrapperDispatcher
 {
     /** @var IContainer The IoC container */
-    private $container = null;
-    /** @var IBootstrapperRegistry The bootstrapper registry */
-    private $bootstrapperRegistry = null;
+    private $container;
     /** @var array The list of bootstrapper classes that have been run */
     private $dispatchedBootstrappers = [];
     /** @var Bootstrapper[] The list of instantiated bootstrappers */
@@ -31,82 +30,75 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
 
     /**
      * @param IContainer $container The IoC container
-     * @param IBootstrapperRegistry $bootstrapperRegistry The bootstrapper registry
      */
-    public function __construct(
-        IContainer $container,
-        IBootstrapperRegistry $bootstrapperRegistry
-    ) {
+    public function __construct(IContainer $container)
+    {
         $this->container = $container;
-        $this->bootstrapperRegistry = $bootstrapperRegistry;
     }
 
     /**
      * @inheritdoc
      */
-    public function dispatch(bool $forceEagerLoading) : void
+    public function dispatch(array $bootstrappers) : void
     {
-        if ($forceEagerLoading) {
-            $eagerBootstrapperClasses = $this->bootstrapperRegistry->getEagerBootstrappers();
-            $lazyBootstrapperClasses = [];
+        foreach ($bootstrappers as $bootstrapper) {
+            if ($bootstrapper instanceof LazyBootstrapper) {
+                $this->dispatchLazyBootstrapper($bootstrapper);
+            } else {
+                $this->dispatchEagerBootstrapper($bootstrapper);
+            }
+        }
+    }
 
-            foreach (array_values($this->bootstrapperRegistry->getLazyBootstrapperBindings()) as $bindingData) {
-                $lazyBootstrapperClasses[] = $bindingData['bootstrapper'];
+    /**
+     * Dispatches an eager bootstrapper
+     *
+     * @param Bootstrapper $bootstrapper The bootstrapper to dispatch
+     * @throws RuntimeException Thrown if there was a problem dispatching the bootstrappers
+     */
+    private function dispatchEagerBootstrapper(Bootstrapper $bootstrapper) : void
+    {
+        $this->bootstrapperObjects[] = $bootstrapper;
+        $bootstrapper->registerBindings($this->container);
+    }
+
+    /**
+     * Dispatches a bootstrapper lazily
+     *
+     * @param LazyBootstrapper $bootstrapper The bootstrapper to dispatch
+     * @throws RuntimeException Thrown if there was a problem dispatching the bootstrappers
+     */
+    private function dispatchLazyBootstrapper(LazyBootstrapper $bootstrapper) : void
+    {
+        foreach ($bootstrapper->getBindings() as $binding) {
+            // If it's a targeted binding
+            if (is_array($binding)) {
+                if (count($binding) !== 1) {
+                    throw new InvalidArgumentException(
+                        'Targeted bindings must be in format "BoundClass => TargetClass"'
+                    );
+                }
+
+                $targetClass = array_values($binding)[0];
+                $boundClass = array_keys($binding)[0];
+            } else {
+                $boundClass = $binding;
+                $targetClass = null;
             }
 
-            $lazyBootstrapperClasses = array_unique($lazyBootstrapperClasses);
-            $bootstrapperClasses = array_merge($eagerBootstrapperClasses, $lazyBootstrapperClasses);
-            $this->dispatchEagerly($bootstrapperClasses);
-        } else {
-            // We must dispatch lazy bootstrappers first in case their bindings are used by eager bootstrappers
-            $this->dispatchLazily($this->bootstrapperRegistry->getLazyBootstrapperBindings());
-            $this->dispatchEagerly($this->bootstrapperRegistry->getEagerBootstrappers());
-        }
-    }
-
-    /**
-     * Dispatches the registry eagerly
-     *
-     * @param array $bootstrapperClasses The list of bootstrapper classes to dispatch
-     * @throws RuntimeException Thrown if there was a problem dispatching the bootstrappers
-     */
-    private function dispatchEagerly(array $bootstrapperClasses) : void
-    {
-        foreach ($bootstrapperClasses as $bootstrapperClass) {
-            /** @var Bootstrapper $bootstrapper */
-            $bootstrapper = new $bootstrapperClass();
-            $this->bootstrapperObjects[] = $bootstrapper;
-            $bootstrapper->registerBindings($this->container);
-        }
-    }
-
-    /**
-     * Dispatches the registry lazily
-     *
-     * @param array $boundClassesToBindingData The mapping of bound classes to their targets and bootstrappers
-     * @throws RuntimeException Thrown if there was a problem dispatching the bootstrappers
-     */
-    private function dispatchLazily(array $boundClassesToBindingData) : void
-    {
-        foreach ($boundClassesToBindingData as $boundClass => $bindingData) {
-            $bootstrapperClass = $bindingData['bootstrapper'];
-            $target = $bindingData['target'];
-
-            $factory = function () use ($boundClass, $bootstrapperClass, $target) {
+            $factory = function () use ($boundClass, $bootstrapper, $targetClass) {
+                $bootstrapperClass = \get_class($bootstrapper);
                 // To make sure this factory isn't used anymore to resolve the bound class, unbind it
                 // Otherwise, we'd get into an infinite loop every time we tried to resolve it
-                if ($target === null) {
+                if ($targetClass === null) {
                     $this->container->unbind($boundClass);
                 } else {
-                    $this->container->for($target, function (IContainer $container) use ($boundClass) {
+                    $this->container->for($targetClass, function (IContainer $container) use ($boundClass) {
                         $container->unbind($boundClass);
                     });
                 }
 
-                /** @var Bootstrapper $bootstrapper */
-                $bootstrapper = new $bootstrapperClass();
-
-                if (!in_array($bootstrapper, $this->bootstrapperObjects)) {
+                if (!in_array($bootstrapper, $this->bootstrapperObjects, true)) {
                     $this->bootstrapperObjects[] = $bootstrapper;
                 }
 
@@ -115,19 +107,19 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
                     $this->dispatchedBootstrappers[$bootstrapperClass] = true;
                 }
 
-                if ($target === null) {
+                if ($targetClass === null) {
                     return $this->container->resolve($boundClass);
                 }
 
-                return $this->container->for($target, function (IContainer $container) use ($boundClass) {
+                return $this->container->for($targetClass, function (IContainer $container) use ($boundClass) {
                     return $container->resolve($boundClass);
                 });
             };
 
-            if ($target === null) {
+            if ($targetClass === null) {
                 $this->container->bindFactory($boundClass, $factory);
             } else {
-                $this->container->for($target, function (IContainer $container) use ($boundClass, $factory) {
+                $this->container->for($targetClass, function (IContainer $container) use ($boundClass, $factory) {
                     $container->bindFactory($boundClass, $factory);
                 });
             }
