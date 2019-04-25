@@ -16,9 +16,9 @@ namespace Opulence\Ioc;
 class FactoryBinding implements IBinding
 {
     /** @var callable The factory */
-    private $factory = null;
+    private $factory;
     /** @var bool Whether or not the factory should be resolved as a singleton */
-    private $resolveAsSingleton = false;
+    private $resolveAsSingleton;
 
     /**
      * @param callable $factory The factory

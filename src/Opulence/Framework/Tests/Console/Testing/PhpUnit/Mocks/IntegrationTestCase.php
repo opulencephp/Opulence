@@ -17,7 +17,6 @@ use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Console\Bootstrappers\CommandsBootstrapper;
 use Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions;
 use Opulence\Framework\Console\Testing\PhpUnit\IntegrationTestCase as BaseIntegrationTestCase;
-use Opulence\Ioc\Bootstrappers\Caching\ICache as BootstrapperCache;
 use Opulence\Ioc\Bootstrappers\Dispatchers\BootstrapperDispatcher;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
@@ -65,7 +64,6 @@ class IntegrationTestCase extends BaseIntegrationTestCase
         ]);
         // Purposely set this to a weird value so we can test that it gets overwritten with the "test" environment
         $this->container = new Container();
-        $this->container->bindInstance(BootstrapperCache::class, $this->createMock(BootstrapperCache::class));
         $this->container->bindInstance(RouteCache::class, $this->createMock(RouteCache::class));
         $this->container->bindInstance(ViewCache::class, $this->createMock(ViewCache::class));
         $this->container->bindInstance(IMigrator::class, $this->createMock(IMigrator::class));

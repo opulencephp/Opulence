@@ -33,14 +33,19 @@ final class LazyBindingResolverRegistry
     }
 
     /**
+     * Registers resolvers for bindings found during inspection
+     *
      * @param InspectionBinding[] $inspectionBindings The bindings whose resolvers we're going to register
      */
     public function registerBindingResolvers(array $inspectionBindings): void
     {
         foreach ($inspectionBindings as $inspectionBinding) {
-            $resolvingFactory = function() use ($inspectionBinding) {
-                // To make sure this factory isn't used anymore to resolve the bound class, unbind it
-                // Otherwise, we'd get into an infinite loop every time we tried to resolve it
+            $resolvingFactory = function () use ($inspectionBinding) {
+                /**
+                 * To make sure this factory isn't used anymore to resolve the bound class, unbind it and rely on the
+                 * binding defined in the bootstrapper.  Otherwise, we'd get into an infinite loop every time we tried
+                 * to resolve it.
+                 */
                 if ($inspectionBinding instanceof TargetedInspectionBinding) {
                     $this->container->for($inspectionBinding->getInterface(), function (IContainer $container) use ($inspectionBinding) {
                         $container->unbind($inspectionBinding->getInterface());
@@ -71,7 +76,7 @@ final class LazyBindingResolverRegistry
                 $this->container->for($inspectionBinding->getTargetClass(), function (IContainer $container) use ($inspectionBinding, $resolvingFactory) {
                     $container->bindFactory($inspectionBinding->getInterface(), $resolvingFactory);
                 });
-	} else {
+	        } else {
                 $this->container->bindFactory($inspectionBinding->getInterface(), $resolvingFactory);
             }
         }

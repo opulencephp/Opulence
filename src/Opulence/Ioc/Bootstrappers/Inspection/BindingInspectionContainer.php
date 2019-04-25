@@ -24,7 +24,7 @@ final class BindingInspectionContainer implements IContainer
     /** @var InspectionBinding[] The inspection bindings that were found */
     private $bindings = [];
     /** @var string|null The current target class */
-    private $currTargetClass = null;
+    private $currTargetClass;
     /** @var Bootstrapper The current bootstrapper class */
     private $currBootstrapper;
 
@@ -34,7 +34,7 @@ final class BindingInspectionContainer implements IContainer
     public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false): void
     {
         foreach ((array)$interfaces as $interface) {
-            $this->bindings[] = $this->createInspectionBinding($interfaces);
+            $this->bindings[] = $this->createInspectionBinding($interface);
         }
     }
 
@@ -44,7 +44,7 @@ final class BindingInspectionContainer implements IContainer
     public function bindInstance($interfaces, $instance): void
     {
         foreach ((array)$interfaces as $interface) {
-            $this->bindings[] = $this->createInspectionBinding($interfaces);
+            $this->bindings[] = $this->createInspectionBinding($interface);
         }
     }
 
@@ -54,7 +54,7 @@ final class BindingInspectionContainer implements IContainer
     public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = []): void
     {
         foreach ((array)$interfaces as $interface) {
-            $this->bindings[] = $this->createInspectionBinding($interfaces);
+            $this->bindings[] = $this->createInspectionBinding($interface);
         }
     }
 
@@ -64,13 +64,13 @@ final class BindingInspectionContainer implements IContainer
     public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = []): void
     {
         foreach ((array)$interfaces as $interface) {
-            $this->bindings[] = $this->createInspectionBinding($interfaces);
+            $this->bindings[] = $this->createInspectionBinding($interface);
         }
     }
 
     public function callClosure(callable $closure, array $primitives = [])
     {
-        return;
+        return null;
     }
 
     /**
@@ -78,7 +78,7 @@ final class BindingInspectionContainer implements IContainer
      */
     public function callMethod($instance, string $methodName, array $primitives = [], bool $ignoreMissingMethod = false)
     {
-        return;
+        return null;
     }
 
     /**
@@ -135,7 +135,7 @@ final class BindingInspectionContainer implements IContainer
      */
     public function unbind($interfaces): void
     {
-        return;
+        // Don't do anything
     }
 
     /**
@@ -146,7 +146,7 @@ final class BindingInspectionContainer implements IContainer
      */
     private function createInspectionBinding(string $interface): InspectionBinding
     {
-        $this->currTargetClass === null
+        return $this->currTargetClass === null
             ? new UniversalInspectionBinding($interface, $this->currBootstrapper)
             : new TargetedInspectionBinding($this->currTargetClass, $interface, $this->currBootstrapper);
     }

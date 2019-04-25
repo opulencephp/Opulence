@@ -22,9 +22,9 @@ use ReflectionParameter;
 class Container implements IContainer
 {
     /** The value for an empty target */
-    private static $emptyTarget = null;
+    private static $emptyTarget;
     /** @var null|string The current target */
-    protected $currentTarget = null;
+    protected $currentTarget;
     /** @var array The stack of targets */
     protected $targetStack = [];
     /** @var IBinding[][] The list of bindings */

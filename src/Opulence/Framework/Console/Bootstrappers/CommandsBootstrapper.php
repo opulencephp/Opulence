@@ -34,7 +34,6 @@ use Opulence\Framework\Routing\Console\Commands\MakeControllerCommand;
 use Opulence\Framework\Routing\Console\Commands\MakeHttpMiddlewareCommand;
 use Opulence\Framework\Views\Console\Commands\FlushViewCacheCommand;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\Bootstrappers\Caching\FileCache;
 use Opulence\Ioc\IContainer;
 use Opulence\Ioc\IocException;
 use Opulence\Routing\Routes\Caching\ICache as RouteCache;
@@ -106,9 +105,8 @@ class CommandsBootstrapper extends Bootstrapper
 
         // The flush-cache command requires some special configuration
         try {
+            // Todo: Need this to work with new way of caching bootstrappers in 2.0
             $flushCacheCommand = new FlushFrameworkCacheCommand(
-                new FileCache(Config::get('paths', 'tmp.framework.http') . '/cachedBootstrapperRegistry.json'),
-                new FileCache(Config::get('paths', 'tmp.framework.console') . '/cachedBootstrapperRegistry.json'),
                 $container->resolve(RouteCache::class),
                 $container->resolve(ViewCache::class)
             );

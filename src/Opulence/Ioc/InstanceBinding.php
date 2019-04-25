@@ -16,7 +16,7 @@ namespace Opulence\Ioc;
 class InstanceBinding implements IBinding
 {
     /** @var object The instance */
-    private $instance = null;
+    private $instance;
 
     /**
      * @param object $instance The instance

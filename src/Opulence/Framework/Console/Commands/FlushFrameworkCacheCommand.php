@@ -13,7 +13,6 @@ namespace Opulence\Framework\Console\Commands;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
 use Opulence\Framework\Configuration\Config;
-use Opulence\Ioc\Bootstrappers\Caching\ICache as BootstrapperCache;
 use Opulence\Routing\Routes\Caching\ICache as RouteCache;
 use Opulence\Views\Caching\ICache as ViewCache;
 
@@ -22,31 +21,19 @@ use Opulence\Views\Caching\ICache as ViewCache;
  */
 class FlushFrameworkCacheCommand extends Command
 {
-    /** @var BootstrapperCache The console kernel bootstrapper cache */
-    private $consoleBootstrapperCache = null;
-    /** @var BootstrapperCache The HTTP kernel bootstrapper cache */
-    private $httpBootstrapperCache = null;
     /** @var RouteCache The route cache */
     private $routeCache = null;
     /** @var ViewCache The view cache */
     private $viewCache = null;
 
     /**
-     * @param BootstrapperCache $httpBootstrapperCache The HTTP bootstrapper cache
-     * @param BootstrapperCache $consoleBootstrapperCache The console bootstrapper cache
      * @param RouteCache $routeCache The route cache
      * @param ViewCache $viewCache The view cache
      */
-    public function __construct(
-        BootstrapperCache $httpBootstrapperCache,
-        BootstrapperCache $consoleBootstrapperCache,
-        RouteCache $routeCache,
-        ViewCache $viewCache
-    ) {
+    public function __construct(RouteCache $routeCache, ViewCache $viewCache)
+    {
         parent::__construct();
 
-        $this->httpBootstrapperCache = $httpBootstrapperCache;
-        $this->consoleBootstrapperCache = $consoleBootstrapperCache;
         $this->routeCache = $routeCache;
         $this->viewCache = $viewCache;
     }
@@ -78,8 +65,7 @@ class FlushFrameworkCacheCommand extends Command
      */
     private function flushBootstrapperCache(IResponse $response) : void
     {
-        $this->httpBootstrapperCache->flush();
-        $this->consoleBootstrapperCache->flush();
+        // Todo: Need to make this work with new way of caching bootstrappers in 2.0
 
         $response->writeln('<info>Bootstrapper cache flushed</info>');
     }
