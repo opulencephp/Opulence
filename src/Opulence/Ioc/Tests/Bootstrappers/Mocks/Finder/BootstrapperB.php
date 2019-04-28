@@ -8,21 +8,23 @@
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 
-namespace Opulence\Ioc\Tests\Bootstrappers\Mocks;
+declare(strict_types=1);
+
+namespace Opulence\Ioc\Tests\Bootstrappers\Mocks\Finder;
 
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
- * Mocks an eager bootstrapper
+ * Defines a mock bootstrapper
  */
-class EagerBootstrapper extends Bootstrapper
+class BootstrapperB extends Bootstrapper
 {
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
-        $container->bindSingleton(EagerFooInterface::class, EagerConcreteFoo::class);
+        // Don't do anything
     }
 }

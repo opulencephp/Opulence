@@ -10,7 +10,7 @@
 
 namespace Opulence\Framework\Validation\Bootstrappers;
 
-use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Validation\Factories\IValidatorFactory;
 use Opulence\Validation\Factories\ValidatorFactory;
@@ -23,7 +23,7 @@ use Opulence\Validation\Rules\RuleExtensionRegistry;
 /**
  * Defines the validator bootstrapper
  */
-abstract class ValidatorBootstrapper extends LazyBootstrapper
+abstract class ValidatorBootstrapper extends Bootstrapper
 {
     /** @var RuleExtensionRegistry The rule extension registry */
     protected $ruleExtensionRegistry = null;
@@ -35,20 +35,6 @@ abstract class ValidatorBootstrapper extends LazyBootstrapper
     protected $rulesFactory = null;
     /** @var IValidatorFactory The validator factory */
     protected $validatorFactory = null;
-
-    /**
-     * @inheritdoc
-     */
-    public function getBindings() : array
-    {
-        return [
-            ErrorTemplateRegistry::class,
-            ICompiler::class,
-            RuleExtensionRegistry::class,
-            RulesFactory::class,
-            IValidatorFactory::class
-        ];
-    }
 
     /**
      * @inheritdoc

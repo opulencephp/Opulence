@@ -1,11 +1,11 @@
 <?php
 
-/**
- * Aphiria
+/*
+ * Opulence
  *
- * @link      https://www.aphiria.com
- * @copyright Copyright (C) 2019 David Young
- * @license   https://github.com/aphiria/Opulence/blob/master/LICENSE.md
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2017 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 
 declare(strict_types=1);
@@ -111,7 +111,9 @@ final class FileBootstrapperFinder
                         if ($tokens[$j][0] === T_DOUBLE_COLON) {
                             $isClassConstant = true;
                             break 2;
-                        } elseif ($tokens[$j][0] === T_WHITESPACE) {
+                        }
+
+                        if ($tokens[$j][0] === T_WHITESPACE) {
                             // Since we found whitespace, then we know this isn't a class constant
                             break;
                         }

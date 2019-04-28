@@ -21,7 +21,7 @@ use Opulence\Databases\Providers\Types\Factories\TypeMapperFactory;
 use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Databases\Migrations\ContainerMigrationResolver;
 use Opulence\Framework\Databases\Migrations\SqlExecutedMigrationRepository;
-use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\QueryBuilders\MySql\QueryBuilder as MySqlQueryBuilder;
 use Opulence\QueryBuilders\PostgreSql\QueryBuilder as PostgreSqlQueryBuilder;
@@ -31,16 +31,8 @@ use RuntimeException;
 /**
  * Defines the database migration bootstrapper
  */
-class MigrationBootstrapper extends LazyBootstrapper
+class MigrationBootstrapper extends Bootstrapper
 {
-    /**
-     * @inheritdoc
-     */
-    public function getBindings() : array
-    {
-        return [IMigrator::class];
-    }
-
     /**
      * @inheritdoc
      */

@@ -13,22 +13,14 @@ namespace Opulence\Framework\Composer\Bootstrappers;
 use Opulence\Framework\Composer\Composer;
 use Opulence\Framework\Composer\Executable;
 use Opulence\Framework\Configuration\Config;
-use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
  * Defines the Composer bootstrapper
  */
-class ComposerBootstrapper extends LazyBootstrapper
+class ComposerBootstrapper extends Bootstrapper
 {
-    /**
-     * @inheritdoc
-     */
-    public function getBindings() : array
-    {
-        return [Composer::class, Executable::class];
-    }
-
     /**
      * @inheritdoc
      */

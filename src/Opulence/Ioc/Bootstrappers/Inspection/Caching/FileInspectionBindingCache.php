@@ -1,6 +1,6 @@
 <?php
 
-/***
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
@@ -43,7 +43,7 @@ final class FileInspectionBindingCache implements IInspectionBindingCache
      */
     public function get(): ?array
     {
-        $rawContents = \file_get_contents($this->filePath);
+        $rawContents = @\file_get_contents($this->filePath);
 
         if ($rawContents === false) {
             return null;

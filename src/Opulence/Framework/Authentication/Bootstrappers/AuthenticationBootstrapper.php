@@ -17,27 +17,14 @@ use Opulence\Authentication\Credentials\Authenticators\IAuthenticator;
 use Opulence\Authentication\Credentials\Authenticators\IAuthenticatorRegistry;
 use Opulence\Authentication\IAuthenticationContext;
 use Opulence\Authentication\Users\Orm\IUserRepository;
-use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
  * Defines the authentication bootstrapper
  */
-abstract class AuthenticationBootstrapper extends LazyBootstrapper
+abstract class AuthenticationBootstrapper extends Bootstrapper
 {
-    /**
-     * @inheritdoc
-     */
-    public function getBindings() : array
-    {
-        return [
-            IAuthenticatorRegistry::class,
-            IAuthenticator::class,
-            IUserRepository::class,
-            IAuthenticationContext::class
-        ];
-    }
-
     /**
      * @inheritdoc
      */

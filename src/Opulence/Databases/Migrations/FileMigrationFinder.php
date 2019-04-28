@@ -114,7 +114,9 @@ class FileMigrationFinder
                         if ($tokens[$j][0] === T_DOUBLE_COLON) {
                             $isClassConstant = true;
                             break 2;
-                        } elseif ($tokens[$j][0] === T_WHITESPACE) {
+                        }
+
+                        if ($tokens[$j][0] === T_WHITESPACE) {
                             // Since we found whitespace, then we know this isn't a class constant
                             break;
                         }

@@ -12,7 +12,7 @@ namespace Opulence\Framework\Views\Bootstrappers;
 
 use Opulence\Environments\Environment;
 use Opulence\Framework\Configuration\Config;
-use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Compiler;
@@ -35,26 +35,12 @@ use Opulence\Views\Filters\XssFilter;
 /**
  * Defines the view bootstrapper
  */
-abstract class ViewBootstrapper extends LazyBootstrapper
+abstract class ViewBootstrapper extends Bootstrapper
 {
     /** @var ICache The view cache */
     protected $viewCache = null;
     /** @var IViewFactory The view factory */
     protected $viewFactory = null;
-
-    /**
-     * @inheritdoc
-     */
-    public function getBindings() : array
-    {
-        return [
-            ICache::class,
-            ICompiler::class,
-            ITranspiler::class,
-            IViewFactory::class,
-            IViewReader::class,
-        ];
-    }
 
     /**
      * @inheritdoc

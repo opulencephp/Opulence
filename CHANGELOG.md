@@ -49,9 +49,10 @@
 
 * Added `IContainer::tryResolve()` to simplify trying to resolve something without needing `try`/`catch` blocks
 * Made `Opulence\Ioc\Bootstrappers\Bootstrapper` abstract, added final constructor
-* Removed `ILazyBootstrapper` and made a new, abstract `LazyBootstrapper` to be used instead
+* Removed `IBootstrapperDispatcher` and `BootstrapperDispatcher`
+* Removed `ILazyBootstrapper`
+  * All bootstrappers can be lazy now with inspections
 * Removed `IBootstrapperRegistry` and `BootstrapperRegistry`
-* Changed `BootstrapperDispatcher::dispatch()` to take in an array of instantiated bootstrappers rather than having a dependency on `IBootstrapperRegistry`
 * Removed `IBootstrapperResolver` and `BootstrapperResolver`
 
 <h2>v1.1.3 (2017-12-22)</h2>

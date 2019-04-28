@@ -15,23 +15,15 @@ use Opulence\Cryptography\Encryption\IEncrypter;
 use Opulence\Cryptography\Encryption\Keys\Key;
 use Opulence\Cryptography\Hashing\BcryptHasher;
 use Opulence\Cryptography\Hashing\IHasher;
-use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use RuntimeException;
 
 /**
  * Defines the cryptography bootstrapper
  */
-class CryptographyBootstrapper extends LazyBootstrapper
+class CryptographyBootstrapper extends Bootstrapper
 {
-    /**
-     * @inheritdoc
-     */
-    public function getBindings() : array
-    {
-        return [IEncrypter::class, IHasher::class];
-    }
-
     /**
      * @inheritdoc
      */

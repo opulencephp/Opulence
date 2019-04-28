@@ -18,28 +18,14 @@ use Opulence\Authorization\Roles\IRoles;
 use Opulence\Authorization\Roles\Orm\IRoleMembershipRepository;
 use Opulence\Authorization\Roles\Orm\IRoleRepository;
 use Opulence\Authorization\Roles\Roles;
-use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
  * Defines the authorization bootstrapper
  */
-abstract class AuthorizationBootstrapper extends LazyBootstrapper
+abstract class AuthorizationBootstrapper extends Bootstrapper
 {
-    /**
-     * @inheritdoc
-     */
-    public function getBindings() : array
-    {
-        return [
-            IPermissionRegistry::class,
-            IRoleMembershipRepository::class,
-            IRoleRepository::class,
-            IRoles::class,
-            IAuthority::class
-        ];
-    }
-
     /**
      * @inheritdoc
      */
