@@ -36,6 +36,7 @@
 
 <h3>General</h3>
 
+* Requires >= PHP 7.3
 * Deleted the Application and File libraries
 * Removed all methods that were deprecated in v1.1.0
 * Added `void` return type to all void methods
@@ -54,6 +55,10 @@
   * All bootstrappers can be lazy now with inspections
 * Removed `IBootstrapperRegistry` and `BootstrapperRegistry`
 * Removed `IBootstrapperResolver` and `BootstrapperResolver`
+
+<h3>Views</h3>
+
+* Removed support for PHP short tags in Fortune templates
 
 <h2>v1.1.3 (2017-12-22)</h2>
 

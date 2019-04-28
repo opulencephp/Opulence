@@ -29,7 +29,7 @@
     ]
   },
   "require": {
-    "php": "^7.1",
+    "php": "^7.3",
     "ext-openssl": "*",
     "ext-mbstring": "*",
     "jeremeamia/superclosure": "~2.2",
