@@ -20,6 +20,7 @@ use Opulence\Http\Responses\Response;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Factories\IViewFactory;
 use Opulence\Views\IView;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the HTTP exception renderer
@@ -28,15 +29,15 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MockRenderer The renderer to use in tests */
     private $renderer = null;
-    /** @var IViewFactory|\PHPUnit_Framework_MockObject_MockObject The view factory to use in tests */
+    /** @var IViewFactory|MockObject The view factory to use in tests */
     private $viewFactory = null;
-    /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject The view compiler to use in tests */
+    /** @var ICompiler|MockObject The view compiler to use in tests */
     private $viewCompiler = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->viewFactory = $this->createMock(IViewFactory::class);
         $this->viewCompiler = $this->createMock(ICompiler::class);
@@ -49,7 +50,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         ob_end_clean();
     }
@@ -144,7 +145,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
         $this->viewCompiler->expects($this->once())
             ->method('compile')
             ->willReturn(json_encode(['foo' => 'bar']));
-        /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
+        /** @var Request|MockObject $request */
         $request = $this->getMockBuilder(Request::class)
             ->disableOriginalConstructor()
             ->getMock();

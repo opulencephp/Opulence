@@ -55,7 +55,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * Sets up the application and container
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         Config::setCategory('paths', [
             'configs' => realpath(__DIR__ . '/../../configs'),

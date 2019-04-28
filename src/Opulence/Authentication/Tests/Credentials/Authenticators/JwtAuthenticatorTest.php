@@ -23,6 +23,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContex
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
 use Opulence\Authentication\Tokens\Signatures\HmacSigner;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the JWT authenticator
@@ -31,15 +32,15 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var JwtAuthenticator The authenticator to use in tests */
     private $authenticator = null;
-    /** @var JwtVerifier|\PHPUnit_Framework_MockObject_MockObject The JWT verifier to use in tests */
+    /** @var JwtVerifier|MockObject The JWT verifier to use in tests */
     private $jwtVerifier = null;
-    /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject The credential to use in tests */
+    /** @var ICredential|MockObject The credential to use in tests */
     private $credential = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         /** @var ISigner $signer */
         $signer = $this->createMock(ISigner::class);
@@ -68,7 +69,7 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnsetTokenCredentialReturnsFalse() : void
     {
-        /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
+        /** @var ICredential|MockObject $credential */
         $credential = $this->createMock(ICredential::class);
         $credential->expects($this->any())
             ->method('getValue')

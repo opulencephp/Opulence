@@ -17,6 +17,7 @@ use Opulence\Routing\Routes\Compilers\Matchers\HostMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\PathMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\SchemeMatcher;
 use Opulence\Routing\Routes\ParsedRoute;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the route compiler
@@ -29,7 +30,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $routeMatchers = [
             new PathMatcher(),
@@ -159,7 +160,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      * @param bool $isSecure Whether or not the route is secure
      * @param string $hostRegex The host regex
      * @param string $pathRegex The path regex
-     * @return ParsedRoute|\PHPUnit_Framework_MockObject_MockObject The parsed route
+     * @return ParsedRoute|MockObject The parsed route
      */
     private function getParsedRoute($method, $controller, $isSecure, $hostRegex, $pathRegex)
     {

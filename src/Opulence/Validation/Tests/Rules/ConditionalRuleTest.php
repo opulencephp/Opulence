@@ -14,6 +14,7 @@ use InvalidArgumentException;
 use LogicException;
 use Opulence\Validation\Rules\ConditionalRule;
 use Opulence\Validation\Rules\IRule;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the conditional rule
@@ -30,7 +31,7 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
         };
         $rule = new ConditionalRule();
         $rule->setArgs([$callback]);
-        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $extraRule */
+        /** @var IRule|MockObject $extraRule */
         $extraRule = $this->createMock(IRule::class);
         $extraRule->expects($this->once())
             ->method('passes')
@@ -53,9 +54,9 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingSubRules() : void
     {
-        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $subRule1 */
+        /** @var IRule|MockObject $subRule1 */
         $subRule1 = $this->createMock(IRule::class);
-        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $subRule2 */
+        /** @var IRule|MockObject $subRule2 */
         $subRule2 = $this->createMock(IRule::class);
         $rule = new ConditionalRule();
         $rule->addRule($subRule1);
@@ -122,7 +123,7 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
         };
         $rule = new ConditionalRule();
         $rule->setArgs([$callback]);
-        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $extraRule */
+        /** @var IRule|MockObject $extraRule */
         $extraRule = $this->createMock(IRule::class);
         $extraRule->expects($this->any())
             ->method('passes')

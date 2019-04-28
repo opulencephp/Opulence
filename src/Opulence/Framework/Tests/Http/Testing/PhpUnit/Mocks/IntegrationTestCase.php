@@ -24,6 +24,7 @@ use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
 use Opulence\Routing\Router;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Mocks the HTTP integration test for use in testing
@@ -67,7 +68,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * Sets up the application and container
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         Config::setCategory('paths', [
             'configs' => realpath(__DIR__ . '/../../configs'),
@@ -103,9 +104,9 @@ class IntegrationTestCase extends BaseIntegrationTestCase
      */
     protected function getExceptionRenderer() : IExceptionRenderer
     {
-        /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $renderer */
+        /** @var IExceptionRenderer|MockObject $renderer */
         $renderer = $this->createMock(IExceptionRenderer::class);
-        /** @var Response|\PHPUnit_Framework_MockObject_MockObject $response */
+        /** @var Response|MockObject $response */
         $response = $this->createMock(Response::class);
         // Mock a 404 status code because this will primarily be used for missing routes in our tests
         $response->expects($this->any())

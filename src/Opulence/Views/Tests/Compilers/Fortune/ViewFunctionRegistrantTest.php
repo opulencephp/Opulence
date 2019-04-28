@@ -15,6 +15,7 @@ use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\Compilers\Fortune\Transpiler;
 use Opulence\Views\Filters\XssFilter;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the Fortune view function registrant
@@ -27,10 +28,10 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $xssFilter = new XssFilter();
-        /** @var ICache|\PHPUnit_Framework_MockObject_MockObject $cache */
+        /** @var ICache|MockObject $cache */
         $cache = $this->createMock(ICache::class);
         $cache->expects($this->any())
             ->method('has')

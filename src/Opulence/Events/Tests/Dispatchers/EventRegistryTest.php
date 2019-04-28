@@ -13,6 +13,7 @@ namespace Opulence\Events\Tests\Dispatchers;
 use Opulence\Events\Dispatchers\EventRegistry;
 use Opulence\Events\Tests\Mocks\Event;
 use Opulence\Events\Tests\Mocks\Listener;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the event registry
@@ -23,13 +24,13 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
     private $eventRegistry = null;
     /** @var Event The event to use in tests */
     private $event = null;
-    /** @var Listener|\PHPUnit_Framework_MockObject_MockObject The mock listener to use in tests */
+    /** @var Listener|MockObject The mock listener to use in tests */
     private $listener = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->eventRegistry = new EventRegistry();
         $this->event = new Event();

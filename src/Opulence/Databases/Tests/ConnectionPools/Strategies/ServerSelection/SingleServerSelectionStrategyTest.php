@@ -13,6 +13,7 @@ namespace Opulence\Databases\Tests\ConnectionPools\Strategies\ServerSelection;
 use InvalidArgumentException;
 use Opulence\Databases\ConnectionPools\Strategies\ServerSelection\SingleServerSelectionStrategy;
 use Opulence\Databases\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the single server selection strategy
@@ -25,7 +26,7 @@ class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->strategy = new SingleServerSelectionStrategy();
     }
@@ -74,7 +75,7 @@ class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Gets a mock server
      *
-     * @return Server|\PHPUnit_Framework_MockObject_MockObject
+     * @return Server|MockObject
      */
     private function getServerMock()
     {

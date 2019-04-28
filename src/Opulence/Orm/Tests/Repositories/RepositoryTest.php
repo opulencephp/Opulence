@@ -22,6 +22,7 @@ use Opulence\Orm\Repositories\Repository;
 use Opulence\Orm\Tests\DataMappers\Mocks\SqlDataMapper;
 use Opulence\Orm\Tests\Repositories\Mocks\User;
 use Opulence\Orm\UnitOfWork;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the repository class
@@ -42,7 +43,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $idAccessorRegistry = new IdAccessorRegistry();
         $idAccessorRegistry->registerIdAccessors(
@@ -56,7 +57,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
                 $user->setId($id);
             }
         );
-        /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
+        /** @var IIdGeneratorRegistry|MockObject $idGeneratorRegistry */
         $idGeneratorRegistry = $this->createMock(IIdGeneratorRegistry::class);
         $idGeneratorRegistry->expects($this->any())
             ->method('getIdGenerator')

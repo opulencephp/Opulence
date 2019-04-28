@@ -25,7 +25,7 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->executableWithoutPHAR = new Executable(__DIR__);
         $this->executableWithPHAR = new Executable(__DIR__ . '/Mocks');

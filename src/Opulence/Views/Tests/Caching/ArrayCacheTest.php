@@ -12,6 +12,7 @@ namespace Opulence\Views\Tests\Caching;
 
 use Opulence\Views\Caching\ArrayCache;
 use Opulence\Views\IView;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the view array cache
@@ -20,13 +21,13 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayCache The cache to use in tests */
     private $cache = null;
-    /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
+    /** @var IView|MockObject The view to use in tests */
     private $view = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->cache = new ArrayCache();
         $this->view = $this->createMock(IView::class);

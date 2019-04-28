@@ -16,23 +16,24 @@ use Opulence\Validation\Rules\Errors\ErrorCollection;
 use Opulence\Validation\Rules\Rules;
 use Opulence\Validation\Tests\Rules\Models\Mocks\User;
 use Opulence\Validation\Tests\Rules\Models\Mocks\UserModelState;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the model state
  */
 class ModelStateTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var IValidatorFactory|\PHPUnit_Framework_MockObject_MockObject The validator factory */
+    /** @var IValidatorFactory|MockObject The validator factory */
     private $validatorFactory = null;
-    /** @var IValidator|\PHPUnit_Framework_MockObject_MockObject The validator */
+    /** @var IValidator|MockObject The validator */
     private $validator = null;
-    /** @var Rules|\PHPUnit_Framework_MockObject_MockObject The rules to use in tests */
+    /** @var Rules|MockObject The rules to use in tests */
     private $rules = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->rules = $this->getMockBuilder(Rules::class)
             ->disableOriginalConstructor()

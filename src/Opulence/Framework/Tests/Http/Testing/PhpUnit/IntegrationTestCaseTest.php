@@ -24,7 +24,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->integrationTest = new MockIntegrationTestCase();
         $this->integrationTest->setUp();

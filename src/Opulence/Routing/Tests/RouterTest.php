@@ -30,6 +30,7 @@ use Opulence\Routing\Routes\RouteCollection;
 use Opulence\Routing\Tests\Mocks\Controller as MockController;
 use Opulence\Routing\Tests\Mocks\NonOpulenceController;
 use Opulence\Routing\Tests\Mocks\Router as MockRouter;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the router
@@ -46,9 +47,9 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
-        /** @var IDependencyResolver|\PHPUnit_Framework_MockObject_MockObject $dependencyResolver */
+        /** @var IDependencyResolver|MockObject $dependencyResolver */
         $dependencyResolver = $this->createMock(IDependencyResolver::class);
         $dependencyResolver->expects($this->any())
             ->method('resolve')

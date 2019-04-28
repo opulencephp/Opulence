@@ -25,7 +25,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->fileSystem = new FileSystem();
     }
@@ -33,7 +33,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         @unlink(__DIR__ . '/test.txt');
     }

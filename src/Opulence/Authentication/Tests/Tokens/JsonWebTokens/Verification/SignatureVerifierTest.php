@@ -16,6 +16,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtErrorTypes;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\SignatureVerifier;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the signature verifier
@@ -24,15 +25,15 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SignatureVerifier The verifier to use in tests */
     private $verifier = null;
-    /** @var ISigner|\PHPUnit_Framework_MockObject_MockObject The signer to use in tests */
+    /** @var ISigner|MockObject The signer to use in tests */
     private $signer = null;
-    /** @var SignedJwt|\PHPUnit_Framework_MockObject_MockObject The token to use in tests */
+    /** @var SignedJwt|MockObject The token to use in tests */
     private $jwt = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->verifier = new SignatureVerifier($this->signer);

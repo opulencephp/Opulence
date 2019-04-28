@@ -13,6 +13,7 @@ namespace Opulence\Debug\Tests\Errors\Handlers;
 use ErrorException;
 use Opulence\Debug\Errors\Handlers\ErrorHandler;
 use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -20,15 +21,15 @@ use Psr\Log\LoggerInterface;
  */
 class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var IExceptionHandler|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var IExceptionHandler|MockObject */
     private $exceptionHandler = null;
-    /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject The logger to use in tests */
+    /** @var LoggerInterface|MockObject The logger to use in tests */
     private $logger = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->exceptionHandler = $this->getMockBuilder(IExceptionHandler::class)
             ->disableOriginalConstructor()
@@ -39,7 +40,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         restore_error_handler();
     }

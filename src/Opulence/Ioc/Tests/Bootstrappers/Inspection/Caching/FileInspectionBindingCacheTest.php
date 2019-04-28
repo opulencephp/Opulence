@@ -51,7 +51,7 @@ class FileInspectionBindingCacheTest extends TestCase
         $expectedBindings = [new UniversalInspectionBinding('foo', new MockBootstrapper())];
         $this->cache->set($expectedBindings);
         $actualBindings = $this->cache->get();
-        $this->assertInternalType('array', $actualBindings);
+        $this->assertIsArray($actualBindings);
         $this->assertCount(1, $actualBindings);
         // Only check for equality because they won't have the same identity
         $this->assertEquals($expectedBindings[0], $actualBindings[0]);

@@ -37,6 +37,7 @@
 <h3>General</h3>
 
 * Requires >= PHP 7.3
+* Requires >= PHPUnit 8.0
 * Deleted the Application and File libraries
 * Removed all methods that were deprecated in v1.1.0
 * Added `void` return type to all void methods

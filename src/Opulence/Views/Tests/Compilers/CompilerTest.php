@@ -14,6 +14,7 @@ use Opulence\Views\Compilers\Compiler;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Compilers\ICompilerRegistry;
 use Opulence\Views\IView;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the view compiler
@@ -22,13 +23,13 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Compiler The compiler to use in tests */
     private $compiler = null;
-    /** @var ICompilerRegistry|\PHPUnit_Framework_MockObject_MockObject The compiler registry to use in tests */
+    /** @var ICompilerRegistry|MockObject The compiler registry to use in tests */
     private $registry = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->registry = $this->createMock(ICompilerRegistry::class);
         $this->compiler = new Compiler($this->registry);
@@ -39,7 +40,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCorrectCompilerIsUsed() : void
     {
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
+        /** @var IView|MockObject $view */
         $view = $this->getMockBuilder(IView::class)
             ->disableOriginalConstructor()
             ->setMockClassName('MockView')
@@ -50,7 +51,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $view->expects($this->any())
             ->method('getVars')
             ->willReturn([]);
-        /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $compiler */
+        /** @var ICompiler|MockObject $compiler */
         $compiler = $this->createMock(ICompiler::class);
         $compiler->expects($this->once())
             ->method('compile')

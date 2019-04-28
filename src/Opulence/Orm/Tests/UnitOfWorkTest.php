@@ -24,6 +24,7 @@ use Opulence\Orm\Tests\DataMappers\Mocks\CachedSqlDataMapper;
 use Opulence\Orm\Tests\DataMappers\Mocks\SqlDataMapper;
 use Opulence\Orm\Tests\Mocks\UnitOfWork as MockUnitOfWork;
 use Opulence\Orm\Tests\Mocks\User;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the unit of work
@@ -46,7 +47,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $idAccessorRegistry = new IdAccessorRegistry();
         $idAccessorRegistry->registerIdAccessors(
@@ -60,7 +61,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
                 $user->setId($id);
             }
         );
-        /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
+        /** @var IIdGeneratorRegistry|MockObject $idGeneratorRegistry */
         $idGeneratorRegistry = $this->createMock(IIdGeneratorRegistry::class);
         $idGeneratorRegistry->expects($this->any())
             ->method('getIdGenerator')
@@ -186,7 +187,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
                 $user->setId($id);
             }
         );
-        /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
+        /** @var IIdGeneratorRegistry|MockObject $idGeneratorRegistry */
         $idGeneratorRegistry = $this->createMock(IIdGeneratorRegistry::class);
         $idGeneratorRegistry->expects($this->any())
             ->method('getIdGenerator')
@@ -202,7 +203,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
             $connection
         );
         $this->entity1 = new User(123, 'foo');
-        /** @var IDataMapper|\PHPUnit_Framework_MockObject_MockObject dataMapper */
+        /** @var IDataMapper|MockObject dataMapper */
         $this->dataMapper = $this->createMock(IDataMapper::class);
         $this->dataMapper->expects($this->once())
             ->method('add')
@@ -231,7 +232,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
                 $user->setId($id);
             }
         );
-        /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
+        /** @var IIdGeneratorRegistry|MockObject $idGeneratorRegistry */
         $idGeneratorRegistry = $this->createMock(IIdGeneratorRegistry::class);
         $idGeneratorRegistry->expects($this->any())
             ->method('getIdGenerator')
@@ -249,7 +250,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
 
         try {
             $this->entity1 = new User(123, 'foo');
-            /** @var IDataMapper|\PHPUnit_Framework_MockObject_MockObject dataMapper */
+            /** @var IDataMapper|MockObject dataMapper */
             $this->dataMapper = $this->createMock(IDataMapper::class);
             $className = $this->entityRegistry->getClassName($this->entity1);
             $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
@@ -443,7 +444,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
                 $user->setId($id);
             }
         );
-        /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
+        /** @var IIdGeneratorRegistry|MockObject $idGeneratorRegistry */
         $idGeneratorRegistry = $this->createMock(IIdGeneratorRegistry::class);
         $idGeneratorRegistry->expects($this->any())
             ->method('getIdGenerator')

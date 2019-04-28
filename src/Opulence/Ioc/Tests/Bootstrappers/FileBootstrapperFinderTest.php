@@ -34,7 +34,7 @@ class FileBootstrapperFinderTest extends TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->bootstrapperFinder = new FileBootstrapperFinder();
         $topLevelBootstrapperNamePieces = explode('\\', BootstrapperA::class);
@@ -60,7 +60,8 @@ class FileBootstrapperFinderTest extends TestCase
             BootstrapperB::class,
             BootstrapperC::class,
         ];
-        $this->assertEquals(
+        // We don't care so much about the ordering
+        $this->assertEqualsCanonicalizing(
             $expectedBootstrappers,
             $this->bootstrapperFinder->findAll(self::BOOTSTRAPPER_DIRECTORY)
         );

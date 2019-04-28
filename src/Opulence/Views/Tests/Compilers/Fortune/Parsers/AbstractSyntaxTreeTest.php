@@ -13,6 +13,7 @@ namespace Opulence\Views\Tests\Compilers\Fortune\Parsers;
 use Opulence\Views\Compilers\Fortune\Parsers\AbstractSyntaxTree;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\Node;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\RootNode;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the view abstract syntax tree
@@ -25,7 +26,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->tree = new AbstractSyntaxTree();
     }
@@ -35,7 +36,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
      */
     public function testClearingNodes() : void
     {
-        /** @var Node|\PHPUnit_Framework_MockObject_MockObject $childNode */
+        /** @var Node|MockObject $childNode */
         $childNode = $this->getMockForAbstractClass(Node::class);
         $this->tree->getCurrentNode()->addChild($childNode);
         $this->tree->clearNodes();

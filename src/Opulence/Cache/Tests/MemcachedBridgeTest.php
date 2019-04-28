@@ -13,6 +13,7 @@ namespace Opulence\Cache\Tests;
 use Memcached as Client;
 use Opulence\Cache\MemcachedBridge;
 use Opulence\Memcached\Memcached;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the Memcached bridge
@@ -21,15 +22,15 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MemcachedBridge The bridge to use in tests */
     private $bridge = null;
-    /** @var Memcached|\PHPUnit_Framework_MockObject_MockObject The Memcached driver */
+    /** @var Memcached|MockObject The Memcached driver */
     private $memcached = null;
-    /** @var Client|\PHPUnit_Framework_MockObject_MockObject The client to use in tests */
+    /** @var Client|MockObject The client to use in tests */
     private $client = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $methods = ['decrement', 'delete', 'flush', 'get', 'getResultCode', 'increment', 'set'];
         $this->client = $this->getMockBuilder(Client::class)
@@ -183,7 +184,7 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testUsingBaseMemcachedInstance() : void
     {
-        /** @var Memcached|\PHPUnit_Framework_MockObject_MockObject $memcached */
+        /** @var Memcached|MockObject $memcached */
         $memcached = $this->getMockBuilder(Memcached::class)
             ->disableOriginalConstructor()
             ->setMockClassName('Foo')
@@ -208,7 +209,7 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
         $client->expects($this->any())
             ->method('getResultCode')
             ->willReturn(0);
-        /** @var Memcached|\PHPUnit_Framework_MockObject_MockObject $memcached */
+        /** @var Memcached|MockObject $memcached */
         $memcached = $this->getMockBuilder(Memcached::class)
             ->disableOriginalConstructor()
             ->getMock();

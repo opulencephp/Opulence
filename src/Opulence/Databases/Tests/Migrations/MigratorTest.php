@@ -15,23 +15,24 @@ use Opulence\Databases\Migrations\IExecutedMigrationRepository;
 use Opulence\Databases\Migrations\IMigration;
 use Opulence\Databases\Migrations\IMigrationResolver;
 use Opulence\Databases\Migrations\Migrator;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the database migrator
  */
 class MigratorTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var IConnection|\PHPUnit_Framework_MockObject_MockObject The database connection the migrator uses */
+    /** @var IConnection|MockObject The database connection the migrator uses */
     private $connection = null;
-    /** @var IMigrationResolver|\PHPUnit_Framework_MockObject_MockObject The migration resolver */
+    /** @var IMigrationResolver|MockObject The migration resolver */
     private $migrationResolver = null;
-    /** @var IExecutedMigrationRepository|\PHPUnit_Framework_MockObject_MockObject The executed migration repository */
+    /** @var IExecutedMigrationRepository|MockObject The executed migration repository */
     private $executedMigrations = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->connection = $this->createMock(IConnection::class);
         $this->migrationResolver = $this->createMock(IMigrationResolver::class);

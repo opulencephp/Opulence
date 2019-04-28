@@ -17,6 +17,7 @@ use Opulence\Authentication\IPrincipal;
 use Opulence\Authentication\ISubject;
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the refresh credential factory
@@ -25,15 +26,15 @@ class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RefreshTokenCredentialFactory The factory to use in tests */
     private $factory = null;
-    /** @var ISigner|\PHPUnit_Framework_MockObject_MockObject The signer to use in tests */
+    /** @var ISigner|MockObject The signer to use in tests */
     private $signer = null;
-    /** @var ISubject|\PHPUnit_Framework_MockObject_MockObject The subject to use in tests */
+    /** @var ISubject|MockObject The subject to use in tests */
     private $subject = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->signer->expects($this->any())

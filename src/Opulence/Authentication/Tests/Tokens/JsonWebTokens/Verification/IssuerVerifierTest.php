@@ -14,6 +14,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\IssuerVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtErrorTypes;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the issuer verifier
@@ -22,15 +23,15 @@ class IssuerVerifierTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IssuerVerifier The verifier to use in tests */
     private $verifier = null;
-    /** @var SignedJwt|\PHPUnit_Framework_MockObject_MockObject The token to use in tests */
+    /** @var SignedJwt|MockObject The token to use in tests */
     private $jwt = null;
-    /** @var JwtPayload|\PHPUnit_Framework_MockObject_MockObject The payload to use in tests */
+    /** @var JwtPayload|MockObject The payload to use in tests */
     private $jwtPayload = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->verifier = new IssuerVerifier('foo');
         $this->jwt = $this->getMockBuilder(SignedJwt::class)

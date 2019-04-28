@@ -25,6 +25,7 @@ use Opulence\Console\Responses\Response;
 use Opulence\Console\Responses\StreamResponse;
 use Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions;
 use Opulence\Ioc\IContainer;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
@@ -51,7 +52,7 @@ abstract class IntegrationTestCase extends TestCase
     protected $response = null;
     /** @var int The last status code */
     protected $statusCode = -1;
-    /** @var PHPUnit_Framework_MockObject_MockObject The prompt to use in tests */
+    /** @var MockObject The prompt to use in tests */
     protected $prompt = null;
 
     /**
@@ -89,7 +90,7 @@ abstract class IntegrationTestCase extends TestCase
         }
 
         // We instantiate the response every time so that it's fresh whenever a new command is called
-        $this->response = new StreamResponse(fopen('php://memory', 'w'), $this->responseCompiler);
+        $this->response = new StreamResponse(fopen('php://memory', 'wb'), $this->responseCompiler);
         $this->response->setStyled($isStyled);
         $input = ['name' => $commandName, 'arguments' => $arguments, 'options' => $options];
         $this->statusCode = $this->kernel->handle($input, $this->response);
@@ -101,7 +102,7 @@ abstract class IntegrationTestCase extends TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->requestParser = new ArrayListParser();
         $this->commandCollection = $this->container->resolve(CommandCollection::class);

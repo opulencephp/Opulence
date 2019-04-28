@@ -13,6 +13,7 @@ namespace Opulence\Framework\Tests\Console\Testing\PhpUnit\Assertions;
 use Opulence\Console\Responses\StreamResponse;
 use Opulence\Console\StatusCodes;
 use Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the response assertions
@@ -21,13 +22,13 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ResponseAssertions The response assertions to use in tests */
     private $assertions = null;
-    /** @var StreamResponse|\PHPUnit_Framework_MockObject_MockObject The response to use in tests */
+    /** @var StreamResponse|MockObject The response to use in tests */
     private $mockResponse = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->assertions = new ResponseAssertions();
         $this->mockResponse = $this->getMockBuilder(StreamResponse::class)

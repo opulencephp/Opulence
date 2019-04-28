@@ -13,23 +13,24 @@ namespace Opulence\Framework\Tests\Views\Caching;
 use Opulence\Cache\ICacheBridge;
 use Opulence\Framework\Views\Caching\GenericCache;
 use Opulence\Views\IView;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the generic view cache
  */
 class GenericCacheTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ICacheBridge|\PHPUnit_Framework_MockObject_MockObject The caching bridge to use in tests */
+    /** @var ICacheBridge|MockObject The caching bridge to use in tests */
     private $bridge = null;
     /** @var GenericCache The cache to use in tests */
     private $cache = null;
-    /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
+    /** @var IView|MockObject The view to use in tests */
     private $view = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->bridge = $this->createMock(ICacheBridge::class);
         $this->cache = new GenericCache($this->bridge, 3600);

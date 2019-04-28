@@ -15,6 +15,7 @@ use Opulence\Authentication\Credentials\Authenticators\Authenticator;
 use Opulence\Authentication\Credentials\Authenticators\IAuthenticator;
 use Opulence\Authentication\Credentials\Authenticators\IAuthenticatorRegistry;
 use Opulence\Authentication\Credentials\ICredential;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the authenticator
@@ -23,13 +24,13 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Authenticator The authenticator to use in tests */
     private $authenticator = null;
-    /** @var IAuthenticatorRegistry|\PHPUnit_Framework_MockObject_MockObject The authenticator registry to use in tests */
+    /** @var IAuthenticatorRegistry|MockObject The authenticator registry to use in tests */
     private $authenticatorRegistry = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->authenticatorRegistry = $this->createMock(IAuthenticatorRegistry::class);
         $this->authenticator = new Authenticator($this->authenticatorRegistry);
@@ -40,7 +41,7 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
      */
     public function testAuthenticatorThatSuccessfullyAuthenticatesCredential() : void
     {
-        /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
+        /** @var ICredential|MockObject $credential */
         $credential = $this->createMock(ICredential::class);
         $credential->expects($this->once())
             ->method('getType')
@@ -63,7 +64,7 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
      */
     public function testAuthenticatorThatUnsuccessfullyAuthenticatesCredential() : void
     {
-        /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
+        /** @var ICredential|MockObject $credential */
         $credential = $this->createMock(ICredential::class);
         $credential->expects($this->once())
             ->method('getType')
@@ -87,7 +88,7 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithNoAuthenticatorForCredential() : void
     {
         $this->expectException(InvalidArgumentException::class);
-        /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
+        /** @var ICredential|MockObject $credential */
         $credential = $this->createMock(ICredential::class);
         $credential->expects($this->once())
             ->method('getType')

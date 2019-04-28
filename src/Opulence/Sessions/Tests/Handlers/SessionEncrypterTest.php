@@ -14,6 +14,7 @@ use Opulence\Cryptography\Encryption\EncryptionException;
 use Opulence\Cryptography\Encryption\IEncrypter;
 use Opulence\Sessions\Handlers\SessionEncrypter;
 use Opulence\Sessions\Handlers\SessionEncryptionException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the session encrypter
@@ -22,13 +23,13 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SessionEncrypter The session encrypter to use in tests */
     private $sessionEncrypter = null;
-    /** @var IEncrypter|\PHPUnit_Framework_MockObject_MockObject The Opulence encrypter the session encrypter uses */
+    /** @var IEncrypter|MockObject The Opulence encrypter the session encrypter uses */
     private $opulenceEncrypter = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->opulenceEncrypter = $this->createMock(IEncrypter::class);
         $this->sessionEncrypter = new SessionEncrypter($this->opulenceEncrypter);

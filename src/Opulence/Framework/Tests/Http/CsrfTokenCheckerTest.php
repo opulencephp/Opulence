@@ -15,6 +15,7 @@ use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestHeaders;
 use Opulence\Http\Requests\RequestMethods;
 use Opulence\Sessions\ISession;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the CSRF token checker
@@ -23,15 +24,15 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CsrfTokenChecker The token checker to use in tests */
     private $checker = null;
-    /** @var Request|\PHPUnit_Framework_MockObject_MockObject The request mock */
+    /** @var Request|MockObject The request mock */
     private $request = null;
-    /** @var ISession|\PHPUnit_Framework_MockObject_MockObject The session mock */
+    /** @var ISession|MockObject The session mock */
     private $session = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->checker = new CsrfTokenChecker();
         $this->request = $this->getMockBuilder(Request::class)

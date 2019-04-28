@@ -29,7 +29,7 @@ class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->header = new JwtHeader();
         $this->payload = new JwtPayload();

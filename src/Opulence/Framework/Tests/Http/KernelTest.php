@@ -31,6 +31,7 @@ use Opulence\Routing\Tests\Middleware\Mocks\HeaderSetter;
 use Opulence\Routing\Tests\Middleware\Mocks\ParameterizedMiddleware;
 use Opulence\Routing\Tests\Mocks\Controller;
 use Opulence\Routing\Tests\Mocks\ExceptionalRouter;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -185,10 +186,10 @@ class KernelTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $parsedRoute->expects($this->any())->method('getMethods')->willReturn([$method]);
-        /** @var IParser|\PHPUnit_Framework_MockObject_MockObject $routeParser */
+        /** @var IParser|MockObject $routeParser */
         $routeParser = $this->createMock(IParser::class);
         $routeParser->expects($this->any())->method('parse')->willReturn($parsedRoute);
-        /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $routeCompiler */
+        /** @var ICompiler|MockObject $routeCompiler */
         $routeCompiler = $this->createMock(ICompiler::class);
         $routeCompiler->expects($this->any())->method('compile')->willReturn($compiledRoute);
 
@@ -207,9 +208,9 @@ class KernelTest extends \PHPUnit\Framework\TestCase
         }
 
         $router->any('/', Controller::class . '@noParameters');
-        /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
+        /** @var LoggerInterface|MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $exceptionRenderer */
+        /** @var IExceptionRenderer|MockObject $exceptionRenderer */
         $exceptionRenderer = $this->createMock(IExceptionRenderer::class);
         $exceptionRenderer->expects($this->any())
             ->method('getResponse')

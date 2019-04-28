@@ -29,10 +29,10 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->compiler = new Compiler(new Lexer(), new Parser());
-        $this->response = new StreamResponse(fopen('php://memory', 'w'), $this->compiler);
+        $this->response = new StreamResponse(fopen('php://memory', 'wb'), $this->compiler);
     }
 
     /**

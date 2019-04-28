@@ -23,7 +23,7 @@ class CredentialTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->credential = new Credential('foo', ['bar' => 'baz']);
     }

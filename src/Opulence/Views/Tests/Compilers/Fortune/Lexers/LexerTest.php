@@ -14,6 +14,7 @@ use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\TokenTypes;
 use Opulence\Views\View;
+use PHPUnit\Framework\MockObject\MockObject;
 use RuntimeException;
 
 /**
@@ -23,13 +24,13 @@ class LexerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Lexer The lexer to use in tests */
     private $lexer = null;
-    /** @var View|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
+    /** @var View|MockObject The view to use in tests */
     private $view = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->lexer = new Lexer();
         $this->view = $this->getMockBuilder(View::class)

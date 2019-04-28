@@ -26,6 +26,7 @@ use Opulence\Views\Compilers\Fortune\Transpiler;
 use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\IView;
 use Opulence\Views\View;
+use PHPUnit\Framework\MockObject\MockObject;
 use RuntimeException;
 
 /**
@@ -35,15 +36,15 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Transpiler The transpiler to use in tests */
     private $transpiler = null;
-    /** @var ILexer|\PHPUnit_Framework_MockObject_MockObject The lexer to use in tests */
+    /** @var ILexer|MockObject The lexer to use in tests */
     private $lexer = null;
-    /** @var IParser|\PHPUnit_Framework_MockObject_MockObject The parser to use in tests */
+    /** @var IParser|MockObject The parser to use in tests */
     private $parser = null;
     /** @var AbstractSyntaxTree The AST to use in tests */
     private $ast = null;
-    /** @var ICache|\PHPUnit_Framework_MockObject_MockObject The view cache to use in tests */
+    /** @var ICache|MockObject The view cache to use in tests */
     private $cache = null;
-    /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
+    /** @var IView|MockObject The view to use in tests */
     private $view = null;
     /** @var XssFilter The filter to use in tests */
     private $xssFilter = null;
@@ -51,7 +52,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->lexer = $this->createMock(ILexer::class);
         $this->parser = $this->createMock(IParser::class);
@@ -87,7 +88,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCacheIsUsedWhenItHasView() : void
     {
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
+        /** @var IView|MockObject $view */
         $view = $this->createMock(IView::class);
         $view->expects($this->any())
             ->method('getContents')
@@ -141,7 +142,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     public function testExceptionIsThrownWithInvalidNodeType() : void
     {
         $this->expectException(RuntimeException::class);
-        /** @var Node|\PHPUnit_Framework_MockObject_MockObject $invalidNode */
+        /** @var Node|MockObject $invalidNode */
         $invalidNode = $this->getMockForAbstractClass(Node::class, [], 'FakeNode');
         $this->ast->getCurrentNode()
             ->addChild($invalidNode);
@@ -176,12 +177,12 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testFirstValueOfVariableThatIsInheritedTwiceIsUsed() : void
     {
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent1 */
+        /** @var IView|MockObject $parent1 */
         $parent1 = $this->createMock(IView::class);
         $parent1->expects($this->once())
             ->method('getVars')
             ->willReturn(['foo' => 'bar']);
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent2 */
+        /** @var IView|MockObject $parent2 */
         $parent2 = $this->createMock(IView::class);
         $parent2->expects($this->once())
             ->method('getVars')
@@ -198,7 +199,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testPassingVariableThatWasAlreadyDefined() : void
     {
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent1 */
+        /** @var IView|MockObject $parent1 */
         $parent1 = $this->createMock(IView::class);
         $parent1->expects($this->once())
             ->method('getVars')
@@ -218,7 +219,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testPassingVariableThatWasNotDefined() : void
     {
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent1 */
+        /** @var IView|MockObject $parent1 */
         $parent1 = $this->createMock(IView::class);
         $parent1->expects($this->once())
             ->method('getVars')
@@ -311,7 +312,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testTranspiledContentsAreCached() : void
     {
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
+        /** @var IView|MockObject $view */
         $view = $this->createMock(IView::class);
         $view->expects($this->any())
             ->method('getContents')

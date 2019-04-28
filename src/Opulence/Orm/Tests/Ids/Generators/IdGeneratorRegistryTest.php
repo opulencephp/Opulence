@@ -12,6 +12,7 @@ namespace Opulence\Orm\Tests\Ids\Generators;
 
 use Opulence\Orm\Ids\Generators\IdGeneratorRegistry;
 use Opulence\Orm\Ids\Generators\IIdGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the Id generator registry
@@ -24,7 +25,7 @@ class IdGeneratorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->registry = new IdGeneratorRegistry();
     }
@@ -34,7 +35,7 @@ class IdGeneratorRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testCorrectInstanceReturnedAfterRegisteringGenerator() : void
     {
-        /** @var IIdGenerator|\PHPUnit_Framework_MockObject_MockObject $generator */
+        /** @var IIdGenerator|MockObject $generator */
         $generator = $this->createMock(IIdGenerator::class);
         $this->registry->registerIdGenerator('foo', $generator);
         $this->assertSame($generator, $this->registry->getIdGenerator('foo'));

@@ -14,6 +14,7 @@ use InvalidArgumentException;
 use Opulence\IO\Streams\IStream;
 use Opulence\IO\Streams\MultiStream;
 use Opulence\IO\Streams\Stream;
+use PHPUnit\Framework\MockObject\MockObject;
 use RuntimeException;
 
 /**
@@ -27,7 +28,7 @@ class MultiStreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->multiStream = new MultiStream();
     }
@@ -74,9 +75,9 @@ class MultiStreamTest extends \PHPUnit\Framework\TestCase
      */
     public function testClosingStreamUnsetsSubstreamResources() : void
     {
-        $handle1 = fopen('php://temp', 'r');
+        $handle1 = fopen('php://temp', 'rb');
         $stream1 = new Stream($handle1);
-        $handle2 = fopen('php://memory', 'r');
+        $handle2 = fopen('php://memory', 'rb');
         $stream2 = new Stream($handle2);
         $this->multiStream->addStream($stream1);
         $this->multiStream->addStream($stream2);
@@ -91,11 +92,11 @@ class MultiStreamTest extends \PHPUnit\Framework\TestCase
     public function testCopyingToClosedStreamThrowsException() : void
     {
         $this->expectException(RuntimeException::class);
-        $stream = new Stream(fopen('php://temp', 'r+'));
+        $stream = new Stream(fopen('php://temp', 'r+b'));
         $stream->write('foo');
         $stream->rewind();
         $this->multiStream->addStream($stream);
-        $destinationStream = new Stream(fopen('php://temp', 'r+'));
+        $destinationStream = new Stream(fopen('php://temp', 'r+b'));
         $destinationStream->close();
         $this->multiStream->copyToStream($destinationStream, 1);
     }
@@ -105,15 +106,15 @@ class MultiStreamTest extends \PHPUnit\Framework\TestCase
      */
     public function testCopyingToStreamCopiesAllContentsUsingBufferSize() : void
     {
-        $stream1 = new Stream(fopen('php://temp', 'r+'));
-        $stream2 = new Stream(fopen('php://temp', 'r+'));
+        $stream1 = new Stream(fopen('php://temp', 'r+b'));
+        $stream2 = new Stream(fopen('php://temp', 'r+b'));
         $stream1->write('foo');
         $stream1->write('bar');
         $stream1->rewind();
         $stream2->rewind();
         $this->multiStream->addStream($stream1);
         $this->multiStream->addStream($stream2);
-        $destinationStream = new Stream(fopen('php://temp', 'r+'));
+        $destinationStream = new Stream(fopen('php://temp', 'r+b'));
         $this->multiStream->copyToStream($destinationStream, 1);
         $destinationStream->rewind();
         $this->assertEquals('foobar', $destinationStream->readToEnd());
@@ -124,9 +125,9 @@ class MultiStreamTest extends \PHPUnit\Framework\TestCase
      */
     public function testDestroyingStreamUnsetsSubstreamResources() : void
     {
-        $handle1 = fopen('php://temp', 'r');
+        $handle1 = fopen('php://temp', 'rb');
         $stream1 = new Stream($handle1);
-        $handle2 = fopen('php://memory', 'r');
+        $handle2 = fopen('php://memory', 'rb');
         $stream2 = new Stream($handle2);
         $this->multiStream->addStream($stream1);
         $this->multiStream->addStream($stream2);
@@ -140,8 +141,8 @@ class MultiStreamTest extends \PHPUnit\Framework\TestCase
      */
     public function testEofOnlyReturnsTrueIfLastStreamIsAtEof() : void
     {
-        $stream1 = new Stream(fopen('php://temp', 'r+'));
-        $stream2 = new Stream(fopen('php://temp', 'r+'));
+        $stream1 = new Stream(fopen('php://temp', 'r+b'));
+        $stream2 = new Stream(fopen('php://temp', 'r+b'));
         $stream1->write('foo');
         $stream1->rewind();
         $stream2->write('bar');
@@ -296,8 +297,8 @@ class MultiStreamTest extends \PHPUnit\Framework\TestCase
      */
     public function testReadingToEndWithMultipleStreamsReadsFromCurrentPositionToEnd() : void
     {
-        $stream1 = new Stream(fopen('php://temp', 'r+'));
-        $stream2 = new Stream(fopen('php://temp', 'r+'));
+        $stream1 = new Stream(fopen('php://temp', 'r+b'));
+        $stream2 = new Stream(fopen('php://temp', 'r+b'));
         $stream1->write('abc');
         $stream2->write('de');
         $this->multiStream->addStream($stream1);
@@ -323,7 +324,7 @@ class MultiStreamTest extends \PHPUnit\Framework\TestCase
      */
     public function testReadingToEndWithSingleStreamReadsItToEnd() : void
     {
-        $stream = new Stream(fopen('php://temp', 'r+'));
+        $stream = new Stream(fopen('php://temp', 'r+b'));
         $stream->write('foo');
         $this->multiStream->addStream($stream);
         $this->multiStream->seek(1);
@@ -350,9 +351,9 @@ class MultiStreamTest extends \PHPUnit\Framework\TestCase
      */
     public function testSeekingWithMultipleStreamsSeeksToCorrectPosition() : void
     {
-        $stream1 = new Stream(fopen('php://temp', 'r+'));
-        $stream2 = new Stream(fopen('php://temp', 'r+'));
-        $stream3 = new Stream(fopen('php://temp', 'r+'));
+        $stream1 = new Stream(fopen('php://temp', 'r+b'));
+        $stream2 = new Stream(fopen('php://temp', 'r+b'));
+        $stream3 = new Stream(fopen('php://temp', 'r+b'));
         $stream1->write('abc');
         $stream2->write('de');
         $stream3->write('fghij');
@@ -391,7 +392,7 @@ class MultiStreamTest extends \PHPUnit\Framework\TestCase
      */
     public function testSeekingWithSingleStreamSeeksToCorrectPosition() : void
     {
-        $stream = new Stream(fopen('php://temp', 'r+'));
+        $stream = new Stream(fopen('php://temp', 'r+b'));
         $stream->write('foobar');
         $this->multiStream->addStream($stream);
         $this->multiStream->seek(1);
@@ -435,8 +436,8 @@ class MultiStreamTest extends \PHPUnit\Framework\TestCase
      */
     public function testToStringRewindsStreamsAndReadsThemToTheEnd() : void
     {
-        $stream1 = new Stream(fopen('php://temp', 'r+'));
-        $stream2 = new Stream(fopen('php://temp', 'r+'));
+        $stream1 = new Stream(fopen('php://temp', 'r+b'));
+        $stream2 = new Stream(fopen('php://temp', 'r+b'));
         $stream1->write('foo');
         $stream2->write('bar');
         $stream1->seek(1);
@@ -458,7 +459,7 @@ class MultiStreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Creates a readable stream
      *
-     * @return IStream|\PHPUnit_Framework_MockObject_MockObject The readable stream
+     * @return IStream|MockObject The readable stream
      */
     private function createReadableStream() : IStream
     {

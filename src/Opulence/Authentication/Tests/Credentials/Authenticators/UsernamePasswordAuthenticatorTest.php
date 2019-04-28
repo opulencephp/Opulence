@@ -17,6 +17,7 @@ use Opulence\Authentication\ISubject;
 use Opulence\Authentication\Roles\Orm\IRoleRepository;
 use Opulence\Authentication\Users\IUser;
 use Opulence\Authentication\Users\Orm\IUserRepository;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the username/password authenticator
@@ -25,17 +26,17 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var UsernamePasswordAuthenticator The authenticator to use in tests */
     private $authenticator = null;
-    /** @var IUserRepository|\PHPUnit_Framework_MockObject_MockObject The user repository to use in tests */
+    /** @var IUserRepository|MockObject The user repository to use in tests */
     private $userRepository = null;
-    /** @var IRoleRepository|\PHPUnit_Framework_MockObject_MockObject The role repository to use in tests */
+    /** @var IRoleRepository|MockObject The role repository to use in tests */
     private $roleRepository = null;
-    /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject The credential to use in tests */
+    /** @var ICredential|MockObject The credential to use in tests */
     private $credential = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->userRepository = $this->createMock(IUserRepository::class);
         $this->roleRepository = $this->createMock(IRoleRepository::class);

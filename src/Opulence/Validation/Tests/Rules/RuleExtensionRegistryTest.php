@@ -14,6 +14,7 @@ use InvalidArgumentException;
 use Opulence\Validation\Rules\CallbackRule;
 use Opulence\Validation\Rules\IRule;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the rule extension registry
@@ -26,7 +27,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->registry = new RuleExtensionRegistry();
     }
@@ -39,7 +40,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
         $rule = function () {
             return true;
         };
-        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
+        /** @var IRule|MockObject $rule */
         $this->registry->registerRuleExtension($rule, 'foo');
         $this->assertInstanceOf(CallbackRule::class, $this->registry->getRule('foo'));
         $this->assertTrue($this->registry->getRule('foo')->passes('bar'));
@@ -50,7 +51,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfRegistryHasRule() : void
     {
-        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
+        /** @var IRule|MockObject $rule */
         $rule = $this->createMock(IRule::class);
         $rule->expects($this->once())
             ->method('getSlug')
@@ -83,7 +84,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingRuleObject() : void
     {
-        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
+        /** @var IRule|MockObject $rule */
         $rule = $this->createMock(IRule::class);
         $rule->expects($this->once())
             ->method('getSlug')
@@ -97,7 +98,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testSlugIgnoredIfRegisteringRuleObject() : void
     {
-        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
+        /** @var IRule|MockObject $rule */
         $rule = $this->createMock(IRule::class);
         $rule->expects($this->once())
             ->method('getSlug')

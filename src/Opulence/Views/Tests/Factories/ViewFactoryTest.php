@@ -17,15 +17,16 @@ use Opulence\Views\Factories\ViewFactory;
 use Opulence\Views\IView;
 use Opulence\Views\Tests\Factories\Mocks\BarBuilder;
 use Opulence\Views\Tests\Factories\Mocks\FooBuilder;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the view factory
  */
 class ViewFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var IViewNameResolver|\PHPUnit_Framework_MockObject_MockObject The view name resolver to use in tests */
+    /** @var IViewNameResolver|MockObject The view name resolver to use in tests */
     private $viewNameResolver = null;
-    /** @var IViewReader|\PHPUnit_Framework_MockObject_MockObject The view reader to use in tests */
+    /** @var IViewReader|MockObject The view reader to use in tests */
     private $viewReader = null;
     /** @var ViewFactory The view factory to use in tests */
     private $viewFactory = null;
@@ -33,7 +34,7 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->viewNameResolver = $this->createMock(IViewNameResolver::class);
         $this->viewReader = $this->createMock(IViewReader::class);

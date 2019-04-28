@@ -14,21 +14,22 @@ use Opulence\Authentication\Tokens\ISignedToken;
 use Opulence\Authentication\Tokens\IUnsignedToken;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
 use Opulence\Authentication\Tokens\Signatures\RsaSsaPkcsSigner;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the RSA SSA PKCS signer
  */
 class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var IUnsignedToken|\PHPUnit_Framework_MockObject_MockObject The unsigned token to use in tests */
+    /** @var IUnsignedToken|MockObject The unsigned token to use in tests */
     private $unsignedToken = null;
-    /** @var ISignedToken|\PHPUnit_Framework_MockObject_MockObject The signed token to use in tests */
+    /** @var ISignedToken|MockObject The signed token to use in tests */
     private $signedToken = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->unsignedToken = $this->createMock(IUnsignedToken::class);
         $this->unsignedToken->expects($this->any())

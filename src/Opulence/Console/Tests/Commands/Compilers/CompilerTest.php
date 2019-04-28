@@ -38,7 +38,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->compiler = new Compiler();
         $this->commandCollection = new CommandCollection($this->compiler);

@@ -14,6 +14,7 @@ use Opulence\Events\Dispatchers\IEventRegistry;
 use Opulence\Events\Dispatchers\SynchronousEventDispatcher;
 use Opulence\Events\Tests\Mocks\Event;
 use Opulence\Events\Tests\Mocks\Listener;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the event dispatcher
@@ -22,17 +23,17 @@ class SynchronousEventDispatcherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SynchronousEventDispatcher The dispatcher to use in tests */
     private $dispatcher = null;
-    /** @var IEventRegistry|\PHPUnit_Framework_MockObject_MockObject The event registry to use in tests */
+    /** @var IEventRegistry|MockObject The event registry to use in tests */
     private $eventRegistry = null;
     /** @var Event The event to use in tests */
     private $event = null;
-    /** @var Listener|\PHPUnit_Framework_MockObject_MockObject The mock listener to use in tests */
+    /** @var Listener|MockObject The mock listener to use in tests */
     private $listener = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->eventRegistry = $this->createMock(IEventRegistry::class);
         $this->dispatcher = new SynchronousEventDispatcher($this->eventRegistry);

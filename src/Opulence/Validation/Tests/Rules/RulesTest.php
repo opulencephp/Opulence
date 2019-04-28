@@ -20,6 +20,7 @@ use Opulence\Validation\Rules\IRule;
 use Opulence\Validation\Rules\IRuleWithArgs;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Rules\Rules;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the rules
@@ -28,17 +29,17 @@ class RulesTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Rules The rules to use in the tests */
     private $rules = null;
-    /** @var RuleExtensionRegistry|\PHPUnit_Framework_MockObject_MockObject The rule extension registry */
+    /** @var RuleExtensionRegistry|MockObject The rule extension registry */
     private $ruleExtensionRegistry = null;
-    /** @var ErrorTemplateRegistry|\PHPUnit_Framework_MockObject_MockObject The error template registry */
+    /** @var ErrorTemplateRegistry|MockObject The error template registry */
     private $errorTemplateRegistry = null;
-    /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject The error template compiler */
+    /** @var ICompiler|MockObject The error template compiler */
     private $errorTemplateCompiler = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);
         $this->errorTemplateRegistry = $this->createMock(ErrorTemplateRegistry::class);
@@ -259,9 +260,9 @@ class RulesTest extends \PHPUnit\Framework\TestCase
      */
     public function testHaltingFieldValidationDoesNothingOnPassingRules() : void
     {
-        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule1 */
+        /** @var IRule|MockObject $rule1 */
         $rule1 = $this->createMock(IRule::class);
-        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule2 */
+        /** @var IRule|MockObject $rule2 */
         $rule2 = $this->createMock(IRule::class);
         $rule1->expects($this->once())
             ->method('passes')
@@ -295,9 +296,9 @@ class RulesTest extends \PHPUnit\Framework\TestCase
      */
     public function testHaltingFieldValidationOnFailure() : void
     {
-        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule1 */
+        /** @var IRule|MockObject $rule1 */
         $rule1 = $this->createMock(IRule::class);
-        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule2 */
+        /** @var IRule|MockObject $rule2 */
         $rule2 = $this->createMock(IRule::class);
         $rule1->expects($this->once())
             ->method('passes')

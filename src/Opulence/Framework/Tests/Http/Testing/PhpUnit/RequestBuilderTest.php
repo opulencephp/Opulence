@@ -15,19 +15,20 @@ use Opulence\Framework\Http\Testing\PhpUnit\IntegrationTestCase;
 use Opulence\Framework\Http\Testing\PhpUnit\RequestBuilder;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\UploadedFile;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the request builder
  */
 class RequestBuilderTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var IntegrationTestCase|\PHPUnit_Framework_MockObject_MockObject The integration test to use in tests */
+    /** @var IntegrationTestCase|MockObject The integration test to use in tests */
     private $integrationTest = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->integrationTest = $this->createMock(IntegrationTestCase::class);
     }

@@ -23,6 +23,7 @@
     ]
   },
   "require": {
+    "ext-json": "*",
     "php": "^7.1",
     "opulence/applications": "1.1.*",
     "opulence/authentication": "1.1.*",

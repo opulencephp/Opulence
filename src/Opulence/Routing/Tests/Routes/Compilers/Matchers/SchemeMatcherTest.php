@@ -13,6 +13,7 @@ namespace Opulence\Routing\Tests\Routes\Compilers\Matchers;
 use Opulence\Http\Requests\Request;
 use Opulence\Routing\Routes\Compilers\Matchers\SchemeMatcher;
 use Opulence\Routing\Routes\ParsedRoute;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the scheme matcher
@@ -21,15 +22,15 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SchemeMatcher The matcher to use in tests */
     private $matcher = null;
-    /** @var Request|\PHPUnit_Framework_MockObject_MockObject The request to use in tests */
+    /** @var Request|MockObject The request to use in tests */
     private $request = null;
-    /** @var ParsedRoute|\PHPUnit_Framework_MockObject_MockObject The route to use in tests */
+    /** @var ParsedRoute|MockObject The route to use in tests */
     private $route = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->matcher = new SchemeMatcher();
         $this->request = $this->getMockBuilder(Request::class)

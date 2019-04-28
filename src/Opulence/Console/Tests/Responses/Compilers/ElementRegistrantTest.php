@@ -15,6 +15,7 @@ use Opulence\Console\Responses\Compilers\Elements\Colors;
 use Opulence\Console\Responses\Compilers\Elements\Style;
 use Opulence\Console\Responses\Compilers\Elements\TextStyles;
 use Opulence\Console\Responses\Compilers\ICompiler;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the element registrant
@@ -27,7 +28,7 @@ class ElementRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->registrant = new ElementRegistrant();
     }
@@ -37,7 +38,7 @@ class ElementRegistrantTest extends \PHPUnit\Framework\TestCase
      */
     public function testCorrectElementsAreRegistered() : void
     {
-        /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $compiler */
+        /** @var ICompiler|MockObject $compiler */
         $compiler = $this->createMock(ICompiler::class);
         $compiler->expects($this->at(0))
             ->method('registerElement')

@@ -13,6 +13,7 @@ namespace Opulence\Validation\Tests\Factories;
 use Opulence\Validation\Factories\ValidatorFactory;
 use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Validator;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the validator factory
@@ -21,13 +22,13 @@ class ValidatorFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ValidatorFactory The factory to use in tests */
     private $validatorFactory = null;
-    /** @var RulesFactory|\PHPUnit_Framework_MockObject_MockObject The rules factory */
+    /** @var RulesFactory|MockObject The rules factory */
     private $rulesFactory = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->rulesFactory = $this->getMockBuilder(RulesFactory::class)
             ->disableOriginalConstructor()

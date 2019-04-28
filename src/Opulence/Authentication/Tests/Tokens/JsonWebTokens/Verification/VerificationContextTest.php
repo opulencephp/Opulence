@@ -12,6 +12,7 @@ namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens\Verification;
 
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContext;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the verification context
@@ -20,13 +21,13 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
 {
     /** @var VerificationContext The context to use in tests */
     private $context = null;
-    /** @var ISigner|\PHPUnit_Framework_MockObject_MockObject The signer to use in tests */
+    /** @var ISigner|MockObject The signer to use in tests */
     private $signer = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->context = new VerificationContext($this->signer);

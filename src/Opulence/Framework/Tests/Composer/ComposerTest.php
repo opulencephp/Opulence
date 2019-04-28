@@ -49,7 +49,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->rootPath = realpath(__DIR__ . '/../../../../..');
         $this->psr4RootPath = realpath(__DIR__ . '/../../../../../src');

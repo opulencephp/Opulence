@@ -23,7 +23,7 @@ class BcryptHasherTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->hasher = new BcryptHasher();
     }

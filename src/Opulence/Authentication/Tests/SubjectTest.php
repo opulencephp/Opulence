@@ -14,6 +14,7 @@ use Opulence\Authentication\Credentials\ICredential;
 use Opulence\Authentication\IPrincipal;
 use Opulence\Authentication\PrincipalTypes;
 use Opulence\Authentication\Subject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests a subject
@@ -26,7 +27,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->subject = new Subject();
     }
@@ -36,7 +37,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingRoles() : void
     {
-        /** @var IPrincipal|\PHPUnit_Framework_MockObject_MockObject $principal */
+        /** @var IPrincipal|MockObject $principal */
         $principal = $this->createMock(IPrincipal::class);
         $principal->expects($this->any())
             ->method('getRoles')
@@ -79,7 +80,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAddedCredential() : void
     {
-        /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
+        /** @var ICredential|MockObject $credential */
         $credential = $this->createMock(ICredential::class);
         $credential->method('getType')
             ->willReturn('foo');
@@ -93,7 +94,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAddedPrincipal() : void
     {
-        /** @var IPrincipal|\PHPUnit_Framework_MockObject_MockObject $principal */
+        /** @var IPrincipal|MockObject $principal */
         $principal = $this->createMock(IPrincipal::class);
         $principal->method('getType')
             ->willReturn('foo');
@@ -107,7 +108,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingPrimaryPrincipal() : void
     {
-        /** @var IPrincipal|\PHPUnit_Framework_MockObject_MockObject $principal */
+        /** @var IPrincipal|MockObject $principal */
         $principal = $this->createMock(IPrincipal::class);
         $principal->method('getType')
             ->willReturn(PrincipalTypes::PRIMARY);
@@ -122,7 +123,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingRoles() : void
     {
-        /** @var IPrincipal|\PHPUnit_Framework_MockObject_MockObject $principal1 */
+        /** @var IPrincipal|MockObject $principal1 */
         $principal1 = $this->createMock(IPrincipal::class);
         $principal1->expects($this->any())
             ->method('getRoles')
@@ -130,7 +131,7 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
         $principal1->expects($this->any())
             ->method('getType')
             ->willReturn('one');
-        /** @var IPrincipal|\PHPUnit_Framework_MockObject_MockObject $principal2 */
+        /** @var IPrincipal|MockObject $principal2 */
         $principal2 = $this->createMock(IPrincipal::class);
         $principal2->expects($this->any())
             ->method('getRoles')

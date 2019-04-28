@@ -14,21 +14,22 @@ use LogicException;
 use Opulence\Sessions\Handlers\ISessionEncrypter;
 use Opulence\Sessions\Handlers\SessionEncryptionException;
 use Opulence\Sessions\Handlers\SessionHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the base session handler
  */
 class SessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var SessionHandler|\PHPUnit_Framework_MockObject_MockObject The session handler to use in tests */
+    /** @var SessionHandler|MockObject The session handler to use in tests */
     private $handler = null;
-    /** @var ISessionEncrypter|\PHPUnit_Framework_MockObject_MockObject The encrypter to use in tests */
+    /** @var ISessionEncrypter|MockObject The encrypter to use in tests */
     private $encrypter = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->handler = $this->getMockForAbstractClass(SessionHandler::class);
         $this->encrypter = $this->createMock(ISessionEncrypter::class);

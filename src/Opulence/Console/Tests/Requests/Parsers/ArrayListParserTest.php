@@ -24,7 +24,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->parser = new ArrayListParser();
     }

@@ -49,7 +49,7 @@ namespace Opulence\Debug\Tests\Exceptions\Handlers\Http
         /**
          * Sets up the tests
          */
-        public function setUp() : void
+        protected function setUp() : void
         {
             $this->renderer = new MockRenderer(true);
         }

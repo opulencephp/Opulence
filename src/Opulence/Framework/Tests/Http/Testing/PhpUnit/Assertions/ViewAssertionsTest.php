@@ -14,6 +14,7 @@ use LogicException;
 use Opulence\Framework\Http\Testing\PhpUnit\Assertions\ViewAssertions;
 use Opulence\Routing\Controller;
 use Opulence\Views\IView;
+use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 
 /**
@@ -23,13 +24,13 @@ class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ViewAssertions The assertions to use in tests */
     private $assertions = null;
-    /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
+    /** @var IView|MockObject The view to use in tests */
     private $mockView = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->assertions = new ViewAssertions();
         $this->mockView = $this->createMock(IView::class);

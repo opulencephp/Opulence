@@ -13,6 +13,7 @@ namespace Opulence\Views\Tests\Caching;
 use Opulence\IO\FileSystem;
 use Opulence\Views\Caching\FileCache;
 use Opulence\Views\IView;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the view cache
@@ -23,7 +24,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     private $fileSystem = null;
     /** @var FileCache The cache to use in tests */
     private $cache = null;
-    /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
+    /** @var IView|MockObject The view to use in tests */
     private $view = null;
 
     /**
@@ -54,7 +55,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->fileSystem = new FileSystem();
         $this->cache = new FileCache(__DIR__ . '/tmp', 3600);

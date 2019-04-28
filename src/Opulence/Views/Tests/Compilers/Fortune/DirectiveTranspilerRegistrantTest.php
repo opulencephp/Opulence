@@ -17,6 +17,7 @@ use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\Compilers\Fortune\Transpiler;
 use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\View;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test the Fortune directive transpiler registrant
@@ -33,11 +34,11 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->view = new View();
         $this->registrant = new DirectiveTranspilerRegistrant();
-        /** @var ICache|\PHPUnit_Framework_MockObject_MockObject $cache */
+        /** @var ICache|MockObject $cache */
         $cache = $this->createMock(ICache::class);
         $cache->expects($this->any())
             ->method('has')

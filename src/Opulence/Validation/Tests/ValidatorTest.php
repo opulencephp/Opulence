@@ -18,6 +18,7 @@ use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Rules\Rules;
 use Opulence\Validation\Validator;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the validator
@@ -26,24 +27,24 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Validator The validator to use in tests */
     private $validator = null;
-    /** @var RulesFactory|\PHPUnit_Framework_MockObject_MockObject The rules factory */
+    /** @var RulesFactory|MockObject The rules factory */
     private $rulesFactory = null;
-    /** @var RuleExtensionRegistry|\PHPUnit_Framework_MockObject_MockObject The registry to use in tests */
+    /** @var RuleExtensionRegistry|MockObject The registry to use in tests */
     private $ruleExtensionRegistry = null;
-    /** @var ErrorTemplateRegistry|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ErrorTemplateRegistry|MockObject */
     private $errorTemplateRegistry;
-    /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ICompiler|MockObject */
     private $errorTemplateCompiler;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);
-        /** @var ErrorTemplateRegistry|\PHPUnit_Framework_MockObject_MockObject $errorTemplateRegistry */
+        /** @var ErrorTemplateRegistry|MockObject $errorTemplateRegistry */
         $this->errorTemplateRegistry = $this->createMock(ErrorTemplateRegistry::class);
-        /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $errorTemplateCompiler */
+        /** @var ICompiler|MockObject $errorTemplateCompiler */
         $this->errorTemplateCompiler = $this->createMock(ICompiler::class);
         $this->rulesFactory = $this->getMockBuilder(RulesFactory::class)
             ->setConstructorArgs([
@@ -143,7 +144,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Gets mock rules
      *
-     * @return Rules|\PHPUnit_Framework_MockObject_MockObject The rules
+     * @return Rules|MockObject The rules
      */
     private function getRules()
     {

@@ -12,6 +12,7 @@ namespace Opulence\Cache\Tests;
 
 use Opulence\Cache\RedisBridge;
 use Opulence\Redis\Redis;
+use PHPUnit\Framework\MockObject\MockObject;
 use Predis\Client;
 
 /**
@@ -21,15 +22,15 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RedisBridge The bridge to use in tests */
     private $bridge = null;
-    /** @var Redis|\PHPUnit_Framework_MockObject_MockObject The Redis driver */
+    /** @var Redis|MockObject The Redis driver */
     private $redis = null;
-    /** @var Client|\PHPUnit_Framework_MockObject_MockObject The Redis client */
+    /** @var Client|MockObject The Redis client */
     private $client = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $methods = ['get', 'decrBy', 'del', 'flushAll', 'incrBy', 'setEx'];
         $this->client = $this->getMockBuilder(Client::class)
@@ -166,7 +167,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testUsingBaseRedisInstance() : void
     {
-        /** @var Redis|\PHPUnit_Framework_MockObject_MockObject $redis */
+        /** @var Redis|MockObject $redis */
         $redis = $this->getMockBuilder(Redis::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -187,7 +188,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
             ->method('get')
             ->with('bar')
             ->willReturn('baz');
-        /** @var Redis|\PHPUnit_Framework_MockObject_MockObject $redis */
+        /** @var Redis|MockObject $redis */
         $redis = $this->getMockBuilder(Redis::class)
             ->disableOriginalConstructor()
             ->getMock();

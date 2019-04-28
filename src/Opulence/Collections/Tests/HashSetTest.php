@@ -24,7 +24,7 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->set = new HashSet();
     }
@@ -59,7 +59,7 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingResourceValuesIsAcceptable() : void
     {
-        $resource = fopen('php://temp', 'r+');
+        $resource = fopen('php://temp', 'r+b');
         $this->set->add($resource);
         $this->assertTrue($this->set->containsValue($resource));
         $this->assertEquals([$resource], $this->set->toArray());

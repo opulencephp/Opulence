@@ -20,6 +20,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
 use Opulence\Authentication\Users\IUser;
 use Opulence\Authentication\Users\Orm\IUserRepository;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the access credential factory
@@ -28,19 +29,19 @@ class AccessTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AccessTokenCredentialFactory The factory to use in tests */
     private $factory = null;
-    /** @var IUserRepository|\PHPUnit_Framework_MockObject_MockObject The user repository to use in tests */
+    /** @var IUserRepository|MockObject The user repository to use in tests */
     private $userRepository = null;
-    /** @var IRoleRepository|\PHPUnit_Framework_MockObject_MockObject The role repository to use in tests */
+    /** @var IRoleRepository|MockObject The role repository to use in tests */
     private $roleRepository = null;
-    /** @var ISigner|\PHPUnit_Framework_MockObject_MockObject The signer to use in tests */
+    /** @var ISigner|MockObject The signer to use in tests */
     private $signer = null;
-    /** @var ISubject|\PHPUnit_Framework_MockObject_MockObject The subject to use in tests */
+    /** @var ISubject|MockObject The subject to use in tests */
     private $subject = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->signer->expects($this->any())

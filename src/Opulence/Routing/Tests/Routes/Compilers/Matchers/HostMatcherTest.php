@@ -14,6 +14,7 @@ use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestHeaders;
 use Opulence\Routing\Routes\Compilers\Matchers\HostMatcher;
 use Opulence\Routing\Routes\ParsedRoute;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the host matcher
@@ -22,15 +23,15 @@ class HostMatcherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var HostMatcher The matcher to use in tests */
     private $matcher = null;
-    /** @var Request|\PHPUnit_Framework_MockObject_MockObject The request to use in tests */
+    /** @var Request|MockObject The request to use in tests */
     private $request = null;
-    /** @var ParsedRoute|\PHPUnit_Framework_MockObject_MockObject The route to use in tests */
+    /** @var ParsedRoute|MockObject The route to use in tests */
     private $route = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->matcher = new HostMatcher();
         $this->request = $this->getMockBuilder(Request::class)

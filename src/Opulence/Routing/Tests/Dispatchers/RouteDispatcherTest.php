@@ -30,6 +30,7 @@ use Opulence\Routing\Tests\Mocks\Controller as MockController;
 use Opulence\Routing\Tests\Mocks\NonOpulenceController;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Factories\IViewFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the route dispatcher class
@@ -40,13 +41,13 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     private $dispatcher = null;
     /** @var Request The request to use in tests */
     private $request = null;
-    /** @var IDependencyResolver|\PHPUnit_Framework_MockObject_MockObject The dependency resolver to use in tests */
+    /** @var IDependencyResolver|MockObject The dependency resolver to use in tests */
     private $dependencyResolver = null;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->dependencyResolver = $this->createMock(IDependencyResolver::class);
         $this->dependencyResolver->expects($this->any())
