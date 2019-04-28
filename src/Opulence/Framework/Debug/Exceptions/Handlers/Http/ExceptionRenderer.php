@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
@@ -37,7 +39,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     /**
      * @inheritdoc
      */
-    public function getResponse() : Response
+    public function getResponse(): Response
     {
         if ($this->response === null) {
             throw new LogicException('Response not set yet');
@@ -49,7 +51,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     /**
      * @inheritdoc
      */
-    public function setRequest(Request $request) : void
+    public function setRequest(Request $request): void
     {
         $this->request = $request;
     }
@@ -57,7 +59,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     /**
      * @inheritdoc
      */
-    public function setViewCompiler(ICompiler $viewCompiler) : void
+    public function setViewCompiler(ICompiler $viewCompiler): void
     {
         $this->viewCompiler = $viewCompiler;
     }
@@ -65,7 +67,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     /**
      * @inheritdoc
      */
-    public function setViewFactory(IViewFactory $viewFactory) : void
+    public function setViewFactory(IViewFactory $viewFactory): void
     {
         $this->viewFactory = $viewFactory;
     }
@@ -73,7 +75,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     /**
      * @inheritdoc
      */
-    protected function getRequestFormat() : string
+    protected function getRequestFormat(): string
     {
         if ($this->request === null) {
             return 'html';
@@ -89,7 +91,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     /**
      * @inheritdoc
      */
-    protected function getResponseContent($ex, int $statusCode, array $headers) : string
+    protected function getResponseContent($ex, int $statusCode, array $headers): string
     {
         $viewName = $this->getViewName($ex, $statusCode, $headers);
 
@@ -126,7 +128,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
      * @param array $headers The headers for the exception
      * @return string The view name
      */
-    protected function getViewName($ex, int $statusCode, array $headers) : string
+    protected function getViewName($ex, int $statusCode, array $headers): string
     {
         return "errors/{$this->getRequestFormat()}/$statusCode";
     }

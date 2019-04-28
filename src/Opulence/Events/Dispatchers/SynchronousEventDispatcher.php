@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Events\Dispatchers;
 
@@ -29,7 +31,7 @@ class SynchronousEventDispatcher implements IEventDispatcher
     /**
      * @inheritdoc
      */
-    public function dispatch(string $eventName, $event) : void
+    public function dispatch(string $eventName, $event): void
     {
         foreach ($this->eventRegistry->getListeners($eventName) as $listener) {
             $listener($event, $eventName, $this);

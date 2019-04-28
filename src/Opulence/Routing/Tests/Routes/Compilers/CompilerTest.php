@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Tests\Routes\Compilers;
 
@@ -30,7 +32,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $routeMatchers = [
             new PathMatcher(),
@@ -43,7 +45,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling an insecure route over HTTPS
      */
-    public function testCompilingInsecureRouteOnHttps() : void
+    public function testCompilingInsecureRouteOnHttps(): void
     {
         $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*', '\/');
         $request = new Request([], [], [], [
@@ -59,10 +61,15 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a route with path variables
      */
-    public function testCompilingRouteWitPathVariables() : void
+    public function testCompilingRouteWitPathVariables(): void
     {
-        $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*',
-            '\/foo\/(?P<bar>[^\/]+)\/(?P<baz>[^\/]+)');
+        $route = $this->getParsedRoute(
+            RequestMethods::GET,
+            'foo@bar',
+            false,
+            '.*',
+            '\/foo\/(?P<bar>[^\/]+)\/(?P<baz>[^\/]+)'
+        );
         $request = new Request([], [], [], [
             'REQUEST_METHOD' => RequestMethods::GET,
             'REQUEST_URI' => '/foo/12/34'
@@ -81,7 +88,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a route with an optional variable
      */
-    public function testCompilingRouteWithOptionalVariable() : void
+    public function testCompilingRouteWithOptionalVariable(): void
     {
         $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*', '\/foo\/(?P<bar>[^\/]+)?');
         $request = new Request([], [], [], [
@@ -96,7 +103,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a route with an optional variable with a default value
      */
-    public function testCompilingRouteWithOptionalVariableWithDefaultValue() : void
+    public function testCompilingRouteWithOptionalVariableWithDefaultValue(): void
     {
         $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*', '\/bar\/(?P<foo>[^\/]+)?');
         $request = new Request([], [], [], [
@@ -111,7 +118,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the route variables for an unmatched route
      */
-    public function testGettingRouteVariablesForUnmatchedRoute() : void
+    public function testGettingRouteVariablesForUnmatchedRoute(): void
     {
         $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', false, '.*', '\/foo');
         $request = new Request([], [], [], [
@@ -125,7 +132,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests matching a secure route
      */
-    public function testMatchingSecureRoute() : void
+    public function testMatchingSecureRoute(): void
     {
         $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', true, '.*', '\/');
         $request = new Request([], [], [], [
@@ -141,7 +148,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests trying to match a secure route when not running on HTTPS
      */
-    public function testNotBeingHttpsAndMatchingSecureRoute() : void
+    public function testNotBeingHttpsAndMatchingSecureRoute(): void
     {
         $route = $this->getParsedRoute(RequestMethods::GET, 'foo@bar', true, '.*', '\/');
         $request = new Request([], [], [], [

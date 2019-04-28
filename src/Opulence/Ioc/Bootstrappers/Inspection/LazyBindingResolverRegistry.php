@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
@@ -76,7 +76,7 @@ final class LazyBindingResolverRegistry
                 $this->container->for($inspectionBinding->getTargetClass(), function (IContainer $container) use ($inspectionBinding, $resolvingFactory) {
                     $container->bindFactory($inspectionBinding->getInterface(), $resolvingFactory);
                 });
-	        } else {
+            } else {
                 $this->container->bindFactory($inspectionBinding->getInterface(), $resolvingFactory);
             }
         }

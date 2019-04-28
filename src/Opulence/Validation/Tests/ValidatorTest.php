@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Tests;
 
@@ -39,7 +41,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);
         /** @var ErrorTemplateRegistry|MockObject $errorTemplateRegistry */
@@ -59,7 +61,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the errors are empty before running the validator
      */
-    public function testErrorsAreEmptyBeforeRunningValidator() : void
+    public function testErrorsAreEmptyBeforeRunningValidator(): void
     {
         $errors = $this->validator->getErrors();
         $this->assertInstanceOf(ErrorCollection::class, $errors);
@@ -69,7 +71,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that errors are reset when validating twice
      */
-    public function testErrorsAreResetWhenValidatingTwice() : void
+    public function testErrorsAreResetWhenValidatingTwice(): void
     {
         $rules = $this->getRules();
         $rules->expects($this->exactly(2))
@@ -92,7 +94,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that field returns rules
      */
-    public function testFieldReturnsRules() : void
+    public function testFieldReturnsRules(): void
     {
         $rules = $this->getRules();
         $this->rulesFactory->expects($this->once())
@@ -104,7 +106,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that rule pass results are respected
      */
-    public function testRulePassResultsAreRespected() : void
+    public function testRulePassResultsAreRespected(): void
     {
         $rules = $this->getRules();
         $rules->expects($this->at(0))
@@ -131,7 +133,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the same rules are returned when specifying same field
      */
-    public function testSameRulesAreReturnedWhenSpecifyingSameField() : void
+    public function testSameRulesAreReturnedWhenSpecifyingSameField(): void
     {
         $rules = $this->getRules();
         $this->rulesFactory->expects($this->once())

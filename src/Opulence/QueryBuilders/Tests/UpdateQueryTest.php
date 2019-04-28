@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders\Tests;
 
@@ -25,7 +27,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->condition = $this->createMock(ICondition::class);
         $this->condition->expects($this->any())
@@ -39,7 +41,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding more columns
      */
-    public function testAddingMoreColumns() : void
+    public function testAddingMoreColumns(): void
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->addColumnValues(['email' => 'bar@foo.com']);
@@ -53,7 +55,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a basic query
      */
-    public function testBasicQuery() : void
+    public function testBasicQuery(): void
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $this->assertEquals('UPDATE users SET name = ?', $query->getSql());
@@ -65,7 +67,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests all the methods in a single, complicated query
      */
-    public function testEverything() : void
+    public function testEverything(): void
     {
         $query = new UpdateQuery('users', 'u', ['name' => 'david']);
         $query->addColumnValues(['email' => 'bar@foo.com'])
@@ -73,8 +75,10 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
             ->orWhere('u.name = ?')
             ->andWhere('subscriptions.userid = u.id', "subscriptions.type = 'customer'")
             ->addUnnamedPlaceholderValues([[18175, PDO::PARAM_INT], 'foo@bar.com', 'dave']);
-        $this->assertEquals("UPDATE users AS u SET name = ?, email = ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer')",
-            $query->getSql());
+        $this->assertEquals(
+            "UPDATE users AS u SET name = ?, email = ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer')",
+            $query->getSql()
+        );
         $this->assertEquals([
             ['david', PDO::PARAM_STR],
             ['bar@foo.com', PDO::PARAM_STR],
@@ -87,7 +91,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "WHERE" clause
      */
-    public function testWhere() : void
+    public function testWhere(): void
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->where('id = ?')
@@ -102,7 +106,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "WHERE" clause condition object
      */
-    public function testWhereConditionObject() : void
+    public function testWhereConditionObject(): void
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->where($this->condition)

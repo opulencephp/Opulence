@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Tests\Dispatchers;
 
@@ -29,7 +31,7 @@ class ContainerDependencyResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->container = $this->createMock(IContainer::class);
         $this->dependencyResolver = new ContainerDependencyResolver($this->container);
@@ -38,7 +40,7 @@ class ContainerDependencyResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the container is used to resolve dependencies
      */
-    public function testContainerIsUsedToResolveDependencies() : void
+    public function testContainerIsUsedToResolveDependencies(): void
     {
         $this->container->expects($this->once())
             ->method('resolve')
@@ -50,7 +52,7 @@ class ContainerDependencyResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that IoC exceptions are converted
      */
-    public function testIocExceptionsAreConverted() : void
+    public function testIocExceptionsAreConverted(): void
     {
         $this->expectException(DependencyResolutionException::class);
         $this->container->expects($this->once())

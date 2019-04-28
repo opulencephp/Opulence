@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens\Verification;
 
@@ -27,7 +29,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->context = new VerificationContext($this->signer);
@@ -36,7 +38,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Test getting the default values
      */
-    public function testGettingDefaultValues() : void
+    public function testGettingDefaultValues(): void
     {
         $this->assertEquals([], $this->context->getAudience());
         $this->assertNull($this->context->getIssuer());
@@ -47,7 +49,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting an audience
      */
-    public function testSettingAudience() : void
+    public function testSettingAudience(): void
     {
         $this->context->setAudience(['foo']);
         $this->assertEquals(['foo'], $this->context->getAudience());
@@ -56,7 +58,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a issuer
      */
-    public function testSettingIssuer() : void
+    public function testSettingIssuer(): void
     {
         $this->context->setIssuer('foo');
         $this->assertEquals('foo', $this->context->getIssuer());
@@ -65,7 +67,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a signer
      */
-    public function testSettingSigner() : void
+    public function testSettingSigner(): void
     {
         /** @var ISigner $signer */
         $signer = $this->createMock(ISigner::class);
@@ -76,7 +78,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a subject
      */
-    public function testSettingSubject() : void
+    public function testSettingSubject(): void
     {
         $this->context->setSubject('foo');
         $this->assertEquals('foo', $this->context->getSubject());

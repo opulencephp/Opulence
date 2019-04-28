@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Rules;
 
@@ -28,7 +30,7 @@ class BetweenRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function getErrorPlaceholders() : array
+    public function getErrorPlaceholders(): array
     {
         return ['min' => $this->min, 'max' => $this->max];
     }
@@ -36,7 +38,7 @@ class BetweenRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function getSlug() : string
+    public function getSlug(): string
     {
         return 'between';
     }
@@ -44,7 +46,7 @@ class BetweenRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = []) : bool
+    public function passes($value, array $allValues = []): bool
     {
         if ($this->min === null) {
             throw new LogicException('Minimum value not set');
@@ -64,7 +66,7 @@ class BetweenRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function setArgs(array $args) : void
+    public function setArgs(array $args): void
     {
         if (count($args) < 2 || !is_numeric($args[0]) || !is_numeric($args[1])) {
             throw new InvalidArgumentException('Must pass minimum and maximum values to compare against');

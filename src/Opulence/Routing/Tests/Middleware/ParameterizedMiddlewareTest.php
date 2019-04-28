@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Tests\Middleware;
 
@@ -24,7 +26,7 @@ class ParameterizedMiddlewareTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->middleware = new ParameterizedMiddlewareMock();
     }
@@ -32,7 +34,7 @@ class ParameterizedMiddlewareTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that middleware parameters are created correctly
      */
-    public function testWithCreatesMiddlewareParametersCorrectly() : void
+    public function testWithCreatesMiddlewareParametersCorrectly(): void
     {
         /** @var MiddlewareParameters $parameters */
         $parameters = ParameterizedMiddlewareMock::withParameters(['bar' => 'baz']);

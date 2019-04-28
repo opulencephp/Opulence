@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Ioc;
 
@@ -38,7 +40,7 @@ class ClassContainerBinding implements IContainerBinding
     /**
      * @return string
      */
-    public function getConcreteClass() : string
+    public function getConcreteClass(): string
     {
         return $this->concreteClass;
     }
@@ -46,7 +48,7 @@ class ClassContainerBinding implements IContainerBinding
     /**
      * @return array
      */
-    public function getConstructorPrimitives() : array
+    public function getConstructorPrimitives(): array
     {
         return $this->constructorPrimitives;
     }
@@ -54,7 +56,7 @@ class ClassContainerBinding implements IContainerBinding
     /**
      * @return bool
      */
-    public function resolveAsSingleton() : bool
+    public function resolveAsSingleton(): bool
     {
         return $this->resolveAsSingleton;
     }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm\Tests\DataMappers\Mocks;
 
@@ -46,7 +48,7 @@ class CachedSqlDataMapper extends BaseCachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         return $this->read('getAll');
     }
@@ -70,7 +72,7 @@ class CachedSqlDataMapper extends BaseCachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    protected function setCacheDataMapper($cache) : void
+    protected function setCacheDataMapper($cache): void
     {
         $this->cacheDataMapper = new CacheDataMapper();
     }
@@ -78,7 +80,7 @@ class CachedSqlDataMapper extends BaseCachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    protected function setSqlDataMapper(IConnection $readConnection, IConnection $writeConnection) : void
+    protected function setSqlDataMapper(IConnection $readConnection, IConnection $writeConnection): void
     {
         $this->sqlDataMapper = new SqlDataMapper();
     }

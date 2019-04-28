@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Tests\Rules\Models\Mocks;
 
@@ -22,7 +24,7 @@ class UserModelState extends ModelState
      * @inheritdoc
      * @param User $model
      */
-    protected function getModelProperties($model) : array
+    protected function getModelProperties($model): array
     {
         return [
             'id' => $model->getId(),
@@ -34,7 +36,7 @@ class UserModelState extends ModelState
     /**
      * @inheritdoc
      */
-    protected function registerFields(IValidator $validator) : void
+    protected function registerFields(IValidator $validator): void
     {
         $validator->field('id')
             ->integer();

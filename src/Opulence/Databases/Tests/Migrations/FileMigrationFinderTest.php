@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Tests\Migrations;
 
@@ -31,7 +33,7 @@ class FileMigrationFinderTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->migrationFinder = new FileMigrationFinder();
         $topLevelMigrationNamePieces = explode('\\', MigrationA::class);
@@ -44,7 +46,7 @@ class FileMigrationFinderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that migrations are found in a childless directory
      */
-    public function testMigrationsAreFoundInChildlessDirectory() : void
+    public function testMigrationsAreFoundInChildlessDirectory(): void
     {
         $expectedMigrations = [MigrationC::class];
         $this->assertEquals(
@@ -56,7 +58,7 @@ class FileMigrationFinderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that migrations are found in subdirectories
      */
-    public function testMigrationsAreFoundInSubdirectories() : void
+    public function testMigrationsAreFoundInSubdirectories(): void
     {
         $expectedMigrations = [
             MigrationC::class,
@@ -72,7 +74,7 @@ class FileMigrationFinderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that non-directory paths throw an exception
      */
-    public function testNonDirectoryPathThrowsException() : void
+    public function testNonDirectoryPathThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->migrationFinder->findAll(__FILE__);

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Events\Bootstrappers;
 
@@ -25,7 +27,7 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         $container->bindInstance(IEventDispatcher::class, $this->getEventDispatcher($container));
     }
@@ -35,7 +37,7 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
      *
      * @return array The event listener config
      */
-    abstract protected function getEventListenerConfig() : array;
+    abstract protected function getEventListenerConfig(): array;
 
     /**
      * Gets the event dispatcher
@@ -43,7 +45,7 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return IEventDispatcher The event dispatcher
      */
-    protected function getEventDispatcher(IContainer $container) : IEventDispatcher
+    protected function getEventDispatcher(IContainer $container): IEventDispatcher
     {
         $eventRegistry = new EventRegistry();
 
@@ -64,7 +66,7 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
      * @return callable The event listener callable
      * @throws InvalidArgumentException Thrown if the listener config was not set up correctly
      */
-    protected function getEventListenerCallback($listenerConfig, IContainer $container) : callable
+    protected function getEventListenerCallback($listenerConfig, IContainer $container): callable
     {
         if (is_callable($listenerConfig)) {
             return $listenerConfig;

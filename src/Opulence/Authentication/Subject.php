@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication;
 
@@ -40,7 +42,7 @@ class Subject implements ISubject
     /**
      * @inheritdoc
      */
-    public function addCredential(ICredential $credential) : void
+    public function addCredential(ICredential $credential): void
     {
         $this->credentials[$credential->getType()] = $credential;
     }
@@ -48,7 +50,7 @@ class Subject implements ISubject
     /**
      * @inheritdoc
      */
-    public function addPrincipal(IPrincipal $principal) : void
+    public function addPrincipal(IPrincipal $principal): void
     {
         $this->principals[$principal->getType()] = $principal;
     }
@@ -56,7 +58,7 @@ class Subject implements ISubject
     /**
      * @inheritdoc
      */
-    public function getCredential(string $type) : ?ICredential
+    public function getCredential(string $type): ?ICredential
     {
         if (!isset($this->credentials[$type])) {
             return null;
@@ -68,7 +70,7 @@ class Subject implements ISubject
     /**
      * @inheritdoc
      */
-    public function getCredentials() : array
+    public function getCredentials(): array
     {
         return array_values($this->credentials);
     }
@@ -76,7 +78,7 @@ class Subject implements ISubject
     /**
      * @inheritdoc
      */
-    public function getPrimaryPrincipal() : ?IPrincipal
+    public function getPrimaryPrincipal(): ?IPrincipal
     {
         if (!isset($this->principals[PrincipalTypes::PRIMARY])) {
             return null;
@@ -88,7 +90,7 @@ class Subject implements ISubject
     /**
      * @inheritdoc
      */
-    public function getPrincipal(string $type) : ?IPrincipal
+    public function getPrincipal(string $type): ?IPrincipal
     {
         if (!isset($this->principals[$type])) {
             return null;
@@ -100,7 +102,7 @@ class Subject implements ISubject
     /**
      * @inheritdoc
      */
-    public function getPrincipals() : array
+    public function getPrincipals(): array
     {
         return array_values($this->principals);
     }
@@ -108,7 +110,7 @@ class Subject implements ISubject
     /**
      * @inheritdoc
      */
-    public function getRoles() : array
+    public function getRoles(): array
     {
         $roles = [];
 
@@ -122,7 +124,7 @@ class Subject implements ISubject
     /**
      * @inheritdoc
      */
-    public function hasRole(string $roleName) : bool
+    public function hasRole(string $roleName): bool
     {
         return in_array($roleName, $this->getRoles());
     }

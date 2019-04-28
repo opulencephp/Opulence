@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens;
 
@@ -32,7 +34,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->header = new JwtHeader();
         $this->payload = new JwtPayload();
@@ -41,7 +43,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating a signed JWT from an unsigned JWT
      */
-    public function testCreatingFromUnsignedToken() : void
+    public function testCreatingFromUnsignedToken(): void
     {
         $signedJwt = SignedJwt::createFromUnsignedJwt(new UnsignedJwt($this->header, $this->payload), 'foo');
         $this->assertSame($this->header, $signedJwt->getHeader());
@@ -52,7 +54,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating a JWT from a string with the "none" algorithm
      */
-    public function testCreatingJwtFromStringWithNoneAlgorithm() : void
+    public function testCreatingJwtFromStringWithNoneAlgorithm(): void
     {
         $header = new JwtHeader('none');
         $unsignedJwt = new UnsignedJwt($header, new JwtPayload());
@@ -64,7 +66,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating token from string
      */
-    public function testDecodingEncodedToken() : void
+    public function testDecodingEncodedToken(): void
     {
         $signer = new HmacSigner(Algorithms::SHA256, 'public');
         $unsignedJwt = new UnsignedJwt($this->header, $this->payload);
@@ -77,7 +79,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests encoding and decoding RSA algorithms
      */
-    public function testEncodingDecodingRsaAlgorithms() : void
+    public function testEncodingDecodingRsaAlgorithms(): void
     {
         $algorithms = [
             Algorithms::RSA_SHA256 => 'sha256',
@@ -107,7 +109,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown with an invalid number of segments
      */
-    public function testExceptionThrownWithInvalidNumberSegments() : void
+    public function testExceptionThrownWithInvalidNumberSegments(): void
     {
         $this->expectException(InvalidArgumentException::class);
         SignedJwt::createFromString('foo.bar');
@@ -116,7 +118,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown with no algorithm set
      */
-    public function testExceptionThrownWithNoAlgorithmSet() : void
+    public function testExceptionThrownWithNoAlgorithmSet(): void
     {
         $this->expectException(InvalidArgumentException::class);
         SignedJwt::createFromString(base64_encode('foo') . '.' . base64_encode('bar') . '.' . base64_encode('baz'));
@@ -125,7 +127,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the signature
      */
-    public function testGettingSignature() : void
+    public function testGettingSignature(): void
     {
         $jwt = new SignedJwt($this->header, $this->payload, 'signature');
         $this->assertEquals('signature', $jwt->getSignature());
@@ -138,7 +140,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
      * @param SignedJwt $b The second token
      * @param bool $checkSignature Whether or not to check the signatures
      */
-    private function assertTokensEqual(SignedJwt $a, SignedJwt $b, bool $checkSignature) : void
+    private function assertTokensEqual(SignedJwt $a, SignedJwt $b, bool $checkSignature): void
     {
         // Because the JTI is random for each payload, exclude it
         $payloadA = $a->getPayload()->getAll();

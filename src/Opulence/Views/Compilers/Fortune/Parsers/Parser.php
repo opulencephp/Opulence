@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Compilers\Fortune\Parsers;
 
@@ -28,7 +30,7 @@ class Parser implements IParser
     /**
      * @inheritdoc
      */
-    public function parse(array $tokens) : AbstractSyntaxTree
+    public function parse(array $tokens): AbstractSyntaxTree
     {
         $ast = new AbstractSyntaxTree();
 
@@ -153,7 +155,7 @@ class Parser implements IParser
      * @param Token $token The invalid token
      * @throws RuntimeException Always thrown
      */
-    private function throwImproperlyNestedNodeException(Token $token) : void
+    private function throwImproperlyNestedNodeException(Token $token): void
     {
         throw new RuntimeException(
             sprintf(
@@ -170,7 +172,7 @@ class Parser implements IParser
      * @param Token $token The invalid token
      * @throws RuntimeException Always thrown
      */
-    private function throwUnopenedDelimiterException(Token $token) : void
+    private function throwUnopenedDelimiterException(Token $token): void
     {
         throw new RuntimeException(
             sprintf(

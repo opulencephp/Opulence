@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Compilers;
 
@@ -27,7 +29,7 @@ class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->registry = new CompilerRegistry();
     }
@@ -35,7 +37,7 @@ class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a view that does not have a compiler
      */
-    public function testCompilingViewThatDoesNotHaveCompiler() : void
+    public function testCompilingViewThatDoesNotHaveCompiler(): void
     {
         $this->expectException(InvalidArgumentException::class);
         /** @var IView|MockObject $view */
@@ -49,7 +51,7 @@ class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests registering a compiler
      */
-    public function testRegisteringCompiler() : void
+    public function testRegisteringCompiler(): void
     {
         /** @var ICompiler|MockObject $compiler */
         $compiler = $this->createMock(ICompiler::class);

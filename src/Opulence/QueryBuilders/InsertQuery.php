@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders;
 
@@ -39,7 +41,7 @@ class InsertQuery extends Query
      * @return self For method chaining
      * @throws InvalidQueryException Thrown if the query is invalid
      */
-    public function addColumnValues(array $columnNamesToValues) : self
+    public function addColumnValues(array $columnNamesToValues): self
     {
         $this->addUnnamedPlaceholderValues(array_values($columnNamesToValues));
 
@@ -62,12 +64,14 @@ class InsertQuery extends Query
     /**
      * @inheritdoc
      */
-    public function getSql() : string
+    public function getSql(): string
     {
         $sql = "INSERT INTO {$this->tableName}"
             . ' (' . implode(', ', array_keys($this->augmentingQueryBuilder->getColumnNamesToValues())) . ') VALUES ('
-            . implode(', ',
-                array_fill(0, count(array_values($this->augmentingQueryBuilder->getColumnNamesToValues())), '?'))
+            . implode(
+                ', ',
+                array_fill(0, count(array_values($this->augmentingQueryBuilder->getColumnNamesToValues())), '?')
+            )
             . ')';
 
         return $sql;
@@ -76,7 +80,7 @@ class InsertQuery extends Query
     /**
      * @inheritdoc
      */
-    public function setTable(string $tableName, string $tableAlias = '') : void
+    public function setTable(string $tableName, string $tableAlias = ''): void
     {
         parent::setTable($tableName);
     }

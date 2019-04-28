@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Bootstrappers;
 
@@ -23,7 +25,7 @@ class RequestBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         $container->bindInstance(IParser::class, $this->getRequestParser($container));
     }
@@ -35,7 +37,7 @@ class RequestBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return IParser The request parser
      */
-    protected function getRequestParser(IContainer $container) : IParser
+    protected function getRequestParser(IContainer $container): IParser
     {
         return new ArgvParser();
     }

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
@@ -24,8 +24,7 @@ class UniversalInspectionBindingTest extends TestCase
 {
     public function testGettingPropertiesReturnsOneSetInConstructor(): void
     {
-        $expectedBootstrapper = new class extends Bootstrapper
-        {
+        $expectedBootstrapper = new class extends Bootstrapper {
             public function registerBindings(IContainer $container): void
             {
                 // Don't do anything

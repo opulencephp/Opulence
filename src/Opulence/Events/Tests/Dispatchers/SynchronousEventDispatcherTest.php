@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Events\Tests\Dispatchers;
 
@@ -33,7 +35,7 @@ class SynchronousEventDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->eventRegistry = $this->createMock(IEventRegistry::class);
         $this->dispatcher = new SynchronousEventDispatcher($this->eventRegistry);
@@ -44,7 +46,7 @@ class SynchronousEventDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests dispatching to multiple listeners
      */
-    public function testDispatchingToMultipleListeners() : void
+    public function testDispatchingToMultipleListeners(): void
     {
         $listeners = [
             [$this->listener, 'doNothing1'],
@@ -61,7 +63,7 @@ class SynchronousEventDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests dispatching to a single listener
      */
-    public function testDispatchingToSingleListener() : void
+    public function testDispatchingToSingleListener(): void
     {
         $listeners = [
             [$this->listener, 'doNothing1']
@@ -76,7 +78,7 @@ class SynchronousEventDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests dispatching with no listeners
      */
-    public function testDispatchingWithNoListeners() : void
+    public function testDispatchingWithNoListeners(): void
     {
         $this->dispatcher->dispatch('foo', $this->event);
         // Essentially just test that we got here

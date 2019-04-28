@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tokens\Signatures\Factories;
 
@@ -30,7 +32,7 @@ class SignerFactory
      * @return ISigner The signer
      * @throws InvalidArgumentException Thrown if the keys are not in a valid format
      */
-    public function createSigner(string $algorithm, $publicKey, $privateKey = null) : ISigner
+    public function createSigner(string $algorithm, $publicKey, $privateKey = null): ISigner
     {
         if (!is_string($publicKey) && !is_resource($publicKey)) {
             throw new InvalidArgumentException('Public key must either be a string or a resource');
@@ -53,7 +55,7 @@ class SignerFactory
      * @param string $algorithm The algorithm to check
      * @return bool True if the algorithm is symmetric, otherwise false
      */
-    private function algorithmIsSymmetric(string $algorithm) : bool
+    private function algorithmIsSymmetric(string $algorithm): bool
     {
         return in_array($algorithm, [Algorithms::SHA256, Algorithms::SHA384, Algorithms::SHA512]);
     }

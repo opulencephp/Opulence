@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Commands;
 
@@ -50,7 +52,7 @@ abstract class MakeCommand extends Command
      *
      * @return string The template path
      */
-    abstract protected function getFileTemplatePath() : string;
+    abstract protected function getFileTemplatePath(): string;
 
     /**
      * Compiles a template
@@ -59,7 +61,7 @@ abstract class MakeCommand extends Command
      * @param string $fullyQualifiedClassName The fully-qualified class name
      * @return string the compiled template
      */
-    protected function compile(string $templateContents, string $fullyQualifiedClassName) : string
+    protected function compile(string $templateContents, string $fullyQualifiedClassName): string
     {
         $explodedClass = explode('\\', $fullyQualifiedClassName);
         $namespace = implode('\\', array_slice($explodedClass, 0, -1));
@@ -73,7 +75,7 @@ abstract class MakeCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define() : void
+    protected function define(): void
     {
         $this->addArgument(new Argument(
             'class',
@@ -117,7 +119,7 @@ abstract class MakeCommand extends Command
      * @param string $rootNamespace The root namespace
      * @return string The default namespace
      */
-    protected function getDefaultNamespace(string $rootNamespace) : string
+    protected function getDefaultNamespace(string $rootNamespace): string
     {
         return $rootNamespace;
     }
@@ -127,7 +129,7 @@ abstract class MakeCommand extends Command
      *
      * @param string $path The fully-qualified class name
      */
-    protected function makeDirectories(string $path) : void
+    protected function makeDirectories(string $path): void
     {
         $directoryName = dirname($path);
 

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Compilers\Fortune\Parsers;
 
@@ -26,7 +28,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->tree = new AbstractSyntaxTree();
     }
@@ -34,7 +36,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests clearing the nodes
      */
-    public function testClearingNodes() : void
+    public function testClearingNodes(): void
     {
         /** @var Node|MockObject $childNode */
         $childNode = $this->getMockForAbstractClass(Node::class);
@@ -47,7 +49,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the current node when none is set
      */
-    public function testGettingCurrentNodeWhenNoneIsSet() : void
+    public function testGettingCurrentNodeWhenNoneIsSet(): void
     {
         $this->assertEquals(new RootNode(), $this->tree->getCurrentNode());
     }
@@ -55,7 +57,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the root node
      */
-    public function testGettingRootNode() : void
+    public function testGettingRootNode(): void
     {
         $this->assertEquals(new RootNode(), $this->tree->getRootNode());
     }
@@ -63,7 +65,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the current node
      */
-    public function testSettingCurrentNode() : void
+    public function testSettingCurrentNode(): void
     {
         /** @var Node $currentNode */
         $currentNode = $this->getMockForAbstractClass(Node::class, ['foo']);

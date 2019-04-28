@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Databases\Migrations;
 
@@ -35,7 +37,7 @@ class ContainerMigrationResolver implements IMigrationResolver
     /**
      * @inheritdoc
      */
-    public function resolve(string $migrationClassName) : IMigration
+    public function resolve(string $migrationClassName): IMigration
     {
         try {
             return $this->container->resolve($migrationClassName);

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm\Tests\DataMappers\Mocks;
 
@@ -28,7 +30,7 @@ class CacheDataMapper implements ICacheDataMapper
     /**
      * @inheritdoc
      */
-    public function add($entity) : void
+    public function add($entity): void
     {
         $this->entities[$entity->getId()] = $entity;
     }
@@ -36,7 +38,7 @@ class CacheDataMapper implements ICacheDataMapper
     /**
      * @inheritdoc
      */
-    public function delete($entity) : void
+    public function delete($entity): void
     {
         unset($this->entities[$entity->getId()]);
     }
@@ -44,7 +46,7 @@ class CacheDataMapper implements ICacheDataMapper
     /**
      * @inheritdoc
      */
-    public function flush() : void
+    public function flush(): void
     {
         $this->entities = [];
     }
@@ -52,7 +54,7 @@ class CacheDataMapper implements ICacheDataMapper
     /**
      * @inheritdoc
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         return array_values($this->entities);
     }
@@ -72,7 +74,7 @@ class CacheDataMapper implements ICacheDataMapper
     /**
      * @inheritdoc
      */
-    public function update($entity) : void
+    public function update($entity): void
     {
         $this->entities[$entity->getId()] = $entity;
     }

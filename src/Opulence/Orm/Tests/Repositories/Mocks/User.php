@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm\Tests\Repositories\Mocks;
 
@@ -37,7 +39,7 @@ class User
     /**
      * @return int
      */
-    public function getAggregateRootId() : int
+    public function getAggregateRootId(): int
     {
         return $this->aggregateRootId;
     }
@@ -45,7 +47,7 @@ class User
     /**
      * @return int
      */
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -53,7 +55,7 @@ class User
     /**
      * @return int
      */
-    public function getSecondAggregateRootId() : int
+    public function getSecondAggregateRootId(): int
     {
         return $this->secondAggregateRootId;
     }
@@ -61,7 +63,7 @@ class User
     /**
      * @return string
      */
-    public function getUsername() : string
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -69,7 +71,7 @@ class User
     /**
      * @param int $aggregateRootId
      */
-    public function setAggregateRootId(int $aggregateRootId) : void
+    public function setAggregateRootId(int $aggregateRootId): void
     {
         $this->aggregateRootId = $aggregateRootId;
     }
@@ -77,7 +79,7 @@ class User
     /**
      * @param int $id
      */
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -85,7 +87,7 @@ class User
     /**
      * @param int $secondAggregateRootId
      */
-    public function setSecondAggregateRootId(int $secondAggregateRootId) : void
+    public function setSecondAggregateRootId(int $secondAggregateRootId): void
     {
         $this->secondAggregateRootId = $secondAggregateRootId;
     }
@@ -93,7 +95,7 @@ class User
     /**
      * @param string $username
      */
-    public function setUsername(string $username) : void
+    public function setUsername(string $username): void
     {
         $this->username = $username;
     }

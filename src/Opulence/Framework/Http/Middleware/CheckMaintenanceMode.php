@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Http\Middleware;
 
@@ -25,7 +27,7 @@ class CheckMaintenanceMode implements IMiddleware
     /**
      * @inheritdoc
      */
-    public function handle(Request $request, Closure $next) : Response
+    public function handle(Request $request, Closure $next): Response
     {
         if (file_exists(Config::get('paths', 'tmp.framework.http') . '/down')) {
             throw new HttpException(503, 'Down for scheduled maintenance');

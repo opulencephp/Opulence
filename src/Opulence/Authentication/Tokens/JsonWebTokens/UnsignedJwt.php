@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
@@ -35,7 +37,7 @@ class UnsignedJwt implements IUnsignedToken
     /**
      * @return JwtHeader
      */
-    public function getHeader() : JwtHeader
+    public function getHeader(): JwtHeader
     {
         return $this->header;
     }
@@ -43,7 +45,7 @@ class UnsignedJwt implements IUnsignedToken
     /**
      * @return JwtPayload
      */
-    public function getPayload() : JwtPayload
+    public function getPayload(): JwtPayload
     {
         return $this->payload;
     }
@@ -51,7 +53,7 @@ class UnsignedJwt implements IUnsignedToken
     /**
      * @inheritdoc
      */
-    public function getUnsignedValue() : string
+    public function getUnsignedValue(): string
     {
         $unsignedValue = "{$this->header->encode()}.{$this->payload->encode()}";
 

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Credentials\Authenticators;
 
@@ -25,7 +27,7 @@ class AuthenticatorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->registry = new AuthenticatorRegistry();
     }
@@ -33,7 +35,7 @@ class AuthenticatorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the correct authenticator is returned
      */
-    public function testCorrectAuthenticatorReturned() : void
+    public function testCorrectAuthenticatorReturned(): void
     {
         /** @var IAuthenticator $authenticator */
         $authenticator = $this->createMock(IAuthenticator::class);
@@ -44,7 +46,7 @@ class AuthenticatorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown with a non-existent authenticator
      */
-    public function testExceptionThrownOnNonExistentAuthenticator() : void
+    public function testExceptionThrownOnNonExistentAuthenticator(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->registry->getAuthenticators('foo');

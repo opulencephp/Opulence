@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens\Verification;
 
@@ -29,7 +31,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->jwt = $this->getMockBuilder(SignedJwt::class)
             ->disableOriginalConstructor()
@@ -43,7 +45,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a mismatched audience
      */
-    public function testMismatchedAudience() : void
+    public function testMismatchedAudience(): void
     {
         $verifier = new AudienceVerifier('foo');
         $this->jwtPayload->expects($this->once())
@@ -56,7 +58,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a mismatched array audience
      */
-    public function testMismatchedAudienceArray() : void
+    public function testMismatchedAudienceArray(): void
     {
         $verifier = new AudienceVerifier('foo');
         $this->jwtPayload->expects($this->once())
@@ -69,7 +71,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests verifying against an empty audience is successful
      */
-    public function testVerifyingEmptyAudienceIsSuccessful() : void
+    public function testVerifyingEmptyAudienceIsSuccessful(): void
     {
         $verifier = new AudienceVerifier([]);
         $this->jwtPayload->expects($this->once())
@@ -82,7 +84,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests verifying valid array audience
      */
-    public function testVerifyingValidArrayAudience() : void
+    public function testVerifyingValidArrayAudience(): void
     {
         $verifier = new AudienceVerifier(['foo', 'bar']);
         $this->jwtPayload->expects($this->once())
@@ -95,7 +97,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests verifying valid string audience
      */
-    public function testVerifyingValidStringAudience() : void
+    public function testVerifyingValidStringAudience(): void
     {
         $verifier = new AudienceVerifier('foo');
         $this->jwtPayload->expects($this->once())

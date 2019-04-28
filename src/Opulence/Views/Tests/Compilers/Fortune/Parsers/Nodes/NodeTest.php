@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Compilers\Fortune\Parsers\Nodes;
 
@@ -20,7 +22,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a child
      */
-    public function testAddingChild() : void
+    public function testAddingChild(): void
     {
         /** @var Node $parent */
         $parent = $this->getMockForAbstractClass(Node::class, ['foo']);
@@ -34,7 +36,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if nodes are leaves
      */
-    public function testCheckingIfLeaves() : void
+    public function testCheckingIfLeaves(): void
     {
         /** @var Node $parent */
         $parent = $this->getMockForAbstractClass(Node::class, ['foo']);
@@ -48,7 +50,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if nodes are roots
      */
-    public function testCheckingIfRoots() : void
+    public function testCheckingIfRoots(): void
     {
         /** @var Node $parent */
         $parent = $this->getMockForAbstractClass(Node::class, ['foo']);
@@ -62,7 +64,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the value
      */
-    public function testGettingValue() : void
+    public function testGettingValue(): void
     {
         /** @var Node $node */
         $node = $this->getMockForAbstractClass(Node::class, ['foo']);

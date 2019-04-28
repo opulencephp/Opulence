@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Authentication\Bootstrappers;
 
@@ -28,7 +30,7 @@ abstract class AuthenticationBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         // Create the components
         $authenticationContext = $this->getAuthenticationContext($container);
@@ -47,7 +49,7 @@ abstract class AuthenticationBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return IUserRepository The user repository
      */
-    abstract protected function getUserRepository(IContainer $container) : IUserRepository;
+    abstract protected function getUserRepository(IContainer $container): IUserRepository;
 
     /**
      * Gets the authentication context
@@ -55,7 +57,7 @@ abstract class AuthenticationBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return IAuthenticationContext The authentication context
      */
-    protected function getAuthenticationContext(IContainer $container) : IAuthenticationContext
+    protected function getAuthenticationContext(IContainer $container): IAuthenticationContext
     {
         return new AuthenticationContext();
     }
@@ -66,7 +68,7 @@ abstract class AuthenticationBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return IAuthenticator The authenticator
      */
-    protected function getAuthenticator(IContainer $container) : IAuthenticator
+    protected function getAuthenticator(IContainer $container): IAuthenticator
     {
         $authenticatorRegistry = new AuthenticatorRegistry();
         $authenticator = new Authenticator($authenticatorRegistry);

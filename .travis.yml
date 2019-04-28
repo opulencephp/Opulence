@@ -8,7 +8,9 @@ before_script:
   - composer install
   - composer dump-autoload -o
 
-script: vendor/bin/phpunit --verbose
+script:
+  - vendor/bin/phpunit --verbose
+  - composer run-script lint-check
 
 notifications:
   email:

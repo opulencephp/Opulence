@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Tests\Migrations;
 
@@ -32,7 +34,7 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->connection = $this->createMock(IConnection::class);
         $this->migrationResolver = $this->createMock(IMigrationResolver::class);
@@ -42,7 +44,7 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that rolling back all migrations calls down on all migrations
      */
-    public function testRollingBackAllMigrationsCallsDownOnAllMigrations() : void
+    public function testRollingBackAllMigrationsCallsDownOnAllMigrations(): void
     {
         $migrator = new Migrator(
             ['foo', 'bar'],
@@ -77,7 +79,7 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that rolling back a specific number of migrations calls down on those migrations
      */
-    public function testRollingBackSpecificNumberOfMigrationsCallsDownOnThoseMigrations() : void
+    public function testRollingBackSpecificNumberOfMigrationsCallsDownOnThoseMigrations(): void
     {
         $migrator = new Migrator(
             ['foo', 'bar'],
@@ -109,7 +111,7 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that rolling back a specific number of migrations only grabs that number of migrations
      */
-    public function testRollingBackSpecificNumberOfMigrationsOnlyGetsThatNumberOfMigrations() : void
+    public function testRollingBackSpecificNumberOfMigrationsOnlyGetsThatNumberOfMigrations(): void
     {
         $migrator = new Migrator(
             ['foo'],
@@ -127,7 +129,7 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that running migrations when none have been executed calls up on all
      */
-    public function testRunningMigrationsWhenNoneHaveBeenExecutedCallsUpOnAll() : void
+    public function testRunningMigrationsWhenNoneHaveBeenExecutedCallsUpOnAll(): void
     {
         $migrator = new Migrator(
             ['foo', 'bar'],
@@ -162,7 +164,7 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that running only un-executed migrations are run
      */
-    public function testRunningMigrationsOnlyExecutesUnExecutedMigrations() : void
+    public function testRunningMigrationsOnlyExecutesUnExecutedMigrations(): void
     {
         $migrator = new Migrator(
             ['foo', 'bar'],

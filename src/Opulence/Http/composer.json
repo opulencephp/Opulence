@@ -25,6 +25,7 @@
     ]
   },
   "require": {
+    "ext-fileinfo": "*",
     "php": "^7.1"
   },
   "extra": {

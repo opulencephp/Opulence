@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm\ChangeTracking;
 
@@ -31,7 +33,7 @@ class ChangeTracker implements IChangeTracker
     /**
      * @inheritdoc
      */
-    public function hasChanged($entity) : bool
+    public function hasChanged($entity): bool
     {
         if (!isset($this->objectHashIdsToOriginalData[spl_object_hash($entity)])) {
             throw new OrmException('Entity is not registered');
@@ -52,7 +54,7 @@ class ChangeTracker implements IChangeTracker
     /**
      * @inheritdoc
      */
-    public function registerComparator(string $className, callable $comparator) : void
+    public function registerComparator(string $className, callable $comparator): void
     {
         $this->comparators[$className] = $comparator;
     }
@@ -60,7 +62,7 @@ class ChangeTracker implements IChangeTracker
     /**
      * @inheritdoc
      */
-    public function startTracking($entity) : void
+    public function startTracking($entity): void
     {
         $objectHashId = spl_object_hash($entity);
         $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;
@@ -69,7 +71,7 @@ class ChangeTracker implements IChangeTracker
     /**
      * @inheritdoc
      */
-    public function stopTracking($entity) : void
+    public function stopTracking($entity): void
     {
         unset($this->objectHashIdsToOriginalData[spl_object_hash($entity)]);
     }
@@ -77,7 +79,7 @@ class ChangeTracker implements IChangeTracker
     /**
      * @inheritdoc
      */
-    public function stopTrackingAll() : void
+    public function stopTrackingAll(): void
     {
         $this->objectHashIdsToOriginalData = [];
     }
@@ -88,7 +90,7 @@ class ChangeTracker implements IChangeTracker
      * @param object $entity The entity to check for changes
      * @return bool True if the entity has changed, otherwise false
      */
-    protected function hasChangedUsingComparisonFunction($entity) : bool
+    protected function hasChangedUsingComparisonFunction($entity): bool
     {
         $objectHashId = spl_object_hash($entity);
         $originalData = $this->objectHashIdsToOriginalData[$objectHashId];
@@ -102,7 +104,7 @@ class ChangeTracker implements IChangeTracker
      * @param object $entity The entity to check for changes
      * @return bool True if the entity has changed, otherwise false
      */
-    protected function hasChangedUsingReflection($entity) : bool
+    protected function hasChangedUsingReflection($entity): bool
     {
         // Get all the properties in the original entity and the current one
         $objectHashId = spl_object_hash($entity);

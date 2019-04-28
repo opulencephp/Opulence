@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Routing\Console\Commands;
 
@@ -30,7 +32,7 @@ class MakeControllerCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function define() : void
+    protected function define(): void
     {
         parent::define();
 
@@ -45,8 +47,11 @@ class MakeControllerCommand extends MakeCommand
     {
         $this->controllerType = self::$controllerTypes[$this->prompt->ask(
             new MultipleChoice(
-                'Which type of controller are you making?', array_keys(self::$controllerTypes)
-            ), $response)];
+                'Which type of controller are you making?',
+                array_keys(self::$controllerTypes)
+            ),
+            $response
+        )];
 
         return parent::doExecute($response);
     }
@@ -54,7 +59,7 @@ class MakeControllerCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function getDefaultNamespace(string $rootNamespace) : string
+    protected function getDefaultNamespace(string $rootNamespace): string
     {
         return $rootNamespace . '\\Application\\Http\\Controllers';
     }
@@ -62,7 +67,7 @@ class MakeControllerCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function getFileTemplatePath() : string
+    protected function getFileTemplatePath(): string
     {
         return __DIR__ . "/templates/{$this->controllerType}.template";
     }

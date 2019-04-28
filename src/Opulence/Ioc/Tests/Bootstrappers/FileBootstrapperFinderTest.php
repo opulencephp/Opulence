@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
@@ -34,7 +34,7 @@ class FileBootstrapperFinderTest extends TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->bootstrapperFinder = new FileBootstrapperFinder();
         $topLevelBootstrapperNamePieces = explode('\\', BootstrapperA::class);
@@ -44,7 +44,7 @@ class FileBootstrapperFinderTest extends TestCase
         );
     }
 
-    public function testBootstrappersAreFoundInChildlessDirectory() : void
+    public function testBootstrappersAreFoundInChildlessDirectory(): void
     {
         $expectedBootstrappers = [BootstrapperC::class];
         $this->assertEquals(
@@ -53,7 +53,7 @@ class FileBootstrapperFinderTest extends TestCase
         );
     }
 
-    public function testBootstrappersAreFoundInSubdirectories() : void
+    public function testBootstrappersAreFoundInSubdirectories(): void
     {
         $expectedBootstrappers = [
             BootstrapperA::class,
@@ -67,7 +67,7 @@ class FileBootstrapperFinderTest extends TestCase
         );
     }
 
-    public function testNonDirectoryPathThrowsException() : void
+    public function testNonDirectoryPathThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->bootstrapperFinder->findAll(__FILE__);

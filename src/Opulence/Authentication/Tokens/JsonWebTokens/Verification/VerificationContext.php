@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
@@ -37,7 +39,7 @@ class VerificationContext
     /**
      * @return array
      */
-    public function getAudience() : array
+    public function getAudience(): array
     {
         return $this->audience;
     }
@@ -45,7 +47,7 @@ class VerificationContext
     /**
      * @return string|null
      */
-    public function getIssuer() : ?string
+    public function getIssuer(): ?string
     {
         return $this->issuer;
     }
@@ -53,7 +55,7 @@ class VerificationContext
     /**
      * @return ISigner
      */
-    public function getSigner() : ISigner
+    public function getSigner(): ISigner
     {
         return $this->signer;
     }
@@ -61,7 +63,7 @@ class VerificationContext
     /**
      * @return string|null
      */
-    public function getSubject() : ?string
+    public function getSubject(): ?string
     {
         return $this->subject;
     }
@@ -69,7 +71,7 @@ class VerificationContext
     /**
      * @param array $audience
      */
-    public function setAudience(array $audience) : void
+    public function setAudience(array $audience): void
     {
         $this->audience = $audience;
     }
@@ -77,7 +79,7 @@ class VerificationContext
     /**
      * @param string $issuer
      */
-    public function setIssuer(string $issuer) : void
+    public function setIssuer(string $issuer): void
     {
         $this->issuer = $issuer;
     }
@@ -85,7 +87,7 @@ class VerificationContext
     /**
      * @param ISigner $signer
      */
-    public function setSigner(ISigner $signer) : void
+    public function setSigner(ISigner $signer): void
     {
         $this->signer = $signer;
     }
@@ -93,7 +95,7 @@ class VerificationContext
     /**
      * @param string $subject
      */
-    public function setSubject(string $subject) : void
+    public function setSubject(string $subject): void
     {
         $this->subject = $subject;
     }

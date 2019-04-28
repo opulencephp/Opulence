@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Credentials\Authenticators;
 
@@ -40,7 +42,7 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         /** @var ISigner $signer */
         $signer = $this->createMock(ISigner::class);
@@ -67,7 +69,7 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unset token credential will return false
      */
-    public function testUnsetTokenCredentialReturnsFalse() : void
+    public function testUnsetTokenCredentialReturnsFalse(): void
     {
         /** @var ICredential|MockObject $credential */
         $credential = $this->createMock(ICredential::class);
@@ -84,7 +86,7 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unverified JWT returns false
      */
-    public function testUnverifiedJwtReturnsFalse() : void
+    public function testUnverifiedJwtReturnsFalse(): void
     {
         $this->jwtVerifier
             ->expects($this->any())
@@ -99,7 +101,7 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a verified JWT returns true
      */
-    public function testVerifiedJwtReturnsTrue() : void
+    public function testVerifiedJwtReturnsTrue(): void
     {
         $this->jwtVerifier
             ->expects($this->any())

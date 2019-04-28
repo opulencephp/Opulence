@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Clients\Orm;
 
@@ -22,14 +24,14 @@ interface IClientRepository
      *
      * @param IClient $client The client to add
      */
-    public function add(IClient $client) : void;
+    public function add(IClient $client): void;
 
     /**
      * Deletes a client
      *
      * @param IClient $client The client to delete
      */
-    public function delete(IClient $client) : void;
+    public function delete(IClient $client): void;
 
     /**
      * Gets the client with the input Id

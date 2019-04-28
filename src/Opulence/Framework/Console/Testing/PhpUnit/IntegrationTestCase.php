@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Testing\PhpUnit;
 
@@ -27,7 +29,6 @@ use Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions;
 use Opulence\Ioc\IContainer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 
 /**
  * Defines the console integration test
@@ -61,7 +62,7 @@ abstract class IntegrationTestCase extends TestCase
      * @param string $commandName The name of the command to build
      * @return CommandBuilder The command builder
      */
-    public function command(string $commandName) : CommandBuilder
+    public function command(string $commandName): CommandBuilder
     {
         return new CommandBuilder($this, $commandName);
     }
@@ -82,7 +83,7 @@ abstract class IntegrationTestCase extends TestCase
         array $options = [],
         $promptAnswers = [],
         bool $isStyled = true
-    ) : self {
+    ): self {
         $promptAnswers = (array)$promptAnswers;
 
         if (count($promptAnswers) > 0) {
@@ -102,7 +103,7 @@ abstract class IntegrationTestCase extends TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->requestParser = new ArrayListParser();
         $this->commandCollection = $this->container->resolve(CommandCollection::class);
@@ -129,7 +130,7 @@ abstract class IntegrationTestCase extends TestCase
      * @param string $commandName The name of the command
      * @param array $answers The list of answers to return for each question
      */
-    private function setPromptAnswers(string $commandName, array $answers) : void
+    private function setPromptAnswers(string $commandName, array $answers): void
     {
         $commandClassName = get_class($this->commandCollection->get($commandName));
 

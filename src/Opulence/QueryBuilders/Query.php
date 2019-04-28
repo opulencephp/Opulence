@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders;
 
@@ -37,7 +39,7 @@ abstract class Query
      *
      * @return string The SQL statement
      */
-    abstract public function getSql() : string;
+    abstract public function getSql(): string;
 
     /**
      * Adds a named placeholder's value
@@ -49,7 +51,7 @@ abstract class Query
      * @return self For method chaining
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
-    public function addNamedPlaceholderValue(string $placeholderName, $value, int $dataType = PDO::PARAM_STR) : self
+    public function addNamedPlaceholderValue(string $placeholderName, $value, int $dataType = PDO::PARAM_STR): self
     {
         if ($this->usingUnnamedPlaceholders === true) {
             throw new InvalidQueryException('Cannot mix unnamed placeholders with named placeholders');
@@ -72,7 +74,7 @@ abstract class Query
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders or
      *      if the value is an array that doesn't contain the correct number of items
      */
-    public function addNamedPlaceholderValues(array $placeholderNamesToValues) : self
+    public function addNamedPlaceholderValues(array $placeholderNamesToValues): self
     {
         foreach ($placeholderNamesToValues as $placeholderName => $value) {
             if (is_array($value)) {
@@ -98,7 +100,7 @@ abstract class Query
      * @return self For method chaining
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
-    public function addUnnamedPlaceholderValue($value, int $dataType = PDO::PARAM_STR) : self
+    public function addUnnamedPlaceholderValue($value, int $dataType = PDO::PARAM_STR): self
     {
         if ($this->usingUnnamedPlaceholders === false) {
             throw new InvalidQueryException('Cannot mix unnamed placeholders with named placeholders');
@@ -121,7 +123,7 @@ abstract class Query
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders or
      *      if the value is an array that doesn't contain the correct number of items
      */
-    public function addUnnamedPlaceholderValues(array $placeholderValues) : self
+    public function addUnnamedPlaceholderValues(array $placeholderValues): self
     {
         foreach ($placeholderValues as $value) {
             if (is_array($value)) {
@@ -143,7 +145,7 @@ abstract class Query
      *
      * @return array The array of bound query parameters
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         return $this->parameters;
     }
@@ -155,7 +157,7 @@ abstract class Query
      * @return self For method chaining
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
-    public function removeNamedPlaceHolder(string $placeholderName) : self
+    public function removeNamedPlaceHolder(string $placeholderName): self
     {
         if ($this->usingUnnamedPlaceholders === true) {
             throw new InvalidQueryException('Cannot mix unnamed placeholders with named placeholders');
@@ -173,7 +175,7 @@ abstract class Query
      * @return self For method chaining
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
-    public function removeUnnamedPlaceHolder(int $placeholderIndex) : self
+    public function removeUnnamedPlaceHolder(int $placeholderIndex): self
     {
         if ($this->usingUnnamedPlaceholders === false) {
             throw new InvalidQueryException('Cannot mix unnamed placeholders with named placeholders');
@@ -192,7 +194,7 @@ abstract class Query
      * @param string $tableName The name of the table we're querying
      * @param string $tableAlias The table alias
      */
-    protected function setTable(string $tableName, string $tableAlias = '') : void
+    protected function setTable(string $tableName, string $tableAlias = ''): void
     {
         $this->tableName = $tableName;
         $this->tableAlias = $tableAlias;

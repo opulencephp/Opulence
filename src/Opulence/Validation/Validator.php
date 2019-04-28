@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation;
 
@@ -38,7 +40,7 @@ class Validator implements IValidator
     /**
      * @inheritdoc
      */
-    public function field(string $name) : Rules
+    public function field(string $name): Rules
     {
         if (!isset($this->rulesByField[$name])) {
             $this->rulesByField[$name] = $this->rulesFactory->createRules();
@@ -50,7 +52,7 @@ class Validator implements IValidator
     /**
      * @inheritdoc
      */
-    public function getErrors() : ErrorCollection
+    public function getErrors(): ErrorCollection
     {
         return $this->errors;
     }
@@ -58,7 +60,7 @@ class Validator implements IValidator
     /**
      * @inheritdoc
      */
-    public function isValid(array $allValues, bool $haltFieldValidationOnFailure = false) : bool
+    public function isValid(array $allValues, bool $haltFieldValidationOnFailure = false): bool
     {
         $this->errors = new ErrorCollection();
         $passes = true;

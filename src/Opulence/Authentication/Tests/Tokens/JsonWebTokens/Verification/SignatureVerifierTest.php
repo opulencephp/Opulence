@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens\Verification;
 
@@ -33,7 +35,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->verifier = new SignatureVerifier($this->signer);
@@ -45,7 +47,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an empty signature
      */
-    public function testEmptySignature() : void
+    public function testEmptySignature(): void
     {
         $this->jwt->expects($this->once())
             ->method('getSignature')
@@ -57,7 +59,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an incorrect signature
      */
-    public function testIncorrectSignature() : void
+    public function testIncorrectSignature(): void
     {
         $this->jwt->expects($this->once())
             ->method('getSignature')
@@ -72,7 +74,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests mismatched algorithm
      */
-    public function testMismatchedAlgorithm() : void
+    public function testMismatchedAlgorithm(): void
     {
         $this->jwt->expects($this->once())
             ->method('getSignature')
@@ -97,7 +99,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests verifying valid token
      */
-    public function testVerifyingValidToken() : void
+    public function testVerifyingValidToken(): void
     {
         $this->jwt->expects($this->once())
             ->method('getSignature')

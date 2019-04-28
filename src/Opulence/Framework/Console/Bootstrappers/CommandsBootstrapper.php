@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Bootstrappers;
 
@@ -69,7 +71,7 @@ class CommandsBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         // Use a factory to defer the resolution of the commands
         // The commands may have dependencies set in other bootstrappers
@@ -93,7 +95,7 @@ class CommandsBootstrapper extends Bootstrapper
      * @param CommandCollection $commands The collection to add commands to
      * @param IContainer $container The dependency injection container to use
      */
-    protected function bindCommands(CommandCollection $commands, IContainer $container) : void
+    protected function bindCommands(CommandCollection $commands, IContainer $container): void
     {
         // Resolve and add each command class
         foreach (self::$commandClasses as $commandClass) {
@@ -123,7 +125,7 @@ class CommandsBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return ICompiler The command compiler
      */
-    protected function getCommandCompiler(IContainer $container) : ICompiler
+    protected function getCommandCompiler(IContainer $container): ICompiler
     {
         return new Compiler();
     }

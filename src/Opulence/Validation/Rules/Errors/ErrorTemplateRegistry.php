@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Rules\Errors;
 
@@ -29,7 +31,7 @@ class ErrorTemplateRegistry
      * @param string $ruleSlug The rule slug whose template we want
      * @return string The error template
      */
-    public function getErrorTemplate(string $field, string $ruleSlug) : string
+    public function getErrorTemplate(string $field, string $ruleSlug): string
     {
         if (isset($this->fieldTemplates[$field][$ruleSlug])) {
             return $this->fieldTemplates[$field][$ruleSlug];
@@ -50,7 +52,7 @@ class ErrorTemplateRegistry
      *      Field error templates should be formatted "{field}.{slug}" => "{template}"
      * @throws InvalidArgumentException Thrown if the config was invalid
      */
-    public function registerErrorTemplatesFromConfig(array $config) : void
+    public function registerErrorTemplatesFromConfig(array $config): void
     {
         foreach ($config as $key => $template) {
             if (trim($key) === '') {
@@ -78,7 +80,7 @@ class ErrorTemplateRegistry
      * @param string $ruleSlug The rule slug whose template we're registering
      * @param string $template The template to register
      */
-    public function registerFieldErrorTemplate(string $field, string $ruleSlug, string $template) : void
+    public function registerFieldErrorTemplate(string $field, string $ruleSlug, string $template): void
     {
         if (!isset($this->fieldTemplates[$field])) {
             $this->fieldTemplates[$field] = [];
@@ -93,7 +95,7 @@ class ErrorTemplateRegistry
      * @param string $ruleSlug The rule slug whose template we're registering
      * @param string $template The template to register
      */
-    public function registerGlobalErrorTemplate(string $ruleSlug, string $template) : void
+    public function registerGlobalErrorTemplate(string $ruleSlug, string $template): void
     {
         $this->globalTemplates[$ruleSlug] = $template;
     }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication;
 
@@ -20,33 +22,33 @@ interface IAuthenticationContext
      *
      * @return string The current authentication status
      */
-    public function getStatus() : string;
+    public function getStatus(): string;
 
     /**
      * Gets the current subject, if there is one
      *
      * @return ISubject|null The current subject, if there is one, otherwise null
      */
-    public function getSubject() : ?ISubject;
+    public function getSubject(): ?ISubject;
 
     /**
      * Gets whether or not the current subject has been authenticated
      *
      * @return bool True if the current subject is authenticated, otherwise false
      */
-    public function isAuthenticated() : bool;
+    public function isAuthenticated(): bool;
 
     /**
      * Sets the current status
      *
      * @param string $status The current status
      */
-    public function setStatus(string $status) : void;
+    public function setStatus(string $status): void;
 
     /**
      * Sets the current subject
      *
      * @param ISubject $subject The current subject
      */
-    public function setSubject(ISubject $subject) : void;
+    public function setSubject(ISubject $subject): void;
 }

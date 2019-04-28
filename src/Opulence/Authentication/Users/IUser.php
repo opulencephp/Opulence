@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Users;
 
@@ -20,7 +22,7 @@ interface IUser
      *
      * @return string The user's hashed password
      */
-    public function getHashedPassword() : string;
+    public function getHashedPassword(): string;
 
     /**
      * Gets the database Id
@@ -34,19 +36,19 @@ interface IUser
      *
      * @return string The user's username
      */
-    public function getUsername() : string;
+    public function getUsername(): string;
 
     /**
      * Sets the entity's hashed password
      *
      * @param string $hashedPassword The user's hashed password
      */
-    public function setHashedPassword(string $hashedPassword) : void;
+    public function setHashedPassword(string $hashedPassword): void;
 
     /**
      * Sets the database Id of the entity
      *
      * @param int|string $id The database Id
      */
-    public function setId($id) : void;
+    public function setId($id): void;
 }

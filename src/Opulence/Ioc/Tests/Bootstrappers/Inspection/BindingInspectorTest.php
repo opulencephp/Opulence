@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
@@ -38,8 +38,7 @@ class BindingInspectorTest extends TestCase
 
     public function testInspectingBindingsCreatesBindingsFromWhatIsBoundInBootstrapper(): void
     {
-        $expectedBootstrapper = new class extends Bootstrapper
-        {
+        $expectedBootstrapper = new class extends Bootstrapper {
             public function registerBindings(IContainer $container): void
             {
                 $container->bindInstance(IFoo::class, new Foo());

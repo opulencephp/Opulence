@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Factories;
 
@@ -41,7 +43,7 @@ class ViewFactory implements IViewFactory
     /**
      * @inheritdoc
      */
-    public function createView(string $name) : IView
+    public function createView(string $name): IView
     {
         $resolvedPath = $this->viewNameResolver->resolve($name);
         $content = $this->viewReader->read($resolvedPath);
@@ -53,7 +55,7 @@ class ViewFactory implements IViewFactory
     /**
      * @inheritdoc
      */
-    public function hasView(string $name) : bool
+    public function hasView(string $name): bool
     {
         try {
             $this->viewNameResolver->resolve($name);
@@ -67,7 +69,7 @@ class ViewFactory implements IViewFactory
     /**
      * @inheritdoc
      */
-    public function registerBuilder($names, callable $callback) : void
+    public function registerBuilder($names, callable $callback): void
     {
         foreach ((array)$names as $name) {
             if (!isset($this->builders[$name])) {
@@ -86,7 +88,7 @@ class ViewFactory implements IViewFactory
      * @param IView $view The view to run builders on
      * @return IView The built view
      */
-    protected function runBuilders(string $name, string $resolvedPath, IView $view) : IView
+    protected function runBuilders(string $name, string $resolvedPath, IView $view): IView
     {
         $builders = [];
 

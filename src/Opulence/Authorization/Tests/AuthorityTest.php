@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authorization\Tests;
 
@@ -28,7 +30,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->permissionRegistry = new PermissionRegistry();
         $this->roles = $this->createMock(IRoles::class);
@@ -38,7 +40,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests can returns false when callback returns false
      */
-    public function testFalseCallback() : void
+    public function testFalseCallback(): void
     {
         $this->permissionRegistry->registerCallback('foo', function () {
             return false;
@@ -50,7 +52,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that forUser creates a new instance
      */
-    public function testForUserCreatesNewInstance() : void
+    public function testForUserCreatesNewInstance(): void
     {
         $forUserInstance = $this->authority->forSubject(1, []);
         $this->assertInstanceOf(IAuthority::class, $forUserInstance);
@@ -60,7 +62,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests can returns false when user is does not have role
      */
-    public function testNoRoles() : void
+    public function testNoRoles(): void
     {
         $this->permissionRegistry->registerRoles('foo', 'bar');
         $this->assertFalse($this->authority->can('baz'));
@@ -70,7 +72,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an override is used
      */
-    public function testOverrideUsed() : void
+    public function testOverrideUsed(): void
     {
         $this->permissionRegistry->registerOverrideCallback(function ($userId, string $permission, $argument) {
             $this->assertEquals(23, $userId);
@@ -89,7 +91,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests can returns true when callback returns true
      */
-    public function testTrueCallback() : void
+    public function testTrueCallback(): void
     {
         $this->permissionRegistry->registerCallback('foo', function () {
             return true;
@@ -101,7 +103,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests can returns true when user has role
      */
-    public function testWithRoles() : void
+    public function testWithRoles(): void
     {
         $this->permissionRegistry->registerRoles('foo', 'bar');
         $this->assertTrue($this->authority->can('foo'));

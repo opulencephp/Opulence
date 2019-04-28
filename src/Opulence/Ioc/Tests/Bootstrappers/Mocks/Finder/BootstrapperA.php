@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Opulence\Ioc\Tests\Bootstrappers\Mocks\Finder;
 
-use Opulence\Ioc\IContainer;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
+use Opulence\Ioc\IContainer;
 
 /**
  * Defines a mock bootstrapper

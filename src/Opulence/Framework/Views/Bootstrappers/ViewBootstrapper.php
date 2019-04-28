@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Views\Bootstrappers;
 
@@ -45,7 +47,7 @@ abstract class ViewBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         $this->viewCache = $this->getViewCache($container);
         $this->viewFactory = $this->getViewFactory($container);
@@ -67,7 +69,7 @@ abstract class ViewBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return ICache The view cache
      */
-    abstract protected function getViewCache(IContainer $container) : ICache;
+    abstract protected function getViewCache(IContainer $container): ICache;
 
     /**
      * Gets the view compiler
@@ -76,7 +78,7 @@ abstract class ViewBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return ICompiler The view compiler
      */
-    protected function getViewCompiler(IContainer $container) : ICompiler
+    protected function getViewCompiler(IContainer $container): ICompiler
     {
         $registry = new CompilerRegistry();
         $viewCompiler = new Compiler($registry);
@@ -99,7 +101,7 @@ abstract class ViewBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return IViewFactory The view factory
      */
-    protected function getViewFactory(IContainer $container) : IViewFactory
+    protected function getViewFactory(IContainer $container): IViewFactory
     {
         $resolver = new FileViewNameResolver();
         $resolver->registerPath(Config::get('paths', 'views.raw'));
@@ -120,7 +122,7 @@ abstract class ViewBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return IViewReader The view reader
      */
-    protected function getViewReader(IContainer $container) : IViewReader
+    protected function getViewReader(IContainer $container): IViewReader
     {
         return new FileViewReader();
     }

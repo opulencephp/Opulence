@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm\Tests\Mocks;
 
@@ -20,7 +22,7 @@ class UnitOfWork extends BaseUnitOfWork
     /**
      * @inheritDoc
      */
-    public function getScheduledEntityDeletions() : array
+    public function getScheduledEntityDeletions(): array
     {
         $scheduledForDeletion = [];
 
@@ -36,7 +38,7 @@ class UnitOfWork extends BaseUnitOfWork
     /**
      * @inheritDoc
      */
-    public function getScheduledEntityInsertions() : array
+    public function getScheduledEntityInsertions(): array
     {
         $scheduledForInsertion = [];
 
@@ -52,7 +54,7 @@ class UnitOfWork extends BaseUnitOfWork
     /**
      * @inheritDoc
      */
-    public function getScheduledEntityUpdates() : array
+    public function getScheduledEntityUpdates(): array
     {
         $scheduledForUpdate = [];
 

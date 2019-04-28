@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Cryptography\Console\Commands;
 
@@ -24,7 +26,7 @@ class EncryptionKeyGenerationCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define() : void
+    protected function define(): void
     {
         $this->setName('encryption:generatekey')
             ->setDescription('Creates an encryption key')
@@ -47,8 +49,11 @@ class EncryptionKeyGenerationCommand extends Command
 
         if (!$this->optionIsSet('show') && file_exists($environmentConfigPath)) {
             $contents = file_get_contents($environmentConfigPath);
-            $newContents = preg_replace("/\"ENCRYPTION_KEY\",\s*\"[^\"]*\"/U", '"ENCRYPTION_KEY", "' . $key . '"',
-                $contents);
+            $newContents = preg_replace(
+                "/\"ENCRYPTION_KEY\",\s*\"[^\"]*\"/U",
+                '"ENCRYPTION_KEY", "' . $key . '"',
+                $contents
+            );
             file_put_contents($environmentConfigPath, $newContents);
         }
 

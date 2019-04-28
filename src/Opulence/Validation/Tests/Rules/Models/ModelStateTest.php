@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Tests\Rules\Models;
 
@@ -33,7 +35,7 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->rules = $this->getMockBuilder(Rules::class)
             ->disableOriginalConstructor()
@@ -51,7 +53,7 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an invalid model
      */
-    public function testInvalidModel() : void
+    public function testInvalidModel(): void
     {
         $user = new User(1, 'Dave', 'foo');
         $this->validator->expects($this->at(0))
@@ -85,7 +87,7 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a valid model
      */
-    public function testValidModel() : void
+    public function testValidModel(): void
     {
         $user = new User(1, 'Dave', 'foo@bar.com');
         $this->validator->expects($this->at(0))

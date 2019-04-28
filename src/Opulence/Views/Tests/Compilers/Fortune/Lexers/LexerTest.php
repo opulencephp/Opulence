@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Compilers\Fortune\Lexers;
 
@@ -30,7 +32,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->lexer = new Lexer();
         $this->view = $this->getMockBuilder(View::class)
@@ -41,7 +43,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a directive with no expression
      */
-    public function testDirectiveWithNoExpression() : void
+    public function testDirectiveWithNoExpression(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
@@ -55,7 +57,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a directive with a non-parenthesis-enclosed expression
      */
-    public function testDirectiveWithNonParenthesisEnclosedExpression() : void
+    public function testDirectiveWithNonParenthesisEnclosedExpression(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
@@ -70,7 +72,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown with an unclosed comment tag
      */
-    public function testExceptionThrownWithUnclosedCommentTag() : void
+    public function testExceptionThrownWithUnclosedCommentTag(): void
     {
         $this->expectException(RuntimeException::class);
         $this->view->setContents('{# foo');
@@ -80,7 +82,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown with an unclosed directive
      */
-    public function testExceptionThrownWithUnclosedDirective() : void
+    public function testExceptionThrownWithUnclosedDirective(): void
     {
         $this->expectException(RuntimeException::class);
         $this->view->setContents('<% show');
@@ -90,7 +92,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown an unclosed parenthesis in a directive
      */
-    public function testExceptionThrownWithUnclosedParenthesisInDirective() : void
+    public function testExceptionThrownWithUnclosedParenthesisInDirective(): void
     {
         $this->expectException(RuntimeException::class);
         $this->view->setContents('<% show(foo() %>');
@@ -100,7 +102,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown with an unclosed sanitized tag
      */
-    public function testExceptionThrownWithUnclosedSanitizedTag() : void
+    public function testExceptionThrownWithUnclosedSanitizedTag(): void
     {
         $this->expectException(RuntimeException::class);
         $this->view->setContents('{{ show');
@@ -110,7 +112,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown with an unclosed unsanitized tag
      */
-    public function testExceptionThrownWithUnclosedUnsanitizedTag() : void
+    public function testExceptionThrownWithUnclosedUnsanitizedTag(): void
     {
         $this->expectException(RuntimeException::class);
         $this->view->setContents('{{! show');
@@ -120,7 +122,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown an unopened parenthesis in a directive
      */
-    public function testExceptionThrownWithUnopenedParenthesisInDirective() : void
+    public function testExceptionThrownWithUnopenedParenthesisInDirective(): void
     {
         $this->expectException(RuntimeException::class);
         $this->view->setContents('<% show(foo)) %>');
@@ -130,7 +132,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing a backslash inside PHP
      */
-    public function testLexingBackslashInPhp() : void
+    public function testLexingBackslashInPhp(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
@@ -144,7 +146,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a comment
      */
-    public function testLexingComment() : void
+    public function testLexingComment(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_COMMENT_OPEN, '{#', 1),
@@ -160,7 +162,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a directive with an expression
      */
-    public function testLexingDirective() : void
+    public function testLexingDirective(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
@@ -179,7 +181,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a directive inside PHP
      */
-    public function testLexingDirectiveInsidePhp() : void
+    public function testLexingDirectiveInsidePhp(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
@@ -193,7 +195,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a directive surrounded by PHP
      */
-    public function testLexingDirectiveSurroundedByPhp() : void
+    public function testLexingDirectiveSurroundedByPhp(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
@@ -214,7 +216,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing an escaped statement with a preceding backslash
      */
-    public function testLexingEscapedStatementWithPrecedingBackslash() : void
+    public function testLexingEscapedStatementWithPrecedingBackslash(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_EXPRESSION, '\<% foo %>', 1)
@@ -226,7 +228,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing escaped statements
      */
-    public function testLexingEscapedStatements() : void
+    public function testLexingEscapedStatements(): void
     {
         $texts = ['\<%foo%>', '\{{foo}}', '\{{!foo!}}', '\{#foo#}'];
         $expectedValues = ['<%foo%>', '{{foo}}', '{{!foo!}}', '{#foo#}'];
@@ -243,7 +245,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing statements that span multiple lines
      */
-    public function testLexingMultiLineStatements() : void
+    public function testLexingMultiLineStatements(): void
     {
         $text = '%s' . PHP_EOL . 'foo' . PHP_EOL . '%s';
         $expectedOutput = [
@@ -279,7 +281,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests multiple lines of PHP
      */
-    public function testLexingMultipleLinesOfPhp() : void
+    public function testLexingMultipleLinesOfPhp(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
@@ -293,7 +295,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that native PHP functions are lexed inside statements
      */
-    public function testLexingNativePhpFunctionsInsideStatements() : void
+    public function testLexingNativePhpFunctionsInsideStatements(): void
     {
         $text = '%s date("Y") %s';
         $expectedOutput = [
@@ -315,7 +317,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing neighboring escaped statements
      */
-    public function testLexingNeighboringEscapedStatements() : void
+    public function testLexingNeighboringEscapedStatements(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_EXPRESSION, '{{foo}}{{!bar!}}<%baz%>{#blah#}', 1)
@@ -327,7 +329,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing neighboring statements
      */
-    public function testLexingNeighboringStatements() : void
+    public function testLexingNeighboringStatements(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_SANITIZED_TAG_OPEN, '{{', 1),
@@ -372,7 +374,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing nested functions
      */
-    public function testLexingNestedFunctions() : void
+    public function testLexingNestedFunctions(): void
     {
         $expectedExpression = '$__opulenceFortuneTranspiler->callViewFunction("foo", $__opulenceFortuneTranspiler->callViewFunction("bar", "baz"))';
         $expectedOutput = [
@@ -410,7 +412,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing PHP
      */
-    public function testLexingPhp() : void
+    public function testLexingPhp(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
@@ -428,7 +430,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing PHP without close tag
      */
-    public function testLexingPhpWithoutCloseTag() : void
+    public function testLexingPhpWithoutCloseTag(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
@@ -442,7 +444,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a sanitized tag
      */
-    public function testLexingSanitizedTag() : void
+    public function testLexingSanitizedTag(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_SANITIZED_TAG_OPEN, '{{', 1),
@@ -458,7 +460,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing statements whose delimiters are substrings of others
      */
-    public function testLexingStatementsWhoseDelimitersAreSubstringsOfOthers() : void
+    public function testLexingStatementsWhoseDelimitersAreSubstringsOfOthers(): void
     {
         $this->view->setDelimiters(View::DELIMITER_TYPE_DIRECTIVE, ['{{{', '}}}']);
         $this->view->setDelimiters(View::DELIMITER_TYPE_SANITIZED_TAG, ['{{', '}}']);
@@ -501,7 +503,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing a string that looks like a function call
      */
-    public function testLexingStringThatLooksLikeFunctionCall() : void
+    public function testLexingStringThatLooksLikeFunctionCall(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, '{{!', 1),
@@ -515,7 +517,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a text token is created
      */
-    public function testLexingText() : void
+    public function testLexingText(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_EXPRESSION, 'foo', 1)
@@ -527,7 +529,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a text token is created from the buffer
      */
-    public function testLexingTextTokenIsCreatedFromBuffer() : void
+    public function testLexingTextTokenIsCreatedFromBuffer(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_EXPRESSION, 'foo', 1),
@@ -544,7 +546,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an unsanitized tag
      */
-    public function testLexingUnsanitizedTag() : void
+    public function testLexingUnsanitizedTag(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, '{{!', 1),
@@ -560,7 +562,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that line numbers are respected
      */
-    public function testLineNumbersAreRespected() : void
+    public function testLineNumbersAreRespected(): void
     {
         $text = 'a' . PHP_EOL .
             '<%' . PHP_EOL . 'b' . PHP_EOL . '(' . PHP_EOL . 'foo' . PHP_EOL . ')' . PHP_EOL . '%>' . PHP_EOL .
@@ -598,7 +600,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that view functions are converted
      */
-    public function testViewFunctionsAreConverted() : void
+    public function testViewFunctionsAreConverted(): void
     {
         $expression = '$foo->bar() $foo::baz() date("Y") foo() foo("bar") foo(bar()) date(foo())';
         $convertedExpression = '$foo->bar() $foo::baz() date("Y") $__opulenceFortuneTranspiler->callViewFunction("foo")' .

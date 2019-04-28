@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Compilers\Php;
 
@@ -27,7 +29,7 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->compiler = new PhpCompiler();
     }
@@ -35,7 +37,7 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that any exception thrown as itself
      */
-    public function testExceptionsThrownAsThemselves() : void
+    public function testExceptionsThrownAsThemselves(): void
     {
         $this->expectException(Exception::class);
         /** @var IView|MockObject $view */
@@ -52,7 +54,7 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the output buffer level is reset on exception
      */
-    public function testOutputBufferLevelIsResetAfterException() : void
+    public function testOutputBufferLevelIsResetAfterException(): void
     {
         /** @var IView|MockObject $view */
         $view = $this->createMock(IView::class);
@@ -76,7 +78,7 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that vars are set in the view
      */
-    public function testThatVarsAreSet() : void
+    public function testThatVarsAreSet(): void
     {
         /** @var IView|MockObject $view */
         $view = $this->createMock(IView::class);

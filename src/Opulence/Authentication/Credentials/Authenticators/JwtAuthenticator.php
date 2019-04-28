@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Credentials\Authenticators;
 
@@ -45,7 +47,7 @@ class JwtAuthenticator implements IAuthenticator
     /**
      * @inheritdoc
      */
-    public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null) : bool
+    public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null): bool
     {
         // Reset the JWT
         $this->signedJwt = null;
@@ -82,7 +84,7 @@ class JwtAuthenticator implements IAuthenticator
      * @param ICredential $credential The credential
      * @return ISubject The subject
      */
-    protected function getSubjectFromJwt(SignedJwt $jwt, ICredential $credential) : ISubject
+    protected function getSubjectFromJwt(SignedJwt $jwt, ICredential $credential): ISubject
     {
         $roles = $jwt->getPayload()->get('roles') ?: [];
 

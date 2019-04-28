@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Providers;
 
@@ -39,12 +41,14 @@ class PostgreSqlProvider extends Provider
     /**
      * @inheritdoc
      */
-    public function convertFromSqlBoolean($value) : ?bool
+    public function convertFromSqlBoolean($value): ?bool
     {
-        if (in_array(strtolower($value), $this->falseBooleanValues, true)) {
-            return false;
-        } elseif (in_array(strtolower($value), $this->trueBooleanValues, true)) {
-            return true;
+        if (\is_string($value)) {
+            if (in_array(strtolower($value), $this->falseBooleanValues, true)) {
+                return false;
+            } elseif (in_array(strtolower($value), $this->trueBooleanValues, true)) {
+                return true;
+            }
         }
 
         return parent::convertFromSqlBoolean($value);

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Tests\Adapters\Pdo\Mocks;
 
@@ -27,7 +29,7 @@ class Statement extends BaseStatement
      * @inheritdoc
      * We have to mock this because attempting to bind a value to an unopened connection will always fail
      */
-    public function bindValues(array $values) : bool
+    public function bindValues(array $values): bool
     {
         foreach ($values as $parameterName => $value) {
             if (!is_array($value)) {

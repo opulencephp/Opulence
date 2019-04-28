@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Console\Testing\PhpUnit\Mocks;
 
@@ -37,7 +39,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * @return CommandCollection
      */
-    public function getCommandCollection() : CommandCollection
+    public function getCommandCollection(): CommandCollection
     {
         return $this->commandCollection;
     }
@@ -47,7 +49,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return ResponseAssertions The response assertions
      */
-    public function getResponseAssertions() : ResponseAssertions
+    public function getResponseAssertions(): ResponseAssertions
     {
         return $this->assertResponse;
     }
@@ -55,12 +57,12 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * Sets up the application and container
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         Config::setCategory('paths', [
             'configs' => realpath(__DIR__ . '/../../configs'),
-            'root' => realpath(__DIR__ . '/../../../../../..'),
-            'src' => realpath(__DIR__ . '/../../../../../../src')
+            'root' => realpath(__DIR__ . '/../../../../../../../..'),
+            'src' => realpath(__DIR__ . '/../../../../../../../../src')
         ]);
         // Purposely set this to a weird value so we can test that it gets overwritten with the "test" environment
         $this->container = new Container();

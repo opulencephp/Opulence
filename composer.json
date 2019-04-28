@@ -29,6 +29,7 @@
     ]
   },
   "require": {
+    "ext-fileinfo": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
     "ext-openssl": "*",
@@ -39,6 +40,7 @@
   },
   "require-dev": {
     "ext-pdo": "*",
+    "friendsofphp/php-cs-fixer": "~2.14",
     "phpredis/phpredis": "3.0.*",
     "predis/predis": "1.1.*@dev",
     "phpunit/phpunit": "~8.0"
@@ -81,6 +83,10 @@
     "opulence/sessions": "self.version",
     "opulence/validation": "self.version",
     "opulence/views": "self.version"
+  },
+  "scripts": {
+    "lint-check": "php-cs-fixer fix --config=.php_cs -v --diff --dry-run",
+    "lint-fix": "php-cs-fixer fix --config=.php_cs -v --diff"
   },
   "extra": {
     "branch-alias": {

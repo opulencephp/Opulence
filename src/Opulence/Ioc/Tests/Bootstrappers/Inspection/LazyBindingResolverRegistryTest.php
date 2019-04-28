@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
@@ -41,8 +41,7 @@ class LazyBindingResolverRegistryTest extends TestCase
 
     public function testRegisteringTargetedBindingAndResolvingItWillAddBindingSetInConstructor(): void
     {
-        $bootstrapper = new class extends Bootstrapper
-        {
+        $bootstrapper = new class extends Bootstrapper {
             /** @var IFoo Used so we can verify what gets bound */
             public $foo;
 
@@ -138,8 +137,7 @@ class LazyBindingResolverRegistryTest extends TestCase
 
     public function testRegisteringTargetedBindingRegistersBindingsFromBootstrapper(): void
     {
-        $bootstrapper = new class extends Bootstrapper
-        {
+        $bootstrapper = new class extends Bootstrapper {
             public function registerBindings(IContainer $container): void
             {
                 $container->for('bar', function (IContainer $container) {
@@ -158,8 +156,7 @@ class LazyBindingResolverRegistryTest extends TestCase
 
     public function testRegisteringUniversalBindingAndResolvingItWillAddBindingSetInConstructor(): void
     {
-        $bootstrapper = new class extends Bootstrapper
-        {
+        $bootstrapper = new class extends Bootstrapper {
             public function registerBindings(IContainer $container): void
             {
                 $container->bindInstance(IFoo::class, new Foo());
@@ -190,8 +187,7 @@ class LazyBindingResolverRegistryTest extends TestCase
 
     public function testRegisteringUniversalBindingRegistersBindingsFromBootstrapper(): void
     {
-        $bootstrapper = new class extends Bootstrapper
-        {
+        $bootstrapper = new class extends Bootstrapper {
             public function registerBindings(IContainer $container): void
             {
                 $container->bindInstance(IFoo::class, new Foo());

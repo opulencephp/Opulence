@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Pipelines;
 
@@ -50,7 +52,7 @@ class Pipeline implements IPipeline
     /**
      * @inheritdoc
      */
-    public function send($input) : IPipeline
+    public function send($input): IPipeline
     {
         $this->input = $input;
 
@@ -60,7 +62,7 @@ class Pipeline implements IPipeline
     /**
      * @inheritdoc
      */
-    public function then(callable $callback) : IPipeline
+    public function then(callable $callback): IPipeline
     {
         $this->callback = $callback;
 
@@ -70,7 +72,7 @@ class Pipeline implements IPipeline
     /**
      * @inheritdoc
      */
-    public function through(array $stages, string $methodToCall = null) : IPipeline
+    public function through(array $stages, string $methodToCall = null): IPipeline
     {
         $this->stages = $stages;
         $this->methodToCall = $methodToCall;
@@ -84,7 +86,7 @@ class Pipeline implements IPipeline
      * @return Closure The callback
      * @throws PipelineException Thrown if there was a problem creating a stage
      */
-    private function createStageCallback() : Closure
+    private function createStageCallback(): Closure
     {
         return function ($stages, $stage) {
             return function ($input) use ($stages, $stage) {

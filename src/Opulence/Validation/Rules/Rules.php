@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Rules;
 
@@ -60,7 +62,7 @@ class Rules
      * @return self For method chaining
      * @throws BadMethodCallException Thrown if no extension exists with the method name
      */
-    public function __call(string $methodName, array $args) : self
+    public function __call(string $methodName, array $args): self
     {
         if (!$this->ruleExtensionRegistry->hasRule($methodName)) {
             throw new BadMethodCallException("No rule extension with name \"$methodName\" exists");
@@ -83,7 +85,7 @@ class Rules
      *
      * @return self For method chaining
      */
-    public function alpha() : self
+    public function alpha(): self
     {
         $this->createRule(AlphaRule::class);
 
@@ -95,7 +97,7 @@ class Rules
      *
      * @return self For method chaining
      */
-    public function alphaNumeric() : self
+    public function alphaNumeric(): self
     {
         $this->createRule(AlphaNumericRule::class);
 
@@ -110,7 +112,7 @@ class Rules
      * @param bool $isInclusive Whether or not the extremes are inclusive
      * @return self For method chaining
      */
-    public function between($min, $max, bool $isInclusive = true) : self
+    public function between($min, $max, bool $isInclusive = true): self
     {
         $this->createRule(BetweenRule::class, [$min, $max, $isInclusive]);
 
@@ -125,7 +127,7 @@ class Rules
      * @return self For method chaining
      * @throws LogicException Thrown if we were already in a condition
      */
-    public function condition($callback) : self
+    public function condition($callback): self
     {
         if ($this->inCondition) {
             throw new LogicException('Cannot nest rule conditions');
@@ -144,7 +146,7 @@ class Rules
      * @param string|array $formats The expected formats
      * @return self For method chaining
      */
-    public function date($formats) : self
+    public function date($formats): self
     {
         $this->createRule(DateRule::class, [$formats]);
 
@@ -156,7 +158,7 @@ class Rules
      *
      * @return self For method chaining
      */
-    public function email() : self
+    public function email(): self
     {
         $this->createRule(EmailRule::class);
 
@@ -168,7 +170,7 @@ class Rules
      *
      * @return self For method chaining
      */
-    public function endCondition() : self
+    public function endCondition(): self
     {
         $this->inCondition = false;
 
@@ -181,7 +183,7 @@ class Rules
      * @param mixed $value The value that the field must equal
      * @return self For method chaining
      */
-    public function equals($value) : self
+    public function equals($value): self
     {
         $this->createRule(EqualsRule::class, [$value]);
 
@@ -194,7 +196,7 @@ class Rules
      * @param string $name The other field to equal
      * @return self For method chaining
      */
-    public function equalsField(string $name) : self
+    public function equalsField(string $name): self
     {
         $this->createRule(EqualsFieldRule::class, [$name]);
 
@@ -207,7 +209,7 @@ class Rules
      * @param string $field The name of the field whose errors we're getting
      * @return array The list of errors
      */
-    public function getErrors(string $field) : array
+    public function getErrors(string $field): array
     {
         $compiledErrors = [];
 
@@ -228,7 +230,7 @@ class Rules
      * @param array $array The list of approved values
      * @return self For method chaining
      */
-    public function in(array $array) : self
+    public function in(array $array): self
     {
         $this->createRule(InRule::class, [$array]);
 
@@ -240,7 +242,7 @@ class Rules
      *
      * @return self For method chaining
      */
-    public function integer() : self
+    public function integer(): self
     {
         $this->createRule(IntegerRule::class);
 
@@ -252,7 +254,7 @@ class Rules
      *
      * @return self For method chaining
      */
-    public function ipAddress() : self
+    public function ipAddress(): self
     {
         $this->createRule(IPAddressRule::class);
 
@@ -266,7 +268,7 @@ class Rules
      * @param bool $isInclusive Whether or not the maximum is inclusive
      * @return self For method chaining
      */
-    public function max($max, bool $isInclusive = true) : self
+    public function max($max, bool $isInclusive = true): self
     {
         $this->createRule(MaxRule::class, [$max, $isInclusive]);
 
@@ -280,7 +282,7 @@ class Rules
      * @param bool $isInclusive Whether or not the minimum is inclusive
      * @return self For method chaining
      */
-    public function min($min, bool $isInclusive = true) : self
+    public function min($min, bool $isInclusive = true): self
     {
         $this->createRule(MinRule::class, [$min, $isInclusive]);
 
@@ -293,7 +295,7 @@ class Rules
      * @param array $array The list of unapproved values
      * @return self For method chaining
      */
-    public function notIn(array $array) : self
+    public function notIn(array $array): self
     {
         $this->createRule(NotInRule::class, [$array]);
 
@@ -305,7 +307,7 @@ class Rules
      *
      * @return self For method chaining
      */
-    public function numeric() : self
+    public function numeric(): self
     {
         $this->createRule(NumericRule::class);
 
@@ -321,7 +323,7 @@ class Rules
      *      once one fails, otherwise false
      * @return bool True if all the rules pass, otherwise false
      */
-    public function pass($value, array $allValues = [], bool $haltFieldValidationOnFailure = false) : bool
+    public function pass($value, array $allValues = [], bool $haltFieldValidationOnFailure = false): bool
     {
         $this->errorSlugsAndPlaceholders = [];
         $passes = true;
@@ -362,7 +364,7 @@ class Rules
      * @param string $regex The regex to match
      * @return self For method chaining
      */
-    public function regex(string $regex) : self
+    public function regex(string $regex): self
     {
         $this->createRule(RegexRule::class, [$regex]);
 
@@ -374,7 +376,7 @@ class Rules
      *
      * @return self For method chaining
      */
-    public function required() : self
+    public function required(): self
     {
         $this->createRule(RequiredRule::class);
         $this->isRequired = true;
@@ -387,7 +389,7 @@ class Rules
      *
      * @param IRule $rule The rule that failed
      */
-    protected function addError(IRule $rule) : void
+    protected function addError(IRule $rule): void
     {
         if ($rule instanceof ConditionalRule) {
             $rules = $rule->getRules();
@@ -408,7 +410,7 @@ class Rules
      *
      * @param IRule $rule The rule to add
      */
-    protected function addRule(IRule $rule) : void
+    protected function addRule(IRule $rule): void
     {
         if ($this->inCondition) {
             /** @var ConditionalRule $lastRule */
@@ -426,7 +428,7 @@ class Rules
      * @param array $args The extra arguments
      * @throws InvalidArgumentException Thrown if no rule exists with the input name
      */
-    protected function createRule(string $className, array $args = []) : void
+    protected function createRule(string $className, array $args = []): void
     {
         if (!class_exists($className)) {
             throw new InvalidArgumentException("Class \"$className\" does not exist");

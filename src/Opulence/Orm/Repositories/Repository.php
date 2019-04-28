@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm\Repositories;
 
@@ -42,7 +44,7 @@ class Repository implements IRepository
     /**
      * @inheritdoc
      */
-    public function add($entity) : void
+    public function add($entity): void
     {
         $this->unitOfWork->scheduleForInsertion($entity);
     }
@@ -50,7 +52,7 @@ class Repository implements IRepository
     /**
      * @inheritdoc
      */
-    public function delete($entity) : void
+    public function delete($entity): void
     {
         $this->unitOfWork->scheduleForDeletion($entity);
     }
@@ -58,7 +60,7 @@ class Repository implements IRepository
     /**
      * @inheritdoc
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         return $this->getFromDataMapper('getAll');
     }

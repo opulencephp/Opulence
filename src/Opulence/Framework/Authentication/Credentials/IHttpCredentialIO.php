@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Authentication\Credentials;
 
@@ -25,14 +27,14 @@ interface IHttpCredentialIO
      * @param Request $request The request to read from
      * @return ICredential The credential from the request
      */
-    public function read(Request $request) : ICredential;
+    public function read(Request $request): ICredential;
 
     /**
      * Removes a credential from the response
      *
      * @param Response $response The response to remove from
      */
-    public function remove(Response $response) : void;
+    public function remove(Response $response): void;
 
     /**
      * Writes a credential to the response
@@ -40,5 +42,5 @@ interface IHttpCredentialIO
      * @param ICredential $credential The credential to write
      * @param Response $response The response to write to
      */
-    public function write(ICredential $credential, Response $response) : void;
+    public function write(ICredential $credential, Response $response): void;
 }

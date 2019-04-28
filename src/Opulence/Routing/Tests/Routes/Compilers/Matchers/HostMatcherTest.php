@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Tests\Routes\Compilers\Matchers;
 
@@ -31,7 +33,7 @@ class HostMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->matcher = new HostMatcher();
         $this->request = $this->getMockBuilder(Request::class)
@@ -45,7 +47,7 @@ class HostMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that there is a match when the regex matches
      */
-    public function testMatchWithMatchingRegex() : void
+    public function testMatchWithMatchingRegex(): void
     {
         $this->route->expects($this->any())->method('getHostRegex')->willReturn('#^foo$#');
         $headers = $this->createMock(RequestHeaders::class);
@@ -57,7 +59,7 @@ class HostMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that there is not match when the regex does not match
      */
-    public function testNoMatchWithNoMatchingRegex() : void
+    public function testNoMatchWithNoMatchingRegex(): void
     {
         $this->route->expects($this->any())->method('getHostRegex')->willReturn('#^foo$#');
         $headers = $this->createMock(RequestHeaders::class);

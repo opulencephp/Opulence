@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Migrations;
 
@@ -31,7 +33,7 @@ abstract class Migration implements IMigration
     /**
      * @inheritdoc
      */
-    public function down() : void
+    public function down(): void
     {
         // Left intentionally blank
     }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders\Tests\PostgreSql;
 
@@ -20,7 +22,7 @@ class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding to a "RETURNING" clause
      */
-    public function testAddReturning() : void
+    public function testAddReturning(): void
     {
         $queryBuilder = new AugmentingQueryBuilder();
         $queryBuilder->returning('id')
@@ -31,7 +33,7 @@ class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "RETURNING" clause
      */
-    public function testReturning() : void
+    public function testReturning(): void
     {
         $queryBuilder = new AugmentingQueryBuilder();
         $queryBuilder->returning('id');

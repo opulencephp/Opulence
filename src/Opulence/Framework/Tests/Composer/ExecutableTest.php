@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Composer;
 
@@ -25,7 +27,7 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->executableWithoutPHAR = new Executable(__DIR__);
         $this->executableWithPHAR = new Executable(__DIR__ . '/Mocks');
@@ -34,7 +36,7 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the dump autoload command
      */
-    public function testDumpAutoload() : void
+    public function testDumpAutoload(): void
     {
         $this->assertEquals('composer dump-autoload ', $this->executableWithoutPHAR->dumpAutoload());
         $this->assertEquals(
@@ -46,7 +48,7 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the dump autoload command with options
      */
-    public function testDumpAutoloadWithOptions() : void
+    public function testDumpAutoloadWithOptions(): void
     {
         $this->assertEquals('composer dump-autoload -o', $this->executableWithoutPHAR->dumpAutoload('-o'));
         $this->assertEquals(
@@ -58,7 +60,7 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the update command
      */
-    public function testUpdate() : void
+    public function testUpdate(): void
     {
         $this->assertEquals('composer update ', $this->executableWithoutPHAR->update());
         $this->assertEquals(
@@ -70,7 +72,7 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the update command with options
      */
-    public function testUpdateWithOptions() : void
+    public function testUpdateWithOptions(): void
     {
         $this->assertEquals('composer update --prefer-dist', $this->executableWithoutPHAR->update('--prefer-dist'));
         $this->assertEquals(

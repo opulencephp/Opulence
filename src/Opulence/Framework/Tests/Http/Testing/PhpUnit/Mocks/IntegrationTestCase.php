@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Http\Testing\PhpUnit\Mocks;
 
@@ -42,7 +44,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return ResponseAssertions
      */
-    public function getResponseAssertions() : ResponseAssertions
+    public function getResponseAssertions(): ResponseAssertions
     {
         return $this->assertResponse;
     }
@@ -50,7 +52,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * @return Router
      */
-    public function getRouter() : Router
+    public function getRouter(): Router
     {
         return $this->router;
     }
@@ -60,7 +62,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return ViewAssertions The view assertions
      */
-    public function getViewAssertions() : ViewAssertions
+    public function getViewAssertions(): ViewAssertions
     {
         return $this->assertView;
     }
@@ -68,7 +70,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * Sets up the application and container
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         Config::setCategory('paths', [
             'configs' => realpath(__DIR__ . '/../../configs'),
@@ -92,7 +94,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * @inheritdoc
      */
-    protected function getExceptionHandler() : IExceptionHandler
+    protected function getExceptionHandler(): IExceptionHandler
     {
         return $this->getMockBuilder(ExceptionHandler::class)
             ->disableOriginalConstructor()
@@ -102,7 +104,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * @inheritdoc
      */
-    protected function getExceptionRenderer() : IExceptionRenderer
+    protected function getExceptionRenderer(): IExceptionRenderer
     {
         /** @var IExceptionRenderer|MockObject $renderer */
         $renderer = $this->createMock(IExceptionRenderer::class);
@@ -122,7 +124,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * @inheritdoc
      */
-    protected function getGlobalMiddleware() : array
+    protected function getGlobalMiddleware(): array
     {
         return [];
     }

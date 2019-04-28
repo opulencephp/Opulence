@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Tests\Rules;
 
@@ -22,7 +24,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that equal values pass
      */
-    public function testEqualValuesPass() : void
+    public function testEqualValuesPass(): void
     {
         $rule = new DateRule();
         $format1 = 'F j';
@@ -36,7 +38,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug() : void
+    public function testGettingSlug(): void
     {
         $rule = new DateRule();
         $this->assertEquals('date', $rule->getSlug());
@@ -45,7 +47,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an invalid arg type
      */
-    public function testInvalidArgType() : void
+    public function testInvalidArgType(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new DateRule();
@@ -55,7 +57,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an empty arg array
      */
-    public function testPassingEmptyArgArray() : void
+    public function testPassingEmptyArgArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new DateRule();
@@ -65,7 +67,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that unequal values fail
      */
-    public function testUnequalValuesFail() : void
+    public function testUnequalValuesFail(): void
     {
         $rule = new DateRule();
         $format1 = 'F j';

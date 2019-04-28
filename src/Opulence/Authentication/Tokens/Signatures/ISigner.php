@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tokens\Signatures;
 
@@ -20,7 +22,7 @@ interface ISigner
      *
      * @return string The algorithm used
      */
-    public function getAlgorithm() : string;
+    public function getAlgorithm(): string;
 
     /**
      * Signs a token
@@ -28,7 +30,7 @@ interface ISigner
      * @param string $data The data to sign
      * @return string the signature
      */
-    public function sign(string $data) : string;
+    public function sign(string $data): string;
 
     /**
      * Verifies a signature
@@ -37,5 +39,5 @@ interface ISigner
      * @param string $signature The signature to validate
      * @return bool True if the signature is valid, otherwise false
      */
-    public function verify(string $data, string $signature) : bool;
+    public function verify(string $data, string $signature): bool;
 }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Debug\Tests\Exceptions\Handlers;
 
@@ -32,7 +34,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->renderer = $this->createMock(IExceptionRenderer::class);
@@ -43,7 +45,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         restore_exception_handler();
     }
@@ -51,7 +53,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that exception is reported and rendered
      */
-    public function testExceptionIsReportedAndRendered() : void
+    public function testExceptionIsReportedAndRendered(): void
     {
         $exception = new Exception();
         $this->logger->expects($this->once())
@@ -66,7 +68,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that exceptions are not logged when told not to
      */
-    public function testExceptionNotLoggedWhenToldNotTo() : void
+    public function testExceptionNotLoggedWhenToldNotTo(): void
     {
         /** @var LoggerInterface|MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Caching;
 
@@ -62,7 +64,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function flush() : void
+    public function flush(): void
     {
         foreach ($this->getCompiledViewPaths($this->path) as $viewPath) {
             if (basename($viewPath) !== '.gitignore') {
@@ -74,7 +76,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function gc() : void
+    public function gc(): void
     {
         foreach ($this->getCompiledViewPaths($this->path) as $viewPath) {
             if ($this->isExpired($viewPath) && basename($viewPath) !== '.gitignore') {
@@ -86,7 +88,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function get(IView $view, bool $checkVars = false) : ?string
+    public function get(IView $view, bool $checkVars = false): ?string
     {
         if (!$this->has($view, $checkVars)) {
             return null;
@@ -98,7 +100,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function has(IView $view, bool $checkVars = false) : bool
+    public function has(IView $view, bool $checkVars = false): bool
     {
         if (!$this->cachingIsEnabled()) {
             return false;
@@ -124,7 +126,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function set(IView $view, string $compiledContents, bool $checkVars = false) : void
+    public function set(IView $view, string $compiledContents, bool $checkVars = false): void
     {
         if ($this->cachingIsEnabled()) {
             file_put_contents($this->getViewPath($view, $checkVars), $compiledContents, 0);
@@ -134,7 +136,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function setGCChance(int $chance, int $divisor = 100) : void
+    public function setGCChance(int $chance, int $divisor = 100): void
     {
         $this->gcChance = $chance;
         $this->gcDivisor = $divisor;
@@ -143,7 +145,7 @@ class FileCache implements ICache
     /**
      * @param string $path
      */
-    public function setPath(string $path) : void
+    public function setPath(string $path): void
     {
         $this->path = rtrim($path, '/');
 
@@ -159,7 +161,7 @@ class FileCache implements ICache
      *
      * @return bool True if caching is enabled, otherwise false
      */
-    private function cachingIsEnabled() : bool
+    private function cachingIsEnabled(): bool
     {
         return $this->lifetime > 0;
     }
@@ -170,7 +172,7 @@ class FileCache implements ICache
      * @param string $path The path to search
      * @return array The list of view paths
      */
-    private function getCompiledViewPaths(string $path) : array
+    private function getCompiledViewPaths(string $path): array
     {
         if (!is_dir($path)) {
             return [];
@@ -200,7 +202,7 @@ class FileCache implements ICache
      * @param bool $checkVars Whether or not we want to also check for variable value equivalence when looking up cached views
      * @return string The path to the cached view
      */
-    private function getViewPath(IView $view, bool $checkVars) : string
+    private function getViewPath(IView $view, bool $checkVars): string
     {
         $data = ['u' => $view->getContents()];
 
@@ -217,9 +219,9 @@ class FileCache implements ICache
      * @param string $viewPath The view path to check
      * @return bool True if the path is expired, otherwise false
      */
-    private function isExpired(string $viewPath) : bool
+    private function isExpired(string $viewPath): bool
     {
-        $lastModified = DateTime::createFromFormat('U', filemtime($viewPath));
+        $lastModified = DateTime::createFromFormat('U', (string)filemtime($viewPath));
 
         return $lastModified < new DateTime('-' . $this->lifetime . ' seconds');
     }

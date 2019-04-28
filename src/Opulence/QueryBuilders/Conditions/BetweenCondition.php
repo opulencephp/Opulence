@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders\Conditions;
 
@@ -42,7 +44,7 @@ class BetweenCondition extends Condition
     /**
      * @inheritdoc
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         return [[$this->min, $this->dataType], [$this->max, $this->dataType]];
     }
@@ -50,7 +52,7 @@ class BetweenCondition extends Condition
     /**
      * @inheritdoc
      */
-    public function getSql() : string
+    public function getSql(): string
     {
         return "{$this->column} BETWEEN ? AND ?";
     }

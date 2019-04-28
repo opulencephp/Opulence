@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm\DataMappers;
 
@@ -55,7 +57,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
      * @param int|string $id The Id of the entity whose hash we're searching for
      * @return array|null The entity's hash if successful, otherwise null
      */
-    abstract protected function getEntityHashById($id) : ?array;
+    abstract protected function getEntityHashById($id): ?array;
 
     /**
      * Gets the list of members of the set at the given key
@@ -98,7 +100,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
      * @param array $entityIds The list of Ids of entities to load
      * @return array|null The list of entities if they were all found in cache, otherwise null
      */
-    protected function loadEntities(array $entityIds) : ?array
+    protected function loadEntities(array $entityIds): ?array
     {
         if (count($entityIds) === 0) {
             return null;

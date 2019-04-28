@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authorization\Roles\Orm;
 
@@ -22,21 +24,21 @@ interface IRoleRepository
      *
      * @param Role $role The role to add
      */
-    public function add($role) : void;
+    public function add($role): void;
 
     /**
      * Deletes a role
      *
      * @param Role $role The role to delete
      */
-    public function delete($role) : void;
+    public function delete($role): void;
 
     /**
      * Gets all the roles
      *
      * @return Role[] The list of all the roles
      */
-    public function getAll() : array;
+    public function getAll(): array;
 
     /**
      * Gets the role with the input Id
@@ -52,5 +54,5 @@ interface IRoleRepository
      * @param string $name The name of the role we're searching for
      * @return Role|null The role with the input name if one exists, otherwise null
      */
-    public function getByName(string $name) : ?Role;
+    public function getByName(string $name): ?Role;
 }

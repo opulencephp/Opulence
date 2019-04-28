@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
@@ -36,8 +36,7 @@ class BindingInspectionContainerTest extends TestCase
 
     public function testBindingMethodsCreatesTargetedBindings(): void
     {
-        $expectedBootstrapper = new class extends Bootstrapper
-        {
+        $expectedBootstrapper = new class extends Bootstrapper {
             public function registerBindings(IContainer $container): void
             {
                 $container->for('bar', function (IContainer $container) {
@@ -65,8 +64,7 @@ class BindingInspectionContainerTest extends TestCase
 
     public function testBindingMethodsCreatesUniversalBindings(): void
     {
-        $expectedBootstrapper = new class extends Bootstrapper
-        {
+        $expectedBootstrapper = new class extends Bootstrapper {
             public function registerBindings(IContainer $container): void
             {
                 $container->bindFactory(IFoo::class, function () {
@@ -97,8 +95,7 @@ class BindingInspectionContainerTest extends TestCase
 
     public function testCallingMethodReturnsNull(): void
     {
-        $object = new class
-        {
+        $object = new class {
             public function foo(): string
             {
                 return 'foo';

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders;
 
@@ -40,7 +42,7 @@ class DeleteQuery extends Query
      * @param string[] $expression,... A variable list of other tables' names to use in the WHERE condition
      * @return self For method chaining
      */
-    public function addUsing(string ...$expression) : self
+    public function addUsing(string ...$expression): self
     {
         $this->usingExpressions = array_merge($this->usingExpressions, $expression);
 
@@ -53,7 +55,7 @@ class DeleteQuery extends Query
      * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function andWhere(...$conditions) : self
+    public function andWhere(...$conditions): self
     {
         $this->conditionalQueryBuilder->andWhere(
             ...$this->createConditionExpressions($conditions)
@@ -65,7 +67,7 @@ class DeleteQuery extends Query
     /**
      * @inheritdoc
      */
-    public function getSql() : string
+    public function getSql(): string
     {
         $sql = "DELETE FROM {$this->tableName}" . (empty($this->tableAlias) ? '' : " AS {$this->tableAlias}");
 
@@ -74,8 +76,10 @@ class DeleteQuery extends Query
         }
 
         // Add any conditions
-        $sql .= $this->conditionalQueryBuilder->getClauseConditionSql('WHERE',
-            $this->conditionalQueryBuilder->getWhereConditions());
+        $sql .= $this->conditionalQueryBuilder->getClauseConditionSql(
+            'WHERE',
+            $this->conditionalQueryBuilder->getWhereConditions()
+        );
 
         return $sql;
     }
@@ -86,7 +90,7 @@ class DeleteQuery extends Query
      * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function orWhere(...$conditions) : self
+    public function orWhere(...$conditions): self
     {
         $this->conditionalQueryBuilder->orWhere(
             ...$this->createConditionExpressions($conditions)
@@ -102,7 +106,7 @@ class DeleteQuery extends Query
      * @param string[] $expression,... A variable list of other tables' names to use in the WHERE condition
      * @return self For method chaining
      */
-    public function using(string ...$expression) : self
+    public function using(string ...$expression): self
     {
         $this->usingExpressions = $expression;
 
@@ -116,7 +120,7 @@ class DeleteQuery extends Query
      * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function where(...$conditions) : self
+    public function where(...$conditions): self
     {
         $this->conditionalQueryBuilder->where(
             ...$this->createConditionExpressions($conditions)
@@ -131,7 +135,7 @@ class DeleteQuery extends Query
      * @param array $conditions The list of strings of condition objects to convert
      * @return array The list of condition expressions
      */
-    private function createConditionExpressions(array $conditions) : array
+    private function createConditionExpressions(array $conditions): array
     {
         $conditionExpressions = [];
 

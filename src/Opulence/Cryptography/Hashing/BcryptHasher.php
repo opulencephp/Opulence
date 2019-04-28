@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cryptography\Hashing;
 
@@ -21,7 +23,7 @@ class BcryptHasher extends Hasher
     /**
      * @inheritdoc
      */
-    public function hash(string $unhashedValue, array $options = [], string $pepper = '') : string
+    public function hash(string $unhashedValue, array $options = [], string $pepper = ''): string
     {
         if (!isset($options['cost'])) {
             $options['cost'] = self::DEFAULT_COST;
@@ -33,7 +35,7 @@ class BcryptHasher extends Hasher
     /**
      * @inheritdoc
      */
-    public function needsRehash(string $hashedValue, array $options = []) : bool
+    public function needsRehash(string $hashedValue, array $options = []): bool
     {
         if (!isset($options['cost'])) {
             $options['cost'] = self::DEFAULT_COST;
@@ -45,7 +47,7 @@ class BcryptHasher extends Hasher
     /**
      * @inheritdoc
      */
-    protected function setHashAlgorithm() : void
+    protected function setHashAlgorithm(): void
     {
         $this->hashAlgorithm = PASSWORD_BCRYPT;
     }

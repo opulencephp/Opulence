@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens\Verification;
 
@@ -32,7 +34,7 @@ class ExpirationVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->verifier = new ExpirationVerifier();
         $this->jwt = $this->getMockBuilder(SignedJwt::class)
@@ -47,7 +49,7 @@ class ExpirationVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an expired token
      */
-    public function testExpiredToken() : void
+    public function testExpiredToken(): void
     {
         $date = new DateTimeImmutable('-30 second');
         $this->jwtPayload->expects($this->once())
@@ -60,7 +62,7 @@ class ExpirationVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests verifying valid token
      */
-    public function testVerifyingValidToken() : void
+    public function testVerifyingValidToken(): void
     {
         $date = new DateTimeImmutable('+30 second');
         $this->jwtPayload->expects($this->once())

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authorization;
 
@@ -38,7 +40,7 @@ class Authority implements IAuthority
     /**
      * @inheritdoc
      */
-    public function can(string $permission, ...$arguments) : bool
+    public function can(string $permission, ...$arguments): bool
     {
         // Check the overrides first
         foreach ($this->permissionRegistry->getOverrideCallbacks() as $overrideCallback) {
@@ -64,7 +66,7 @@ class Authority implements IAuthority
     /**
      * @inheritdoc
      */
-    public function cannot(string $permission, ...$arguments) : bool
+    public function cannot(string $permission, ...$arguments): bool
     {
         return !$this->can($permission, ...$arguments);
     }
@@ -72,7 +74,7 @@ class Authority implements IAuthority
     /**
      * @inheritdoc
      */
-    public function forSubject($subjectId, array $subjectRoles = null) : IAuthority
+    public function forSubject($subjectId, array $subjectRoles = null): IAuthority
     {
         return new self($subjectId, $subjectRoles, $this->permissionRegistry);
     }
@@ -80,7 +82,7 @@ class Authority implements IAuthority
     /**
      * @inheritdoc
      */
-    public function setSubject($subjectId, array $subjectRoles) : void
+    public function setSubject($subjectId, array $subjectRoles): void
     {
         $this->subjectId = $subjectId;
         $this->subjectRoles = $subjectRoles;

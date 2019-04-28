@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Debug\Exceptions\Handlers\Http;
 
@@ -37,7 +39,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->viewFactory = $this->createMock(IViewFactory::class);
         $this->viewCompiler = $this->createMock(ICompiler::class);
@@ -50,7 +52,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         ob_end_clean();
     }
@@ -58,7 +60,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the response is null before being rendered
      */
-    public function testExceptionThrownWhenGettingResponseBeforeItIsRendered() : void
+    public function testExceptionThrownWhenGettingResponseBeforeItIsRendered(): void
     {
         $this->expectException(LogicException::class);
         $this->renderer->getResponse();
@@ -67,7 +69,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering an HTTP exception with an HTML view
      */
-    public function testRenderingHttpExceptionWithView() : void
+    public function testRenderingHttpExceptionWithView(): void
     {
         $this->setViewComponents();
         $ex = new HttpException(404, 'foo');
@@ -93,7 +95,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering an HTTP exception without setting view compiler and factory
      */
-    public function testRenderingHttpExceptionWithoutSettingViewCompilerAndFactory() : void
+    public function testRenderingHttpExceptionWithoutSettingViewCompilerAndFactory(): void
     {
         $ex = new HttpException(404, 'foo');
         $this->viewFactory->expects($this->never())
@@ -106,7 +108,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering an HTTP exception without a view in the development environment
      */
-    public function testRenderingHttpExceptionWithoutViewInDevelopmentEnvironment() : void
+    public function testRenderingHttpExceptionWithoutViewInDevelopmentEnvironment(): void
     {
         $this->setViewComponents();
         $ex = new HttpException(404, 'foo');
@@ -122,7 +124,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering an HTTP exception without a view in the production environment
      */
-    public function testRenderingHttpExceptionWithoutViewInProductionEnvironment() : void
+    public function testRenderingHttpExceptionWithoutViewInProductionEnvironment(): void
     {
         $this->renderer = new MockRenderer(false);
         $this->setViewComponents();
@@ -139,7 +141,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering a JSON view
      */
-    public function testRenderingJsonView() : void
+    public function testRenderingJsonView(): void
     {
         $this->setViewComponents();
         $this->viewCompiler->expects($this->once())
@@ -176,7 +178,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering a non-HTTP exception with a view
      */
-    public function testRenderingNonHttpExceptionWithView() : void
+    public function testRenderingNonHttpExceptionWithView(): void
     {
         $this->setViewComponents();
         $ex = new Exception('foo');
@@ -201,7 +203,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering a non-HTTP exception without a view in the development environment
      */
-    public function testRenderingNonHttpExceptionWithoutViewInDevelopmentEnvironment() : void
+    public function testRenderingNonHttpExceptionWithoutViewInDevelopmentEnvironment(): void
     {
         $this->setViewComponents();
         $ex = new Exception('foo');
@@ -217,7 +219,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests rendering a non-HTTP exception without a view in the production environment
      */
-    public function testRenderingNonHttpExceptionWithoutViewInProductionEnvironment() : void
+    public function testRenderingNonHttpExceptionWithoutViewInProductionEnvironment(): void
     {
         $this->renderer = new MockRenderer(false);
         $this->setViewComponents();
@@ -234,7 +236,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets view components in the renderer
      */
-    private function setViewComponents() : void
+    private function setViewComponents(): void
     {
         $this->renderer->setViewFactory($this->viewFactory);
         $this->renderer->setViewCompiler($this->viewCompiler);

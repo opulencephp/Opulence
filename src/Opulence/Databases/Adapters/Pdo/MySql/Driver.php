@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Adapters\Pdo\MySql;
 
@@ -22,7 +24,7 @@ class Driver extends BaseDriver
     /**
      * @inheritdoc
      */
-    protected function getDsn(Server $server, array $options = []) : string
+    protected function getDsn(Server $server, array $options = []): string
     {
         $dsn = implode(';', [
                 'mysql:host=' . $server->getHost(),
@@ -41,7 +43,7 @@ class Driver extends BaseDriver
     /**
      * @inheritdoc
      */
-    protected function setProvider() : void
+    protected function setProvider(): void
     {
         $this->provider = new MySqlProvider();
     }

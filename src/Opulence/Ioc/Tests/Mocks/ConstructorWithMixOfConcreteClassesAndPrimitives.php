@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Ioc\Tests\Mocks;
 
@@ -37,7 +39,7 @@ class ConstructorWithMixOfConcreteClassesAndPrimitives
     /**
      * @return Bar
      */
-    public function getFoo() : Bar
+    public function getFoo(): Bar
     {
         return $this->foo;
     }
@@ -45,7 +47,7 @@ class ConstructorWithMixOfConcreteClassesAndPrimitives
     /**
      * @return int
      */
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -53,7 +55,7 @@ class ConstructorWithMixOfConcreteClassesAndPrimitives
     /**
      * @return Dave
      */
-    public function getPerson() : Dave
+    public function getPerson(): Dave
     {
         return $this->person;
     }

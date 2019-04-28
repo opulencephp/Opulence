@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Tests\Rules\Errors\Compilers;
 
@@ -23,7 +25,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->compiler = new Compiler();
     }
@@ -31,7 +33,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a template with arg placeholders
      */
-    public function testCompilingTemplateWithArgPlaceholders() : void
+    public function testCompilingTemplateWithArgPlaceholders(): void
     {
         $this->assertEquals(
             'foo dave baz young',
@@ -46,7 +48,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a template with arg placeholders not in same order as args
      */
-    public function testCompilingTemplateWithArgPlaceholdersNotInSameOrderAsArgs() : void
+    public function testCompilingTemplateWithArgPlaceholdersNotInSameOrderAsArgs(): void
     {
         $this->assertEquals(
             'foo dave baz young',
@@ -61,7 +63,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a template with field and arg placeholders
      */
-    public function testCompilingTemplateWithFieldAndArgPlaceholders() : void
+    public function testCompilingTemplateWithFieldAndArgPlaceholders(): void
     {
         $this->assertEquals(
             'foo the-field dave baz young',
@@ -76,7 +78,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a template with a field placeholder
      */
-    public function testCompilingTemplateWithFieldPlaceholder() : void
+    public function testCompilingTemplateWithFieldPlaceholder(): void
     {
         $this->assertEquals(
             'foo bar',
@@ -87,11 +89,12 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a with leftover placeholders
      */
-    public function testCompilingTemplateWithLeftoverPlaceholders() : void
+    public function testCompilingTemplateWithLeftoverPlaceholders(): void
     {
         $this->assertEquals(
             'foo dave',
-            $this->compiler->compile('foo',
+            $this->compiler->compile(
+                'foo',
                 'foo :bar :baz',
                 ['bar' => 'dave']
             )
@@ -101,7 +104,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a template with no placeholders
      */
-    public function testCompilingTemplateWithNoPlaceholders() : void
+    public function testCompilingTemplateWithNoPlaceholders(): void
     {
         $this->assertEquals(
             'foo bar',

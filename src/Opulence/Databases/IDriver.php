@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases;
 
@@ -24,5 +26,5 @@ interface IDriver
      * @param array $driverOptions The list of driver options
      * @return IConnection The database connection
      */
-    public function connect(Server $server, array $connectionOptions = [], array $driverOptions = []) : IConnection;
+    public function connect(Server $server, array $connectionOptions = [], array $driverOptions = []): IConnection;
 }

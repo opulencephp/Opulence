@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens\Verification;
 
@@ -31,7 +33,7 @@ class SubjectVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->verifier = new SubjectVerifier('foo');
         $this->jwt = $this->getMockBuilder(SignedJwt::class)
@@ -46,7 +48,7 @@ class SubjectVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an invalid subject
      */
-    public function testInvalidSubject() : void
+    public function testInvalidSubject(): void
     {
         $this->jwtPayload->expects($this->once())
             ->method('getSubject')
@@ -58,7 +60,7 @@ class SubjectVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests verifying valid token
      */
-    public function testVerifyingValidToken() : void
+    public function testVerifyingValidToken(): void
     {
         $this->jwtPayload->expects($this->once())
             ->method('getSubject')

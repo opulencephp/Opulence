@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Migrations;
 
@@ -47,7 +49,7 @@ class Migrator implements IMigrator
     /**
      * @inheritdoc
      */
-    public function rollBackAllMigrations() : array
+    public function rollBackAllMigrations(): array
     {
         // These classes are returned in chronologically descending order
         $migrationClasses = $this->executedMigrations->getAll();
@@ -60,7 +62,7 @@ class Migrator implements IMigrator
     /**
      * @inheritdoc
      */
-    public function rollBackMigrations(int $number = 1) : array
+    public function rollBackMigrations(int $number = 1): array
     {
         // These classes are returned in chronologically descending order
         $migrationClasses = $this->executedMigrations->getLast($number);
@@ -73,7 +75,7 @@ class Migrator implements IMigrator
     /**
      * @inheritdoc
      */
-    public function runMigrations() : array
+    public function runMigrations(): array
     {
         $runMigrationClasses = $this->executedMigrations->getAll();
         // We want to reset the array keys, which is why we grab the values
@@ -96,7 +98,7 @@ class Migrator implements IMigrator
      *
      * @param IMigration[] $migrations The migrations to execute the down method on
      */
-    private function executeRollBacks(array $migrations) : void
+    private function executeRollBacks(array $migrations): void
     {
         $this->connection->beginTransaction();
 
@@ -114,7 +116,7 @@ class Migrator implements IMigrator
      * @param string[] $migrationClasses The list of migration classes to resolve
      * @return IMigration[] The list of resolved migrations
      */
-    private function resolveManyMigrations(array $migrationClasses) : array
+    private function resolveManyMigrations(array $migrationClasses): array
     {
         $migrations = [];
 

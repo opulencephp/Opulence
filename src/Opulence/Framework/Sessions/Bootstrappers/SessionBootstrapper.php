@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Sessions\Bootstrappers;
 
@@ -27,7 +29,7 @@ abstract class SessionBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         $container->bindInstance(ISession::class, $this->getSession($container));
         $container->bindInstance(SessionHandlerInterface::class, $this->getSessionHandler($container));
@@ -39,7 +41,7 @@ abstract class SessionBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC Container
      * @return ISession The session to use
      */
-    abstract protected function getSession(IContainer $container) : ISession;
+    abstract protected function getSession(IContainer $container): ISession;
 
     /**
      * Gets the session handler object to use
@@ -47,7 +49,7 @@ abstract class SessionBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC Container
      * @return SessionHandlerInterface The session handler to use
      */
-    abstract protected function getSessionHandler(IContainer $container) : SessionHandlerInterface;
+    abstract protected function getSessionHandler(IContainer $container): SessionHandlerInterface;
 
     /**
      * Gets the session encrypter to use if our sessions are encrypted
@@ -56,7 +58,7 @@ abstract class SessionBootstrapper extends Bootstrapper
      * @return ISessionEncrypter The session encrypter to use
      * @throws IocException Thrown if there was an error resolving the encrypter
      */
-    protected function getSessionEncrypter(IContainer $container) : ISessionEncrypter
+    protected function getSessionEncrypter(IContainer $container): ISessionEncrypter
     {
         return new SessionEncrypter($container->resolve(IEncrypter::class));
     }

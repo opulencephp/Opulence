@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Credentials\Authenticators;
 
@@ -46,7 +48,7 @@ class UsernamePasswordAuthenticator implements IAuthenticator
     /**
      * @inheritdoc
      */
-    public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null) : bool
+    public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null): bool
     {
         $username = $credential->getValue('username');
         $password = $credential->getValue('password');
@@ -83,7 +85,7 @@ class UsernamePasswordAuthenticator implements IAuthenticator
      * @param ICredential $credential The credential
      * @return ISubject The subject
      */
-    protected function getSubjectFromUser(IUser $user, ICredential $credential) : ISubject
+    protected function getSubjectFromUser(IUser $user, ICredential $credential): ISubject
     {
         $userId = $user->getId();
         $roles = $this->roleRepository->getRoleNamesForSubject($userId);

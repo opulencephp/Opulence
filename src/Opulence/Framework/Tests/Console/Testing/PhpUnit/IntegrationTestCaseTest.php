@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Console\Testing\PhpUnit\Mocks;
 
@@ -33,7 +35,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->testCase = new MockIntegrationTestCase();
         $this->testCase->setUp();
@@ -49,7 +51,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that call returns this
      */
-    public function testCallReturnsThis() : void
+    public function testCallReturnsThis(): void
     {
         $this->assertSame($this->testCase, $this->testCase->execute('simple'));
     }
@@ -57,7 +59,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests calling a command with multiple prompts
      */
-    public function testCallingCommandWithMultiplePrompts() : void
+    public function testCallingCommandWithMultiplePrompts(): void
     {
         $this->testCase->execute('multipleprompts', [], [], ['foo', 'bar'])
             ->getResponseAssertions()
@@ -70,7 +72,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests calling a command with a single prompt
      */
-    public function testCallingCommandWithSinglePrompt() : void
+    public function testCallingCommandWithSinglePrompt(): void
     {
         $this->testCase->execute('singleprompt', [], [], 'A duck')
             ->getResponseAssertions()
@@ -83,7 +85,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests calling a non-existent command
      */
-    public function testCallingNonExistentCommand() : void
+    public function testCallingNonExistentCommand(): void
     {
         // The About command should be run in this case
         $this->testCase->execute('doesnotexist')
@@ -94,7 +96,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a command builder is created
      */
-    public function testCommandBuilderCreated() : void
+    public function testCommandBuilderCreated(): void
     {
         $this->assertInstanceOf(CommandBuilder::class, $this->testCase->command('foo'));
     }
@@ -102,7 +104,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the commands
      */
-    public function testGettingCommands() : void
+    public function testGettingCommands(): void
     {
         $this->assertInstanceOf(CommandCollection::class, $this->testCase->getCommandCollection());
     }
@@ -110,7 +112,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the output of a command without an option
      */
-    public function testGettingOutputOfOptionlessCommand() : void
+    public function testGettingOutputOfOptionlessCommand(): void
     {
         $this->testCase->execute('simple')
             ->getResponseAssertions()
@@ -121,7 +123,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the output of a command with an option
      */
-    public function testGettingOutputWithOption() : void
+    public function testGettingOutputWithOption(): void
     {
         $this->testCase->execute('holiday', ['birthday'], ['--yell'])
             ->getResponseAssertions()
@@ -132,7 +134,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the response assertions work
      */
-    public function testResponseAssertionsWork() : void
+    public function testResponseAssertionsWork(): void
     {
         $this->testCase->execute('simple')
             ->getResponseAssertions()
@@ -142,7 +144,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests styling and unstyling a response
      */
-    public function testStylingAndUnstylingResponse() : void
+    public function testStylingAndUnstylingResponse(): void
     {
         $this->testCase->execute('stylish')
             ->getResponseAssertions()
@@ -155,7 +157,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the response is cleared before each command is run
      */
-    public function testThatResponseIsClearedBeforeEachCommand() : void
+    public function testThatResponseIsClearedBeforeEachCommand(): void
     {
         $this->testCase->execute('stylish', [], [], [], false)
             ->getResponseAssertions()

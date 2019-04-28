@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Commands;
 
@@ -41,7 +43,7 @@ class FlushFrameworkCacheCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define() : void
+    protected function define(): void
     {
         $this->setName('framework:flushcache')
             ->setDescription("Flushes all of the framework's cached files");
@@ -63,7 +65,7 @@ class FlushFrameworkCacheCommand extends Command
      *
      * @param IResponse $response The response to write to
      */
-    private function flushBootstrapperCache(IResponse $response) : void
+    private function flushBootstrapperCache(IResponse $response): void
     {
         // Todo: Need to make this work with new way of caching bootstrappers in 2.0
 
@@ -75,7 +77,7 @@ class FlushFrameworkCacheCommand extends Command
      *
      * @param IResponse $response The response to write to
      */
-    private function flushRouteCache(IResponse $response) : void
+    private function flushRouteCache(IResponse $response): void
     {
         if (($path = Config::get('paths', 'routes.cache')) !== null) {
             $this->routeCache->flush("$path/" . RouteCache::DEFAULT_CACHED_ROUTES_FILE_NAME);
@@ -89,7 +91,7 @@ class FlushFrameworkCacheCommand extends Command
      *
      * @param IResponse $response The response to write to
      */
-    private function flushViewCache(IResponse $response) : void
+    private function flushViewCache(IResponse $response): void
     {
         $this->viewCache->flush();
         $response->writeln('<info>View cache flushed</info>');

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Authorization\Bootstrappers;
 
@@ -29,7 +31,7 @@ abstract class AuthorizationBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         $container->bindInstance(IAuthority::class, $this->getAuthority($container));
     }
@@ -40,7 +42,7 @@ abstract class AuthorizationBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return IRoleMembershipRepository The role membership repository
      */
-    abstract protected function getRoleMembershipRepository(IContainer $container) : IRoleMembershipRepository;
+    abstract protected function getRoleMembershipRepository(IContainer $container): IRoleMembershipRepository;
 
     /**
      * Gets the role repository
@@ -48,7 +50,7 @@ abstract class AuthorizationBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return IRoleRepository The role repository
      */
-    abstract protected function getRoleRepository(IContainer $container) : IRoleRepository;
+    abstract protected function getRoleRepository(IContainer $container): IRoleRepository;
 
     /**
      * Gets the authority
@@ -56,7 +58,7 @@ abstract class AuthorizationBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return IAuthority The authority
      */
-    protected function getAuthority(IContainer $container) : IAuthority
+    protected function getAuthority(IContainer $container): IAuthority
     {
         $permissionRegistry = $this->getPermissionRegistry($container);
         $container->bindInstance(IPermissionRegistry::class, $permissionRegistry);
@@ -71,7 +73,7 @@ abstract class AuthorizationBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return IPermissionRegistry The permission registry
      */
-    protected function getPermissionRegistry(IContainer $container) : IPermissionRegistry
+    protected function getPermissionRegistry(IContainer $container): IPermissionRegistry
     {
         return new PermissionRegistry();
     }
@@ -82,7 +84,7 @@ abstract class AuthorizationBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return IRoles The roles
      */
-    protected function getRoles(IContainer $container) : IRoles
+    protected function getRoles(IContainer $container): IRoles
     {
         $roleRepository = $this->getRoleRepository($container);
         $roleMembershipRepository = $this->getRoleMembershipRepository($container);

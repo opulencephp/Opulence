@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views;
 
@@ -29,7 +31,7 @@ interface IView
      *
      * @return string The uncompiled contents
      */
-    public function getContents() : string;
+    public function getContents(): string;
 
     /**
      * Gets the open and close delimiters for a particular type
@@ -37,14 +39,14 @@ interface IView
      * @param mixed $type The type of delimiter to get
      * @return array An array containing the open and close delimiters
      */
-    public function getDelimiters($type) : array;
+    public function getDelimiters($type): array;
 
     /**
      * Gets the path of the raw view
      *
      * @return string The path of the raw view
      */
-    public function getPath() : string;
+    public function getPath(): string;
 
     /**
      * Gets the value for a variable
@@ -59,7 +61,7 @@ interface IView
      *
      * @return array The variable name => value mappings
      */
-    public function getVars() : array;
+    public function getVars(): array;
 
     /**
      * Gets whether or not a variable is set in the view
@@ -67,14 +69,14 @@ interface IView
      * @param string $name The name of the variable to search for
      * @return bool True if the view as the variable, otherwise false
      */
-    public function hasVar(string $name) : bool;
+    public function hasVar(string $name): bool;
 
     /**
      * Sets the uncompiled contents of the view
      *
      * @param string $contents The uncompiled contents
      */
-    public function setContents(string $contents) : void;
+    public function setContents(string $contents): void;
 
     /**
      * Sets the values for a delimiter type
@@ -82,14 +84,14 @@ interface IView
      * @param mixed $type The type of delimiter to set
      * @param array $values An array containing the open and close delimiter values
      */
-    public function setDelimiters($type, array $values) : void;
+    public function setDelimiters($type, array $values): void;
 
     /**
      * Sets the path of the raw view
      *
      * @param string $path The path of the raw view
      */
-    public function setPath(string $path) : void;
+    public function setPath(string $path): void;
 
     /**
      * Sets the value for a variable in the view
@@ -98,12 +100,12 @@ interface IView
      *      For example, if we are setting the value of a variable named "$email" in the view, pass in "email"
      * @param mixed $value The value of the variable
      */
-    public function setVar(string $name, $value) : void;
+    public function setVar(string $name, $value): void;
 
     /**
      * Sets multiple variables' values in the view
      *
      * @param array $namesToValues The mapping of variable names to their respective values
      */
-    public function setVars(array $namesToValues) : void;
+    public function setVars(array $namesToValues): void;
 }

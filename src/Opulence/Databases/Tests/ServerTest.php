@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Tests;
 
@@ -20,7 +22,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the character set
      */
-    public function testSettingCharset() : void
+    public function testSettingCharset(): void
     {
         $charset = 'foo';
         $server = new Server();
@@ -31,7 +33,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the data in the constructor
      */
-    public function testSettingDataInConstructor() : void
+    public function testSettingDataInConstructor(): void
     {
         $server = new Server(
             '127.0.0.1',
@@ -52,7 +54,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the database name
      */
-    public function testSettingDatabaseName() : void
+    public function testSettingDatabaseName(): void
     {
         $databaseName = 'dbname';
         $server = new Server();
@@ -63,7 +65,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the host
      */
-    public function testSettingHost() : void
+    public function testSettingHost(): void
     {
         $server = new Server();
         $server->setHost('127.0.0.1');
@@ -73,7 +75,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the password
      */
-    public function testSettingPassword() : void
+    public function testSettingPassword(): void
     {
         $password = 'bar';
         $server = new Server();
@@ -84,7 +86,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the port
      */
-    public function testSettingPort() : void
+    public function testSettingPort(): void
     {
         $server = new Server();
         $server->setPort(80);
@@ -94,7 +96,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the username
      */
-    public function testSettingUsername() : void
+    public function testSettingUsername(): void
     {
         $name = 'foo';
         $server = new Server();

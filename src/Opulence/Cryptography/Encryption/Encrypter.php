@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cryptography\Encryption;
 
@@ -59,7 +61,7 @@ class Encrypter implements IEncrypter
     /**
      * @inheritdoc
      */
-    public function decrypt(string $data) : string
+    public function decrypt(string $data): string
     {
         $pieces = $this->getPieces($data);
         $encodedIv = $pieces['iv'];
@@ -105,7 +107,7 @@ class Encrypter implements IEncrypter
     /**
      * @inheritdoc
      */
-    public function encrypt(string $data) : string
+    public function encrypt(string $data): string
     {
         $decodedIv = \random_bytes(\openssl_cipher_iv_length($this->cipher));
         $encodedIv = \base64_encode($decodedIv);
@@ -146,7 +148,7 @@ class Encrypter implements IEncrypter
     /**
      * @inheritdoc
      */
-    public function setSecret(Secret $secret) : void
+    public function setSecret(Secret $secret): void
     {
         $this->secret = $secret;
         $this->validateSecret($this->cipher);
@@ -168,7 +170,7 @@ class Encrypter implements IEncrypter
         string $cipher,
         string $value,
         string $authenticationKey
-    ) : string {
+    ): string {
         return \hash_hmac(self::$hmacAlgorithm, self::$version . $cipher . $iv . $keySalt . $value, $authenticationKey);
     }
 
@@ -179,7 +181,7 @@ class Encrypter implements IEncrypter
      * @param string $keySalt The salt to use on the keys
      * @return DerivedKeys The derived keys
      */
-    private function deriveKeys(string $cipher, string $keySalt) : DerivedKeys
+    private function deriveKeys(string $cipher, string $keySalt): DerivedKeys
     {
         // Extract the number of bytes from the cipher
         $keyByteLength = $this->getKeyByteLengthForCipher($cipher);
@@ -197,7 +199,7 @@ class Encrypter implements IEncrypter
      * @param string $cipher The cipher whose bytes we want
      * @return int The number of bytes
      */
-    private function getKeyByteLengthForCipher(string $cipher) : int
+    private function getKeyByteLengthForCipher(string $cipher): int
     {
         return (int)\mb_substr($cipher, 4, 3, '8bit') / 8;
     }
@@ -209,7 +211,7 @@ class Encrypter implements IEncrypter
      * @return array The pieces
      * @throws EncryptionException Thrown if the pieces were not correctly set
      */
-    private function getPieces(string $data) : array
+    private function getPieces(string $data): array
     {
         $pieces = \json_decode(\base64_decode($data), true);
 
@@ -241,7 +243,7 @@ class Encrypter implements IEncrypter
     /**
      * @inheritdoc
      */
-    private function setCipher(string $cipher) : void
+    private function setCipher(string $cipher): void
     {
         $cipher = \mb_strtoupper($cipher, '8bit');
 
@@ -258,7 +260,7 @@ class Encrypter implements IEncrypter
      * @param string $cipher The cipher used
      * @throws EncryptionException Thrown if the secret is not valid
      */
-    private function validateSecret(string $cipher) : void
+    private function validateSecret(string $cipher): void
     {
         if ($this->secret->getType() === SecretTypes::KEY) {
             if (\mb_strlen($this->secret->getValue(), '8bit') < $this->getKeyByteLengthForCipher($cipher)) {

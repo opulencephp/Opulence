@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Rules\Errors\Compilers;
 
@@ -18,7 +20,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function compile(string $field, string $template, array $args = []) : string
+    public function compile(string $field, string $template, array $args = []): string
     {
         $args['field'] = $field;
         $placeholders = array_map(function ($placeholder) {

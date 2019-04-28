@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cache;
 
@@ -33,7 +35,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function decrement(string $key, int $by = 1) : int
+    public function decrement(string $key, int $by = 1): int
     {
         $parsedData = $this->parseData($key);
         $incrementedValue = (int)$parsedData['d'] - $by;
@@ -45,7 +47,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function delete(string $key) : void
+    public function delete(string $key): void
     {
         @unlink($this->getPath($key));
     }
@@ -53,7 +55,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function flush() : void
+    public function flush(): void
     {
         foreach (glob("{$this->path}/*") as $file) {
             if (is_file($file)) {
@@ -73,7 +75,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function has(string $key) : bool
+    public function has(string $key): bool
     {
         $parsedData = $this->parseData($key);
 
@@ -85,7 +87,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function increment(string $key, int $by = 1) : int
+    public function increment(string $key, int $by = 1): int
     {
         $parsedData = $this->parseData($key);
         $incrementedValue = (int)$parsedData['d'] + $by;
@@ -97,7 +99,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function set(string $key, $value, int $lifetime) : void
+    public function set(string $key, $value, int $lifetime): void
     {
         file_put_contents($this->getPath($key), $this->serialize($value, $lifetime));
     }
@@ -108,7 +110,7 @@ class FileBridge implements ICacheBridge
      * @param string $key The key to get
      * @return string The path to the key
      */
-    protected function getPath(string $key) : string
+    protected function getPath(string $key): string
     {
         return $this->path . '/' . md5($key);
     }
@@ -119,7 +121,7 @@ class FileBridge implements ICacheBridge
      * @param string $key The key to run garbage collection on
      * @return array The array of data after running any garbage collection
      */
-    protected function parseData(string $key) : array
+    protected function parseData(string $key): array
     {
         if (file_exists($this->getPath($key))) {
             $rawData = json_decode(file_get_contents($this->getPath($key)), true);
@@ -144,7 +146,7 @@ class FileBridge implements ICacheBridge
      * @param int $lifetime The lifetime in seconds
      * @return string The serialized data
      */
-    protected function serialize($data, int $lifetime) : string
+    protected function serialize($data, int $lifetime): string
     {
         return json_encode(
             ['d' => serialize($data), 't' => time() + $lifetime]

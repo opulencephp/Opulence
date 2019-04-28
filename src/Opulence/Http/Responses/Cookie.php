@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Responses;
 
@@ -62,7 +64,7 @@ class Cookie
     /**
      * @return string
      */
-    public function getDomain() : string
+    public function getDomain(): string
     {
         return $this->domain;
     }
@@ -70,7 +72,7 @@ class Cookie
     /**
      * @return int
      */
-    public function getExpiration() : int
+    public function getExpiration(): int
     {
         return $this->expiration;
     }
@@ -78,7 +80,7 @@ class Cookie
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -86,7 +88,7 @@ class Cookie
     /**
      * @return string
      */
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -102,7 +104,7 @@ class Cookie
     /**
      * @return bool
      */
-    public function isHttpOnly() : bool
+    public function isHttpOnly(): bool
     {
         return $this->isHttpOnly;
     }
@@ -110,7 +112,7 @@ class Cookie
     /**
      * @return bool
      */
-    public function isSecure() : bool
+    public function isSecure(): bool
     {
         return $this->isSecure;
     }

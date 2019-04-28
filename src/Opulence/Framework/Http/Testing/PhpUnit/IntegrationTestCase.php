@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Http\Testing\PhpUnit;
 
@@ -48,7 +50,7 @@ abstract class IntegrationTestCase extends TestCase
      * @param string|null $url The URL to request
      * @return RequestBuilder The request builder
      */
-    public function delete(string $url = null) : RequestBuilder
+    public function delete(string $url = null): RequestBuilder
     {
         return new RequestBuilder($this, RequestMethods::DELETE, $url);
     }
@@ -59,7 +61,7 @@ abstract class IntegrationTestCase extends TestCase
      * @param string|null $url The URL to request
      * @return RequestBuilder The request builder
      */
-    public function get(string $url = null) : RequestBuilder
+    public function get(string $url = null): RequestBuilder
     {
         return new RequestBuilder($this, RequestMethods::GET, $url);
     }
@@ -70,7 +72,7 @@ abstract class IntegrationTestCase extends TestCase
      * @param string|null $url The URL to request
      * @return RequestBuilder The request builder
      */
-    public function head(string $url = null) : RequestBuilder
+    public function head(string $url = null): RequestBuilder
     {
         return new RequestBuilder($this, RequestMethods::HEAD, $url);
     }
@@ -81,7 +83,7 @@ abstract class IntegrationTestCase extends TestCase
      * @param string|null $url The URL to request
      * @return RequestBuilder The request builder
      */
-    public function options(string $url = null) : RequestBuilder
+    public function options(string $url = null): RequestBuilder
     {
         return new RequestBuilder($this, RequestMethods::OPTIONS, $url);
     }
@@ -92,7 +94,7 @@ abstract class IntegrationTestCase extends TestCase
      * @param string|null $url The URL to request
      * @return RequestBuilder The request builder
      */
-    public function patch(string $url = null) : RequestBuilder
+    public function patch(string $url = null): RequestBuilder
     {
         return new RequestBuilder($this, RequestMethods::PATCH, $url);
     }
@@ -103,7 +105,7 @@ abstract class IntegrationTestCase extends TestCase
      * @param string|null $url The URL to request
      * @return RequestBuilder The request builder
      */
-    public function post(string $url = null) : RequestBuilder
+    public function post(string $url = null): RequestBuilder
     {
         return new RequestBuilder($this, RequestMethods::POST, $url);
     }
@@ -114,7 +116,7 @@ abstract class IntegrationTestCase extends TestCase
      * @param string|null $url The URL to request
      * @return RequestBuilder The request builder
      */
-    public function put(string $url = null) : RequestBuilder
+    public function put(string $url = null): RequestBuilder
     {
         return new RequestBuilder($this, RequestMethods::PUT, $url);
     }
@@ -125,7 +127,7 @@ abstract class IntegrationTestCase extends TestCase
      * @param Request|null $request The request to use
      * @return self For method chaining
      */
-    public function route(Request $request = null) : self
+    public function route(Request $request = null): self
     {
         if ($request === null) {
             $request = $this->defaultRequest;
@@ -141,7 +143,7 @@ abstract class IntegrationTestCase extends TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->container->bindInstance(IExceptionHandler::class, $this->getExceptionHandler());
         $this->container->bindInstance(IExceptionRenderer::class, $this->getExceptionRenderer());
@@ -158,19 +160,19 @@ abstract class IntegrationTestCase extends TestCase
      *
      * @return IExceptionHandler The exception handler used in the kernel
      */
-    abstract protected function getExceptionHandler() : IExceptionHandler;
+    abstract protected function getExceptionHandler(): IExceptionHandler;
 
     /**
      * Gets the exception renderer
      *
      * @return IExceptionRenderer The exception renderer
      */
-    abstract protected function getExceptionRenderer() : IExceptionRenderer;
+    abstract protected function getExceptionRenderer(): IExceptionRenderer;
 
     /**
      * Gets the list of global middleware
      *
      * @return array The list of global middleware classes
      */
-    abstract protected function getGlobalMiddleware() : array;
+    abstract protected function getGlobalMiddleware(): array;
 }

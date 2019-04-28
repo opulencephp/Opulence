@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Views\Caching;
 
@@ -37,7 +39,7 @@ class GenericCache implements ICache
     /**
      * @inheritdoc
      */
-    public function flush() : void
+    public function flush(): void
     {
         $this->bridge->flush();
     }
@@ -45,7 +47,7 @@ class GenericCache implements ICache
     /**
      * @inheritdoc
      */
-    public function gc() : void
+    public function gc(): void
     {
         // Garbage collection is not needed with a cache bridge
     }
@@ -53,7 +55,7 @@ class GenericCache implements ICache
     /**
      * @inheritdoc
      */
-    public function get(IView $view, bool $checkVars = false) : ?string
+    public function get(IView $view, bool $checkVars = false): ?string
     {
         return $this->bridge->get($this->getKey($view, $checkVars));
     }
@@ -61,7 +63,7 @@ class GenericCache implements ICache
     /**
      * @inheritdoc
      */
-    public function has(IView $view, bool $checkVars = false) : bool
+    public function has(IView $view, bool $checkVars = false): bool
     {
         return $this->bridge->has($this->getKey($view, $checkVars));
     }
@@ -69,7 +71,7 @@ class GenericCache implements ICache
     /**
      * @inheritdoc
      */
-    public function set(IView $view, string $compiledContents, bool $checkVars = false) : void
+    public function set(IView $view, string $compiledContents, bool $checkVars = false): void
     {
         $this->bridge->set($this->getKey($view, $checkVars), $compiledContents, $this->lifetime);
     }
@@ -77,7 +79,7 @@ class GenericCache implements ICache
     /**
      * @inheritdoc
      */
-    public function setGCChance(int $chance, int $divisor = 100) : void
+    public function setGCChance(int $chance, int $divisor = 100): void
     {
         // Garbage collection is not needed with a cache bridge
     }
@@ -89,7 +91,7 @@ class GenericCache implements ICache
      * @param bool $checkVars Whether or not we want to also check for variable value equivalence when looking up cached views
      * @return string The key for the cached view
      */
-    private function getKey(IView $view, bool $checkVars) : string
+    private function getKey(IView $view, bool $checkVars): string
     {
         $data = ['u' => $view->getContents()];
 

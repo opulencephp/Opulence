@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Views\Caching;
 
@@ -30,7 +32,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->bridge = $this->createMock(ICacheBridge::class);
         $this->cache = new GenericCache($this->bridge, 3600);
@@ -40,7 +42,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for an existing view
      */
-    public function testCheckingForExistingView() : void
+    public function testCheckingForExistingView(): void
     {
         $this->bridge->expects($this->once())
             ->method('get')
@@ -57,7 +59,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for a non-existent view
      */
-    public function testCheckingForNonExistentView() : void
+    public function testCheckingForNonExistentView(): void
     {
         $this->bridge->expects($this->once())
             ->method('get')
@@ -74,7 +76,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests flushing cache
      */
-    public function testFlushingCache() : void
+    public function testFlushingCache(): void
     {
         $this->bridge->expects($this->once())
             ->method('flush');
@@ -84,7 +86,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the view
      */
-    public function testGettingView() : void
+    public function testGettingView(): void
     {
         $this->bridge->expects($this->once())
             ->method('get')
@@ -96,7 +98,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the view
      */
-    public function testSettingView() : void
+    public function testSettingView(): void
     {
         $this->bridge->expects($this->once())
             ->method('set')
@@ -110,7 +112,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
      * @param IView $view The view whose cache key we want
      * @return string The key for the cached view
      */
-    private function getKey(IView $view) : string
+    private function getKey(IView $view): string
     {
         return md5(http_build_query([
             'u' => $view->getContents(),

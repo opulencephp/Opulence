@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Credentials\Authenticators;
 
@@ -30,7 +32,7 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->authenticatorRegistry = $this->createMock(IAuthenticatorRegistry::class);
         $this->authenticator = new Authenticator($this->authenticatorRegistry);
@@ -39,7 +41,7 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an authenticator that successfully authenticates a credential
      */
-    public function testAuthenticatorThatSuccessfullyAuthenticatesCredential() : void
+    public function testAuthenticatorThatSuccessfullyAuthenticatesCredential(): void
     {
         /** @var ICredential|MockObject $credential */
         $credential = $this->createMock(ICredential::class);
@@ -62,7 +64,7 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an authenticator that unsuccessfully authenticates a credential
      */
-    public function testAuthenticatorThatUnsuccessfullyAuthenticatesCredential() : void
+    public function testAuthenticatorThatUnsuccessfullyAuthenticatesCredential(): void
     {
         /** @var ICredential|MockObject $credential */
         $credential = $this->createMock(ICredential::class);
@@ -85,7 +87,7 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown with no authenticator for a credential
      */
-    public function testExceptionThrownWithNoAuthenticatorForCredential() : void
+    public function testExceptionThrownWithNoAuthenticatorForCredential(): void
     {
         $this->expectException(InvalidArgumentException::class);
         /** @var ICredential|MockObject $credential */

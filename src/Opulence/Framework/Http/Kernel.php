@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Http;
 
@@ -69,7 +71,7 @@ class Kernel
      *
      * @param string|object|array $middleware The middleware object, class, or list of middleware classes to add
      */
-    public function addMiddleware($middleware) : void
+    public function addMiddleware($middleware): void
     {
         if (!is_array($middleware)) {
             $middleware = [$middleware];
@@ -81,7 +83,7 @@ class Kernel
     /**
      * Disables all middleware
      */
-    public function disableAllMiddleware() : void
+    public function disableAllMiddleware(): void
     {
         $this->middlewareAreDisabled = true;
     }
@@ -89,7 +91,7 @@ class Kernel
     /**
      * @return array
      */
-    public function getMiddleware() : array
+    public function getMiddleware(): array
     {
         if ($this->middlewareAreDisabled) {
             return [];
@@ -128,7 +130,7 @@ class Kernel
      * @param Request $request The HTTP request to handle
      * @return Response The HTTP response
      */
-    public function handle(Request $request) : Response
+    public function handle(Request $request): Response
     {
         try {
             return (new Pipeline)
@@ -156,7 +158,7 @@ class Kernel
      *
      * @param array $middleware The list of middleware classes to disable
      */
-    public function onlyDisableMiddleware(array $middleware) : void
+    public function onlyDisableMiddleware(array $middleware): void
     {
         $this->disabledMiddleware = $middleware;
     }
@@ -166,7 +168,7 @@ class Kernel
      *
      * @param array $middleware The list of middleware classes to enable
      */
-    public function onlyEnableMiddleware(array $middleware) : void
+    public function onlyEnableMiddleware(array $middleware): void
     {
         $this->enabledMiddleware = $middleware;
     }
@@ -177,7 +179,7 @@ class Kernel
      * @param array $middleware The middleware to convert to pipeline stages
      * @return callable[] The list of pipeline stages
      */
-    protected function convertMiddlewareToPipelineStages(array $middleware) : array
+    protected function convertMiddlewareToPipelineStages(array $middleware): array
     {
         $stages = [];
 
@@ -203,7 +205,7 @@ class Kernel
      *
      * @param Request $request The current HTTP request
      */
-    private function setExceptionRendererVars(Request $request) : void
+    private function setExceptionRendererVars(Request $request): void
     {
         $this->exceptionRenderer->setRequest($request);
 

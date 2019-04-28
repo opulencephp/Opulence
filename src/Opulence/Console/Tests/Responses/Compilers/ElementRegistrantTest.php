@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Responses\Compilers;
 
@@ -28,7 +30,7 @@ class ElementRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->registrant = new ElementRegistrant();
     }
@@ -36,7 +38,7 @@ class ElementRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the correct elements are registered
      */
-    public function testCorrectElementsAreRegistered() : void
+    public function testCorrectElementsAreRegistered(): void
     {
         /** @var ICompiler|MockObject $compiler */
         $compiler = $this->createMock(ICompiler::class);

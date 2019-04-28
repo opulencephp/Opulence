@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Tests\Routes\Compilers\Matchers;
 
@@ -30,7 +32,7 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->matcher = new SchemeMatcher();
         $this->request = $this->getMockBuilder(Request::class)
@@ -44,7 +46,7 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that there is a match when on an HTTP scheme with an insecure route
      */
-    public function testMatchOnHttpWithInsecureRoute() : void
+    public function testMatchOnHttpWithInsecureRoute(): void
     {
         $this->route->expects($this->any())->method('isSecure')->willReturn(false);
         $this->request->expects($this->any())->method('isSecure')->willReturn(false);
@@ -54,7 +56,7 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that there is a match when on an HTTPS scheme with a secure route
      */
-    public function testMatchOnHttpsWithSecureRoute() : void
+    public function testMatchOnHttpsWithSecureRoute(): void
     {
         $this->route->expects($this->any())->method('isSecure')->willReturn(true);
         $this->request->expects($this->any())->method('isSecure')->willReturn(true);
@@ -64,7 +66,7 @@ class SchemeMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that there is no match when on an HTTP scheme with a secure route
      */
-    public function testNoMatchOnHttpWithSecureRoute() : void
+    public function testNoMatchOnHttpWithSecureRoute(): void
     {
         $this->route->expects($this->any())->method('isSecure')->willReturn(true);
         $this->request->expects($this->any())->method('isSecure')->willReturn(false);

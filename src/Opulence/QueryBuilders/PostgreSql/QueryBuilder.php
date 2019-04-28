@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders\PostgreSql;
 
@@ -21,7 +23,7 @@ class QueryBuilder extends BaseQueryBuilder
     /**
      * @inheritdoc
      */
-    public function delete(string $tableName, string $alias = '') : DeleteQuery
+    public function delete(string $tableName, string $alias = ''): DeleteQuery
     {
         return new DeleteQuery($tableName, $alias);
     }
@@ -29,7 +31,7 @@ class QueryBuilder extends BaseQueryBuilder
     /**
      * @inheritdoc
      */
-    public function insert(string $tableName, array $columnNamesToValues) : InsertQuery
+    public function insert(string $tableName, array $columnNamesToValues): InsertQuery
     {
         return new InsertQuery($tableName, $columnNamesToValues);
     }
@@ -38,7 +40,7 @@ class QueryBuilder extends BaseQueryBuilder
      * @inheritdoc
      * @return SelectQuery
      */
-    public function select(...$expression) : SelectQuery
+    public function select(...$expression): SelectQuery
     {
         // This code allows us to pass a variable list of parameters to a class constructor
         $queryClass = new ReflectionClass(SelectQuery::class);
@@ -49,7 +51,7 @@ class QueryBuilder extends BaseQueryBuilder
     /**
      * @inheritdoc
      */
-    public function update(string $tableName, string $alias, array $columnNamesToValues) : UpdateQuery
+    public function update(string $tableName, string $alias, array $columnNamesToValues): UpdateQuery
     {
         return new UpdateQuery($tableName, $alias, $columnNamesToValues);
     }

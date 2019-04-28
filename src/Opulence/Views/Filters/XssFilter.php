@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Filters;
 
@@ -22,7 +24,7 @@ class XssFilter implements IFilter
      * @param array $options The list of options with the following keys:
      *      "forURL" => true if the input is being filtered for use in a URL, otherwise false
      */
-    public function run(string $input, array $options = []) : string
+    public function run(string $input, array $options = []): string
     {
         $filteredInput = $input;
 

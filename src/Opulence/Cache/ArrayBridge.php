@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cache;
 
@@ -21,7 +23,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function decrement(string $key, int $by = 1) : int
+    public function decrement(string $key, int $by = 1): int
     {
         $this->storage[$key] -= $by;
 
@@ -31,7 +33,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function delete(string $key) : void
+    public function delete(string $key): void
     {
         unset($this->storage[$key]);
     }
@@ -39,7 +41,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function flush() : void
+    public function flush(): void
     {
         $this->storage = [];
     }
@@ -59,7 +61,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function has(string $key) : bool
+    public function has(string $key): bool
     {
         return array_key_exists($key, $this->storage);
     }
@@ -67,7 +69,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function increment(string $key, int $by = 1) : int
+    public function increment(string $key, int $by = 1): int
     {
         $this->storage[$key] += $by;
 
@@ -77,7 +79,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function set(string $key, $value, int $lifetime) : void
+    public function set(string $key, $value, int $lifetime): void
     {
         if ($lifetime > 0) {
             $this->storage[$key] = $value;

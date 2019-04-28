@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Factories\IO;
 
@@ -25,7 +27,7 @@ class FileViewNameResolver implements IViewNameResolver
     /**
      * @inheritdoc
      */
-    public function registerExtension(string $extension, int $priority = -1) : void
+    public function registerExtension(string $extension, int $priority = -1): void
     {
         $this->extensions[ltrim($extension, '.')] = $priority;
     }
@@ -33,7 +35,7 @@ class FileViewNameResolver implements IViewNameResolver
     /**
      * @inheritdoc
      */
-    public function registerPath(string $path, int $priority = -1) : void
+    public function registerPath(string $path, int $priority = -1): void
     {
         $this->paths[rtrim($path, '/')] = $priority;
     }
@@ -41,7 +43,7 @@ class FileViewNameResolver implements IViewNameResolver
     /**
      * @inheritdoc
      */
-    public function resolve(string $name) : string
+    public function resolve(string $name): string
     {
         $sortedExtensions = $this->sortByPriority($this->extensions);
         $sortedPaths = $this->sortByPriority($this->paths);
@@ -76,7 +78,7 @@ class FileViewNameResolver implements IViewNameResolver
      * @param array $sortedExtensions The list of sorted extensions to check against
      * @return bool True if the name has an extension, otherwise false
      */
-    protected function nameHasExtension(string $name, array $sortedExtensions) : bool
+    protected function nameHasExtension(string $name, array $sortedExtensions): bool
     {
         foreach ($sortedExtensions as $extension) {
             $lengthDifference = strlen($name) - strlen($extension);
@@ -95,7 +97,7 @@ class FileViewNameResolver implements IViewNameResolver
      * @param array $list The list to sort
      * @return array The sorted list
      */
-    protected function sortByPriority(array $list) : array
+    protected function sortByPriority(array $list): array
     {
         $nonPriorityItems = [];
         $priorityItems = [];

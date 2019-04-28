@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\ConnectionPools;
 
@@ -60,7 +62,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
      *
      * @param Server $slave The slave to add
      */
-    public function addSlave(Server $slave) : void
+    public function addSlave(Server $slave): void
     {
         $this->addServer('slaves', $slave);
     }
@@ -70,7 +72,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
      *
      * @param Server[] $slaves The slaves to add
      */
-    public function addSlaves(array $slaves) : void
+    public function addSlaves(array $slaves): void
     {
         foreach ($slaves as $slave) {
             $this->addSlave($slave);
@@ -80,7 +82,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     /**
      * @return Server[]
      */
-    public function getSlaves() : array
+    public function getSlaves(): array
     {
         return array_column($this->servers['slaves'], 'server');
     }
@@ -90,7 +92,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
      *
      * @param Server $slave The slave to remove
      */
-    public function removeSlave(Server $slave) : void
+    public function removeSlave(Server $slave): void
     {
         $slaveHashId = spl_object_hash($slave);
 
@@ -102,7 +104,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     /**
      * @inheritdoc
      */
-    protected function setReadConnection(Server $preferredServer = null) : void
+    protected function setReadConnection(Server $preferredServer = null): void
     {
         if ($preferredServer !== null) {
             $this->readConnection = $this->getConnection('custom', $preferredServer);
@@ -117,7 +119,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     /**
      * @inheritdoc
      */
-    protected function setWriteConnection(Server $preferredServer = null) : void
+    protected function setWriteConnection(Server $preferredServer = null): void
     {
         if ($preferredServer !== null) {
             $this->writeConnection = $this->getConnection('custom', $preferredServer);

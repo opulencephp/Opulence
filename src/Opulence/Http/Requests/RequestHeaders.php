@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Requests;
 
@@ -61,7 +63,7 @@ class RequestHeaders extends Headers
      * @param string $name The name to normalize
      * @return string The normalized name
      */
-    protected function normalizeName(string $name) : string
+    protected function normalizeName(string $name): string
     {
         $name = parent::normalizeName($name);
 

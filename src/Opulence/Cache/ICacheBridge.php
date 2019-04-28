@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cache;
 
@@ -22,19 +24,19 @@ interface ICacheBridge
      * @param int $by The amount to decrement by
      * @return int The new value
      */
-    public function decrement(string $key, int $by = 1) : int;
+    public function decrement(string $key, int $by = 1): int;
 
     /**
      * Deletes the value at the input key
      *
      * @param string $key The key to delete
      */
-    public function delete(string $key) : void;
+    public function delete(string $key): void;
 
     /**
      * Flushes all of the data from cache
      */
-    public function flush() : void;
+    public function flush(): void;
 
     /**
      * Gets the value stored at the input key
@@ -50,7 +52,7 @@ interface ICacheBridge
      * @param string $key True if the key exists, otherwise false
      * @return bool True if the key exists, otherwise false
      */
-    public function has(string $key) : bool;
+    public function has(string $key): bool;
 
     /**
      * Increments a value at a given key
@@ -59,7 +61,7 @@ interface ICacheBridge
      * @param int $by The amount to increment by
      * @return int The new value
      */
-    public function increment(string $key, int $by = 1) : int;
+    public function increment(string $key, int $by = 1): int;
 
     /**
      * Sets a value at the input key
@@ -68,5 +70,5 @@ interface ICacheBridge
      * @param mixed $value The value to setICacheBridge
      * @param int $lifetime The number of seconds to live in cache
      */
-    public function set(string $key, $value, int $lifetime) : void;
+    public function set(string $key, $value, int $lifetime): void;
 }

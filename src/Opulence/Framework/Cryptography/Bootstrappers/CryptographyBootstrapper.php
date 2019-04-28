@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Cryptography\Bootstrappers;
 
@@ -27,7 +29,7 @@ class CryptographyBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         $container->bindInstance(IEncrypter::class, $this->getEncrypter());
         $container->bindInstance(IHasher::class, $this->getHasher());
@@ -39,7 +41,7 @@ class CryptographyBootstrapper extends Bootstrapper
      * @return IEncrypter The encrypter
      * @throws RuntimeException Thrown if the encryption key is not set
      */
-    protected function getEncrypter() : IEncrypter
+    protected function getEncrypter(): IEncrypter
     {
         $encodedEncryptionKey = getenv('ENCRYPTION_KEY');
 
@@ -61,7 +63,7 @@ class CryptographyBootstrapper extends Bootstrapper
      *
      * @return IHasher The hasher to use
      */
-    protected function getHasher() : IHasher
+    protected function getHasher(): IHasher
     {
         return new BcryptHasher();
     }

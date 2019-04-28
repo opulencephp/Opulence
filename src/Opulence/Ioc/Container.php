@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Ioc;
 
@@ -43,7 +45,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false) : void
+    public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false): void
     {
         $binding = new FactoryContainerBinding($factory, $resolveAsSingleton);
 
@@ -55,7 +57,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function bindInstance($interfaces, $instance) : void
+    public function bindInstance($interfaces, $instance): void
     {
         $binding = new InstanceContainerBinding($instance);
 
@@ -67,7 +69,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = []) : void
+    public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = []): void
     {
         foreach ((array)$interfaces as $interface) {
             $this->addBinding($interface, new ClassContainerBinding($concreteClass ?? $interface, $primitives, false));
@@ -77,7 +79,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = []) : void
+    public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = []): void
     {
         foreach ((array)$interfaces as $interface) {
             $this->addBinding($interface, new ClassContainerBinding($concreteClass ?? $interface, $primitives, true));
@@ -134,7 +136,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function hasBinding(string $interface) : bool
+    public function hasBinding(string $interface): bool
     {
         if ($this->currentTarget !== self::$emptyTarget
             && $this->hasTargetedBinding($interface, $this->currentTarget)
@@ -202,7 +204,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function unbind($interfaces) : void
+    public function unbind($interfaces): void
     {
         foreach ((array)$interfaces as $interface) {
             unset($this->bindings[$this->currentTarget][$interface]);
@@ -215,7 +217,7 @@ class Container implements IContainer
      * @param string $interface The interface to bind to
      * @param IContainerBinding $binding The binding to add
      */
-    protected function addBinding(string $interface, IContainerBinding $binding) : void
+    protected function addBinding(string $interface, IContainerBinding $binding): void
     {
         if (!isset($this->bindings[$this->currentTarget])) {
             $this->bindings[$this->currentTarget] = [];
@@ -230,7 +232,7 @@ class Container implements IContainer
      * @param string $interface The interface whose binding we want
      * @return IContainerBinding|null The binding if one exists, otherwise null
      */
-    protected function getBinding(string $interface) : ?IContainerBinding
+    protected function getBinding(string $interface): ?IContainerBinding
     {
         // If there's a targeted binding, use it
         if ($this->currentTarget !== self::$emptyTarget && isset($this->bindings[$this->currentTarget][$interface])) {
@@ -252,7 +254,7 @@ class Container implements IContainer
      * @param string|null $target The target whose bindings we're checking
      * @return bool True if the targeted binding exists, otherwise false
      */
-    protected function hasTargetedBinding(string $interface, string $target = null) : bool
+    protected function hasTargetedBinding(string $interface, string $target = null): bool
     {
         return isset($this->bindings[$target][$interface]);
     }
@@ -313,7 +315,7 @@ class Container implements IContainer
         $class,
         array $unresolvedParameters,
         array $primitives
-    ) : array {
+    ): array {
         $resolvedParameters = [];
 
         foreach ($unresolvedParameters as $parameter) {
@@ -366,7 +368,8 @@ class Container implements IContainer
             return $parameter->getDefaultValue();
         }
 
-        throw new IocException(sprintf('No default value available for %s in %s::%s()',
+        throw new IocException(sprintf(
+            'No default value available for %s in %s::%s()',
             $parameter->getName(),
             $parameter->getDeclaringClass()->getName(),
             $parameter->getDeclaringFunction()->getName()

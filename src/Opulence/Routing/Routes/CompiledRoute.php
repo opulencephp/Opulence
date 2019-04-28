@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Routes;
 
@@ -54,7 +56,7 @@ class CompiledRoute extends ParsedRoute
     /**
      * @return array
      */
-    public function getPathVars() : array
+    public function getPathVars(): array
     {
         return $this->pathVars;
     }
@@ -62,7 +64,7 @@ class CompiledRoute extends ParsedRoute
     /**
      * @return bool
      */
-    public function isMatch() : bool
+    public function isMatch(): bool
     {
         return $this->isMatch;
     }
@@ -70,7 +72,7 @@ class CompiledRoute extends ParsedRoute
     /**
      * @param bool $isMatch
      */
-    public function setMatch(bool $isMatch) : void
+    public function setMatch(bool $isMatch): void
     {
         $this->isMatch = $isMatch;
     }
@@ -78,7 +80,7 @@ class CompiledRoute extends ParsedRoute
     /**
      * @param array $pathVars
      */
-    public function setPathVars($pathVars) : void
+    public function setPathVars($pathVars): void
     {
         $this->pathVars = $pathVars;
     }

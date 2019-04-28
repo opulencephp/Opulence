@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
@@ -29,7 +29,7 @@ final class FileBootstrapperFinder
      * @return string[] The list of all bootstrapper class names
      * @throws InvalidArgumentException Thrown if the paths are not a string or array
      */
-    public function findAll($paths) : array
+    public function findAll($paths): array
     {
         if (is_string($paths)) {
             $paths = [$paths];
@@ -77,7 +77,7 @@ final class FileBootstrapperFinder
      * @param string[] $tokens The array of tokens
      * @return string[] The names of the classes
      */
-    private function getClassNamesFromTokens(array $tokens) : array
+    private function getClassNamesFromTokens(array $tokens): array
     {
         for ($i = 0;$i < \count($tokens);$i++) {
             // Skip literals

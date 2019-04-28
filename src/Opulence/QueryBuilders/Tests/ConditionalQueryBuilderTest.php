@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders\Tests;
 
@@ -20,7 +22,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a condition to an empty clause
      */
-    public function testAddingConditionToEmptyClause() : void
+    public function testAddingConditionToEmptyClause(): void
     {
         $conditions = [];
         $queryBuilder = new ConditionalQueryBuilder();
@@ -31,7 +33,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a condition to a non-empty clause
      */
-    public function testAddingConditionToNonEmptyClause() : void
+    public function testAddingConditionToNonEmptyClause(): void
     {
         $conditions = [['operation' => 'OR', 'condition' => "email = 'foo@bar.com'"]];
         $queryBuilder = new ConditionalQueryBuilder();
@@ -45,46 +47,54 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "AND"ed "WHERE" statement
      */
-    public function testAndWhere() : void
+    public function testAndWhere(): void
     {
         $queryBuilder = new ConditionalQueryBuilder();
         $queryBuilder->andWhere("name = 'dave'");
-        $this->assertEquals([['operation' => 'AND', 'condition' => "name = 'dave'"]],
-            $queryBuilder->getWhereConditions());
+        $this->assertEquals(
+            [['operation' => 'AND', 'condition' => "name = 'dave'"]],
+            $queryBuilder->getWhereConditions()
+        );
     }
 
     /**
      * Tests getting the SQL for a conditional clause
      */
-    public function testGettingSql() : void
+    public function testGettingSql(): void
     {
         $queryBuilder = new ConditionalQueryBuilder();
         $queryBuilder->where("name = 'dave'")
             ->orWhere("email = 'foo@bar.com'")
             ->andWhere('awesome = true');
-        $this->assertEquals(" WHERE (name = 'dave') OR (email = 'foo@bar.com') AND (awesome = true)",
-            $queryBuilder->getClauseConditionSql('WHERE', $queryBuilder->getWhereConditions()));
+        $this->assertEquals(
+            " WHERE (name = 'dave') OR (email = 'foo@bar.com') AND (awesome = true)",
+            $queryBuilder->getClauseConditionSql('WHERE', $queryBuilder->getWhereConditions())
+        );
     }
 
     /**
      * Tests adding an "OR"ed "WHERE" statement
      */
-    public function testOrWhere() : void
+    public function testOrWhere(): void
     {
         $queryBuilder = new ConditionalQueryBuilder();
         $queryBuilder->orWhere("name = 'dave'");
-        $this->assertEquals([['operation' => 'OR', 'condition' => "name = 'dave'"]],
-            $queryBuilder->getWhereConditions());
+        $this->assertEquals(
+            [['operation' => 'OR', 'condition' => "name = 'dave'"]],
+            $queryBuilder->getWhereConditions()
+        );
     }
 
     /**
      * Tests adding "WHERE" statement
      */
-    public function testWhere() : void
+    public function testWhere(): void
     {
         $queryBuilder = new ConditionalQueryBuilder();
         $queryBuilder->where("name = 'dave'");
-        $this->assertEquals([['operation' => 'AND', 'condition' => "name = 'dave'"]],
-            $queryBuilder->getWhereConditions());
+        $this->assertEquals(
+            [['operation' => 'AND', 'condition' => "name = 'dave'"]],
+            $queryBuilder->getWhereConditions()
+        );
     }
 }

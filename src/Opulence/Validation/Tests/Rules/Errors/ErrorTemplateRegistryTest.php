@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Tests\Rules\Errors;
 
@@ -24,7 +26,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->registry = new ErrorTemplateRegistry();
     }
@@ -32,7 +34,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an empty string is returned when no template exists
      */
-    public function testEmptyStringReturnedWhenNoTemplateExists() : void
+    public function testEmptyStringReturnedWhenNoTemplateExists(): void
     {
         $this->assertEquals('', $this->registry->getErrorTemplate('foo', 'bar'));
     }
@@ -40,7 +42,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown with an empty key in a config
      */
-    public function testExceptionThrownWithEmptyKeyInConfig() : void
+    public function testExceptionThrownWithEmptyKeyInConfig(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->registry->registerErrorTemplatesFromConfig(['' => 'template']);
@@ -49,7 +51,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown with an invalid field template key
      */
-    public function testExceptionThrownWithInvalidFieldTemplateKeyInConfig() : void
+    public function testExceptionThrownWithInvalidFieldTemplateKeyInConfig(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->registry->registerErrorTemplatesFromConfig([' . ' => 'template']);
@@ -58,7 +60,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a field template overrides a global template
      */
-    public function testFieldTemplateOverridesGlobalTemplate() : void
+    public function testFieldTemplateOverridesGlobalTemplate(): void
     {
         $this->registry->registerFieldErrorTemplate('field', 'foo', 'field template');
         $this->registry->registerGlobalErrorTemplate('foo', 'global template');
@@ -68,7 +70,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a field template overrides a global template when registering from a config
      */
-    public function testFieldTemplateOverridesGlobalTemplateWhenRegisteringFromConfig() : void
+    public function testFieldTemplateOverridesGlobalTemplateWhenRegisteringFromConfig(): void
     {
         $this->registry->registerErrorTemplatesFromConfig([
             'field.foo' => 'field template',
@@ -80,7 +82,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests overwriting a global template
      */
-    public function testOverwritingGlobalTemplate() : void
+    public function testOverwritingGlobalTemplate(): void
     {
         $this->registry->registerGlobalErrorTemplate('foo', 'template 1');
         $this->registry->registerGlobalErrorTemplate('foo', 'template 2');
@@ -90,7 +92,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests registering a field template
      */
-    public function testRegisteringFieldTemplate() : void
+    public function testRegisteringFieldTemplate(): void
     {
         $this->registry->registerFieldErrorTemplate('field', 'foo', 'bar baz');
         $this->assertEquals('bar baz', $this->registry->getErrorTemplate('field', 'foo'));
@@ -99,7 +101,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests registering a field template from a config
      */
-    public function testRegisteringFieldTemplateFromConfig() : void
+    public function testRegisteringFieldTemplateFromConfig(): void
     {
         $this->registry->registerErrorTemplatesFromConfig([
             'field.foo' => 'field template'
@@ -110,7 +112,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests registering a global template
      */
-    public function testRegisteringGlobalTemplate() : void
+    public function testRegisteringGlobalTemplate(): void
     {
         $this->registry->registerGlobalErrorTemplate('foo', 'bar baz');
         $this->assertEquals('bar baz', $this->registry->getErrorTemplate('field', 'foo'));
@@ -119,7 +121,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests registering a global template from a config
      */
-    public function testRegisteringGlobalTemplateFromConfig() : void
+    public function testRegisteringGlobalTemplateFromConfig(): void
     {
         $this->registry->registerErrorTemplatesFromConfig([
             'foo' => 'global template'

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Compilers\Php;
 
@@ -24,7 +26,7 @@ class PhpCompiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function compile(IView $view) : string
+    public function compile(IView $view): string
     {
         $obStartLevel = ob_get_level();
         ob_start();
@@ -50,7 +52,7 @@ class PhpCompiler implements ICompiler
      * @param int $obStartLevel The starting output buffer level
      * @throws $ex Always rethrown
      */
-    protected function handleException($ex, int $obStartLevel) : void
+    protected function handleException($ex, int $obStartLevel): void
     {
         // Clean the output buffer
         while (ob_get_level() > $obStartLevel) {

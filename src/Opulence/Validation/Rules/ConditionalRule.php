@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Rules;
 
@@ -25,7 +27,7 @@ class ConditionalRule extends CallbackRule
      *
      * @param IRule $rule
      */
-    public function addRule(IRule $rule) : void
+    public function addRule(IRule $rule): void
     {
         $this->rules[] = $rule;
     }
@@ -35,7 +37,7 @@ class ConditionalRule extends CallbackRule
      *
      * @return IRule[] The list of rules
      */
-    public function getRules() : array
+    public function getRules(): array
     {
         return $this->rules;
     }
@@ -43,7 +45,7 @@ class ConditionalRule extends CallbackRule
     /**
      * @inheritdoc
      */
-    public function getSlug() : string
+    public function getSlug(): string
     {
         return 'conditional';
     }
@@ -51,7 +53,7 @@ class ConditionalRule extends CallbackRule
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = []) : bool
+    public function passes($value, array $allValues = []): bool
     {
         if ($this->callback === null) {
             throw new LogicException('Condition not set');

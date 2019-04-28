@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Tests\Rules\Factories;
 
@@ -25,7 +27,7 @@ class RulesFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that rules are created
      */
-    public function testRulesCreated() : void
+    public function testRulesCreated(): void
     {
         /** @var RuleExtensionRegistry|MockObject $ruleExtensionRegistry */
         $ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);

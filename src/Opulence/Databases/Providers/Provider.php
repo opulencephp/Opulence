@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Providers;
 
@@ -32,7 +34,7 @@ class Provider
      * @param mixed $value The value to convert
      * @return bool|null The boolean value if the input was not null, otherwise null
      */
-    public function convertFromSqlBoolean($value) : ?bool
+    public function convertFromSqlBoolean($value): ?bool
     {
         if ($value === null) {
             return null;
@@ -59,7 +61,7 @@ class Provider
     /**
      * @return string
      */
-    public function getDateFormat() : string
+    public function getDateFormat(): string
     {
         return $this->dateFormat;
     }
@@ -67,7 +69,7 @@ class Provider
     /**
      * @return string
      */
-    public function getTimeWithTimeZoneFormat() : string
+    public function getTimeWithTimeZoneFormat(): string
     {
         return $this->timeWithTimeZoneFormat;
     }
@@ -75,7 +77,7 @@ class Provider
     /**
      * @return string
      */
-    public function getTimeWithoutTimeZoneFormat() : string
+    public function getTimeWithoutTimeZoneFormat(): string
     {
         return $this->timeWithoutTimeZoneFormat;
     }
@@ -83,7 +85,7 @@ class Provider
     /**
      * @return string
      */
-    public function getTimestampWithTimeZoneFormat() : string
+    public function getTimestampWithTimeZoneFormat(): string
     {
         return $this->timestampWithTimeZoneFormat;
     }
@@ -91,7 +93,7 @@ class Provider
     /**
      * @return string
      */
-    public function getTimestampWithoutTimeZoneFormat() : string
+    public function getTimestampWithoutTimeZoneFormat(): string
     {
         return $this->timestampWithoutTimeZoneFormat;
     }

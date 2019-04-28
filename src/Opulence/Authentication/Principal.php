@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication;
 
@@ -45,7 +47,7 @@ class Principal implements IPrincipal
     /**
      * @inheritdoc
      */
-    public function getRoles() : array
+    public function getRoles(): array
     {
         return $this->roles;
     }
@@ -53,7 +55,7 @@ class Principal implements IPrincipal
     /**
      * @inheritdoc
      */
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -61,7 +63,7 @@ class Principal implements IPrincipal
     /**
      * @inheritdoc
      */
-    public function hasRole(string $roleName) : bool
+    public function hasRole(string $roleName): bool
     {
         return in_array($roleName, $this->roles);
     }

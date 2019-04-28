@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tokens\Signatures;
 
@@ -35,7 +37,7 @@ class Algorithms
      *
      * @return array All the supported algorithms
      */
-    public static function getAll() : array
+    public static function getAll(): array
     {
         return [
             self::RSA_SHA256,
@@ -53,7 +55,7 @@ class Algorithms
      * @param mixed $algorithm The algorithm to search
      * @return bool True if the algorithm is supported, otherwise false
      */
-    public static function has($algorithm) : bool
+    public static function has($algorithm): bool
     {
         return in_array($algorithm, self::getAll());
     }
@@ -65,7 +67,7 @@ class Algorithms
      * @return bool True if the algorithm is symmetric, otherwise false
      * @throws InvalidArgumentException Thrown if the algorithm is not valid
      */
-    public static function isSymmetric($algorithm) : bool
+    public static function isSymmetric($algorithm): bool
     {
         if (!self::has($algorithm)) {
             throw new InvalidArgumentException("Algorithm \"$algorithm\" is not valid");

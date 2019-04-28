@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Factories\IO;
 
@@ -24,7 +26,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up files before any of the tests are run
      */
-    public static function setUpBeforeClass() : void
+    public static function setUpBeforeClass(): void
     {
         $tmpDir = self::getTmpFilePath();
         $tmpSubDir = self::getTmpFileSubDirPath();
@@ -48,7 +50,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Deletes files after the tests are run
      */
-    public static function tearDownAfterClass() : void
+    public static function tearDownAfterClass(): void
     {
         $files = glob(self::getTmpFilePath() . '/*');
 
@@ -74,7 +76,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
      *
      * @return string The path to the files
      */
-    private static function getTmpFilePath() : string
+    private static function getTmpFilePath(): string
     {
         return __DIR__ . '/tmp';
     }
@@ -84,7 +86,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
      *
      * @return string The path to the files
      */
-    private static function getTmpFileSubDirPath() : string
+    private static function getTmpFileSubDirPath(): string
     {
         return __DIR__ . '/tmp/sub';
     }
@@ -92,7 +94,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->resolver = new FileViewNameResolver();
     }
@@ -100,7 +102,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that appended slashes are stripped from registered paths
      */
-    public function testAppendedSlashesAreStrippedFromPaths() : void
+    public function testAppendedSlashesAreStrippedFromPaths(): void
     {
         $this->resolver->registerExtension('php');
         $this->resolver->registerPath(self::getTmpFilePath() . '/');
@@ -110,7 +112,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown when no view is found
      */
-    public function testExceptionThrownWhenNoViewFound() : void
+    public function testExceptionThrownWhenNoViewFound(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->resolver->registerExtension('php');
@@ -121,7 +123,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that prepended dots are stripped from registered extensions
      */
-    public function testPrependedDotsAreStrippedFromExtensions() : void
+    public function testPrependedDotsAreStrippedFromExtensions(): void
     {
         $this->resolver->registerExtension('.php');
         $this->resolver->registerPath(self::getTmpFilePath());
@@ -131,7 +133,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests registering a non-priority extension
      */
-    public function testRegisteringNonPriorityExtension() : void
+    public function testRegisteringNonPriorityExtension(): void
     {
         $this->resolver->registerExtension('php');
         $this->resolver->registerPath(self::getTmpFilePath());
@@ -143,7 +145,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests registering a non-priority path
      */
-    public function testRegisteringNonPriorityPath() : void
+    public function testRegisteringNonPriorityPath(): void
     {
         $this->resolver->registerExtension('php');
         $this->resolver->registerPath(self::getTmpFileSubDirPath());
@@ -155,7 +157,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests registering a priority extension
      */
-    public function testRegisteringPriorityExtension() : void
+    public function testRegisteringPriorityExtension(): void
     {
         $this->resolver->registerExtension('php', 2);
         $this->resolver->registerPath(self::getTmpFilePath());
@@ -167,7 +169,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests registering a priority path
      */
-    public function testRegisteringPriorityPath() : void
+    public function testRegisteringPriorityPath(): void
     {
         $this->resolver->registerExtension('php');
         $this->resolver->registerPath(self::getTmpFileSubDirPath(), 2);
@@ -179,7 +181,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests resolving name with an extension
      */
-    public function testResolvingNameWithExtension() : void
+    public function testResolvingNameWithExtension(): void
     {
         $this->resolver->registerExtension('php');
         $this->resolver->registerExtension('fortune');
@@ -190,7 +192,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests resolving name with an extension
      */
-    public function testResolvingWithExtensionsThatAreSubstringsOfOthers() : void
+    public function testResolvingWithExtensionsThatAreSubstringsOfOthers(): void
     {
         $this->resolver->registerExtension('fortune.php');
         $this->resolver->registerExtension('php');

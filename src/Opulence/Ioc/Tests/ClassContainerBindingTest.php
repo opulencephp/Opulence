@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Ioc\Tests;
 
@@ -23,7 +25,7 @@ class ClassContainerBindingTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->binding = new ClassContainerBinding('foo', ['bar'], false);
     }
@@ -31,7 +33,7 @@ class ClassContainerBindingTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if the binding returns the correct flag for resolving as a singleton
      */
-    public function testCheckingIfShouldResolveAsSingleton() : void
+    public function testCheckingIfShouldResolveAsSingleton(): void
     {
         $singletonBinding = new ClassContainerBinding('foo', [], true);
         $prototypeBinding = new ClassContainerBinding('foo', [], false);
@@ -42,7 +44,7 @@ class ClassContainerBindingTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the concrete class
      */
-    public function testGettingConcreteClass() : void
+    public function testGettingConcreteClass(): void
     {
         $this->assertEquals('foo', $this->binding->getConcreteClass());
     }
@@ -50,7 +52,7 @@ class ClassContainerBindingTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the constructor primitives
      */
-    public function testGettingConstructorPrimitives() : void
+    public function testGettingConstructorPrimitives(): void
     {
         $this->assertEquals(['bar'], $this->binding->getConstructorPrimitives());
     }

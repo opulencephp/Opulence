@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders\Conditions;
 
@@ -27,7 +29,7 @@ class ConditionFactory
      * @param int $dataType The PDO data type for the min and max
      * @return BetweenCondition The condition
      */
-    public function between(string $column, $min, $max, $dataType = PDO::PARAM_STR) : BetweenCondition
+    public function between(string $column, $min, $max, $dataType = PDO::PARAM_STR): BetweenCondition
     {
         return new BetweenCondition($column, $min, $max, $dataType);
     }
@@ -40,7 +42,7 @@ class ConditionFactory
      * @return InCondition The condition
      * @throws InvalidArgumentException Thrown if the parameters are not in the correct format
      */
-    public function in(string $column, $parametersOrExpression) : InCondition
+    public function in(string $column, $parametersOrExpression): InCondition
     {
         return new InCondition($column, $parametersOrExpression);
     }
@@ -54,7 +56,7 @@ class ConditionFactory
      * @param int $dataType The PDO data type for the min and max
      * @return NotBetweenCondition The condition
      */
-    public function notBetween(string $column, $min, $max, $dataType = PDO::PARAM_STR) : NotBetweenCondition
+    public function notBetween(string $column, $min, $max, $dataType = PDO::PARAM_STR): NotBetweenCondition
     {
         return new NotBetweenCondition($column, $min, $max, $dataType);
     }
@@ -67,7 +69,7 @@ class ConditionFactory
      * @return NotInCondition The condition
      * @throws InvalidArgumentException Thrown if the parameters are not in the correct format
      */
-    public function notIn(string $column, $parametersOrExpression) : NotInCondition
+    public function notIn(string $column, $parametersOrExpression): NotInCondition
     {
         return new NotInCondition($column, $parametersOrExpression);
     }

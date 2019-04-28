@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cryptography\Tests\Encryption\Keys;
 
@@ -23,7 +25,7 @@ class DerivedKeysTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->derivedKeys = new DerivedKeys(str_repeat('1', 32), str_repeat('2', 32));
     }
@@ -31,7 +33,7 @@ class DerivedKeysTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the authentication key
      */
-    public function testGettingAuthenticationKey() : void
+    public function testGettingAuthenticationKey(): void
     {
         $this->assertEquals(str_repeat('2', 32), $this->derivedKeys->getAuthenticationKey());
     }
@@ -39,7 +41,7 @@ class DerivedKeysTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the encryption key
      */
-    public function testGettingEncryptionKey() : void
+    public function testGettingEncryptionKey(): void
     {
         $this->assertEquals(str_repeat('1', 32), $this->derivedKeys->getEncryptionKey());
     }

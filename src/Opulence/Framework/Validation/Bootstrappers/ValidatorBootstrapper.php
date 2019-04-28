@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Validation\Bootstrappers;
 
@@ -39,7 +41,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         $this->ruleExtensionRegistry = $this->getRuleExtensionRegistry($container);
         $this->registerRuleExtensions($this->ruleExtensionRegistry);
@@ -60,7 +62,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper
      *
      * @param ErrorTemplateRegistry $errorTemplateRegistry The registry to register to
      */
-    abstract protected function registerErrorTemplates(ErrorTemplateRegistry $errorTemplateRegistry) : void;
+    abstract protected function registerErrorTemplates(ErrorTemplateRegistry $errorTemplateRegistry): void;
 
     /**
      * Gets the error template compiler
@@ -68,7 +70,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return ICompiler The error template compiler
      */
-    protected function getErrorTemplateCompiler(IContainer $container) : ICompiler
+    protected function getErrorTemplateCompiler(IContainer $container): ICompiler
     {
         return new Compiler();
     }
@@ -79,7 +81,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return ErrorTemplateRegistry The error template registry
      */
-    protected function getErrorTemplateRegistry(IContainer $container) : ErrorTemplateRegistry
+    protected function getErrorTemplateRegistry(IContainer $container): ErrorTemplateRegistry
     {
         return new ErrorTemplateRegistry();
     }
@@ -90,7 +92,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return RuleExtensionRegistry The rule extension registry
      */
-    protected function getRuleExtensionRegistry(IContainer $container) : RuleExtensionRegistry
+    protected function getRuleExtensionRegistry(IContainer $container): RuleExtensionRegistry
     {
         return new RuleExtensionRegistry();
     }
@@ -101,7 +103,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return RulesFactory The rules factory
      */
-    protected function getRulesFactory(IContainer $container) : RulesFactory
+    protected function getRulesFactory(IContainer $container): RulesFactory
     {
         return new RulesFactory(
             $this->ruleExtensionRegistry,
@@ -116,7 +118,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return IValidatorFactory The validator factory
      */
-    protected function getValidatorFactory(IContainer $container) : IValidatorFactory
+    protected function getValidatorFactory(IContainer $container): IValidatorFactory
     {
         return new ValidatorFactory($this->rulesFactory);
     }
@@ -126,7 +128,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper
      *
      * @param RuleExtensionRegistry $ruleExtensionRegistry The registry to register rules to
      */
-    protected function registerRuleExtensions(RuleExtensionRegistry $ruleExtensionRegistry) : void
+    protected function registerRuleExtensions(RuleExtensionRegistry $ruleExtensionRegistry): void
     {
         // Let extending classes override this
     }

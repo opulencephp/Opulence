@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm;
 
@@ -94,7 +96,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * @inheritdoc
      */
-    public function commit() : void
+    public function commit(): void
     {
         if (!$this->connection instanceof IConnection) {
             throw new OrmException('Connection not set');
@@ -146,7 +148,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * @inheritdoc
      */
-    public function detach($entity) : void
+    public function detach($entity): void
     {
         $this->entityRegistry->deregisterEntity($entity);
         $objectHashId = $this->entityRegistry->getObjectHashId($entity);
@@ -163,7 +165,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * @inheritdoc
      */
-    public function dispose() : void
+    public function dispose(): void
     {
         $this->scheduledActions = [];
         $this->scheduledActionCount = 0;
@@ -177,7 +179,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * @inheritdoc
      */
-    public function getEntityRegistry() : IEntityRegistry
+    public function getEntityRegistry(): IEntityRegistry
     {
         return $this->entityRegistry;
     }
@@ -185,7 +187,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * @inheritdoc
      */
-    public function registerDataMapper(string $className, IDataMapper $dataMapper) : void
+    public function registerDataMapper(string $className, IDataMapper $dataMapper): void
     {
         $this->dataMappers[$className] = $dataMapper;
     }
@@ -193,7 +195,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * @inheritdoc
      */
-    public function scheduleForDeletion($entity) : void
+    public function scheduleForDeletion($entity): void
     {
         $objectHashId = $this->entityRegistry->getObjectHashId($entity);
         $this->scheduledActions[] = ['delete', $entity];
@@ -204,7 +206,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * @inheritdoc
      */
-    public function scheduleForInsertion($entity) : void
+    public function scheduleForInsertion($entity): void
     {
         $objectHashId = $this->entityRegistry->getObjectHashId($entity);
         $this->scheduledActions[] = ['insert', $entity];
@@ -216,7 +218,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * @inheritdoc
      */
-    public function scheduleForUpdate($entity) : void
+    public function scheduleForUpdate($entity): void
     {
         $objectHashId = $this->entityRegistry->getObjectHashId($entity);
         $this->scheduledActions[] = ['update', $entity];
@@ -227,7 +229,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * Checks for any changes made to entities, and if any are found, they're scheduled for update
      */
-    protected function checkForUpdates() : void
+    protected function checkForUpdates(): void
     {
         $managedEntities = $this->entityRegistry->getEntities();
 
@@ -250,7 +252,7 @@ class UnitOfWork implements IUnitOfWork
      *
      * @param object $entity The entity to delete
      */
-    protected function delete($entity) : void
+    protected function delete($entity): void
     {
         $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
         $dataMapper->delete($entity);
@@ -266,7 +268,7 @@ class UnitOfWork implements IUnitOfWork
      * @return IDataMapper The data mapper for the input class
      * @throws RuntimeException Thrown if there was no data mapper for the input class name
      */
-    protected function getDataMapper(string $className) : IDataMapper
+    protected function getDataMapper(string $className): IDataMapper
     {
         if (!isset($this->dataMappers[$className])) {
             throw new RuntimeException("No data mapper for $className");
@@ -280,7 +282,7 @@ class UnitOfWork implements IUnitOfWork
      *
      * @param object $entity The entity to insert
      */
-    protected function insert($entity) : void
+    protected function insert($entity): void
     {
         // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
         $this->entityRegistry->runAggregateRootCallbacks($entity);
@@ -316,7 +318,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * Performs any actions after the commit
      */
-    protected function postCommit() : void
+    protected function postCommit(): void
     {
         /** @var IDataMapper $dataMapper */
         foreach ($this->dataMappers as $className => $dataMapper) {
@@ -331,7 +333,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * Performs any actions after a rollback
      */
-    protected function postRollback() : void
+    protected function postRollback(): void
     {
         // Unset the inserted entities' Ids
         foreach ($this->scheduledForInsertion as $objectHashId => $index) {
@@ -353,7 +355,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * Performs any actions before a commit
      */
-    protected function preCommit() : void
+    protected function preCommit(): void
     {
         // Leave blank for extending classes to implement
     }
@@ -363,7 +365,7 @@ class UnitOfWork implements IUnitOfWork
      *
      * @param object $entity The entity to update
      */
-    protected function update($entity) : void
+    protected function update($entity): void
     {
         // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
         $this->entityRegistry->runAggregateRootCallbacks($entity);

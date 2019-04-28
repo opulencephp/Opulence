@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders\Tests;
 
@@ -25,7 +27,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->condition = $this->createMock(ICondition::class);
         $this->condition->expects($this->any())
@@ -39,7 +41,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "GROUP BY" statement to one that was already started
      */
-    public function testAddingGroupBy() : void
+    public function testAddingGroupBy(): void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -51,21 +53,23 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "AND"ed and an "OR"ed "WHERE" clause
      */
-    public function testAddingOrWhereAndWhere() : void
+    public function testAddingOrWhereAndWhere(): void
     {
         $query = new SelectQuery('id');
         $query->from('users')
             ->where('id > 10')
             ->orWhere("name <> 'dave'")
             ->andWhere("name <> 'brian'");
-        $this->assertEquals("SELECT id FROM users WHERE (id > 10) OR (name <> 'dave') AND (name <> 'brian')",
-            $query->getSql());
+        $this->assertEquals(
+            "SELECT id FROM users WHERE (id > 10) OR (name <> 'dave') AND (name <> 'brian')",
+            $query->getSql()
+        );
     }
 
     /**
      * Tests adding an "ORDER BY" statement to one that was already started
      */
-    public function testAddingOrderBy() : void
+    public function testAddingOrderBy(): void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -74,7 +78,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('SELECT id, name FROM users ORDER BY id ASC, name DESC', $query->getSql());
     }
 
-    public function testAddingSelectExpression() : void
+    public function testAddingSelectExpression(): void
     {
         $query = new SelectQuery('id');
         $query->from('users')
@@ -85,36 +89,40 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "HAVING" condition that will be "AND"ed
      */
-    public function testAndHaving() : void
+    public function testAndHaving(): void
     {
         $query = new SelectQuery('name');
         $query->from('users')
             ->groupBy('name')
             ->having('COUNT(name) > 1')
             ->andHaving('COUNT(name) < 5');
-        $this->assertEquals('SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) AND (COUNT(name) < 5)',
-            $query->getSql());
+        $this->assertEquals(
+            'SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) AND (COUNT(name) < 5)',
+            $query->getSql()
+        );
     }
 
     /**
      * Tests adding a "HAVING" condition object that will be "AND"ed
      */
-    public function testAndHavingConditionObject() : void
+    public function testAndHavingConditionObject(): void
     {
         $query = new SelectQuery('name');
         $query->from('users')
             ->groupBy('name')
             ->having('COUNT(name) > 1')
             ->andHaving($this->condition);
-        $this->assertEquals('SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) AND (c1 IN (?))',
-            $query->getSql());
+        $this->assertEquals(
+            'SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) AND (c1 IN (?))',
+            $query->getSql()
+        );
         $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
     }
 
     /**
      * Tests adding a "WHERE" condition that will be "AND"ed
      */
-    public function testAndWhere() : void
+    public function testAndWhere(): void
     {
         $query = new SelectQuery('id');
         $query->from('users')
@@ -126,7 +134,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "WHERE" condition object that will be "AND"ed
      */
-    public function testAndWhereConditionObject() : void
+    public function testAndWhereConditionObject(): void
     {
         $query = new SelectQuery('id');
         $query->from('users')
@@ -139,7 +147,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a basic query
      */
-    public function testBasicQuery() : void
+    public function testBasicQuery(): void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users');
@@ -149,7 +157,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a basic query with a table alias
      */
-    public function testBasicQueryWithAlias() : void
+    public function testBasicQueryWithAlias(): void
     {
         $query = new SelectQuery('u.id', 'u.name');
         $query->from('users', 'u');
@@ -159,7 +167,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests all the methods in a single, complicated query
      */
-    public function testEverything() : void
+    public function testEverything(): void
     {
         $query = new SelectQuery('u.id', 'u.name', 'e.email');
         $query->addSelectExpression('p.password')
@@ -181,8 +189,10 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
             ->addOrderBy('u.name ASC')
             ->limit(2)
             ->offset(1);
-        $this->assertEquals('SELECT u.id, u.name, e.email, p.password FROM users AS u INNER JOIN log AS l ON l.userid = u.id LEFT JOIN emails AS e ON e.userid = u.id RIGHT JOIN password AS p ON p.userid = u.id WHERE (u.id <> 10) AND (u.name <> :notAllowedName) AND (u.id <> 9) OR (u.name = :allowedName) GROUP BY u.id, u.name, e.email, p.password HAVING (count(*) > :minCount) AND (count(*) < 5) OR (count(*) = 2) ORDER BY u.id DESC, u.name ASC LIMIT 2 OFFSET 1',
-            $query->getSql());
+        $this->assertEquals(
+            'SELECT u.id, u.name, e.email, p.password FROM users AS u INNER JOIN log AS l ON l.userid = u.id LEFT JOIN emails AS e ON e.userid = u.id RIGHT JOIN password AS p ON p.userid = u.id WHERE (u.id <> 10) AND (u.name <> :notAllowedName) AND (u.id <> 9) OR (u.name = :allowedName) GROUP BY u.id, u.name, e.email, p.password HAVING (count(*) > :minCount) AND (count(*) < 5) OR (count(*) = 2) ORDER BY u.id DESC, u.name ASC LIMIT 2 OFFSET 1',
+            $query->getSql()
+        );
         $this->assertEquals([
             'notAllowedName' => ['dave', PDO::PARAM_STR],
             'allowedName' => ['brian', PDO::PARAM_STR],
@@ -193,7 +203,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "GROUP BY" statement
      */
-    public function testGroupBy() : void
+    public function testGroupBy(): void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -204,7 +214,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "HAVING" condition
      */
-    public function testHaving() : void
+    public function testHaving(): void
     {
         $query = new SelectQuery('name');
         $query->from('users')
@@ -216,7 +226,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "HAVING" condition object
      */
-    public function testHavingConditionObject() : void
+    public function testHavingConditionObject(): void
     {
         $query = new SelectQuery('name');
         $query->from('users')
@@ -229,7 +239,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "INNER JOIN" statement
      */
-    public function testInnerJoin() : void
+    public function testInnerJoin(): void
     {
         $query = new SelectQuery('id');
         $query->from('users', 'u')
@@ -240,7 +250,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "JOIN" statement
      */
-    public function testJoin() : void
+    public function testJoin(): void
     {
         $query = new SelectQuery('u.id');
         $query->from('users', 'u')
@@ -251,7 +261,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "LEFT JOIN" statement
      */
-    public function testLeftJoin() : void
+    public function testLeftJoin(): void
     {
         $query = new SelectQuery('id');
         $query->from('users', 'u')
@@ -262,7 +272,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "LIMIT" statement
      */
-    public function testLimit() : void
+    public function testLimit(): void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -273,7 +283,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "LIMIT" statement with a named placeholder
      */
-    public function testLimitWithNamedPlaceholder() : void
+    public function testLimitWithNamedPlaceholder(): void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -284,33 +294,37 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests mixing a WHERE expression and a WHERE condition object
      */
-    public function testMixingWhereExpessionAndObject() : void
+    public function testMixingWhereExpessionAndObject(): void
     {
         $query = new SelectQuery('id');
         $query->from('users')
             ->where('id > 10', $this->condition);
-        $this->assertEquals('SELECT id FROM users WHERE (id > 10) AND (c1 IN (?))',
-            $query->getSql());
+        $this->assertEquals(
+            'SELECT id FROM users WHERE (id > 10) AND (c1 IN (?))',
+            $query->getSql()
+        );
         $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
     }
 
     /**
      * Tests adding multiple "JOIN" statements
      */
-    public function testMultipleJoins() : void
+    public function testMultipleJoins(): void
     {
         $query = new SelectQuery('id');
         $query->from('users', 'u')
             ->join('log', 'l', 'l.userid = u.id')
             ->join('emails', 'e', 'e.userid = u.id');
-        $this->assertEquals('SELECT id FROM users AS u INNER JOIN log AS l ON l.userid = u.id INNER JOIN emails AS e ON e.userid = u.id',
-            $query->getSql());
+        $this->assertEquals(
+            'SELECT id FROM users AS u INNER JOIN log AS l ON l.userid = u.id INNER JOIN emails AS e ON e.userid = u.id',
+            $query->getSql()
+        );
     }
 
     /**
      * Tests adding a "OFFSET" statement
      */
-    public function testOffset() : void
+    public function testOffset(): void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -321,7 +335,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "OFFSET" statement with a named placeholder
      */
-    public function testOffsetWithNamedPlaceholder() : void
+    public function testOffsetWithNamedPlaceholder(): void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -332,36 +346,40 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "HAVING" condition that will be "OR"ed
      */
-    public function testOrHaving() : void
+    public function testOrHaving(): void
     {
         $query = new SelectQuery('name');
         $query->from('users')
             ->groupBy('name')
             ->having('COUNT(name) > 1')
             ->orHaving('COUNT(name) < 5');
-        $this->assertEquals('SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) OR (COUNT(name) < 5)',
-            $query->getSql());
+        $this->assertEquals(
+            'SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) OR (COUNT(name) < 5)',
+            $query->getSql()
+        );
     }
 
     /**
      * Tests adding a "HAVING" condition object that will be "OR"ed
      */
-    public function testOrHavingConditionObject() : void
+    public function testOrHavingConditionObject(): void
     {
         $query = new SelectQuery('name');
         $query->from('users')
             ->groupBy('name')
             ->having('COUNT(name) > 1')
             ->orHaving($this->condition);
-        $this->assertEquals('SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) OR (c1 IN (?))',
-            $query->getSql());
+        $this->assertEquals(
+            'SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) OR (c1 IN (?))',
+            $query->getSql()
+        );
         $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
     }
 
     /**
      * Tests adding a "WHERE" condition that will be "OR"ed
      */
-    public function testOrWhere() : void
+    public function testOrWhere(): void
     {
         $query = new SelectQuery('id');
         $query->from('users')
@@ -373,7 +391,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "WHERE" condition object that will be "OR"ed
      */
-    public function testOrWhereConditionObject() : void
+    public function testOrWhereConditionObject(): void
     {
         $query = new SelectQuery('id');
         $query->from('users')
@@ -386,7 +404,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "ORDER BY" statement
      */
-    public function testOrderBy() : void
+    public function testOrderBy(): void
     {
         $query = new SelectQuery('id', 'name');
         $query->from('users')
@@ -397,7 +415,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a really basic query
      */
-    public function testReallyBasicQuery() : void
+    public function testReallyBasicQuery(): void
     {
         $query = new SelectQuery('id');
         $this->assertEquals('SELECT id', $query->getSql());
@@ -406,7 +424,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an "RIGHT JOIN" statement
      */
-    public function testRightJoin() : void
+    public function testRightJoin(): void
     {
         $query = new SelectQuery('id');
         $query->from('users', 'u')
@@ -417,7 +435,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a "HAVING" condition, then resetting it
      */
-    public function testSettingHavingConditionWhenItWasAlreadySet() : void
+    public function testSettingHavingConditionWhenItWasAlreadySet(): void
     {
         $query = new SelectQuery('name');
         $query->from('users')
@@ -430,7 +448,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a "WHERE" condition, then resetting it
      */
-    public function testSettingWhereConditionWhenItWasAlreadySet() : void
+    public function testSettingWhereConditionWhenItWasAlreadySet(): void
     {
         $query = new SelectQuery('name');
         $query->from('users')
@@ -442,7 +460,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "WHERE" condition
      */
-    public function testWhere() : void
+    public function testWhere(): void
     {
         $query = new SelectQuery('id');
         $query->from('users')
@@ -453,7 +471,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "WHERE" condition object
      */
-    public function testWhereConditionObject() : void
+    public function testWhereConditionObject(): void
     {
         $query = new SelectQuery('id');
         $query->from('users')

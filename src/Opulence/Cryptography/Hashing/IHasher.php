@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cryptography\Hashing;
 
@@ -26,7 +28,7 @@ interface IHasher
      * @return string The hashed value
      * @throws RuntimeException Thrown if the hashing failed
      */
-    public function hash(string $unhashedValue, array $options = [], string $pepper = '') : string;
+    public function hash(string $unhashedValue, array $options = [], string $pepper = ''): string;
 
     /**
      * Checks if a hashed value was hashed with the input options
@@ -35,7 +37,7 @@ interface IHasher
      * @param array $options The list of algorithm-specific options
      * @return bool True if the hash needs to be rehashed, otherwise false
      */
-    public function needsRehash(string $hashedValue, array $options = []) : bool;
+    public function needsRehash(string $hashedValue, array $options = []): bool;
 
     /**
      * Verifies that an unhashed value matches the hashed value
@@ -45,5 +47,5 @@ interface IHasher
      * @param string $pepper The optional pepper to append prior to verifying the value
      * @return bool True if the unhashed value matches the hashed value
      */
-    public function verify(string $hashedValue, string $unhashedValue, string $pepper = '') : bool;
+    public function verify(string $hashedValue, string $unhashedValue, string $pepper = ''): bool;
 }

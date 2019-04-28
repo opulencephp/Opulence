@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm;
 
@@ -19,12 +21,12 @@ interface IEntityRegistry
      * Clears all the contents of the registry
      * This should only be called through a unit of work
      */
-    public function clear() : void;
+    public function clear(): void;
 
     /**
      * Clears all aggregate root child functions
      */
-    public function clearAggregateRoots() : void;
+    public function clearAggregateRoots(): void;
 
     /**
      * Deregisters an entity
@@ -32,7 +34,7 @@ interface IEntityRegistry
      *
      * @param object $entity The entity to detach
      */
-    public function deregisterEntity($entity) : void;
+    public function deregisterEntity($entity): void;
 
     /**
      * Gets the object's class name
@@ -40,14 +42,14 @@ interface IEntityRegistry
      * @param mixed $object The object whose class name we want
      * @return string The object's class name
      */
-    public function getClassName($object) : string;
+    public function getClassName($object): string;
 
     /**
      * Gets the list of all registered entities
      *
      * @return object[] The list of all registered entities
      */
-    public function getEntities() : array;
+    public function getEntities(): array;
 
     /**
      * Attempts to get a registered entity
@@ -64,7 +66,7 @@ interface IEntityRegistry
      * @param object $entity The entity to check
      * @return int The entity state
      */
-    public function getEntityState($entity) : int;
+    public function getEntityState($entity): int;
 
     /**
      * Gets a unique hash Id for an object
@@ -72,7 +74,7 @@ interface IEntityRegistry
      * @param mixed $object The object whose hash we want
      * @return string The object hash Id
      */
-    public function getObjectHashId($object) : string;
+    public function getObjectHashId($object): string;
 
     /**
      * Gets whether or not an entity is registered
@@ -80,7 +82,7 @@ interface IEntityRegistry
      * @param object $entity The entity to check
      * @return bool True if the entity is registered, otherwise false
      */
-    public function isRegistered($entity) : bool;
+    public function isRegistered($entity): bool;
 
     /**
      * Registers a function to set the aggregate root Id in a child entity after the aggregate root has been inserted
@@ -90,7 +92,7 @@ interface IEntityRegistry
      * @param object $child The child of the aggregate root
      * @param callable $function The function that contains the logic to set the aggregate root Id in the child
      */
-    public function registerAggregateRootCallback($aggregateRoot, $child, callable $function) : void;
+    public function registerAggregateRootCallback($aggregateRoot, $child, callable $function): void;
 
     /**
      * Registers an entity
@@ -98,14 +100,14 @@ interface IEntityRegistry
      * @param object $entity The entity to register
      * @throws OrmException Thrown if there was an error registering the entity
      */
-    public function registerEntity(&$entity) : void;
+    public function registerEntity(&$entity): void;
 
     /**
      * Runs any aggregate root child functions registered for the entity
      *
      * @param object $child The child whose aggregate root functions we're running
      */
-    public function runAggregateRootCallbacks($child) : void;
+    public function runAggregateRootCallbacks($child): void;
 
     /**
      * Sets an entity's state
@@ -113,5 +115,5 @@ interface IEntityRegistry
      * @param object $entity The entity whose state we're setting
      * @param int $entityState The entity state
      */
-    public function setState($entity, int $entityState) : void;
+    public function setState($entity, int $entityState): void;
 }

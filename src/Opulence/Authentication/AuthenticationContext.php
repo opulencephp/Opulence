@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication;
 
@@ -38,7 +40,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function getStatus() : string
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -46,7 +48,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function getSubject() : ?ISubject
+    public function getSubject(): ?ISubject
     {
         return $this->subject;
     }
@@ -54,7 +56,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function isAuthenticated() : bool
+    public function isAuthenticated(): bool
     {
         return $this->status === AuthenticationStatusTypes::AUTHENTICATED;
     }
@@ -62,7 +64,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function setStatus(string $status) : void
+    public function setStatus(string $status): void
     {
         $this->status = $status;
     }
@@ -70,7 +72,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function setSubject(ISubject $subject) : void
+    public function setSubject(ISubject $subject): void
     {
         $this->subject = $subject;
     }

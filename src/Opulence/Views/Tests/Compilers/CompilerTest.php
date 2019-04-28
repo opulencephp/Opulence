@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Compilers;
 
@@ -29,7 +31,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->registry = $this->createMock(ICompilerRegistry::class);
         $this->compiler = new Compiler($this->registry);
@@ -38,7 +40,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the correct compiler is used
      */
-    public function testCorrectCompilerIsUsed() : void
+    public function testCorrectCompilerIsUsed(): void
     {
         /** @var IView|MockObject $view */
         $view = $this->getMockBuilder(IView::class)

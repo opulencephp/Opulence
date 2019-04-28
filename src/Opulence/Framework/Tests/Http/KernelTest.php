@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Http;
 
@@ -42,7 +44,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding empty middleware
      */
-    public function testAddingEmptyMiddleware() : void
+    public function testAddingEmptyMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware([]);
@@ -52,7 +54,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding middleware
      */
-    public function testAddingMiddleware() : void
+    public function testAddingMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         // Test a single middleware
@@ -66,7 +68,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests disabling all middleware
      */
-    public function testDisablingAllMiddleware() : void
+    public function testDisablingAllMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware('foo');
@@ -77,7 +79,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests disabling certain middleware
      */
-    public function testDisablingCertainMiddleware() : void
+    public function testDisablingCertainMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $parameterizedMiddleware = new MiddlewareParameters('parameterized', []);
@@ -96,7 +98,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests enabling certain middleware
      */
-    public function testEnablingCertainMiddleware() : void
+    public function testEnablingCertainMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware('foo');
@@ -108,7 +110,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting middleware
      */
-    public function testGettingMiddleware() : void
+    public function testGettingMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $this->assertEquals([], $kernel->getMiddleware());
@@ -119,7 +121,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling an exceptional request
      */
-    public function testHandlingExceptionalRequest() : void
+    public function testHandlingExceptionalRequest(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, true);
         $request = Request::createFromGlobals();
@@ -130,7 +132,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling a request
      */
-    public function testHandlingRequest() : void
+    public function testHandlingRequest(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $request = Request::createFromGlobals();
@@ -142,7 +144,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling a request with middleware
      */
-    public function testHandlingWithMiddleware() : void
+    public function testHandlingWithMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware(HeaderSetter::class);
@@ -154,7 +156,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling a request with parameterized middleware
      */
-    public function testHandlingWithParameterizedMiddleware() : void
+    public function testHandlingWithParameterizedMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware(ParameterizedMiddleware::withParameters(['foo' => 'bar']));
@@ -170,7 +172,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
      * @param bool $shouldThrowException True if the router should throw an exception, otherwise false
      * @return Kernel The kernel
      */
-    private function getKernel($method, $shouldThrowException) : Kernel
+    private function getKernel($method, $shouldThrowException): Kernel
     {
         $container = new Container();
         $dependencyResolver = new ContainerDependencyResolver($container);

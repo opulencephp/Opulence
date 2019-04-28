@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Clients;
 
@@ -45,7 +47,7 @@ class Client implements IClient
     /**
      * @inheritdoc
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -53,7 +55,7 @@ class Client implements IClient
     /**
      * @inheritdoc
      */
-    public function getSecret() : string
+    public function getSecret(): string
     {
         return $this->secret;
     }
@@ -61,7 +63,7 @@ class Client implements IClient
     /**
      * @inheritdoc
      */
-    public function setId($id) : void
+    public function setId($id): void
     {
         $this->id = $id;
     }
@@ -69,7 +71,7 @@ class Client implements IClient
     /**
      * @inheritdoc
      */
-    public function setName(string $name) : void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
