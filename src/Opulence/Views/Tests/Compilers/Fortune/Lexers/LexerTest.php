@@ -422,12 +422,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         // Lex with long open tag and without close tag
         $this->view->setContents('<?php echo "foo";');
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
-        // Lex with short open tag and close tag
-        $this->view->setContents('<? echo "foo"; ?>');
-        $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
-        // Lex with short open tag and without close tag
-        $this->view->setContents('<? echo "foo";');
-        $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
     /**

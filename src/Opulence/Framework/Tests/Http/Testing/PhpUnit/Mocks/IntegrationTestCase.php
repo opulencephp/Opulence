@@ -20,7 +20,7 @@ use Opulence\Framework\Http\Testing\PhpUnit\Assertions\ViewAssertions;
 use Opulence\Framework\Http\Testing\PhpUnit\IntegrationTestCase as BaseIntegrationTestCase;
 use Opulence\Framework\Routing\Bootstrappers\RouterBootstrapper;
 use Opulence\Http\Responses\Response;
-use Opulence\Ioc\Bootstrappers\Dispatchers\BootstrapperDispatcher;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
 use Opulence\Routing\Router;
@@ -79,14 +79,11 @@ class IntegrationTestCase extends BaseIntegrationTestCase
         $this->container->bindInstance(IContainer::class, $this->container);
 
         // Setup the bootstrappers
-        $bootstrapperDispatcher = new BootstrapperDispatcher($this->container);
-        $bootstrappers = [];
-
         foreach (self::$bootstrappers as $bootstrapperClass) {
-            $bootstrappers[] = new $bootstrapperClass();
+            /** @var Bootstrapper $bootstrapper */
+            $bootstrapper = new $bootstrapperClass;
+            $bootstrapper->registerBindings($this->container);
         }
-
-        $bootstrapperDispatcher->dispatch($bootstrappers);
 
         parent::setUp();
     }

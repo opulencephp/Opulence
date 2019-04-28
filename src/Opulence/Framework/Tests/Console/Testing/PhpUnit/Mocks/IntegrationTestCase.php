@@ -17,7 +17,7 @@ use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Console\Bootstrappers\CommandsBootstrapper;
 use Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions;
 use Opulence\Framework\Console\Testing\PhpUnit\IntegrationTestCase as BaseIntegrationTestCase;
-use Opulence\Ioc\Bootstrappers\Dispatchers\BootstrapperDispatcher;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
 use Opulence\Routing\Routes\Caching\ICache as RouteCache;
@@ -70,14 +70,11 @@ class IntegrationTestCase extends BaseIntegrationTestCase
         $this->container->bindInstance(IContainer::class, $this->container);
 
         // Setup the bootstrappers
-        $bootstrapperDispatcher = new BootstrapperDispatcher($this->container);
-        $bootstrappers = [];
-
         foreach (self::$bootstrappers as $bootstrapperClass) {
-            $bootstrappers[] = new $bootstrapperClass();
+            /** @var Bootstrapper $bootstrapper */
+            $bootstrapper = new $bootstrapperClass();
+            $bootstrapper->registerBindings($this->container);
         }
-
-        $bootstrapperDispatcher->dispatch($bootstrappers);
 
         parent::setUp();
     }
