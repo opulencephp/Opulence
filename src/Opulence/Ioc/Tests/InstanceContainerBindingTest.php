@@ -4,26 +4,26 @@
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 
 namespace Opulence\Ioc\Tests;
 
-use Opulence\Ioc\InstanceBinding;
+use Opulence\Ioc\InstanceContainerBinding;
 use stdClass;
 
 /**
- * Tests the instance binding
+ * Tests the instance container binding
  */
-class InstanceBindingTest extends \PHPUnit\Framework\TestCase
+class InstanceContainerBindingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that the binding is always resolved as a singleton
      */
     public function testAlwaysResolvedAsSingleton() : void
     {
-        $binding = new InstanceBinding(new stdClass());
+        $binding = new InstanceContainerBinding(new stdClass());
         $this->assertTrue($binding->resolveAsSingleton());
     }
 
@@ -33,7 +33,7 @@ class InstanceBindingTest extends \PHPUnit\Framework\TestCase
     public function testCorrectInstanceIsReturned() : void
     {
         $instance = new stdClass();
-        $binding = new InstanceBinding($instance);
+        $binding = new InstanceContainerBinding($instance);
         $this->assertSame($instance, $binding->getInstance());
     }
 }

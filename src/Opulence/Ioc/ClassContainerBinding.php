@@ -4,16 +4,17 @@
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 
 namespace Opulence\Ioc;
 
 /**
- * Defines a class binding
+ * Defines a class container binding
+ * @internal
  */
-class ClassBinding implements IBinding
+class ClassContainerBinding implements IContainerBinding
 {
     /** @var string The name of the concrete class */
     private $concreteClass;

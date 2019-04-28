@@ -4,16 +4,17 @@
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 
 namespace Opulence\Ioc;
 
 /**
- * Defines a factory binding
+ * Defines a factory container binding
+ * @internal
  */
-class FactoryBinding implements IBinding
+class FactoryContainerBinding implements IContainerBinding
 {
     /** @var callable The factory */
     private $factory;

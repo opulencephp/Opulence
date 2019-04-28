@@ -4,18 +4,18 @@
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 
 namespace Opulence\Ioc\Tests;
 
-use Opulence\Ioc\FactoryBinding;
+use Opulence\Ioc\FactoryContainerBinding;
 
 /**
- * Tests the factory binding
+ * Tests the factory container binding
  */
-class FactoryBindingTest extends \PHPUnit\Framework\TestCase
+class FactoryContainerBindingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests checking if we should resolve as a singleton
@@ -24,9 +24,9 @@ class FactoryBindingTest extends \PHPUnit\Framework\TestCase
     {
         $factory = function () {
         };
-        $singletonFactory = new FactoryBinding($factory, true);
+        $singletonFactory = new FactoryContainerBinding($factory, true);
         $this->assertTrue($singletonFactory->resolveAsSingleton());
-        $prototypeFactory = new FactoryBinding($factory, false);
+        $prototypeFactory = new FactoryContainerBinding($factory, false);
         $this->assertFalse($prototypeFactory->resolveAsSingleton());
     }
 
@@ -37,7 +37,7 @@ class FactoryBindingTest extends \PHPUnit\Framework\TestCase
     {
         $factory = function () {
         };
-        $binding = new FactoryBinding($factory, true);
+        $binding = new FactoryContainerBinding($factory, true);
         $this->assertSame($factory, $binding->getFactory());
     }
 }

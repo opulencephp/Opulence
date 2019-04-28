@@ -51,6 +51,8 @@
 
 * Added `IContainer::tryResolve()` to simplify trying to resolve something without needing `try`/`catch` blocks
 * Made `Opulence\Ioc\Bootstrappers\Bootstrapper` abstract, added final constructor
+* Renamed `IBinding` to `IContainerBinding`, `ClassBinding` to `ClassContainerBinding`, `FactoryBinding` to `FactoryContainerBinding`, and `InstanceBinding` to `InstanceContainerBinding`
+* Made `IContainerBinding`, `ClassContainerBinding`, `FactoryContainerBinding`, and `InstanceContainerBinding` internal
 * Removed `IBootstrapperDispatcher` and `BootstrapperDispatcher`
 * Removed `ILazyBootstrapper`
   * All bootstrappers can be lazy now with inspections

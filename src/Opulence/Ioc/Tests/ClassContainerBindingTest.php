@@ -4,20 +4,20 @@
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 
 namespace Opulence\Ioc\Tests;
 
-use Opulence\Ioc\ClassBinding;
+use Opulence\Ioc\ClassContainerBinding;
 
 /**
- * Tests the class binding
+ * Tests the class container binding
  */
-class ClassBindingTest extends \PHPUnit\Framework\TestCase
+class ClassContainerBindingTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ClassBinding The binding to use in tests */
+    /** @var ClassContainerBinding The binding to use in tests */
     private $binding = null;
 
     /**
@@ -25,7 +25,7 @@ class ClassBindingTest extends \PHPUnit\Framework\TestCase
      */
     protected function setUp() : void
     {
-        $this->binding = new ClassBinding('foo', ['bar'], false);
+        $this->binding = new ClassContainerBinding('foo', ['bar'], false);
     }
 
     /**
@@ -33,8 +33,8 @@ class ClassBindingTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfShouldResolveAsSingleton() : void
     {
-        $singletonBinding = new ClassBinding('foo', [], true);
-        $prototypeBinding = new ClassBinding('foo', [], false);
+        $singletonBinding = new ClassContainerBinding('foo', [], true);
+        $prototypeBinding = new ClassContainerBinding('foo', [], false);
         $this->assertTrue($singletonBinding->resolveAsSingleton());
         $this->assertFalse($prototypeBinding->resolveAsSingleton());
     }
