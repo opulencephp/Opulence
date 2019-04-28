@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Responses\Compilers\Parsers;
 
@@ -19,9 +21,9 @@ use Opulence\Console\Responses\Compilers\Parsers\Nodes\RootNode;
 class AbstractSyntaxTree
 {
     /** @var RootNode The root node */
-    private $rootNode = null;
+    private $rootNode;
     /** @var Node The current node */
-    private $currentNode = null;
+    private $currentNode;
 
     public function __construct()
     {
@@ -34,7 +36,7 @@ class AbstractSyntaxTree
      *
      * @return Node The current node
      */
-    public function getCurrentNode() : Node
+    public function getCurrentNode(): Node
     {
         return $this->currentNode;
     }
@@ -44,7 +46,7 @@ class AbstractSyntaxTree
      *
      * @return RootNode The root node
      */
-    public function getRootNode() : Node
+    public function getRootNode(): Node
     {
         return $this->rootNode;
     }
@@ -55,7 +57,7 @@ class AbstractSyntaxTree
      * @param Node $node The node to set
      * @return Node The current node
      */
-    public function setCurrentNode(Node $node) : Node
+    public function setCurrentNode(Node $node): Node
     {
         $this->currentNode = $node;
 

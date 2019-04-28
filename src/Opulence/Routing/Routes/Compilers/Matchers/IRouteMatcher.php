@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Routes\Compilers\Matchers;
 
@@ -25,5 +27,5 @@ interface IRouteMatcher
      * @param Request $request The current request
      * @return bool True if the route is a match, otherwise false
      */
-    public function isMatch(ParsedRoute $route, Request $request) : bool;
+    public function isMatch(ParsedRoute $route, Request $request): bool;
 }

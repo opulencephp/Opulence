@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cryptography\Encryption\Keys;
 
@@ -16,9 +18,9 @@ namespace Opulence\Cryptography\Encryption\Keys;
 class Secret
 {
     /** @var string The type of secret this is */
-    private $type = '';
+    private $type;
     /** @var string The secret value */
-    private $value = '';
+    private $value;
 
     /**
      * @param string $type The type of secret this is
@@ -33,7 +35,7 @@ class Secret
     /**
      * @return string
      */
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -41,7 +43,7 @@ class Secret
     /**
      * @return string
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Tests\Routes;
 
@@ -21,7 +23,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating a parsed route
      */
-    public function testCreatingParsedRoute() : void
+    public function testCreatingParsedRoute(): void
     {
         $route = new Route('GET', '/foo/{bar}', 'foo@bar', [
             'https' => true,
@@ -46,7 +48,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the default value for a variable without a default value
      */
-    public function testGettingDefaultValueForVariableWithoutDefaultValue() : void
+    public function testGettingDefaultValueForVariableWithoutDefaultValue(): void
     {
         $route = new Route('get', '/{foo}', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
@@ -56,7 +58,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the host regex when it's not set
      */
-    public function testGettingHostRegexWhenNotSet() : void
+    public function testGettingHostRegexWhenNotSet(): void
     {
         $route = new Route('get', '/foo', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
@@ -66,7 +68,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a default value
      */
-    public function testSettingADefaultValue() : void
+    public function testSettingADefaultValue(): void
     {
         $route = new Route('get', '/{foo}', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
@@ -77,7 +79,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the host regex
      */
-    public function testSettingHostRegex() : void
+    public function testSettingHostRegex(): void
     {
         $route = new Route('get', '/foo', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
@@ -88,7 +90,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the path regex
      */
-    public function testSettingPathRegex() : void
+    public function testSettingPathRegex(): void
     {
         $route = new Route('get', '/foo/{id}', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);

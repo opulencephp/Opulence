@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cache\Tests;
 
@@ -18,12 +20,12 @@ use Opulence\Cache\ArrayBridge;
 class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayBridge The bridge to use in tests */
-    private $bridge = null;
+    private $bridge;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->bridge = new ArrayBridge();
     }
@@ -31,7 +33,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if a key exists
      */
-    public function testCheckingIfKeyExists() : void
+    public function testCheckingIfKeyExists(): void
     {
         $this->assertFalse($this->bridge->has('foo'));
         // Try a null value
@@ -45,7 +47,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests decrementing values
      */
-    public function testDecrementingValues() : void
+    public function testDecrementingValues(): void
     {
         $this->bridge->set('foo', 11, 60);
         // Test using default value
@@ -57,7 +59,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deleting a key
      */
-    public function testDeletingKey() : void
+    public function testDeletingKey(): void
     {
         $this->bridge->set('foo', 'bar', 60);
         $this->bridge->delete('foo');
@@ -67,7 +69,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests flushing
      */
-    public function testFlushing() : void
+    public function testFlushing(): void
     {
         $this->bridge->set('foo', 'bar', 60);
         $this->bridge->set('baz', 'blah', 60);
@@ -79,7 +81,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a non-existent key
      */
-    public function testGettingNonExistentKey() : void
+    public function testGettingNonExistentKey(): void
     {
         $this->assertNull($this->bridge->get('foo'));
     }
@@ -87,7 +89,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a set value
      */
-    public function testGettingSetValue() : void
+    public function testGettingSetValue(): void
     {
         $this->bridge->set('foo', 'bar', 60);
         $this->assertEquals('bar', $this->bridge->get('foo'));
@@ -96,7 +98,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests incrementing values
      */
-    public function testIncrementingValues() : void
+    public function testIncrementingValues(): void
     {
         $this->bridge->set('foo', 1, 60);
         // Test using default value
@@ -108,7 +110,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that setting a value with a lifetime of 0 or lower is not retained in cache
      */
-    public function testSettingValueWithNegativeLifetime() : void
+    public function testSettingValueWithNegativeLifetime(): void
     {
         $this->bridge->set('foo', 'bar', 0);
         $this->assertFalse($this->bridge->has('foo'));

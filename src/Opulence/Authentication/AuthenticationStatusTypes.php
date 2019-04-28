@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication;
 
@@ -16,7 +18,7 @@ namespace Opulence\Authentication;
 class AuthenticationStatusTypes
 {
     /** The subject is not authenticated */
-    const UNAUTHENTICATED = 'UNAUTHENTICATED';
+    public const UNAUTHENTICATED = 'UNAUTHENTICATED';
     /** The subject is authenticated */
-    const AUTHENTICATED = 'AUTHENTICATED';
+    public const AUTHENTICATED = 'AUTHENTICATED';
 }

@@ -1,18 +1,21 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Debug\Tests\Exceptions\Handlers;
 
 use Exception;
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 use Opulence\Debug\Exceptions\Handlers\IExceptionRenderer;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 
@@ -22,16 +25,16 @@ use RuntimeException;
 class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ExceptionHandler The handler to use in tests */
-    private $handler = null;
-    /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject The logger to use in tests */
-    private $logger = null;
-    /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject The renderer to use in tests */
-    private $renderer = null;
+    private $handler;
+    /** @var LoggerInterface|MockObject The logger to use in tests */
+    private $logger;
+    /** @var IExceptionRenderer|MockObject The renderer to use in tests */
+    private $renderer;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->renderer = $this->createMock(IExceptionRenderer::class);
@@ -42,7 +45,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown() : void
+    protected function tearDown(): void
     {
         restore_exception_handler();
     }
@@ -50,7 +53,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that exception is reported and rendered
      */
-    public function testExceptionIsReportedAndRendered() : void
+    public function testExceptionIsReportedAndRendered(): void
     {
         $exception = new Exception();
         $this->logger->expects($this->once())
@@ -65,11 +68,11 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that exceptions are not logged when told not to
      */
-    public function testExceptionNotLoggedWhenToldNotTo() : void
+    public function testExceptionNotLoggedWhenToldNotTo(): void
     {
-        /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
+        /** @var LoggerInterface|MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $renderer */
+        /** @var IExceptionRenderer|MockObject $renderer */
         $renderer = $this->createMock(IExceptionRenderer::class);
         $handler = new ExceptionHandler($logger, $renderer, RuntimeException::class);
         $exception = new RuntimeException();

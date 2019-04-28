@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Bootstrappers;
 
@@ -34,7 +36,6 @@ use Opulence\Framework\Routing\Console\Commands\MakeControllerCommand;
 use Opulence\Framework\Routing\Console\Commands\MakeHttpMiddlewareCommand;
 use Opulence\Framework\Views\Console\Commands\FlushViewCacheCommand;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\Bootstrappers\Caching\FileCache;
 use Opulence\Ioc\IContainer;
 use Opulence\Ioc\IocException;
 use Opulence\Routing\Routes\Caching\ICache as RouteCache;
@@ -70,7 +71,7 @@ class CommandsBootstrapper extends Bootstrapper
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         // Use a factory to defer the resolution of the commands
         // The commands may have dependencies set in other bootstrappers
@@ -94,7 +95,7 @@ class CommandsBootstrapper extends Bootstrapper
      * @param CommandCollection $commands The collection to add commands to
      * @param IContainer $container The dependency injection container to use
      */
-    protected function bindCommands(CommandCollection $commands, IContainer $container) : void
+    protected function bindCommands(CommandCollection $commands, IContainer $container): void
     {
         // Resolve and add each command class
         foreach (self::$commandClasses as $commandClass) {
@@ -106,9 +107,8 @@ class CommandsBootstrapper extends Bootstrapper
 
         // The flush-cache command requires some special configuration
         try {
+            // Todo: Need this to work with new way of caching bootstrappers in 2.0
             $flushCacheCommand = new FlushFrameworkCacheCommand(
-                new FileCache(Config::get('paths', 'tmp.framework.http') . '/cachedBootstrapperRegistry.json'),
-                new FileCache(Config::get('paths', 'tmp.framework.console') . '/cachedBootstrapperRegistry.json'),
                 $container->resolve(RouteCache::class),
                 $container->resolve(ViewCache::class)
             );
@@ -125,7 +125,7 @@ class CommandsBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return ICompiler The command compiler
      */
-    protected function getCommandCompiler(IContainer $container) : ICompiler
+    protected function getCommandCompiler(IContainer $container): ICompiler
     {
         return new Compiler();
     }

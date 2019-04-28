@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
@@ -53,7 +55,7 @@ class JwtHeader
      * @return string The base 64 encoded data that's safe for URLs
      * @link http://php.net/manual/en/function.base64-encode.php#103849
      */
-    private static function base64UrlEncode(string $data) : string
+    private static function base64UrlEncode(string $data): string
     {
         return \rtrim(\strtr(\base64_encode($data), '+/', '-_'), '=');
     }
@@ -64,7 +66,7 @@ class JwtHeader
      * @param string $name The name of the header to add
      * @param mixed $value The value to add
      */
-    public function add(string $name, $value) : void
+    public function add(string $name, $value): void
     {
         switch ($name) {
             case 'alg':
@@ -81,7 +83,7 @@ class JwtHeader
      *
      * @return string The base64 URL-encoded string
      */
-    public function encode() : string
+    public function encode(): string
     {
         return self::base64UrlEncode(\json_encode($this->getAll()));
     }
@@ -104,7 +106,7 @@ class JwtHeader
     /**
      * @return string
      */
-    public function getAlgorithm() : string
+    public function getAlgorithm(): string
     {
         return $this->headers['alg'];
     }
@@ -114,7 +116,7 @@ class JwtHeader
      *
      * @return array All the header values
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         return $this->headers;
     }
@@ -122,7 +124,7 @@ class JwtHeader
     /**
      * @return string
      */
-    public function getContentType() : string
+    public function getContentType(): string
     {
         return $this->headers['cty'];
     }
@@ -130,7 +132,7 @@ class JwtHeader
     /**
      * @return string
      */
-    public function getTokenType() : string
+    public function getTokenType(): string
     {
         return $this->headers['typ'];
     }
@@ -139,7 +141,7 @@ class JwtHeader
      * @param string $algorithm
      * @throws InvalidArgumentException Thrown if the algorithm is not supported
      */
-    private function setAlgorithm(string $algorithm) : void
+    private function setAlgorithm(string $algorithm): void
     {
         if (!in_array($algorithm, self::$validAlgorithms)) {
             throw new InvalidArgumentException("Algorithm \"$algorithm\" is not supported");

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm;
 
@@ -19,9 +21,9 @@ use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
 class EntityRegistry implements IEntityRegistry
 {
     /** @var IIdAccessorRegistry The Id accessory registry */
-    protected $idAccessorRegistry = null;
+    protected $idAccessorRegistry;
     /** @var IChangeTracker The change tracker */
-    protected $changeTracker = null;
+    protected $changeTracker;
     /** @var array The mapping of entities' object hash Ids to their various states */
     private $entityStates = [];
     /** @var array The mapping of class names to a list of entities of that class */
@@ -51,7 +53,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function clear() : void
+    public function clear(): void
     {
         $this->changeTracker->stopTrackingAll();
         $this->entities = [];
@@ -62,7 +64,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function clearAggregateRoots() : void
+    public function clearAggregateRoots(): void
     {
         $this->aggregateRootChildren = [];
     }
@@ -70,7 +72,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function deregisterEntity($entity) : void
+    public function deregisterEntity($entity): void
     {
         $entityState = $this->getEntityState($entity);
         unset($this->aggregateRootChildren[$this->getObjectHashId($entity)]);
@@ -88,7 +90,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function getClassName($object) : string
+    public function getClassName($object): string
     {
         return get_class($object);
     }
@@ -96,7 +98,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function getEntities() : array
+    public function getEntities(): array
     {
         if (count($this->entities) === 0) {
             return [];
@@ -127,7 +129,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function getEntityState($entity) : int
+    public function getEntityState($entity): int
     {
         $objectHashId = $this->getObjectHashId($entity);
 
@@ -141,7 +143,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function getObjectHashId($object) : string
+    public function getObjectHashId($object): string
     {
         return spl_object_hash($object);
     }
@@ -149,7 +151,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function isRegistered($entity) : bool
+    public function isRegistered($entity): bool
     {
         try {
             $entityId = (string) $this->idAccessorRegistry->getEntityId($entity);
@@ -169,7 +171,7 @@ class EntityRegistry implements IEntityRegistry
      * @param object $child The child of the aggregate root
      * @param callable $function The function that contains the logic to set the aggregate root Id in the child
      */
-    public function registerAggregateRootCallback($aggregateRoot, $child, callable $function) : void
+    public function registerAggregateRootCallback($aggregateRoot, $child, callable $function): void
     {
         $childObjectHashId = $this->getObjectHashId($child);
 
@@ -187,7 +189,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function registerEntity(&$entity) : void
+    public function registerEntity(&$entity): void
     {
         $className = $this->getClassName($entity);
         $entityId = (string) $this->idAccessorRegistry->getEntityId($entity);
@@ -210,7 +212,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function runAggregateRootCallbacks($child) : void
+    public function runAggregateRootCallbacks($child): void
     {
         $objectHashId = $this->getObjectHashId($child);
 
@@ -225,7 +227,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function setState($entity, int $entityState) : void
+    public function setState($entity, int $entityState): void
     {
         $this->entityStates[$this->getObjectHashId($entity)] = $entityState;
     }

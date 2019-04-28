@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Sessions\Handlers;
 
@@ -29,7 +31,7 @@ class FileSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function close() : bool
+    public function close(): bool
     {
         return true;
     }
@@ -37,7 +39,7 @@ class FileSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function destroy($sessionId) : bool
+    public function destroy($sessionId): bool
     {
         @unlink("{$this->path}/$sessionId");
 
@@ -47,7 +49,7 @@ class FileSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function gc($maxLifetime) : bool
+    public function gc($maxLifetime): bool
     {
         $sessionFiles = glob($this->path . '/*', GLOB_NOSORT);
         $limit = time() - $maxLifetime;
@@ -65,7 +67,7 @@ class FileSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function open($savePath, $sessionId) : bool
+    public function open($savePath, $sessionId): bool
     {
         return true;
     }
@@ -73,7 +75,7 @@ class FileSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    protected function doRead(string $sessionId) : string
+    protected function doRead(string $sessionId): string
     {
         if (file_exists("{$this->path}/$sessionId")) {
             return file_get_contents("{$this->path}/$sessionId");
@@ -85,7 +87,7 @@ class FileSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    protected function doWrite(string $sessionId, string $sessionData) : bool
+    protected function doWrite(string $sessionId, string $sessionData): bool
     {
         return file_put_contents("{$this->path}/$sessionId", $sessionData, LOCK_EX) !== false;
     }

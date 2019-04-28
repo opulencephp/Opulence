@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections\Tests;
 
@@ -18,12 +20,12 @@ use Opulence\Collections\Queue;
 class QueueTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Queue The queue to use in tests */
-    private $queue = null;
+    private $queue;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->queue = new Queue();
     }
@@ -31,7 +33,7 @@ class QueueTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests clearing
      */
-    public function testClearing() : void
+    public function testClearing(): void
     {
         $this->queue->enqueue('foo');
         $this->queue->clear();
@@ -41,7 +43,7 @@ class QueueTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that has returns whether or not the value exists
      */
-    public function testContainsValueReturnsWhetherOrNotValueExists() : void
+    public function testContainsValueReturnsWhetherOrNotValueExists(): void
     {
         $this->assertFalse($this->queue->containsValue('foo'));
         $this->queue->enqueue('foo');
@@ -51,7 +53,7 @@ class QueueTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests counting
      */
-    public function testCounting() : void
+    public function testCounting(): void
     {
         $this->assertEquals(0, $this->queue->count());
         $this->queue->enqueue('foo');
@@ -63,7 +65,7 @@ class QueueTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that dequeueing removes the value from the beginning of the queue
      */
-    public function testDequeuingRemovesValueFromBeginningOfQueue() : void
+    public function testDequeuingRemovesValueFromBeginningOfQueue(): void
     {
         $this->queue->enqueue('foo');
         $this->queue->enqueue('bar');
@@ -76,7 +78,7 @@ class QueueTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that dequeueing when no values are in the queue returns null
      */
-    public function testDequeueingWhenNoValuesAreInQueueReturnsNull() : void
+    public function testDequeueingWhenNoValuesAreInQueueReturnsNull(): void
     {
         $this->assertNull($this->queue->dequeue());
     }
@@ -84,7 +86,7 @@ class QueueTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that enqueue adds the value to the end of the queue
      */
-    public function testEnqueueAddsValueToEndOfQueue() : void
+    public function testEnqueueAddsValueToEndOfQueue(): void
     {
         $this->queue->enqueue('foo');
         $this->queue->enqueue('bar');
@@ -95,7 +97,7 @@ class QueueTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests iterating over the values
      */
-    public function testIteratingOverValues() : void
+    public function testIteratingOverValues(): void
     {
         $this->queue->enqueue('foo');
         $this->queue->enqueue('bar');
@@ -111,7 +113,7 @@ class QueueTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that peeking when no values are in the queue returns null
      */
-    public function testPeekingWhenNoValuesInQueueReturnsNull() : void
+    public function testPeekingWhenNoValuesInQueueReturnsNull(): void
     {
         $this->assertNull($this->queue->peek());
     }
@@ -119,7 +121,7 @@ class QueueTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that peek returns the value at the beginning
      */
-    public function testPeekReturnsValueAtBeginning() : void
+    public function testPeekReturnsValueAtBeginning(): void
     {
         $this->queue->enqueue('foo');
         $this->assertEquals('foo', $this->queue->peek());
@@ -130,7 +132,7 @@ class QueueTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that converting to an array actually converts it
      */
-    public function testToArrayConvertsTheQueueToArray() : void
+    public function testToArrayConvertsTheQueueToArray(): void
     {
         $this->queue->enqueue('foo');
         $this->queue->enqueue('bar');

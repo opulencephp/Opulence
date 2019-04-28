@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders\Tests\PostgreSql;
 
@@ -21,7 +23,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a column to return
      */
-    public function testAddReturning() : void
+    public function testAddReturning(): void
     {
         $query = new InsertQuery('users', ['name' => 'dave']);
         $query->returning('id')
@@ -35,7 +37,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests all the methods in a single, complicated query
      */
-    public function testEverything() : void
+    public function testEverything(): void
     {
         $query = new InsertQuery('users', ['name' => 'dave']);
         $query->addColumnValues(['email' => 'foo@bar.com'])
@@ -51,7 +53,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests returning a column value
      */
-    public function testReturning() : void
+    public function testReturning(): void
     {
         $query = new InsertQuery('users', ['name' => 'dave']);
         $query->returning('id', 'name');

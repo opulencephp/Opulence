@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Authentication\Bootstrappers;
 
@@ -17,31 +19,18 @@ use Opulence\Authentication\Credentials\Authenticators\IAuthenticator;
 use Opulence\Authentication\Credentials\Authenticators\IAuthenticatorRegistry;
 use Opulence\Authentication\IAuthenticationContext;
 use Opulence\Authentication\Users\Orm\IUserRepository;
-use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
  * Defines the authentication bootstrapper
  */
-abstract class AuthenticationBootstrapper extends LazyBootstrapper
+abstract class AuthenticationBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc
      */
-    public function getBindings() : array
-    {
-        return [
-            IAuthenticatorRegistry::class,
-            IAuthenticator::class,
-            IUserRepository::class,
-            IAuthenticationContext::class
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         // Create the components
         $authenticationContext = $this->getAuthenticationContext($container);
@@ -60,7 +49,7 @@ abstract class AuthenticationBootstrapper extends LazyBootstrapper
      * @param IContainer $container The IoC container
      * @return IUserRepository The user repository
      */
-    abstract protected function getUserRepository(IContainer $container) : IUserRepository;
+    abstract protected function getUserRepository(IContainer $container): IUserRepository;
 
     /**
      * Gets the authentication context
@@ -68,7 +57,7 @@ abstract class AuthenticationBootstrapper extends LazyBootstrapper
      * @param IContainer $container The IoC container
      * @return IAuthenticationContext The authentication context
      */
-    protected function getAuthenticationContext(IContainer $container) : IAuthenticationContext
+    protected function getAuthenticationContext(IContainer $container): IAuthenticationContext
     {
         return new AuthenticationContext();
     }
@@ -79,7 +68,7 @@ abstract class AuthenticationBootstrapper extends LazyBootstrapper
      * @param IContainer $container The IoC container
      * @return IAuthenticator The authenticator
      */
-    protected function getAuthenticator(IContainer $container) : IAuthenticator
+    protected function getAuthenticator(IContainer $container): IAuthenticator
     {
         $authenticatorRegistry = new AuthenticatorRegistry();
         $authenticator = new Authenticator($authenticatorRegistry);

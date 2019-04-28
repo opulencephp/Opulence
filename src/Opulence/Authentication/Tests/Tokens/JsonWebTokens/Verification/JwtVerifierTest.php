@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens\Verification;
 
@@ -24,16 +26,16 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 class JwtVerifierTest extends \PHPUnit\Framework\TestCase
 {
     /** @var JwtVerifier The verifier to use in tests */
-    private $verifier = null;
+    private $verifier;
     /** @var ISigner The signer to use in tests */
-    private $signer = null;
+    private $signer;
     /** @var VerificationContext The verification context to use in tests */
-    private $context = null;
+    private $context;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->verifier = new JwtVerifier();
         $this->signer = $this->createMock(ISigner::class);
@@ -49,7 +51,7 @@ class JwtVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests verifying a valid token
      */
-    public function testVerifyingValidToken() : void
+    public function testVerifyingValidToken(): void
     {
         $jwt = new SignedJwt(new JwtHeader(), new JwtPayload(), 'signature');
         $errors = [];

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Authentication\Http\Middleware;
 
@@ -27,13 +29,13 @@ use Opulence\Routing\Middleware\IMiddleware;
 class Authenticate implements IMiddleware
 {
     /** @var IAuthenticator The authenticator */
-    protected $authenticator = null;
+    protected $authenticator;
     /** @var IAuthenticationContext The authentication context */
-    protected $authenticationContext = null;
+    protected $authenticationContext;
     /** @var IAuthority The authority */
-    protected $authority = null;
+    protected $authority;
     /** @var IHttpCredentialIO The credential IO */
-    protected $credentialIO = null;
+    protected $credentialIO;
 
     /**
      * @param IAuthenticator $authenticator The authenticator
@@ -56,7 +58,7 @@ class Authenticate implements IMiddleware
     /**
      * @inheritdoc
      */
-    public function handle(Request $request, Closure $next) : Response
+    public function handle(Request $request, Closure $next): Response
     {
         $credential = $this->credentialIO->read($request);
 

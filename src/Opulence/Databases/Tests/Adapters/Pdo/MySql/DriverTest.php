@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Tests\Adapters\Pdo\MySql;
 
@@ -21,7 +23,7 @@ class DriverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating the DSN with a Unix socket specified
      */
-    public function testCreatingDSNWithUnixSocket() : void
+    public function testCreatingDSNWithUnixSocket(): void
     {
         $server = new Server();
         $driver = new Driver();
@@ -35,7 +37,7 @@ class DriverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating the DSN without a Unix socket specified
      */
-    public function testCreatingDSNWithoutUnixSocket() : void
+    public function testCreatingDSNWithoutUnixSocket(): void
     {
         $server = new Server();
         $driver = new Driver();
@@ -52,7 +54,7 @@ class DriverTest extends \PHPUnit\Framework\TestCase
      * @param array $connectionOptions The connection options
      * @return string The DSN for the input driver and server
      */
-    private function getDSN(Driver $driver, Server $server, array $connectionOptions = []) : string
+    private function getDSN(Driver $driver, Server $server, array $connectionOptions = []): string
     {
         $class = new \ReflectionClass(get_class($driver));
         $method = $class->getMethod('getDSN');

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Commands;
 
@@ -26,12 +28,11 @@ About <b>Apex</b>
 {{commands}}
 EOF;
     /** @var PaddingFormatter The space padding formatter to use */
-    private $paddingFormatter = null;
+    private $paddingFormatter;
 
     /**
      * @param CommandCollection $commands The list of commands
      * @param PaddingFormatter $paddingFormatter The space padding formatter to use
-     * @param string $applicationVersion The version number of the application
      */
     public function __construct(
         CommandCollection $commands,
@@ -46,7 +47,7 @@ EOF;
     /**
      * @inheritdoc
      */
-    protected function define() : void
+    protected function define(): void
     {
         $this->setName('about')
             ->setDescription('Describes the Apex console application');
@@ -69,7 +70,7 @@ EOF;
      *
      * @return string The commands as text
      */
-    private function getCommandText() : string
+    private function getCommandText(): string
     {
         if (count($this->commandCollection->getAll()) === 0) {
             return '  <info>No commands</info>';
@@ -124,18 +125,22 @@ EOF;
             $commandTexts[] = [$command->getName(), $command->getDescription()];
         }
 
-        return $this->paddingFormatter->format($commandTexts,
+        return $this->paddingFormatter->format(
+            $commandTexts,
             function ($row) use ($categorizedCommandNames, $firstCommandNamesToCategories) {
                 $output = '';
 
                 // If this is the first command of its category, display the category
-                if (in_array(trim($row[0]),
-                        $categorizedCommandNames) && isset($firstCommandNamesToCategories[trim($row[0])])
+                if (in_array(
+                    trim($row[0]),
+                    $categorizedCommandNames
+                ) && isset($firstCommandNamesToCategories[trim($row[0])])
                 ) {
                     $output .= "<comment>{$firstCommandNamesToCategories[trim($row[0])]}</comment>" . PHP_EOL;
                 }
 
                 return $output . "  <info>{$row[0]}</info> - {$row[1]}";
-            });
+            }
+        );
     }
 }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Tests\Mocks;
 
@@ -22,9 +24,9 @@ use PDO;
 class Connection implements IConnection
 {
     /** @var Provider The provider used by this connection */
-    private $provider = null;
+    private $provider;
     /** @var RealServer The server to connect to */
-    private $server = null;
+    private $server;
     /** @var bool Whether or not we're in a transaction */
     private $inTransaction = false;
     /** @var array The mapping of sequence names to last insert Ids */
@@ -88,7 +90,7 @@ class Connection implements IConnection
     /**
      * @inheritdoc
      */
-    public function getDatabaseProvider() : Provider
+    public function getDatabaseProvider(): Provider
     {
         return $this->provider;
     }
@@ -96,7 +98,7 @@ class Connection implements IConnection
     /**
      * @inheritdoc
      */
-    public function getServer() : Server
+    public function getServer(): Server
     {
         return $this->server;
     }
@@ -158,7 +160,7 @@ class Connection implements IConnection
     /**
      * @param bool $shouldFailOnPurpose
      */
-    public function setToFailOnPurpose($shouldFailOnPurpose) : void
+    public function setToFailOnPurpose($shouldFailOnPurpose): void
     {
         $this->shouldFailOnPurpose = $shouldFailOnPurpose;
     }

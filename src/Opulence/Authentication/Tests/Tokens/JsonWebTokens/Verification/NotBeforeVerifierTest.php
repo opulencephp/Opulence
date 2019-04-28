@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens\Verification;
 
@@ -15,6 +17,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtErrorTypes;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\NotBeforeVerifier;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the not-before verifier
@@ -22,16 +25,16 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\NotBeforeVerifier;
 class NotBeforeVerifierTest extends \PHPUnit\Framework\TestCase
 {
     /** @var NotBeforeVerifier The verifier to use in tests */
-    private $verifier = null;
-    /** @var SignedJwt|\PHPUnit_Framework_MockObject_MockObject The token to use in tests */
-    private $jwt = null;
-    /** @var JwtPayload|\PHPUnit_Framework_MockObject_MockObject The payload to use in tests */
-    private $jwtPayload = null;
+    private $verifier;
+    /** @var SignedJwt|MockObject The token to use in tests */
+    private $jwt;
+    /** @var JwtPayload|MockObject The payload to use in tests */
+    private $jwtPayload;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->verifier = new NotBeforeVerifier();
         $this->jwt = $this->getMockBuilder(SignedJwt::class)
@@ -46,7 +49,7 @@ class NotBeforeVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a not activated token
      */
-    public function testNotActivatedToken() : void
+    public function testNotActivatedToken(): void
     {
         $date = new DateTimeImmutable('+30 second');
         $this->jwtPayload->expects($this->once())
@@ -59,7 +62,7 @@ class NotBeforeVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests verifying valid token
      */
-    public function testVerifyingValidToken() : void
+    public function testVerifyingValidToken(): void
     {
         $date = new DateTimeImmutable('-30 second');
         $this->jwtPayload->expects($this->once())

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Commands;
 
@@ -23,9 +25,9 @@ class CommandCollection
     /** @var ICommand[] The list of commands */
     private $commands = [];
     /** @var ICompiler The command compiler */
-    private $commandCompiler = null;
+    private $commandCompiler;
     /** @var ArrayListParser The request parser */
-    private $requestParser = null;
+    private $requestParser;
 
     /**
      * @param ICompiler $commandCompiler The command compiler
@@ -43,7 +45,7 @@ class CommandCollection
      * @param bool $overwrite True if we will overwrite a command with the same name if it already exists
      * @throws InvalidArgumentException Thrown if a command with the input name already exists
      */
-    public function add(ICommand $command, bool $overwrite = false) : void
+    public function add(ICommand $command, bool $overwrite = false): void
     {
         if (!$overwrite && $this->has($command->getName())) {
             throw new InvalidArgumentException("A command with name \"{$command->getName()}\" already exists");
@@ -63,7 +65,7 @@ class CommandCollection
      * @return int|null The status code of the command
      * @throws InvalidArgumentException Thrown if no command exists with the input name
      */
-    public function call(string $commandName, IResponse $response, array $arguments = [], array $options = []) : ?int
+    public function call(string $commandName, IResponse $response, array $arguments = [], array $options = []): ?int
     {
         $request = $this->requestParser->parse([
             'name' => $commandName,
@@ -82,7 +84,7 @@ class CommandCollection
      * @return ICommand The command
      * @throws InvalidArgumentException Thrown if no command with the input name exists
      */
-    public function get(string $name) : ICommand
+    public function get(string $name): ICommand
     {
         if (!$this->has($name)) {
             throw new InvalidArgumentException("No command with name \"$name\" exists");
@@ -96,7 +98,7 @@ class CommandCollection
      *
      * @return ICommand[] The list of commands
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         return array_values($this->commands);
     }
@@ -107,7 +109,7 @@ class CommandCollection
      * @param string $name The name of the command to look for
      * @return bool True if the command has been added, otherwise false
      */
-    public function has(string $name) : bool
+    public function has(string $name): bool
     {
         return isset($this->commands[$name]);
     }

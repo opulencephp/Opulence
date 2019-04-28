@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Caching;
 
@@ -18,21 +20,21 @@ use Opulence\Views\IView;
 interface ICache
 {
     /** The default lifetime of a cached view */
-    const DEFAULT_LIFETIME = 3600;
+    public const DEFAULT_LIFETIME = 3600;
     /** The default chance that garbage collection will be run in this instance */
-    const DEFAULT_GC_CHANCE = 1;
+    public const DEFAULT_GC_CHANCE = 1;
     /** The default number the chance will be divided by to calculate the probability */
-    const DEFAULT_GC_DIVISOR = 1000;
+    public const DEFAULT_GC_DIVISOR = 1000;
 
     /**
      * Flushes all of the compiled views from cache
      */
-    public function flush() : void;
+    public function flush(): void;
 
     /**
      * Performs garbage collection of expired views
      */
-    public function gc() : void;
+    public function gc(): void;
 
     /**
      * Gets the compiled view contents
@@ -41,7 +43,7 @@ interface ICache
      * @param bool $checkVars Whether or not we want to also check for variable value equivalence when looking up cached views
      * @return string|null The compiled view contents if it existed, otherwise null
      */
-    public function get(IView $view, bool $checkVars = false) : ?string;
+    public function get(IView $view, bool $checkVars = false): ?string;
 
     /**
      * Gets whether or not the cache has the compiled contents for the input view
@@ -50,7 +52,7 @@ interface ICache
      * @param bool $checkVars Whether or not we want to also check for variable value equivalence when looking up cached views
      * @return bool True if the cache has an unexpired compiled view, otherwise false
      */
-    public function has(IView $view, bool $checkVars = false) : bool;
+    public function has(IView $view, bool $checkVars = false): bool;
 
     /**
      * Stores a compiled view to cache
@@ -59,7 +61,7 @@ interface ICache
      * @param string $compiledContents The compiled view contents
      * @param bool $checkVars Whether or not we want to also check for variable value equivalence when looking up cached views
      */
-    public function set(IView $view, string $compiledContents, bool $checkVars = false) : void;
+    public function set(IView $view, string $compiledContents, bool $checkVars = false): void;
 
     /**
      * Sets the chance that garbage collection will be run
@@ -68,5 +70,5 @@ interface ICache
      * @param int $chance The chance (out of the total) that garbage collection will be run
      * @param int $divisor The number the chance will be divided by to calculate the probability
      */
-    public function setGCChance(int $chance, int $divisor = 100) : void;
+    public function setGCChance(int $chance, int $divisor = 100): void;
 }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Requests;
 
@@ -19,12 +21,12 @@ use Opulence\Console\Requests\Request;
 class RequestTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Request The request to use in tests */
-    private $request = null;
+    private $request;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->request = new Request();
     }
@@ -32,7 +34,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding multiple values for an option
      */
-    public function testAddingMultipleValuesForOption() : void
+    public function testAddingMultipleValuesForOption(): void
     {
         $this->request->addOptionValue('foo', 'bar');
         $this->assertEquals('bar', $this->request->getOptionValue('foo'));
@@ -43,7 +45,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an option with a value is set
      */
-    public function testCheckingIfOptionWithValueIsSet() : void
+    public function testCheckingIfOptionWithValueIsSet(): void
     {
         $this->request->addOptionValue('foo', 'bar');
         $this->assertTrue($this->request->optionIsSet('foo'));
@@ -52,7 +54,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an option without a value is set
      */
-    public function testCheckingIfOptionWithoutValueIsSet() : void
+    public function testCheckingIfOptionWithoutValueIsSet(): void
     {
         $this->request->addOptionValue('foo', null);
         $this->assertTrue($this->request->optionIsSet('foo'));
@@ -61,7 +63,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all arguments
      */
-    public function testGettingAllArguments() : void
+    public function testGettingAllArguments(): void
     {
         $this->request->addArgumentValue('foo');
         $this->request->addArgumentValue('bar');
@@ -71,7 +73,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all options
      */
-    public function testGettingAllOptions() : void
+    public function testGettingAllOptions(): void
     {
         $this->request->addOptionValue('foo', 'bar');
         $this->request->addOptionValue('baz', 'blah');
@@ -81,7 +83,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the command name
      */
-    public function testGettingCommandName() : void
+    public function testGettingCommandName(): void
     {
         $this->request->setCommandName('foo');
         $this->assertEquals('foo', $this->request->getCommandName());
@@ -90,7 +92,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a non-existent option
      */
-    public function testGettingNonExistentOption() : void
+    public function testGettingNonExistentOption(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->request->getOptionValue('foo');
@@ -99,7 +101,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an option
      */
-    public function testGettingOption() : void
+    public function testGettingOption(): void
     {
         $this->request->addOptionValue('foo', 'bar');
         $this->assertEquals('bar', $this->request->getOptionValue('foo'));

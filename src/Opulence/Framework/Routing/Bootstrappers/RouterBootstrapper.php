@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Routing\Bootstrappers;
 
@@ -35,14 +37,14 @@ use Opulence\Routing\Urls\UrlGenerator;
 class RouterBootstrapper extends Bootstrapper
 {
     /** @var ICache The route cache */
-    protected $cache = null;
+    protected $cache;
     /** @var IParser The route parser */
-    protected $parser = null;
+    protected $parser;
 
     /**
      * @inheritdoc
      */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         $this->cache = $this->getRouteCache($container);
         $dispatcher = $this->getRouteDispatcher($container);
@@ -63,7 +65,7 @@ class RouterBootstrapper extends Bootstrapper
      *
      * @param Router $router The router to configure
      */
-    protected function configureRouter(Router $router) : void
+    protected function configureRouter(Router $router): void
     {
         // Let extending classes define this
     }
@@ -75,7 +77,7 @@ class RouterBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return ICache The route cache
      */
-    protected function getRouteCache(IContainer $container) : ICache
+    protected function getRouteCache(IContainer $container): ICache
     {
         return new FileCache();
     }
@@ -87,7 +89,7 @@ class RouterBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return ICompiler The route compiler
      */
-    protected function getRouteCompiler(IContainer $container) : ICompiler
+    protected function getRouteCompiler(IContainer $container): ICompiler
     {
         return new Compiler($this->getRouteMatchers($container));
     }
@@ -99,7 +101,7 @@ class RouterBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return IRouteDispatcher The route dispatcher
      */
-    protected function getRouteDispatcher(IContainer $container) : IRouteDispatcher
+    protected function getRouteDispatcher(IContainer $container): IRouteDispatcher
     {
         return new RouteDispatcher(new ContainerDependencyResolver($container), new MiddlewarePipeline());
     }
@@ -110,7 +112,7 @@ class RouterBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return IRouteMatcher[] The list of route matchers
      */
-    protected function getRouteMatchers(IContainer $container) : array
+    protected function getRouteMatchers(IContainer $container): array
     {
         return [
             new PathMatcher(),
@@ -126,7 +128,7 @@ class RouterBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return IParser The route parser
      */
-    protected function getRouteParser(IContainer $container) : IParser
+    protected function getRouteParser(IContainer $container): IParser
     {
         return new Parser();
     }

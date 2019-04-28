@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Compilers\Fortune;
 
@@ -17,6 +19,7 @@ use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\Compilers\Fortune\Transpiler;
 use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\View;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test the Fortune directive transpiler registrant
@@ -24,20 +27,20 @@ use Opulence\Views\View;
 class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
 {
     /** @var DirectiveTranspilerRegistrant The registrant to use in tests */
-    private $registrant = null;
+    private $registrant;
     /** @var Transpiler The transpiler to use in tests */
-    private $transpiler = null;
+    private $transpiler;
     /** @var View The view to use in tests */
-    private $view = null;
+    private $view;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->view = new View();
         $this->registrant = new DirectiveTranspilerRegistrant();
-        /** @var ICache|\PHPUnit_Framework_MockObject_MockObject $cache */
+        /** @var ICache|MockObject $cache */
         $cache = $this->createMock(ICache::class);
         $cache->expects($this->any())
             ->method('has')
@@ -48,7 +51,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an else directive
      */
-    public function testTranspilingElse() : void
+    public function testTranspilingElse(): void
     {
         $this->view->setContents('<% else %>');
         $this->assertEquals(
@@ -60,7 +63,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an else-if directive
      */
-    public function testTranspilingElseIf() : void
+    public function testTranspilingElseIf(): void
     {
         $this->view->setContents('<% elseif(true) %>');
         $this->assertEquals(
@@ -72,7 +75,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an end-for directive
      */
-    public function testTranspilingEndFor() : void
+    public function testTranspilingEndFor(): void
     {
         $this->view->setContents('<% endfor %>');
         $this->assertEquals(
@@ -84,7 +87,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an end-foreach directive
      */
-    public function testTranspilingEndForeach() : void
+    public function testTranspilingEndForeach(): void
     {
         $this->view->setContents('<% endforeach %>');
         $this->assertEquals(
@@ -96,7 +99,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an end-if directive
      */
-    public function testTranspilingEndIf() : void
+    public function testTranspilingEndIf(): void
     {
         $this->view->setContents('<% endif %>');
         $this->assertEquals(
@@ -108,7 +111,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an end-part directive
      */
-    public function testTranspilingEndPart() : void
+    public function testTranspilingEndPart(): void
     {
         $this->view->setContents('<% endpart %>');
         $this->assertEquals(
@@ -120,7 +123,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an end-while directive
      */
-    public function testTranspilingEndWhile() : void
+    public function testTranspilingEndWhile(): void
     {
         $this->view->setContents('<% endwhile %>');
         $this->assertEquals(
@@ -132,7 +135,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an extend directive
      */
-    public function testTranspilingExtend() : void
+    public function testTranspilingExtend(): void
     {
         $this->view->setContents('<% extends("foo.php") %>bar');
         $expected = [
@@ -150,7 +153,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling a for directive
      */
-    public function testTranspilingFor() : void
+    public function testTranspilingFor(): void
     {
         $this->view->setContents('<% for($i=0;$i<10;$i++) %>');
         $this->assertEquals(
@@ -162,7 +165,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling a for-else directive
      */
-    public function testTranspilingForElse() : void
+    public function testTranspilingForElse(): void
     {
         $this->view->setContents('<% forelse %>');
         $this->assertEquals(
@@ -174,7 +177,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling a for-if directive
      */
-    public function testTranspilingForIf() : void
+    public function testTranspilingForIf(): void
     {
         $this->view->setContents('<% forif($foo as $bar) %>');
         $this->assertEquals(
@@ -188,7 +191,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling a foreach directive
      */
-    public function testTranspilingForeach() : void
+    public function testTranspilingForeach(): void
     {
         $this->view->setContents('<% foreach($foo as $bar) %>');
         $this->assertEquals(
@@ -200,7 +203,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an if directive
      */
-    public function testTranspilingIf() : void
+    public function testTranspilingIf(): void
     {
         $this->view->setContents('<% if(true) %>');
         $this->assertEquals(
@@ -212,7 +215,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an include directive
      */
-    public function testTranspilingInclude() : void
+    public function testTranspilingInclude(): void
     {
         $this->view->setContents('<% include("foo.php") %>bar');
         $code = '<?php call_user_func(function() use ($__opulenceViewFactory, $__opulenceFortuneTranspiler){';
@@ -231,7 +234,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an include directive with passed variables
      */
-    public function testTranspilingIncludeWithPassedVariables() : void
+    public function testTranspilingIncludeWithPassedVariables(): void
     {
         $this->view->setContents('<% include("foo.php", ["foo" => "bar"]) %>baz');
         $code = '<?php call_user_func(function() use ($__opulenceViewFactory, $__opulenceFortuneTranspiler){';
@@ -250,7 +253,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an include directive with passed variables that contain a comma
      */
-    public function testTranspilingIncludeWithPassedVariablesThatContainComma() : void
+    public function testTranspilingIncludeWithPassedVariablesThatContainComma(): void
     {
         $this->view->setContents('<% include("foo.php", compact("foo", "bar")) %>baz');
         $code = '<?php call_user_func(function() use ($__opulenceViewFactory, $__opulenceFortuneTranspiler){';
@@ -269,7 +272,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an include directive with a variable view name and passed variables
      */
-    public function testTranspilingIncludeWithVariableViewNameAndPassedVariables() : void
+    public function testTranspilingIncludeWithVariableViewNameAndPassedVariables(): void
     {
         $this->view->setContents('<% include($foo, ["foo" => "bar"]) %>baz');
         $code = '<?php call_user_func(function() use ($__opulenceViewFactory, $__opulenceFortuneTranspiler){';
@@ -288,7 +291,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling a parent directive
      */
-    public function testTranspilingParent() : void
+    public function testTranspilingParent(): void
     {
         $this->view->setContents('<% parent %>');
         $this->assertEquals(
@@ -300,7 +303,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling a part directive
      */
-    public function testTranspilingPart() : void
+    public function testTranspilingPart(): void
     {
         $this->view->setContents('<% part("foo") %>');
         $this->assertEquals(
@@ -312,7 +315,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling a show directive
      */
-    public function testTranspilingShow() : void
+    public function testTranspilingShow(): void
     {
         $this->view->setContents('<% show("foo") %>');
         $this->assertEquals(
@@ -324,7 +327,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling a show directive without an expression
      */
-    public function testTranspilingShowWithoutExpression() : void
+    public function testTranspilingShowWithoutExpression(): void
     {
         $this->view->setContents('<% show %>');
         $this->assertEquals(
@@ -336,7 +339,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling a while directive
      */
-    public function testTranspilingWhile() : void
+    public function testTranspilingWhile(): void
     {
         $this->view->setContents('<% while(true) %>');
         $this->assertEquals(

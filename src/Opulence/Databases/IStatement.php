@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases;
 
@@ -45,7 +47,7 @@ interface IStatement
      *      If mapping to an array, the first item should be the value and the second should be the data type constant
      * @return bool True if successful, otherwise false
      */
-    public function bindValues(array $values) : bool;
+    public function bindValues(array $values): bool;
 
     /**
      * Frees up the connection to the server, but lets the statement be executed again

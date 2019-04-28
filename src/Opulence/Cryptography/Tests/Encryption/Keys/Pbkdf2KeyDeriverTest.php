@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cryptography\Tests\Encryption\Keys;
 
@@ -20,12 +22,12 @@ use Opulence\Cryptography\Encryption\Keys\Pbkdf2KeyDeriver;
 class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Pbkdf2KeyDeriver The key deriver to use in tests */
-    private $keyDeriver = null;
+    private $keyDeriver;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->keyDeriver = new Pbkdf2KeyDeriver();
     }
@@ -33,7 +35,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     /**
      * Test deriving keys from a key
      */
-    public function testDerivingKeysFromKey() : void
+    public function testDerivingKeysFromKey(): void
     {
         $salt = random_bytes(IKeyDeriver::KEY_SALT_BYTE_LENGTH);
         $keyLengths = [16, 24, 32];
@@ -50,7 +52,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     /**
      * Test deriving keys from a password
      */
-    public function testDerivingKeysFromPassword() : void
+    public function testDerivingKeysFromPassword(): void
     {
         $salt = random_bytes(IKeyDeriver::KEY_SALT_BYTE_LENGTH);
         $keyLengths = [16, 24, 32];
@@ -66,7 +68,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an invalid salt length throws an exception
      */
-    public function testInvalidSaltLengthThrowsException() : void
+    public function testInvalidSaltLengthThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->keyDeriver->deriveKeysFromPassword('foo', 'bar', 512);

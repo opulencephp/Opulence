@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Requests;
 
@@ -27,7 +29,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function addArgumentValue($value) : void
+    public function addArgumentValue($value): void
     {
         $this->arguments[] = $value;
     }
@@ -35,7 +37,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function addOptionValue(string $name, $value) : void
+    public function addOptionValue(string $name, $value): void
     {
         if ($this->optionIsSet($name)) {
             // We now consider this option to have multiple values
@@ -52,7 +54,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function getArgumentValues() : array
+    public function getArgumentValues(): array
     {
         return $this->arguments;
     }
@@ -60,7 +62,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function getCommandName() : string
+    public function getCommandName(): string
     {
         return $this->commandName;
     }
@@ -80,7 +82,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function getOptionValues() : array
+    public function getOptionValues(): array
     {
         return $this->options;
     }
@@ -88,7 +90,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function optionIsSet(string $name) : bool
+    public function optionIsSet(string $name): bool
     {
         // Don't use isset because the value very well might be null, in which case we'd still return true
         return array_key_exists($name, $this->options);
@@ -97,7 +99,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function setCommandName(string $name) : void
+    public function setCommandName(string $name): void
     {
         $this->commandName = $name;
     }

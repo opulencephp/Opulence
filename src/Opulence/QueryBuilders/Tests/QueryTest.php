@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders\Tests;
 
@@ -20,12 +22,12 @@ use PDO;
 class QueryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Query The query object stub */
-    private $query = null;
+    private $query;
 
     /**
      * Sets up the test
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->query = $this->getMockForAbstractClass(Query::class);
     }
@@ -33,7 +35,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a named placeholder
      */
-    public function testAddingNamedPlaceholder() : void
+    public function testAddingNamedPlaceholder(): void
     {
         $this->query->addNamedPlaceholderValue('name', 'foo');
         $this->assertEquals([
@@ -44,7 +46,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the exception that should be thrown when adding a named placeholder after an unnamed one
      */
-    public function testAddingNamedPlaceholderAfterAddingUnnamedPlaceholder() : void
+    public function testAddingNamedPlaceholderAfterAddingUnnamedPlaceholder(): void
     {
         $this->expectException(InvalidQueryException::class);
         $this->query->addUnnamedPlaceholderValue('dave')
@@ -54,7 +56,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a named placeholder with data type
      */
-    public function testAddingNamedPlaceholderWithDataType() : void
+    public function testAddingNamedPlaceholderWithDataType(): void
     {
         $this->query->addNamedPlaceholderValue('userId', 18175, PDO::PARAM_INT);
         $this->assertEquals([
@@ -65,7 +67,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an array with the named value with the incorrect number of arguments
      */
-    public function testAddingNamedPlaceholderWithIncorrectArrayValueCount() : void
+    public function testAddingNamedPlaceholderWithIncorrectArrayValueCount(): void
     {
         $this->expectException(InvalidQueryException::class);
         $this->query->addNamedPlaceholderValues(['foo' => ['bar']]);
@@ -74,7 +76,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an unnamed placeholder
      */
-    public function testAddingUnnamedPlaceholder() : void
+    public function testAddingUnnamedPlaceholder(): void
     {
         $this->query->addUnnamedPlaceholderValue('foo');
         $this->assertEquals([
@@ -85,7 +87,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the exception that should be thrown when adding an unnamed placeholder after a named one
      */
-    public function testAddingUnnamedPlaceholderAfterAddingNamedPlaceholder() : void
+    public function testAddingUnnamedPlaceholderAfterAddingNamedPlaceholder(): void
     {
         $this->expectException(InvalidQueryException::class);
         $this->query->addNamedPlaceholderValue('id', 18175)
@@ -95,7 +97,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an unnamed placeholder with data type
      */
-    public function testAddingUnnamedPlaceholderWithDataType() : void
+    public function testAddingUnnamedPlaceholderWithDataType(): void
     {
         $this->query->addUnnamedPlaceholderValue(18175, PDO::PARAM_INT);
         $this->assertEquals([
@@ -106,7 +108,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an array with the unnamed value with the incorrect number of arguments
      */
-    public function testAddingUnnamedPlaceholderWithIncorrectArrayValueCount() : void
+    public function testAddingUnnamedPlaceholderWithIncorrectArrayValueCount(): void
     {
         $this->expectException(InvalidQueryException::class);
         $this->query->addUnnamedPlaceholderValues([['bar']]);
@@ -115,7 +117,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removing a named placeholder
      */
-    public function testRemovingNamedPlaceholder() : void
+    public function testRemovingNamedPlaceholder(): void
     {
         $key = 'foo';
         $this->query = $this->getMockForAbstractClass(Query::class);
@@ -127,7 +129,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removing a named placeholder when using unnamed placeholders
      */
-    public function testRemovingNamedPlaceholderWhenUsingUnnamedPlaceholders() : void
+    public function testRemovingNamedPlaceholderWhenUsingUnnamedPlaceholders(): void
     {
         $this->expectException(InvalidQueryException::class);
         $this->query->addUnnamedPlaceholderValue('foo');
@@ -137,7 +139,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removing an unnamed placeholder
      */
-    public function testRemovingUnnamedPlaceholder() : void
+    public function testRemovingUnnamedPlaceholder(): void
     {
         $this->query = $this->getMockForAbstractClass(Query::class);
         $this->query->addUnnamedPlaceholderValue('foo')
@@ -161,7 +163,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removing an unnamed placeholder when using named placeholders
      */
-    public function testRemovingUnnamedPlaceholderWhenUsingNamedPlaceholders() : void
+    public function testRemovingUnnamedPlaceholderWhenUsingNamedPlaceholders(): void
     {
         $this->expectException(InvalidQueryException::class);
         $this->query->addNamedPlaceholderValue('foo', 'bar');

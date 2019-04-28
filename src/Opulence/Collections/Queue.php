@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections;
 
@@ -26,7 +28,7 @@ class Queue implements Countable, IteratorAggregate
     /**
      * Clears all values from the queue
      */
-    public function clear() : void
+    public function clear(): void
     {
         $this->values = [];
     }
@@ -37,7 +39,7 @@ class Queue implements Countable, IteratorAggregate
      * @param mixed $value The value to search for
      * @return bool True if the value exists, otherwise false
      */
-    public function containsValue($value) : bool
+    public function containsValue($value): bool
     {
         return array_search($value, $this->values) !== false;
     }
@@ -45,7 +47,7 @@ class Queue implements Countable, IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->values);
     }
@@ -69,7 +71,7 @@ class Queue implements Countable, IteratorAggregate
      *
      * @param mixed $value The value to enqueue
      */
-    public function enqueue($value) : void
+    public function enqueue($value): void
     {
         $this->values[] = $value;
     }
@@ -77,7 +79,7 @@ class Queue implements Countable, IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function getIterator() : Traversable
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->values);
     }
@@ -97,7 +99,7 @@ class Queue implements Countable, IteratorAggregate
      *
      * @return array All of the values
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         return $this->values;
     }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Tests\Routes;
 
@@ -23,12 +25,12 @@ use Opulence\Routing\Tests\Mocks\Controller as MockController;
 class RouteCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RouteCollection The routes to use in tests */
-    private $collection = null;
+    private $collection;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->collection = new RouteCollection();
     }
@@ -36,7 +38,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a route
      */
-    public function testAdd() : void
+    public function testAdd(): void
     {
         $route = new ParsedRoute(new Route(RequestMethods::GET, '/users', 'foo@bar'));
         $this->collection->add($route);
@@ -46,7 +48,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deep cloning
      */
-    public function testDeepCloning() : void
+    public function testDeepCloning(): void
     {
         $route = new ParsedRoute(new Route(RequestMethods::GET, '/users', 'foo@bar'));
         $this->collection->add($route);
@@ -57,7 +59,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a route
      */
-    public function testGet() : void
+    public function testGet(): void
     {
         $getRoute = new ParsedRoute(new Route(RequestMethods::GET, '/users', 'foo@bar'));
         $postRoute = new ParsedRoute(new Route(RequestMethods::POST, '/users', 'foo@bar'));
@@ -79,7 +81,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an invalid method's routes
      */
-    public function testGettingInvalidMethodRoutes() : void
+    public function testGettingInvalidMethodRoutes(): void
     {
         $this->assertEquals([], $this->collection->get('methodThatDoeNotExist'));
     }
@@ -87,7 +89,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a named route
      */
-    public function testGettingNamedRoute() : void
+    public function testGettingNamedRoute(): void
     {
         $path = '/foo';
         $controller = MockController::class . '@@noParameters';
@@ -102,7 +104,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a non-existent named route
      */
-    public function testGettingNonExistentNamedRoute() : void
+    public function testGettingNonExistentNamedRoute(): void
     {
         $path = '/foo';
         $route = new ParsedRoute(new Route(RequestMethods::GET, $path, MockController::class . '@@noParameters'));
@@ -113,7 +115,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the routes
      */
-    public function testGettingRoutes() : void
+    public function testGettingRoutes(): void
     {
         $path = '/foo';
         $controller = MockController::class . '@@noParameters';
@@ -144,7 +146,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting routes for a method that does not have any
      */
-    public function testGettingRoutesForMethodThatDoesNotHaveAny() : void
+    public function testGettingRoutesForMethodThatDoesNotHaveAny(): void
     {
         $this->assertEquals([], $this->collection->get(RequestMethods::GET));
     }
@@ -152,7 +154,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a specific method's routes
      */
-    public function testGettingSpecificMethodRoutes() : void
+    public function testGettingSpecificMethodRoutes(): void
     {
         $path = '/foo';
         $getRoute = new ParsedRoute(new Route(RequestMethods::GET, $path, MockController::class . '@noParameters'));
@@ -164,7 +166,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that serializing works with a controller class
      */
-    public function testSerializingWorksWithControllerClass() : void
+    public function testSerializingWorksWithControllerClass(): void
     {
         $route = new Route('get', '/', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
@@ -179,7 +181,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that serializing works with controller classes
      */
-    public function testSerializingWorksWithControllerClosure() : void
+    public function testSerializingWorksWithControllerClosure(): void
     {
         $route = new Route('get', '/', function () {
             return 'foo';

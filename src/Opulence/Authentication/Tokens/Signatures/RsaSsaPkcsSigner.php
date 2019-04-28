@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tokens\Signatures;
 
@@ -19,11 +21,11 @@ use RuntimeException;
 class RsaSsaPkcsSigner implements ISigner
 {
     /** @var string The algorithm to use */
-    private $algorithm = Algorithms::SHA256;
+    private $algorithm;
     /** @var string|resource The public key */
-    private $publicKey = null;
+    private $publicKey;
     /** @var string|resource The private key */
-    private $privateKey = null;
+    private $privateKey;
 
     /**
      * @param string $algorithm The algorithm to use
@@ -40,7 +42,7 @@ class RsaSsaPkcsSigner implements ISigner
     /**
      * @inheritdoc
      */
-    public function getAlgorithm() : string
+    public function getAlgorithm(): string
     {
         return $this->algorithm;
     }
@@ -48,7 +50,7 @@ class RsaSsaPkcsSigner implements ISigner
     /**
      * @inheritdoc
      */
-    public function sign(string $data) : string
+    public function sign(string $data): string
     {
         $signature = '';
 
@@ -68,7 +70,7 @@ class RsaSsaPkcsSigner implements ISigner
     /**
      * @inheritdoc
      */
-    public function verify(string $data, string $signature) : bool
+    public function verify(string $data, string $signature): bool
     {
         if ($signature === '') {
             return false;
@@ -89,7 +91,7 @@ class RsaSsaPkcsSigner implements ISigner
      * @return int The PHP Id for the algorithm
      * @throws InvalidArgumentException Thrown if the algorithm is not an OpenSSL algorithm
      */
-    private function getOpenSslAlgorithm(string $algorithm) : int
+    private function getOpenSslAlgorithm(string $algorithm): int
     {
         switch ($algorithm) {
             case Algorithms::RSA_SHA256:

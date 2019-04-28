@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Routes\Compilers\Parsers;
 
@@ -25,7 +27,7 @@ class Parser implements IParser
      *
      * @internal
      */
-    const VARIABLE_MAXIMUM_LENGTH = 32;
+    public const VARIABLE_MAXIMUM_LENGTH = 32;
     /** @var string The variable matching regex */
     private static $variableMatchingRegex = '#:([a-zA-Z_][a-zA-Z0-9_]*)(?:=([^:\[\]/]+))?#';
     /** @var int The cursor of the currently parsed route */
@@ -36,7 +38,7 @@ class Parser implements IParser
     /**
      * @inheritdoc
      */
-    public function parse(Route $route) : ParsedRoute
+    public function parse(Route $route): ParsedRoute
     {
         $parsedRoute = new ParsedRoute($route);
         $parsedRoute->setPathRegex($this->convertRawStringToRegex($parsedRoute, $parsedRoute->getRawPath()));
@@ -53,7 +55,7 @@ class Parser implements IParser
      * @return string The regex
      * @throws RouteException Thrown if the route variables are not correctly defined
      */
-    private function convertRawStringToRegex(ParsedRoute $parsedRoute, string $rawString) : string
+    private function convertRawStringToRegex(ParsedRoute $parsedRoute, string $rawString): string
     {
         if (empty($rawString)) {
             return '#^.*$#';
@@ -105,7 +107,7 @@ class Parser implements IParser
      * @return string The variable regex
      * @throws RouteException Thrown if the variable definition is invalid
      */
-    private function getVarRegex(ParsedRoute $parsedRoute, string $segment) : string
+    private function getVarRegex(ParsedRoute $parsedRoute, string $segment): string
     {
         if (preg_match(self::$variableMatchingRegex, $segment, $matches) !== 1) {
             throw new RouteException("Variable name can't be empty");
@@ -115,10 +117,12 @@ class Parser implements IParser
         $defaultValue = $matches[2] ?? '';
 
         if (strlen($variableName) > self::VARIABLE_MAXIMUM_LENGTH) {
-            throw new RouteException(sprintf(
-                'Variable name "%s" cannot be longer than %d characters. Please use a shorter name.',
-                $variableName,
-                self::VARIABLE_MAXIMUM_LENGTH)
+            throw new RouteException(
+                sprintf(
+                    'Variable name "%s" cannot be longer than %d characters. Please use a shorter name.',
+                    $variableName,
+                    self::VARIABLE_MAXIMUM_LENGTH
+            )
             );
         }
 

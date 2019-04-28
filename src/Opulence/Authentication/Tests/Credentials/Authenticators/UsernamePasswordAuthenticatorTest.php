@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Credentials\Authenticators;
 
@@ -17,6 +19,7 @@ use Opulence\Authentication\ISubject;
 use Opulence\Authentication\Roles\Orm\IRoleRepository;
 use Opulence\Authentication\Users\IUser;
 use Opulence\Authentication\Users\Orm\IUserRepository;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the username/password authenticator
@@ -24,18 +27,18 @@ use Opulence\Authentication\Users\Orm\IUserRepository;
 class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var UsernamePasswordAuthenticator The authenticator to use in tests */
-    private $authenticator = null;
-    /** @var IUserRepository|\PHPUnit_Framework_MockObject_MockObject The user repository to use in tests */
-    private $userRepository = null;
-    /** @var IRoleRepository|\PHPUnit_Framework_MockObject_MockObject The role repository to use in tests */
-    private $roleRepository = null;
-    /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject The credential to use in tests */
-    private $credential = null;
+    private $authenticator;
+    /** @var IUserRepository|MockObject The user repository to use in tests */
+    private $userRepository;
+    /** @var IRoleRepository|MockObject The role repository to use in tests */
+    private $roleRepository;
+    /** @var ICredential|MockObject The credential to use in tests */
+    private $credential;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->userRepository = $this->createMock(IUserRepository::class);
         $this->roleRepository = $this->createMock(IRoleRepository::class);
@@ -46,7 +49,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a correct password returns true
      */
-    public function testCorrectPasswordReturnsTrue() : void
+    public function testCorrectPasswordReturnsTrue(): void
     {
         $this->roleRepository->expects($this->once())
             ->method('getRoleNamesForSubject')
@@ -82,7 +85,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an incorrect password returns false
      */
-    public function testIncorrectPasswordReturnsFalse() : void
+    public function testIncorrectPasswordReturnsFalse(): void
     {
         $this->credential->expects($this->at(0))
             ->method('getValue')
@@ -109,7 +112,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a non-existent username returns false
      */
-    public function testNonExistentUsernameReturnsFalse() : void
+    public function testNonExistentUsernameReturnsFalse(): void
     {
         $this->credential->expects($this->at(0))
             ->method('getValue')
@@ -132,7 +135,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unset password credential returns false
      */
-    public function testUnsetPasswordCredentialReturnsFalse() : void
+    public function testUnsetPasswordCredentialReturnsFalse(): void
     {
         $this->credential->expects($this->at(0))
             ->method('getValue')
@@ -151,7 +154,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unset username credential returns false
      */
-    public function testUnsetUsernameCredentialReturnsFalse() : void
+    public function testUnsetUsernameCredentialReturnsFalse(): void
     {
         $this->credential->expects($this->at(0))
             ->method('getValue')

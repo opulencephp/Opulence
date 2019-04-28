@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing;
 
@@ -28,17 +30,17 @@ use Opulence\Routing\Routes\RouteCollection;
 class Router
 {
     /** @var ICompiler The compiler used by this router */
-    protected $compiler = null;
+    protected $compiler;
     /** @var IParser The parser used by this router */
-    protected $parser = null;
+    protected $parser;
     /** @var IRouteDispatcher The route dispatcher */
-    protected $dispatcher = null;
+    protected $dispatcher;
     /** @var RouteCollection The list of routes */
-    protected $routeCollection = null;
+    protected $routeCollection;
     /** @var CompiledRoute|null The matched route if there is one, otherwise null */
-    protected $matchedRoute = null;
+    protected $matchedRoute;
     /** @var Controller|mixed|null The matched controller if there is one, otherwise null */
-    protected $matchedController = null;
+    protected $matchedController;
     /** @var array The list of options in the current group stack */
     protected $groupOptionsStack = [];
 
@@ -64,7 +66,7 @@ class Router
      * @param Route $route The route to add
      * @return ParsedRoute The route with the group settings applied
      */
-    public function addRoute(Route $route) : ParsedRoute
+    public function addRoute(Route $route): ParsedRoute
     {
         $route = $this->applyGroupSettings($route);
         $parsedRoute = $this->parser->parse($route);
@@ -81,7 +83,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute[] The list of generated routes
      */
-    public function any(string $path, $controller, array $options = []) : array
+    public function any(string $path, $controller, array $options = []): array
     {
         return $this->multiple(RouteCollection::getMethods(), $path, $controller, $options);
     }
@@ -94,7 +96,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
-    public function delete(string $path, $controller, array $options = []) : ParsedRoute
+    public function delete(string $path, $controller, array $options = []): ParsedRoute
     {
         $route = $this->createRoute(RequestMethods::DELETE, $path, $controller, $options);
 
@@ -109,7 +111,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
-    public function get(string $path, $controller, array $options = []) : ParsedRoute
+    public function get(string $path, $controller, array $options = []): ParsedRoute
     {
         $route = $this->createRoute(RequestMethods::GET, $path, $controller, $options);
 
@@ -127,7 +129,7 @@ class Router
     /**
      * @return CompiledRoute|null
      */
-    public function getMatchedRoute() : ?CompiledRoute
+    public function getMatchedRoute(): ?CompiledRoute
     {
         return $this->matchedRoute;
     }
@@ -137,7 +139,7 @@ class Router
      *
      * @return RouteCollection The route collection
      */
-    public function &getRouteCollection() : RouteCollection
+    public function &getRouteCollection(): RouteCollection
     {
         return $this->routeCollection;
     }
@@ -153,7 +155,7 @@ class Router
      *          "vars" => The list of path variable regular expressions all the routes must match
      * @param callable $callback A function that adds routes to the router
      */
-    public function group(array $options, callable $callback) : void
+    public function group(array $options, callable $callback): void
     {
         array_push($this->groupOptionsStack, $options);
         $callback($this);
@@ -168,7 +170,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
-    public function head(string $path, $controller, array $options = []) : ParsedRoute
+    public function head(string $path, $controller, array $options = []): ParsedRoute
     {
         $route = $this->createRoute(RequestMethods::HEAD, $path, $controller, $options);
 
@@ -184,7 +186,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute[] The list of routes generated
      */
-    public function multiple(array $methods, string $path, $controller, array $options = []) : array
+    public function multiple(array $methods, string $path, $controller, array $options = []): array
     {
         $routes = [];
 
@@ -205,7 +207,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
-    public function options(string $path, $controller, array $options = []) : ParsedRoute
+    public function options(string $path, $controller, array $options = []): ParsedRoute
     {
         $route = $this->createRoute(RequestMethods::OPTIONS, $path, $controller, $options);
 
@@ -220,7 +222,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
-    public function patch(string $path, $controller, array $options = []) : ParsedRoute
+    public function patch(string $path, $controller, array $options = []): ParsedRoute
     {
         $route = $this->createRoute(RequestMethods::PATCH, $path, $controller, $options);
 
@@ -235,7 +237,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
-    public function post(string $path, $controller, array $options = []) : ParsedRoute
+    public function post(string $path, $controller, array $options = []): ParsedRoute
     {
         $route = $this->createRoute(RequestMethods::POST, $path, $controller, $options);
 
@@ -250,7 +252,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
-    public function put(string $path, $controller, array $options = []) : ParsedRoute
+    public function put(string $path, $controller, array $options = []): ParsedRoute
     {
         $route = $this->createRoute(RequestMethods::PUT, $path, $controller, $options);
 
@@ -265,7 +267,7 @@ class Router
      * @throws RouteException Thrown if the controller or method could not be called
      * @throws HttpException Thrown if there was no matching route
      */
-    public function route(Request $request) : Response
+    public function route(Request $request): Response
     {
         $method = $request->getMethod();
 
@@ -287,7 +289,7 @@ class Router
     /**
      * @param RouteCollection $routeCollection
      */
-    public function setRouteCollection(RouteCollection $routeCollection) : void
+    public function setRouteCollection(RouteCollection $routeCollection): void
     {
         $this->routeCollection = $routeCollection;
     }
@@ -298,7 +300,7 @@ class Router
      * @param Route $route The route to apply the settings to
      * @return Route The route with the applied settings
      */
-    private function applyGroupSettings(Route $route) : Route
+    private function applyGroupSettings(Route $route): Route
     {
         $route->setRawPath($this->getGroupPath() . $route->getRawPath());
         $route->setRawHost($this->getGroupHost() . $route->getRawHost());
@@ -328,7 +330,7 @@ class Router
      * @param array $options The list of options for this path
      * @return Route The route from the input
      */
-    private function createRoute(string $method, string $path, $controller, array $options = []) : Route
+    private function createRoute(string $method, string $path, $controller, array $options = []): Route
     {
         return new Route([$method], $path, $controller, $options);
     }
@@ -338,7 +340,7 @@ class Router
      *
      * @return string The controller namespace
      */
-    private function getGroupControllerNamespace() : string
+    private function getGroupControllerNamespace(): string
     {
         $controllerNamespace = '';
 
@@ -361,7 +363,7 @@ class Router
      *
      * @return string The host
      */
-    private function getGroupHost() : string
+    private function getGroupHost(): string
     {
         $host = '';
 
@@ -379,7 +381,7 @@ class Router
      *
      * @return array The list of middleware of all the groups
      */
-    private function getGroupMiddleware() : array
+    private function getGroupMiddleware(): array
     {
         $middleware = [];
 
@@ -401,7 +403,7 @@ class Router
      *
      * @return string The path of all the groups concatenated together
      */
-    private function getGroupPath() : string
+    private function getGroupPath(): string
     {
         $path = '';
 
@@ -419,7 +421,7 @@ class Router
      *
      * @return array The The mapping of variable names to regexes
      */
-    private function getVarRegexes() : array
+    private function getVarRegexes(): array
     {
         $variableRegexes = [];
 
@@ -438,7 +440,7 @@ class Router
      *
      * @return bool True if the group is secure, otherwise false
      */
-    private function groupIsSecure() : bool
+    private function groupIsSecure(): bool
     {
         foreach ($this->groupOptionsStack as $groupOptions) {
             if (isset($groupOptions['https']) && $groupOptions['https']) {

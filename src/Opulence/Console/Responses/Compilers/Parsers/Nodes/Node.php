@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Responses\Compilers\Parsers\Nodes;
 
@@ -16,9 +18,9 @@ namespace Opulence\Console\Responses\Compilers\Parsers\Nodes;
 abstract class Node
 {
     /** @var mixed|null The value of the node */
-    protected $value = null;
+    protected $value;
     /** @var Node|null The parent node */
-    protected $parent = null;
+    protected $parent;
     /** @var Node[] The child nodes */
     protected $children = [];
 
@@ -35,7 +37,7 @@ abstract class Node
      *
      * @return bool True if this is a tag node, otherwise false
      */
-    abstract public function isTag() : bool;
+    abstract public function isTag(): bool;
 
     /**
      * Adds a child to this node
@@ -43,7 +45,7 @@ abstract class Node
      * @param Node $node The child to add
      * @return self Returns this for chaining
      */
-    public function addChild(Node $node) : self
+    public function addChild(Node $node): self
     {
         $node->setParent($this);
         $this->children[] = $node;
@@ -56,7 +58,7 @@ abstract class Node
      *
      * @return Node[] The list of children
      */
-    public function getChildren() : array
+    public function getChildren(): array
     {
         return $this->children;
     }
@@ -66,7 +68,7 @@ abstract class Node
      *
      * @return Node The parent node
      */
-    public function getParent() : Node
+    public function getParent(): Node
     {
         return $this->parent;
     }
@@ -86,7 +88,7 @@ abstract class Node
      *
      * @return bool True if this is a leaf, otherwise false
      */
-    public function isLeaf() : bool
+    public function isLeaf(): bool
     {
         return count($this->children) === 0;
     }
@@ -96,7 +98,7 @@ abstract class Node
      *
      * @return bool True if this is a root node, otherwise false
      */
-    public function isRoot() : bool
+    public function isRoot(): bool
     {
         return $this->parent == null;
     }
@@ -104,7 +106,7 @@ abstract class Node
     /**
      * @param Node|null $parent
      */
-    public function setParent(?Node $parent) : void
+    public function setParent(?Node $parent): void
     {
         $this->parent = $parent;
     }

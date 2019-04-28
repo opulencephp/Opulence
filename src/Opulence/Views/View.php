@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views;
 
@@ -16,21 +18,21 @@ namespace Opulence\Views;
 class View implements IView
 {
     /** The default open tag for unsanitized delimiter  */
-    const DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER = '{{!';
+    public const DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER = '{{!';
     /** The default close tag for unsanitized delimiter  */
-    const DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER = '!}}';
+    public const DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER = '!}}';
     /** The default open tag for sanitized delimiter  */
-    const DEFAULT_OPEN_SANITIZED_TAG_DELIMITER = '{{';
+    public const DEFAULT_OPEN_SANITIZED_TAG_DELIMITER = '{{';
     /** The default close tag for sanitized delimiter */
-    const DEFAULT_CLOSE_SANITIZED_TAG_DELIMITER = '}}';
+    public const DEFAULT_CLOSE_SANITIZED_TAG_DELIMITER = '}}';
     /** The default open tag for directive delimiter  */
-    const DEFAULT_OPEN_DIRECTIVE_DELIMITER = '<%';
+    public const DEFAULT_OPEN_DIRECTIVE_DELIMITER = '<%';
     /** The default close tag for directive delimiter */
-    const DEFAULT_CLOSE_DIRECTIVE_DELIMITER = '%>';
+    public const DEFAULT_CLOSE_DIRECTIVE_DELIMITER = '%>';
     /** The default open tag for comment delimiter  */
-    const DEFAULT_OPEN_COMMENT_DELIMITER = '{#';
+    public const DEFAULT_OPEN_COMMENT_DELIMITER = '{#';
     /** The default close tag for comment delimiter */
-    const DEFAULT_CLOSE_COMMENT_DELIMITER = '#}';
+    public const DEFAULT_CLOSE_COMMENT_DELIMITER = '#}';
 
     /** @var string The uncompiled contents of the view */
     protected $contents = '';
@@ -71,7 +73,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function getContents() : string
+    public function getContents(): string
     {
         return $this->contents;
     }
@@ -79,7 +81,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function getDelimiters($type) : array
+    public function getDelimiters($type): array
     {
         if (!isset($this->delimiters[$type])) {
             return [null, null];
@@ -91,7 +93,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -111,7 +113,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function getVars() : array
+    public function getVars(): array
     {
         return $this->vars;
     }
@@ -119,7 +121,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function hasVar(string $name) : bool
+    public function hasVar(string $name): bool
     {
         return array_key_exists($name, $this->vars);
     }
@@ -127,7 +129,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function setContents(string $contents) : void
+    public function setContents(string $contents): void
     {
         $this->contents = $contents;
     }
@@ -135,7 +137,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function setDelimiters($type, array $values) : void
+    public function setDelimiters($type, array $values): void
     {
         $this->delimiters[$type] = $values;
     }
@@ -143,7 +145,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function setPath(string $path) : void
+    public function setPath(string $path): void
     {
         $this->path = $path;
     }
@@ -151,7 +153,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function setVar(string $name, $value) : void
+    public function setVar(string $name, $value): void
     {
         $this->vars[$name] = $value;
     }
@@ -159,7 +161,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function setVars(array $namesToValues) : void
+    public function setVars(array $namesToValues): void
     {
         foreach ($namesToValues as $name => $value) {
             $this->setVar($name, $value);

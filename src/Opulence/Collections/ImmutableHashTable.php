@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections;
 
@@ -24,7 +26,7 @@ class ImmutableHashTable implements IImmutableDictionary
     /** @var KeyValuePair[] The list of values */
     protected $hashKeysToKvps = [];
     /** @var KeyHasher The key hasher to use */
-    private $keyHasher = null;
+    private $keyHasher;
 
     /**
      * @param KeyValuePair[] $kvps The list of values to add
@@ -47,7 +49,7 @@ class ImmutableHashTable implements IImmutableDictionary
     /**
      * @inheritdoc
      */
-    public function containsKey($key) : bool
+    public function containsKey($key): bool
     {
         return array_key_exists($this->getHashKey($key), $this->hashKeysToKvps);
     }
@@ -55,7 +57,7 @@ class ImmutableHashTable implements IImmutableDictionary
     /**
      * @inheritdoc
      */
-    public function containsValue($value) : bool
+    public function containsValue($value): bool
     {
         foreach ($this->hashKeysToKvps as $kvp) {
             if ($kvp->getValue() == $value) {
@@ -69,7 +71,7 @@ class ImmutableHashTable implements IImmutableDictionary
     /**
      * @inheritdoc
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->hashKeysToKvps);
     }
@@ -91,7 +93,7 @@ class ImmutableHashTable implements IImmutableDictionary
     /**
      * @inheritdoc
      */
-    public function getIterator() : Traversable
+    public function getIterator(): Traversable
     {
         return new ArrayIterator(array_values($this->hashKeysToKvps));
     }
@@ -99,7 +101,7 @@ class ImmutableHashTable implements IImmutableDictionary
     /**
      * @inheritdoc
      */
-    public function getKeys() : array
+    public function getKeys(): array
     {
         $keys = [];
 
@@ -113,7 +115,7 @@ class ImmutableHashTable implements IImmutableDictionary
     /**
      * @inheritdoc
      */
-    public function getValues() : array
+    public function getValues(): array
     {
         $values = [];
 
@@ -128,7 +130,7 @@ class ImmutableHashTable implements IImmutableDictionary
      * @inheritdoc
      * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function offsetExists($key) : bool
+    public function offsetExists($key): bool
     {
         return $this->containsKey($key);
     }
@@ -147,7 +149,7 @@ class ImmutableHashTable implements IImmutableDictionary
      * @inheritdoc
      * @throws RuntimeException Thrown because this is immutable
      */
-    public function offsetSet($key, $value) : void
+    public function offsetSet($key, $value): void
     {
         throw new RuntimeException('Cannot set values in ' . self::class);
     }
@@ -156,7 +158,7 @@ class ImmutableHashTable implements IImmutableDictionary
      * @inheritdoc
      * @throws RuntimeException Thrown because this is immutable
      */
-    public function offsetUnset($key) : void
+    public function offsetUnset($key): void
     {
         throw new RuntimeException('Cannot unset values in ' . self::class);
     }
@@ -164,7 +166,7 @@ class ImmutableHashTable implements IImmutableDictionary
     /**
      * @inheritdoc
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         return array_values($this->hashKeysToKvps);
     }
@@ -172,7 +174,7 @@ class ImmutableHashTable implements IImmutableDictionary
     /**
      * @inheritdoc
      */
-    public function tryGet($key, &$value) : bool
+    public function tryGet($key, &$value): bool
     {
         try {
             $value = $this->get($key);
@@ -191,7 +193,7 @@ class ImmutableHashTable implements IImmutableDictionary
      * @return string The hash key
      * @throws RuntimeException Thrown if the hash key could not be calculated
      */
-    protected function getHashKey($value) : string
+    protected function getHashKey($value): string
     {
         return $this->keyHasher->getHashKey($value);
     }

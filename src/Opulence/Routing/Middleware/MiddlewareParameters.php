@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Middleware;
 
@@ -16,9 +18,9 @@ namespace Opulence\Routing\Middleware;
 class MiddlewareParameters
 {
     /** @var string The middleware class name */
-    private $middlewareClassName = '';
+    private $middlewareClassName;
     /** @var array The middleware parameters */
-    private $parameters = [];
+    private $parameters;
 
     /**
      * @param string $middlewareClassName The middleware class name
@@ -33,7 +35,7 @@ class MiddlewareParameters
     /**
      * @return string
      */
-    public function getMiddlewareClassName() : string
+    public function getMiddlewareClassName(): string
     {
         return $this->middlewareClassName;
     }
@@ -41,7 +43,7 @@ class MiddlewareParameters
     /**
      * @return array
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         return $this->parameters;
     }

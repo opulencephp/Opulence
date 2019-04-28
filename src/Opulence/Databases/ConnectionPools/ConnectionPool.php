@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\ConnectionPools;
 
@@ -34,15 +36,15 @@ abstract class ConnectionPool
         'custom' => []
     ];
     /** @var IDriver The driver to use for connections made by this pool */
-    protected $driver = null;
+    protected $driver;
     /** @var array The list of connection options */
     protected $connectionOptions = [];
     /** @var array The list of driver options */
     protected $driverOptions = [];
     /** @var IConnection|null The connection to use for read queries */
-    protected $readConnection = null;
+    protected $readConnection;
     /** @var IConnection|null The connection to use for write queries */
-    protected $writeConnection = null;
+    protected $writeConnection;
 
     /**
      * @param IDriver $driver The driver to use
@@ -67,7 +69,7 @@ abstract class ConnectionPool
      *
      * @return array The list of driver names
      */
-    public static function getDriverNames() : array
+    public static function getDriverNames(): array
     {
         return array_keys(self::$drivers);
     }
@@ -75,7 +77,7 @@ abstract class ConnectionPool
     /**
      * @return IDriver
      */
-    public function getDriver() : IDriver
+    public function getDriver(): IDriver
     {
         return $this->driver;
     }
@@ -83,7 +85,7 @@ abstract class ConnectionPool
     /**
      * @return Server|null
      */
-    public function getMaster() : ?Server
+    public function getMaster(): ?Server
     {
         return $this->servers['master']['server'];
     }
@@ -95,7 +97,7 @@ abstract class ConnectionPool
      * @return IConnection The connection to use for reads
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
-    public function getReadConnection(Server $preferredServer = null) : IConnection
+    public function getReadConnection(Server $preferredServer = null): IConnection
     {
         if ($preferredServer !== null) {
             $this->addServer('custom', $preferredServer);
@@ -114,7 +116,7 @@ abstract class ConnectionPool
      * @return IConnection The connection to use for writes
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
-    public function getWriteConnection(Server $preferredServer = null) : IConnection
+    public function getWriteConnection(Server $preferredServer = null): IConnection
     {
         if ($preferredServer != null) {
             $this->addServer('custom', $preferredServer);
@@ -129,7 +131,7 @@ abstract class ConnectionPool
     /**
      * @param Server $master
      */
-    public function setMaster(Server $master) : void
+    public function setMaster(Server $master): void
     {
         $this->addServer('master', $master);
     }
@@ -140,7 +142,7 @@ abstract class ConnectionPool
      * @param Server $preferredServer The preferred server to connect to
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
-    abstract protected function setReadConnection(Server $preferredServer = null) : void;
+    abstract protected function setReadConnection(Server $preferredServer = null): void;
 
     /**
      * Sets the connection to use for write queries
@@ -148,7 +150,7 @@ abstract class ConnectionPool
      * @param Server $preferredServer The preferred server to connect to
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
-    abstract protected function setWriteConnection(Server $preferredServer = null) : void;
+    abstract protected function setWriteConnection(Server $preferredServer = null): void;
 
     /**
      * Adds a server to our list of servers
@@ -156,7 +158,7 @@ abstract class ConnectionPool
      * @param string $type The type of server we're trying to add, eg "master", "custom"
      * @param Server $server The server to add
      */
-    protected function addServer(string $type, Server $server) : void
+    protected function addServer(string $type, Server $server): void
     {
         switch ($type) {
             case 'master':
@@ -180,7 +182,7 @@ abstract class ConnectionPool
      * @param Server $server The server to connect to
      * @return IConnection The database connection
      */
-    protected function connectToServer(Server $server) : IConnection
+    protected function connectToServer(Server $server): IConnection
     {
         return $this->driver->connect($server, $this->connectionOptions, $this->driverOptions);
     }
@@ -193,7 +195,7 @@ abstract class ConnectionPool
      * @return IConnection The connection to the server
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
-    protected function getConnection(string $type, Server $server) : IConnection
+    protected function getConnection(string $type, Server $server): IConnection
     {
         switch ($type) {
             case 'master':

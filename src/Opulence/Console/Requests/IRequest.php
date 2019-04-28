@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Requests;
 
@@ -22,7 +24,7 @@ interface IRequest
      *
      * @param mixed $value The value of the argument
      */
-    public function addArgumentValue($value) : void;
+    public function addArgumentValue($value): void;
 
     /**
      * Sets the value of an option
@@ -32,21 +34,21 @@ interface IRequest
      * @param string $name The name of the option
      * @param mixed $value The value of the option
      */
-    public function addOptionValue(string $name, $value) : void;
+    public function addOptionValue(string $name, $value): void;
 
     /**
      * Gets all the values of arguments
      *
      * @return array The list of argument values
      */
-    public function getArgumentValues() : array;
+    public function getArgumentValues(): array;
 
     /**
      * Gets the name of the command the request calls
      *
      * @return string The name of the command the request calls
      */
-    public function getCommandName() : string;
+    public function getCommandName(): string;
 
     /**
      * Gets the value of an option
@@ -62,7 +64,7 @@ interface IRequest
      *
      * @return array The mapping of option names to their values
      */
-    public function getOptionValues() : array;
+    public function getOptionValues(): array;
 
     /**
      * Gets whether or not the input contains an option
@@ -70,12 +72,12 @@ interface IRequest
      * @param string $name The name of the option
      * @return bool True if the input has the option, otherwise false
      */
-    public function optionIsSet(string $name) : bool;
+    public function optionIsSet(string $name): bool;
 
     /**
      * Sets the name of the command the request calls
      *
      * @param string $name The name of the command the request calls
      */
-    public function setCommandName(string $name) : void;
+    public function setCommandName(string $name): void;
 }

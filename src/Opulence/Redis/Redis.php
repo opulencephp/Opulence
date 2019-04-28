@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Redis;
 
@@ -56,7 +58,7 @@ class Redis
      * @param array|string The key pattern or list of key patterns to delete
      * @return bool True if successful, otherwise false
      */
-    public function deleteKeyPatterns($keyPatterns) : bool
+    public function deleteKeyPatterns($keyPatterns): bool
     {
         if (is_string($keyPatterns)) {
             $keyPatterns = [$keyPatterns];

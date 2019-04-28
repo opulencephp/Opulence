@@ -1,18 +1,21 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Debug\Tests\Errors\Handlers;
 
 use ErrorException;
 use Opulence\Debug\Errors\Handlers\ErrorHandler;
 use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -20,15 +23,15 @@ use Psr\Log\LoggerInterface;
  */
 class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var IExceptionHandler|\PHPUnit_Framework_MockObject_MockObject */
-    private $exceptionHandler = null;
-    /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject The logger to use in tests */
-    private $logger = null;
+    /** @var IExceptionHandler|MockObject */
+    private $exceptionHandler;
+    /** @var LoggerInterface|MockObject The logger to use in tests */
+    private $logger;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->exceptionHandler = $this->getMockBuilder(IExceptionHandler::class)
             ->disableOriginalConstructor()
@@ -39,7 +42,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown() : void
+    protected function tearDown(): void
     {
         restore_error_handler();
     }
@@ -47,7 +50,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that default levels are not thrown
      */
-    public function testDefaultLevelsAreNotThrown() : void
+    public function testDefaultLevelsAreNotThrown(): void
     {
         $handler = $this->getErrorHandler();
         $handler->handle(E_DEPRECATED, 'foo');
@@ -59,7 +62,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the error handler is set
      */
-    public function testErrorHandlerIsSet() : void
+    public function testErrorHandlerIsSet(): void
     {
         $this->expectException(ErrorException::class);
         $handler = $this->getErrorHandler();
@@ -70,7 +73,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an error is converted to an exception
      */
-    public function testErrorIsConvertedToException() : void
+    public function testErrorIsConvertedToException(): void
     {
         $exceptionCaught = false;
 
@@ -92,7 +95,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the logger is never used by default
      */
-    public function testLoggerIsNeverUsedByDefault() : void
+    public function testLoggerIsNeverUsedByDefault(): void
     {
         $this->expectException(ErrorException::class);
         $handler = $this->getErrorHandler();
@@ -104,7 +107,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that specified levels are logged
      */
-    public function testSpecifiedLevelsAreLogged() : void
+    public function testSpecifiedLevelsAreLogged(): void
     {
         $handler = $this->getErrorHandler(E_NOTICE, 0);
         $this->logger->expects($this->once())
@@ -116,7 +119,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that specified levels are thrown
      */
-    public function testSpecifiedLevelsAreThrown() : void
+    public function testSpecifiedLevelsAreThrown(): void
     {
         $this->expectException(ErrorException::class);
         $handler = $this->getErrorHandler(null, E_DEPRECATED);
@@ -130,7 +133,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
      * @param int|null $thrownErrors The errors that are converted to exceptions
      * @return ErrorHandler The handler to use in tests
      */
-    private function getErrorHandler(?int $loggedErrors = null, ?int $thrownErrors = null) : ErrorHandler
+    private function getErrorHandler(?int $loggedErrors = null, ?int $thrownErrors = null): ErrorHandler
     {
         return new ErrorHandler(
             $this->logger,

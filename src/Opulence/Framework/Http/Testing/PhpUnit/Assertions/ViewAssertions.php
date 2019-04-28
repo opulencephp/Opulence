@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Http\Testing\PhpUnit\Assertions;
 
@@ -20,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 class ViewAssertions extends TestCase
 {
     /** @var Controller|mixed The matched controller */
-    protected $controller = null;
+    protected $controller;
 
     /**
      * Asserts that the view has a variable
@@ -29,7 +31,7 @@ class ViewAssertions extends TestCase
      * @return self For method chaining
      * @throws LogicException Thrown if the controller does not extend the base controller
      */
-    public function hasVar(string $name) : self
+    public function hasVar(string $name): self
     {
         $this->checkControllerSet();
 
@@ -45,7 +47,7 @@ class ViewAssertions extends TestCase
     /**
      * @param Controller|mixed $controller
      */
-    public function setController($controller) : void
+    public function setController($controller): void
     {
         $this->controller = $controller;
     }
@@ -58,7 +60,7 @@ class ViewAssertions extends TestCase
      * @return self For method chaining
      * @throws LogicException Thrown if the controller does not extend the base controller
      */
-    public function varEquals(string $name, $expected) : self
+    public function varEquals(string $name, $expected): self
     {
         $this->checkControllerSet();
 
@@ -75,7 +77,7 @@ class ViewAssertions extends TestCase
      * Checks if the controller was set
      * Useful for making sure the controller was set before making any assertions on it
      */
-    private function checkControllerSet() : void
+    private function checkControllerSet(): void
     {
         if ($this->controller === null) {
             $this->fail('Must call route() before assertions');

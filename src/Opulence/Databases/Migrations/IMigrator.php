@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Migrations;
 
@@ -20,7 +22,7 @@ interface IMigrator
      *
      * @return string[] The list of rolled back migration classes
      */
-    public function rollBackAllMigrations() : array;
+    public function rollBackAllMigrations(): array;
 
     /**
      * Rolls back a certain number of migrations
@@ -28,12 +30,12 @@ interface IMigrator
      * @param int $number The number of migrations from the end (1 is last migration)
      * @return string[] The list of rolled back migration classes
      */
-    public function rollBackMigrations(int $number = 1) : array;
+    public function rollBackMigrations(int $number = 1): array;
 
     /**
      * Runs the migrations
      *
      * @return string[] The list of run migration classes
      */
-    public function runMigrations() : array;
+    public function runMigrations(): array;
 }

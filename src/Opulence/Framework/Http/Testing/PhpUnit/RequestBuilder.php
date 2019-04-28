@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Http\Testing\PhpUnit;
 
@@ -20,11 +22,11 @@ use Opulence\Http\Requests\UploadedFile;
 class RequestBuilder
 {
     /** @var IntegrationTestCase The integration test that created this builder */
-    private $integrationTest = null;
+    private $integrationTest;
     /** @var string|null The URL of the request */
-    private $url = null;
+    private $url;
     /** @var string|null The HTTP method of the request */
-    private $method = null;
+    private $method;
     /** @var array The headers */
     private $server = [];
     /** @var array The parameters */
@@ -36,7 +38,7 @@ class RequestBuilder
     /** @var array The environment parameters */
     private $env = [];
     /** @var mixed|null The raw body */
-    private $rawBody = null;
+    private $rawBody;
 
     /**
      * @param IntegrationTestCase $integrationTest The integration test that created this builder
@@ -59,7 +61,7 @@ class RequestBuilder
      * @param string $url
      * @return self For method chaining
      */
-    public function from(string $url) : self
+    public function from(string $url): self
     {
         return $this->to($url);
     }
@@ -70,7 +72,7 @@ class RequestBuilder
      * @return IntegrationTestCase The application test case that created this
      * @throws InvalidArgumentException Thrown if the build request is invalid
      */
-    public function go() : IntegrationTestCase
+    public function go(): IntegrationTestCase
     {
         $this->validate();
 
@@ -95,7 +97,7 @@ class RequestBuilder
      * @param string $url
      * @return self For method chaining
      */
-    public function to(string $url) : self
+    public function to(string $url): self
     {
         $this->url = $url;
 
@@ -109,7 +111,7 @@ class RequestBuilder
      * @param bool $overwriteOld Whether or not to overwrite all old cookies
      * @return self For method chaining
      */
-    public function withCookies(array $cookies, bool $overwriteOld = false) : self
+    public function withCookies(array $cookies, bool $overwriteOld = false): self
     {
         $this->addValuesToCollection($cookies, $this->cookies, $overwriteOld);
 
@@ -123,7 +125,7 @@ class RequestBuilder
      * @param bool $overwriteOld Whether or not to overwrite all old environment vars
      * @return self For method chaining
      */
-    public function withEnvironmentVars(array $env, bool $overwriteOld = false) : self
+    public function withEnvironmentVars(array $env, bool $overwriteOld = false): self
     {
         $this->addValuesToCollection($env, $this->env, $overwriteOld);
 
@@ -137,7 +139,7 @@ class RequestBuilder
      * @param bool $overwriteOld Whether or not to overwrite all old files
      * @return self For method chaining
      */
-    public function withFiles(array $files, bool $overwriteOld = false) : self
+    public function withFiles(array $files, bool $overwriteOld = false): self
     {
         $this->addValuesToCollection($files, $this->files, $overwriteOld);
 
@@ -151,7 +153,7 @@ class RequestBuilder
      * @param bool $overwriteOld Whether or not to overwrite all old headers
      * @return self For method chaining
      */
-    public function withHeaders(array $headers, bool $overwriteOld = false) : self
+    public function withHeaders(array $headers, bool $overwriteOld = false): self
     {
         $prefixedServerVars = [];
 
@@ -175,7 +177,7 @@ class RequestBuilder
      * @param array $json The JSON to add
      * @return self For method chaining
      */
-    public function withJson(array $json) : self
+    public function withJson(array $json): self
     {
         $encodedJson = json_encode($json);
         $headers = [
@@ -197,7 +199,7 @@ class RequestBuilder
      * @param bool $overwriteOld Whether or not to overwrite all old parameters
      * @return self For method chaining
      */
-    public function withParameters(array $parameters, bool $overwriteOld = false) : self
+    public function withParameters(array $parameters, bool $overwriteOld = false): self
     {
         $this->addValuesToCollection($parameters, $this->parameters, $overwriteOld);
 
@@ -210,7 +212,7 @@ class RequestBuilder
      * @param mixed $rawBody The raw body
      * @return self For method chaining
      */
-    public function withRawBody($rawBody) : self
+    public function withRawBody($rawBody): self
     {
         $this->rawBody = $rawBody;
 
@@ -224,7 +226,7 @@ class RequestBuilder
      * @param bool $overwriteOld Whether or not to overwrite all old server vars
      * @return self For method chaining
      */
-    public function withServerVars(array $serverVars, bool $overwriteOld = false) : self
+    public function withServerVars(array $serverVars, bool $overwriteOld = false): self
     {
         $this->addValuesToCollection($serverVars, $this->server, $overwriteOld);
 
@@ -238,7 +240,7 @@ class RequestBuilder
      * @param array $collection The collection to add to
      * @param bool $overwriteOld Whether or not clear the collection before adding the new values
      */
-    private function addValuesToCollection(array $values, array &$collection, bool $overwriteOld) : void
+    private function addValuesToCollection(array $values, array &$collection, bool $overwriteOld): void
     {
         if ($overwriteOld) {
             $collection = [];
@@ -252,7 +254,7 @@ class RequestBuilder
      *
      * @throws InvalidArgumentException Thrown if the properties were not set properly
      */
-    private function validate() : void
+    private function validate(): void
     {
         if ($this->method === null) {
             throw new InvalidArgumentException('Method not set in request builder');

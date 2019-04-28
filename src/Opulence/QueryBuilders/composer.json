@@ -23,6 +23,7 @@
     ]
   },
   "require": {
+    "ext-pdo": "*",
     "php": "^7.1"
   },
   "extra": {

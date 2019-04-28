@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections;
 
@@ -22,7 +24,7 @@ class ImmutableHashSet implements IImmutableSet
     /** @var array The set of values */
     protected $values = [];
     /** @var KeyHasher The key hasher to use */
-    private $keyHasher = null;
+    private $keyHasher;
 
     /**
      * @param array $values The set of values
@@ -40,7 +42,7 @@ class ImmutableHashSet implements IImmutableSet
     /**
      * @inheritdoc
      */
-    public function containsValue($value) : bool
+    public function containsValue($value): bool
     {
         return isset($this->values[$this->getHashKey($value)]);
     }
@@ -48,7 +50,7 @@ class ImmutableHashSet implements IImmutableSet
     /**
      * @inheritdoc
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->values);
     }
@@ -56,7 +58,7 @@ class ImmutableHashSet implements IImmutableSet
     /**
      * @inheritdoc
      */
-    public function getIterator() : Traversable
+    public function getIterator(): Traversable
     {
         return new ArrayIterator(array_values($this->values));
     }
@@ -64,7 +66,7 @@ class ImmutableHashSet implements IImmutableSet
     /**
      * @inheritdoc
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         return array_values($this->values);
     }
@@ -77,7 +79,7 @@ class ImmutableHashSet implements IImmutableSet
      * @return string The hash key
      * @throws RuntimeException Thrown if the hash key could not be calculated
      */
-    protected function getHashKey($value) : string
+    protected function getHashKey($value): string
     {
         return $this->keyHasher->getHashKey($value);
     }

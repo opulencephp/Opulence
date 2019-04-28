@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cryptography\Encryption;
 
@@ -16,15 +18,15 @@ namespace Opulence\Cryptography\Encryption;
 class Ciphers
 {
     /** The AES 128 bit cipher in CBC mode */
-    const AES_128_CBC = 'AES-128-CBC';
+    public const AES_128_CBC = 'AES-128-CBC';
     /** The AES 192 bit cipher in CBC mode */
-    const AES_192_CBC = 'AES-192-CBC';
+    public const AES_192_CBC = 'AES-192-CBC';
     /** The AES 256 bit cipher in CBC mode */
-    const AES_256_CBC = 'AES-256-CBC';
+    public const AES_256_CBC = 'AES-256-CBC';
     /** The AES 128 bit cipher in CTR mode */
-    const AES_128_CTR = 'AES-128-CTR';
+    public const AES_128_CTR = 'AES-128-CTR';
     /** The AES 192 bit cipher in CTR mode */
-    const AES_192_CTR = 'AES-192-CTR';
+    public const AES_192_CTR = 'AES-192-CTR';
     /** The AES 256 bit cipher in CTR mode */
-    const AES_256_CTR = 'AES-256-CTR';
+    public const AES_256_CTR = 'AES-256-CTR';
 }

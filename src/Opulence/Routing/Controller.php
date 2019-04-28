@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing;
 
@@ -22,13 +24,13 @@ use Opulence\Views\IView;
 class Controller
 {
     /** @var IView The view used in the response */
-    protected $view = null;
+    protected $view;
     /** @var ICompiler The view compiler to use */
-    protected $viewCompiler = null;
+    protected $viewCompiler;
     /** @var IViewFactory The view factory to use */
-    protected $viewFactory = null;
+    protected $viewFactory;
     /** @var Request The HTTP request */
-    protected $request = null;
+    protected $request;
 
     /**
      * Actually calls the method in the controller
@@ -38,7 +40,7 @@ class Controller
      * @param array $parameters The list of parameters to pass into the action method
      * @return Response The HTTP response returned by the method
      */
-    public function callMethod(string $methodName, array $parameters) : Response
+    public function callMethod(string $methodName, array $parameters): Response
     {
         $this->setUpView();
         /** @var Response $response */
@@ -58,7 +60,7 @@ class Controller
     /**
      * @return IView|null
      */
-    public function getView() : ?IView
+    public function getView(): ?IView
     {
         return $this->view;
     }
@@ -66,7 +68,7 @@ class Controller
     /**
      * @param Request $request
      */
-    public function setRequest(Request $request) : void
+    public function setRequest(Request $request): void
     {
         $this->request = $request;
     }
@@ -74,7 +76,7 @@ class Controller
     /**
      * @param ICompiler $viewCompiler
      */
-    public function setViewCompiler(ICompiler $viewCompiler) : void
+    public function setViewCompiler(ICompiler $viewCompiler): void
     {
         $this->viewCompiler = $viewCompiler;
     }
@@ -82,7 +84,7 @@ class Controller
     /**
      * @param IViewFactory $viewFactory
      */
-    public function setViewFactory(IViewFactory $viewFactory) : void
+    public function setViewFactory(IViewFactory $viewFactory): void
     {
         $this->viewFactory = $viewFactory;
     }
@@ -91,7 +93,7 @@ class Controller
      * Sets up the view
      * Useful for setting up a view's components that are the same across controller methods
      */
-    protected function setUpView() : void
+    protected function setUpView(): void
     {
         // Don't do anything
     }

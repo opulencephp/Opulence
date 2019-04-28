@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections;
 
@@ -24,7 +26,7 @@ class HashTable implements IDictionary
     /** @var KeyValuePair[] The list of values */
     protected $hashKeysToKvps = [];
     /** @var KeyHasher The key hasher to use */
-    private $keyHasher = null;
+    private $keyHasher;
 
     /**
      * @param KeyValuePair[] $kvps The list of key-value pairs to add
@@ -39,7 +41,7 @@ class HashTable implements IDictionary
     /**
      * @inheritdoc
      */
-    public function add($key, $value) : void
+    public function add($key, $value): void
     {
         $this->hashKeysToKvps[$this->getHashKey($key)] = new KeyValuePair($key, $value);
     }
@@ -47,7 +49,7 @@ class HashTable implements IDictionary
     /**
      * @inheritdoc
      */
-    public function addRange(array $kvps) : void
+    public function addRange(array $kvps): void
     {
         foreach ($kvps as $kvp) {
             if (!$kvp instanceof KeyValuePair) {
@@ -61,7 +63,7 @@ class HashTable implements IDictionary
     /**
      * @inheritdoc
      */
-    public function clear() : void
+    public function clear(): void
     {
         $this->hashKeysToKvps = [];
     }
@@ -69,7 +71,7 @@ class HashTable implements IDictionary
     /**
      * @inheritdoc
      */
-    public function containsKey($key) : bool
+    public function containsKey($key): bool
     {
         return array_key_exists($this->getHashKey($key), $this->hashKeysToKvps);
     }
@@ -77,7 +79,7 @@ class HashTable implements IDictionary
     /**
      * @inheritdoc
      */
-    public function containsValue($value) : bool
+    public function containsValue($value): bool
     {
         foreach ($this->hashKeysToKvps as $kvp) {
             if ($kvp->getValue() == $value) {
@@ -91,7 +93,7 @@ class HashTable implements IDictionary
     /**
      * @inheritdoc
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->hashKeysToKvps);
     }
@@ -113,7 +115,7 @@ class HashTable implements IDictionary
     /**
      * @inheritdoc
      */
-    public function getKeys() : array
+    public function getKeys(): array
     {
         $keys = [];
 
@@ -127,7 +129,7 @@ class HashTable implements IDictionary
     /**
      * @inheritdoc
      */
-    public function getValues() : array
+    public function getValues(): array
     {
         $values = [];
 
@@ -141,7 +143,7 @@ class HashTable implements IDictionary
     /**
      * @inheritdoc
      */
-    public function getIterator() : Traversable
+    public function getIterator(): Traversable
     {
         return new ArrayIterator(array_values($this->hashKeysToKvps));
     }
@@ -150,7 +152,7 @@ class HashTable implements IDictionary
      * @inheritdoc
      * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function offsetExists($key) : bool
+    public function offsetExists($key): bool
     {
         return $this->containsKey($key);
     }
@@ -169,7 +171,7 @@ class HashTable implements IDictionary
      * @inheritdoc
      * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function offsetSet($key, $value) : void
+    public function offsetSet($key, $value): void
     {
         $this->add($key, $value);
     }
@@ -178,7 +180,7 @@ class HashTable implements IDictionary
      * @inheritdoc
      * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function offsetUnset($key) : void
+    public function offsetUnset($key): void
     {
         $this->removeKey($key);
     }
@@ -186,7 +188,7 @@ class HashTable implements IDictionary
     /**
      * @inheritdoc
      */
-    public function removeKey($key) : void
+    public function removeKey($key): void
     {
         unset($this->hashKeysToKvps[$this->getHashKey($key)]);
     }
@@ -194,7 +196,7 @@ class HashTable implements IDictionary
     /**
      * @inheritdoc
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         return array_values($this->hashKeysToKvps);
     }
@@ -202,7 +204,7 @@ class HashTable implements IDictionary
     /**
      * @inheritdoc
      */
-    public function tryGet($key, &$value) : bool
+    public function tryGet($key, &$value): bool
     {
         try {
             $value = $this->get($key);
@@ -221,7 +223,7 @@ class HashTable implements IDictionary
      * @return string The hash key
      * @throws RuntimeException Thrown if the hash key could not be calculated
      */
-    protected function getHashKey($value) : string
+    protected function getHashKey($value): string
     {
         return $this->keyHasher->getHashKey($value);
     }

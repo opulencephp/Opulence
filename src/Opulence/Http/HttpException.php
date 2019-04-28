@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http;
 
@@ -18,9 +20,9 @@ use Exception;
 class HttpException extends Exception
 {
     /** @var int The HTTP status code */
-    private $statusCode = 200;
+    private $statusCode;
     /** @var array The list of headers to include */
-    private $headers = [];
+    private $headers;
 
     /**
      * @inheritdoc
@@ -43,7 +45,7 @@ class HttpException extends Exception
     /**
      * @return array
      */
-    public function getHeaders() : array
+    public function getHeaders(): array
     {
         return $this->headers;
     }
@@ -51,7 +53,7 @@ class HttpException extends Exception
     /**
      * @return int
      */
-    public function getStatusCode() : int
+    public function getStatusCode(): int
     {
         return $this->statusCode;
     }

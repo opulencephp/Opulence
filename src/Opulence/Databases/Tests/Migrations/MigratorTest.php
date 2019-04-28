@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Tests\Migrations;
 
@@ -15,23 +17,24 @@ use Opulence\Databases\Migrations\IExecutedMigrationRepository;
 use Opulence\Databases\Migrations\IMigration;
 use Opulence\Databases\Migrations\IMigrationResolver;
 use Opulence\Databases\Migrations\Migrator;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the database migrator
  */
 class MigratorTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var IConnection|\PHPUnit_Framework_MockObject_MockObject The database connection the migrator uses */
-    private $connection = null;
-    /** @var IMigrationResolver|\PHPUnit_Framework_MockObject_MockObject The migration resolver */
-    private $migrationResolver = null;
-    /** @var IExecutedMigrationRepository|\PHPUnit_Framework_MockObject_MockObject The executed migration repository */
-    private $executedMigrations = null;
+    /** @var IConnection|MockObject The database connection the migrator uses */
+    private $connection;
+    /** @var IMigrationResolver|MockObject The migration resolver */
+    private $migrationResolver;
+    /** @var IExecutedMigrationRepository|MockObject The executed migration repository */
+    private $executedMigrations;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->connection = $this->createMock(IConnection::class);
         $this->migrationResolver = $this->createMock(IMigrationResolver::class);
@@ -41,7 +44,7 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that rolling back all migrations calls down on all migrations
      */
-    public function testRollingBackAllMigrationsCallsDownOnAllMigrations() : void
+    public function testRollingBackAllMigrationsCallsDownOnAllMigrations(): void
     {
         $migrator = new Migrator(
             ['foo', 'bar'],
@@ -76,7 +79,7 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that rolling back a specific number of migrations calls down on those migrations
      */
-    public function testRollingBackSpecificNumberOfMigrationsCallsDownOnThoseMigrations() : void
+    public function testRollingBackSpecificNumberOfMigrationsCallsDownOnThoseMigrations(): void
     {
         $migrator = new Migrator(
             ['foo', 'bar'],
@@ -108,7 +111,7 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that rolling back a specific number of migrations only grabs that number of migrations
      */
-    public function testRollingBackSpecificNumberOfMigrationsOnlyGetsThatNumberOfMigrations() : void
+    public function testRollingBackSpecificNumberOfMigrationsOnlyGetsThatNumberOfMigrations(): void
     {
         $migrator = new Migrator(
             ['foo'],
@@ -126,7 +129,7 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that running migrations when none have been executed calls up on all
      */
-    public function testRunningMigrationsWhenNoneHaveBeenExecutedCallsUpOnAll() : void
+    public function testRunningMigrationsWhenNoneHaveBeenExecutedCallsUpOnAll(): void
     {
         $migrator = new Migrator(
             ['foo', 'bar'],
@@ -161,7 +164,7 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that running only un-executed migrations are run
      */
-    public function testRunningMigrationsOnlyExecutesUnExecutedMigrations() : void
+    public function testRunningMigrationsOnlyExecutesUnExecutedMigrations(): void
     {
         $migrator = new Migrator(
             ['foo', 'bar'],

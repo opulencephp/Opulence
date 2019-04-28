@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Debug\Errors\Handlers;
 
@@ -21,9 +23,9 @@ use Psr\Log\LoggerInterface;
 class ErrorHandler implements IErrorHandler
 {
     /** @var LoggerInterface The logger */
-    protected $logger = null;
+    protected $logger;
     /** @var IExceptionHandler The exception handler */
-    protected $exceptionHandler = null;
+    protected $exceptionHandler;
     /** @var int $loggedLevels The bitwise value of error levels that are to be logged */
     protected $loggedLevels = 0;
     /** @var int $thrownLevels The bitwise value of error levels that are to be thrown as exceptions */
@@ -50,7 +52,7 @@ class ErrorHandler implements IErrorHandler
     /**
      * @inheritdoc
      */
-    public function handle(int $level, string $message, string $file = '', int $line = 0, array $context = []) : void
+    public function handle(int $level, string $message, string $file = '', int $line = 0, array $context = []): void
     {
         if ($this->levelIsLoggable($level)) {
             $this->logger->log($level, $message, $context);
@@ -64,7 +66,7 @@ class ErrorHandler implements IErrorHandler
     /**
      * @inheritdoc
      */
-    public function handleShutdown() : void
+    public function handleShutdown(): void
     {
         $error = error_get_last();
 
@@ -82,7 +84,7 @@ class ErrorHandler implements IErrorHandler
     /**
      * @inheritdoc
      */
-    public function register() : void
+    public function register(): void
     {
         ini_set('display_errors', 'off');
         error_reporting(-1);
@@ -96,7 +98,7 @@ class ErrorHandler implements IErrorHandler
      * @param int $level The bitwise level
      * @return bool True if the level is loggable, otherwise false
      */
-    protected function levelIsLoggable(int $level) : bool
+    protected function levelIsLoggable(int $level): bool
     {
         return ($this->loggedLevels & $level) !== 0;
     }
@@ -107,7 +109,7 @@ class ErrorHandler implements IErrorHandler
      * @param int $level The bitwise level
      * @return bool True if the level is throwable, otherwise false
      */
-    protected function levelIsThrowable(int $level) : bool
+    protected function levelIsThrowable(int $level): bool
     {
         return ($this->thrownLevels & $level) !== 0;
     }

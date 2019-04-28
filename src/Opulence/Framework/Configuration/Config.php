@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Configuration;
 
@@ -42,7 +44,7 @@ class Config
      * @param string $setting The setting to check for
      * @return bool True if the setting exists, otherwise false
      */
-    public static function has(string $category, string $setting) : bool
+    public static function has(string $category, string $setting): bool
     {
         return isset(self::$settings[$category]) && isset(self::$settings[$category][$setting]);
     }
@@ -54,7 +56,7 @@ class Config
      * @param string $setting The name of the setting to set
      * @param mixed $value The value of the setting
      */
-    public static function set(string $category, string $setting, $value) : void
+    public static function set(string $category, string $setting, $value): void
     {
         if (!isset(self::$settings[$category])) {
             self::$settings[$category] = [];
@@ -69,7 +71,7 @@ class Config
      * @param string $category The category whose settings we're changing
      * @param array $settings The array of settings
      */
-    public static function setCategory(string $category, array $settings) : void
+    public static function setCategory(string $category, array $settings): void
     {
         self::$settings[$category] = $settings;
     }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console;
 
@@ -34,11 +36,11 @@ use Throwable;
 class Kernel
 {
     /** @var IParser The request parser to use */
-    private $requestParser = null;
+    private $requestParser;
     /** @var ICommandCompiler The command compiler to use */
-    private $commandCompiler = null;
+    private $commandCompiler;
     /** @var CommandCollection The list of commands to choose from */
-    private $commandCollection = null;
+    private $commandCollection;
 
     /**
      * @param IParser $requestParser The request parser to use
@@ -63,7 +65,7 @@ class Kernel
      * @param IResponse $response The response to write to
      * @return int The status code
      */
-    public function handle($input, IResponse $response = null) : int
+    public function handle($input, IResponse $response = null): int
     {
         if ($response === null) {
             $response = new ConsoleResponse(new Compiler(new Lexer(), new Parser()));
@@ -113,7 +115,7 @@ class Kernel
      * @return ICommand The compiled help command
      * @throws InvalidArgumentException Thrown if the command that is requesting help does not exist
      */
-    private function getCompiledHelpCommand(IRequest $request) : ICommand
+    private function getCompiledHelpCommand(IRequest $request): ICommand
     {
         $helpCommand = new HelpCommand(new CommandFormatter(), new PaddingFormatter());
         $commandName = null;
@@ -147,7 +149,7 @@ class Kernel
      * @param IRequest $request The parsed request
      * @return bool True if it is invoking the help command, otherwise false
      */
-    private function isInvokingHelpCommand(IRequest $request) : bool
+    private function isInvokingHelpCommand(IRequest $request): bool
     {
         return $request->getCommandName() === 'help' || $request->optionIsSet('h') || $request->optionIsSet('help');
     }

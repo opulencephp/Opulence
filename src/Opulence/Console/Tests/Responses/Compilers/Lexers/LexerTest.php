@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Responses\Compilers\Lexers;
 
@@ -21,12 +23,12 @@ use RuntimeException;
 class LexerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Lexer The lexer to use in tests */
-    private $lexer = null;
+    private $lexer;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->lexer = new Lexer();
     }
@@ -34,7 +36,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing adjacent elements
      */
-    public function testLexingAdjacentElements() : void
+    public function testLexingAdjacentElements(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 0),
@@ -54,7 +56,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing an element with no children
      */
-    public function testLexingElementWithNoChildren() : void
+    public function testLexingElementWithNoChildren(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 0),
@@ -70,7 +72,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing an escaped tag at the beginning of the string
      */
-    public function testLexingEscapedTagAtBeginning() : void
+    public function testLexingEscapedTagAtBeginning(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_WORD, '<bar>', 1),
@@ -82,7 +84,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing an escaped tag in between tags
      */
-    public function testLexingEscapedTagInBetweenTags() : void
+    public function testLexingEscapedTagInBetweenTags(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 0),
@@ -96,7 +98,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing multiple lines
      */
-    public function testLexingMultipleLines() : void
+    public function testLexingMultipleLines(): void
     {
         // We record the EOL length because it differs on OSs
         $eolLength = strlen(PHP_EOL);
@@ -117,7 +119,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing nested elements
      */
-    public function testLexingNestedElements() : void
+    public function testLexingNestedElements(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 0),
@@ -138,7 +140,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing nested elements with no children
      */
-    public function testLexingNestedElementsWithNoChildren() : void
+    public function testLexingNestedElementsWithNoChildren(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 0),
@@ -156,7 +158,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing input with an close tag inside of another close tag
      */
-    public function testLexingOpenTagInsideOfCloseTag() : void
+    public function testLexingOpenTagInsideOfCloseTag(): void
     {
         $this->expectException(RuntimeException::class);
         $this->lexer->lex('<foo></<bar>foo>');
@@ -165,7 +167,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing input with an open tag inside of another open tag
      */
-    public function testLexingOpenTagInsideOfOpenTag() : void
+    public function testLexingOpenTagInsideOfOpenTag(): void
     {
         $this->expectException(RuntimeException::class);
         $this->lexer->lex('<foo<bar>>');
@@ -174,7 +176,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing plain text
      */
-    public function testLexingPlainText() : void
+    public function testLexingPlainText(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_WORD, 'foobar', 0),
@@ -189,7 +191,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing a single tag
      */
-    public function testLexingSingleElement() : void
+    public function testLexingSingleElement(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_TAG_OPEN, 'foo', 0),
@@ -203,7 +205,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests lexing an unopened tag
      */
-    public function testLexingUnopenedTag() : void
+    public function testLexingUnopenedTag(): void
     {
         $expectedOutput = [
             new Token(TokenTypes::T_WORD, 'foo', 0),

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Memcached\Tests\Types;
 
@@ -20,12 +22,12 @@ use Opulence\Memcached\Types\TypeMapper;
 class TypeMapperTest extends \PHPUnit\Framework\TestCase
 {
     /** @var TypeMapper The type mapper to use for tests */
-    private $typeMapper = null;
+    private $typeMapper;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->typeMapper = new TypeMapper();
     }
@@ -33,7 +35,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting from a false Memcached boolean
      */
-    public function testConvertingFromFalseMemcachedBoolean() : void
+    public function testConvertingFromFalseMemcachedBoolean(): void
     {
         $this->assertFalse($this->typeMapper->fromMemcachedBoolean(0));
     }
@@ -41,17 +43,19 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting from a Memcached timestamp
      */
-    public function testConvertingFromMemcachedTimestamp() : void
+    public function testConvertingFromMemcachedTimestamp(): void
     {
         $time = new DateTime('now');
-        $this->assertEquals($time->getTimestamp(),
-            $this->typeMapper->fromMemcachedTimestamp($time->getTimestamp())->getTimestamp());
+        $this->assertEquals(
+            $time->getTimestamp(),
+            $this->typeMapper->fromMemcachedTimestamp($time->getTimestamp())->getTimestamp()
+        );
     }
 
     /**
      * Tests converting from a true Memcached boolean
      */
-    public function testConvertingFromTrueMemcachedBoolean() : void
+    public function testConvertingFromTrueMemcachedBoolean(): void
     {
         $this->assertTrue($this->typeMapper->fromMemcachedBoolean(1));
     }
@@ -59,7 +63,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting to a false Memcached boolean
      */
-    public function testConvertingToFalseMemcachedBoolean() : void
+    public function testConvertingToFalseMemcachedBoolean(): void
     {
         $this->assertSame(0, $this->typeMapper->toMemcachedBoolean(false));
     }
@@ -67,7 +71,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting to a Memcached timestamp
      */
-    public function testConvertingToMemcachedTimestamp() : void
+    public function testConvertingToMemcachedTimestamp(): void
     {
         $time = new DateTime('now');
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toMemcachedTimestamp($time));
@@ -76,7 +80,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting to a Memcached timestamp from an immutable date time
      */
-    public function testConvertingToMemcachedTimestampFromImmutable() : void
+    public function testConvertingToMemcachedTimestampFromImmutable(): void
     {
         $time = new DateTimeImmutable('now');
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toMemcachedTimestamp($time));
@@ -85,7 +89,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests converting to a true Memcached boolean
      */
-    public function testConvertingToTrueMemcachedBoolean() : void
+    public function testConvertingToTrueMemcachedBoolean(): void
     {
         $this->assertSame(1, $this->typeMapper->toMemcachedBoolean(true));
     }
@@ -93,7 +97,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the timezone is set
      */
-    public function testTimezoneSet() : void
+    public function testTimezoneSet(): void
     {
         $currTimezone = date_default_timezone_get();
         $newTimezone = 'Australia/Canberra';

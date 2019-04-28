@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Debug\Errors\Handlers;
 
@@ -27,15 +29,15 @@ interface IErrorHandler
      * @param array $context The symbol table
      * @throws ErrorException Thrown because the error is converted to an exception
      */
-    public function handle(int $level, string $message, string $file = '', int $line = 0, array $context = []) : void;
+    public function handle(int $level, string $message, string $file = '', int $line = 0, array $context = []): void;
 
     /**
      * Handles a PHP shutdown
      */
-    public function handleShutdown() : void;
+    public function handleShutdown(): void;
 
     /**
      * Registers the handler with PHP
      */
-    public function register() : void;
+    public function register(): void;
 }

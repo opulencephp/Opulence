@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Commands;
 
@@ -27,7 +29,7 @@ interface ICommand
      * @param Argument $argument The argument to add
      * @return self For method chaining
      */
-    public function addArgument(Argument $argument) : self;
+    public function addArgument(Argument $argument): self;
 
     /**
      * Adds an option to the command
@@ -35,7 +37,7 @@ interface ICommand
      * @param Option $option The option to add
      * @return self For method chaining
      */
-    public function addOption(Option $option) : self;
+    public function addOption(Option $option): self;
 
     /**
      * Gets whether or not an argument has a value
@@ -43,7 +45,7 @@ interface ICommand
      * @param string $name The name of the argument to check
      * @return bool True if the input argument has a value, otherwise false
      */
-    public function argumentValueIsSet(string $name) : bool;
+    public function argumentValueIsSet(string $name): bool;
 
     /**
      * Executes the command
@@ -52,7 +54,7 @@ interface ICommand
      * @return int|null Null or the status code of the command
      * @throws RuntimeException Thrown if the command was not setup correctly or could not be executed
      */
-    public function execute(IResponse $response) : ?int;
+    public function execute(IResponse $response): ?int;
 
     /**
      * Gets the argument with the input name
@@ -61,7 +63,7 @@ interface ICommand
      * @return Argument The argument with the input name
      * @throws InvalidArgumentException Thrown if no argument exists with that name
      */
-    public function getArgument(string $name) : Argument;
+    public function getArgument(string $name): Argument;
 
     /**
      * Gets the value of an argument
@@ -77,28 +79,28 @@ interface ICommand
      *
      * @return Argument[] The list of arguments
      */
-    public function getArguments() : array;
+    public function getArguments(): array;
 
     /**
      * Gets the description of the command
      *
      * @return string The description
      */
-    public function getDescription() : string;
+    public function getDescription(): string;
 
     /**
      * Gets the help text
      *
      * @return string The help text
      */
-    public function getHelpText() : string;
+    public function getHelpText(): string;
 
     /**
      * Gets the name of the command
      *
      * @return string The name
      */
-    public function getName() : string;
+    public function getName(): string;
 
     /**
      * Gets the option with the input name
@@ -107,7 +109,7 @@ interface ICommand
      * @return Option The option with the input name
      * @throws InvalidArgumentException Thrown if no option exists with that name
      */
-    public function getOption(string $name) : Option;
+    public function getOption(string $name): Option;
 
     /**
      * Gets the value of an option
@@ -123,7 +125,7 @@ interface ICommand
      *
      * @return Option[] The list of options
      */
-    public function getOptions() : array;
+    public function getOptions(): array;
 
     /**
      * Gets whether or not the command has a certain option set
@@ -132,7 +134,7 @@ interface ICommand
      * @param string $name The name of the option to check
      * @return bool True if the option is set, otherwise false
      */
-    public function optionIsSet(string $name) : bool;
+    public function optionIsSet(string $name): bool;
 
     /**
      * Sets the value of an argument
@@ -140,14 +142,14 @@ interface ICommand
      * @param string $name The name of the argument to set
      * @param mixed $value The value to set
      */
-    public function setArgumentValue(string $name, $value) : void;
+    public function setArgumentValue(string $name, $value): void;
 
     /**
      * Sets the list of registered commands
      *
      * @param CommandCollection $commandCollection The list of registered commands
      */
-    public function setCommandCollection(CommandCollection $commandCollection) : void;
+    public function setCommandCollection(CommandCollection $commandCollection): void;
 
     /**
      * Sets the value of an option
@@ -155,5 +157,5 @@ interface ICommand
      * @param string $name The name of the option to set
      * @param mixed $value The value to set
      */
-    public function setOptionValue(string $name, $value) : void;
+    public function setOptionValue(string $name, $value): void;
 }

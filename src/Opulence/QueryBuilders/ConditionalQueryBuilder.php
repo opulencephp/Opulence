@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders;
 
@@ -26,7 +28,7 @@ class ConditionalQueryBuilder
      * @param string[] $conditions,... A variable list of conditions to be met
      * @return array The input array with the condition added
      */
-    public function addConditionToClause(array $clauseConditions, string $operation, string ...$conditions) : array
+    public function addConditionToClause(array $clauseConditions, string $operation, string ...$conditions): array
     {
         foreach ($conditions as $condition) {
             $clauseConditions[] = ['operation' => $operation, 'condition' => $condition];
@@ -41,10 +43,13 @@ class ConditionalQueryBuilder
      * @param string[] $condition,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function andWhere(string ...$condition) : self
+    public function andWhere(string ...$condition): self
     {
         $this->whereConditions = $this->addConditionToClause(
-            $this->whereConditions, 'AND', ...$condition);
+            $this->whereConditions,
+            'AND',
+            ...$condition
+        );
 
         return $this;
     }
@@ -56,7 +61,7 @@ class ConditionalQueryBuilder
      * @param array $clauseConditions The array of condition data whose SQL we want
      * @return string The SQL that makes up the input clause(s)
      */
-    public function getClauseConditionSql(string $conditionType, array $clauseConditions) : string
+    public function getClauseConditionSql(string $conditionType, array $clauseConditions): string
     {
         if (count($clauseConditions) === 0) {
             return '';
@@ -78,7 +83,7 @@ class ConditionalQueryBuilder
     /**
      * @return array
      */
-    public function getWhereConditions() : array
+    public function getWhereConditions(): array
     {
         return $this->whereConditions;
     }
@@ -89,10 +94,13 @@ class ConditionalQueryBuilder
      * @param string[] $condition,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function orWhere(string ...$condition) : self
+    public function orWhere(string ...$condition): self
     {
         $this->whereConditions = $this->addConditionToClause(
-            $this->whereConditions, 'OR', ...$condition);
+            $this->whereConditions,
+            'OR',
+            ...$condition
+        );
 
         return $this;
     }
@@ -104,12 +112,15 @@ class ConditionalQueryBuilder
      * @param string[] $condition,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function where(string ...$condition) : self
+    public function where(string ...$condition): self
     {
         // We want to wipe out anything already in the condition list
         $this->whereConditions = [];
         $this->whereConditions = $this->addConditionToClause(
-            $this->whereConditions, 'AND', ...$condition);
+            $this->whereConditions,
+            'AND',
+            ...$condition
+        );
 
         return $this;
     }

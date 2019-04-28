@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Events\Dispatchers;
 
@@ -21,7 +23,7 @@ class EventRegistry implements IEventRegistry
     /**
      * @inheritdoc
      */
-    public function getListeners(string $eventName) : array
+    public function getListeners(string $eventName): array
     {
         if (!isset($this->eventNamesToListeners[$eventName])) {
             return [];
@@ -33,7 +35,7 @@ class EventRegistry implements IEventRegistry
     /**
      * @inheritdoc
      */
-    public function hasListeners(string $eventName) : bool
+    public function hasListeners(string $eventName): bool
     {
         return isset($this->eventNamesToListeners[$eventName]) && count($this->eventNamesToListeners[$eventName]) > 0;
     }
@@ -41,7 +43,7 @@ class EventRegistry implements IEventRegistry
     /**
      * @inheritdoc
      */
-    public function registerListener(string $eventName, callable $listener) : void
+    public function registerListener(string $eventName, callable $listener): void
     {
         if (!isset($this->eventNamesToListeners[$eventName])) {
             $this->eventNamesToListeners[$eventName] = [];
@@ -55,7 +57,7 @@ class EventRegistry implements IEventRegistry
     /**
      * @inheritdoc
      */
-    public function removeListener(string $eventName, callable $listener) : void
+    public function removeListener(string $eventName, callable $listener): void
     {
         if (
             isset($this->eventNamesToListeners[$eventName]) &&

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Routes;
 
@@ -29,7 +31,7 @@ class Route
     /** @var string The name of the controller method this route calls */
     protected $controllerMethod = '';
     /** @var string|callable|null The controller/method or closure to be used as a controller */
-    protected $controller = null;
+    protected $controller;
     /** @var string The name of this route, if it is a named route */
     protected $name = '';
     /** @var bool Whether or not this route only matches HTTPS requests */
@@ -83,7 +85,7 @@ class Route
      * @param string|array $middleware The middleware or list of middleware to add
      * @param bool $prepend True if we want to prepend the middleware (give them higher priority), otherwise false
      */
-    public function addMiddleware($middleware, bool $prepend = false) : void
+    public function addMiddleware($middleware, bool $prepend = false): void
     {
         if (!is_array($middleware)) {
             $middleware = [$middleware];
@@ -109,7 +111,7 @@ class Route
     /**
      * @return string
      */
-    public function getControllerMethod() : string
+    public function getControllerMethod(): string
     {
         return $this->controllerMethod;
     }
@@ -117,7 +119,7 @@ class Route
     /**
      * @return string
      */
-    public function getControllerName() : string
+    public function getControllerName(): string
     {
         return $this->controllerName;
     }
@@ -125,7 +127,7 @@ class Route
     /**
      * @return array
      */
-    public function getMethods() : array
+    public function getMethods(): array
     {
         return $this->methods;
     }
@@ -133,7 +135,7 @@ class Route
     /**
      * @return array
      */
-    public function getMiddleware() : array
+    public function getMiddleware(): array
     {
         return $this->middleware;
     }
@@ -141,7 +143,7 @@ class Route
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -149,7 +151,7 @@ class Route
     /**
      * @return string
      */
-    public function getRawHost() : string
+    public function getRawHost(): string
     {
         return $this->rawHost;
     }
@@ -157,7 +159,7 @@ class Route
     /**
      * @return string
      */
-    public function getRawPath() : string
+    public function getRawPath(): string
     {
         return $this->rawPath;
     }
@@ -168,7 +170,7 @@ class Route
      * @param string $name The name of the parameter whose regex we want
      * @return string|null The regex for the parameter if there are any, otherwise null
      */
-    public function getVarRegex(string $name) : ?string
+    public function getVarRegex(string $name): ?string
     {
         return $this->varRegexes[$name] ?? null;
     }
@@ -178,7 +180,7 @@ class Route
      *
      * @return array The mapping of variable names to regexes
      */
-    public function getVarRegexes() : array
+    public function getVarRegexes(): array
     {
         return $this->varRegexes;
     }
@@ -186,7 +188,7 @@ class Route
     /**
      * @return bool
      */
-    public function isSecure() : bool
+    public function isSecure(): bool
     {
         return $this->isSecure;
     }
@@ -194,7 +196,7 @@ class Route
     /**
      * @param callable|string $controller The callable controller (or the serialized callable if the route is cached)
      */
-    public function setControllerCallable($controller) : void
+    public function setControllerCallable($controller): void
     {
         $this->usesCallable = true;
         $this->controller = $controller;
@@ -203,7 +205,7 @@ class Route
     /**
      * @param string $controllerMethod
      */
-    public function setControllerMethod(string $controllerMethod) : void
+    public function setControllerMethod(string $controllerMethod): void
     {
         $this->controllerMethod = $controllerMethod;
         $this->controller = "{$this->controllerName}@{$this->controllerMethod}";
@@ -212,7 +214,7 @@ class Route
     /**
      * @param string $controllerName
      */
-    public function setControllerName(string $controllerName) : void
+    public function setControllerName(string $controllerName): void
     {
         $this->controllerName = $controllerName;
         $this->controller = "{$this->controllerName}@{$this->controllerMethod}";
@@ -221,7 +223,7 @@ class Route
     /**
      * @param string $name
      */
-    public function setName(string $name) : void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -229,7 +231,7 @@ class Route
     /**
      * @param string $rawHost
      */
-    public function setRawHost(string $rawHost) : void
+    public function setRawHost(string $rawHost): void
     {
         $this->rawHost = $rawHost;
     }
@@ -237,7 +239,7 @@ class Route
     /**
      * @param string $rawPath
      */
-    public function setRawPath(string $rawPath) : void
+    public function setRawPath(string $rawPath): void
     {
         $this->rawPath = $rawPath;
     }
@@ -245,7 +247,7 @@ class Route
     /**
      * @param bool $isSecure
      */
-    public function setSecure(bool $isSecure) : void
+    public function setSecure(bool $isSecure): void
     {
         $this->isSecure = $isSecure;
     }
@@ -256,7 +258,7 @@ class Route
      * @param string $name The name of the variable whose regex we're setting
      * @param string $regex The regex to set
      */
-    public function setVarRegex(string $name, string $regex) : void
+    public function setVarRegex(string $name, string $regex): void
     {
         $this->varRegexes[$name] = $regex;
     }
@@ -266,7 +268,7 @@ class Route
      *
      * @param array $regexes The mapping of variable names to their regexes
      */
-    public function setVarRegexes(array $regexes) : void
+    public function setVarRegexes(array $regexes): void
     {
         foreach ($regexes as $varName => $regex) {
             $this->setVarRegex($varName, $regex);
@@ -276,7 +278,7 @@ class Route
     /**
      * @return bool
      */
-    public function usesCallable() : bool
+    public function usesCallable(): bool
     {
         return $this->usesCallable;
     }
@@ -287,7 +289,7 @@ class Route
      * @param string|callable $controller The name of the controller/method or the callback
      * @throws InvalidArgumentException Thrown if the controller string is not formatted correctly
      */
-    protected function setControllerVars($controller) : void
+    protected function setControllerVars($controller): void
     {
         $this->controller = $controller;
 

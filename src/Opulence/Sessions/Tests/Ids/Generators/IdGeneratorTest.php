@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Sessions\Tests\Ids\Generators;
 
@@ -18,12 +20,12 @@ use Opulence\Sessions\Ids\Generators\IdGenerator;
 class IdGeneratorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IdGenerator The Id generator to use in tests */
-    private $generator = null;
+    private $generator;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->generator = new IdGenerator();
     }
@@ -31,7 +33,7 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests generating an Id with a length specified
      */
-    public function testGeneratingWithLength() : void
+    public function testGeneratingWithLength(): void
     {
         $id = $this->generator->generate(28);
         $this->assertTrue(is_string($id));
@@ -41,7 +43,7 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests generating an Id without a length specified
      */
-    public function testGeneratingWithoutLength() : void
+    public function testGeneratingWithoutLength(): void
     {
         $id = $this->generator->generate();
         $this->assertTrue(is_string($id));
@@ -51,38 +53,38 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests validating an invalid Id
      */
-    public function testValidatingInvalidId() : void
+    public function testValidatingInvalidId(): void
     {
         // Invalid characters
         $id = str_repeat('#', IdGenerator::DEFAULT_LENGTH);
         $this->assertFalse($this->generator->idIsValid($id));
         // Too short
-        $id = str_repeat(1, IdGenerator::MIN_LENGTH - 1);
+        $id = str_repeat('1', IdGenerator::MIN_LENGTH - 1);
         $this->assertFalse($this->generator->idIsValid($id));
         // Incorrect type
         $id = ['foo'];
         $this->assertFalse($this->generator->idIsValid($id));
         // Longer than max length
-        $id = str_repeat(1, IdGenerator::MAX_LENGTH + 1);
+        $id = str_repeat('1', IdGenerator::MAX_LENGTH + 1);
         $this->assertFalse($this->generator->idIsValid($id));
     }
 
     /**
      * Tests validating a valid Id
      */
-    public function testValidatingValidId() : void
+    public function testValidatingValidId(): void
     {
         // Default length
         $id = str_repeat('1', IdGenerator::DEFAULT_LENGTH);
         $this->assertTrue($this->generator->idIsValid($id));
         // The min length
-        $id = str_repeat(1, IdGenerator::MIN_LENGTH);
+        $id = str_repeat('1', IdGenerator::MIN_LENGTH);
         $this->assertTrue($this->generator->idIsValid($id));
         // The max length
-        $id = str_repeat(1, IdGenerator::MAX_LENGTH);
+        $id = str_repeat('1', IdGenerator::MAX_LENGTH);
         $this->assertTrue($this->generator->idIsValid($id));
         // Mix of characters
-        $id = 'aA1' . str_repeat(2, IdGenerator::DEFAULT_LENGTH - 3);
+        $id = 'aA1' . str_repeat('2', IdGenerator::DEFAULT_LENGTH - 3);
         $this->assertTrue($this->generator->idIsValid($id));
     }
 }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections;
 
@@ -25,7 +27,7 @@ interface IImmutableList extends ArrayAccess, Countable, IteratorAggregate
      * @param mixed $value The value to search for
      * @return bool True if the value exists, otherwise false
      */
-    public function containsValue($value) : bool;
+    public function containsValue($value): bool;
 
     /**
      * Gets the value at an index
@@ -43,12 +45,12 @@ interface IImmutableList extends ArrayAccess, Countable, IteratorAggregate
      * @param mixed $value The value to search for
      * @return int|null The index of the value if it was found, otherwise null
      */
-    public function indexOf($value) : ?int;
+    public function indexOf($value): ?int;
 
     /**
      * Gets all of the values as an array
      *
      * @return array All of the values
      */
-    public function toArray() : array;
+    public function toArray(): array;
 }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Responses;
 
@@ -21,12 +23,12 @@ use Opulence\Console\Tests\Responses\Mocks\Response;
 class ResponseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Response The response to use in tests */
-    private $response = null;
+    private $response;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->response = new Response(new Compiler(new Lexer(), new Parser()));
     }
@@ -34,7 +36,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests clearing the response
      */
-    public function testClearingResponse() : void
+    public function testClearingResponse(): void
     {
         ob_start();
         $this->response->clear();
@@ -44,7 +46,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing multiple messages with new lines
      */
-    public function testWritingMultipleMessagesWithNewLines() : void
+    public function testWritingMultipleMessagesWithNewLines(): void
     {
         ob_start();
         $this->response->writeln(['foo', 'bar']);
@@ -54,7 +56,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing multiple messages with no new lines
      */
-    public function testWritingMultipleMessagesWithNoNewLines() : void
+    public function testWritingMultipleMessagesWithNoNewLines(): void
     {
         ob_start();
         $this->response->write(['foo', 'bar']);
@@ -64,7 +66,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing a single message with a new line
      */
-    public function testWritingSingleMessageWithNewLine() : void
+    public function testWritingSingleMessageWithNewLine(): void
     {
         ob_start();
         $this->response->writeln('foo');
@@ -74,7 +76,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing a single message with no new line
      */
-    public function testWritingSingleMessageWithNoNewLine() : void
+    public function testWritingSingleMessageWithNoNewLine(): void
     {
         ob_start();
         $this->response->write('foo');
@@ -84,7 +86,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing a styled message with styling disabled
      */
-    public function testWritingStyledMessageWithStylingDisabled() : void
+    public function testWritingStyledMessageWithStylingDisabled(): void
     {
         ob_start();
         $this->response->setStyled(false);

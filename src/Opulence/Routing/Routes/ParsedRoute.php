@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Routes;
 
@@ -17,7 +19,7 @@ namespace Opulence\Routing\Routes;
 class ParsedRoute extends Route
 {
     /** @var string|null The parsed (regex) host if set, otherwise null */
-    protected $hostRegex = null;
+    protected $hostRegex;
     /** @var string The parsed (regex) path */
     protected $pathRegex = '';
     /** @var array The mapping of route-variables to their default values */
@@ -55,7 +57,7 @@ class ParsedRoute extends Route
     /**
      * @return string
      */
-    public function getHostRegex() : string
+    public function getHostRegex(): string
     {
         // Default to matching everything if it isn't set
         return $this->hostRegex === null ? '#^.*$#' : $this->hostRegex;
@@ -64,7 +66,7 @@ class ParsedRoute extends Route
     /**
      * @return string
      */
-    public function getPathRegex() : string
+    public function getPathRegex(): string
     {
         return $this->pathRegex;
     }
@@ -75,7 +77,7 @@ class ParsedRoute extends Route
      * @param string $variableName The name of the variable whose default value we're setting
      * @param mixed $defaultValue The default value for the variable
      */
-    public function setDefaultValue(string $variableName, $defaultValue) : void
+    public function setDefaultValue(string $variableName, $defaultValue): void
     {
         $this->defaultValues[$variableName] = $defaultValue;
     }
@@ -83,7 +85,7 @@ class ParsedRoute extends Route
     /**
      * @param string $hostRegex
      */
-    public function setHostRegex(string $hostRegex) : void
+    public function setHostRegex(string $hostRegex): void
     {
         $this->hostRegex = $hostRegex;
     }
@@ -91,7 +93,7 @@ class ParsedRoute extends Route
     /**
      * @param string $regex
      */
-    public function setPathRegex(string $regex) : void
+    public function setPathRegex(string $regex): void
     {
         $this->pathRegex = $regex;
     }

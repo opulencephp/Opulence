@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Rules;
 
@@ -27,7 +29,7 @@ class RuleExtensionRegistry
      * @return IRule The rule extension
      * @throws InvalidArgumentException Thrown if no extension is registered with the name
      */
-    public function getRule(string $ruleName) : IRule
+    public function getRule(string $ruleName): IRule
     {
         if (!$this->hasRule($ruleName)) {
             throw new InvalidArgumentException("No rule extension with name \"$ruleName\" found");
@@ -42,7 +44,7 @@ class RuleExtensionRegistry
      * @param string $ruleName The name of the rule to search for
      * @return bool Whether or not the rule extension exists
      */
-    public function hasRule(string $ruleName) : bool
+    public function hasRule(string $ruleName): bool
     {
         return isset($this->extensions[$ruleName]);
     }
@@ -55,7 +57,7 @@ class RuleExtensionRegistry
      * @param string $slug The slug name of the rule (only used if the rule is a callback)
      * @throws InvalidArgumentException Thrown if the rule was incorrectly formatted
      */
-    public function registerRuleExtension($rule, string $slug = '') : void
+    public function registerRuleExtension($rule, string $slug = ''): void
     {
         if ($rule instanceof IRule) {
             $slug = $rule->getSlug();

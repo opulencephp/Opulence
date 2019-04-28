@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Ioc\Tests\Mocks;
 
@@ -16,7 +18,7 @@ namespace Opulence\Ioc\Tests\Mocks;
 class ConstructorWithInterface
 {
     /** @var IFoo The object passed into the constructor */
-    private $foo = null;
+    private $foo;
 
     /**
      * @param IFoo $foo The object to use
@@ -29,7 +31,7 @@ class ConstructorWithInterface
     /**
      * @return IFoo
      */
-    public function getFoo() : IFoo
+    public function getFoo(): IFoo
     {
         return $this->foo;
     }

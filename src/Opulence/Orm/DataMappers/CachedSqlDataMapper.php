@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm\DataMappers;
 
@@ -21,11 +23,11 @@ use Opulence\Orm\OrmException;
 abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
 {
     /** @var ICacheDataMapper The cache mapper to use for temporary storage */
-    protected $cacheDataMapper = null;
+    protected $cacheDataMapper;
     /** @var SqlDataMapper The SQL database data mapper to use for permanent storage */
-    protected $sqlDataMapper = null;
+    protected $sqlDataMapper;
     /** @var IIdAccessorRegistry The Id accessor registry */
-    protected $idAccessorRegistry = null;
+    protected $idAccessorRegistry;
     /** @var array The list of actions that are scheduled for committing */
     protected $scheduledActions = [];
 
@@ -49,7 +51,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function add($entity) : void
+    public function add($entity): void
     {
         $this->sqlDataMapper->add($entity);
         $this->scheduleForCacheInsertion($entity);
@@ -58,7 +60,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function commit() : void
+    public function commit(): void
     {
         try {
             foreach ($this->scheduledActions as $action) {
@@ -87,7 +89,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function delete($entity) : void
+    public function delete($entity): void
     {
         $this->sqlDataMapper->delete($entity);
         $this->scheduleForCacheDeletion($entity);
@@ -96,7 +98,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         return $this->read('getAll');
     }
@@ -112,7 +114,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getCacheDataMapper() : ICacheDataMapper
+    public function getCacheDataMapper(): ICacheDataMapper
     {
         return $this->cacheDataMapper;
     }
@@ -120,7 +122,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getSqlDataMapper() : SqlDataMapper
+    public function getSqlDataMapper(): SqlDataMapper
     {
         return $this->sqlDataMapper;
     }
@@ -128,7 +130,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getUnsyncedEntities() : array
+    public function getUnsyncedEntities(): array
     {
         return $this->compareCacheAndSqlEntities(false);
     }
@@ -136,7 +138,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function refreshCache() : array
+    public function refreshCache(): array
     {
         return $this->compareCacheAndSqlEntities(true);
     }
@@ -144,7 +146,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function refreshEntity($id) : void
+    public function refreshEntity($id): void
     {
         /**
          * We're refreshing because the entity in cache might have different properties than the one in the SQL database
@@ -165,7 +167,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function update($entity) : void
+    public function update($entity): void
     {
         $this->sqlDataMapper->update($entity);
         $this->scheduleForCacheUpdate($entity);
@@ -176,7 +178,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      *
      * @param mixed $cache The cache object used in the data mapper
      */
-    abstract protected function setCacheDataMapper($cache) : void;
+    abstract protected function setCacheDataMapper($cache): void;
 
     /**
      * Sets the SQL data mapper to use in this repo
@@ -184,7 +186,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      * @param IConnection $readConnection The read connection
      * @param IConnection $writeConnection The write connection
      */
-    abstract protected function setSqlDataMapper(IConnection $readConnection, IConnection $writeConnection) : void;
+    abstract protected function setSqlDataMapper(IConnection $readConnection, IConnection $writeConnection): void;
 
     /**
      * Attempts to retrieve an entity(ies) from the cache data mapper before resorting to an SQL database
@@ -234,7 +236,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      *
      * @param object $entity The entity to schedule
      */
-    protected function scheduleForCacheDeletion($entity) : void
+    protected function scheduleForCacheDeletion($entity): void
     {
         $this->scheduledActions[] = ['delete', $entity];
     }
@@ -244,7 +246,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      *
      * @param object $entity The entity to schedule
      */
-    protected function scheduleForCacheInsertion($entity) : void
+    protected function scheduleForCacheInsertion($entity): void
     {
         $this->scheduledActions[] = ['insert', $entity];
     }
@@ -254,7 +256,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      *
      * @param object $entity The entity to schedule
      */
-    protected function scheduleForCacheUpdate($entity) : void
+    protected function scheduleForCacheUpdate($entity): void
     {
         $this->scheduledActions[] = ['update', $entity];
     }
@@ -270,7 +272,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      *      The "additional" list contains entities in cache that were not at all in SQL
      * @throws OrmException Thrown if there was an error getting the unsynced entities
      */
-    private function compareCacheAndSqlEntities(bool $doRefresh) : array
+    private function compareCacheAndSqlEntities(bool $doRefresh): array
     {
         // If there was an issue grabbing all entities in cache, null will be returned
         $unkeyedCacheEntities = $this->cacheDataMapper->getAll();
@@ -336,7 +338,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      * @param object[] $entities The list of entities
      * @return object[] The keyed array
      */
-    private function keyEntityArray(array $entities) : array
+    private function keyEntityArray(array $entities): array
     {
         $keyedArray = [];
 

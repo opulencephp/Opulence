@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Responses;
 
@@ -22,7 +24,7 @@ class Response
     /** @var mixed The content of the response */
     protected $content = '';
     /** @var ResponseHeaders The headers in this response */
-    protected $headers = null;
+    protected $headers;
     /** @var int The status code of this response */
     protected $statusCode = ResponseHeaders::HTTP_OK;
     /** @var string The status text of this response */
@@ -45,7 +47,7 @@ class Response
     /**
      * @return string
      */
-    public function getContent() : string
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -53,7 +55,7 @@ class Response
     /**
      * @return ResponseHeaders
      */
-    public function getHeaders() : ResponseHeaders
+    public function getHeaders(): ResponseHeaders
     {
         return $this->headers;
     }
@@ -61,7 +63,7 @@ class Response
     /**
      * @return string
      */
-    public function getHttpVersion() : string
+    public function getHttpVersion(): string
     {
         return $this->httpVersion;
     }
@@ -69,7 +71,7 @@ class Response
     /**
      * @return int
      */
-    public function getStatusCode() : int
+    public function getStatusCode(): int
     {
         return $this->statusCode;
     }
@@ -79,7 +81,7 @@ class Response
      *
      * @return bool True if they've been sent, otherwise false
      */
-    public function headersAreSent() : bool
+    public function headersAreSent(): bool
     {
         return headers_sent();
     }

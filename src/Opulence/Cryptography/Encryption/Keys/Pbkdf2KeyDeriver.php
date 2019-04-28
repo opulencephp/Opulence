@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cryptography\Encryption\Keys;
 
@@ -18,7 +20,7 @@ use InvalidArgumentException;
 class Pbkdf2KeyDeriver implements IKeyDeriver
 {
     /** The number of iterations to perform when deriving a key */
-    const PBKDF2_NUM_ITERATIONS = 25000;
+    private const PBKDF2_NUM_ITERATIONS = 25000;
     /** @var int The number of iterations to perform */
     private $numIterations = self::PBKDF2_NUM_ITERATIONS;
 
@@ -33,7 +35,7 @@ class Pbkdf2KeyDeriver implements IKeyDeriver
     /**
      * @inheritdoc
      */
-    public function deriveKeysFromKey(string $key, string $salt, int $keyByteLength) : DerivedKeys
+    public function deriveKeysFromKey(string $key, string $salt, int $keyByteLength): DerivedKeys
     {
         $this->validateSaltLength($salt);
         $bothKeys = \hash_pbkdf2('sha512', $key, $salt, 1, $keyByteLength * 2);
@@ -46,7 +48,7 @@ class Pbkdf2KeyDeriver implements IKeyDeriver
     /**
      * @inheritdoc
      */
-    public function deriveKeysFromPassword(string $password, string $salt, int $keyByteLength) : DerivedKeys
+    public function deriveKeysFromPassword(string $password, string $salt, int $keyByteLength): DerivedKeys
     {
         $this->validateSaltLength($salt);
         $hash = \hash('sha512', $password, true);
@@ -64,7 +66,7 @@ class Pbkdf2KeyDeriver implements IKeyDeriver
      * @param string $salt The salt to validate
      * @throws InvalidArgumentException Thrown if the salt is not the correct length
      */
-    private function validateSaltLength(string $salt) : void
+    private function validateSaltLength(string $salt): void
     {
         if (\mb_strlen($salt, '8bit') !== self::KEY_SALT_BYTE_LENGTH) {
             throw new InvalidArgumentException('Salt must be ' . self::KEY_SALT_BYTE_LENGTH . ' bytes long');

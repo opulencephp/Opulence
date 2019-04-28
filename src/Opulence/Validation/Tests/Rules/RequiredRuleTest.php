@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Tests\Rules;
 
@@ -21,7 +23,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an empty array fails
      */
-    public function testEmptyArrayFails() : void
+    public function testEmptyArrayFails(): void
     {
         $rule = new RequiredRule();
         $this->assertFalse($rule->passes([]));
@@ -35,7 +37,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug() : void
+    public function testGettingSlug(): void
     {
         $rule = new RequiredRule();
         $this->assertEquals('required', $rule->getSlug());
@@ -44,7 +46,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a set value passes
      */
-    public function testSetValuePasses() : void
+    public function testSetValuePasses(): void
     {
         $rule = new RequiredRule();
         $this->assertTrue($rule->passes(0));
@@ -56,7 +58,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unset value fails
      */
-    public function testUnsetValueFails() : void
+    public function testUnsetValueFails(): void
     {
         $rule = new RequiredRule();
         $this->assertFalse($rule->passes(null));

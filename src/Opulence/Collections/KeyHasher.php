@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections;
 
@@ -26,7 +28,7 @@ class KeyHasher
      * @return string The value's hash key
      * @throws RuntimeException Thrown if the value's hash key could not be calculated
      */
-    public function getHashKey($value) : string
+    public function getHashKey($value): string
     {
         if (is_string($value)) {
             return "__opulence:s:$value";

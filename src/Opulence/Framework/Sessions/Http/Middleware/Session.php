@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Sessions\Http\Middleware;
 
@@ -24,12 +26,12 @@ use SessionHandlerInterface;
 abstract class Session implements IMiddleware
 {
     /** The key of the previous URL */
-    const PREVIOUS_URL_KEY = '__opulence_previous_url';
+    private const PREVIOUS_URL_KEY = '__opulence_previous_url';
 
     /** @var ISession The session used by the application */
-    protected $session = null;
+    protected $session;
     /** @var SessionHandlerInterface The session handler used by the application */
-    protected $sessionHandler = null;
+    protected $sessionHandler;
 
     /**
      * @param ISession $session The session used by the application
@@ -44,7 +46,7 @@ abstract class Session implements IMiddleware
     /**
      * @inheritdoc
      */
-    public function handle(Request $request, Closure $next) : Response
+    public function handle(Request $request, Closure $next): Response
     {
         $this->startSession($request);
 
@@ -68,7 +70,7 @@ abstract class Session implements IMiddleware
     /**
      * Runs garbage collection, if necessary
      */
-    abstract protected function gc() : void;
+    abstract protected function gc(): void;
 
     /**
      * Writes any session data needed in the response
@@ -76,14 +78,14 @@ abstract class Session implements IMiddleware
      * @param Response $response The response to write to
      * @return Response The response with data written to it
      */
-    abstract protected function writeToResponse(Response $response) : Response;
+    abstract protected function writeToResponse(Response $response): Response;
 
     /**
      * Starts the session
      *
      * @param Request $request The current request
      */
-    protected function startSession(Request $request) : void
+    protected function startSession(Request $request): void
     {
         $this->gc();
         $this->session->setId($request->getCookies()->get($this->session->getName()));
@@ -102,7 +104,7 @@ abstract class Session implements IMiddleware
      *
      * @param Response $response The response
      */
-    protected function writeSession(Response $response) : void
+    protected function writeSession(Response $response): void
     {
         $this->session->ageFlashData();
         $this->sessionHandler->write($this->session->getId(), serialize($this->session->getAll()));

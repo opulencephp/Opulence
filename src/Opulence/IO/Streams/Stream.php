@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\IO\Streams;
 
@@ -58,15 +60,15 @@ class Stream implements IStream
         'x+t'
     ];
     /** @var resource The underlying stream handle */
-    private $handle = null;
+    private $handle;
     /** @var int|null The length of the stream, if known */
-    private $length = null;
+    private $length;
     /** @var bool Whether or not the stream is readable */
-    private $isReadable = false;
+    private $isReadable;
     /** @var bool Whether or not the stream is seekable */
-    private $isSeekable = false;
+    private $isSeekable;
     /** @var bool Whether or not the stream is writable */
-    private $isWritable = false;
+    private $isWritable;
 
     /**
      * @param resource $handle The underlying stream handle
@@ -97,7 +99,7 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         try {
             $this->rewind();
@@ -111,7 +113,7 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function close() : void
+    public function close(): void
     {
         if (\is_resource($this->handle) && \fclose($this->handle) === false) {
             throw new RuntimeException('Failed to close stream');
@@ -127,7 +129,7 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function copyToStream(IStream $stream, int $bufferSize = 8192) : void
+    public function copyToStream(IStream $stream, int $bufferSize = 8192): void
     {
         while (!$this->isEof()) {
             $stream->write($this->read($bufferSize));
@@ -137,7 +139,7 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function getLength() : ?int
+    public function getLength(): ?int
     {
         // Handle a closed stream
         if ($this->handle === null) {
@@ -162,7 +164,7 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function getPosition() : int
+    public function getPosition(): int
     {
         if (!\is_resource($this->handle)) {
             throw new RuntimeException('Unable to get position of closed stream');
@@ -178,7 +180,7 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function isEof() : bool
+    public function isEof(): bool
     {
         if (!\is_resource($this->handle)) {
             throw new RuntimeException('Unable to tell if at EOF on closed stream');
@@ -190,7 +192,7 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function isReadable() : bool
+    public function isReadable(): bool
     {
         return $this->isReadable;
     }
@@ -198,7 +200,7 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function isSeekable() : bool
+    public function isSeekable(): bool
     {
         return $this->isSeekable;
     }
@@ -206,7 +208,7 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function isWritable() : bool
+    public function isWritable(): bool
     {
         return $this->isWritable;
     }
@@ -214,7 +216,7 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function read(int $length) : string
+    public function read(int $length): string
     {
         if (!$this->isReadable) {
             throw new RuntimeException('Stream is not readable');
@@ -230,7 +232,7 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function readToEnd() : string
+    public function readToEnd(): string
     {
         if (!$this->isReadable) {
             throw new RuntimeException('Stream is not readable');
@@ -246,7 +248,7 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function rewind() : void
+    public function rewind(): void
     {
         $this->seek(0);
     }
@@ -254,7 +256,7 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function seek(int $offset, int $whence = SEEK_SET) : void
+    public function seek(int $offset, int $whence = SEEK_SET): void
     {
         if (!$this->isSeekable || \fseek($this->handle, $offset, $whence)) {
             throw new RuntimeException('Stream is not seekable');
@@ -268,7 +270,7 @@ class Stream implements IStream
     /**
      * @inheritdoc
      */
-    public function write(string $data) : void
+    public function write(string $data): void
     {
         if (!$this->isWritable) {
             throw new RuntimeException('Stream is not writable');

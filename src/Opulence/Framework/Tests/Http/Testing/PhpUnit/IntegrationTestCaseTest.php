@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Http\Testing\PhpUnit;
 
@@ -19,12 +21,12 @@ use Opulence\Framework\Tests\Http\Testing\PhpUnit\Mocks\IntegrationTestCase as M
 class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MockIntegrationTestCase The HTTP integration test to use in tests */
-    private $integrationTest = null;
+    private $integrationTest;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->integrationTest = new MockIntegrationTestCase();
         $this->integrationTest->setUp();
@@ -33,7 +35,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that verbs return request builders
      */
-    public function testVerbsReturnRequestBuilders() : void
+    public function testVerbsReturnRequestBuilders(): void
     {
         $this->assertInstanceOf(RequestBuilder::class, $this->integrationTest->delete());
         $this->assertInstanceOf(RequestBuilder::class, $this->integrationTest->get());

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Requests;
 
@@ -19,13 +21,13 @@ use SplFileInfo;
 class UploadedFile extends SplFileInfo
 {
     /** @var string The temporary name of the file */
-    private $tmpFilename = '';
+    private $tmpFilename;
     /** @var int The size of the file in bytes */
-    private $tmpSize = 0;
+    private $tmpSize;
     /** @var string The mime type of the file */
-    private $tmpMimeType = '';
+    private $tmpMimeType;
     /** @var int The error message, if there was any */
-    private $error = UPLOAD_ERR_OK;
+    private $error;
 
     /**
      * @param string $path The path to the file
@@ -52,7 +54,7 @@ class UploadedFile extends SplFileInfo
     /**
      * @return int
      */
-    public function getError() : int
+    public function getError(): int
     {
         return $this->error;
     }
@@ -62,7 +64,7 @@ class UploadedFile extends SplFileInfo
      *
      * @return string The actual mime type
      */
-    public function getMimeType() : string
+    public function getMimeType(): string
     {
         $fInfo = new finfo(FILEINFO_MIME_TYPE);
 
@@ -74,7 +76,7 @@ class UploadedFile extends SplFileInfo
      *
      * @return string The temporary file's extension
      */
-    public function getTempExtension() : string
+    public function getTempExtension(): string
     {
         return pathinfo($this->tmpFilename, PATHINFO_EXTENSION);
     }
@@ -82,7 +84,7 @@ class UploadedFile extends SplFileInfo
     /**
      * @return string
      */
-    public function getTempFilename() : string
+    public function getTempFilename(): string
     {
         return $this->tmpFilename;
     }
@@ -90,7 +92,7 @@ class UploadedFile extends SplFileInfo
     /**
      * @return string
      */
-    public function getTempMimeType() : string
+    public function getTempMimeType(): string
     {
         return $this->tmpMimeType;
     }
@@ -98,7 +100,7 @@ class UploadedFile extends SplFileInfo
     /**
      * @return int
      */
-    public function getTempSize() : int
+    public function getTempSize(): int
     {
         return $this->tmpSize;
     }
@@ -108,7 +110,7 @@ class UploadedFile extends SplFileInfo
      *
      * @return bool True if the file has errors, otherwise false
      */
-    public function hasErrors() : bool
+    public function hasErrors(): bool
     {
         return $this->error !== UPLOAD_ERR_OK;
     }
@@ -150,7 +152,7 @@ class UploadedFile extends SplFileInfo
      * @param string $target The path to move to
      * @return bool True if the move was successful, otherwise false
      */
-    protected function doMove(string $source, string $target) : bool
+    protected function doMove(string $source, string $target): bool
     {
         return @move_uploaded_file($source, $target);
     }

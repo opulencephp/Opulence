@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Composer;
 
@@ -16,7 +18,7 @@ namespace Opulence\Framework\Composer;
 class Composer
 {
     /** @var array The raw config */
-    private $rawConfig = [];
+    private $rawConfig;
     /** @var string The path to the root of the project */
     private $rootPath = '';
     /** @var string The path to the PSR-4 source directory */
@@ -41,7 +43,7 @@ class Composer
      * @param string $psr4RootPath The path to the PSR-4 source directory
      * @return Composer An instance of this class
      */
-    public static function createFromRawConfig(string $rootPath, string $psr4RootPath) : Composer
+    public static function createFromRawConfig(string $rootPath, string $psr4RootPath): Composer
     {
         $composerConfigPath = "$rootPath/composer.json";
 
@@ -80,7 +82,7 @@ class Composer
      * @param string $fullyQualifiedClassName The fully-qualified class name
      * @return string The path
      */
-    public function getClassPath(string $fullyQualifiedClassName) : string
+    public function getClassPath(string $fullyQualifiedClassName): string
     {
         $parts = explode('\\', $fullyQualifiedClassName);
 
@@ -112,7 +114,7 @@ class Composer
      * @param string $defaultNamespace The default namespace
      * @return string The fully-qualified class name
      */
-    public function getFullyQualifiedClassName(string $className, string $defaultNamespace) : string
+    public function getFullyQualifiedClassName(string $className, string $defaultNamespace): string
     {
         $rootNamespace = $this->getRootNamespace();
 
@@ -127,7 +129,7 @@ class Composer
     /**
      * @return array
      */
-    public function getRawConfig() : array
+    public function getRawConfig(): array
     {
         return $this->rawConfig;
     }
@@ -137,16 +139,20 @@ class Composer
      *
      * @return string|null The root namespace
      */
-    public function getRootNamespace() : ?string
+    public function getRootNamespace(): ?string
     {
         if (($psr4 = $this->get('autoload.psr-4')) === null) {
             return null;
         }
 
         foreach ($psr4 as $namespace => $namespacePaths) {
+            $realPsr4RootPath = \realpath($this->psr4RootPath);
+
             foreach ((array)$namespacePaths as $namespacePath) {
                 // The namespace path should be a subdirectory of the "src" directory
-                if (mb_strpos(realpath($this->rootPath . '/' . $namespacePath), realpath($this->psr4RootPath)) === 0) {
+                $realNamespacePath = \realpath($this->rootPath . '/' . $namespacePath);
+
+                if ($realPsr4RootPath !== false && $realNamespacePath !== false && mb_strpos($realNamespacePath, $realPsr4RootPath) === 0) {
                     return rtrim($namespace, '\\');
                 }
             }
@@ -160,7 +166,7 @@ class Composer
      *
      * @return array|null The root namespace paths
      */
-    public function getRootNamespacePaths() : ?array
+    public function getRootNamespacePaths(): ?array
     {
         if (($rootNamespace = $this->getRootNamespace()) === null) {
             return null;

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
@@ -28,26 +30,26 @@ interface IExceptionRenderer extends IBaseRenderer
      * @throws LogicException Thrown if the response has not been rendered yet
      * @return Response The last response
      */
-    public function getResponse() : Response;
+    public function getResponse(): Response;
 
     /**
      * Sets the HTTP request
      *
      * @param Request $request The current request
      */
-    public function setRequest(Request $request) : void;
+    public function setRequest(Request $request): void;
 
     /**
      * Sets the view compiler
      *
      * @param ICompiler $viewCompiler The view compiler
      */
-    public function setViewCompiler(ICompiler $viewCompiler) : void;
+    public function setViewCompiler(ICompiler $viewCompiler): void;
 
     /**
      * Sets the view factory
      *
      * @param IViewFactory $viewFactory The view factory
      */
-    public function setViewFactory(IViewFactory $viewFactory) : void;
+    public function setViewFactory(IViewFactory $viewFactory): void;
 }

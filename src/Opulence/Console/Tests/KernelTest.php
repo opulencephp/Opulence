@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests;
 
@@ -29,20 +31,20 @@ use Opulence\Console\Tests\Responses\Mocks\Response;
 class KernelTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CommandCompiler The command compiler */
-    private $compiler = null;
+    private $compiler;
     /** @var CommandCollection The list of commands */
-    private $commands = null;
+    private $commands;
     /** @var StringParser The request parser */
-    private $parser = null;
+    private $parser;
     /** @var Response The response to use in tests */
-    private $response = null;
+    private $response;
     /** @var Kernel The kernel to use in tests */
-    private $kernel = null;
+    private $kernel;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->compiler = new CommandCompiler();
         $this->commands = new CommandCollection($this->compiler);
@@ -61,7 +63,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling an exception
      */
-    public function testHandlingException() : void
+    public function testHandlingException(): void
     {
         ob_start();
         $status = $this->kernel->handle("unclosed quote '", $this->response);
@@ -72,7 +74,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling a help command
      */
-    public function testHandlingHelpCommand() : void
+    public function testHandlingHelpCommand(): void
     {
         // Try with command name
         ob_start();
@@ -102,7 +104,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling help command with non-existent command
      */
-    public function testHandlingHelpCommandWithNonExistentCommand() : void
+    public function testHandlingHelpCommandWithNonExistentCommand(): void
     {
         ob_start();
         $status = $this->kernel->handle('help fake', $this->response);
@@ -113,7 +115,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling command with arguments and options
      */
-    public function testHandlingHolidayCommand() : void
+    public function testHandlingHolidayCommand(): void
     {
         // Test with short option
         ob_start();
@@ -131,7 +133,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling in a missing command
      */
-    public function testHandlingMissingCommand() : void
+    public function testHandlingMissingCommand(): void
     {
         ob_start();
         $status = $this->kernel->handle('fake', $this->response);
@@ -142,7 +144,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling in a simple command
      */
-    public function testHandlingSimpleCommand() : void
+    public function testHandlingSimpleCommand(): void
     {
         ob_start();
         $status = $this->kernel->handle('mockcommand', $this->response);
@@ -153,7 +155,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling a version command
      */
-    public function testHandlingVersionCommand() : void
+    public function testHandlingVersionCommand(): void
     {
         // Try with short name
         ob_start();

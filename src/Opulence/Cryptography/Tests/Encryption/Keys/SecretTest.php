@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cryptography\Tests\Encryption\Keys;
 
@@ -19,12 +21,12 @@ use Opulence\Cryptography\Encryption\Keys\SecretTypes;
 class SecretTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Secret The secret to use in tests */
-    private $secret = null;
+    private $secret;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->secret = new Secret(SecretTypes::PASSWORD, 'foo');
     }
@@ -32,7 +34,7 @@ class SecretTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the type
      */
-    public function testGettingType() : void
+    public function testGettingType(): void
     {
         $this->assertEquals(SecretTypes::PASSWORD, $this->secret->getType());
     }
@@ -40,7 +42,7 @@ class SecretTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the value
      */
-    public function testGettingValue() : void
+    public function testGettingValue(): void
     {
         $this->assertEquals('foo', $this->secret->getValue());
     }
@@ -48,7 +50,7 @@ class SecretTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a valid key
      */
-    public function testValidKey() : void
+    public function testValidKey(): void
     {
         $key = str_repeat('a', 32);
         $secret = new Secret(SecretTypes::KEY, $key);

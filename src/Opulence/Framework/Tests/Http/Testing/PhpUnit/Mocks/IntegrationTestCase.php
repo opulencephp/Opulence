@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Http\Testing\PhpUnit\Mocks;
 
@@ -20,10 +22,11 @@ use Opulence\Framework\Http\Testing\PhpUnit\Assertions\ViewAssertions;
 use Opulence\Framework\Http\Testing\PhpUnit\IntegrationTestCase as BaseIntegrationTestCase;
 use Opulence\Framework\Routing\Bootstrappers\RouterBootstrapper;
 use Opulence\Http\Responses\Response;
-use Opulence\Ioc\Bootstrappers\Dispatchers\BootstrapperDispatcher;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
 use Opulence\Routing\Router;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Mocks the HTTP integration test for use in testing
@@ -41,7 +44,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return ResponseAssertions
      */
-    public function getResponseAssertions() : ResponseAssertions
+    public function getResponseAssertions(): ResponseAssertions
     {
         return $this->assertResponse;
     }
@@ -49,7 +52,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * @return Router
      */
-    public function getRouter() : Router
+    public function getRouter(): Router
     {
         return $this->router;
     }
@@ -59,7 +62,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return ViewAssertions The view assertions
      */
-    public function getViewAssertions() : ViewAssertions
+    public function getViewAssertions(): ViewAssertions
     {
         return $this->assertView;
     }
@@ -67,7 +70,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * Sets up the application and container
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         Config::setCategory('paths', [
             'configs' => realpath(__DIR__ . '/../../configs'),
@@ -79,14 +82,11 @@ class IntegrationTestCase extends BaseIntegrationTestCase
         $this->container->bindInstance(IContainer::class, $this->container);
 
         // Setup the bootstrappers
-        $bootstrapperDispatcher = new BootstrapperDispatcher($this->container);
-        $bootstrappers = [];
-
         foreach (self::$bootstrappers as $bootstrapperClass) {
-            $bootstrappers[] = new $bootstrapperClass();
+            /** @var Bootstrapper $bootstrapper */
+            $bootstrapper = new $bootstrapperClass;
+            $bootstrapper->registerBindings($this->container);
         }
-
-        $bootstrapperDispatcher->dispatch($bootstrappers);
 
         parent::setUp();
     }
@@ -94,7 +94,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * @inheritdoc
      */
-    protected function getExceptionHandler() : IExceptionHandler
+    protected function getExceptionHandler(): IExceptionHandler
     {
         return $this->getMockBuilder(ExceptionHandler::class)
             ->disableOriginalConstructor()
@@ -104,11 +104,11 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * @inheritdoc
      */
-    protected function getExceptionRenderer() : IExceptionRenderer
+    protected function getExceptionRenderer(): IExceptionRenderer
     {
-        /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $renderer */
+        /** @var IExceptionRenderer|MockObject $renderer */
         $renderer = $this->createMock(IExceptionRenderer::class);
-        /** @var Response|\PHPUnit_Framework_MockObject_MockObject $response */
+        /** @var Response|MockObject $response */
         $response = $this->createMock(Response::class);
         // Mock a 404 status code because this will primarily be used for missing routes in our tests
         $response->expects($this->any())
@@ -124,7 +124,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * @inheritdoc
      */
-    protected function getGlobalMiddleware() : array
+    protected function getGlobalMiddleware(): array
     {
         return [];
     }

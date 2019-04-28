@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Requests;
 
@@ -47,33 +49,33 @@ class Request
     /** @var array The client's IP addresses */
     private $clientIPAddresses = [];
     /** @var Collection The list of GET parameters */
-    private $query = null;
+    private $query;
     /** @var Collection The list of POST parameters */
-    private $post = null;
+    private $post;
     /** @var Collection The list of PUT parameters */
-    private $put = null;
+    private $put;
     /** @var Collection The list of PATCH parameters */
-    private $patch = null;
+    private $patch;
     /** @var Collection The list of DELETE parameters */
-    private $delete = null;
+    private $delete;
     /** @var RequestHeaders The list of headers */
-    private $headers = null;
+    private $headers;
     /** @var Collection The list of SERVER parameters */
-    private $server = null;
+    private $server;
     /** @var Collection The list of FILES parameters */
-    private $files = null;
+    private $files;
     /** @var Collection The list of ENV parameters */
-    private $env = null;
+    private $env;
     /** @var Collection The list of cookies */
-    private $cookies = null;
+    private $cookies;
     /** @var string The path of the request, which does not include the query string */
     private $path = '';
     /** @var string The previous URL */
     private $previousUrl = '';
     /** @var string The raw body of the request */
-    private $rawBody = null;
+    private $rawBody;
     /** @var Collection The original collection if we're faking the method via a form input value */
-    private $originalMethodCollection = null;
+    private $originalMethodCollection;
 
     /**
      * @param array $query The GET parameters
@@ -131,7 +133,7 @@ class Request
         array $files = null,
         array $env = null,
         string $rawBody = null
-    ) : Request {
+    ): Request {
         $query = $query ?? $_GET;
         $post = $post ?? $_POST;
         $cookies = $cookies ?? $_COOKIE;
@@ -173,7 +175,7 @@ class Request
         array $files = [],
         array $env = [],
         string $rawBody = null
-    ) : Request {
+    ): Request {
         // Define some basic server vars, but override them with with input on collision
         $server = array_replace(
             [
@@ -242,7 +244,7 @@ class Request
         $parsedFiles = [];
 
         foreach ($files as $file) {
-            $parsedFiles[] = [
+            $parsedFiles[$file->getFilename()] = [
                 'tmp_name' => $file->getFilename(),
                 'name' => $file->getTempFilename(),
                 'size' => $file->getTempSize(),
@@ -295,7 +297,7 @@ class Request
     /**
      * @return string
      */
-    public function getClientIPAddress() : string
+    public function getClientIPAddress(): string
     {
         return $this->clientIPAddresses[0];
     }
@@ -303,7 +305,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getCookies() : Collection
+    public function getCookies(): Collection
     {
         return $this->cookies;
     }
@@ -311,7 +313,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getDelete() : Collection
+    public function getDelete(): Collection
     {
         return $this->delete;
     }
@@ -319,7 +321,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getEnv() : Collection
+    public function getEnv(): Collection
     {
         return $this->env;
     }
@@ -327,7 +329,7 @@ class Request
     /**
      * @return Files
      */
-    public function getFiles() : Files
+    public function getFiles(): Files
     {
         return $this->files;
     }
@@ -338,7 +340,7 @@ class Request
      * @return string The full URL
      * @link http://stackoverflow.com/questions/6768793/get-the-full-url-in-php#answer-8891890
      */
-    public function getFullUrl() : string
+    public function getFullUrl(): string
     {
         $isSecure = $this->isSecure();
         $rawProtocol = strtolower($this->server->get('SERVER_PROTOCOL'));
@@ -359,7 +361,7 @@ class Request
     /**
      * @return RequestHeaders
      */
-    public function getHeaders() : RequestHeaders
+    public function getHeaders(): RequestHeaders
     {
         return $this->headers;
     }
@@ -370,7 +372,7 @@ class Request
      * @return string The host
      * @throws InvalidArgumentException Thrown if the host was invalid
      */
-    public function getHost() : string
+    public function getHost(): string
     {
         $host = null;
 
@@ -456,7 +458,7 @@ class Request
      * @return array The JSON-decoded body
      * @throws RuntimeException Thrown if the body could not be decoded
      */
-    public function getJsonBody() : array
+    public function getJsonBody(): array
     {
         $json = json_decode($this->getRawBody(), true);
 
@@ -472,7 +474,7 @@ class Request
      *
      * @return string The method used in the request
      */
-    public function getMethod() : string
+    public function getMethod(): string
     {
         return $this->method;
     }
@@ -490,7 +492,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getPatch() : Collection
+    public function getPatch(): Collection
     {
         return $this->patch;
     }
@@ -498,7 +500,7 @@ class Request
     /**
      * @return string
      */
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -508,7 +510,7 @@ class Request
      *
      * @return int The port number
      */
-    public function getPort() : int
+    public function getPort(): int
     {
         if ($this->isUsingTrustedProxy()) {
             if ($this->server->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_PORT])) {
@@ -524,7 +526,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getPost() : Collection
+    public function getPost(): Collection
     {
         return $this->post;
     }
@@ -535,7 +537,7 @@ class Request
      * @param bool $fallBackToReferer True if we fall back to the HTTP referer header, otherwise false
      * @return string The previous URL
      */
-    public function getPreviousUrl(bool $fallBackToReferer = true) : string
+    public function getPreviousUrl(bool $fallBackToReferer = true): string
     {
         if (!empty($this->previousUrl)) {
             return $this->previousUrl;
@@ -551,7 +553,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getPut() : Collection
+    public function getPut(): Collection
     {
         return $this->put;
     }
@@ -559,7 +561,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getQuery() : Collection
+    public function getQuery(): Collection
     {
         return $this->query;
     }
@@ -569,7 +571,7 @@ class Request
      *
      * @return string The raw body
      */
-    public function getRawBody() : string
+    public function getRawBody(): string
     {
         if ($this->rawBody === null) {
             $this->rawBody = file_get_contents('php://input');
@@ -581,7 +583,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getServer() : Collection
+    public function getServer(): Collection
     {
         return $this->server;
     }
@@ -601,7 +603,7 @@ class Request
      *
      * @return bool True if the request was made by AJAX, otherwise false
      */
-    public function isAjax() : bool
+    public function isAjax(): bool
     {
         return $this->headers->get('X_REQUESTED_WITH') === 'XMLHttpRequest';
     }
@@ -611,9 +613,13 @@ class Request
      *
      * @return bool True if the request body was JSON, otherwise false
      */
-    public function isJson() : bool
+    public function isJson(): bool
     {
-        return preg_match("/application\/json/i", $this->headers->get('CONTENT_TYPE')) === 1;
+        if (($contentType = $this->headers->get('CONTENT_TYPE')) === null) {
+            return false;
+        }
+
+        return preg_match("/application\/json/i", $contentType) === 1;
     }
 
     /**
@@ -624,7 +630,7 @@ class Request
      * @param bool $isRegex True if the path is a regular expression, otherwise false
      * @return bool True if the current path matched the path, otherwise false
      */
-    public function isPath(string $path, bool $isRegex = false) : bool
+    public function isPath(string $path, bool $isRegex = false): bool
     {
         if ($isRegex) {
             return preg_match('#^' . $path . '$#', $this->path) === 1;
@@ -638,7 +644,7 @@ class Request
      *
      * @return bool True if the request is secure, otherwise false
      */
-    public function isSecure() : bool
+    public function isSecure(): bool
     {
         if ($this->isUsingTrustedProxy() && $this->server->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_PROTO])) {
             $protoString = $this->server->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_PROTO]);
@@ -658,7 +664,7 @@ class Request
      * @param bool $isRegex True if the URL is a regular expression, otherwise false
      * @return bool True if the current URL matched the URL, otherwise false
      */
-    public function isUrl(string $url, bool $isRegex = false) : bool
+    public function isUrl(string $url, bool $isRegex = false): bool
     {
         if ($isRegex) {
             return preg_match('#^' . $url . '$#', $this->getFullUrl()) === 1;
@@ -753,7 +759,7 @@ class Request
      *
      * @return bool True if using a trusted proxy, otherwise false
      */
-    private function isUsingTrustedProxy() : bool
+    private function isUsingTrustedProxy(): bool
     {
         return in_array($this->server->get('REMOTE_ADDR'), self::$trustedProxies);
     }
@@ -809,9 +815,11 @@ class Request
          * the input stream to grab their data.  If the content is not from a form, we
          * don't bother and just let users look the data up in the raw body.
          */
+        $contentType = $this->headers->get('CONTENT_TYPE');
+
         if (
-            (mb_strpos($this->headers->get('CONTENT_TYPE'), 'application/x-www-form-urlencoded') === 0
-                || mb_strpos($this->headers->get('CONTENT_TYPE'), 'multipart/form-data') === 0) &&
+            ($contentType !== null && (mb_strpos($contentType, 'application/x-www-form-urlencoded') === 0
+                || mb_strpos($contentType, 'multipart/form-data') === 0)) &&
             in_array($this->method, [RequestMethods::PUT, RequestMethods::PATCH, RequestMethods::DELETE])
         ) {
             if ($this->originalMethodCollection === null) {

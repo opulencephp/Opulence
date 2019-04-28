@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Routes\Compilers\Matchers;
 
@@ -22,9 +24,10 @@ class HostMatcher implements IRouteMatcher
      * @inheritdoc
      * @param array $matches The list of regex matches
      */
-    public function isMatch(ParsedRoute $route, Request $request, array &$matches = []) : bool
+    public function isMatch(ParsedRoute $route, Request $request, array &$matches = []): bool
     {
-        $isMatch = preg_match($route->getHostRegex(), $request->getHeaders()->get('HOST'), $matches) === 1;
+        // Specifically use an empty host as the default in case the regex allows that
+        $isMatch = preg_match($route->getHostRegex(), $request->getHeaders()->get('HOST', ''), $matches) === 1;
         // Remove the subject
         array_shift($matches);
 

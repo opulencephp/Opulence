@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authorization\Roles;
 
@@ -20,9 +22,9 @@ use Opulence\Authorization\Roles\Orm\IRoleRepository;
 class Roles implements IRoles
 {
     /** @var IRoleRepository The role repository */
-    protected $roleRepository = null;
+    protected $roleRepository;
     /** @var IRoleMembershipRepository The role membership repository */
-    protected $roleMembershipRepository = null;
+    protected $roleMembershipRepository;
 
     /**
      * @param IRoleRepository $roleRepository The role repository
@@ -37,7 +39,7 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function assignRoles($subjectId, $roleNames) : void
+    public function assignRoles($subjectId, $roleNames): void
     {
         foreach ((array)$roleNames as $roleName) {
             if (($role = $this->roleRepository->getByName($roleName)) === null) {
@@ -52,7 +54,7 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function createRole(string $roleName) : Role
+    public function createRole(string $roleName): Role
     {
         $role = new Role(-1, $roleName);
         $this->roleRepository->add($role);
@@ -63,7 +65,7 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function deleteRole(string $roleName) : void
+    public function deleteRole(string $roleName): void
     {
         if (($role = $this->roleRepository->getByName($roleName)) !== null) {
             $this->roleRepository->delete($role);
@@ -73,7 +75,7 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function getRolesForSubject($subjectId) : array
+    public function getRolesForSubject($subjectId): array
     {
         return $this->roleMembershipRepository->getBySubjectId($subjectId);
     }
@@ -81,7 +83,7 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function getSubjectIdsWithRole(string $roleName) : array
+    public function getSubjectIdsWithRole(string $roleName): array
     {
         if (($role = $this->roleRepository->getByName($roleName)) === null) {
             return [];
@@ -99,7 +101,7 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function removeAllRolesFromSubject($subjectId) : void
+    public function removeAllRolesFromSubject($subjectId): void
     {
         // Pass membership by reference because delete() accepts references
         foreach ($this->roleMembershipRepository->getBySubjectId($subjectId) as &$membership) {
@@ -110,7 +112,7 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function removeRolesFromSubject($subjectId, $roleNames) : void
+    public function removeRolesFromSubject($subjectId, $roleNames): void
     {
         $roleNames = (array)$roleNames;
 
@@ -125,7 +127,7 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function roleExists(string $roleName) : bool
+    public function roleExists(string $roleName): bool
     {
         return $this->roleRepository->getByName($roleName) !== null;
     }
@@ -133,7 +135,7 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function subjectHasRole($subjectId, string $roleName) : bool
+    public function subjectHasRole($subjectId, string $roleName): bool
     {
         if (($role = $this->roleRepository->getByName($roleName)) === null) {
             return false;

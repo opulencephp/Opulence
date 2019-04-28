@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens;
 
@@ -20,12 +22,12 @@ use Opulence\Authentication\Tokens\Signatures\Algorithms;
 class JwtHeaderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var JwtHeader The header to use in tests */
-    private $header = null;
+    private $header;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->header = new JwtHeader(Algorithms::SHA512);
     }
@@ -33,7 +35,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the default algorithm is SHA256
      */
-    public function testDefaultAlgorithmIsSha256() : void
+    public function testDefaultAlgorithmIsSha256(): void
     {
         $header = new JwtHeader();
         $this->assertEquals('HS256', $header->getAlgorithm());
@@ -42,7 +44,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the algorithm
      */
-    public function testGettingAlgorithm() : void
+    public function testGettingAlgorithm(): void
     {
         $this->assertEquals('HS512', $this->header->getAlgorithm());
     }
@@ -50,7 +52,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all values
      */
-    public function testGettingAllValues() : void
+    public function testGettingAllValues(): void
     {
         $expected = [
             'typ' => 'JWT',
@@ -65,7 +67,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the content type
      */
-    public function testGettingContentType() : void
+    public function testGettingContentType(): void
     {
         $this->header->add('cty', 'JWT');
         $this->assertEquals('JWT', $this->header->getContentType());
@@ -74,7 +76,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the encoded string
      */
-    public function testGettingEncodedString() : void
+    public function testGettingEncodedString(): void
     {
         $headers = [
             'typ' => 'JWT',
@@ -95,7 +97,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the token type
      */
-    public function testGettingTokenType() : void
+    public function testGettingTokenType(): void
     {
         $this->assertEquals('JWT', $this->header->getTokenType());
     }
@@ -103,7 +105,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the value for an extra header
      */
-    public function testGettingValue() : void
+    public function testGettingValue(): void
     {
         $this->assertNull($this->header->get('foo'));
         $this->header->add('foo', 'bar');
@@ -115,7 +117,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an invalid algorithm in the constructor throws an exception
      */
-    public function testInvalidAlgorithmInConstructorThrowsException() : void
+    public function testInvalidAlgorithmInConstructorThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new JwtHeader('foo');
@@ -124,7 +126,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the "none" algorithm
      */
-    public function testSettingNoneAlgorithm() : void
+    public function testSettingNoneAlgorithm(): void
     {
         $this->header->add('alg', 'none');
         $this->assertEquals('none', $this->header->getAlgorithm());

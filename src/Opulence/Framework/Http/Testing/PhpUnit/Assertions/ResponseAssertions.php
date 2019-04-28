@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Http\Testing\PhpUnit\Assertions;
 
@@ -23,7 +25,7 @@ use RecursiveIteratorIterator;
 class ResponseAssertions extends TestCase
 {
     /** @var Response The HTTP response */
-    protected $response = null;
+    protected $response;
 
     /**
      * Asserts that the response's contents match the input
@@ -31,7 +33,7 @@ class ResponseAssertions extends TestCase
      * @param mixed $expected The expected value
      * @return self For method chaining
      */
-    public function contentEquals($expected) : self
+    public function contentEquals($expected): self
     {
         $this->checkResponseIsSet();
         $this->assertEquals($expected, $this->response->getContent());
@@ -46,7 +48,7 @@ class ResponseAssertions extends TestCase
      * @param mixed $expected The expected value
      * @return self For method chaining
      */
-    public function cookieValueEquals(string $name, $expected) : self
+    public function cookieValueEquals(string $name, $expected): self
     {
         $this->checkResponseIsSet();
         $cookies = $this->response->getHeaders()->getCookies();
@@ -71,7 +73,7 @@ class ResponseAssertions extends TestCase
      * @param string $name The name of the cookie to search for
      * @return self For method chaining
      */
-    public function hasCookie(string $name) : self
+    public function hasCookie(string $name): self
     {
         $this->checkResponseIsSet();
         $cookies = $this->response->getHeaders()->getCookies();
@@ -96,7 +98,7 @@ class ResponseAssertions extends TestCase
      * @param string $name The name of the header to search for
      * @return self For method chaining
      */
-    public function hasHeader(string $name) : self
+    public function hasHeader(string $name): self
     {
         $this->checkResponseIsSet();
         $this->assertTrue(
@@ -114,7 +116,7 @@ class ResponseAssertions extends TestCase
      * @param mixed $expected The expected value
      * @return self For method chaining
      */
-    public function headerEquals(string $name, $expected) : self
+    public function headerEquals(string $name, $expected): self
     {
         $this->checkResponseIsSet();
         $this->assertEquals($expected, $this->response->getHeaders()->get($name));
@@ -127,7 +129,7 @@ class ResponseAssertions extends TestCase
      *
      * @return self For method chaining
      */
-    public function isInternalServerError() : self
+    public function isInternalServerError(): self
     {
         $this->checkResponseIsSet();
         $this->assertEquals(ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR, $this->response->getStatusCode());
@@ -140,7 +142,7 @@ class ResponseAssertions extends TestCase
      *
      * @return self For method chaining
      */
-    public function isNotFound() : self
+    public function isNotFound(): self
     {
         $this->checkResponseIsSet();
         $this->assertEquals(ResponseHeaders::HTTP_NOT_FOUND, $this->response->getStatusCode());
@@ -153,7 +155,7 @@ class ResponseAssertions extends TestCase
      *
      * @return self For method chaining
      */
-    public function isOK() : self
+    public function isOK(): self
     {
         $this->checkResponseIsSet();
         $this->assertEquals(ResponseHeaders::HTTP_OK, $this->response->getStatusCode());
@@ -166,7 +168,7 @@ class ResponseAssertions extends TestCase
      *
      * @return self For method chaining
      */
-    public function isUnauthorized() : self
+    public function isUnauthorized(): self
     {
         $this->checkResponseIsSet();
         $this->assertEquals(ResponseHeaders::HTTP_UNAUTHORIZED, $this->response->getStatusCode());
@@ -180,7 +182,7 @@ class ResponseAssertions extends TestCase
      * @param array $expected The expected value
      * @return self For method chaining
      */
-    public function jsonContains(array $expected) : self
+    public function jsonContains(array $expected): self
     {
         $this->checkResponseIsSet();
         $this->assertJson($this->response->getContent());
@@ -213,7 +215,7 @@ class ResponseAssertions extends TestCase
      * @param string $expected The expected key
      * @return self For method chaining
      */
-    public function jsonContainsKey(string $expected) : self
+    public function jsonContainsKey(string $expected): self
     {
         $this->checkResponseIsSet();
         $this->assertJson($this->response->getContent());
@@ -242,7 +244,7 @@ class ResponseAssertions extends TestCase
      * @param array $expected The expected value
      * @return self For method chaining
      */
-    public function jsonEquals(array $expected) : self
+    public function jsonEquals(array $expected): self
     {
         $this->checkResponseIsSet();
         $this->assertJson($this->response->getContent());
@@ -257,7 +259,7 @@ class ResponseAssertions extends TestCase
      * @param string $url The expected URL
      * @return self For method chaining
      */
-    public function redirectsTo(string $url) : self
+    public function redirectsTo(string $url): self
     {
         $this->checkResponseIsSet();
         $this->assertTrue(
@@ -271,7 +273,7 @@ class ResponseAssertions extends TestCase
     /**
      * @param Response $response
      */
-    public function setResponse($response) : void
+    public function setResponse($response): void
     {
         $this->response = $response;
     }
@@ -282,7 +284,7 @@ class ResponseAssertions extends TestCase
      * @param int $statusCode The expected status code
      * @return self For method chaining
      */
-    public function statusCodeEquals(int $statusCode) : self
+    public function statusCodeEquals(int $statusCode): self
     {
         $this->checkResponseIsSet();
         $this->assertEquals($statusCode, $this->response->getStatusCode());
@@ -294,7 +296,7 @@ class ResponseAssertions extends TestCase
      * Checks if the response was set
      * Useful for making sure the response was set before making any assertions on it
      */
-    private function checkResponseIsSet() : void
+    private function checkResponseIsSet(): void
     {
         if ($this->response === null) {
             $this->fail('Must call route() before assertions');

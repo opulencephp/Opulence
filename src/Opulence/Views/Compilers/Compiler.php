@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Compilers;
 
@@ -18,7 +20,7 @@ use Opulence\Views\IView;
 class Compiler implements ICompiler
 {
     /** @var ICompilerRegistry The compiler registry */
-    protected $registry = null;
+    protected $registry;
 
     /**
      * @param ICompilerRegistry $registry The compiler registry
@@ -31,7 +33,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function compile(IView $view) : string
+    public function compile(IView $view): string
     {
         return $this->registry->getCompiler($view)->compile($view);
     }

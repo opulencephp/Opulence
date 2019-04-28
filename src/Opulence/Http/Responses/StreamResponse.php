@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Responses;
 
@@ -18,7 +20,7 @@ use LogicException;
 class StreamResponse extends Response
 {
     /** @var callable The stream callback */
-    protected $streamCallback = null;
+    protected $streamCallback;
     /** @var bool Whether or not we've sent the stream */
     protected $hasSentStream = false;
 

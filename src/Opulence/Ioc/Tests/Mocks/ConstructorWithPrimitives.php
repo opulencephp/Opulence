@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Ioc\Tests\Mocks;
 
@@ -16,9 +18,9 @@ namespace Opulence\Ioc\Tests\Mocks;
 class ConstructorWithPrimitives
 {
     /** @var string A primitive stored by this class */
-    private $foo = '';
+    private $foo;
     /** @var string A primitive stored by this class */
-    private $bar = '';
+    private $bar;
 
     /**
      * @param string $foo A primitive to store in this class
@@ -33,7 +35,7 @@ class ConstructorWithPrimitives
     /**
      * @return string
      */
-    public function getBar() : string
+    public function getBar(): string
     {
         return $this->bar;
     }
@@ -41,7 +43,7 @@ class ConstructorWithPrimitives
     /**
      * @return string
      */
-    public function getFoo() : string
+    public function getFoo(): string
     {
         return $this->foo;
     }

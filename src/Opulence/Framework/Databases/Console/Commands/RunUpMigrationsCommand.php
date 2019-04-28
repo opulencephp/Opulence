@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Databases\Console\Commands;
 
@@ -20,7 +22,7 @@ use Opulence\Databases\Migrations\IMigrator;
 class RunUpMigrationsCommand extends Command
 {
     /** @var IMigrator The migrator to use */
-    private $migrator = null;
+    private $migrator;
 
     /**
      * @param IMigrator $migrator The migrator to use
@@ -35,7 +37,7 @@ class RunUpMigrationsCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define() : void
+    protected function define(): void
     {
         $this->setName('migrations:up')
             ->setDescription('Runs the "up" database migrations');

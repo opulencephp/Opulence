@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Testing\PhpUnit;
 
@@ -25,8 +27,8 @@ use Opulence\Console\Responses\Response;
 use Opulence\Console\Responses\StreamResponse;
 use Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions;
 use Opulence\Ioc\IContainer;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 
 /**
  * Defines the console integration test
@@ -34,25 +36,25 @@ use PHPUnit_Framework_MockObject_MockObject;
 abstract class IntegrationTestCase extends TestCase
 {
     /** @var IContainer The IoC container */
-    protected $container = null;
+    protected $container;
     /** @var CommandCollection The list of registered commands */
-    protected $commandCollection = null;
+    protected $commandCollection;
     /** @var ICompiler The command compiler */
-    protected $commandCompiler = null;
+    protected $commandCompiler;
     /** @var IResponseCompiler The response compiler */
-    protected $responseCompiler = null;
+    protected $responseCompiler;
     /** @var Kernel The console kernel */
-    protected $kernel = null;
+    protected $kernel;
     /** @var IRequestParser The request parser */
-    protected $requestParser = null;
+    protected $requestParser;
     /** @var ResponseAssertions The response assertions */
-    protected $assertResponse = null;
+    protected $assertResponse;
     /** @var Response The last response */
-    protected $response = null;
+    protected $response;
     /** @var int The last status code */
     protected $statusCode = -1;
-    /** @var PHPUnit_Framework_MockObject_MockObject The prompt to use in tests */
-    protected $prompt = null;
+    /** @var MockObject The prompt to use in tests */
+    protected $prompt;
 
     /**
      * Creates a command builder
@@ -60,7 +62,7 @@ abstract class IntegrationTestCase extends TestCase
      * @param string $commandName The name of the command to build
      * @return CommandBuilder The command builder
      */
-    public function command(string $commandName) : CommandBuilder
+    public function command(string $commandName): CommandBuilder
     {
         return new CommandBuilder($this, $commandName);
     }
@@ -81,7 +83,7 @@ abstract class IntegrationTestCase extends TestCase
         array $options = [],
         $promptAnswers = [],
         bool $isStyled = true
-    ) : self {
+    ): self {
         $promptAnswers = (array)$promptAnswers;
 
         if (count($promptAnswers) > 0) {
@@ -89,7 +91,7 @@ abstract class IntegrationTestCase extends TestCase
         }
 
         // We instantiate the response every time so that it's fresh whenever a new command is called
-        $this->response = new StreamResponse(fopen('php://memory', 'w'), $this->responseCompiler);
+        $this->response = new StreamResponse(fopen('php://memory', 'wb'), $this->responseCompiler);
         $this->response->setStyled($isStyled);
         $input = ['name' => $commandName, 'arguments' => $arguments, 'options' => $options];
         $this->statusCode = $this->kernel->handle($input, $this->response);
@@ -101,7 +103,7 @@ abstract class IntegrationTestCase extends TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->requestParser = new ArrayListParser();
         $this->commandCollection = $this->container->resolve(CommandCollection::class);
@@ -128,7 +130,7 @@ abstract class IntegrationTestCase extends TestCase
      * @param string $commandName The name of the command
      * @param array $answers The list of answers to return for each question
      */
-    private function setPromptAnswers(string $commandName, array $answers) : void
+    private function setPromptAnswers(string $commandName, array $answers): void
     {
         $commandClassName = get_class($this->commandCollection->get($commandName));
 

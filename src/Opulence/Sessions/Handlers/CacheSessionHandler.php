@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Sessions\Handlers;
 
@@ -18,9 +20,9 @@ use Opulence\Cache\ICacheBridge;
 class CacheSessionHandler extends SessionHandler
 {
     /** @var ICacheBridge The cache to use */
-    private $cache = null;
+    private $cache;
     /** @var int The lifetime in seconds */
-    private $lifetime = 0;
+    private $lifetime;
 
     /**
      * @param ICacheBridge $cache The cache to use
@@ -35,7 +37,7 @@ class CacheSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function close() : bool
+    public function close(): bool
     {
         return true;
     }
@@ -43,7 +45,7 @@ class CacheSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function destroy($sessionId) : bool
+    public function destroy($sessionId): bool
     {
         $this->cache->delete($sessionId);
 
@@ -53,7 +55,7 @@ class CacheSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function gc($maxLifetime) : bool
+    public function gc($maxLifetime): bool
     {
         return true;
     }
@@ -61,7 +63,7 @@ class CacheSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function open($savePath, $sessionId) : bool
+    public function open($savePath, $sessionId): bool
     {
         return true;
     }
@@ -69,7 +71,7 @@ class CacheSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    protected function doRead(string $sessionId) : string
+    protected function doRead(string $sessionId): string
     {
         return $this->cache->get($sessionId) ?? '';
     }
@@ -77,7 +79,7 @@ class CacheSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    protected function doWrite(string $sessionId, string $sessionData) : bool
+    protected function doWrite(string $sessionId, string $sessionData): bool
     {
         $this->cache->set($sessionId, $sessionData, $this->lifetime);
 

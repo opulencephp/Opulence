@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Commands\Compilers;
 
@@ -22,7 +24,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function compile(ICommand $command, IRequest $request) : ICommand
+    public function compile(ICommand $command, IRequest $request): ICommand
     {
         $this->compileArguments($command, $request);
         $this->compileOptions($command, $request);
@@ -37,7 +39,7 @@ class Compiler implements ICompiler
      * @param IRequest $request The user request
      * @throws RuntimeException Thrown if there are too many arguments
      */
-    protected function compileArguments(ICommand $command, IRequest $request) : void
+    protected function compileArguments(ICommand $command, IRequest $request): void
     {
         $argumentValues = $request->getArgumentValues();
         $commandArguments = $command->getArguments();
@@ -83,7 +85,7 @@ class Compiler implements ICompiler
      * @param ICommand $command The command to compile
      * @param IRequest $request The user request
      */
-    protected function compileOptions(ICommand $command, IRequest $request) : void
+    protected function compileOptions(ICommand $command, IRequest $request): void
     {
         foreach ($command->getOptions() as $option) {
             $shortNameIsSet = $option->getShortName() === null ?
@@ -126,7 +128,7 @@ class Compiler implements ICompiler
      * @param ICommand[] $commandArguments The list of command arguments
      * @return bool True if there are too many arguments, otherwise false
      */
-    private function hasTooManyArguments(array $argumentValues, array $commandArguments) : bool
+    private function hasTooManyArguments(array $argumentValues, array $commandArguments): bool
     {
         if (count($argumentValues) > count($commandArguments)) {
             // Only when the last argument is an array do we allow more request arguments than command arguments

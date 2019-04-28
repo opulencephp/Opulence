@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cryptography\Encryption\Keys;
 
@@ -16,9 +18,9 @@ namespace Opulence\Cryptography\Encryption\Keys;
 class DerivedKeys
 {
     /** @var string The encryption key */
-    private $encryptionKey = '';
+    private $encryptionKey;
     /** @var string The authentication key */
-    private $authenticationKey = '';
+    private $authenticationKey;
 
     /**
      * @param string $encryptionKey The encryption key
@@ -33,7 +35,7 @@ class DerivedKeys
     /**
      * @return string
      */
-    public function getAuthenticationKey() : string
+    public function getAuthenticationKey(): string
     {
         return $this->authenticationKey;
     }
@@ -41,7 +43,7 @@ class DerivedKeys
     /**
      * @return string
      */
-    public function getEncryptionKey() : string
+    public function getEncryptionKey(): string
     {
         return $this->encryptionKey;
     }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Models;
 
@@ -20,11 +22,11 @@ use Opulence\Validation\Rules\Errors\ErrorCollection;
 abstract class ModelState
 {
     /** @var IValidatorFactory The validator factory */
-    protected $validatorFactory = null;
+    protected $validatorFactory;
     /** @var bool Whether or not the model state is valid */
     protected $isValid = false;
     /** @var ErrorCollection The list of errors */
-    protected $errors = null;
+    protected $errors;
 
     /**
      * @param object $model The model being validated
@@ -44,7 +46,7 @@ abstract class ModelState
      *
      * @return ErrorCollection The errors
      */
-    public function getErrors() : ErrorCollection
+    public function getErrors(): ErrorCollection
     {
         return $this->errors;
     }
@@ -54,7 +56,7 @@ abstract class ModelState
      *
      * @return bool True if the model is valid, otherwise false
      */
-    public function isValid() : bool
+    public function isValid(): bool
     {
         return $this->isValid;
     }
@@ -65,12 +67,12 @@ abstract class ModelState
      * @param object $model The model being validated
      * @return array The mapping of property names => property values
      */
-    abstract protected function getModelProperties($model) : array;
+    abstract protected function getModelProperties($model): array;
 
     /**
      * Registers rules for fields in the model
      *
      * @param IValidator $validator The validator to register with
      */
-    abstract protected function registerFields(IValidator $validator) : void;
+    abstract protected function registerFields(IValidator $validator): void;
 }

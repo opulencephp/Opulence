@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections\Tests;
 
@@ -21,7 +23,7 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that adding an array value is acceptable
      */
-    public function testAddingArrayValueIsAcceptable() : void
+    public function testAddingArrayValueIsAcceptable(): void
     {
         $array = ['foo'];
         $set = new ImmutableHashSet([$array]);
@@ -32,7 +34,7 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that adding primitive values is acceptable
      */
-    public function testAddingPrimitiveValuesIsAcceptable() : void
+    public function testAddingPrimitiveValuesIsAcceptable(): void
     {
         $int = 1;
         $string = 'foo';
@@ -45,7 +47,7 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that adding resource values is acceptable
      */
-    public function testAddingResourceValuesIsAcceptable() : void
+    public function testAddingResourceValuesIsAcceptable(): void
     {
         $resource = fopen('php://temp', 'r+');
         $set = new ImmutableHashSet([$resource]);
@@ -56,7 +58,7 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a value
      */
-    public function testAddingValue() : void
+    public function testAddingValue(): void
     {
         $object = new MockObject('foo');
         $set = new ImmutableHashSet([$object]);
@@ -66,7 +68,7 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that checking the existence of a value returns whether or not that value exists
      */
-    public function testCheckingExistenceOfValueReturnsWhetherOrNotThatValueExists() : void
+    public function testCheckingExistenceOfValueReturnsWhetherOrNotThatValueExists(): void
     {
         $setWithNoValues = new ImmutableHashSet([]);
         $this->assertFalse($setWithNoValues->containsValue('foo'));
@@ -80,7 +82,7 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that counting returns the number of unique values in a set
      */
-    public function testCountReturnsNumberOfUniqueValuesInSet() : void
+    public function testCountReturnsNumberOfUniqueValuesInSet(): void
     {
         $object1 = new MockObject('foo');
         $object2 = new MockObject('bar');
@@ -96,7 +98,7 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests iterating over the values returns the values - not the hash keys
      */
-    public function testIteratingOverValuesReturnsValuesNotHashKeys() : void
+    public function testIteratingOverValuesReturnsValuesNotHashKeys(): void
     {
         $expectedValues = [
             new MockObject(),

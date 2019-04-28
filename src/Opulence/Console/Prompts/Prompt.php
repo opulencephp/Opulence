@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Prompts;
 
@@ -23,9 +25,9 @@ use RuntimeException;
 class Prompt
 {
     /** @var PaddingFormatter The space padding formatter to use */
-    private $paddingFormatter = null;
+    private $paddingFormatter;
     /** @var resource The input stream to look for answers in */
-    private $inputStream = null;
+    private $inputStream;
 
     /***
      * @param PaddingFormatter $paddingFormatter The space padding formatter to use
@@ -96,7 +98,7 @@ class Prompt
      * @param resource $inputStream The input stream to look for answers in
      * @throws InvalidArgumentException Thrown if the input stream is not a resource
      */
-    public function setInputStream($inputStream) : void
+    public function setInputStream($inputStream): void
     {
         if (!is_resource($inputStream)) {
             throw new InvalidArgumentException('Input stream must be resource');

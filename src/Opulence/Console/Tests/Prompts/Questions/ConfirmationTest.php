@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Prompts\Questions;
 
@@ -18,12 +20,12 @@ use Opulence\Console\Prompts\Questions\Confirmation;
 class ConfirmationTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Confirmation The question to use in tests */
-    private $question = null;
+    private $question;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->question = new Confirmation('Is Dave cool (yn)');
     }
@@ -31,7 +33,7 @@ class ConfirmationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting false values
      */
-    public function testFormattingFalseValues() : void
+    public function testFormattingFalseValues(): void
     {
         $this->assertFalse($this->question->formatAnswer('n'));
         $this->assertFalse($this->question->formatAnswer('N'));
@@ -42,7 +44,7 @@ class ConfirmationTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting true values
      */
-    public function testFormattingTrueValues() : void
+    public function testFormattingTrueValues(): void
     {
         $this->assertTrue($this->question->formatAnswer('y'));
         $this->assertTrue($this->question->formatAnswer('Y'));

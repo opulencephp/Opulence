@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Sessions\Handlers;
 
@@ -21,7 +23,7 @@ class ArraySessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function close() : bool
+    public function close(): bool
     {
         return true;
     }
@@ -29,7 +31,7 @@ class ArraySessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function destroy($sessionId) : bool
+    public function destroy($sessionId): bool
     {
         $this->storage = [];
 
@@ -39,7 +41,7 @@ class ArraySessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function gc($maxLifetime) : bool
+    public function gc($maxLifetime): bool
     {
         return true;
     }
@@ -47,7 +49,7 @@ class ArraySessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function open($savePath, $sessionId) : bool
+    public function open($savePath, $sessionId): bool
     {
         return true;
     }
@@ -55,7 +57,7 @@ class ArraySessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    protected function doRead(string $sessionId) : string
+    protected function doRead(string $sessionId): string
     {
         if (array_key_exists($sessionId, $this->storage)) {
             return $this->storage[$sessionId];
@@ -67,7 +69,7 @@ class ArraySessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    protected function doWrite(string $sessionId, string $sessionData) : bool
+    protected function doWrite(string $sessionId, string $sessionData): bool
     {
         $this->storage[$sessionId] = $sessionData;
 

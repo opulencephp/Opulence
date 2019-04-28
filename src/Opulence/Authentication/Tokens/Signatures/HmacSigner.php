@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tokens\Signatures;
 
@@ -18,9 +20,9 @@ use InvalidArgumentException;
 class HmacSigner implements ISigner
 {
     /** @var string The algorithm to use */
-    private $algorithm = Algorithms::SHA256;
+    private $algorithm;
     /** @var string|resource The public key */
-    private $publicKey = null;
+    private $publicKey;
 
     /**
      * @param string $algorithm The algorithm to use
@@ -35,7 +37,7 @@ class HmacSigner implements ISigner
     /**
      * @inheritdoc
      */
-    public function getAlgorithm() : string
+    public function getAlgorithm(): string
     {
         return $this->algorithm;
     }
@@ -43,7 +45,7 @@ class HmacSigner implements ISigner
     /**
      * @inheritdoc
      */
-    public function sign(string $data) : string
+    public function sign(string $data): string
     {
         return \hash_hmac(
             $this->getHashAlgorithm($this->algorithm),
@@ -56,7 +58,7 @@ class HmacSigner implements ISigner
     /**
      * @inheritdoc
      */
-    public function verify(string $data, string $signature) : bool
+    public function verify(string $data, string $signature): bool
     {
         if ($signature === '') {
             return false;
@@ -80,7 +82,7 @@ class HmacSigner implements ISigner
      * @return string The algorithm to use in a hash function
      * @throws InvalidArgumentException Thrown if the algorithm is not an OpenSSL algorithm
      */
-    private function getHashAlgorithm(string $algorithm) : string
+    private function getHashAlgorithm(string $algorithm): string
     {
         switch ($algorithm) {
             case Algorithms::SHA256:

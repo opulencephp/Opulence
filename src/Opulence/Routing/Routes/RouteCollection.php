@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Routes;
 
@@ -46,7 +48,7 @@ class RouteCollection
      *
      * @return array The list of methods
      */
-    public static function getMethods() : array
+    public static function getMethods(): array
     {
         return self::$methods;
     }
@@ -68,7 +70,7 @@ class RouteCollection
      *
      * @return array The list of properties to store
      */
-    public function __sleep() : array
+    public function __sleep(): array
     {
         $serializer = new Serializer(new AstAnalyzer());
 
@@ -106,7 +108,7 @@ class RouteCollection
      *
      * @param ParsedRoute $route The route to add
      */
-    public function add(ParsedRoute $route) : void
+    public function add(ParsedRoute $route): void
     {
         foreach ($route->getMethods() as $method) {
             $this->routes[$method][] = $route;
@@ -124,7 +126,7 @@ class RouteCollection
      *      If null, all routes will be returned, keyed by method
      * @return ParsedRoute[] The list of routes
      */
-    public function get(string $method = null) : array
+    public function get(string $method = null): array
     {
         if ($method === null) {
             return $this->routes;
@@ -141,7 +143,7 @@ class RouteCollection
      * @param string $name The name to search for
      * @return ParsedRoute|null The route with the input name if one existed, otherwise null
      */
-    public function getNamedRoute(string $name) : ?ParsedRoute
+    public function getNamedRoute(string $name): ?ParsedRoute
     {
         if (isset($this->namedRoutes[$name])) {
             return $this->namedRoutes[$name];

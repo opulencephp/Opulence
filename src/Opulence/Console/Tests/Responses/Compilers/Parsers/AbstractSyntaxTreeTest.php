@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Responses\Compilers\Parsers;
 
@@ -20,12 +22,12 @@ use Opulence\Console\Tests\Responses\Compilers\Parsers\Nodes\Mocks\Node;
 class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AbstractSyntaxTree The tree to use in tests */
-    private $tree = null;
+    private $tree;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->tree = new AbstractSyntaxTree();
     }
@@ -33,7 +35,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the current node when none is set
      */
-    public function testGettingCurrentNodeWhenNoneIsSet() : void
+    public function testGettingCurrentNodeWhenNoneIsSet(): void
     {
         $this->assertEquals(new RootNode(), $this->tree->getCurrentNode());
     }
@@ -41,7 +43,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the root node
      */
-    public function testGettingRootNode() : void
+    public function testGettingRootNode(): void
     {
         $this->assertEquals(new RootNode(), $this->tree->getRootNode());
     }
@@ -49,7 +51,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the current node
      */
-    public function testSettingCurrentNode() : void
+    public function testSettingCurrentNode(): void
     {
         $currentNode = new Node('foo');
         $this->assertSame($currentNode, $this->tree->setCurrentNode($currentNode));

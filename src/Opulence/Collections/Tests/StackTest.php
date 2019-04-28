@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections\Tests;
 
@@ -18,12 +20,12 @@ use Opulence\Collections\Stack;
 class StackTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Stack The stack to use in tests */
-    private $stack = null;
+    private $stack;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->stack = new Stack();
     }
@@ -31,7 +33,7 @@ class StackTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests clearing
      */
-    public function testClearing() : void
+    public function testClearing(): void
     {
         $this->stack->push('foo');
         $this->stack->clear();
@@ -41,7 +43,7 @@ class StackTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that has returns whether or not the value exists
      */
-    public function testContainsValueReturnsWhetherOrNotValueExists() : void
+    public function testContainsValueReturnsWhetherOrNotValueExists(): void
     {
         $this->assertFalse($this->stack->containsValue('foo'));
         $this->stack->push('foo');
@@ -51,7 +53,7 @@ class StackTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests counting
      */
-    public function testCounting() : void
+    public function testCounting(): void
     {
         $this->assertEquals(0, $this->stack->count());
         $this->stack->push('foo');
@@ -63,7 +65,7 @@ class StackTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests iterating over the values
      */
-    public function testIteratingOverValues() : void
+    public function testIteratingOverValues(): void
     {
         $this->stack->push('foo');
         $this->stack->push('bar');
@@ -79,7 +81,7 @@ class StackTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that peeking when no values are in the stack returns null
      */
-    public function testPeekingWhenNoValuesInStackReturnsNull() : void
+    public function testPeekingWhenNoValuesInStackReturnsNull(): void
     {
         $this->assertNull($this->stack->peek());
     }
@@ -87,7 +89,7 @@ class StackTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that peek returns the top value
      */
-    public function testPeekReturnsTopValue() : void
+    public function testPeekReturnsTopValue(): void
     {
         $this->stack->push('foo');
         $this->assertEquals('foo', $this->stack->peek());
@@ -98,7 +100,7 @@ class StackTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that popping removes the value from the stop of the stack
      */
-    public function testPoppingRemovesValueFromTopOfStack() : void
+    public function testPoppingRemovesValueFromTopOfStack(): void
     {
         $this->stack->push('foo');
         $this->stack->push('bar');
@@ -111,7 +113,7 @@ class StackTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that popping when no values are in the stack returns null
      */
-    public function testPoppingWhenNoValuesAreInStackReturnsNull() : void
+    public function testPoppingWhenNoValuesAreInStackReturnsNull(): void
     {
         $this->assertNull($this->stack->pop());
     }
@@ -119,7 +121,7 @@ class StackTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that pushing adds the value to the top of the stack
      */
-    public function testPushingAddsValueToTopOfStack() : void
+    public function testPushingAddsValueToTopOfStack(): void
     {
         $this->stack->push('foo');
         $this->stack->push('bar');
@@ -130,7 +132,7 @@ class StackTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that converting to an array actually converts it
      */
-    public function testToArrayConvertsTheStackToArray() : void
+    public function testToArrayConvertsTheStackToArray(): void
     {
         $this->stack->push('foo');
         $this->stack->push('bar');

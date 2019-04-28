@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Sessions\Handlers;
 
@@ -22,7 +24,7 @@ interface ISessionEncrypter
      * @return string The decrypted data
      * @throws SessionEncryptionException Thrown if there was an error decrypting the data
      */
-    public function decrypt(string $data) : string;
+    public function decrypt(string $data): string;
 
     /**
      * Encrypts the data
@@ -31,5 +33,5 @@ interface ISessionEncrypter
      * @return string The encrypted data
      * @throws SessionEncryptionException Thrown if there was an error encrypting the data
      */
-    public function encrypt(string $data) : string;
+    public function encrypt(string $data): string;
 }

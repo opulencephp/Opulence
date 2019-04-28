@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Credentials\Authenticators;
 
@@ -23,6 +25,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContex
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
 use Opulence\Authentication\Tokens\Signatures\HmacSigner;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the JWT authenticator
@@ -30,16 +33,16 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var JwtAuthenticator The authenticator to use in tests */
-    private $authenticator = null;
-    /** @var JwtVerifier|\PHPUnit_Framework_MockObject_MockObject The JWT verifier to use in tests */
-    private $jwtVerifier = null;
-    /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject The credential to use in tests */
-    private $credential = null;
+    private $authenticator;
+    /** @var JwtVerifier|MockObject The JWT verifier to use in tests */
+    private $jwtVerifier;
+    /** @var ICredential|MockObject The credential to use in tests */
+    private $credential;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         /** @var ISigner $signer */
         $signer = $this->createMock(ISigner::class);
@@ -66,9 +69,9 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unset token credential will return false
      */
-    public function testUnsetTokenCredentialReturnsFalse() : void
+    public function testUnsetTokenCredentialReturnsFalse(): void
     {
-        /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
+        /** @var ICredential|MockObject $credential */
         $credential = $this->createMock(ICredential::class);
         $credential->expects($this->any())
             ->method('getValue')
@@ -83,7 +86,7 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unverified JWT returns false
      */
-    public function testUnverifiedJwtReturnsFalse() : void
+    public function testUnverifiedJwtReturnsFalse(): void
     {
         $this->jwtVerifier
             ->expects($this->any())
@@ -98,7 +101,7 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a verified JWT returns true
      */
-    public function testVerifiedJwtReturnsTrue() : void
+    public function testVerifiedJwtReturnsTrue(): void
     {
         $this->jwtVerifier
             ->expects($this->any())

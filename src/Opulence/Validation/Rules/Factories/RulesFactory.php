@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Rules\Factories;
 
@@ -21,11 +23,11 @@ use Opulence\Validation\Rules\Rules;
 class RulesFactory
 {
     /** @var RuleExtensionRegistry The rule extension registry */
-    protected $ruleExtensionRegistry = null;
+    protected $ruleExtensionRegistry;
     /** @var ErrorTemplateRegistry The error template registry */
-    protected $errorTemplateRegistry = null;
+    protected $errorTemplateRegistry;
     /** @var ICompiler The error template compiler */
-    protected $errorTemplateCompiler = null;
+    protected $errorTemplateCompiler;
 
     /**
      * @param RuleExtensionRegistry $ruleExtensionRegistry The rule extension registry
@@ -47,7 +49,7 @@ class RulesFactory
      *
      * @return Rules The new rules
      */
-    public function createRules() : Rules
+    public function createRules(): Rules
     {
         return new Rules($this->ruleExtensionRegistry, $this->errorTemplateRegistry, $this->errorTemplateCompiler);
     }

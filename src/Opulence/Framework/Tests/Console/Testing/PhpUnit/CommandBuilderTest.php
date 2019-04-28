@@ -1,32 +1,35 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Console\Testing\PhpUnit\Mocks;
 
 use Opulence\Framework\Console\Testing\PhpUnit\CommandBuilder;
 use Opulence\Framework\Console\Testing\PhpUnit\IntegrationTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the command builder
  */
 class CommandBuilderTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var IntegrationTestCase|\PHPUnit_Framework_MockObject_MockObject The integration test to use in tests */
-    private $integrationTest = null;
+    /** @var IntegrationTestCase|MockObject The integration test to use in tests */
+    private $integrationTest;
     /** @var CommandBuilder The command builder to use in tests */
-    private $commandBuilder = null;
+    private $commandBuilder;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->integrationTest = $this->createMock(IntegrationTestCase::class);
         $this->integrationTest->expects($this->any())
@@ -38,7 +41,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a basic command
      */
-    public function testBuildingBasicCommand() : void
+    public function testBuildingBasicCommand(): void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')
@@ -49,7 +52,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a command with multiple arguments
      */
-    public function testBuildingCommandWithMultipleArguments() : void
+    public function testBuildingCommandWithMultipleArguments(): void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')
@@ -64,7 +67,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a command with multiple options
      */
-    public function testBuildingCommandWithMultipleOptions() : void
+    public function testBuildingCommandWithMultipleOptions(): void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')
@@ -79,7 +82,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a command with multiple prompt answers
      */
-    public function testBuildingCommandWithMultiplePromptAnswers() : void
+    public function testBuildingCommandWithMultiplePromptAnswers(): void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')
@@ -94,7 +97,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a command with a single argument
      */
-    public function testBuildingCommandWithSingleArgument() : void
+    public function testBuildingCommandWithSingleArgument(): void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')
@@ -109,7 +112,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a command with a single option
      */
-    public function testBuildingCommandWithSingleOption() : void
+    public function testBuildingCommandWithSingleOption(): void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')
@@ -124,7 +127,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a command with a single prompt answer
      */
-    public function testBuildingCommandWithSinglePromptAnswer() : void
+    public function testBuildingCommandWithSinglePromptAnswer(): void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')
@@ -139,7 +142,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests building a command with an unstyled response
      */
-    public function testBuildingCommandWithUnstyledResponse() : void
+    public function testBuildingCommandWithUnstyledResponse(): void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Responses;
 
@@ -18,12 +20,12 @@ use Opulence\Console\Responses\SilentResponse;
 class SilentResponseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SilentResponse The response to use in tests */
-    private $response = null;
+    private $response;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->response = new SilentResponse();
     }
@@ -31,7 +33,7 @@ class SilentResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing without a new line
      */
-    public function testWrite() : void
+    public function testWrite(): void
     {
         ob_start();
         $this->response->write('foo');
@@ -41,7 +43,7 @@ class SilentResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing with a new line
      */
-    public function testWriteln() : void
+    public function testWriteln(): void
     {
         ob_start();
         $this->response->writeln('foo');

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections\Tests;
 
@@ -22,7 +24,7 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an offset exists
      */
-    public function testCheckingOffsetExists() : void
+    public function testCheckingOffsetExists(): void
     {
         $arrayList = new ImmutableArrayList(['foo']);
         $this->assertTrue(isset($arrayList[0]));
@@ -31,7 +33,7 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests whether the list has a certain parameter
      */
-    public function testContainsValue() : void
+    public function testContainsValue(): void
     {
         $arrayList = new ImmutableArrayList(['foo']);
         $this->assertTrue($arrayList->containsValue('foo'));
@@ -41,7 +43,7 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that checking if a value exists returns true even if the value is null
      */
-    public function tesContainsValueReturnsTrueEvenIfValuesIsNull() : void
+    public function tesContainsValueReturnsTrueEvenIfValuesIsNull(): void
     {
         $arrayList = new ImmutableArrayList([null]);
         $this->assertTrue($arrayList->containsValue(null));
@@ -50,7 +52,7 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests counting
      */
-    public function testCount() : void
+    public function testCount(): void
     {
         $arrayList = new ImmutableArrayList(['foo']);
         $this->assertEquals(1, $arrayList->count());
@@ -61,7 +63,7 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a parameter
      */
-    public function testGetting() : void
+    public function testGetting(): void
     {
         $arrayList = new ImmutableArrayList(['foo']);
         $this->assertEquals('foo', $arrayList->get(0));
@@ -70,7 +72,7 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting as array
      */
-    public function testGettingAsArray() : void
+    public function testGettingAsArray(): void
     {
         $arrayList = new ImmutableArrayList(['foo']);
         $this->assertEquals('foo', $arrayList[0]);
@@ -79,7 +81,7 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that getting an index greater than the list length throws an exception
      */
-    public function testGettingIndexGreaterThanListLengthThrowsException() : void
+    public function testGettingIndexGreaterThanListLengthThrowsException(): void
     {
         $this->expectException(OutOfRangeException::class);
         $arrayList = new ImmutableArrayList(['foo']);
@@ -89,7 +91,7 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that getting an index less than zero throws an exception
      */
-    public function testGettingIndexLessThanZeroThrowsException() : void
+    public function testGettingIndexLessThanZeroThrowsException(): void
     {
         $this->expectException(OutOfRangeException::class);
         $arrayList = new ImmutableArrayList(['foo']);
@@ -99,7 +101,7 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests iterating over the values
      */
-    public function testIteratingOverValues() : void
+    public function testIteratingOverValues(): void
     {
         $arrayList = new ImmutableArrayList(['foo', 'bar']);
         $actualValues = [];
@@ -114,7 +116,7 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that setting a value throws an exception
      */
-    public function testSettingValueThrowsException() : void
+    public function testSettingValueThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
         $arrayList = new ImmutableArrayList([]);
@@ -124,7 +126,7 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all the parameters
      */
-    public function testToArray() : void
+    public function testToArray(): void
     {
         $arrayList = new ImmutableArrayList(['foo', 'bar']);
         $this->assertEquals(['foo', 'bar'], $arrayList->toArray());
@@ -133,7 +135,7 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that unsetting a value throws an exception
      */
-    public function testUnsettingValueThrowsException() : void
+    public function testUnsettingValueThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
         $arrayList = new ImmutableArrayList(['foo']);

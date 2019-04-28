@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Environments\Tests;
 
@@ -20,7 +22,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a non-existent variable
      */
-    public function testGettingNonExistentVariable() : void
+    public function testGettingNonExistentVariable(): void
     {
         $this->assertEquals('bar', Environment::getVar('foo', 'bar'));
     }
@@ -28,7 +30,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a variable
      */
-    public function testGettingVariable() : void
+    public function testGettingVariable(): void
     {
         Environment::setVar('baz', 'blah');
         $this->assertEquals('blah', getenv('baz'));
@@ -39,7 +41,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if the application is running in a console
      */
-    public function testIsRunningInConsole() : void
+    public function testIsRunningInConsole(): void
     {
         $this->assertEquals(Environment::isRunningInConsole(), php_sapi_name() === 'cli');
     }
@@ -47,7 +49,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a variable
      */
-    public function testSettingVariable() : void
+    public function testSettingVariable(): void
     {
         Environment::setVar('foo', 'bar');
         $this->assertEquals('bar', getenv('foo'));
@@ -58,7 +60,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a variable in environment global array()
      */
-    public function testSettingVariableInEnvironmentGlobalArray() : void
+    public function testSettingVariableInEnvironmentGlobalArray(): void
     {
         $_ENV['bar'] = 'baz';
         $this->assertEquals('baz', Environment::getVar('bar'));
@@ -67,7 +69,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a variable in putenv()
      */
-    public function testSettingVariableInPutenv() : void
+    public function testSettingVariableInPutenv(): void
     {
         putenv('bar=baz');
         $this->assertEquals('baz', Environment::getVar('bar'));
@@ -76,7 +78,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a variable in server global array()
      */
-    public function testSettingVariableInServerGlobalArray() : void
+    public function testSettingVariableInServerGlobalArray(): void
     {
         $_SERVER['bar'] = 'baz';
         $this->assertEquals('baz', Environment::getVar('bar'));
@@ -85,7 +87,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that environment variables are not overwritten
      */
-    public function testVariablesNotOverwritten() : void
+    public function testVariablesNotOverwritten(): void
     {
         Environment::setVar('foo', 'bar');
         Environment::setVar('foo', 'baz');

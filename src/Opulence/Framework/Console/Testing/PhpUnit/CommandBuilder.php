@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Testing\PhpUnit;
 
@@ -16,9 +18,9 @@ namespace Opulence\Framework\Console\Testing\PhpUnit;
 class CommandBuilder
 {
     /** @var IntegrationTestCase The integration test that created this */
-    protected $integrationTest = null;
+    protected $integrationTest;
     /** @var string The command name */
-    protected $commandName = null;
+    protected $commandName;
     /** @var array The list of arguments */
     protected $arguments = [];
     /** @var array The list of options */
@@ -43,7 +45,7 @@ class CommandBuilder
      *
      * @return IntegrationTestCase For method chaining
      */
-    public function execute() : IntegrationTestCase
+    public function execute(): IntegrationTestCase
     {
         return $this->integrationTest->execute(
             $this->commandName,
@@ -61,7 +63,7 @@ class CommandBuilder
      * @param bool $overwriteOld Whether or not to overwrite all old answers
      * @return self For method chaining
      */
-    public function withAnswers($answers, bool $overwriteOld = false) : self
+    public function withAnswers($answers, bool $overwriteOld = false): self
     {
         $answers = (array)$answers;
         $this->addValuesToCollection($answers, $this->promptAnswers, $overwriteOld);
@@ -76,7 +78,7 @@ class CommandBuilder
      * @param bool $overwriteOld Whether or not to overwrite all old arguments
      * @return self For method chaining
      */
-    public function withArguments($arguments, bool $overwriteOld = false) : self
+    public function withArguments($arguments, bool $overwriteOld = false): self
     {
         $arguments = (array)$arguments;
         $this->addValuesToCollection($arguments, $this->arguments, $overwriteOld);
@@ -91,7 +93,7 @@ class CommandBuilder
      * @param bool $overwriteOld Whether or not to overwrite all old options
      * @return self For method chaining
      */
-    public function withOptions($options, bool $overwriteOld = false) : self
+    public function withOptions($options, bool $overwriteOld = false): self
     {
         $options = (array)$options;
         $this->addValuesToCollection($options, $this->options, $overwriteOld);
@@ -105,7 +107,7 @@ class CommandBuilder
      * @param bool $isStyled Whether or not the response is styled
      * @return self For method chaining
      */
-    public function withStyle(bool $isStyled) : self
+    public function withStyle(bool $isStyled): self
     {
         $this->isStyled = $isStyled;
 
@@ -119,7 +121,7 @@ class CommandBuilder
      * @param array $collection The collection to add to
      * @param bool $overwriteOld Whether or not clear the collection before adding the new values
      */
-    private function addValuesToCollection(array $values, array &$collection, bool $overwriteOld) : void
+    private function addValuesToCollection(array $values, array &$collection, bool $overwriteOld): void
     {
         if ($overwriteOld) {
             $collection = [];

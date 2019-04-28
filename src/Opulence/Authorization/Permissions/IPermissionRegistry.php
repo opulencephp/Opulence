@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authorization\Permissions;
 
@@ -21,14 +23,14 @@ interface IPermissionRegistry
      * @param string $permission The permission to search for
      * @return callable|null The callback if one was found, otherwise null
      */
-    public function getCallback(string $permission) : ?callable;
+    public function getCallback(string $permission): ?callable;
 
     /**
      * Gets the list of callbacks that are evaluated before any permissions
      *
      * @return callable[] The list of override callbacks
      */
-    public function getOverrideCallbacks() : array;
+    public function getOverrideCallbacks(): array;
 
     /**
      * Gets the list of roles that have the input permission
@@ -36,7 +38,7 @@ interface IPermissionRegistry
      * @param string $permission The permission to search for
      * @return array|null The list of roles if any were found, otherwise null
      */
-    public function getRoles(string $permission) : ?array;
+    public function getRoles(string $permission): ?array;
 
     /**
      * Registers a callback to be evaluated for a permission
@@ -44,14 +46,14 @@ interface IPermissionRegistry
      * @param string $permission The permission being registered
      * @param callable $callback The callback that will be evaluated (subject identity must be first argument)
      */
-    public function registerCallback(string $permission, callable $callback) : void;
+    public function registerCallback(string $permission, callable $callback): void;
 
     /**
      * Registers a callback to be evaluated before considering any permissions
      *
      * @param callable $callback The callback that will be evaluated (subject identity must be first argument, permission second)
      */
-    public function registerOverrideCallback(callable $callback) : void;
+    public function registerOverrideCallback(callable $callback): void;
 
     /**
      * Registers a permission for certain roles
@@ -59,5 +61,5 @@ interface IPermissionRegistry
      * @param string $permission The permission being registered
      * @param string|array The role name or list of role names that have the input permission
      */
-    public function registerRoles(string $permission, $roles) : void;
+    public function registerRoles(string $permission, $roles): void;
 }

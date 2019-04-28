@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Responses;
 
@@ -18,7 +20,7 @@ use Opulence\Console\Responses\Compilers\ICompiler;
 abstract class Response implements IResponse
 {
     /** @var ICompiler The response compiler to use */
-    protected $compiler = null;
+    protected $compiler;
 
     /**
      * @param ICompiler $compiler The response compiler to use
@@ -31,7 +33,7 @@ abstract class Response implements IResponse
     /**
      * @inheritdoc
      */
-    public function setStyled(bool $isStyled) : void
+    public function setStyled(bool $isStyled): void
     {
         $this->compiler->setStyled($isStyled);
     }
@@ -39,7 +41,7 @@ abstract class Response implements IResponse
     /**
      * @inheritdoc
      */
-    public function write($messages) : void
+    public function write($messages): void
     {
         foreach ((array)$messages as $message) {
             $this->doWrite($this->compiler->compile($message), false);
@@ -49,7 +51,7 @@ abstract class Response implements IResponse
     /**
      * @inheritdoc
      */
-    public function writeln($messages) : void
+    public function writeln($messages): void
     {
         foreach ((array)$messages as $message) {
             $this->doWrite($this->compiler->compile($message), true);
@@ -62,5 +64,5 @@ abstract class Response implements IResponse
      * @param string $message The message to write
      * @param bool $includeNewLine True if we are to include a new line character at the end of the message
      */
-    abstract protected function doWrite(string $message, bool $includeNewLine) : void;
+    abstract protected function doWrite(string $message, bool $includeNewLine): void;
 }

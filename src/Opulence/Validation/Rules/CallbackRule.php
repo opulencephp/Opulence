@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Rules;
 
@@ -19,12 +21,12 @@ use LogicException;
 class CallbackRule implements IRuleWithArgs
 {
     /** @var callable The callback to run */
-    protected $callback = null;
+    protected $callback;
 
     /**
      * @inheritdoc
      */
-    public function getSlug() : string
+    public function getSlug(): string
     {
         return 'callback';
     }
@@ -32,7 +34,7 @@ class CallbackRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = []) : bool
+    public function passes($value, array $allValues = []): bool
     {
         if ($this->callback === null) {
             throw new LogicException('Callback not set');
@@ -44,7 +46,7 @@ class CallbackRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function setArgs(array $args) : void
+    public function setArgs(array $args): void
     {
         if (count($args) !== 1 || !is_callable($args[0])) {
             throw new InvalidArgumentException('Must pass valid callback');

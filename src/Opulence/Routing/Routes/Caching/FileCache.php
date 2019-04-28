@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Routes\Caching;
 
@@ -21,7 +23,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function flush(string $filePath) : void
+    public function flush(string $filePath): void
     {
         if (file_exists($filePath)) {
             @unlink($filePath);
@@ -31,7 +33,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function get(string $cacheFilePath, Router $router, string $rawFilePath) : RouteCollection
+    public function get(string $cacheFilePath, Router $router, string $rawFilePath): RouteCollection
     {
         if (file_exists($cacheFilePath)) {
             return unserialize(base64_decode(file_get_contents($cacheFilePath)));
@@ -48,7 +50,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function set(string $filePath, RouteCollection $routes) : void
+    public function set(string $filePath, RouteCollection $routes): void
     {
         // Clone the routes so that serialization of closures can work correctly
         file_put_contents($filePath, base64_encode(serialize(clone $routes)));

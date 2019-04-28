@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
@@ -39,7 +41,7 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
      * @return SignedJwt The signed JSON web token
      * @throws InvalidArgumentException Thrown if the token was not correctly formatted
      */
-    public static function createFromString(string $token) : SignedJwt
+    public static function createFromString(string $token): SignedJwt
     {
         $segments = explode('.', $token);
 
@@ -83,7 +85,7 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
      * @param string $signature The signature
      * @return SignedJwt The signed JSON web token
      */
-    public static function createFromUnsignedJwt(UnsignedJwt $unsignedJwt, string $signature) : SignedJwt
+    public static function createFromUnsignedJwt(UnsignedJwt $unsignedJwt, string $signature): SignedJwt
     {
         return new self($unsignedJwt->getHeader(), $unsignedJwt->getPayload(), $signature);
     }
@@ -95,7 +97,7 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
      * @return string The base 64 decoded data that's safe for URLs
      * @link http://php.net/manual/en/function.base64-encode.php#103849
      */
-    protected static function base64UrlDecode(string $data) : string
+    protected static function base64UrlDecode(string $data): string
     {
         return \base64_decode(\str_pad(\strtr($data, '-_', '+/'), \strlen($data) % 4, '=', STR_PAD_RIGHT));
     }
@@ -107,7 +109,7 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
      * @return string The base 64 encoded data that's safe for URLs
      * @link http://php.net/manual/en/function.base64-encode.php#103849
      */
-    protected static function base64UrlEncode(string $data) : string
+    protected static function base64UrlEncode(string $data): string
     {
         return \rtrim(\strtr(\base64_encode($data), '+/', '-_'), '=');
     }
@@ -117,7 +119,7 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
      *
      * @return string The encoded string
      */
-    public function encode() : string
+    public function encode(): string
     {
         $segments = [
             $this->header->encode(),
@@ -131,7 +133,7 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
     /**
      * @inheritdoc
      */
-    public function getSignature() : string
+    public function getSignature(): string
     {
         return $this->signature;
     }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Pipelines;
 
@@ -31,7 +33,7 @@ interface IPipeline
      * @param mixed $input The input to send
      * @return self For method chaining
      */
-    public function send($input) : self;
+    public function send($input): self;
 
     /**
      * Sets the callback to call at the end of the pipeline
@@ -40,7 +42,7 @@ interface IPipeline
      *      It must accept the result of the pipeline as a parameter
      * @return self For method chaining
      */
-    public function then(callable $callback) : self;
+    public function then(callable $callback): self;
 
     /**
      * Sets the list of stages in the pipeline
@@ -49,5 +51,5 @@ interface IPipeline
      * @param string|null $methodToCall Sets the method to call if the stages are a list of objects or class names
      * @return self For method chaining
      */
-    public function through(array $stages, string $methodToCall = null) : self;
+    public function through(array $stages, string $methodToCall = null): self;
 }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Pipelines\Tests;
 
@@ -21,12 +23,12 @@ use Opulence\Pipelines\Tests\Mocks\Stage2;
 class PipelineTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Pipeline The pipeline to use in tests */
-    private $pipeline = null;
+    private $pipeline;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->pipeline = new Pipeline();
     }
@@ -34,7 +36,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests closures with callback
      */
-    public function testClosuresWithCallback() : void
+    public function testClosuresWithCallback(): void
     {
         $stages = [
             function ($input, $next) {
@@ -56,7 +58,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the methods are chainable
      */
-    public function testMethodsAreChainable() : void
+    public function testMethodsAreChainable(): void
     {
         $this->assertSame($this->pipeline, $this->pipeline->send('foo'));
         $this->assertSame($this->pipeline, $this->pipeline->through([]));
@@ -67,7 +69,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests multiple closure stages
      */
-    public function testMultipleClosureStages() : void
+    public function testMultipleClosureStages(): void
     {
         $stages = [
             function ($input, $next) {
@@ -85,7 +87,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests multiple object stages
      */
-    public function testMultipleObjectStages() : void
+    public function testMultipleObjectStages(): void
     {
         $stages = [new Stage1(), new Stage2()];
         $this->pipeline->send('input')
@@ -96,7 +98,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not setting a method to call
      */
-    public function testNotSettingMethodToCall() : void
+    public function testNotSettingMethodToCall(): void
     {
         $this->expectException(PipelineException::class);
         $stages = [new Stage1()];
@@ -108,7 +110,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests object stages with callback
      */
-    public function testObjectStagesWithCallback() : void
+    public function testObjectStagesWithCallback(): void
     {
         $stages = [new Stage1(), new Stage2()];
         $callback = function ($input) {
@@ -123,7 +125,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a single closure pipe
      */
-    public function testSingleClosurePipe() : void
+    public function testSingleClosurePipe(): void
     {
         $stages = [
             function ($input, $next) {
@@ -138,7 +140,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a single object pipe
      */
-    public function testSingleObjectPipe() : void
+    public function testSingleObjectPipe(): void
     {
         $stages = [new Stage1()];
         $this->pipeline->send('input')
@@ -149,7 +151,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a pipe that does not call next
      */
-    public function testStageThatDoesNotCallNext() : void
+    public function testStageThatDoesNotCallNext(): void
     {
         $stages = [
             function ($input, $next) {
@@ -167,7 +169,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a pipe that does not call next but has callback
      */
-    public function testStageThatDoesNotCallNextButHasCallback() : void
+    public function testStageThatDoesNotCallNextButHasCallback(): void
     {
         $stages = [
             function ($input, $next) {
@@ -189,7 +191,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests closure then object stages
      */
-    public function testThenClosureThenObjectStages() : void
+    public function testThenClosureThenObjectStages(): void
     {
         $stages = [
             function ($input, $next) {

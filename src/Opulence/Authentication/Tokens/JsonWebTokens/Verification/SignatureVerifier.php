@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
@@ -19,7 +21,7 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 class SignatureVerifier implements IVerifier
 {
     /** @var ISigner The signer to use to verify the signatures */
-    private $signer = null;
+    private $signer;
 
     /**
      * @param ISigner $signer The signer to use to verify the signatures
@@ -32,7 +34,7 @@ class SignatureVerifier implements IVerifier
     /**
      * @inheritdoc
      */
-    public function verify(SignedJwt $jwt, string &$error = null) : bool
+    public function verify(SignedJwt $jwt, string &$error = null): bool
     {
         $signature = $jwt->getSignature();
 

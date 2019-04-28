@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Tests\Routes\Caching;
 
@@ -24,7 +26,7 @@ use Opulence\Routing\Tests\Dispatchers\Mocks\DependencyResolver;
 class FileCacheTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FileCache The cache to use in tests */
-    private $cache = null;
+    private $cache;
     /** @var string The path to the cache file */
     private $cachedRouteFilePath = '';
     /** @var string The path to the raw file */
@@ -33,7 +35,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->cache = new FileCache();
         $this->cachedRouteFilePath = __DIR__ . '/files/' . FileCache::DEFAULT_CACHED_ROUTES_FILE_NAME;
@@ -43,7 +45,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tears down the tests
      */
-    public function tearDown() : void
+    protected function tearDown(): void
     {
         if (file_exists($this->cachedRouteFilePath)) {
             @unlink($this->cachedRouteFilePath);
@@ -53,7 +55,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests flushing the cache
      */
-    public function testFlushing() : void
+    public function testFlushing(): void
     {
         file_put_contents($this->cachedRouteFilePath, 'foo');
         $this->cache->flush($this->cachedRouteFilePath);
@@ -63,7 +65,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the routes are cached after a miss
      */
-    public function testRoutesAreCachedAfterMiss() : void
+    public function testRoutesAreCachedAfterMiss(): void
     {
         $router = $this->getRouter();
         $this->assertFileNotExists($this->cachedRouteFilePath);
@@ -75,7 +77,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the routes are read from cache
      */
-    public function testRoutesAreReadFromCache() : void
+    public function testRoutesAreReadFromCache(): void
     {
         $router = $this->getRouter();
         require $this->rawRouteFilePath;
@@ -89,7 +91,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting and then getting from cache
      */
-    public function testSettingAndGettingFromCache() : void
+    public function testSettingAndGettingFromCache(): void
     {
         $router = $this->getRouter();
         require $this->rawRouteFilePath;
@@ -106,7 +108,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      *
      * @return Router The router to use
      */
-    private function getRouter() : Router
+    private function getRouter(): Router
     {
         return new Router(
             new RouteDispatcher(new DependencyResolver(), new MiddlewarePipeline()),

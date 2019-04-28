@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Responses\Formatters;
 
@@ -19,12 +21,12 @@ use Opulence\Console\Responses\Formatters\TableFormatter;
 class TableFormatterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var TableFormatter The formatter to use in tests */
-    private $formatter = null;
+    private $formatter;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->formatter = new TableFormatter(new PaddingFormatter());
     }
@@ -32,7 +34,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting an empty table
      */
-    public function testFormattingEmptyTable() : void
+    public function testFormattingEmptyTable(): void
     {
         $this->assertEmpty($this->formatter->format([]));
     }
@@ -40,7 +42,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with a single header and column
      */
-    public function testFormattingSingleHeaderAndColumn() : void
+    public function testFormattingSingleHeaderAndColumn(): void
     {
         $headers = ['foo'];
         $rows = [['a']];
@@ -56,7 +58,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with a single row
      */
-    public function testFormattingSingleRow() : void
+    public function testFormattingSingleRow(): void
     {
         $rows = [['a', 'bb', 'ccc']];
         $expected =
@@ -69,7 +71,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with a single row and column
      */
-    public function testFormattingSingleRowAndColumn() : void
+    public function testFormattingSingleRowAndColumn(): void
     {
         $rows = [['a']];
         $expected =
@@ -82,7 +84,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with all custom characters
      */
-    public function testFormattingTableWithCustomCharacters() : void
+    public function testFormattingTableWithCustomCharacters(): void
     {
         $headers = ['foo', 'bar'];
         $rows = [
@@ -110,7 +112,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with a custom padding string
      */
-    public function testFormattingTableWithCustomPaddingString() : void
+    public function testFormattingTableWithCustomPaddingString(): void
     {
         $rows = [['a']];
         $this->formatter->setCellPaddingString('__');
@@ -124,7 +126,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with headers but without rows
      */
-    public function testFormattingTableWithHeadersButWithoutRows() : void
+    public function testFormattingTableWithHeadersButWithoutRows(): void
     {
         $this->assertEmpty($this->formatter->format([], ['foo', 'bar']));
     }
@@ -132,7 +134,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with more headers than row columns
      */
-    public function testFormattingTableWithMoreHeadersThanRowColumns() : void
+    public function testFormattingTableWithMoreHeadersThanRowColumns(): void
     {
         $headers = ['foo', 'bar', 'baz', 'blah'];
         $rows = [
@@ -154,7 +156,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table with more row columns than headers
      */
-    public function testFormattingTableWithMoreRowColumnsThanHeaders() : void
+    public function testFormattingTableWithMoreRowColumnsThanHeaders(): void
     {
         $headers = ['foo', 'bar'];
         $rows = [
@@ -176,7 +178,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a table without headers
      */
-    public function testFormattingTableWithoutHeaders() : void
+    public function testFormattingTableWithoutHeaders(): void
     {
         $rows = [
             ['a'],
@@ -195,7 +197,7 @@ class TableFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the rows to non-array values
      */
-    public function testSettingRowsWithNonArrayValues() : void
+    public function testSettingRowsWithNonArrayValues(): void
     {
         $expected =
             '+-----+' . PHP_EOL .

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests;
 
@@ -20,12 +22,12 @@ use Opulence\Authentication\ISubject;
 class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AuthenticationContext The context to use in tests */
-    private $context = null;
+    private $context;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->context = new AuthenticationContext();
     }
@@ -33,7 +35,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if the user is authenticated
      */
-    public function testCheckingIfAuthenticated() : void
+    public function testCheckingIfAuthenticated(): void
     {
         $this->context->setStatus(AuthenticationStatusTypes::AUTHENTICATED);
         $this->assertTrue($this->context->isAuthenticated());
@@ -44,7 +46,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the status in the constructor
      */
-    public function testSettingStatusInConstructor() : void
+    public function testSettingStatusInConstructor(): void
     {
         $context = new AuthenticationContext(null, 'foo');
         $this->assertEquals('foo', $context->getStatus());
@@ -53,7 +55,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the status in the setter
      */
-    public function testSettingStatusInSetter() : void
+    public function testSettingStatusInSetter(): void
     {
         $this->context->setStatus('foo');
         $this->assertEquals('foo', $this->context->getStatus());
@@ -62,7 +64,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the subject in the constructor
      */
-    public function testSettingSubjectInConstructor() : void
+    public function testSettingSubjectInConstructor(): void
     {
         /** @var ISubject $subject */
         $subject = $this->createMock(ISubject::class);
@@ -73,7 +75,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the subject in the setter
      */
-    public function testSettingSubjectInSetter() : void
+    public function testSettingSubjectInSetter(): void
     {
         /** @var ISubject $subject */
         $subject = $this->createMock(ISubject::class);

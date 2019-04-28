@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
@@ -18,7 +20,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 class AudienceVerifier implements IVerifier
 {
     /** @var array The audience */
-    private $audience = [];
+    private $audience;
 
     /**
      * @param string|array $audience The audience
@@ -35,7 +37,7 @@ class AudienceVerifier implements IVerifier
     /**
      * @inheritdoc
      */
-    public function verify(SignedJwt $jwt, string &$error = null) : bool
+    public function verify(SignedJwt $jwt, string &$error = null): bool
     {
         $audience = $jwt->getPayload()->getAudience();
 

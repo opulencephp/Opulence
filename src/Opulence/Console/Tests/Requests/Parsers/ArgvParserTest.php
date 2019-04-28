@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Requests\Parsers;
 
@@ -19,12 +21,12 @@ use Opulence\Console\Requests\Parsers\ArgvParser;
 class ArgvParserTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArgvParser The parser to use in tests */
-    private $parser = null;
+    private $parser;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->parser = new ArgvParser();
     }
@@ -32,7 +34,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that backslashes are respected
      */
-    public function testBackslashesAreRespected() : void
+    public function testBackslashesAreRespected(): void
     {
         $request = $this->parser->parse(['apex', 'foo', 'bar\\baz']);
         $this->assertEquals(['bar\\baz'], $request->getArgumentValues());
@@ -41,7 +43,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing arguments and options
      */
-    public function testParsingArgumentsAndOptions() : void
+    public function testParsingArgumentsAndOptions(): void
     {
         $request = $this->parser->parse(['apex', 'foo', 'bar', '-r', '--name=dave']);
         $this->assertEquals('foo', $request->getCommandName());
@@ -53,7 +55,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing a null string
      */
-    public function testParsingNullString() : void
+    public function testParsingNullString(): void
     {
         $_SERVER['argv'] = ['apex', 'foo', 'bar', '-r', '--name=dave'];
         $request = $this->parser->parse(null);
@@ -66,7 +68,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing option with no value
      */
-    public function testParsingOptionWithNoValue() : void
+    public function testParsingOptionWithNoValue(): void
     {
         $request = $this->parser->parse(['apex', 'foo', '--name']);
         $this->assertNull($request->getOptionValue('name'));
@@ -75,7 +77,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing in an invalid input type
      */
-    public function testPassingInvalidInputType() : void
+    public function testPassingInvalidInputType(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->parser->parse('foo');

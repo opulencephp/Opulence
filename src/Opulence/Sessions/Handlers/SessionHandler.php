@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Sessions\Handlers;
 
@@ -21,12 +23,12 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     /** @var bool Whether or not this handler encrypts the session when storing it */
     protected $usesEncryption = false;
     /** @var ISessionEncrypter The encrypter to use for encrypted sessions */
-    protected $encrypter = null;
+    protected $encrypter;
 
     /**
      * @inheritdoc
      */
-    public function read($sessionId) : string
+    public function read($sessionId): string
     {
         return $this->prepareForUnserialization($this->doRead($sessionId));
     }
@@ -34,7 +36,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     /**
      * @inheritdoc
      */
-    public function setEncrypter(ISessionEncrypter $encrypter) : void
+    public function setEncrypter(ISessionEncrypter $encrypter): void
     {
         $this->encrypter = $encrypter;
     }
@@ -42,7 +44,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     /**
      * @inheritdoc
      */
-    public function useEncryption(bool $useEncryption) : void
+    public function useEncryption(bool $useEncryption): void
     {
         $this->usesEncryption = $useEncryption;
     }
@@ -50,7 +52,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     /**
      * @inheritdoc
      */
-    public function write($sessionId, $sessionData) : bool
+    public function write($sessionId, $sessionData): bool
     {
         return $this->doWrite($sessionId, $this->prepareForWrite($sessionData));
     }
@@ -61,7 +63,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
      * @param string $sessionId The Id of the session to read
      * @return string The unserialized session data
      */
-    abstract protected function doRead(string $sessionId) : string;
+    abstract protected function doRead(string $sessionId): string;
 
     /**
      * Actually performs the writing of the session data to storage
@@ -70,7 +72,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
      * @param string $sessionData The session data to write
      * @return bool True on success, otherwise false on failure
      */
-    abstract protected function doWrite(string $sessionId, string $sessionData) : bool;
+    abstract protected function doWrite(string $sessionId, string $sessionData): bool;
 
     /**
      * Prepares data that is about to be unserialized
@@ -79,7 +81,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
      * @return string The data to be unserializd
      * @throws LogicException Thrown if using encryption but an encrypter has not been set
      */
-    protected function prepareForUnserialization(string $data = null) : string
+    protected function prepareForUnserialization(string $data = null): string
     {
         if ($data === null) {
             return '';
@@ -107,7 +109,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
      * @return string The prepared data
      * @throws LogicException Thrown if using encryption but an encrypter has not been set
      */
-    protected function prepareForWrite(string $data) : string
+    protected function prepareForWrite(string $data): string
     {
         if ($this->usesEncryption) {
             if ($this->encrypter === null) {

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders\MySql;
 
@@ -27,7 +29,7 @@ class InsertQuery extends BaseInsertQuery
      *      "ON DUPLICATE KEY UPDATE" clause
      * @return self For method chaining
      */
-    public function addUpdateColumnValues(array $columnNamesToValues) : self
+    public function addUpdateColumnValues(array $columnNamesToValues): self
     {
         $this->duplicateKeyUpdateColumnNamesToValues = array_merge(
             $this->duplicateKeyUpdateColumnNamesToValues,
@@ -40,7 +42,7 @@ class InsertQuery extends BaseInsertQuery
     /**
      * @inheritdoc
      */
-    public function getSql() : string
+    public function getSql(): string
     {
         $sql = parent::getSql();
 
@@ -66,7 +68,7 @@ class InsertQuery extends BaseInsertQuery
      *      "ON DUPLICATE KEY UPDATE" clause
      * @return self For method chaining
      */
-    public function update(array $columnNamesToValues) : self
+    public function update(array $columnNamesToValues): self
     {
         $this->duplicateKeyUpdateColumnNamesToValues = $columnNamesToValues;
 

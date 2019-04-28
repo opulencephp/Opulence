@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Responses\Formatters;
 
@@ -29,7 +31,7 @@ class PaddingFormatter
      * @param callable $callback The callback that returns a formatted row of text
      * @return string A list of formatted rows
      */
-    public function format(array $rows, callable $callback) : string
+    public function format(array $rows, callable $callback): string
     {
         foreach ($rows as &$row) {
             $row = (array)$row;
@@ -60,7 +62,7 @@ class PaddingFormatter
     /**
      * @return string
      */
-    public function getEolChar() : string
+    public function getEolChar(): string
     {
         return $this->eolChar;
     }
@@ -71,7 +73,7 @@ class PaddingFormatter
      * @param array $rows The rows to equalize
      * @return array The max length of each column
      */
-    public function normalizeColumns(array &$rows) : array
+    public function normalizeColumns(array &$rows): array
     {
         $maxNumColumns = 0;
 
@@ -101,7 +103,7 @@ class PaddingFormatter
     /**
      * @param string $eolChar
      */
-    public function setEolChar(string $eolChar) : void
+    public function setEolChar(string $eolChar): void
     {
         $this->eolChar = $eolChar;
     }
@@ -109,7 +111,7 @@ class PaddingFormatter
     /**
      * @param bool $padAfter
      */
-    public function setPadAfter(bool $padAfter) : void
+    public function setPadAfter(bool $padAfter): void
     {
         $this->padAfter = $padAfter;
     }
@@ -117,7 +119,7 @@ class PaddingFormatter
     /**
      * @param string $paddingString
      */
-    public function setPaddingString(string $paddingString) : void
+    public function setPaddingString(string $paddingString): void
     {
         $this->paddingString = $paddingString;
     }

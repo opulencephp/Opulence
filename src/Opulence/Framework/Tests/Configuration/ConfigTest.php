@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Configuration;
 
@@ -20,7 +22,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a non-existent value
      */
-    public function testGettingNonExistentValue() : void
+    public function testGettingNonExistentValue(): void
     {
         $this->assertNull(Config::get('foo', 'bar'));
         $this->assertEquals('baz', Config::get('foo', 'bar', 'baz'));
@@ -30,7 +32,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting many settings by category
      */
-    public function testSettingCategory() : void
+    public function testSettingCategory(): void
     {
         Config::setCategory('foo', ['bar' => 'baz']);
         $this->assertEquals('baz', Config::get('foo', 'bar'));
@@ -43,7 +45,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a single setting
      */
-    public function testSettingSingleSetting() : void
+    public function testSettingSingleSetting(): void
     {
         Config::set('foo', 'bar', 'baz');
         $this->assertEquals('baz', Config::get('foo', 'bar'));

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Sessions\Ids\Generators;
 
@@ -16,7 +18,7 @@ namespace Opulence\Sessions\Ids\Generators;
 class IdGenerator implements IIdGenerator
 {
     /** The default length of an Id */
-    const DEFAULT_LENGTH = 40;
+    public const DEFAULT_LENGTH = 40;
 
     /**
      * @inheritdoc
@@ -24,7 +26,7 @@ class IdGenerator implements IIdGenerator
     public function generate($length = self::DEFAULT_LENGTH)
     {
         // N bytes becomes 2N characters in bin2hex(), hence the division by 2
-        $string = \bin2hex(\random_bytes(\ceil($length / 2)));
+        $string = \bin2hex(\random_bytes((int)\ceil($length / 2)));
 
         if ($length % 2 === 1) {
             // Slice off one character to make it the appropriate odd length
@@ -37,7 +39,7 @@ class IdGenerator implements IIdGenerator
     /**
      * @inheritdoc
      */
-    public function idIsValid($id) : bool
+    public function idIsValid($id): bool
     {
         $regex = \sprintf(
             '/^[a-z0-9]{%d,%d}$/i',

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Tests;
 
@@ -19,14 +21,14 @@ use Opulence\Http\HttpException;
 class HttpExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var HttpException The exception to use in tests */
-    private $exception = null;
+    private $exception;
     /** @var Exception The previous exception */
-    private $previousException = null;
+    private $previousException;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->previousException = new Exception();
         $this->exception = new HttpException(
@@ -41,7 +43,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the code
      */
-    public function testGettingCode() : void
+    public function testGettingCode(): void
     {
         $this->assertEquals(4, $this->exception->getCode());
     }
@@ -49,7 +51,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the headers
      */
-    public function testGettingHeaders() : void
+    public function testGettingHeaders(): void
     {
         $this->assertEquals(['bar' => 'baz'], $this->exception->getHeaders());
     }
@@ -57,7 +59,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the message
      */
-    public function testGettingMessage() : void
+    public function testGettingMessage(): void
     {
         $this->assertEquals('foo', $this->exception->getMessage());
     }
@@ -65,7 +67,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the previous exception
      */
-    public function testGettingPreviousException() : void
+    public function testGettingPreviousException(): void
     {
         $this->assertSame($this->previousException, $this->exception->getPrevious());
     }
@@ -73,7 +75,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the status code
      */
-    public function testGettingStatusCode() : void
+    public function testGettingStatusCode(): void
     {
         $this->assertEquals(404, $this->exception->getStatusCode());
     }

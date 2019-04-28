@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http;
 
@@ -43,7 +45,7 @@ class Headers extends Collection
      * @param string|array $values The value or values
      * @param bool $shouldReplace Whether or not to replace the value
      */
-    public function add(string $name, $values, bool $shouldReplace = true) : void
+    public function add(string $name, $values, bool $shouldReplace = true): void
     {
         $this->set($name, $values, $shouldReplace);
     }
@@ -70,7 +72,7 @@ class Headers extends Collection
     /**
      * @inheritdoc
      */
-    public function has(string $name) : bool
+    public function has(string $name): bool
     {
         return parent::has($this->normalizeName($name));
     }
@@ -78,7 +80,7 @@ class Headers extends Collection
     /**
      * @inheritdoc
      */
-    public function remove(string $name) : void
+    public function remove(string $name): void
     {
         parent::remove($this->normalizeName($name));
     }
@@ -90,7 +92,7 @@ class Headers extends Collection
      * @param string|array $values The value or values
      * @param bool $shouldReplace Whether or not to replace the value
      */
-    public function set(string $name, $values, bool $shouldReplace = true) : void
+    public function set(string $name, $values, bool $shouldReplace = true): void
     {
         $name = $this->normalizeName($name);
         $values = (array)$values;
@@ -108,7 +110,7 @@ class Headers extends Collection
      * @param string $name The name to normalize
      * @return string The normalized name
      */
-    protected function normalizeName(string $name) : string
+    protected function normalizeName(string $name): string
     {
         return strtr(strtolower($name), '_', '-');
     }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Rules;
 
@@ -19,12 +21,12 @@ use LogicException;
 class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
 {
     /** @var string The name of the field to compare to */
-    protected $fieldName = null;
+    protected $fieldName;
 
     /**
      * @inheritdoc
      */
-    public function getErrorPlaceholders() : array
+    public function getErrorPlaceholders(): array
     {
         return ['other' => $this->fieldName];
     }
@@ -32,7 +34,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function getSlug() : string
+    public function getSlug(): string
     {
         return 'equalsField';
     }
@@ -40,7 +42,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = []) : bool
+    public function passes($value, array $allValues = []): bool
     {
         if ($this->fieldName === null) {
             throw new LogicException('Field name not set');
@@ -54,7 +56,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function setArgs(array $args) : void
+    public function setArgs(array $args): void
     {
         if (count($args) !== 1 || !is_string($args[0])) {
             throw new InvalidArgumentException('Must pass valid field name');

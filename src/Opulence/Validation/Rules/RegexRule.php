@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Rules;
 
@@ -19,12 +21,12 @@ use LogicException;
 class RegexRule implements IRuleWithArgs
 {
     /** @var string The regular expression to run */
-    protected $regex = null;
+    protected $regex;
 
     /**
      * @inheritdoc
      */
-    public function getSlug() : string
+    public function getSlug(): string
     {
         return 'regex';
     }
@@ -32,7 +34,7 @@ class RegexRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = []) : bool
+    public function passes($value, array $allValues = []): bool
     {
         if ($this->regex === null) {
             throw new LogicException('Regex not set');
@@ -44,7 +46,7 @@ class RegexRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function setArgs(array $args) : void
+    public function setArgs(array $args): void
     {
         if (count($args) !== 1 || !is_string($args[0])) {
             throw new InvalidArgumentException('Must pass a regex to compare against');

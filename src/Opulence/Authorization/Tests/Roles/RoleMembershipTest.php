@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authorization\Tests\Roles;
 
@@ -19,14 +21,14 @@ use Opulence\Authorization\Roles\RoleMembership;
 class RoleMembershipTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RoleMembership The role membership to use in tests */
-    private $membership = null;
+    private $membership;
     /** @var Role The role to use in tests */
-    private $role = null;
+    private $role;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->role = new Role(1, 'foo');
         $this->membership = new RoleMembership(1, 2, $this->role);
@@ -35,7 +37,7 @@ class RoleMembershipTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the Id
      */
-    public function testGettingId() : void
+    public function testGettingId(): void
     {
         $this->assertEquals(1, $this->membership->getId());
     }
@@ -43,7 +45,7 @@ class RoleMembershipTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the role
      */
-    public function testGettingRole() : void
+    public function testGettingRole(): void
     {
         $this->assertSame($this->role, $this->membership->getRole());
     }
@@ -51,7 +53,7 @@ class RoleMembershipTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the user Id
      */
-    public function testGettingUserId() : void
+    public function testGettingUserId(): void
     {
         $this->assertEquals(2, $this->membership->getSubjectId());
     }
@@ -59,7 +61,7 @@ class RoleMembershipTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the Id
      */
-    public function testSettingId() : void
+    public function testSettingId(): void
     {
         $this->membership->setId(23);
         $this->assertEquals(23, $this->membership->getId());

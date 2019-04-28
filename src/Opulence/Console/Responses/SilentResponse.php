@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Responses;
 
@@ -25,7 +27,7 @@ class SilentResponse extends Response
     /**
      * @inheritdoc
      */
-    public function clear() : void
+    public function clear(): void
     {
         // Don't do anything
     }
@@ -33,7 +35,7 @@ class SilentResponse extends Response
     /**
      * @inheritdoc
      */
-    public function write($messages) : void
+    public function write($messages): void
     {
         // Don't do anything
     }
@@ -41,7 +43,7 @@ class SilentResponse extends Response
     /**
      * @inheritdoc
      */
-    public function writeln($messages) : void
+    public function writeln($messages): void
     {
         // Don't do anything
     }
@@ -49,7 +51,7 @@ class SilentResponse extends Response
     /**
      * @inheritdoc
      */
-    protected function doWrite(string $message, bool $includeNewLine) : void
+    protected function doWrite(string $message, bool $includeNewLine): void
     {
         // Don't do anything
     }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Memcached\Tests;
 
@@ -22,7 +24,7 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that commands go to the default client
      */
-    public function testCommandsGoToDefaultClient() : void
+    public function testCommandsGoToDefaultClient(): void
     {
         $default = $this->getMockBuilder(Client::class)
             ->setMethods(['get'])
@@ -51,7 +53,7 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not passing a default
      */
-    public function testNotPassingDefault() : void
+    public function testNotPassingDefault(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new Memcached(['foo' => 'bar']);
@@ -60,7 +62,7 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an array of clients
      */
-    public function testPassingArrayOfClients() : void
+    public function testPassingArrayOfClients(): void
     {
         $default = $this->createMock(Client::class);
         $foo = $this->createMock(Client::class);
@@ -78,7 +80,7 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing a single client
      */
-    public function testPassingSingleClient() : void
+    public function testPassingSingleClient(): void
     {
         $default = $this->createMock(Client::class);
         $memcached = new Memcached($default);

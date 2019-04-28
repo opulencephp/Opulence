@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections;
 
@@ -25,19 +27,19 @@ interface IList extends ArrayAccess, Countable, IteratorAggregate
      *
      * @param mixed $value The value to add
      */
-    public function add($value) : void;
+    public function add($value): void;
 
     /**
      * Adds a range of values
      *
      * @param array $values The values to add
      */
-    public function addRange(array $values) : void;
+    public function addRange(array $values): void;
 
     /**
      * Clears all values from the list
      */
-    public function clear() : void;
+    public function clear(): void;
 
     /**
      * Gets whether or not the value exists
@@ -45,7 +47,7 @@ interface IList extends ArrayAccess, Countable, IteratorAggregate
      * @param mixed $value The value to search for
      * @return bool True if the value exists, otherwise false
      */
-    public function containsValue($value) : bool;
+    public function containsValue($value): bool;
 
     /**
      * Gets the value at an index
@@ -62,7 +64,7 @@ interface IList extends ArrayAccess, Countable, IteratorAggregate
      * @param mixed $value The value to search for
      * @return int|null The index of the value if it was found, otherwise null
      */
-    public function indexOf($value) : ?int;
+    public function indexOf($value): ?int;
 
     /**
      * Inserts the value at an index
@@ -70,52 +72,52 @@ interface IList extends ArrayAccess, Countable, IteratorAggregate
      * @param int $index The index to insert at
      * @param mixed $value The value to insert
      */
-    public function insert(int $index, $value) : void;
+    public function insert(int $index, $value): void;
 
     /**
      * Intersects the values of the input array with the values already in the list
      *
      * @param array $values The values to intersect with
      */
-    public function intersect(array $values) : void;
+    public function intersect(array $values): void;
 
     /**
      * Removes the value at an index
      *
      * @param int $index The index to remove
      */
-    public function removeIndex(int $index) : void;
+    public function removeIndex(int $index): void;
 
     /**
      * Removes the value from the list
      *
      * @param mixed $value The value to remove
      */
-    public function removeValue($value) : void;
+    public function removeValue($value): void;
 
     /**
      * Reverses the list
      */
-    public function reverse() : void;
+    public function reverse(): void;
 
     /**
      * Sorts the values of the list
      *
      * @param callable $comparer The comparer to sort with
      */
-    public function sort(callable $comparer) : void;
+    public function sort(callable $comparer): void;
 
     /**
      * Gets all of the values as an array
      *
      * @return array All of the values
      */
-    public function toArray() : array;
+    public function toArray(): array;
 
     /**
      * Unions the values of the input array with the values already in the list
      *
      * @param array $values The values to union with
      */
-    public function union(array $values) : void;
+    public function union(array $values): void;
 }

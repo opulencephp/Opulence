@@ -1,18 +1,21 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Tests\ConnectionPools\Strategies\ServerSelection;
 
 use InvalidArgumentException;
 use Opulence\Databases\ConnectionPools\Strategies\ServerSelection\SingleServerSelectionStrategy;
 use Opulence\Databases\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the single server selection strategy
@@ -20,12 +23,12 @@ use Opulence\Databases\Server;
 class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SingleServerSelectionStrategy The strategy to use in tests */
-    private $strategy = null;
+    private $strategy;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->strategy = new SingleServerSelectionStrategy();
     }
@@ -33,7 +36,7 @@ class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown when passing an empty list of servers
      */
-    public function testExceptionThrownWithEmptyListOfServers() : void
+    public function testExceptionThrownWithEmptyListOfServers(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->strategy->select([]);
@@ -42,7 +45,7 @@ class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that selecting from a list of a servers always returns first
      */
-    public function testSelectingFromListOfServersAlwaysReturnsFirst() : void
+    public function testSelectingFromListOfServersAlwaysReturnsFirst(): void
     {
         $server1 = $this->getServerMock();
         $server2 = $this->getServerMock();
@@ -56,7 +59,7 @@ class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests selecting from a list of a single server
      */
-    public function testSelectingFromListOfSingleServer() : void
+    public function testSelectingFromListOfSingleServer(): void
     {
         $server = $this->getServerMock();
         $this->assertSame($server, $this->strategy->select([$server]));
@@ -65,7 +68,7 @@ class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests selecting from a single server
      */
-    public function testSelectingFromSingleServer() : void
+    public function testSelectingFromSingleServer(): void
     {
         $server = $this->getServerMock();
         $this->assertSame($server, $this->strategy->select($server));
@@ -74,7 +77,7 @@ class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Gets a mock server
      *
-     * @return Server|\PHPUnit_Framework_MockObject_MockObject
+     * @return Server|MockObject
      */
     private function getServerMock()
     {

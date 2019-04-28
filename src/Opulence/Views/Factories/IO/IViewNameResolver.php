@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Factories\IO;
 
@@ -23,7 +25,7 @@ interface IViewNameResolver
      * @param string $extension The extension to register
      * @param int $priority The priority of this extension when matching it (lower numbers mean higher priority)
      */
-    public function registerExtension(string $extension, int $priority = -1) : void;
+    public function registerExtension(string $extension, int $priority = -1): void;
 
     /**
      * Registers a path to match against when resolving a view name
@@ -31,7 +33,7 @@ interface IViewNameResolver
      * @param string $path The path to register
      * @param int $priority The priority of this path when matching it (lower numbers mean higher priority)
      */
-    public function registerPath(string $path, int $priority = -1) : void;
+    public function registerPath(string $path, int $priority = -1): void;
 
     /**
      * Resolves a view name by matching it against registered extensions and paths
@@ -40,5 +42,5 @@ interface IViewNameResolver
      * @return string The resolved view name
      * @throws InvalidArgumentException Thrown if the name could not be resolved
      */
-    public function resolve(string $name) : string;
+    public function resolve(string $name): string;
 }

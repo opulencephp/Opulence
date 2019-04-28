@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Cryptography\Bootstrappers;
 
@@ -15,27 +17,19 @@ use Opulence\Cryptography\Encryption\IEncrypter;
 use Opulence\Cryptography\Encryption\Keys\Key;
 use Opulence\Cryptography\Hashing\BcryptHasher;
 use Opulence\Cryptography\Hashing\IHasher;
-use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use RuntimeException;
 
 /**
  * Defines the cryptography bootstrapper
  */
-class CryptographyBootstrapper extends LazyBootstrapper
+class CryptographyBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc
      */
-    public function getBindings() : array
-    {
-        return [IEncrypter::class, IHasher::class];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         $container->bindInstance(IEncrypter::class, $this->getEncrypter());
         $container->bindInstance(IHasher::class, $this->getHasher());
@@ -47,7 +41,7 @@ class CryptographyBootstrapper extends LazyBootstrapper
      * @return IEncrypter The encrypter
      * @throws RuntimeException Thrown if the encryption key is not set
      */
-    protected function getEncrypter() : IEncrypter
+    protected function getEncrypter(): IEncrypter
     {
         $encodedEncryptionKey = getenv('ENCRYPTION_KEY');
 
@@ -69,7 +63,7 @@ class CryptographyBootstrapper extends LazyBootstrapper
      *
      * @return IHasher The hasher to use
      */
-    protected function getHasher() : IHasher
+    protected function getHasher(): IHasher
     {
         return new BcryptHasher();
     }

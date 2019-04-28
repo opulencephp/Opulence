@@ -1,18 +1,21 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Caching;
 
 use Opulence\IO\FileSystem;
 use Opulence\Views\Caching\FileCache;
 use Opulence\Views\IView;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the view cache
@@ -20,16 +23,16 @@ use Opulence\Views\IView;
 class FileCacheTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FileSystem The file system to use to read cached views */
-    private $fileSystem = null;
+    private $fileSystem;
     /** @var FileCache The cache to use in tests */
-    private $cache = null;
-    /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
-    private $view = null;
+    private $cache;
+    /** @var IView|MockObject The view to use in tests */
+    private $view;
 
     /**
      * Does some setup before any tests
      */
-    public static function setUpBeforeClass() : void
+    public static function setUpBeforeClass(): void
     {
         if (!is_dir(__DIR__ . '/tmp')) {
             mkdir(__DIR__ . '/tmp');
@@ -39,7 +42,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Performs some garbage collection
      */
-    public static function tearDownAfterClass() : void
+    public static function tearDownAfterClass(): void
     {
         $files = glob(__DIR__ . '/tmp/*');
 
@@ -54,7 +57,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->fileSystem = new FileSystem();
         $this->cache = new FileCache(__DIR__ . '/tmp', 3600);
@@ -64,7 +67,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests caching a view with a non-positive lifetime
      */
-    public function testCachingWithNonPositiveLifetime() : void
+    public function testCachingWithNonPositiveLifetime(): void
     {
         $this->cache = new FileCache(__DIR__ . '/tmp', 0);
         $this->setViewContentsAndVars('foo', ['bar' => 'baz']);
@@ -76,7 +79,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for a view that does exist
      */
-    public function testCheckingForExistingView() : void
+    public function testCheckingForExistingView(): void
     {
         $this->setViewContentsAndVars('foo', ['bar' => 'baz']);
         $this->cache->set($this->view, 'compiled', true);
@@ -87,7 +90,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for a view that exists but doesn't match on variables
      */
-    public function testCheckingForExistingViewWithNoVariableMatches() : void
+    public function testCheckingForExistingViewWithNoVariableMatches(): void
     {
         $this->view->expects($this->any())
             ->method('getContents')
@@ -105,7 +108,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for a view that exists but doesn't match on variables when ignoring view variables' values
      */
-    public function testCheckingForExistingViewWithNoVariableMatchesWhenIgnoringViewVariablesValues() : void
+    public function testCheckingForExistingViewWithNoVariableMatchesWhenIgnoringViewVariablesValues(): void
     {
         $this->view->expects($this->any())
             ->method('getContents')
@@ -123,7 +126,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for an expired view
      */
-    public function testCheckingForExpiredView() : void
+    public function testCheckingForExpiredView(): void
     {
         // The negative expiration is a way of forcing everything to expire right away
         $cache = new FileCache(__DIR__ . '/tmp', -1);
@@ -136,7 +139,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for a non-existent view
      */
-    public function testCheckingForNonExistentView() : void
+    public function testCheckingForNonExistentView(): void
     {
         $this->setViewContentsAndVars('this-content-does-not-exist', []);
         $this->assertFalse($this->cache->has($this->view, true));
@@ -146,7 +149,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests flushing cache
      */
-    public function testFlushingCache() : void
+    public function testFlushingCache(): void
     {
         $this->view->expects($this->any())
             ->method('getContents')
@@ -173,7 +176,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests running garbage collection
      */
-    public function testGarbageCollection() : void
+    public function testGarbageCollection(): void
     {
         $this->fileSystem->write(__DIR__ . '/tmp/foo', 'compiled');
         $this->cache = new FileCache(__DIR__ . '/tmp', -1);
@@ -184,7 +187,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that .gitignore files are kept during flushing
      */
-    public function testGitignoreIsKeptDuringFlush() : void
+    public function testGitignoreIsKeptDuringFlush(): void
     {
         $this->fileSystem->write(__DIR__ . '/tmp/.gitignore', '');
         $this->fileSystem->write(__DIR__ . '/tmp/.gitignore_tmp', '');
@@ -201,7 +204,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that .gitignore files are kept during garbage collection
      */
-    public function testGitignoreIsKeptDuringGC() : void
+    public function testGitignoreIsKeptDuringGC(): void
     {
         $this->fileSystem->write(__DIR__ . '/tmp/.gitignore', '');
         $this->fileSystem->write(__DIR__ . '/tmp/.gitignore_tmp', '');
@@ -218,7 +221,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not creating a directory before attempting to cache views in it
      */
-    public function testNotCreatingDirectoryBeforeCaching() : void
+    public function testNotCreatingDirectoryBeforeCaching(): void
     {
         $this->cache = new FileCache(__DIR__ . '/verytemporarytmp', 3600);
         $this->setViewContentsAndVars('foo', ['bar' => 'baz']);
@@ -231,7 +234,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a path and checking for a view
      */
-    public function testSettingPathCheckingForExistingView() : void
+    public function testSettingPathCheckingForExistingView(): void
     {
         // I know this is also done in setUp(), but we're specifically testing that it works after setting the path
         $this->cache->setPath(__DIR__ . '/tmp');
@@ -244,7 +247,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      * @param string $contents The contents to set
      * @param array $vars The vars to set
      */
-    private function setViewContentsAndVars($contents, array $vars) : void
+    private function setViewContentsAndVars($contents, array $vars): void
     {
         $this->view->expects($this->any())
             ->method('getContents')

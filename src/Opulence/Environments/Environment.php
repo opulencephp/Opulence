@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Environments;
 
@@ -16,13 +18,13 @@ namespace Opulence\Environments;
 class Environment
 {
     /** The production environment */
-    const PRODUCTION = 'production';
+    public const PRODUCTION = 'production';
     /** The staging environment */
-    const STAGING = 'staging';
+    public const STAGING = 'staging';
     /** The testing environment */
-    const TESTING = 'testing';
+    public const TESTING = 'testing';
     /** The development environment */
-    const DEVELOPMENT = 'development';
+    public const DEVELOPMENT = 'development';
 
     /**
      * Gets the value of an environment variable
@@ -31,7 +33,7 @@ class Environment
      * @param mixed $default The default value if none existed
      * @return string|null The value of the environment value if one was set, otherwise null
      */
-    public static function getVar(string $name, $default = null) : ?string
+    public static function getVar(string $name, $default = null): ?string
     {
         if (array_key_exists($name, $_ENV)) {
             return $_ENV[$name];
@@ -53,7 +55,7 @@ class Environment
      *
      * @return bool True if the application is running in a console, otherwise false
      */
-    public static function isRunningInConsole() : bool
+    public static function isRunningInConsole(): bool
     {
         return php_sapi_name() === 'cli';
     }
@@ -64,7 +66,7 @@ class Environment
      * @param string $name The name of the environment variable to set
      * @param mixed $value The value
      */
-    public static function setVar(string $name, $value) : void
+    public static function setVar(string $name, $value): void
     {
         // Do not overwrite the variable if it already exists
         if (self::getVar($name) === null) {

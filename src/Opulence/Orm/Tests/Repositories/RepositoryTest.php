@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm\Tests\Repositories;
 
@@ -22,6 +24,7 @@ use Opulence\Orm\Repositories\Repository;
 use Opulence\Orm\Tests\DataMappers\Mocks\SqlDataMapper;
 use Opulence\Orm\Tests\Repositories\Mocks\User;
 use Opulence\Orm\UnitOfWork;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the repository class
@@ -29,20 +32,20 @@ use Opulence\Orm\UnitOfWork;
 class RepositoryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var User An entity to use in the tests */
-    private $entity1 = null;
+    private $entity1;
     /** @var User An entity to use in the tests */
-    private $entity2 = null;
+    private $entity2;
     /** @var UnitOfWork The unit of work to use in the tests */
-    private $unitOfWork = null;
+    private $unitOfWork;
     /** @var SQLDataMapper The data mapper to use in tests */
-    private $dataMapper = null;
+    private $dataMapper;
     /** @var Repository The repository to test */
-    private $repo = null;
+    private $repo;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $idAccessorRegistry = new IdAccessorRegistry();
         $idAccessorRegistry->registerIdAccessors(
@@ -56,7 +59,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
                 $user->setId($id);
             }
         );
-        /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
+        /** @var IIdGeneratorRegistry|MockObject $idGeneratorRegistry */
         $idGeneratorRegistry = $this->createMock(IIdGeneratorRegistry::class);
         $idGeneratorRegistry->expects($this->any())
             ->method('getIdGenerator')
@@ -82,7 +85,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding an entity
      */
-    public function testAddingEntity() : void
+    public function testAddingEntity(): void
     {
         $this->repo->add($this->entity1);
         $this->unitOfWork->commit();
@@ -92,7 +95,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deleting an entity
      */
-    public function testDeletingEntity() : void
+    public function testDeletingEntity(): void
     {
         $this->repo->add($this->entity1);
         $this->unitOfWork->commit();
@@ -105,7 +108,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all the entities
      */
-    public function testGettingAll() : void
+    public function testGettingAll(): void
     {
         $this->repo->add($this->entity1);
         $this->repo->add($this->entity2);
@@ -116,7 +119,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all the entities after adding them in different transactions
      */
-    public function testGettingAllAfterAddingEntitiesInDifferentTransactions() : void
+    public function testGettingAllAfterAddingEntitiesInDifferentTransactions(): void
     {
         $this->repo->add($this->entity1);
         $this->unitOfWork->commit();
@@ -128,7 +131,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an entity by Id
      */
-    public function testGettingById() : void
+    public function testGettingById(): void
     {
         $this->repo->add($this->entity1);
         $this->unitOfWork->commit();
@@ -138,7 +141,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the repo and unit of work to make sure the same instance of an already-managed entity is returned by getAll
      */
-    public function testGettingEntityByIdAndThenAllEntities() : void
+    public function testGettingEntityByIdAndThenAllEntities(): void
     {
         $this->repo->add($this->entity1);
         $this->unitOfWork->commit();
@@ -168,7 +171,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an entity that doesn't exist by Id
      */
-    public function testGettingEntityThatDoesNotExistById() : void
+    public function testGettingEntityThatDoesNotExistById(): void
     {
         $this->expectException(OrmException::class);
         $this->repo->getById(123);
@@ -177,7 +180,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an entity that's in the data mapper but not the repo
      */
-    public function testGettingEntityThatExistsInDataMapperButNotRepo() : void
+    public function testGettingEntityThatExistsInDataMapperButNotRepo(): void
     {
         $this->dataMapper->add($this->entity1);
         $this->assertEquals($this->entity1, $this->repo->getById($this->entity1->getId()));

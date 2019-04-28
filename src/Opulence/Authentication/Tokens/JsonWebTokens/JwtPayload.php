@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
@@ -29,7 +31,7 @@ class JwtPayload
         'jti' => null
     ];
     /** @var string The salt used to make the JTI random */
-    private $jtiSalt = '';
+    private $jtiSalt;
 
     public function __construct()
     {
@@ -43,7 +45,7 @@ class JwtPayload
      * @return string The base 64 encoded data that's safe for URLs
      * @link http://php.net/manual/en/function.base64-encode.php#103849
      */
-    private static function base64UrlEncode(string $data) : string
+    private static function base64UrlEncode(string $data): string
     {
         return \rtrim(\strtr(\base64_encode($data), '+/', '-_'), '=');
     }
@@ -54,10 +56,10 @@ class JwtPayload
      * @param string $name The name of the claim to add
      * @param mixed $value The value to add
      */
-    public function add(string $name, $value) : void
+    public function add(string $name, $value): void
     {
         if (in_array($name, ['exp', 'nbf', 'iat']) && is_int($value)) {
-            $value = DateTimeImmutable::createFromFormat('U', $value);
+            $value = DateTimeImmutable::createFromFormat('U', (string)$value);
         }
 
         $this->claims[$name] = $value;
@@ -68,7 +70,7 @@ class JwtPayload
      *
      * @return string The base64 URL-encoded string
      */
-    public function encode() : string
+    public function encode(): string
     {
         return self::base64UrlEncode(\json_encode($this->getAll()));
     }
@@ -95,7 +97,7 @@ class JwtPayload
      *
      * @return array The mapping of set claims to their values
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         $convertedClaims = [];
         $timeFields = ['exp', 'nbf', 'iat'];
@@ -128,7 +130,7 @@ class JwtPayload
     /**
      * @return string|null
      */
-    public function getId() : ?string
+    public function getId(): ?string
     {
         if (isset($this->claims['jti'])) {
             return $this->claims['jti'];
@@ -140,7 +142,7 @@ class JwtPayload
     /**
      * @return DateTimeImmutable|null
      */
-    public function getIssuedAt() : ?DateTimeImmutable
+    public function getIssuedAt(): ?DateTimeImmutable
     {
         return $this->claims['iat'];
     }
@@ -148,7 +150,7 @@ class JwtPayload
     /**
      * @return string|null
      */
-    public function getIssuer() : ?string
+    public function getIssuer(): ?string
     {
         return $this->claims['iss'];
     }
@@ -156,7 +158,7 @@ class JwtPayload
     /**
      * @return string|null
      */
-    public function getSubject() : ?string
+    public function getSubject(): ?string
     {
         return $this->claims['sub'];
     }
@@ -164,7 +166,7 @@ class JwtPayload
     /**
      * @return DateTimeImmutable|null
      */
-    public function getValidFrom() : ?DateTimeImmutable
+    public function getValidFrom(): ?DateTimeImmutable
     {
         return $this->claims['nbf'];
     }
@@ -172,7 +174,7 @@ class JwtPayload
     /**
      * @return DateTimeImmutable|null
      */
-    public function getValidTo() : ?DateTimeImmutable
+    public function getValidTo(): ?DateTimeImmutable
     {
         return $this->claims['exp'];
     }
@@ -181,7 +183,7 @@ class JwtPayload
      * @param array|string $audience
      * @throws InvalidArgumentException Thrown if the audience is not the correct type
      */
-    public function setAudience($audience) : void
+    public function setAudience($audience): void
     {
         if (!is_string($audience) && !is_array($audience)) {
             throw new InvalidArgumentException('Audience must be of type string or array');
@@ -193,7 +195,7 @@ class JwtPayload
     /**
      * @param string $id
      */
-    public function setId(string $id) : void
+    public function setId(string $id): void
     {
         $this->claims['jti'] = $id;
     }
@@ -201,7 +203,7 @@ class JwtPayload
     /**
      * @param DateTimeImmutable $issuedAt
      */
-    public function setIssuedAt(DateTimeImmutable $issuedAt) : void
+    public function setIssuedAt(DateTimeImmutable $issuedAt): void
     {
         $this->claims['iat'] = $issuedAt;
     }
@@ -209,7 +211,7 @@ class JwtPayload
     /**
      * @param string $issuer
      */
-    public function setIssuer(string $issuer) : void
+    public function setIssuer(string $issuer): void
     {
         $this->claims['iss'] = $issuer;
     }
@@ -217,7 +219,7 @@ class JwtPayload
     /**
      * @param string $subject
      */
-    public function setSubject(string $subject) : void
+    public function setSubject(string $subject): void
     {
         $this->claims['sub'] = $subject;
     }
@@ -225,7 +227,7 @@ class JwtPayload
     /**
      * @param DateTimeImmutable $validFrom
      */
-    public function setValidFrom(DateTimeImmutable $validFrom) : void
+    public function setValidFrom(DateTimeImmutable $validFrom): void
     {
         $this->claims['nbf'] = $validFrom;
     }
@@ -233,7 +235,7 @@ class JwtPayload
     /**
      * @param DateTimeImmutable $validTo
      */
-    public function setValidTo(DateTimeImmutable $validTo) : void
+    public function setValidTo(DateTimeImmutable $validTo): void
     {
         $this->claims['exp'] = $validTo;
     }
@@ -243,7 +245,7 @@ class JwtPayload
      *
      * @return string The salt
      */
-    private function generateJtiSalt() : string
+    private function generateJtiSalt(): string
     {
         return \bin2hex(\random_bytes(8));
     }

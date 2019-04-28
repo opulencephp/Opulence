@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Credentials\Authenticators;
 
@@ -24,7 +26,7 @@ interface IAuthenticatorRegistry
      * @return IAuthenticator[] The list of authenticators for the input credential type
      * @throws InvalidArgumentException Thrown if no authenticator was registered for the credential type
      */
-    public function getAuthenticators(string $credentialType) : array;
+    public function getAuthenticators(string $credentialType): array;
 
     /**
      * Registers an authenticator for the input credential type
@@ -32,5 +34,5 @@ interface IAuthenticatorRegistry
      * @param string $credentialType The credential type
      * @param IAuthenticator $authenticator The authenticator to register
      */
-    public function registerAuthenticator(string $credentialType, IAuthenticator $authenticator) : void;
+    public function registerAuthenticator(string $credentialType, IAuthenticator $authenticator): void;
 }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 
@@ -16,9 +18,9 @@ namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 abstract class Node
 {
     /** @var mixed|null The value of the node */
-    protected $value = null;
+    protected $value;
     /** @var Node|null The parent node */
-    protected $parent = null;
+    protected $parent;
     /** @var Node[] The child nodes */
     protected $children = [];
 
@@ -35,42 +37,42 @@ abstract class Node
      *
      * @return bool True if this is a comment node, otherwise false
      */
-    abstract public function isComment() : bool;
+    abstract public function isComment(): bool;
 
     /**
      * Gets whether or not this is a directive node
      *
      * @return bool True if this is a directive node, otherwise false
      */
-    abstract public function isDirective() : bool;
+    abstract public function isDirective(): bool;
 
     /**
      * Gets whether or not this is a directive name node
      *
      * @return bool True if this is a directive name node, otherwise false
      */
-    abstract public function isDirectiveName() : bool;
+    abstract public function isDirectiveName(): bool;
 
     /**
      * Gets whether or not this is an expression node
      *
      * @return bool True if this is an expression node, otherwise false
      */
-    abstract public function isExpression() : bool;
+    abstract public function isExpression(): bool;
 
     /**
      * Gets whether or not this is a sanitized tag node
      *
      * @return bool True if this is a sanitized tag node, otherwise false
      */
-    abstract public function isSanitizedTag() : bool;
+    abstract public function isSanitizedTag(): bool;
 
     /**
      * Gets whether or not this is an unsanitized tag node
      *
      * @return bool True if this is an unsanitized tag node, otherwise false
      */
-    abstract public function isUnsanitizedTag() : bool;
+    abstract public function isUnsanitizedTag(): bool;
 
     /**
      * Adds a child to this node
@@ -78,7 +80,7 @@ abstract class Node
      * @param Node $node The child to add
      * @return Node Returns this for chaining
      */
-    public function addChild(Node $node) : Node
+    public function addChild(Node $node): Node
     {
         $node->setParent($this);
         $this->children[] = $node;
@@ -91,7 +93,7 @@ abstract class Node
      *
      * @return Node[] The list of children
      */
-    public function getChildren() : array
+    public function getChildren(): array
     {
         return $this->children;
     }
@@ -101,7 +103,7 @@ abstract class Node
      *
      * @return Node The parent node
      */
-    public function getParent() : Node
+    public function getParent(): Node
     {
         return $this->parent;
     }
@@ -121,7 +123,7 @@ abstract class Node
      *
      * @return bool True if this is a leaf, otherwise false
      */
-    public function isLeaf() : bool
+    public function isLeaf(): bool
     {
         return count($this->children) === 0;
     }
@@ -131,7 +133,7 @@ abstract class Node
      *
      * @return bool True if this is a root node, otherwise false
      */
-    public function isRoot() : bool
+    public function isRoot(): bool
     {
         return $this->parent == null;
     }
@@ -139,7 +141,7 @@ abstract class Node
     /**
      * @param Node|null $parent
      */
-    public function setParent(?Node $parent) : void
+    public function setParent(?Node $parent): void
     {
         $this->parent = $parent;
     }

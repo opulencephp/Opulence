@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Http\Middleware;
 
@@ -24,9 +26,9 @@ use Opulence\Sessions\ISession;
 abstract class CheckCsrfToken implements IMiddleware
 {
     /** @var CsrfTokenChecker The CSRF token checker */
-    protected $csrfTokenChecker = null;
+    protected $csrfTokenChecker;
     /** @var ISession The current session */
-    protected $session = null;
+    protected $session;
 
     /**
      * @param CsrfTokenChecker $csrfTokenChecker The CSRF token checker
@@ -42,7 +44,7 @@ abstract class CheckCsrfToken implements IMiddleware
      * @inheritdoc
      * @throws InvalidCsrfTokenException Thrown if the CSRF token is invalid
      */
-    public function handle(Request $request, Closure $next) : Response
+    public function handle(Request $request, Closure $next): Response
     {
         if (!$this->csrfTokenChecker->tokenIsValid($request, $this->session)) {
             throw new InvalidCsrfTokenException('Invalid CSRF token');
@@ -57,5 +59,5 @@ abstract class CheckCsrfToken implements IMiddleware
      * @param Response $response The response to write to
      * @return Response The response with data written to it
      */
-    abstract protected function writeToResponse(Response $response) : Response;
+    abstract protected function writeToResponse(Response $response): Response;
 }

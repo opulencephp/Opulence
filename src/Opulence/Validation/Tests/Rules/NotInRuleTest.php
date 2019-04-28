@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Tests\Rules;
 
@@ -22,7 +24,7 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug() : void
+    public function testGettingSlug(): void
     {
         $rule = new NotInRule();
         $this->assertEquals('notIn', $rule->getSlug());
@@ -31,7 +33,7 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that matching values pass
      */
-    public function testMatchingValuesPass() : void
+    public function testMatchingValuesPass(): void
     {
         $rule = new NotInRule();
         $rule->setArgs([['foo', 'bar']]);
@@ -41,7 +43,7 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that non-matching values fail
      */
-    public function testNonMatchingValuesFail() : void
+    public function testNonMatchingValuesFail(): void
     {
         $rule = new NotInRule();
         $rule->setArgs([['foo', 'bar']]);
@@ -51,7 +53,7 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not setting the args before passes
      */
-    public function testNotSettingArgBeforePasses() : void
+    public function testNotSettingArgBeforePasses(): void
     {
         $this->expectException(LogicException::class);
         $rule = new NotInRule();
@@ -61,7 +63,7 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing an empty arg array
      */
-    public function testPassingEmptyArgArray() : void
+    public function testPassingEmptyArgArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new NotInRule();
@@ -71,7 +73,7 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing invalid args
      */
-    public function testPassingInvalidArgs() : void
+    public function testPassingInvalidArgs(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new NotInRule();

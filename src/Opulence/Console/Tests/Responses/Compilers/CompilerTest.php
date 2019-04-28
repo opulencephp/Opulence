@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Responses\Compilers;
 
@@ -22,12 +24,12 @@ use RuntimeException;
 class CompilerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Compiler The compiler to use in tests */
-    private $compiler = null;
+    private $compiler;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->compiler = new Compiler(new Lexer(), new Parser());
     }
@@ -35,7 +37,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling adjacent elements
      */
-    public function testCompilingAdjacentElements() : void
+    public function testCompilingAdjacentElements(): void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
         $this->compiler->registerElement('bar', new Style('cyan'));
@@ -49,7 +51,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling an element with no children
      */
-    public function testCompilingElementWithNoChildren() : void
+    public function testCompilingElementWithNoChildren(): void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
         $this->compiler->registerElement('bar', new Style('cyan'));
@@ -63,7 +65,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling an element without applying styles
      */
-    public function testCompilingElementWithoutApplyingStyles() : void
+    public function testCompilingElementWithoutApplyingStyles(): void
     {
         $this->compiler->setStyled(false);
         $this->compiler->registerElement('foo', new Style('green', 'white'));
@@ -74,7 +76,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling an escaped tag at the beginning of the string
      */
-    public function testCompilingEscapedTagAtBeginning() : void
+    public function testCompilingEscapedTagAtBeginning(): void
     {
         $this->compiler->registerElement('foo', new Style('green'));
         $expectedOutput = '<bar>';
@@ -84,7 +86,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling an escaped tag in between tags
      */
-    public function testCompilingEscapedTagInBetweenTags() : void
+    public function testCompilingEscapedTagInBetweenTags(): void
     {
         $this->compiler->registerElement('foo', new Style('green'));
         $expectedOutput = "\033[32m<bar>\033[39m";
@@ -94,7 +96,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling nested elements
      */
-    public function testCompilingNestedElements() : void
+    public function testCompilingNestedElements(): void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
         $this->compiler->registerElement('bar', new Style('cyan'));
@@ -108,7 +110,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling nested elements with no children
      */
-    public function testCompilingNestedElementsWithNoChildren() : void
+    public function testCompilingNestedElementsWithNoChildren(): void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
         $this->compiler->registerElement('bar', new Style('cyan'));
@@ -122,7 +124,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling nested elements with words in between
      */
-    public function testCompilingNestedElementsWithWordsInBetween() : void
+    public function testCompilingNestedElementsWithWordsInBetween(): void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
         $this->compiler->registerElement('bar', new Style('cyan'));
@@ -136,7 +138,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling plain text
      */
-    public function testCompilingPlainText() : void
+    public function testCompilingPlainText(): void
     {
         $expectedOutput = 'foobar';
         $this->assertEquals(
@@ -148,7 +150,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a single element
      */
-    public function testCompilingSingleElement() : void
+    public function testCompilingSingleElement(): void
     {
         $this->compiler->registerElement('foo', new Style('green'));
         $expectedOutput = "\033[32mbar\033[39m";
@@ -158,7 +160,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling unclosed element
      */
-    public function testCompilingUnclosedElement() : void
+    public function testCompilingUnclosedElement(): void
     {
         $this->expectException(RuntimeException::class);
         $this->compiler->compile('<foo>bar');
@@ -167,7 +169,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling unregistered element
      */
-    public function testCompilingUnregisteredElement() : void
+    public function testCompilingUnregisteredElement(): void
     {
         $this->expectException(RuntimeException::class);
         $this->compiler->compile('<foo>bar</foo>');
@@ -176,7 +178,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests incorrectly nested elements
      */
-    public function testIncorrectlyNestedElements() : void
+    public function testIncorrectlyNestedElements(): void
     {
         $this->expectException(RuntimeException::class);
         $this->compiler->registerElement('foo', new Style('green'));

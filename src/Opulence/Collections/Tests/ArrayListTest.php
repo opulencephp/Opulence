@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections\Tests;
 
@@ -19,12 +21,12 @@ use OutOfRangeException;
 class ArrayListTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayList The array list to use in tests */
-    private $arrayList = null;
+    private $arrayList;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->arrayList = new ArrayList();
     }
@@ -32,7 +34,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a parameter
      */
-    public function testAdding() : void
+    public function testAdding(): void
     {
         $this->arrayList->add('foo');
         $this->assertEquals('foo', $this->arrayList->get(0));
@@ -41,7 +43,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a range of values
      */
-    public function testAddingRangeOfValues() : void
+    public function testAddingRangeOfValues(): void
     {
         $this->arrayList->add('foo');
         $this->arrayList->addRange(['bar', 'baz']);
@@ -51,7 +53,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an offset exists
      */
-    public function testCheckingOffsetExists() : void
+    public function testCheckingOffsetExists(): void
     {
         $this->arrayList->add('foo');
         $this->assertTrue(isset($this->arrayList[0]));
@@ -60,7 +62,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests clearing
      */
-    public function testClearing() : void
+    public function testClearing(): void
     {
         $this->arrayList->add('foo');
         $this->arrayList->clear();
@@ -70,7 +72,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests whether the list has a certain parameter
      */
-    public function testContainsValue() : void
+    public function testContainsValue(): void
     {
         $this->assertFalse($this->arrayList->containsValue('foo'));
         $this->arrayList->add('foo');
@@ -80,7 +82,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that checking if a value exists returns true even if the value is null
      */
-    public function tesContainsValueReturnsTrueEvenIfValuesIsNull() : void
+    public function tesContainsValueReturnsTrueEvenIfValuesIsNull(): void
     {
         $this->arrayList->add(null);
         $this->assertTrue($this->arrayList->containsValue(null));
@@ -89,7 +91,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests counting
      */
-    public function testCount() : void
+    public function testCount(): void
     {
         $this->arrayList->add('foo');
         $this->assertEquals(1, $this->arrayList->count());
@@ -100,7 +102,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a parameter
      */
-    public function testGetting() : void
+    public function testGetting(): void
     {
         $this->arrayList->add('foo');
         $this->assertEquals('foo', $this->arrayList->get(0));
@@ -109,7 +111,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that getting an index greater than the list length throws an exception
      */
-    public function testGettingIndexGreaterThanListLengthThrowsException() : void
+    public function testGettingIndexGreaterThanListLengthThrowsException(): void
     {
         $this->expectException(OutOfRangeException::class);
         $this->arrayList->add('foo');
@@ -119,7 +121,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that getting an index less than zero throws an exception
      */
-    public function testGettingIndexLessThanZeroThrowsException() : void
+    public function testGettingIndexLessThanZeroThrowsException(): void
     {
         $this->expectException(OutOfRangeException::class);
         $this->arrayList->add('foo');
@@ -129,7 +131,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all the parameters
      */
-    public function testGettingAll() : void
+    public function testGettingAll(): void
     {
         $this->arrayList->add('foo');
         $this->arrayList->add('bar');
@@ -139,7 +141,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting as array
      */
-    public function testGettingAsArray() : void
+    public function testGettingAsArray(): void
     {
         $this->arrayList->add('foo');
         $this->assertEquals('foo', $this->arrayList[0]);
@@ -148,7 +150,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests inserting a value
      */
-    public function testInsertingValue() : void
+    public function testInsertingValue(): void
     {
         $this->arrayList->add('foo');
         $this->arrayList->add('bar');
@@ -161,7 +163,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that intersecting values intersects that values of the array list and the array
      */
-    public function testIntersectingIntersectsValuesOfSetAndArray() : void
+    public function testIntersectingIntersectsValuesOfSetAndArray(): void
     {
         $this->arrayList->addRange(['foo', 'bar']);
         $this->arrayList->intersect(['bar', 'baz']);
@@ -171,7 +173,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests iterating over the values
      */
-    public function testIteratingOverValues() : void
+    public function testIteratingOverValues(): void
     {
         $this->arrayList->add('foo');
         $this->arrayList->add('bar');
@@ -187,7 +189,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing parameters through the constructor
      */
-    public function testPassingParametersInConstructor() : void
+    public function testPassingParametersInConstructor(): void
     {
         $parametersArray = ['foo', 'bar'];
         $arrayList = new ArrayList($parametersArray);
@@ -197,7 +199,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removing a value
      */
-    public function testRemove() : void
+    public function testRemove(): void
     {
         $this->arrayList->add('foo');
         $this->arrayList->removeValue('foo');
@@ -209,7 +211,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removing a value at an index
      */
-    public function testRemoveAt() : void
+    public function testRemoveAt(): void
     {
         $this->arrayList->add('foo');
         $this->arrayList->removeIndex(0);
@@ -221,7 +223,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests reversing the list
      */
-    public function testReversing() : void
+    public function testReversing(): void
     {
         $this->arrayList->add('foo');
         $this->arrayList->add('bar');
@@ -232,7 +234,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting an item
      */
-    public function testSettingItem() : void
+    public function testSettingItem(): void
     {
         $this->arrayList->add('foo');
         $this->arrayList->add('bar');
@@ -244,7 +246,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests sorting the list
      */
-    public function testSorting() : void
+    public function testSorting(): void
     {
         $comparer = function ($a, $b) {
             if ($a === 'foo') {
@@ -262,7 +264,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that unioning values unions that values of the array list and the array
      */
-    public function testUnionUnionsValuesOfSetAndArray() : void
+    public function testUnionUnionsValuesOfSetAndArray(): void
     {
         $this->arrayList->add('foo');
         $this->arrayList->union(['bar', 'baz']);
@@ -272,7 +274,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests unsetting a parameter
      */
-    public function testUnsetting() : void
+    public function testUnsetting(): void
     {
         $this->arrayList->add('foo');
         unset($this->arrayList[0]);

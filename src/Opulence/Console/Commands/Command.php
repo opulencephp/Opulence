@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Commands;
 
@@ -37,9 +39,9 @@ abstract class Command implements ICommand
     /** @var string The help text to be displayed in the help command */
     protected $helpText = '';
     /** @var CommandCollection The list of registered commands */
-    protected $commandCollection = null;
+    protected $commandCollection;
     /** @var bool Whether or not the base class' constructor was called */
-    private $constructorCalled = false;
+    private $constructorCalled;
 
     /**
      * To ensure that the command is properly instantiated, be sure to
@@ -70,7 +72,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function addArgument(Argument $argument) : ICommand
+    public function addArgument(Argument $argument): ICommand
     {
         $this->arguments[$argument->getName()] = $argument;
 
@@ -80,7 +82,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function addOption(Option $option) : ICommand
+    public function addOption(Option $option): ICommand
     {
         $this->options[$option->getName()] = $option;
 
@@ -90,7 +92,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function argumentValueIsSet(string $name) : bool
+    public function argumentValueIsSet(string $name): bool
     {
         return isset($this->argumentValues[$name]);
     }
@@ -98,7 +100,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    final public function execute(IResponse $response) : ?int
+    final public function execute(IResponse $response): ?int
     {
         if (!$this->constructorCalled) {
             throw new RuntimeException('Command class "' . static::class . '" does not call parent::__construct()');
@@ -110,7 +112,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getArgument(string $name) : Argument
+    public function getArgument(string $name): Argument
     {
         if (!isset($this->arguments[$name])) {
             throw new InvalidArgumentException("No argument with name \"$name\" exists");
@@ -134,7 +136,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getArguments() : array
+    public function getArguments(): array
     {
         return array_values($this->arguments);
     }
@@ -142,7 +144,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -150,7 +152,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getHelpText() : string
+    public function getHelpText(): string
     {
         return $this->helpText;
     }
@@ -158,7 +160,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -166,7 +168,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getOption(string $name) : Option
+    public function getOption(string $name): Option
     {
         if (!isset($this->options[$name])) {
             throw new InvalidArgumentException("No option with name \"$name\" exists");
@@ -194,7 +196,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return array_values($this->options);
     }
@@ -202,7 +204,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function optionIsSet(string $name) : bool
+    public function optionIsSet(string $name): bool
     {
         // Don't use isset because the value very well might be null, in which case we'd still return true
         return array_key_exists($name, $this->optionValues);
@@ -211,7 +213,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function setArgumentValue(string $name, $value) : void
+    public function setArgumentValue(string $name, $value): void
     {
         $this->argumentValues[$name] = $value;
     }
@@ -219,7 +221,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function setCommandCollection(CommandCollection $commandCollection) : void
+    public function setCommandCollection(CommandCollection $commandCollection): void
     {
         $this->commandCollection = $commandCollection;
     }
@@ -227,7 +229,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function setOptionValue(string $name, $value) : void
+    public function setOptionValue(string $name, $value): void
     {
         $this->optionValues[$name] = $value;
     }
@@ -236,7 +238,7 @@ abstract class Command implements ICommand
      * Sets the arguments and options for this command
      * Provides a convenient place to write down the definition for a command
      */
-    abstract protected function define() : void;
+    abstract protected function define(): void;
 
     /**
      * Actually executes the command
@@ -252,7 +254,7 @@ abstract class Command implements ICommand
      * @param string $description The description to use
      * @return self For method chaining
      */
-    protected function setDescription(string $description) : self
+    protected function setDescription(string $description): self
     {
         $this->description = $description;
 
@@ -265,7 +267,7 @@ abstract class Command implements ICommand
      * @param string $helpText The help text
      * @return self for method chaining
      */
-    protected function setHelpText(string $helpText) : self
+    protected function setHelpText(string $helpText): self
     {
         $this->helpText = $helpText;
 
@@ -278,7 +280,7 @@ abstract class Command implements ICommand
      * @param string $name The name to use
      * @return self For method chaining
      */
-    protected function setName(string $name) : self
+    protected function setName(string $name): self
     {
         $this->name = $name;
 

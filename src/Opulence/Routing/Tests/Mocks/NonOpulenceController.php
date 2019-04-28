@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Tests\Mocks;
 
@@ -19,7 +21,7 @@ use Opulence\Http\Responses\Response;
 class NonOpulenceController
 {
     /** @var Request The HTTP request */
-    private $request = null;
+    private $request;
 
     /**
      * @param Request $request The HTTP request
@@ -35,7 +37,7 @@ class NonOpulenceController
      * @param int $statusCode The status code
      * @return Response The response
      */
-    public function customHttpError($statusCode) : Response
+    public function customHttpError($statusCode): Response
     {
         return new Response("Error: $statusCode", $statusCode);
     }
@@ -46,7 +48,7 @@ class NonOpulenceController
      * @param string $id The Id from the path
      * @return Response The response
      */
-    public function index($id) : Response
+    public function index($id): Response
     {
         return new Response("Id: $id");
     }
@@ -56,7 +58,7 @@ class NonOpulenceController
      *
      * @return Response The response
      */
-    public function showFoo() : Response
+    public function showFoo(): Response
     {
         return new Response('foo');
     }

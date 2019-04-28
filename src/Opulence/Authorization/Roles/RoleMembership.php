@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authorization\Roles;
 
@@ -16,11 +18,11 @@ namespace Opulence\Authorization\Roles;
 class RoleMembership
 {
     /** @var int|string The database Id */
-    protected $id = -1;
+    protected $id;
     /** @var int|string The subject Id */
-    protected $subjectId = -1;
+    protected $subjectId;
     /** @var Role The role */
-    protected $role = null;
+    protected $role;
 
     /**
      * @param int|string $id The database Id
@@ -45,7 +47,7 @@ class RoleMembership
     /**
      * @return Role
      */
-    public function getRole() : Role
+    public function getRole(): Role
     {
         return $this->role;
     }
@@ -61,7 +63,7 @@ class RoleMembership
     /**
      * @param int|string $id
      */
-    public function setId($id) : void
+    public function setId($id): void
     {
         $this->id = $id;
     }

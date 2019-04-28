@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Databases\Migrations;
 
@@ -30,11 +32,11 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
     /** @var string The name of the table to read and write to */
     protected $tableName = '';
     /** @var IConnection The database connection */
-    protected $connection = null;
+    protected $connection;
     /** @var BaseQueryBuilder The query builder */
-    protected $queryBuilder = null;
+    protected $queryBuilder;
     /** @var TypeMapperFactory The type mapper factory */
-    protected $typeMapperFactory = null;
+    protected $typeMapperFactory;
 
     /**
      * @param string $tableName The name of the table to read and write to
@@ -57,7 +59,7 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
     /**
      * @inheritdoc
      */
-    public function add(string $migrationClassName) : void
+    public function add(string $migrationClassName): void
     {
         $this->createTableIfDoesNotExist();
         $typeMapper = $this->typeMapperFactory->createTypeMapper($this->connection->getDatabaseProvider());
@@ -76,7 +78,7 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
     /**
      * @inheritdoc
      */
-    public function delete(string $migrationClassName) : void
+    public function delete(string $migrationClassName): void
     {
         $this->createTableIfDoesNotExist();
         $query = $this->queryBuilder->delete($this->tableName)
@@ -90,7 +92,7 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
     /**
      * @inheritdoc
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         $this->createTableIfDoesNotExist();
         $query = $this->queryBuilder->select('migration')
@@ -105,7 +107,7 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
     /**
      * @inheritdoc
      */
-    public function getLast(int $number = 1) : array
+    public function getLast(int $number = 1): array
     {
         $this->createTableIfDoesNotExist();
         $query = $this->queryBuilder->select('migration')
@@ -125,7 +127,7 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
      *
      * @throws RuntimeException Thrown if the query builder wasn't a MySQL or PostgreSQL query builder
      */
-    protected function createTableIfDoesNotExist() : void
+    protected function createTableIfDoesNotExist(): void
     {
         /**
          * Note: This is a somewhat hacky way to determine which database driver we're using

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Composer\Console\Commands;
 
@@ -20,7 +22,7 @@ use Opulence\Framework\Composer\Executable;
 class ComposerUpdateCommand extends Command
 {
     /** @var Executable The executable wrapper */
-    private $executable = null;
+    private $executable;
 
     /**
      * @param Executable $executable The Composer executable
@@ -35,7 +37,7 @@ class ComposerUpdateCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define() : void
+    protected function define(): void
     {
         $this->setName('composer:update')
             ->setDescription('Updates any Composer dependencies');

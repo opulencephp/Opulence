@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Prompts\Questions;
 
@@ -19,14 +21,14 @@ use Opulence\Console\Prompts\Questions\MultipleChoice;
 class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MultipleChoice The indexed-choice question to use in tests */
-    private $indexedChoiceQuestion = null;
+    private $indexedChoiceQuestion;
     /** @var MultipleChoice The keyed-choice question to use in tests */
-    private $keyedChoiceQuestion = null;
+    private $keyedChoiceQuestion;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->indexedChoiceQuestion = new MultipleChoice('Dummy question', ['foo', 'bar', 'baz']);
         $this->keyedChoiceQuestion = new MultipleChoice('Dummy question', ['a' => 'b', 'c' => 'd', 'e' => 'f']);
@@ -35,7 +37,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests using an out of bounds answer
      */
-    public function testAnswerOutOfBounds() : void
+    public function testAnswerOutOfBounds(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->indexedChoiceQuestion->formatAnswer(4);
@@ -44,7 +46,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests if the choices are associative
      */
-    public function testCheckingIfChoicesAreAssociative() : void
+    public function testCheckingIfChoicesAreAssociative(): void
     {
         $this->assertFalse($this->indexedChoiceQuestion->choicesAreAssociative());
         $this->assertTrue($this->keyedChoiceQuestion->choicesAreAssociative());
@@ -53,7 +55,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an empty answer for keyed choices
      */
-    public function testEmptyAnswerForAssociativeChoices() : void
+    public function testEmptyAnswerForAssociativeChoices(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->keyedChoiceQuestion->formatAnswer('');
@@ -62,7 +64,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an empty answer for indexed choices
      */
-    public function testEmptyAnswerForIndexedChoices() : void
+    public function testEmptyAnswerForIndexedChoices(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->indexedChoiceQuestion->formatAnswer('');
@@ -71,7 +73,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests using a float as an answer to indexed choices
      */
-    public function testFloatAsAnswerToIndexedChoices() : void
+    public function testFloatAsAnswerToIndexedChoices(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->indexedChoiceQuestion->formatAnswer(1.5);
@@ -80,7 +82,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting multiple answers
      */
-    public function testFormattingMultipleAnswers() : void
+    public function testFormattingMultipleAnswers(): void
     {
         $this->indexedChoiceQuestion->setAllowsMultipleChoices(true);
         $this->keyedChoiceQuestion->setAllowsMultipleChoices(true);
@@ -91,7 +93,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting multiple answers
      */
-    public function testFormattingMultipleAnswersWithSpaces() : void
+    public function testFormattingMultipleAnswersWithSpaces(): void
     {
         $this->indexedChoiceQuestion->setAllowsMultipleChoices(true);
         $this->keyedChoiceQuestion->setAllowsMultipleChoices(true);
@@ -102,7 +104,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a single answer
      */
-    public function testFormattingSingleAnswer() : void
+    public function testFormattingSingleAnswer(): void
     {
         $this->assertEquals('foo', $this->indexedChoiceQuestion->formatAnswer(1));
         $this->assertEquals('bar', $this->indexedChoiceQuestion->formatAnswer(2));
@@ -112,7 +114,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests formatting a string answer
      */
-    public function testFormattingStringAnswer() : void
+    public function testFormattingStringAnswer(): void
     {
         $this->assertEquals('foo', $this->indexedChoiceQuestion->formatAnswer('1'));
         $this->assertEquals('bar', $this->indexedChoiceQuestion->formatAnswer('2'));
@@ -125,7 +127,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting whether we allow multiple choices
      */
-    public function testGettingAllowsMultipleChoices() : void
+    public function testGettingAllowsMultipleChoices(): void
     {
         $this->assertFalse($this->indexedChoiceQuestion->allowsMultipleChoices());
     }
@@ -133,7 +135,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the answer line string
      */
-    public function testGettingAnswerLineString() : void
+    public function testGettingAnswerLineString(): void
     {
         $this->indexedChoiceQuestion->setAnswerLineString(' > ');
         // Essentially just test that we got here
@@ -143,7 +145,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the choices
      */
-    public function testGettingChoices() : void
+    public function testGettingChoices(): void
     {
         $this->assertEquals(['foo', 'bar', 'baz'], $this->indexedChoiceQuestion->getChoices());
         $this->assertEquals(['a' => 'b', 'c' => 'd', 'e' => 'f'], $this->keyedChoiceQuestion->getChoices());
@@ -152,7 +154,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an invalid answer for keyed choices
      */
-    public function testInvalidAnswerForKeyedChoices() : void
+    public function testInvalidAnswerForKeyedChoices(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->keyedChoiceQuestion->formatAnswer('p');
@@ -161,7 +163,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests selecting multiple indexed choices when it's not allowed
      */
-    public function testMultipleIndexedChoicesWhenNotAllowed() : void
+    public function testMultipleIndexedChoicesWhenNotAllowed(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->indexedChoiceQuestion->setAllowsMultipleChoices(false);
@@ -171,7 +173,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests selecting multiple keyed choices when it's not allowed
      */
-    public function testMultipleKeyedChoicesWhenNotAllowed() : void
+    public function testMultipleKeyedChoicesWhenNotAllowed(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->keyedChoiceQuestion->setAllowsMultipleChoices(false);
@@ -181,7 +183,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a null answer to indexed choices
      */
-    public function testNullAnswerToIndexedChoices() : void
+    public function testNullAnswerToIndexedChoices(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->indexedChoiceQuestion->formatAnswer(null);
@@ -190,7 +192,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a null answer to keyed choices
      */
-    public function testNullAnswerToKeyedChoices() : void
+    public function testNullAnswerToKeyedChoices(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->keyedChoiceQuestion->formatAnswer(null);
@@ -199,7 +201,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting whether we allow multiple choices
      */
-    public function testSettingAllowsMultipleChoices() : void
+    public function testSettingAllowsMultipleChoices(): void
     {
         $this->indexedChoiceQuestion->setAllowsMultipleChoices(true);
         $this->assertTrue($this->indexedChoiceQuestion->allowsMultipleChoices());
@@ -208,7 +210,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the answer line string
      */
-    public function testSettingAnswerLineString() : void
+    public function testSettingAnswerLineString(): void
     {
         $this->indexedChoiceQuestion->setAnswerLineString('foo');
         $this->assertEquals('foo', $this->indexedChoiceQuestion->getAnswerLineString());
@@ -217,7 +219,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests using a non-numeric string as an answer to indexed choices
      */
-    public function testStringAsAnswerToIndexedChoices() : void
+    public function testStringAsAnswerToIndexedChoices(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->indexedChoiceQuestion->formatAnswer('foo');

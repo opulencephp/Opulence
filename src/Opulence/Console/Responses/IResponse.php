@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Responses;
 
@@ -20,14 +22,14 @@ interface IResponse
     /**
      * Clears the response from view
      */
-    public function clear() : void;
+    public function clear(): void;
 
     /**
      * Sets whether or not messages should be styled
      *
      * @param bool $isStyled Whether or not messages should be styled
      */
-    public function setStyled(bool $isStyled) : void;
+    public function setStyled(bool $isStyled): void;
 
     /**
      * Writes to output
@@ -35,7 +37,7 @@ interface IResponse
      * @param string|array $messages The message or messages to display
      * @throws RuntimeException Thrown if there was an issue writing the messages
      */
-    public function write($messages) : void;
+    public function write($messages): void;
 
     /**
      * Writes to output with a newline character at the end
@@ -43,5 +45,5 @@ interface IResponse
      * @param string|array $messages The message or messages to display
      * @throws RuntimeException Thrown if there was an issue writing the messages
      */
-    public function writeln($messages) : void;
+    public function writeln($messages): void;
 }

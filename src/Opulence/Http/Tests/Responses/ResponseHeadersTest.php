@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Tests\Responses;
 
@@ -20,12 +22,12 @@ use Opulence\Http\Responses\ResponseHeaders;
 class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ResponseHeaders The headers to use in tests */
-    private $headers = null;
+    private $headers;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->headers = new ResponseHeaders();
     }
@@ -33,7 +35,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deleting a cookie
      */
-    public function testDeletingCookie() : void
+    public function testDeletingCookie(): void
     {
         $cookie = new Cookie('foo', 'bar', new DateTime('+1 week'));
         $this->headers->setCookie($cookie);
@@ -45,7 +47,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deleting multiple cookies
      */
-    public function testDeletingMultipleCookies() : void
+    public function testDeletingMultipleCookies(): void
     {
         $cookie1 = new Cookie('foo', 'bar', new DateTime('+1 week'));
         $cookie2 = new Cookie('bar', 'foo', new DateTime('+1 week'));
@@ -62,7 +64,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all the cookies
      */
-    public function testGettingCookies() : void
+    public function testGettingCookies(): void
     {
         $cookie1 = new Cookie('foo', 'bar', new DateTime('+1 week'));
         $cookie2 = new Cookie('bar', 'foo', new DateTime('+2 weeks'));
@@ -76,7 +78,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a cookie
      */
-    public function testSettingCookie() : void
+    public function testSettingCookie(): void
     {
         $cookie = new Cookie('foo', 'bar', new DateTime('+1 week'));
         $this->headers->setCookie($cookie);
@@ -86,7 +88,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting multiple cookies
      */
-    public function testSettingMultipleCookies() : void
+    public function testSettingMultipleCookies(): void
     {
         $cookie1 = new Cookie('foo', 'bar', new DateTime('+1 week'));
         $cookie2 = new Cookie('bar', 'foo', new DateTime('+1 week'));

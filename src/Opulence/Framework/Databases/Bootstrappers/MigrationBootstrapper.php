@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Databases\Bootstrappers;
 
@@ -21,7 +23,7 @@ use Opulence\Databases\Providers\Types\Factories\TypeMapperFactory;
 use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Databases\Migrations\ContainerMigrationResolver;
 use Opulence\Framework\Databases\Migrations\SqlExecutedMigrationRepository;
-use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\QueryBuilders\MySql\QueryBuilder as MySqlQueryBuilder;
 use Opulence\QueryBuilders\PostgreSql\QueryBuilder as PostgreSqlQueryBuilder;
@@ -31,20 +33,12 @@ use RuntimeException;
 /**
  * Defines the database migration bootstrapper
  */
-class MigrationBootstrapper extends LazyBootstrapper
+class MigrationBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc
      */
-    public function getBindings() : array
-    {
-        return [IMigrator::class];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         $container->bindFactory(IMigrator::class, function () use ($container) {
             return new Migrator(
@@ -63,7 +57,7 @@ class MigrationBootstrapper extends LazyBootstrapper
      * @return IExecutedMigrationRepository The executed migration repository
      * @throws RuntimeException Thrown if there was an error resolving the query builder
      */
-    protected function getExecutedMigrationRepository(IContainer $container) : IExecutedMigrationRepository
+    protected function getExecutedMigrationRepository(IContainer $container): IExecutedMigrationRepository
     {
         $driverClass = getenv('DB_DRIVER') ?: PostgreSqlDriver::class;
 

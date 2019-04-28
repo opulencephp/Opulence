@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Ioc;
 
@@ -22,7 +24,7 @@ interface IContainer
      * @param callable $factory The factory to bind
      * @param bool $resolveAsSingleton Whether or not to resolve the factory as a singleton
      */
-    public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false) : void;
+    public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false): void;
 
     /**
      * Binds a concrete instance to the interface
@@ -30,7 +32,7 @@ interface IContainer
      * @param string|array $interfaces The interface or interfaces to bind to
      * @param object $instance The instance to bind
      */
-    public function bindInstance($interfaces, $instance) : void;
+    public function bindInstance($interfaces, $instance): void;
 
     /**
      * Binds a non-singleton concrete class to an interface
@@ -39,7 +41,7 @@ interface IContainer
      * @param string|null $concreteClass The concrete class to bind, or null if the interface actually is a concrete class
      * @param array $primitives The list of primitives to inject (must be in same order they appear in constructor)
      */
-    public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = []) : void;
+    public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = []): void;
 
     /**
      * Binds a singleton concrete class to an interface
@@ -48,7 +50,7 @@ interface IContainer
      * @param string|null $concreteClass The concrete class to bind, or null if the interface actually is a concrete class
      * @param array $primitives The list of primitives to inject (must be in same order they appear in constructor)
      */
-    public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = []) : void;
+    public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = []): void;
 
     /**
      * Resolves a closure's parameters and calls it
@@ -91,7 +93,7 @@ interface IContainer
      * @param string $interface The interface to check
      * @return bool True if the interface has a binding, otherwise false
      */
-    public function hasBinding(string $interface) : bool;
+    public function hasBinding(string $interface): bool;
 
     /**
      * Resolve an instance of the interface
@@ -116,5 +118,5 @@ interface IContainer
      *
      * @param string|array $interfaces The interface or interfaces to unbind from
      */
-    public function unbind($interfaces) : void;
+    public function unbind($interfaces): void;
 }

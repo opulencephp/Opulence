@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation;
 
@@ -24,14 +26,14 @@ interface IValidator
      * @param string $name The name of the field to create rules for
      * @return Rules The rules for the input field
      */
-    public function field(string $name) : Rules;
+    public function field(string $name): Rules;
 
     /**
      * Gets the list of errors
      *
      * @return ErrorCollection The list of errors
      */
-    public function getErrors() : ErrorCollection;
+    public function getErrors(): ErrorCollection;
 
     /**
      * Checks if a list of values are valid
@@ -41,5 +43,5 @@ interface IValidator
      *      once one fails, otherwise false
      * @return bool True if the values were valid, otherwise false
      */
-    public function isValid(array $allValues, bool $haltFieldValidationOnFailure = false) : bool;
+    public function isValid(array $allValues, bool $haltFieldValidationOnFailure = false): bool;
 }

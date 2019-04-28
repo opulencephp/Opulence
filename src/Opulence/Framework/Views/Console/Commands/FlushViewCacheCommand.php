@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Views\Console\Commands;
 
@@ -20,7 +22,7 @@ use Opulence\Views\Caching\ICache;
 class FlushViewCacheCommand extends Command
 {
     /** @var ICache The view cache */
-    private $viewCache = null;
+    private $viewCache;
 
     /**
      * @param ICache $viewCache The view cache
@@ -35,7 +37,7 @@ class FlushViewCacheCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define() : void
+    protected function define(): void
     {
         $this->setName('views:flushcache')
             ->setDescription('Flushes all of the compiled views from cache');

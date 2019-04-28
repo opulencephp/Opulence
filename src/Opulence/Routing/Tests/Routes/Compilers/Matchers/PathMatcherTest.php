@@ -1,18 +1,21 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Tests\Routes\Compilers\Matchers;
 
 use Opulence\Http\Requests\Request;
 use Opulence\Routing\Routes\Compilers\Matchers\PathMatcher;
 use Opulence\Routing\Routes\ParsedRoute;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the path matcher
@@ -20,16 +23,16 @@ use Opulence\Routing\Routes\ParsedRoute;
 class PathMatcherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PathMatcher The matcher to use in tests */
-    private $matcher = null;
-    /** @var Request|\PHPUnit_Framework_MockObject_MockObject The request to use in tests */
-    private $request = null;
-    /** @var ParsedRoute|\PHPUnit_Framework_MockObject_MockObject The route to use in tests */
-    private $route = null;
+    private $matcher;
+    /** @var Request|MockObject The request to use in tests */
+    private $request;
+    /** @var ParsedRoute|MockObject The route to use in tests */
+    private $route;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->matcher = new PathMatcher();
         $this->request = $this->getMockBuilder(Request::class)
@@ -43,7 +46,7 @@ class PathMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that there is a match when the regex matches
      */
-    public function testMatchWithMatchingRegex() : void
+    public function testMatchWithMatchingRegex(): void
     {
         $this->route->expects($this->any())->method('getPathRegex')->willReturn('#^foo$#');
         $this->request->expects($this->any())->method('getPath')->willReturn('foo');
@@ -53,7 +56,7 @@ class PathMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that there is not match when the regex does not match
      */
-    public function testNoMatchWithNoMatchingRegex() : void
+    public function testNoMatchWithNoMatchingRegex(): void
     {
         $this->route->expects($this->any())->method('getPathRegex')->willReturn('#^foo$#');
         $this->request->expects($this->any())->method('getPath')->willReturn('bar');

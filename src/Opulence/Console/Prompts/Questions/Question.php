@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Prompts\Questions;
 
@@ -16,9 +18,9 @@ namespace Opulence\Console\Prompts\Questions;
 class Question implements IQuestion
 {
     /** @var string The question text */
-    private $question = '';
+    private $question;
     /** @var mixed The default answer to the question */
-    private $defaultAnswer = null;
+    private $defaultAnswer;
 
     /**
      * @param string $question The question text
@@ -50,7 +52,7 @@ class Question implements IQuestion
     /**
      * @inheritdoc
      */
-    public function getText() : string
+    public function getText(): string
     {
         return $this->question;
     }

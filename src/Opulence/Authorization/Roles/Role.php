@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authorization\Roles;
 
@@ -16,7 +18,7 @@ namespace Opulence\Authorization\Roles;
 class Role
 {
     /** @var int|string The database Id */
-    protected $id = -1;
+    protected $id;
     /** @var string The name of the role */
     protected $name = '';
 
@@ -41,7 +43,7 @@ class Role
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -49,7 +51,7 @@ class Role
     /**
      * @param int|string $id
      */
-    public function setId($id) : void
+    public function setId($id): void
     {
         $this->id = $id;
     }

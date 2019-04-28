@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections\Tests;
 
@@ -19,12 +21,12 @@ use Opulence\Collections\Tests\Mocks\MockObject;
 class HashSetTest extends \PHPUnit\Framework\TestCase
 {
     /** @var HashSet The set to use in tests */
-    private $set = null;
+    private $set;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->set = new HashSet();
     }
@@ -32,7 +34,7 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that adding an array value is acceptable
      */
-    public function testAddingArrayValueIsAcceptable() : void
+    public function testAddingArrayValueIsAcceptable(): void
     {
         $array = ['foo'];
         $this->set->add($array);
@@ -43,7 +45,7 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that adding primitive values is acceptable
      */
-    public function testAddingPrimitiveValuesIsAcceptable() : void
+    public function testAddingPrimitiveValuesIsAcceptable(): void
     {
         $int = 1;
         $string = 'foo';
@@ -57,9 +59,9 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that adding resource values is acceptable
      */
-    public function testAddingResourceValuesIsAcceptable() : void
+    public function testAddingResourceValuesIsAcceptable(): void
     {
-        $resource = fopen('php://temp', 'r+');
+        $resource = fopen('php://temp', 'r+b');
         $this->set->add($resource);
         $this->assertTrue($this->set->containsValue($resource));
         $this->assertEquals([$resource], $this->set->toArray());
@@ -68,7 +70,7 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a value
      */
-    public function testAddingValue() : void
+    public function testAddingValue(): void
     {
         $object = new MockObject();
         $this->set->add($object);
@@ -78,7 +80,7 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that checking the existence of a value returns whether or not that value exists
      */
-    public function testCheckingExistenceOfValueReturnsWhetherOrNotThatValueExists() : void
+    public function testCheckingExistenceOfValueReturnsWhetherOrNotThatValueExists(): void
     {
         $this->assertFalse($this->set->containsValue('foo'));
         $this->set->add('foo');
@@ -92,7 +94,7 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that clearing a set removes all the values
      */
-    public function testClearingSetRemovesAllValues() : void
+    public function testClearingSetRemovesAllValues(): void
     {
         $this->set->add(new MockObject());
         $this->set->clear();
@@ -102,7 +104,7 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that counting returns the number of unique values in a set
      */
-    public function testCountReturnsNumberOfUniqueValuesInSet() : void
+    public function testCountReturnsNumberOfUniqueValuesInSet(): void
     {
         $object1 = new MockObject();
         $object2 = new MockObject();
@@ -118,7 +120,7 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that equal but not same objects are not intersected
      */
-    public function testEqualButNotSameObjectsAreNotIntersected() : void
+    public function testEqualButNotSameObjectsAreNotIntersected(): void
     {
         $object1 = new MockObject();
         $object2 = clone $object1;
@@ -130,7 +132,7 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that intersecting values intersects that values of the set and the array
      */
-    public function testIntersectingIntersectsValuesOfSetAndArray() : void
+    public function testIntersectingIntersectsValuesOfSetAndArray(): void
     {
         $object1 = new MockObject();
         $object2 = new MockObject();
@@ -143,7 +145,7 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests iterating over the values returns the values - not the hash keys
      */
-    public function testIteratingOverValuesReturnsValuesNotHashKeys() : void
+    public function testIteratingOverValuesReturnsValuesNotHashKeys(): void
     {
         $expectedValues = [
             new MockObject(),
@@ -164,7 +166,7 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removing a value
      */
-    public function testRemovingValue() : void
+    public function testRemovingValue(): void
     {
         $object = new MockObject();
         $this->set->add($object);
@@ -175,7 +177,7 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests sorting the list
      */
-    public function testSorting() : void
+    public function testSorting(): void
     {
         $comparer = function ($a, $b) {
             if ($a === 'foo') {
@@ -193,7 +195,7 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that unioning values unions that values of the set and the array
      */
-    public function testUnionUnionsValuesOfSetAndArray() : void
+    public function testUnionUnionsValuesOfSetAndArray(): void
     {
         $object = new MockObject();
         $this->set->add($object);

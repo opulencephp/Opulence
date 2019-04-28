@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\IO\Tests\Streams;
 
@@ -22,7 +24,7 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Cleans up the tests
      */
-    public function tearDown() : void
+    protected function tearDown(): void
     {
         if (file_exists(self::TEMP_FILE)) {
             @unlink(self::TEMP_FILE);
@@ -32,9 +34,9 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that casting to a string on a closed stream returns an empty string
      */
-    public function testCastingToStringOnClosedStreamReturnsEmptyString() : void
+    public function testCastingToStringOnClosedStreamReturnsEmptyString(): void
     {
-        $handle = fopen('php://temp', 'w+');
+        $handle = fopen('php://temp', 'w+b');
         $stream = new Stream($handle);
         $stream->write('foo');
         $stream->close();
@@ -44,9 +46,9 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that casting to a string rewinds the stream and reads to end
      */
-    public function testCastingToStringRewindsAndReadsToEnd() : void
+    public function testCastingToStringRewindsAndReadsToEnd(): void
     {
-        $handle = fopen('php://temp', 'w+');
+        $handle = fopen('php://temp', 'w+b');
         $stream = new Stream($handle);
         $stream->write('foo');
         $stream->read(1);
@@ -56,9 +58,9 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that closing a stream unsets the resource
      */
-    public function testClosingStreamUnsetsResource() : void
+    public function testClosingStreamUnsetsResource(): void
     {
-        $handle = fopen('php://temp', 'r');
+        $handle = fopen('php://temp', 'rb');
         $stream = new Stream($handle);
         $stream->close();
         $this->assertFalse(is_resource($handle));
@@ -67,13 +69,13 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests copying to a closed stream throws an exception
      */
-    public function testCopyingToClosedStreamThrowsException() : void
+    public function testCopyingToClosedStreamThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
-        $sourceStream = new Stream(fopen('php://temp', 'r+'));
+        $sourceStream = new Stream(fopen('php://temp', 'r+b'));
         $sourceStream->write('foo');
         $sourceStream->rewind();
-        $destinationStream = new Stream(fopen('php://temp', 'r+'));
+        $destinationStream = new Stream(fopen('php://temp', 'r+b'));
         $destinationStream->close();
         $sourceStream->copyToStream($destinationStream, 1);
     }
@@ -81,12 +83,12 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests copying to a stream copies all its contents using the specified buffer size
      */
-    public function testCopyingToStreamCopiesAllContentsUsingBufferSize() : void
+    public function testCopyingToStreamCopiesAllContentsUsingBufferSize(): void
     {
-        $sourceStream = new Stream(fopen('php://temp', 'r+'));
+        $sourceStream = new Stream(fopen('php://temp', 'r+b'));
         $sourceStream->write('foo');
         $sourceStream->rewind();
-        $destinationStream = new Stream(fopen('php://temp', 'r+'));
+        $destinationStream = new Stream(fopen('php://temp', 'r+b'));
         $sourceStream->copyToStream($destinationStream, 1);
         $destinationStream->rewind();
         $this->assertEquals('foo', $destinationStream->readToEnd());
@@ -95,9 +97,9 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the destructor unsets the resource
      */
-    public function testDestructorUnsetsResource() : void
+    public function testDestructorUnsetsResource(): void
     {
-        $handle = fopen('php://temp', 'r');
+        $handle = fopen('php://temp', 'rb');
         $stream = new Stream($handle);
         unset($stream);
         $this->assertFalse(is_resource($handle));
@@ -106,10 +108,10 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that getting the length of a closed stream throws an exception
      */
-    public function testGettingLengthOfClosedStreamThrowsException() : void
+    public function testGettingLengthOfClosedStreamThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
-        $handle = fopen('php://temp', 'r');
+        $handle = fopen('php://temp', 'rb');
         $stream = new Stream($handle, 724);
         $stream->close();
         $stream->getLength();
@@ -118,10 +120,10 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that getting the position throws an exception if the stream is closed
      */
-    public function testGettingPositionThrowsExceptionIfStreamIsClosed() : void
+    public function testGettingPositionThrowsExceptionIfStreamIsClosed(): void
     {
         $this->expectException(RuntimeException::class);
-        $handle = fopen('php://temp', 'r');
+        $handle = fopen('php://temp', 'rb');
         $stream = new Stream($handle);
         $stream->close();
         $stream->getPosition();
@@ -130,9 +132,9 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if we're at the end of the file returns false for streams that aren't at the end of file
      */
-    public function testIsEofReturnsFalseForStreamsThatAreNotAtEof() : void
+    public function testIsEofReturnsFalseForStreamsThatAreNotAtEof(): void
     {
-        $handle = fopen('php://temp', 'w+');
+        $handle = fopen('php://temp', 'w+b');
         $stream = new Stream($handle);
         $stream->write('foo');
         $this->assertFalse($stream->isEof());
@@ -141,10 +143,10 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if we're at the end of the file throws an exception on a closed stream
      */
-    public function testIsEofThrowsExceptionForClosedStream() : void
+    public function testIsEofThrowsExceptionForClosedStream(): void
     {
         $this->expectException(RuntimeException::class);
-        $handle = fopen('php://temp', 'w+');
+        $handle = fopen('php://temp', 'w+b');
         $stream = new Stream($handle);
         $stream->write('foo');
         $stream->close();
@@ -154,9 +156,9 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if we're at the end of the file returns true for streams at the end of file
      */
-    public function testIsEofReturnsTrueForStreamsAtEof() : void
+    public function testIsEofReturnsTrueForStreamsAtEof(): void
     {
-        $handle = fopen('php://temp', 'w+');
+        $handle = fopen('php://temp', 'w+b');
         $stream = new Stream($handle);
         $stream->write('foo');
         $stream->readToEnd();
@@ -166,12 +168,12 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that checking if a stream is readable returns the correct value based on its mode
      */
-    public function testIsReadableReturnsCorrectValueBasedOnItsMode() : void
+    public function testIsReadableReturnsCorrectValueBasedOnItsMode(): void
     {
-        $readableHandle = fopen('php://temp', 'r');
+        $readableHandle = fopen('php://temp', 'rb');
         $readableStream = new Stream($readableHandle);
         $this->assertTrue($readableStream->isReadable());
-        $unreadableHandle = fopen(self::TEMP_FILE, 'w');
+        $unreadableHandle = fopen(self::TEMP_FILE, 'wb');
         $unreadableStream = new Stream($unreadableHandle);
         $this->assertFalse($unreadableStream->isReadable());
     }
@@ -179,9 +181,9 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that checking if a stream is seekable returns the correct value based on its mode
      */
-    public function testIsSeekableReturnsCorrectValueBasedOnItsMode() : void
+    public function testIsSeekableReturnsCorrectValueBasedOnItsMode(): void
     {
-        $seekableHandle = fopen('php://temp', 'r+');
+        $seekableHandle = fopen('php://temp', 'r+b');
         $seekableStream = new Stream($seekableHandle);
         $this->assertTrue($seekableStream->isSeekable());
         // Testing unseekable streams is not possible
@@ -190,12 +192,12 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that checking if a stream is writable returns the correct value based on its mode
      */
-    public function testIsWritableableReturnsCorrectValueBasedOnItsMode() : void
+    public function testIsWritableableReturnsCorrectValueBasedOnItsMode(): void
     {
-        $writableHandle = fopen('php://temp', 'w');
+        $writableHandle = fopen('php://temp', 'wb');
         $writableStream = new Stream($writableHandle);
         $this->assertTrue($writableStream->isWritable());
-        $unwritableHandle = fopen('php://temp', 'r');
+        $unwritableHandle = fopen('php://temp', 'rb');
         $unwritableStream = new Stream($unwritableHandle);
         $this->assertFalse($unwritableStream->isWritable());
     }
@@ -203,9 +205,9 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the known length of a stream is always returned
      */
-    public function testKnownLengthOfStreamIsAlwaysReturned() : void
+    public function testKnownLengthOfStreamIsAlwaysReturned(): void
     {
-        $handle = fopen('php://temp', 'r');
+        $handle = fopen('php://temp', 'rb');
         $stream = new Stream($handle, 724);
         $this->assertEquals(724, $stream->getLength());
     }
@@ -213,7 +215,7 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an invalid stream throws an exception
      */
-    public function testNonResourceThrowsException() : void
+    public function testNonResourceThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new Stream(123);
@@ -222,9 +224,9 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the position returns the correct position after writing
      */
-    public function testPositionReturnsCorrectPositionAfterWriting() : void
+    public function testPositionReturnsCorrectPositionAfterWriting(): void
     {
-        $handle = fopen('php://temp', 'w+');
+        $handle = fopen('php://temp', 'w+b');
         $stream = new Stream($handle);
         $stream->write('foo');
         $this->assertEquals(3, $stream->getPosition());
@@ -233,10 +235,10 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that reading from a closed stream returns null
      */
-    public function testReadingFromClosedStreamThrowsException() : void
+    public function testReadingFromClosedStreamThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
-        $handle = fopen('php://temp', 'w+');
+        $handle = fopen('php://temp', 'w+b');
         $stream = new Stream($handle);
         $stream->write('foo');
         $stream->close();
@@ -246,10 +248,10 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that reading to the end from a closed stream returns null
      */
-    public function testReadingToEndFromClosedStreamThrowsException() : void
+    public function testReadingToEndFromClosedStreamThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
-        $handle = fopen('php://temp', 'w+');
+        $handle = fopen('php://temp', 'w+b');
         $stream = new Stream($handle);
         $stream->write('foo');
         $stream->close();
@@ -259,10 +261,10 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that reading from an unreadable stream throws an exception
      */
-    public function testReadingFromUnreadableStreamThrowsException() : void
+    public function testReadingFromUnreadableStreamThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
-        $handle = fopen(self::TEMP_FILE, 'a');
+        $handle = fopen(self::TEMP_FILE, 'ab');
         $stream = new Stream($handle);
         $stream->write('foo');
         $stream->read(1);
@@ -271,10 +273,10 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that reading to the end from an unreadable stream throws an exception
      */
-    public function testReadingToEndFromUnreadableStreamThrowsException() : void
+    public function testReadingToEndFromUnreadableStreamThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
-        $handle = fopen(self::TEMP_FILE, 'a');
+        $handle = fopen(self::TEMP_FILE, 'ab');
         $stream = new Stream($handle);
         $stream->write('foo');
         $stream->readToEnd();
@@ -283,9 +285,9 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the resource's length is returned when the length is not known ahead of time
      */
-    public function testResourceLengthIsReturnedWhenLengthIsNotKnownAheadOfTime() : void
+    public function testResourceLengthIsReturnedWhenLengthIsNotKnownAheadOfTime(): void
     {
-        $handle = fopen('php://temp', 'r');
+        $handle = fopen('php://temp', 'rb');
         $expectedLength = fstat($handle)['size'];
         $stream = new Stream($handle);
         $this->assertEquals($expectedLength, $stream->getLength());
@@ -294,9 +296,9 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that rewinding seeks to the beginning of the stream
      */
-    public function testRewindSeeksToBeginningOfStream() : void
+    public function testRewindSeeksToBeginningOfStream(): void
     {
-        $handle = fopen('php://temp', 'w+');
+        $handle = fopen('php://temp', 'w+b');
         $stream = new Stream($handle);
         $stream->write('foo');
         $this->assertEquals('', $stream->readToEnd());
@@ -307,9 +309,9 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that seeking changes the position
      */
-    public function testSeekingChangesPosition() : void
+    public function testSeekingChangesPosition(): void
     {
-        $handle = fopen('php://temp', 'w+');
+        $handle = fopen('php://temp', 'w+b');
         $stream = new Stream($handle);
         $stream->write('foo');
         $stream->rewind();
@@ -323,10 +325,10 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that writing to an unwritable stream throws an exception
      */
-    public function testWritingToUnwritableStreamThrowsException() : void
+    public function testWritingToUnwritableStreamThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
-        $handle = fopen('php://temp', 'r');
+        $handle = fopen('php://temp', 'rb');
         $stream = new Stream($handle);
         $stream->write('foo');
     }
@@ -334,9 +336,9 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that writing to the stream actually writes data
      */
-    public function testWritingToStreamWritesData() : void
+    public function testWritingToStreamWritesData(): void
     {
-        $handle = fopen('php://temp', 'w+');
+        $handle = fopen('php://temp', 'w+b');
         $stream = new Stream($handle);
         $stream->write('foo');
         $stream->rewind();

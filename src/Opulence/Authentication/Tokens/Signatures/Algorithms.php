@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tokens\Signatures;
 
@@ -18,24 +20,24 @@ use InvalidArgumentException;
 class Algorithms
 {
     /** The RSA SHA256 algorithm */
-    const RSA_SHA256 = 'RS256';
+    public const RSA_SHA256 = 'RS256';
     /** The RSA SHA384 algorithm */
-    const RSA_SHA384 = 'RS384';
+    public const RSA_SHA384 = 'RS384';
     /** The RSA SHA512 algorithm */
-    const RSA_SHA512 = 'RS512';
+    public const RSA_SHA512 = 'RS512';
     /** The SHA256 algorithm */
-    const SHA256 = 'HS256';
+    public const SHA256 = 'HS256';
     /** The SHA384 algorithm */
-    const SHA384 = 'HS384';
+    public const SHA384 = 'HS384';
     /** The SHA512 algorithm */
-    const SHA512 = 'HS512';
+    public const SHA512 = 'HS512';
 
     /**
      * Gets all the supported algorithms
      *
      * @return array All the supported algorithms
      */
-    public static function getAll() : array
+    public static function getAll(): array
     {
         return [
             self::RSA_SHA256,
@@ -53,7 +55,7 @@ class Algorithms
      * @param mixed $algorithm The algorithm to search
      * @return bool True if the algorithm is supported, otherwise false
      */
-    public static function has($algorithm) : bool
+    public static function has($algorithm): bool
     {
         return in_array($algorithm, self::getAll());
     }
@@ -65,7 +67,7 @@ class Algorithms
      * @return bool True if the algorithm is symmetric, otherwise false
      * @throws InvalidArgumentException Thrown if the algorithm is not valid
      */
-    public static function isSymmetric($algorithm) : bool
+    public static function isSymmetric($algorithm): bool
     {
         if (!self::has($algorithm)) {
             throw new InvalidArgumentException("Algorithm \"$algorithm\" is not valid");

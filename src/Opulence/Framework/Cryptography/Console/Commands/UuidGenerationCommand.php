@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Cryptography\Console\Commands;
 
@@ -21,7 +23,7 @@ class UuidGenerationCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define() : void
+    protected function define(): void
     {
         $this->setName('uuid:generate')
             ->setDescription('Creates a UUID');
@@ -35,7 +37,7 @@ class UuidGenerationCommand extends Command
         $response->writeln("<info>{$this->generateUuidV4()}</info>");
     }
 
-    private function generateUuidV4() : string
+    private function generateUuidV4(): string
     {
         $string = \random_bytes(16);
         $string[6] = \chr(\ord($string[6]) & 0x0f | 0x40);

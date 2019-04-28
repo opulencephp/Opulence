@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections;
 
@@ -36,7 +38,7 @@ class ImmutableArrayList implements IImmutableList
     /**
      * @inheritdoc
      */
-    public function containsValue($value) : bool
+    public function containsValue($value): bool
     {
         return $this->indexOf($value) !== null;
     }
@@ -44,7 +46,7 @@ class ImmutableArrayList implements IImmutableList
     /**
      * @inheritdoc
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->values);
     }
@@ -64,7 +66,7 @@ class ImmutableArrayList implements IImmutableList
     /**
      * @inheritdoc
      */
-    public function getIterator() : Traversable
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->values);
     }
@@ -72,7 +74,7 @@ class ImmutableArrayList implements IImmutableList
     /**
      * @inheritdoc
      */
-    public function indexOf($value) : ?int
+    public function indexOf($value): ?int
     {
         if (($index = array_search($value, $this->values)) === false) {
             return null;
@@ -84,7 +86,7 @@ class ImmutableArrayList implements IImmutableList
     /**
      * @inheritdoc
      */
-    public function offsetExists($index) : bool
+    public function offsetExists($index): bool
     {
         return array_key_exists($index, $this->values);
     }
@@ -100,7 +102,7 @@ class ImmutableArrayList implements IImmutableList
     /**
      * @inheritdoc
      */
-    public function offsetSet($index, $value) : void
+    public function offsetSet($index, $value): void
     {
         throw new RuntimeException('Cannot set values in ' . self::class);
     }
@@ -108,7 +110,7 @@ class ImmutableArrayList implements IImmutableList
     /**
      * @inheritdoc
      */
-    public function offsetUnset($index) : void
+    public function offsetUnset($index): void
     {
         throw new RuntimeException('Cannot unset values in ' . self::class);
     }
@@ -116,7 +118,7 @@ class ImmutableArrayList implements IImmutableList
     /**
      * @inheritdoc
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         return $this->values;
     }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Tests\Rules\Models\Mocks;
 
@@ -16,11 +18,11 @@ namespace Opulence\Validation\Tests\Rules\Models\Mocks;
 class User
 {
     /** @var int The user's database Id */
-    private $id = -1;
+    private $id;
     /** @var string The user's name */
-    private $name = '';
+    private $name;
     /** @var string The user's email */
-    private $email = '';
+    private $email;
 
     /**
      * @param int $id The user's database Id
@@ -37,7 +39,7 @@ class User
     /**
      * @return string
      */
-    public function getEmail() : string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -45,7 +47,7 @@ class User
     /**
      * @return int
      */
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -53,7 +55,7 @@ class User
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }

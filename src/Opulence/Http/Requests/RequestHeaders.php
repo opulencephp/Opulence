@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Requests;
 
@@ -18,15 +20,15 @@ use Opulence\Http\Headers;
 class RequestHeaders extends Headers
 {
     /** The client's host */
-    const CLIENT_HOST = 'client-host';
+    public const CLIENT_HOST = 'client-host';
     /** The client's IP address */
-    const CLIENT_IP = 'client-ip';
+    public const CLIENT_IP = 'client-ip';
     /** The client's port */
-    const CLIENT_PORT = 'client-port';
+    public const CLIENT_PORT = 'client-port';
     /** The client's protocol */
-    const CLIENT_PROTO = 'client-proto';
+    public const CLIENT_PROTO = 'client-proto';
     /** The forwarded headers */
-    const FORWARDED = 'forwarded';
+    public const FORWARDED = 'forwarded';
     /** @var array The list of HTTP request headers that don't begin with "HTTP_" */
     protected static $specialCaseHeaders = [
         'AUTH_TYPE' => true,
@@ -61,7 +63,7 @@ class RequestHeaders extends Headers
      * @param string $name The name to normalize
      * @return string The normalized name
      */
-    protected function normalizeName(string $name) : string
+    protected function normalizeName(string $name): string
     {
         $name = parent::normalizeName($name);
 

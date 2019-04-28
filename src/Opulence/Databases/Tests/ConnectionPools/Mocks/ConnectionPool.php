@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Tests\ConnectionPools\Mocks;
 
@@ -21,7 +23,7 @@ class ConnectionPool extends BaseConnectionPool
     /**
      * @inheritdoc
      */
-    protected function setReadConnection(Server $preferredServer = null) : void
+    protected function setReadConnection(Server $preferredServer = null): void
     {
         if ($preferredServer !== null) {
             $this->readConnection = $this->getConnection('custom', $preferredServer);
@@ -33,7 +35,7 @@ class ConnectionPool extends BaseConnectionPool
     /**
      * @inheritdoc
      */
-    protected function setWriteConnection(Server $preferredServer = null) : void
+    protected function setWriteConnection(Server $preferredServer = null): void
     {
         if ($preferredServer !== null) {
             $this->writeConnection = $this->getConnection('custom', $preferredServer);

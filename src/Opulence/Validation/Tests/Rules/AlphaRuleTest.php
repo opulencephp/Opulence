@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Tests\Rules;
 
@@ -20,7 +22,7 @@ class AlphaRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a failing value
      */
-    public function testFailingValue() : void
+    public function testFailingValue(): void
     {
         $rule = new AlphaRule();
         $this->assertFalse($rule->passes(''));
@@ -31,7 +33,7 @@ class AlphaRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the slug
      */
-    public function testGettingSlug() : void
+    public function testGettingSlug(): void
     {
         $rule = new AlphaRule();
         $this->assertEquals('alpha', $rule->getSlug());
@@ -40,7 +42,7 @@ class AlphaRuleTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a passing value
      */
-    public function testPassingValue() : void
+    public function testPassingValue(): void
     {
         $rule = new AlphaRule();
         $this->assertTrue($rule->passes('a'));

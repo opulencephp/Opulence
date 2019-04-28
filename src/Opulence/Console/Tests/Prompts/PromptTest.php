@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Prompts;
 
@@ -26,14 +28,14 @@ use Opulence\Console\Tests\Responses\Mocks\Response;
 class PromptTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Response The response to use in tests */
-    private $response = null;
+    private $response;
     /** @var PaddingFormatter The space padding formatter to use in tests */
-    private $paddingFormatter = null;
+    private $paddingFormatter;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->response = new Response(new Compiler(new Lexer(), new Parser()));
         $this->paddingFormatter = new PaddingFormatter();
@@ -42,7 +44,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an answer with spaces
      */
-    public function testAnsweringWithSpaces() : void
+    public function testAnsweringWithSpaces(): void
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream('  Dave  '));
         $question = new Question('Name of dev', 'unknown');
@@ -56,37 +58,41 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests asking an indexed multiple choice question
      */
-    public function testAskingIndexedMultipleChoiceQuestion() : void
+    public function testAskingIndexedMultipleChoiceQuestion(): void
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream('2'));
         $question = new MultipleChoice('Pick', ['foo', 'bar']);
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . '  1) foo' . PHP_EOL . '  2) bar' . PHP_EOL . '  > ',
-            $questionText);
+        $this->assertEquals(
+            "\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . '  1) foo' . PHP_EOL . '  2) bar' . PHP_EOL . '  > ',
+            $questionText
+        );
         $this->assertEquals('bar', $answer);
     }
 
     /**
      * Tests asking a keyed multiple choice question
      */
-    public function testAskingKeyedMultipleChoiceQuestion() : void
+    public function testAskingKeyedMultipleChoiceQuestion(): void
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream('c'));
         $question = new MultipleChoice('Pick', ['a' => 'b', 'c' => 'd']);
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . '  a) b' . PHP_EOL . '  c) d' . PHP_EOL . '  > ',
-            $questionText);
+        $this->assertEquals(
+            "\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . '  a) b' . PHP_EOL . '  c) d' . PHP_EOL . '  > ',
+            $questionText
+        );
         $this->assertEquals('d', $answer);
     }
 
     /**
      * Tests asking a multiple choice question with custom answer line string
      */
-    public function testAskingMultipleChoiceQuestionWithCustomAnswerLineString() : void
+    public function testAskingMultipleChoiceQuestionWithCustomAnswerLineString(): void
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream('1'));
         $question = new MultipleChoice('Pick', ['foo', 'bar']);
@@ -94,15 +100,17 @@ class PromptTest extends \PHPUnit\Framework\TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . '  1) foo' . PHP_EOL . '  2) bar' . PHP_EOL . '  : ',
-            $questionText);
+        $this->assertEquals(
+            "\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . '  1) foo' . PHP_EOL . '  2) bar' . PHP_EOL . '  : ',
+            $questionText
+        );
         $this->assertEquals('foo', $answer);
     }
 
     /**
      * Tests asking a question
      */
-    public function testAskingQuestion() : void
+    public function testAskingQuestion(): void
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream('Dave'));
         $question = new Question('Name of dev', 'unknown');
@@ -116,7 +124,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an empty default answer to indexed choices
      */
-    public function testEmptyDefaultAnswerToIndexedChoices() : void
+    public function testEmptyDefaultAnswerToIndexedChoices(): void
     {
         $triggeredException = false;
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream(' '));
@@ -136,7 +144,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an empty default answer to keyed choices
      */
-    public function testEmptyDefaultAnswerToKeyedChoices() : void
+    public function testEmptyDefaultAnswerToKeyedChoices(): void
     {
         $triggeredException = false;
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream(' '));
@@ -156,7 +164,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests not receiving a response
      */
-    public function testNotReceivingResponse() : void
+    public function testNotReceivingResponse(): void
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream(' '));
         $question = new Question('Name of dev', 'unknown');
@@ -170,7 +178,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting an invalid input stream through the constructor
      */
-    public function testSettingInvalidInputStreamThroughConstructor() : void
+    public function testSettingInvalidInputStreamThroughConstructor(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new Prompt($this->paddingFormatter, 'foo');
@@ -179,7 +187,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting an invalid input stream through the setter
      */
-    public function testSettingInvalidInputStreamThroughSetter() : void
+    public function testSettingInvalidInputStreamThroughSetter(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream('foo'));

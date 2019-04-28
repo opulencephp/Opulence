@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Console\Testing\PhpUnit\Mocks;
 
@@ -17,8 +19,7 @@ use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Console\Bootstrappers\CommandsBootstrapper;
 use Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions;
 use Opulence\Framework\Console\Testing\PhpUnit\IntegrationTestCase as BaseIntegrationTestCase;
-use Opulence\Ioc\Bootstrappers\Caching\ICache as BootstrapperCache;
-use Opulence\Ioc\Bootstrappers\Dispatchers\BootstrapperDispatcher;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
 use Opulence\Routing\Routes\Caching\ICache as RouteCache;
@@ -38,7 +39,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * @return CommandCollection
      */
-    public function getCommandCollection() : CommandCollection
+    public function getCommandCollection(): CommandCollection
     {
         return $this->commandCollection;
     }
@@ -48,7 +49,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return ResponseAssertions The response assertions
      */
-    public function getResponseAssertions() : ResponseAssertions
+    public function getResponseAssertions(): ResponseAssertions
     {
         return $this->assertResponse;
     }
@@ -56,30 +57,26 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     /**
      * Sets up the application and container
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         Config::setCategory('paths', [
             'configs' => realpath(__DIR__ . '/../../configs'),
-            'root' => realpath(__DIR__ . '/../../../../../..'),
-            'src' => realpath(__DIR__ . '/../../../../../../src')
+            'root' => realpath(__DIR__ . '/../../../../../../../..'),
+            'src' => realpath(__DIR__ . '/../../../../../../../../src')
         ]);
         // Purposely set this to a weird value so we can test that it gets overwritten with the "test" environment
         $this->container = new Container();
-        $this->container->bindInstance(BootstrapperCache::class, $this->createMock(BootstrapperCache::class));
         $this->container->bindInstance(RouteCache::class, $this->createMock(RouteCache::class));
         $this->container->bindInstance(ViewCache::class, $this->createMock(ViewCache::class));
         $this->container->bindInstance(IMigrator::class, $this->createMock(IMigrator::class));
         $this->container->bindInstance(IContainer::class, $this->container);
 
         // Setup the bootstrappers
-        $bootstrapperDispatcher = new BootstrapperDispatcher($this->container);
-        $bootstrappers = [];
-
         foreach (self::$bootstrappers as $bootstrapperClass) {
-            $bootstrappers[] = new $bootstrapperClass();
+            /** @var Bootstrapper $bootstrapper */
+            $bootstrapper = new $bootstrapperClass();
+            $bootstrapper->registerBindings($this->container);
         }
-
-        $bootstrapperDispatcher->dispatch($bootstrappers);
 
         parent::setUp();
     }

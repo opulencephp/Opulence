@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Ioc\Tests\Mocks;
 
@@ -16,9 +18,9 @@ namespace Opulence\Ioc\Tests\Mocks;
 class ConstructorWithInterfaceAndSetters
 {
     /** @var IFoo A dependency */
-    private $constructorDependency = null;
+    private $constructorDependency;
     /** @var IPerson A dependency */
-    private $setterDependency = null;
+    private $setterDependency;
 
     public function __construct(IFoo $foo)
     {
@@ -28,7 +30,7 @@ class ConstructorWithInterfaceAndSetters
     /**
      * @return IFoo
      */
-    public function getConstructorDependency() : IFoo
+    public function getConstructorDependency(): IFoo
     {
         return $this->constructorDependency;
     }
@@ -36,7 +38,7 @@ class ConstructorWithInterfaceAndSetters
     /**
      * @return IPerson
      */
-    public function getSetterDependency() : IPerson
+    public function getSetterDependency(): IPerson
     {
         return $this->setterDependency;
     }
@@ -44,7 +46,7 @@ class ConstructorWithInterfaceAndSetters
     /**
      * @param IPerson $setterDependency
      */
-    public function setSetterDependency(IPerson $setterDependency) : void
+    public function setSetterDependency(IPerson $setterDependency): void
     {
         $this->setterDependency = $setterDependency;
     }

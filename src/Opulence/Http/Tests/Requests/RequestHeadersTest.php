@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Tests\Requests;
 
@@ -18,7 +20,7 @@ use Opulence\Http\Requests\RequestHeaders;
 class RequestHeadersTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RequestHeaders The headers to use in tests */
-    private $headers = null;
+    private $headers;
     /** @var array The server array to use */
     private $serverArray = [
         'NON_HEADER' => 'foo',
@@ -37,7 +39,7 @@ class RequestHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->headers = new RequestHeaders($this->serverArray);
     }
@@ -45,7 +47,7 @@ class RequestHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that added names are normalized
      */
-    public function testAddedNamesAreNormalized() : void
+    public function testAddedNamesAreNormalized(): void
     {
         $this->headers->add('HTTP_FOO', 'fooval');
         $this->assertEquals('fooval', $this->headers->get('foo'));
@@ -55,7 +57,7 @@ class RequestHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all the headers after setting them in the constructor
      */
-    public function testGettingAllAfterSettingInConstructor() : void
+    public function testGettingAllAfterSettingInConstructor(): void
     {
         $headerParameters = [];
 
@@ -83,7 +85,7 @@ class RequestHeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that set names are normalized
      */
-    public function testSetNamesAreNormalized() : void
+    public function testSetNamesAreNormalized(): void
     {
         $this->headers->set('HTTP_FOO', 'fooval');
         $this->assertEquals('fooval', $this->headers->get('foo'));

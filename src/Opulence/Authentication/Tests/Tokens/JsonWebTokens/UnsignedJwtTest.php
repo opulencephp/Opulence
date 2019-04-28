@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens;
 
@@ -20,16 +22,16 @@ use Opulence\Authentication\Tokens\JsonWebTokens\UnsignedJwt;
 class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
 {
     /** @var UnsignedJwt The JWT to use in tests */
-    private $jwt = null;
+    private $jwt;
     /** @var JwtHeader The header to use in tests */
-    private $header = null;
+    private $header;
     /** @var JwtPayload The payload to use in tests */
-    private $payload = null;
+    private $payload;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->header = new JwtHeader();
         $this->payload = new JwtPayload();
@@ -39,7 +41,7 @@ class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the header
      */
-    public function testGettingHeader() : void
+    public function testGettingHeader(): void
     {
         $this->assertSame($this->header, $this->jwt->getHeader());
     }
@@ -47,7 +49,7 @@ class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the payload
      */
-    public function testGettingPayload() : void
+    public function testGettingPayload(): void
     {
         $this->assertSame($this->payload, $this->jwt->getPayload());
     }
@@ -55,7 +57,7 @@ class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the unsigned value
      */
-    public function testGettingUnsignedValue() : void
+    public function testGettingUnsignedValue(): void
     {
         $this->assertEquals(
             "{$this->jwt->getHeader()->encode()}.{$this->jwt->getPayload()->encode()}",
@@ -66,7 +68,7 @@ class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the unsigned value with a "none" algorithm
      */
-    public function testGettingUnsignedValueWithNoneAlgorithm() : void
+    public function testGettingUnsignedValueWithNoneAlgorithm(): void
     {
         $this->header->add('alg', 'none');
         $this->assertEquals(

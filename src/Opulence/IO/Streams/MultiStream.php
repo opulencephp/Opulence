@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\IO\Streams;
 
@@ -48,7 +50,7 @@ class MultiStream implements IStream
     /**
      * @inheritdoc
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         try {
             $this->rewind();
@@ -65,7 +67,7 @@ class MultiStream implements IStream
      * @param IStream $stream The stream to add
      * @throws InvalidArgumentException Thrown if the stream is not readable
      */
-    public function addStream(IStream $stream) : void
+    public function addStream(IStream $stream): void
     {
         if (!$stream->isReadable()) {
             throw new InvalidArgumentException('Stream must be readable');
@@ -78,7 +80,7 @@ class MultiStream implements IStream
     /**
      * @inheritdoc
      */
-    public function close() : void
+    public function close(): void
     {
         $this->streamIndex = 0;
         $this->position = 0;
@@ -94,7 +96,7 @@ class MultiStream implements IStream
     /**
      * @inheritdoc
      */
-    public function copyToStream(IStream $stream, int $bufferSize = 8192) : void
+    public function copyToStream(IStream $stream, int $bufferSize = 8192): void
     {
         while (!$this->isEof()) {
             $stream->write($this->read($bufferSize));
@@ -104,7 +106,7 @@ class MultiStream implements IStream
     /**
      * @inheritdoc
      */
-    public function getLength() : ?int
+    public function getLength(): ?int
     {
         if (count($this->streams) === 0) {
             return null;
@@ -126,7 +128,7 @@ class MultiStream implements IStream
     /**
      * @inheritdoc
      */
-    public function getPosition() : int
+    public function getPosition(): int
     {
         return $this->position;
     }
@@ -134,7 +136,7 @@ class MultiStream implements IStream
     /**
      * @inheritdoc
      */
-    public function isEof() : bool
+    public function isEof(): bool
     {
         if (count($this->streams) === 0) {
             throw new RuntimeException('Unable to tell if at EOF on closed stream');
@@ -146,7 +148,7 @@ class MultiStream implements IStream
     /**
      * @inheritdoc
      */
-    public function isReadable() : bool
+    public function isReadable(): bool
     {
         return true;
     }
@@ -154,7 +156,7 @@ class MultiStream implements IStream
     /**
      * @inheritdoc
      */
-    public function isSeekable() : bool
+    public function isSeekable(): bool
     {
         return $this->isSeekable;
     }
@@ -162,7 +164,7 @@ class MultiStream implements IStream
     /**
      * @inheritdoc
      */
-    public function isWritable() : bool
+    public function isWritable(): bool
     {
         return false;
     }
@@ -170,7 +172,7 @@ class MultiStream implements IStream
     /**
      * @inheritdoc
      */
-    public function read(int $length) : string
+    public function read(int $length): string
     {
         if (count($this->streams) === 0) {
             return '';
@@ -201,7 +203,7 @@ class MultiStream implements IStream
     /**
      * @inheritdoc
      */
-    public function readToEnd() : string
+    public function readToEnd(): string
     {
         if (count($this->streams) === 0) {
             return '';
@@ -223,7 +225,7 @@ class MultiStream implements IStream
     /**
      * @inheritdoc
      */
-    public function rewind() : void
+    public function rewind(): void
     {
         $this->seek(0);
     }
@@ -232,7 +234,7 @@ class MultiStream implements IStream
      * @inheritdoc
      * @throws InvalidArgumentException Thrown if the whence is invalid
      */
-    public function seek(int $offset, int $whence = SEEK_SET) : void
+    public function seek(int $offset, int $whence = SEEK_SET): void
     {
         if (!$this->isSeekable) {
             throw new RuntimeException('Cannot seek an unseekable stream');
@@ -284,7 +286,7 @@ class MultiStream implements IStream
     /**
      * @inheritdoc
      */
-    public function write(string $data) : void
+    public function write(string $data): void
     {
         throw new RuntimeException('Cannot write to ' . self::class);
     }

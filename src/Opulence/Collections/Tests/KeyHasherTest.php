@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections\Tests;
 
@@ -20,12 +22,12 @@ use Opulence\Collections\Tests\Mocks\UnserializableObject;
 class KeyHasherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var KeyHasher The hasher to use in tests */
-    private $keyHasher = null;
+    private $keyHasher;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->keyHasher = new KeyHasher();
     }
@@ -33,7 +35,7 @@ class KeyHasherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that arrays are hashed to the correct key
      */
-    public function testArraysAreHashedToCorrectKey() : void
+    public function testArraysAreHashedToCorrectKey(): void
     {
         $array = ['foo'];
         $this->assertEquals('__opulence:a:' . md5(serialize($array)), $this->keyHasher->getHashKey($array));
@@ -42,7 +44,7 @@ class KeyHasherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that scalars are hashed to the correct key
      */
-    public function testScalarsAreHashedToCorrectKey() : void
+    public function testScalarsAreHashedToCorrectKey(): void
     {
         $this->assertEquals('__opulence:s:1', $this->keyHasher->getHashKey('1'));
         $this->assertEquals('__opulence:i:1', $this->keyHasher->getHashKey(1));
@@ -52,16 +54,16 @@ class KeyHasherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a resource is hashes using its string value
      */
-    public function testResourceIsHashedUsingItsStringValue() : void
+    public function testResourceIsHashedUsingItsStringValue(): void
     {
-        $resource = fopen('php://temp', 'r+');
+        $resource = fopen('php://temp', 'r+b');
         $this->assertEquals("__opulence:r:$resource", $this->keyHasher->getHashKey($resource));
     }
 
     /**
      * Tests that a serializable object is hashed with its __toString() method
      */
-    public function testSerializableObjectIsHashedWithToStringMethod() : void
+    public function testSerializableObjectIsHashedWithToStringMethod(): void
     {
         $object = new SerializableObject('foo');
         $this->assertEquals('__opulence:so:foo', $this->keyHasher->getHashKey($object));
@@ -70,7 +72,7 @@ class KeyHasherTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an unserializable object is hashed with object hash
      */
-    public function testUnserializableObjectIsHashedWithObjectHash() : void
+    public function testUnserializableObjectIsHashedWithObjectHash(): void
     {
         $object = new UnserializableObject();
         $this->assertEquals('__opulence:o:' . spl_object_hash($object), $this->keyHasher->getHashKey($object));

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Compilers\Fortune;
 
@@ -26,6 +28,7 @@ use Opulence\Views\Compilers\Fortune\Transpiler;
 use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\IView;
 use Opulence\Views\View;
+use PHPUnit\Framework\MockObject\MockObject;
 use RuntimeException;
 
 /**
@@ -34,24 +37,24 @@ use RuntimeException;
 class TranspilerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Transpiler The transpiler to use in tests */
-    private $transpiler = null;
-    /** @var ILexer|\PHPUnit_Framework_MockObject_MockObject The lexer to use in tests */
-    private $lexer = null;
-    /** @var IParser|\PHPUnit_Framework_MockObject_MockObject The parser to use in tests */
-    private $parser = null;
+    private $transpiler;
+    /** @var ILexer|MockObject The lexer to use in tests */
+    private $lexer;
+    /** @var IParser|MockObject The parser to use in tests */
+    private $parser;
     /** @var AbstractSyntaxTree The AST to use in tests */
-    private $ast = null;
-    /** @var ICache|\PHPUnit_Framework_MockObject_MockObject The view cache to use in tests */
-    private $cache = null;
-    /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
-    private $view = null;
+    private $ast;
+    /** @var ICache|MockObject The view cache to use in tests */
+    private $cache;
+    /** @var IView|MockObject The view to use in tests */
+    private $view;
     /** @var XssFilter The filter to use in tests */
-    private $xssFilter = null;
+    private $xssFilter;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->lexer = $this->createMock(ILexer::class);
         $this->parser = $this->createMock(IParser::class);
@@ -70,7 +73,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that adjacent expressions have spaces between them
      */
-    public function testAdjacentExpressionHaveSpacesBetweenThem() : void
+    public function testAdjacentExpressionHaveSpacesBetweenThem(): void
     {
         $this->ast->getCurrentNode()
             ->addChild(new ExpressionNode('<?php'))
@@ -85,9 +88,9 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that cache is used when it has a view
      */
-    public function testCacheIsUsedWhenItHasView() : void
+    public function testCacheIsUsedWhenItHasView(): void
     {
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
+        /** @var IView|MockObject $view */
         $view = $this->createMock(IView::class);
         $view->expects($this->any())
             ->method('getContents')
@@ -105,7 +108,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests calling a view function that takes no parameters
      */
-    public function testCallingViewFunctionThatTakesNoParameters() : void
+    public function testCallingViewFunctionThatTakesNoParameters(): void
     {
         $this->transpiler->registerViewFunction('foo', function () {
             return 'foobar';
@@ -116,7 +119,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests calling a view function that takes parameters
      */
-    public function testCallingViewFunctionThatTakesParameters() : void
+    public function testCallingViewFunctionThatTakesParameters(): void
     {
         $this->transpiler->registerViewFunction('foo', function ($input) {
             return 'foo' . $input;
@@ -127,7 +130,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests defining a part
      */
-    public function testDefiningPart() : void
+    public function testDefiningPart(): void
     {
         $this->transpiler->startPart('foo');
         echo 'bar';
@@ -138,10 +141,10 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown with an invalid node type
      */
-    public function testExceptionIsThrownWithInvalidNodeType() : void
+    public function testExceptionIsThrownWithInvalidNodeType(): void
     {
         $this->expectException(RuntimeException::class);
-        /** @var Node|\PHPUnit_Framework_MockObject_MockObject $invalidNode */
+        /** @var Node|MockObject $invalidNode */
         $invalidNode = $this->getMockForAbstractClass(Node::class, [], 'FakeNode');
         $this->ast->getCurrentNode()
             ->addChild($invalidNode);
@@ -151,7 +154,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown when there's no transpiler for a directive
      */
-    public function testExceptionThrownWhenNoTranspilerRegisteredForDirective() : void
+    public function testExceptionThrownWhenNoTranspilerRegisteredForDirective(): void
     {
         $this->expectException(RuntimeException::class);
         $directiveNode = new DirectiveNode();
@@ -165,7 +168,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown with an invalid view function name
      */
-    public function testExceptionThrownWithInvalidViewFunctionName() : void
+    public function testExceptionThrownWithInvalidViewFunctionName(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->transpiler->callViewFunction('foo');
@@ -174,14 +177,14 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the first value of a variable that is inherited twice is used
      */
-    public function testFirstValueOfVariableThatIsInheritedTwiceIsUsed() : void
+    public function testFirstValueOfVariableThatIsInheritedTwiceIsUsed(): void
     {
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent1 */
+        /** @var IView|MockObject $parent1 */
         $parent1 = $this->createMock(IView::class);
         $parent1->expects($this->once())
             ->method('getVars')
             ->willReturn(['foo' => 'bar']);
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent2 */
+        /** @var IView|MockObject $parent2 */
         $parent2 = $this->createMock(IView::class);
         $parent2->expects($this->once())
             ->method('getVars')
@@ -196,9 +199,9 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing a variable that was already defined
      */
-    public function testPassingVariableThatWasAlreadyDefined() : void
+    public function testPassingVariableThatWasAlreadyDefined(): void
     {
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent1 */
+        /** @var IView|MockObject $parent1 */
         $parent1 = $this->createMock(IView::class);
         $parent1->expects($this->once())
             ->method('getVars')
@@ -216,9 +219,9 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing a variable that was not defined
      */
-    public function testPassingVariableThatWasNotDefined() : void
+    public function testPassingVariableThatWasNotDefined(): void
     {
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent1 */
+        /** @var IView|MockObject $parent1 */
         $parent1 = $this->createMock(IView::class);
         $parent1->expects($this->once())
             ->method('getVars')
@@ -237,7 +240,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests registering a directive transpiler
      */
-    public function testRegisteringDirectiveTranspiler() : void
+    public function testRegisteringDirectiveTranspiler(): void
     {
         $this->transpiler->registerDirectiveTranspiler('foo', function ($expression) {
             return "<?php foo $expression ?>";
@@ -256,7 +259,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests sanitizing text
      */
-    public function testSanitizingText() : void
+    public function testSanitizingText(): void
     {
         $text = 'A&W"\'';
         $this->assertEquals($this->xssFilter->run($text), $this->transpiler->sanitize($text));
@@ -265,7 +268,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests showing latest part
      */
-    public function testShowingLatestPart() : void
+    public function testShowingLatestPart(): void
     {
         $this->transpiler->startPart('foo');
         echo 'bar';
@@ -275,7 +278,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests showing a parent part
      */
-    public function testShowingParentPart() : void
+    public function testShowingParentPart(): void
     {
         $this->transpiler->startPart('foo');
         echo '__opulenceParentPlaceholder';
@@ -290,7 +293,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests showing parts from three generations of parents
      */
-    public function testShowingPartsFromThreeGenerationsOfParents() : void
+    public function testShowingPartsFromThreeGenerationsOfParents(): void
     {
         $this->transpiler->startPart('foo');
         echo '__opulenceParentPlaceholder';
@@ -309,9 +312,9 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the transpiled contents are cached
      */
-    public function testTranspiledContentsAreCached() : void
+    public function testTranspiledContentsAreCached(): void
     {
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
+        /** @var IView|MockObject $view */
         $view = $this->createMock(IView::class);
         $view->expects($this->any())
             ->method('getContents')
@@ -331,7 +334,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling a comment whose contents are an expression
      */
-    public function testTranspilingCommentWhoseContentsAreExpression() : void
+    public function testTranspilingCommentWhoseContentsAreExpression(): void
     {
         $commentNode = new CommentNode();
         $commentNode->addChild(new ExpressionNode('This is my comment'));
@@ -346,7 +349,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an expression
      */
-    public function testTranspilingExpression() : void
+    public function testTranspilingExpression(): void
     {
         $node = new ExpressionNode('<?php echo "foo"; ?>');
         $this->ast->getCurrentNode()
@@ -360,7 +363,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling a sanitized tag whose contents are an expression
      */
-    public function testTranspilingSanitizedTagWhoseContentsAreExpression() : void
+    public function testTranspilingSanitizedTagWhoseContentsAreExpression(): void
     {
         $tagNode = new SanitizedTagNode();
         $tagNode->addChild(new ExpressionNode('$foo ? "bar" : "baz"'));
@@ -375,7 +378,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests transpiling an unsanitized tag whose contents are an expression
      */
-    public function testTranspilingUnsanitizedTagWhoseContentsAreExpression() : void
+    public function testTranspilingUnsanitizedTagWhoseContentsAreExpression(): void
     {
         $tagNode = new UnsanitizedTagNode();
         $tagNode->addChild(new ExpressionNode('$foo ? "bar" : "baz"'));

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Responses\Formatters;
 
@@ -25,7 +27,7 @@ class CommandFormatter
      * @param ICommand $command The command to convert
      * @return string The command as text
      */
-    public function format(ICommand $command) : string
+    public function format(ICommand $command): string
     {
         $text = $command->getName() . ' ';
 
@@ -78,7 +80,7 @@ class CommandFormatter
      * @param Argument $argument The argument to format
      * @return string The formatted array argument
      */
-    private function formatArrayArgument(Argument $argument) : string
+    private function formatArrayArgument(Argument $argument): string
     {
         $arrayArgumentTextOne = $argument->getName() . '1';
         $arrayArgumentTextN = $argument->getName() . 'N';
@@ -97,7 +99,7 @@ class CommandFormatter
      * @param Option $option The option to format
      * @return string The formatted option
      */
-    private function formatOption(Option $option) : string
+    private function formatOption(Option $option): string
     {
         $text = "[--{$option->getName()}";
 

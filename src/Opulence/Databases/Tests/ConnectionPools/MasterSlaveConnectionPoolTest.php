@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Tests\ConnectionPools;
 
@@ -24,7 +26,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a slave
      */
-    public function testAddingSlave() : void
+    public function testAddingSlave(): void
     {
         $slave = $this->createServer();
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer());
@@ -35,7 +37,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding slaves
      */
-    public function testAddingSlaves() : void
+    public function testAddingSlaves(): void
     {
         $slave1 = $this->createServer();
         $slave2 = $this->createServer();
@@ -48,7 +50,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests creating a connection with no slaves
      */
-    public function testCreatingConnectionWithNoSlaves() : void
+    public function testCreatingConnectionWithNoSlaves(): void
     {
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer());
         $this->assertEquals([], $connectionPool->getSlaves());
@@ -57,7 +59,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the read connection with no slaves
      */
-    public function testGettingReadConnectionWithNoSlaves() : void
+    public function testGettingReadConnectionWithNoSlaves(): void
     {
         $master = $this->createServer();
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $master);
@@ -68,7 +70,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the read connection with a preferred server
      */
-    public function testGettingReadConnectionWithPreferredServer() : void
+    public function testGettingReadConnectionWithPreferredServer(): void
     {
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer());
         $preferredServer = new Server();
@@ -79,12 +81,15 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the read connection with slaves
      */
-    public function testGettingReadConnectionWithSlaves() : void
+    public function testGettingReadConnectionWithSlaves(): void
     {
         $slave1 = $this->createServer();
         $slave2 = $this->createServer();
-        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer(),
-            [$slave1, $slave2]);
+        $connectionPool = new MasterSlaveConnectionPool(
+            $this->createDriver(),
+            $this->createServer(),
+            [$slave1, $slave2]
+        );
         $expectedServers = [$slave1, $slave2];
         $expectedPdo = $connectionPool->getReadConnection();
         $slaveFound = false;
@@ -101,7 +106,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the write connection with no slaves
      */
-    public function testGettingWriteConnectionWithNoSlaves() : void
+    public function testGettingWriteConnectionWithNoSlaves(): void
     {
         $master = $this->createServer();
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $master);
@@ -112,7 +117,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the write connection with a preferred server
      */
-    public function testGettingWriteConnectionWithPreferredServer() : void
+    public function testGettingWriteConnectionWithPreferredServer(): void
     {
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer());
         $preferredServer = $this->createServer();
@@ -123,14 +128,17 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removing a slave
      */
-    public function testRemovingSlave() : void
+    public function testRemovingSlave(): void
     {
         $slave1 = $this->createServer();
         $slave1->setDatabaseName('slave1');
         $slave2 = $this->createServer();
         $slave2->setDatabaseName('slave2');
-        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer(),
-            [$slave1, $slave2]);
+        $connectionPool = new MasterSlaveConnectionPool(
+            $this->createDriver(),
+            $this->createServer(),
+            [$slave1, $slave2]
+        );
         $connectionPool->removeSlave($slave2);
         $this->assertEquals([$slave1], $connectionPool->getSlaves());
     }
@@ -138,7 +146,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests specifying a slave server selection strategy
      */
-    public function testSpecifyingSlaveServerSelectionStrategy() : void
+    public function testSpecifyingSlaveServerSelectionStrategy(): void
     {
         $slave = $this->createServer();
         $strategy = $this->createMock(IServerSelectionStrategy::class);
@@ -162,7 +170,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
      *
      * @return Driver A driver
      */
-    private function createDriver() : Driver
+    private function createDriver(): Driver
     {
         return new Driver();
     }
@@ -172,7 +180,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
      *
      * @return Server A server
      */
-    private function createServer() : Server
+    private function createServer(): Server
     {
         return new Server();
     }

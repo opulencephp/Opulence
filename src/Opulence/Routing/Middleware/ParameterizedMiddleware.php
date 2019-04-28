@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Middleware;
 
@@ -24,7 +26,7 @@ abstract class ParameterizedMiddleware implements IMiddleware
      * @param array $parameters The parameters to include in this middleware
      * @return MiddlewareParameters The middleware parameters
      */
-    public static function withParameters(array $parameters) : MiddlewareParameters
+    public static function withParameters(array $parameters): MiddlewareParameters
     {
         return new MiddlewareParameters(static::class, $parameters);
     }
@@ -32,7 +34,7 @@ abstract class ParameterizedMiddleware implements IMiddleware
     /**
      * @param array $parameters
      */
-    public function setParameters(array $parameters) : void
+    public function setParameters(array $parameters): void
     {
         $this->parameters = $parameters;
     }

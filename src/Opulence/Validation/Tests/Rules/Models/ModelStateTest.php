@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Tests\Rules\Models;
 
@@ -16,23 +18,24 @@ use Opulence\Validation\Rules\Errors\ErrorCollection;
 use Opulence\Validation\Rules\Rules;
 use Opulence\Validation\Tests\Rules\Models\Mocks\User;
 use Opulence\Validation\Tests\Rules\Models\Mocks\UserModelState;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the model state
  */
 class ModelStateTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var IValidatorFactory|\PHPUnit_Framework_MockObject_MockObject The validator factory */
-    private $validatorFactory = null;
-    /** @var IValidator|\PHPUnit_Framework_MockObject_MockObject The validator */
-    private $validator = null;
-    /** @var Rules|\PHPUnit_Framework_MockObject_MockObject The rules to use in tests */
-    private $rules = null;
+    /** @var IValidatorFactory|MockObject The validator factory */
+    private $validatorFactory;
+    /** @var IValidator|MockObject The validator */
+    private $validator;
+    /** @var Rules|MockObject The rules to use in tests */
+    private $rules;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->rules = $this->getMockBuilder(Rules::class)
             ->disableOriginalConstructor()
@@ -50,7 +53,7 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an invalid model
      */
-    public function testInvalidModel() : void
+    public function testInvalidModel(): void
     {
         $user = new User(1, 'Dave', 'foo');
         $this->validator->expects($this->at(0))
@@ -84,7 +87,7 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests a valid model
      */
-    public function testValidModel() : void
+    public function testValidModel(): void
     {
         $user = new User(1, 'Dave', 'foo@bar.com');
         $this->validator->expects($this->at(0))

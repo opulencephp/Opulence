@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Http;
 
@@ -31,6 +33,7 @@ use Opulence\Routing\Tests\Middleware\Mocks\HeaderSetter;
 use Opulence\Routing\Tests\Middleware\Mocks\ParameterizedMiddleware;
 use Opulence\Routing\Tests\Mocks\Controller;
 use Opulence\Routing\Tests\Mocks\ExceptionalRouter;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -41,7 +44,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding empty middleware
      */
-    public function testAddingEmptyMiddleware() : void
+    public function testAddingEmptyMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware([]);
@@ -51,7 +54,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding middleware
      */
-    public function testAddingMiddleware() : void
+    public function testAddingMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         // Test a single middleware
@@ -65,7 +68,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests disabling all middleware
      */
-    public function testDisablingAllMiddleware() : void
+    public function testDisablingAllMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware('foo');
@@ -76,7 +79,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests disabling certain middleware
      */
-    public function testDisablingCertainMiddleware() : void
+    public function testDisablingCertainMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $parameterizedMiddleware = new MiddlewareParameters('parameterized', []);
@@ -95,7 +98,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests enabling certain middleware
      */
-    public function testEnablingCertainMiddleware() : void
+    public function testEnablingCertainMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware('foo');
@@ -107,7 +110,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting middleware
      */
-    public function testGettingMiddleware() : void
+    public function testGettingMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $this->assertEquals([], $kernel->getMiddleware());
@@ -118,7 +121,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling an exceptional request
      */
-    public function testHandlingExceptionalRequest() : void
+    public function testHandlingExceptionalRequest(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, true);
         $request = Request::createFromGlobals();
@@ -129,7 +132,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling a request
      */
-    public function testHandlingRequest() : void
+    public function testHandlingRequest(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $request = Request::createFromGlobals();
@@ -141,7 +144,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling a request with middleware
      */
-    public function testHandlingWithMiddleware() : void
+    public function testHandlingWithMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware(HeaderSetter::class);
@@ -153,7 +156,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests handling a request with parameterized middleware
      */
-    public function testHandlingWithParameterizedMiddleware() : void
+    public function testHandlingWithParameterizedMiddleware(): void
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware(ParameterizedMiddleware::withParameters(['foo' => 'bar']));
@@ -169,7 +172,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
      * @param bool $shouldThrowException True if the router should throw an exception, otherwise false
      * @return Kernel The kernel
      */
-    private function getKernel($method, $shouldThrowException) : Kernel
+    private function getKernel($method, $shouldThrowException): Kernel
     {
         $container = new Container();
         $dependencyResolver = new ContainerDependencyResolver($container);
@@ -185,10 +188,10 @@ class KernelTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $parsedRoute->expects($this->any())->method('getMethods')->willReturn([$method]);
-        /** @var IParser|\PHPUnit_Framework_MockObject_MockObject $routeParser */
+        /** @var IParser|MockObject $routeParser */
         $routeParser = $this->createMock(IParser::class);
         $routeParser->expects($this->any())->method('parse')->willReturn($parsedRoute);
-        /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $routeCompiler */
+        /** @var ICompiler|MockObject $routeCompiler */
         $routeCompiler = $this->createMock(ICompiler::class);
         $routeCompiler->expects($this->any())->method('compile')->willReturn($compiledRoute);
 
@@ -207,9 +210,9 @@ class KernelTest extends \PHPUnit\Framework\TestCase
         }
 
         $router->any('/', Controller::class . '@noParameters');
-        /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
+        /** @var LoggerInterface|MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
-        /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $exceptionRenderer */
+        /** @var IExceptionRenderer|MockObject $exceptionRenderer */
         $exceptionRenderer = $this->createMock(IExceptionRenderer::class);
         $exceptionRenderer->expects($this->any())
             ->method('getResponse')

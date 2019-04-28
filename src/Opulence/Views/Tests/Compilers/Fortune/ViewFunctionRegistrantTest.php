@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Compilers\Fortune;
 
@@ -15,6 +17,7 @@ use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\Compilers\Fortune\Transpiler;
 use Opulence\Views\Filters\XssFilter;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the Fortune view function registrant
@@ -22,15 +25,15 @@ use Opulence\Views\Filters\XssFilter;
 class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Transpiler The transpiler to use in tests */
-    private $transpiler = null;
+    private $transpiler;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $xssFilter = new XssFilter();
-        /** @var ICache|\PHPUnit_Framework_MockObject_MockObject $cache */
+        /** @var ICache|MockObject $cache */
         $cache = $this->createMock(ICache::class);
         $cache->expects($this->any())
             ->method('has')
@@ -41,7 +44,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the CSS function
      */
-    public function testCSSFunction() : void
+    public function testCSSFunction(): void
     {
         // Test a single value
         $this->assertEquals(
@@ -61,7 +64,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the charset function
      */
-    public function testCharsetFunction() : void
+    public function testCharsetFunction(): void
     {
         $charset = 'utf-8';
         $this->assertEquals(
@@ -73,7 +76,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the favicon function
      */
-    public function testFaviconFunction() : void
+    public function testFaviconFunction(): void
     {
         $path = 'foo';
         $this->assertEquals(
@@ -85,7 +88,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the http-equiv function
      */
-    public function testHttpEquivFunction() : void
+    public function testHttpEquivFunction(): void
     {
         $name = 'refresh';
         $value = 30;
@@ -98,7 +101,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the HTTP method input
      */
-    public function testHttpMethodInput() : void
+    public function testHttpMethodInput(): void
     {
         $httpMethod = 'PUT';
         $this->assertEquals(
@@ -110,7 +113,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the meta description function
      */
-    public function testMetaDescriptionFunction() : void
+    public function testMetaDescriptionFunction(): void
     {
         $metaDescription = 'A&W is a root beer';
         $this->assertEquals(
@@ -122,7 +125,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the meta keywords function
      */
-    public function testMetaKeywordsFunction() : void
+    public function testMetaKeywordsFunction(): void
     {
         $metaKeywords = ['A&W', 'root beer'];
         $this->assertEquals(
@@ -134,7 +137,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the script function
      */
-    public function testScriptFunction() : void
+    public function testScriptFunction(): void
     {
         // Test a single value
         $this->assertEquals(
@@ -168,7 +171,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the HTML title function
      */
-    public function testTitleFunction() : void
+    public function testTitleFunction(): void
     {
         $title = 'A&W';
         $this->assertEquals(

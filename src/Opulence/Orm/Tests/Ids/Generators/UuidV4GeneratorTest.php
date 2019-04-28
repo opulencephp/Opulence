@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm\Tests\Ids\Generators;
 
@@ -21,7 +23,7 @@ class UuidV4GeneratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Test checking if this generator is post-insert
      */
-    public function testCheckingIfPostInsert() : void
+    public function testCheckingIfPostInsert(): void
     {
         $generator = new UuidV4Generator();
         $this->assertFalse($generator->isPostInsert());
@@ -30,7 +32,7 @@ class UuidV4GeneratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests generating an Id
      */
-    public function testGeneratingId() : void
+    public function testGeneratingId(): void
     {
         $entity = new stdClass();
         $idGenerator = new UuidV4Generator();
@@ -45,7 +47,7 @@ class UuidV4GeneratorTest extends \PHPUnit\Framework\TestCase
      *
      * Test getting empty value
      */
-    public function testGettingEmptyValue() : void
+    public function testGettingEmptyValue(): void
     {
         $generator = new UuidV4Generator();
         $this->assertSame('', $generator->getEmptyValue(new stdClass()));

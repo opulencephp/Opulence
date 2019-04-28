@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Routes\Compilers\Parsers;
 
@@ -26,5 +28,5 @@ interface IParser
      * @return ParsedRoute The parsed route
      * @throws RouteException Thrown if the route is not valid
      */
-    public function parse(Route $route) : ParsedRoute;
+    public function parse(Route $route): ParsedRoute;
 }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cryptography\Hashing;
 
@@ -28,7 +30,7 @@ abstract class Hasher implements IHasher
     /**
      * @inheritdoc
      */
-    public function hash(string $unhashedValue, array $options = [], string $pepper = '') : string
+    public function hash(string $unhashedValue, array $options = [], string $pepper = ''): string
     {
         $hashedValue = \password_hash($unhashedValue . $pepper, $this->hashAlgorithm, $options);
 
@@ -42,7 +44,7 @@ abstract class Hasher implements IHasher
     /**
      * @inheritdoc
      */
-    public function needsRehash(string $hashedValue, array $options = []) : bool
+    public function needsRehash(string $hashedValue, array $options = []): bool
     {
         return \password_needs_rehash($hashedValue, $this->hashAlgorithm, $options);
     }
@@ -50,7 +52,7 @@ abstract class Hasher implements IHasher
     /**
      * @inheritdoc
      */
-    public function verify(string $hashedValue, string $unhashedValue, string $pepper = '') : bool
+    public function verify(string $hashedValue, string $unhashedValue, string $pepper = ''): bool
     {
         return \password_verify($unhashedValue . $pepper, $hashedValue);
     }
@@ -58,5 +60,5 @@ abstract class Hasher implements IHasher
     /**
      * Should set the hash algorithm property to the algorithm used by the concrete class
      */
-    abstract protected function setHashAlgorithm() : void;
+    abstract protected function setHashAlgorithm(): void;
 }

@@ -36,6 +36,8 @@
 
 <h3>General</h3>
 
+* Requires >= PHP 7.3
+* Requires >= PHPUnit 8.0
 * Deleted the Application and File libraries
 * Removed all methods that were deprecated in v1.1.0
 * Added `void` return type to all void methods
@@ -49,9 +51,17 @@
 
 * Added `IContainer::tryResolve()` to simplify trying to resolve something without needing `try`/`catch` blocks
 * Made `Opulence\Ioc\Bootstrappers\Bootstrapper` abstract, added final constructor
-* Removed `ILazyBootstrapper` and made a new, abstract `LazyBootstrapper` to be used instead
-* Changed `BootstrapperDispatcher::dispatch()` to take in an array of instantiated bootstrappers rather than having a dependency on `IBootstrapperRegistry`
+* Renamed `IBinding` to `IContainerBinding`, `ClassBinding` to `ClassContainerBinding`, `FactoryBinding` to `FactoryContainerBinding`, and `InstanceBinding` to `InstanceContainerBinding`
+* Made `IContainerBinding`, `ClassContainerBinding`, `FactoryContainerBinding`, and `InstanceContainerBinding` internal
+* Removed `IBootstrapperDispatcher` and `BootstrapperDispatcher`
+* Removed `ILazyBootstrapper`
+  * All bootstrappers can be lazy now with inspections
+* Removed `IBootstrapperRegistry` and `BootstrapperRegistry`
 * Removed `IBootstrapperResolver` and `BootstrapperResolver`
+
+<h3>Views</h3>
+
+* Removed support for PHP short tags in Fortune templates
 
 <h2>v1.1.3 (2017-12-22)</h2>
 

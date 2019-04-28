@@ -1,18 +1,21 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Tests\ConnectionPools\Strategies\ServerSelection;
 
 use InvalidArgumentException;
 use Opulence\Databases\ConnectionPools\Strategies\ServerSelection\RandomServerSelectionStrategy;
 use Opulence\Databases\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the random server selection strategy
@@ -20,12 +23,12 @@ use Opulence\Databases\Server;
 class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RandomServerSelectionStrategy The strategy to use in tests */
-    private $strategy = null;
+    private $strategy;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->strategy = new RandomServerSelectionStrategy();
     }
@@ -33,7 +36,7 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown when passing an empty list of servers
      */
-    public function testExceptionThrownWithEmptyListOfServers() : void
+    public function testExceptionThrownWithEmptyListOfServers(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->strategy->select([]);
@@ -42,7 +45,7 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests selecting from a list of a servers
      */
-    public function testSelectingFromListOfServers() : void
+    public function testSelectingFromListOfServers(): void
     {
         $server1 = $this->getServerMock();
         $server2 = $this->getServerMock();
@@ -52,7 +55,7 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests selecting from a list of a single server
      */
-    public function testSelectingFromListOfSingleServer() : void
+    public function testSelectingFromListOfSingleServer(): void
     {
         $server = $this->getServerMock();
         $this->assertSame($server, $this->strategy->select([$server]));
@@ -61,7 +64,7 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests selecting from a single server
      */
-    public function testSelectingFromSingleServer() : void
+    public function testSelectingFromSingleServer(): void
     {
         $server = $this->getServerMock();
         $this->assertSame($server, $this->strategy->select($server));
@@ -70,7 +73,7 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * Gets a mock server
      *
-     * @return Server|\PHPUnit_Framework_MockObject_MockObject
+     * @return Server|MockObject
      */
     private function getServerMock()
     {

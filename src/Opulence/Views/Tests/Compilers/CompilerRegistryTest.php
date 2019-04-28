@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Compilers;
 
@@ -14,6 +16,7 @@ use InvalidArgumentException;
 use Opulence\Views\Compilers\CompilerRegistry;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\IView;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the compiler dispatcher
@@ -21,12 +24,12 @@ use Opulence\Views\IView;
 class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CompilerRegistry The registry to use in tests */
-    private $registry = null;
+    private $registry;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->registry = new CompilerRegistry();
     }
@@ -34,10 +37,10 @@ class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests compiling a view that does not have a compiler
      */
-    public function testCompilingViewThatDoesNotHaveCompiler() : void
+    public function testCompilingViewThatDoesNotHaveCompiler(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
+        /** @var IView|MockObject $view */
         $view = $this->createMock(IView::class);
         $view->expects($this->any())
             ->method('getPath')
@@ -48,11 +51,11 @@ class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests registering a compiler
      */
-    public function testRegisteringCompiler() : void
+    public function testRegisteringCompiler(): void
     {
-        /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $compiler */
+        /** @var ICompiler|MockObject $compiler */
         $compiler = $this->createMock(ICompiler::class);
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
+        /** @var IView|MockObject $view */
         $view = $this->createMock(IView::class);
         $view->expects($this->any())
             ->method('getPath')

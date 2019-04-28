@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Ioc\Tests\Mocks;
 
@@ -18,14 +20,14 @@ class ConstructorWithSetters
     /** @var string A primitive */
     private $primitive = '';
     /** @var IFoo An interface dependency */
-    private $interface = null;
+    private $interface;
     /** @var Bar A concrete dependency */
-    private $concrete = null;
+    private $concrete;
 
     /**
      * @return Bar
      */
-    public function getConcrete() : Bar
+    public function getConcrete(): Bar
     {
         return $this->concrete;
     }
@@ -33,7 +35,7 @@ class ConstructorWithSetters
     /**
      * @return IFoo
      */
-    public function getInterface() : IFoo
+    public function getInterface(): IFoo
     {
         return $this->interface;
     }
@@ -41,7 +43,7 @@ class ConstructorWithSetters
     /**
      * @return string
      */
-    public function getPrimitive() : string
+    public function getPrimitive(): string
     {
         return $this->primitive;
     }
@@ -50,7 +52,7 @@ class ConstructorWithSetters
      * @param IFoo $interface The dependency to set
      * @param mixed $primitive The primitive to set
      */
-    public function setBoth(IFoo $interface, $primitive) : void
+    public function setBoth(IFoo $interface, $primitive): void
     {
         $this->setInterface($interface);
         $this->setPrimitive($primitive);
@@ -59,7 +61,7 @@ class ConstructorWithSetters
     /**
      * @param Bar $concrete
      */
-    public function setConcrete($concrete) : void
+    public function setConcrete($concrete): void
     {
         $this->concrete = $concrete;
     }
@@ -67,7 +69,7 @@ class ConstructorWithSetters
     /**
      * @param IFoo $interface
      */
-    public function setInterface(IFoo $interface) : void
+    public function setInterface(IFoo $interface): void
     {
         $this->interface = $interface;
     }
@@ -75,7 +77,7 @@ class ConstructorWithSetters
     /**
      * @param string $foo
      */
-    public function setPrimitive($foo) : void
+    public function setPrimitive($foo): void
     {
         $this->primitive = $foo;
     }

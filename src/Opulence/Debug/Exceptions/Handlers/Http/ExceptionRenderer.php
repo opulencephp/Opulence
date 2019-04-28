@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Debug\Exceptions\Handlers\Http;
 
@@ -34,7 +36,7 @@ class ExceptionRenderer implements IExceptionRenderer
     /**
      * @inheritdoc
      */
-    public function render($ex) : void
+    public function render($ex): void
     {
         // Add support for HTTP library without having to necessarily depend on it
         if (get_class($ex) === HttpException::class) {
@@ -81,7 +83,7 @@ class ExceptionRenderer implements IExceptionRenderer
      * @param int $statusCode The HTTP status code
      * @return string The content of the response
      */
-    protected function getDefaultResponseContent(Exception $ex, int $statusCode) : string
+    protected function getDefaultResponseContent(Exception $ex, int $statusCode): string
     {
         if ($this->inDevelopmentEnvironment) {
             $content = $this->getDevelopmentEnvironmentContent($ex, $statusCode);
@@ -99,7 +101,7 @@ class ExceptionRenderer implements IExceptionRenderer
      * @param int $statusCode The HTTP status code
      * @return string The contents of the page
      */
-    protected function getDevelopmentEnvironmentContent(Exception $ex, int $statusCode) : string
+    protected function getDevelopmentEnvironmentContent(Exception $ex, int $statusCode): string
     {
         ob_start();
 
@@ -119,7 +121,7 @@ class ExceptionRenderer implements IExceptionRenderer
      * @param int $statusCode The HTTP status code
      * @return string The contents of the page
      */
-    protected function getProductionEnvironmentContent(Exception $ex, int $statusCode) : string
+    protected function getProductionEnvironmentContent(Exception $ex, int $statusCode): string
     {
         ob_start();
 
@@ -137,7 +139,7 @@ class ExceptionRenderer implements IExceptionRenderer
      *
      * @return string The request format, eg "html" (default), "json"
      */
-    protected function getRequestFormat() : string
+    protected function getRequestFormat(): string
     {
         if (isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] === 'application/json') {
             return 'json';
@@ -154,7 +156,7 @@ class ExceptionRenderer implements IExceptionRenderer
      * @param array $headers The HTTP headers
      * @return string The response content
      */
-    protected function getResponseContent($ex, int $statusCode, array $headers) : string
+    protected function getResponseContent($ex, int $statusCode, array $headers): string
     {
         return $this->getDefaultResponseContent($ex, $statusCode);
     }

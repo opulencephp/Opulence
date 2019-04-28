@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm\Tests\ChangeTracking;
 
@@ -20,16 +22,16 @@ use Opulence\Orm\Tests\ChangeTracking\Mocks\User;
 class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ChangeTracker The change tracker to use in tests */
-    private $changeTracker = null;
+    private $changeTracker;
     /** @var User An entity to use in the tests */
-    private $entity1 = null;
+    private $entity1;
     /** @var User An entity to use in the tests */
-    private $entity2 = null;
+    private $entity2;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->changeTracker = new ChangeTracker();
         /**
@@ -45,7 +47,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests seeing if a change is detected with a comparison function
      */
-    public function testCheckingForChangeWithComparisonFunction() : void
+    public function testCheckingForChangeWithComparisonFunction(): void
     {
         $className = get_class($this->entity1);
         $this->changeTracker->startTracking($this->entity1);
@@ -62,7 +64,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests seeing if a change is detected without a comparison function
      */
-    public function testCheckingForChangeWithoutComparisonFunction() : void
+    public function testCheckingForChangeWithoutComparisonFunction(): void
     {
         $this->changeTracker->startTracking($this->entity1);
         $this->entity1->setUsername('blah');
@@ -72,7 +74,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for changes on an unregistered entity
      */
-    public function testCheckingForChangesOnUnregisteredEntity() : void
+    public function testCheckingForChangesOnUnregisteredEntity(): void
     {
         $this->expectException(OrmException::class);
         $this->changeTracker->hasChanged($this->entity1);
@@ -81,7 +83,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking that nothing has changed with a comparison function
      */
-    public function testCheckingForNoChangeWithComparisonFunction() : void
+    public function testCheckingForNoChangeWithComparisonFunction(): void
     {
         $className = get_class($this->entity1);
         $this->changeTracker->startTracking($this->entity1);
@@ -94,7 +96,7 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking that nothing has changed without a comparison function
      */
-    public function testCheckingForNoChangeWithoutComparisonFunction() : void
+    public function testCheckingForNoChangeWithoutComparisonFunction(): void
     {
         $this->changeTracker->startTracking($this->entity1);
         $this->assertFalse($this->changeTracker->hasChanged($this->entity1));

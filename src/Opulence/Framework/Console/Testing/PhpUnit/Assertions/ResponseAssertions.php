@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Testing\PhpUnit\Assertions;
 
@@ -21,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 class ResponseAssertions extends TestCase
 {
     /** @var StreamResponse The response stream */
-    protected $response = null;
+    protected $response;
     /** @var int The status code */
     protected $statusCode = -1;
 
@@ -30,7 +32,7 @@ class ResponseAssertions extends TestCase
      *
      * @return self For method chaining
      */
-    public function isError() : self
+    public function isError(): self
     {
         $this->statusCodeEquals(StatusCodes::ERROR);
 
@@ -42,7 +44,7 @@ class ResponseAssertions extends TestCase
      *
      * @return self For method chaining
      */
-    public function isFatal() : self
+    public function isFatal(): self
     {
         $this->statusCodeEquals(StatusCodes::FATAL);
 
@@ -54,7 +56,7 @@ class ResponseAssertions extends TestCase
      *
      * @return self For method chaining
      */
-    public function isOK() : self
+    public function isOK(): self
     {
         $this->statusCodeEquals(StatusCodes::OK);
 
@@ -66,7 +68,7 @@ class ResponseAssertions extends TestCase
      *
      * @return self For method chaining
      */
-    public function isWarning() : self
+    public function isWarning(): self
     {
         $this->statusCodeEquals(StatusCodes::WARNING);
 
@@ -79,7 +81,7 @@ class ResponseAssertions extends TestCase
      * @param string $expected The expected output
      * @return self For method chaining
      */
-    public function outputEquals(string $expected) : self
+    public function outputEquals(string $expected): self
     {
         $this->checkResponseIsSet();
         $this->assertEquals($expected, $this->getOutput());
@@ -93,7 +95,7 @@ class ResponseAssertions extends TestCase
      * @param StreamResponse $response The response
      * @param int $statusCode The status code
      */
-    public function setResponse(StreamResponse $response, int $statusCode) : void
+    public function setResponse(StreamResponse $response, int $statusCode): void
     {
         $this->response = $response;
         $this->statusCode = $statusCode;
@@ -105,7 +107,7 @@ class ResponseAssertions extends TestCase
      * @param int $expected The expected status code
      * @return self For method chaining
      */
-    public function statusCodeEquals(int $expected) : self
+    public function statusCodeEquals(int $expected): self
     {
         $this->checkResponseIsSet();
         $this->assertEquals($expected, $this->statusCode);
@@ -117,7 +119,7 @@ class ResponseAssertions extends TestCase
      * Checks if the response was set
      * Useful for making sure the response was set before making any assertions on it
      */
-    private function checkResponseIsSet() : void
+    private function checkResponseIsSet(): void
     {
         if ($this->response === null) {
             $this->fail('Must call call() before assertions');
@@ -130,7 +132,7 @@ class ResponseAssertions extends TestCase
      * @return string The output
      * @throws LogicException Thrown if the response is not set
      */
-    private function getOutput() : string
+    private function getOutput(): string
     {
         if ($this->response === null) {
             throw new LogicException('Must call call() before assertions');

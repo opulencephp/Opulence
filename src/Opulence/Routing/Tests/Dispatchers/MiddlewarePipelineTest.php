@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Tests\Dispatchers;
 
@@ -22,12 +24,12 @@ use Opulence\Routing\Tests\Middleware\Mocks\ReturnsSomethingMiddleware;
 class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MiddlewarePipeline The middleware pipeline */
-    private $middlewarePipeline = null;
+    private $middlewarePipeline;
 
     /**
      * Sets up tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->middlewarePipeline = new MiddlewarePipeline();
     }
@@ -35,7 +37,7 @@ class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an empty response is returned when no response is otherwise returned
      */
-    public function testEmptyResponseReturnedWhenNoResponseIsOtherwiseReturned() : void
+    public function testEmptyResponseReturnedWhenNoResponseIsOtherwiseReturned(): void
     {
         $controller = function () {
             // Don't do anything
@@ -50,7 +52,7 @@ class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that middleware can affect the response
      */
-    public function testMiddlewareCanAffectResponse() : void
+    public function testMiddlewareCanAffectResponse(): void
     {
         $middleware = [
             new ReturnsSomethingMiddleware(),

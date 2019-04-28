@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Compilers\Fortune;
 
@@ -31,13 +33,13 @@ use RuntimeException;
 class Transpiler implements ITranspiler
 {
     /** @var ILexer The view lexer */
-    protected $lexer = null;
+    protected $lexer;
     /** @var IParser The view parser */
-    protected $parser = null;
+    protected $parser;
     /** @var ICache The transpiled view cache */
-    protected $cache = null;
+    protected $cache;
     /** @var XssFilter The XSS filter to use to sanitize text */
-    protected $xssFilter = null;
+    protected $xssFilter;
     /** @var callable[] The mapping of directive names to their transpilers */
     protected $directiveTranspilers = [];
     /** @var callable[] The mapping of view function names to their definitions */
@@ -74,7 +76,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function addParent(IView $parent, IView $child) : void
+    public function addParent(IView $parent, IView $child): void
     {
         foreach ($parent->getVars() as $name => $value) {
             if (!$child->hasVar($name)) {
@@ -86,7 +88,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function append(string $text) : void
+    public function append(string $text): void
     {
         $this->appendedText[] = $text;
     }
@@ -106,7 +108,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function endPart() : void
+    public function endPart(): void
     {
         $partName = array_pop($this->partStack);
         $content = ob_get_clean();
@@ -123,7 +125,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function prepend(string $text) : void
+    public function prepend(string $text): void
     {
         $this->prependedText[] = $text;
     }
@@ -131,7 +133,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function registerDirectiveTranspiler(string $name, callable $transpiler) : void
+    public function registerDirectiveTranspiler(string $name, callable $transpiler): void
     {
         $this->directiveTranspilers[$name] = $transpiler;
     }
@@ -139,7 +141,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function registerViewFunction(string $functionName, callable $function) : void
+    public function registerViewFunction(string $functionName, callable $function): void
     {
         $this->viewFunctions[$functionName] = $function;
     }
@@ -147,15 +149,15 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function sanitize($value) : string
+    public function sanitize($value): string
     {
-        return $this->xssFilter->run($value);
+        return $this->xssFilter->run((string)$value);
     }
 
     /**
      * @inheritdoc
      */
-    public function showPart(string $name = '') : string
+    public function showPart(string $name = ''): string
     {
         if (empty($name)) {
             $name = end($this->partStack);
@@ -173,7 +175,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function startPart(string $name) : void
+    public function startPart(string $name): void
     {
         // If this part already exists, we consider it to be a parent part
         $this->inParentPart = isset($this->parts[$name]);
@@ -185,7 +187,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function transpile(IView $view) : string
+    public function transpile(IView $view): string
     {
         $this->appendedText = [];
         $this->prependedText = [];
@@ -219,7 +221,7 @@ class Transpiler implements ITranspiler
      * @param Node $node The node to transpile
      * @return string The transpiled node
      */
-    protected function transpileCommentNode(Node $node) : string
+    protected function transpileCommentNode(Node $node): string
     {
         $code = '';
 
@@ -237,7 +239,7 @@ class Transpiler implements ITranspiler
      * @return string The transpiled node
      * @throws RuntimeException Thrown if the directive could not be transpiled
      */
-    protected function transpileDirectiveNode(Node $node) : string
+    protected function transpileDirectiveNode(Node $node): string
     {
         $children = $node->getChildren();
 
@@ -266,7 +268,7 @@ class Transpiler implements ITranspiler
      * @param Node $node The node to transpile
      * @return string The transpiled node
      */
-    protected function transpileExpressionNode(Node $node) : string
+    protected function transpileExpressionNode(Node $node): string
     {
         return $node->getValue();
     }
@@ -278,7 +280,7 @@ class Transpiler implements ITranspiler
      * @return string The view with transpiled nodes
      * @throws RuntimeException Thrown if the nodes could not be transpiled
      */
-    protected function transpileNodes(AbstractSyntaxTree $ast) : string
+    protected function transpileNodes(AbstractSyntaxTree $ast): string
     {
         $transpiledView = '';
         $rootNode = $ast->getRootNode();
@@ -335,7 +337,7 @@ class Transpiler implements ITranspiler
      * @param Node $node The node to transpile
      * @return string The transpiled node
      */
-    protected function transpileSanitizedTagNode(Node $node) : string
+    protected function transpileSanitizedTagNode(Node $node): string
     {
         $code = '';
 
@@ -352,7 +354,7 @@ class Transpiler implements ITranspiler
      * @param Node $node The node to transpile
      * @return string The transpiled node
      */
-    protected function transpileUnsanitizedTagNode(Node $node) : string
+    protected function transpileUnsanitizedTagNode(Node $node): string
     {
         $code = '';
 

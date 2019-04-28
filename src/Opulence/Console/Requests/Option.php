@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Requests;
 
@@ -18,15 +20,15 @@ use InvalidArgumentException;
 class Option
 {
     /** @var string The name of the option */
-    private $name = '';
+    private $name;
     /** @var string|null The short name of the option if it has one, otherwise null */
-    private $shortName = '';
+    private $shortName;
     /** @var int The type of option this is */
-    private $type = OptionTypes::REQUIRED_VALUE;
+    private $type;
     /** @var string A brief description of the option */
-    private $description = '';
+    private $description;
     /** @var mixed The default value for the option if it's optional */
-    private $defaultValue = null;
+    private $defaultValue;
 
     /**
      * @param string $name The name of the option
@@ -74,7 +76,7 @@ class Option
     /**
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -82,7 +84,7 @@ class Option
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -90,7 +92,7 @@ class Option
     /**
      * @return string|null
      */
-    public function getShortName() : ?string
+    public function getShortName(): ?string
     {
         return $this->shortName;
     }
@@ -100,7 +102,7 @@ class Option
      *
      * @return bool True if the option value is an array, otherwise false
      */
-    public function valueIsArray() : bool
+    public function valueIsArray(): bool
     {
         return ($this->type & OptionTypes::IS_ARRAY) === OptionTypes::IS_ARRAY;
     }
@@ -110,7 +112,7 @@ class Option
      *
      * @return bool True if the option value is optional, otherwise false
      */
-    public function valueIsOptional() : bool
+    public function valueIsOptional(): bool
     {
         return ($this->type & OptionTypes::OPTIONAL_VALUE) === OptionTypes::OPTIONAL_VALUE;
     }
@@ -120,7 +122,7 @@ class Option
      *
      * @return bool True if the option value is allowed, otherwise false
      */
-    public function valueIsPermitted() : bool
+    public function valueIsPermitted(): bool
     {
         return ($this->type & OptionTypes::NO_VALUE) !== OptionTypes::NO_VALUE;
     }
@@ -130,7 +132,7 @@ class Option
      *
      * @return bool True if the option value is required, otherwise false
      */
-    public function valueIsRequired() : bool
+    public function valueIsRequired(): bool
     {
         return ($this->type & OptionTypes::REQUIRED_VALUE) === OptionTypes::REQUIRED_VALUE;
     }

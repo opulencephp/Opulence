@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Http;
 
@@ -20,7 +22,7 @@ use Opulence\Sessions\ISession;
 class CsrfTokenChecker
 {
     /** The token input name */
-    const TOKEN_INPUT_NAME = '__OPULENCE_CSRF_TOKEN';
+    public const TOKEN_INPUT_NAME = '__OPULENCE_CSRF_TOKEN';
 
     /**
      * Checks if the token is valid
@@ -29,7 +31,7 @@ class CsrfTokenChecker
      * @param ISession $session The current session
      * @return bool True if the token is valid, otherwise false
      */
-    public function tokenIsValid(Request $request, ISession $session) : bool
+    public function tokenIsValid(Request $request, ISession $session): bool
     {
         if (!$session->has(self::TOKEN_INPUT_NAME)) {
             $session->set(self::TOKEN_INPUT_NAME, \bin2hex(\random_bytes(16)));
@@ -65,7 +67,7 @@ class CsrfTokenChecker
      * @param Request $request The current request
      * @return bool True if the token should be checked, otherwise false
      */
-    private function tokenShouldNotBeChecked(Request $request) : bool
+    private function tokenShouldNotBeChecked(Request $request): bool
     {
         return in_array($request->getMethod(), [RequestMethods::GET, RequestMethods::HEAD, RequestMethods::OPTIONS]);
     }

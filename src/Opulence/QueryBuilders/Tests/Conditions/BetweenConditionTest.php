@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders\Tests\Conditions;
 
@@ -21,7 +23,7 @@ class BetweenConditionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting parameters for BETWEEN condition with a data type
      */
-    public function testGettingParametersWithDataType() : void
+    public function testGettingParametersWithDataType(): void
     {
         $condition = new BetweenCondition('foo', 1, 2, PDO::PARAM_INT);
         $this->assertEquals(
@@ -33,7 +35,7 @@ class BetweenConditionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting parameters for BETWEEN condition with no data type
      */
-    public function testGettingParametersWithNoDataType() : void
+    public function testGettingParametersWithNoDataType(): void
     {
         $condition = new BetweenCondition('foo', 1, 2);
         $this->assertEquals(
@@ -45,7 +47,7 @@ class BetweenConditionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the SQL
      */
-    public function testGettingSql() : void
+    public function testGettingSql(): void
     {
         $condition = new BetweenCondition('foo', 1, 2);
         $this->assertEquals('foo BETWEEN ? AND ?', $condition->getSql());

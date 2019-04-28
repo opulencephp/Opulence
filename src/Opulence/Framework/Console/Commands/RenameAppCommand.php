@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Commands;
 
@@ -25,9 +27,9 @@ use Opulence\IO\FileSystem;
 class RenameAppCommand extends Command
 {
     /** @var FileSystem The filesystem to use to write to files */
-    protected $fileSystem = null;
+    protected $fileSystem;
     /** @var Prompt The prompt to confirm things with the user */
-    protected $prompt = null;
+    protected $prompt;
 
     /**
      * @param FileSystem $fileSystem The filesystem to use to write to files
@@ -44,7 +46,7 @@ class RenameAppCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function define() : void
+    protected function define(): void
     {
         $this->setName('app:rename')
             ->setDescription('Renames an Opulence application')
@@ -106,7 +108,7 @@ class RenameAppCommand extends Command
      * @param string $currName The current application name
      * @param string $newName The new application name
      */
-    protected function updateComposer(string $currName, string $newName) : void
+    protected function updateComposer(string $currName, string $newName): void
     {
         $rootPath = Config::get('paths', 'root');
         $currComposerContents = $this->fileSystem->read("$rootPath/composer.json");
@@ -125,7 +127,7 @@ class RenameAppCommand extends Command
      * @param string $currName The current application name
      * @param string $newName The new application name
      */
-    protected function updateConfigs(string $currName, string $newName) : void
+    protected function updateConfigs(string $currName, string $newName): void
     {
         $configFiles = $this->fileSystem->getFiles(Config::get('paths', 'config'), true);
 
@@ -146,7 +148,7 @@ class RenameAppCommand extends Command
      * @param string $currName The current application name
      * @param string $newName The new application name
      */
-    protected function updateNamespaces(string $currName, string $newName) : void
+    protected function updateNamespaces(string $currName, string $newName): void
     {
         $paths = [Config::get('paths', 'src'), Config::get('paths', 'tests')];
 
@@ -190,7 +192,7 @@ class RenameAppCommand extends Command
      * @param string $currName The current application name
      * @param string $newName The new application name
      */
-    protected function updateSrcAndTestDirectories(string $currName, string $newName) : void
+    protected function updateSrcAndTestDirectories(string $currName, string $newName): void
     {
         $paths = [Config::get('paths', 'src'), Config::get('paths', 'tests')];
 

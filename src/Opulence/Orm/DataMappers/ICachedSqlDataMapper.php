@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Orm\DataMappers;
 
@@ -24,21 +26,21 @@ interface ICachedSqlDataMapper extends IDataMapper
      *
      * @throws OrmException Thrown if there was an error committing to cache
      */
-    public function commit() : void;
+    public function commit(): void;
 
     /**
      * Gets the cache data mapper
      *
      * @return ICacheDataMapper The cache data mapper
      */
-    public function getCacheDataMapper() : ICacheDataMapper;
+    public function getCacheDataMapper(): ICacheDataMapper;
 
     /**
      * Gets the SQL data mapper
      *
      * @return SqlDataMapper The SQL data mapper
      */
-    public function getSqlDataMapper() : SqlDataMapper;
+    public function getSqlDataMapper(): SqlDataMapper;
 
     /**
      * Gets a list of entities that differ in cache and the SQL database
@@ -49,7 +51,7 @@ interface ICachedSqlDataMapper extends IDataMapper
      *      The "additional" list contains entities in cache that were not at all in SQL
      * @throws OrmException Thrown if there was an error getting the unsynced entities
      */
-    public function getUnsyncedEntities() : array;
+    public function getUnsyncedEntities(): array;
 
     /**
      * Refreshes the data in cache with the data from the SQL data mapper
@@ -60,7 +62,7 @@ interface ICachedSqlDataMapper extends IDataMapper
      *      The "additional" list contains entities in cache that were not at all in SQL
      * @throws OrmException Thrown if there was an error refreshing the cache
      */
-    public function refreshCache() : array;
+    public function refreshCache(): array;
 
     /**
      * Refreshes an entity in cache with the entity from the SQL data mapper
@@ -68,5 +70,5 @@ interface ICachedSqlDataMapper extends IDataMapper
      * @param int|string $id The Id of the entity to sync
      * @throws OrmException Thrown if there was an error refreshing the entity
      */
-    public function refreshEntity($id) : void;
+    public function refreshEntity($id): void;
 }

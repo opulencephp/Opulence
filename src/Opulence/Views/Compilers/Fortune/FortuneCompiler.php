@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Compilers\Fortune;
 
@@ -20,9 +22,9 @@ use Opulence\Views\IView;
 class FortuneCompiler extends PhpCompiler
 {
     /** @var ITranspiler The transpiler that converts Fortune code to PHP code */
-    protected $transpiler = null;
+    protected $transpiler;
     /** @var IViewFactory The view factory */
-    protected $viewFactory = null;
+    protected $viewFactory;
 
     /**
      * @param ITranspiler $transpiler The transpiler that converts Fortune code to PHP code
@@ -37,7 +39,7 @@ class FortuneCompiler extends PhpCompiler
     /**
      * @inheritdoc
      */
-    public function compile(IView $view) : string
+    public function compile(IView $view): string
     {
         // Set some variables that will be used by the transpiled code
         $view->setContents($this->transpiler->transpile($view));

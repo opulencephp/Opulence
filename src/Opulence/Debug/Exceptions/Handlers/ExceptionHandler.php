@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Debug\Exceptions\Handlers;
 
@@ -21,9 +23,9 @@ use Throwable;
 class ExceptionHandler implements IExceptionHandler
 {
     /** @var LoggerInterface The logger */
-    protected $logger = null;
+    protected $logger;
     /** @var IExceptionRenderer The exception renderer */
-    protected $exceptionRenderer = null;
+    protected $exceptionRenderer;
     /** @var array The list of exception classes to not log */
     protected $exceptionsNotLogged = [];
 
@@ -45,7 +47,7 @@ class ExceptionHandler implements IExceptionHandler
     /**
      * @inheritdoc
      */
-    public function handle($ex) : void
+    public function handle($ex): void
     {
         // It's Throwable, but not an Exception
         if (!$ex instanceof Exception) {
@@ -62,7 +64,7 @@ class ExceptionHandler implements IExceptionHandler
     /**
      * @inheritdoc
      */
-    public function register() : void
+    public function register(): void
     {
         set_exception_handler([$this, 'handle']);
     }
@@ -73,7 +75,7 @@ class ExceptionHandler implements IExceptionHandler
      * @param Throwable|Exception $ex The exception to check
      * @return bool True if the exception should be logged, otherwise false
      */
-    protected function shouldLog($ex) : bool
+    protected function shouldLog($ex): bool
     {
         return !in_array(get_class($ex), $this->exceptionsNotLogged);
     }

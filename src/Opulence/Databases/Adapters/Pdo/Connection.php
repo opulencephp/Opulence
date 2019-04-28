@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Adapters\Pdo;
 
@@ -23,16 +25,16 @@ use PDOException;
 class Connection extends PDO implements IConnection
 {
     /** The name of the PDOStatement class to use */
-    const PDO_STATEMENT_CLASS = 'Statement';
+    private const PDO_STATEMENT_CLASS = 'Statement';
 
     /** @var Provider The database provider this connection uses */
-    private $provider = null;
+    private $provider;
     /** @var Server The server we're connecting to */
-    private $server = null;
+    private $server;
     /** @var string The Data Name Source to connect with */
-    private $dsn = '';
+    private $dsn;
     /** @var array The list of driver options to use */
-    private $driverOptions = [];
+    private $driverOptions;
     /** @var bool Whether or not we're connected */
     private $isConnected = false;
     /**
@@ -132,7 +134,7 @@ class Connection extends PDO implements IConnection
     /**
      * @inheritdoc
      */
-    public function getDatabaseProvider() : Provider
+    public function getDatabaseProvider(): Provider
     {
         return $this->provider;
     }
@@ -140,7 +142,7 @@ class Connection extends PDO implements IConnection
     /**
      * @inheritdoc
      */
-    public function getServer() : Server
+    public function getServer(): Server
     {
         return $this->server;
     }
@@ -230,7 +232,7 @@ class Connection extends PDO implements IConnection
      *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
-    private function connect() : void
+    private function connect(): void
     {
         if (!$this->isConnected) {
             parent::__construct(

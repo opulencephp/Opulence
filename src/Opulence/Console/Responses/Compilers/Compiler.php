@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Responses\Compilers;
 
@@ -23,9 +25,9 @@ use RuntimeException;
 class Compiler implements ICompiler
 {
     /** @var ILexer The lexer to use */
-    private $lexer = null;
+    private $lexer;
     /** @var IParser The parser to use */
-    private $parser = null;
+    private $parser;
     /** @var Style[] The list of elements registered to the compiler */
     private $elements = [];
     /** @var bool Whether or not messages should be styled */
@@ -46,7 +48,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function compile(string $message) : string
+    public function compile(string $message): string
     {
         if (!$this->isStyled) {
             return strip_tags($message);
@@ -65,7 +67,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function registerElement(string $name, Style $style) : void
+    public function registerElement(string $name, Style $style): void
     {
         $this->elements[$name] = $style;
     }
@@ -73,7 +75,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function setStyled(bool $isStyled) : void
+    public function setStyled(bool $isStyled): void
     {
         $this->isStyled = $isStyled;
     }
@@ -86,7 +88,7 @@ class Compiler implements ICompiler
      * @throws RuntimeException Thrown if there was an error compiling the node
      * @throws InvalidArgumentException Thrown if there is no matching element for a particular tag
      */
-    private function compileNode(Node $node) : string
+    private function compileNode(Node $node): string
     {
         if ($node->isLeaf()) {
             // Don't compile a leaf that is a tag because that means it doesn't have any content

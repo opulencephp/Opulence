@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Compilers\Fortune\Lexers;
 
@@ -44,7 +46,7 @@ class Lexer implements ILexer
     /**
      * @inheritdoc
      */
-    public function lex(IView $view) : array
+    public function lex(IView $view): array
     {
         $this->initializeVars($view);
         $this->lexExpression();
@@ -57,7 +59,7 @@ class Lexer implements ILexer
      *
      * @return bool True if we're at the end of the file, otherwise false
      */
-    private function atEof() : bool
+    private function atEof(): bool
     {
         return $this->getStream() === '';
     }
@@ -65,7 +67,7 @@ class Lexer implements ILexer
     /**
      * Flushes the expression buffer
      */
-    private function flushExpressionBuffer() : void
+    private function flushExpressionBuffer(): void
     {
         if ($this->expressionBuffer !== '') {
             $this->tokens[] = new Token(TokenTypes::T_EXPRESSION, $this->expressionBuffer, $this->line);
@@ -80,37 +82,36 @@ class Lexer implements ILexer
      *
      * @return string The current character
      */
-    private function getCurrentChar() : string
+    private function getCurrentChar(): string
     {
         return $this->input[$this->cursor] ?? '';
     }
 
     /**
-     * Gets a sorted mapping of opening statement delimiters to the lexing methods to call on a match
+     * Gets a sorted mapping of opening statement delimiters and their lexing methods to call on a match
      *
-     * @return array The mapping of opening statement delimiters to the methods
+     * @return array The list of opening statement delimiters and their methods
      */
-    private function getStatementLexingMethods() : array
+    private function getStatementLexingMethods(): array
     {
         $statements = [
-            $this->directiveDelimiters[0] => 'lexDirectiveStatement',
-            $this->sanitizedTagDelimiters[0] => 'lexSanitizedTagStatement',
-            $this->unsanitizedTagDelimiters[0] => 'lexUnsanitizedTagStatement',
-            $this->commentDelimiters[0] => 'lexCommentStatement',
-            '<?php' => 'lexPhpStatement',
-            '<?' => 'lexPhpStatement'
+            [$this->directiveDelimiters[0], 'lexDirectiveStatement'],
+            [$this->sanitizedTagDelimiters[0], 'lexSanitizedTagStatement'],
+            [$this->unsanitizedTagDelimiters[0], 'lexUnsanitizedTagStatement'],
+            [$this->commentDelimiters[0], 'lexCommentStatement'],
+            ['<?php', 'lexPhpStatement']
         ];
 
         /**
          * In case one delimiter is a substring of the other ("{{" and "{{!"), we want to sort the delimiters
          * so that the longest delimiters come first
          */
-        uksort($statements, function ($a, $b) {
-            if (strlen($a) > strlen($b)) {
+        usort($statements, function ($a, $b) {
+            if (strlen($a[0]) > strlen($b[0])) {
                 return -1;
-            } else {
-                return 1;
             }
+
+            return 1;
         });
 
         return $statements;
@@ -123,7 +124,7 @@ class Lexer implements ILexer
      * @param int|null $length The length of input to return
      * @return string The stream of input
      */
-    private function getStream(int $cursor = null, int $length = null) : string
+    private function getStream(int $cursor = null, int $length = null): string
     {
         if ($cursor === null) {
             $cursor = $this->cursor;
@@ -160,7 +161,7 @@ class Lexer implements ILexer
      *
      * @param IView $view The view that's being lexed
      */
-    private function initializeVars(IView $view) : void
+    private function initializeVars(IView $view): void
     {
         $this->directiveDelimiters = $view->getDelimiters(IView::DELIMITER_TYPE_DIRECTIVE);
         $this->sanitizedTagDelimiters = $view->getDelimiters(IView::DELIMITER_TYPE_SANITIZED_TAG);
@@ -179,7 +180,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if the statement has an invalid token
      */
-    private function lexCommentStatement() : void
+    private function lexCommentStatement(): void
     {
         $this->lexDelimitedExpressionStatement(
             TokenTypes::T_COMMENT_OPEN,
@@ -195,7 +196,7 @@ class Lexer implements ILexer
      *
      * @param string $closeDelimiter The close delimiter
      */
-    private function lexDelimitedExpression(string $closeDelimiter) : void
+    private function lexDelimitedExpression(string $closeDelimiter): void
     {
         $expressionBuffer = '';
         $newLinesAfterExpression = 0;
@@ -243,7 +244,7 @@ class Lexer implements ILexer
         string $closeTokenType,
         string $closeDelimiter,
         bool $closeDelimiterOptional
-    ) : void {
+    ): void {
         $this->flushExpressionBuffer();
         $this->tokens[] = new Token($openTokenType, $openDelimiter, $this->line);
         $this->lexDelimitedExpression($closeDelimiter);
@@ -267,7 +268,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if there's an unmatched parenthesis
      */
-    private function lexDirectiveExpression() : void
+    private function lexDirectiveExpression(): void
     {
         $this->lexDirectiveName();
 
@@ -321,7 +322,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if the directive did not have a name
      */
-    private function lexDirectiveName() : void
+    private function lexDirectiveName(): void
     {
         $name = '';
         $newLinesAfterName = 0;
@@ -367,7 +368,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if the statement has an invalid token
      */
-    private function lexDirectiveStatement() : void
+    private function lexDirectiveStatement(): void
     {
         $this->flushExpressionBuffer();
         $this->tokens[] = new Token(TokenTypes::T_DIRECTIVE_OPEN, $this->directiveDelimiters[0], $this->line);
@@ -392,23 +393,24 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if there was an invalid token
      */
-    private function lexExpression() : void
+    private function lexExpression(): void
     {
         $statementMethods = $this->getStatementLexingMethods();
 
         while (!$this->atEof()) {
-            reset($statementMethods);
+            $delimiterIter = 0;
             $matchedStatement = false;
 
-            // This is essentially a foreach loop that can be reset
-            while (list($statementOpenDelimiter, $methodName) = each($statementMethods)) {
+            for (;$delimiterIter < \count($statementMethods);$delimiterIter++) {
+                [$statementOpenDelimiter, $methodName] = $statementMethods[$delimiterIter];
+
                 if ($this->matches($statementOpenDelimiter)) {
                     // This is an unescaped statement
                     $matchedStatement = true;
                     $this->{$methodName}();
 
-                    // Now that we've matched, we want to reset the loop so that longest delimiters are matched first
-                    reset($statementMethods);
+                    // Now that we've matched, we want to reset the loop so that longest statementOpenDelimiters are matched first
+                    $delimiterIter = 0;
                 } elseif ($this->getCurrentChar() === '\\') {
                     // Now that we know we're on an escape character, spend the resources to check for a match
                     if ($this->matches("\\$statementOpenDelimiter")) {
@@ -444,7 +446,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if the statement was not delimited correctly
      */
-    private function lexPhpStatement() : void
+    private function lexPhpStatement(): void
     {
         $this->lexDelimitedExpressionStatement(
             TokenTypes::T_PHP_TAG_OPEN,
@@ -460,7 +462,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if the statement has an invalid token
      */
-    private function lexSanitizedTagStatement() : void
+    private function lexSanitizedTagStatement(): void
     {
         $this->lexDelimitedExpressionStatement(
             TokenTypes::T_SANITIZED_TAG_OPEN,
@@ -476,7 +478,7 @@ class Lexer implements ILexer
      *
      * @throws RuntimeException Thrown if the statement has an invalid token
      */
-    private function lexUnsanitizedTagStatement() : void
+    private function lexUnsanitizedTagStatement(): void
     {
         $this->lexDelimitedExpressionStatement(
             TokenTypes::T_UNSANITIZED_TAG_OPEN,
@@ -495,7 +497,7 @@ class Lexer implements ILexer
      * @param int|null $cursor The cursor position to match at
      * @return bool True if the input at the cursor matches the expected value, otherwise false
      */
-    private function matches(string $expected, bool $shouldConsume = true, int $cursor = null) : bool
+    private function matches(string $expected, bool $shouldConsume = true, int $cursor = null): bool
     {
         $stream = $this->getStream($cursor);
         $expectedLength = strlen($expected);
@@ -517,25 +519,25 @@ class Lexer implements ILexer
      * @param string $expression The expression to replace calls in
      * @return string The expression with replaced calls
      */
-    private function replaceViewFunctionCalls(string $expression) : string
+    private function replaceViewFunctionCalls(string $expression): string
     {
         $phpTokens = token_get_all('<?php ' . $expression . ' ?>');
         $opulenceTokens = [];
 
-        // This is essentially a foreach loop that can be fast-forwarded
-        while (list($index, $token) = each($phpTokens)) {
-            if (is_string($token)) {
-                // Convert the simple token to an array for uniformity
-                $opulenceTokens[] = [T_STRING, $token, 0];
+        for ($tokenIter = 0;$tokenIter < \count($phpTokens);$tokenIter++) {
+            $phpToken = $phpTokens[$tokenIter];
+            if (is_string($phpToken)) {
+                // Convert the simple phpToken to an array for uniformity
+                $opulenceTokens[] = [T_STRING, $phpToken, 0];
 
                 continue;
             }
 
-            switch ($token[0]) {
+            switch ($phpToken[0]) {
                 case T_STRING:
                     // If this is a function
-                    if (count($phpTokens) > $index && $phpTokens[$index + 1] === '(') {
-                        $prevToken = $index > 0 ? $phpTokens[$index - 1] : null;
+                    if (count($phpTokens) > $tokenIter && $phpTokens[$tokenIter + 1] === '(') {
+                        $prevToken = $tokenIter > 0 ? $phpTokens[$tokenIter - 1] : null;
 
                         // If this is a native PHP function or is really a method call, don't convert it
                         if (
@@ -543,25 +545,25 @@ class Lexer implements ILexer
                                 ($prevToken[0] === T_OBJECT_OPERATOR || $prevToken[0] === T_DOUBLE_COLON) &&
                                 is_array($prevToken)
                             ) ||
-                            function_exists($token[1])
+                            function_exists($phpToken[1])
                         ) {
-                            $opulenceTokens[] = $token;
+                            $opulenceTokens[] = $phpToken;
                         } else {
                             // This is a view function
                             // Add $__opulenceFortuneTranspiler
-                            $opulenceTokens[] = [T_VARIABLE, '$__opulenceFortuneTranspiler', $token[2]];
+                            $opulenceTokens[] = [T_VARIABLE, '$__opulenceFortuneTranspiler', $phpToken[2]];
                             // Add ->
-                            $opulenceTokens[] = [T_OBJECT_OPERATOR, '->', $token[2]];
+                            $opulenceTokens[] = [T_OBJECT_OPERATOR, '->', $phpToken[2]];
                             // Add callViewFunction("FUNCTION_NAME")
-                            $opulenceTokens[] = [T_STRING, 'callViewFunction("' . $token[1] . '")', $token[2]];
+                            $opulenceTokens[] = [T_STRING, 'callViewFunction("' . $phpToken[1] . '")', $phpToken[2]];
                         }
                     } else {
-                        $opulenceTokens[] = $token;
+                        $opulenceTokens[] = $phpToken;
                     }
 
                     break;
                 default:
-                    $opulenceTokens[] = $token;
+                    $opulenceTokens[] = $phpToken;
 
                     break;
             }

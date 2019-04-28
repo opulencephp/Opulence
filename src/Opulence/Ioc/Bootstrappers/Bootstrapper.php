@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Ioc\Bootstrappers;
 
@@ -29,5 +31,5 @@ abstract class Bootstrapper
      * @param IContainer $container The IoC container to bind to
      * @throws RuntimeException Thrown if there was an error registering the bindings
      */
-    abstract public function registerBindings(IContainer $container) : void;
+    abstract public function registerBindings(IContainer $container): void;
 }

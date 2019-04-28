@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases;
 
@@ -72,7 +74,7 @@ class Server
     /**
      * @return string
      */
-    public function getCharset() : string
+    public function getCharset(): string
     {
         return $this->charset;
     }
@@ -80,7 +82,7 @@ class Server
     /**
      * @return string
      */
-    public function getDatabaseName() : string
+    public function getDatabaseName(): string
     {
         return $this->databaseName;
     }
@@ -88,7 +90,7 @@ class Server
     /**
      * @return string
      */
-    public function getHost() : string
+    public function getHost(): string
     {
         return $this->host;
     }
@@ -96,7 +98,7 @@ class Server
     /**
      * @return string
      */
-    public function getPassword() : string
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -104,7 +106,7 @@ class Server
     /**
      * @return int|null
      */
-    public function getPort() : ?int
+    public function getPort(): ?int
     {
         return $this->port;
     }
@@ -112,7 +114,7 @@ class Server
     /**
      * @return string
      */
-    public function getUsername() : string
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -120,7 +122,7 @@ class Server
     /**
      * @param string $charset
      */
-    public function setCharset(string $charset) : void
+    public function setCharset(string $charset): void
     {
         $this->charset = $charset;
     }
@@ -128,7 +130,7 @@ class Server
     /**
      * @param string $databaseName
      */
-    public function setDatabaseName(string $databaseName) : void
+    public function setDatabaseName(string $databaseName): void
     {
         $this->databaseName = $databaseName;
     }
@@ -136,7 +138,7 @@ class Server
     /**
      * @param string $host
      */
-    public function setHost(string $host) : void
+    public function setHost(string $host): void
     {
         $this->host = $host;
     }
@@ -144,7 +146,7 @@ class Server
     /**
      * @param string $password
      */
-    public function setPassword(string $password) : void
+    public function setPassword(string $password): void
     {
         $this->password = $password;
     }
@@ -152,7 +154,7 @@ class Server
     /**
      * @param int $port
      */
-    public function setPort(int $port) : void
+    public function setPort(int $port): void
     {
         $this->port = $port;
     }
@@ -160,7 +162,7 @@ class Server
     /**
      * @param string $username
      */
-    public function setUsername(string $username) : void
+    public function setUsername(string $username): void
     {
         $this->username = $username;
     }

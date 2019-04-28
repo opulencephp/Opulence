@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Responses\Formatters;
 
@@ -16,7 +18,7 @@ namespace Opulence\Console\Responses\Formatters;
 class TableFormatter
 {
     /** @var PaddingFormatter The padding formatter */
-    private $padding = null;
+    private $padding;
     /** @var string The padding string */
     private $cellPaddingString = ' ';
     /** @var string The character to use for vertical borders */
@@ -41,7 +43,7 @@ class TableFormatter
      * @param array $headers The list of headers
      * @return string The formatted table
      */
-    public function format(array $rows, array $headers = []) : string
+    public function format(array $rows, array $headers = []): string
     {
         if (count($rows) === 0) {
             return '';
@@ -54,7 +56,6 @@ class TableFormatter
         unset($row);
 
         // If there are headers, we want them to be formatted along with the rows
-        $headersAndRows = count($headers) === 0 ? $rows : array_merge([$headers], $rows);
         $headersAndRows = count($headers) === 0 ? $rows : array_merge([$headers], $rows);
         $maxLengths = $this->padding->normalizeColumns($headersAndRows);
         $eolChar = $this->padding->getEolChar();
@@ -85,7 +86,7 @@ class TableFormatter
     /**
      * @param string $cellPaddingString
      */
-    public function setCellPaddingString(string $cellPaddingString) : void
+    public function setCellPaddingString(string $cellPaddingString): void
     {
         $this->cellPaddingString = $cellPaddingString;
     }
@@ -93,7 +94,7 @@ class TableFormatter
     /**
      * @param string $eolChar
      */
-    public function setEolChar(string $eolChar) : void
+    public function setEolChar(string $eolChar): void
     {
         $this->padding->setEolChar($eolChar);
     }
@@ -101,7 +102,7 @@ class TableFormatter
     /**
      * @param string $horizontalBorderChar
      */
-    public function setHorizontalBorderChar(string $horizontalBorderChar) : void
+    public function setHorizontalBorderChar(string $horizontalBorderChar): void
     {
         $this->horizontalBorderChar = $horizontalBorderChar;
     }
@@ -109,7 +110,7 @@ class TableFormatter
     /**
      * @param string $intersectionChar
      */
-    public function setIntersectionChar(string $intersectionChar) : void
+    public function setIntersectionChar(string $intersectionChar): void
     {
         $this->intersectionChar = $intersectionChar;
     }
@@ -117,7 +118,7 @@ class TableFormatter
     /**
      * @param bool $padAfter
      */
-    public function setPadAfter(bool $padAfter) : void
+    public function setPadAfter(bool $padAfter): void
     {
         $this->padding->setPadAfter($padAfter);
     }
@@ -125,7 +126,7 @@ class TableFormatter
     /**
      * @param string $verticalBorderChar
      */
-    public function setVerticalBorderChar(string $verticalBorderChar) : void
+    public function setVerticalBorderChar(string $verticalBorderChar): void
     {
         $this->verticalBorderChar = $verticalBorderChar;
     }

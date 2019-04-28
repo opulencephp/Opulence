@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Tests\Mocks;
 
@@ -29,7 +31,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return RedirectResponse The response
      */
-    public function redirect() : RedirectResponse
+    public function redirect(): RedirectResponse
     {
         return new RedirectResponse('/redirectedPath');
     }
@@ -39,7 +41,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function setBadGateway() : Response
+    public function setBadGateway(): Response
     {
         return new Response('FooBar', ResponseHeaders::HTTP_BAD_GATEWAY);
     }
@@ -49,7 +51,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function setCookie() : Response
+    public function setCookie(): Response
     {
         $response = new Response('FooBar');
         $response->getHeaders()->setCookie(new Cookie('foo', 'bar', new DateTime()));
@@ -62,7 +64,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function setHeader() : Response
+    public function setHeader(): Response
     {
         $response = new Response('FooBar');
         $response->getHeaders()->set('foo', 'bar');
@@ -75,7 +77,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function setISE() : Response
+    public function setISE(): Response
     {
         return new Response('FooBar', ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
     }
@@ -85,7 +87,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function setOK() : Response
+    public function setOK(): Response
     {
         return new Response('FooBar', ResponseHeaders::HTTP_OK);
     }
@@ -95,7 +97,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function setUnauthorized() : Response
+    public function setUnauthorized(): Response
     {
         return new Response('FooBar', ResponseHeaders::HTTP_UNAUTHORIZED);
     }
@@ -105,7 +107,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function setVar() : Response
+    public function setVar(): Response
     {
         $this->view = new View('thecontent');
         $this->view->setVar('foo', 'bar');
@@ -118,7 +120,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return Response The response
      */
-    public function showFooBar() : Response
+    public function showFooBar(): Response
     {
         return new Response('FooBar');
     }
@@ -128,7 +130,7 @@ class HttpApplicationTestController extends BaseController
      *
      * @return JsonResponse The response
      */
-    public function showJson() : JsonResponse
+    public function showJson(): JsonResponse
     {
         return new JsonResponse(['foo' => 'bar', 'baz' => ['subkey' => 'subvalue']]);
     }

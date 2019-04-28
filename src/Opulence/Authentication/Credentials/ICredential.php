@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Credentials;
 
@@ -20,7 +22,7 @@ interface ICredential
      *
      * @return string The type of credential this is
      */
-    public function getType() : string;
+    public function getType(): string;
 
     /**
      * Gets the value for the input name
@@ -35,5 +37,5 @@ interface ICredential
      *
      * @return array The mapping of value names to their values
      */
-    public function getValues() : array;
+    public function getValues(): array;
 }

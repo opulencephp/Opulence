@@ -1,41 +1,41 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Composer\Bootstrappers;
 
 use Opulence\Framework\Composer\Composer;
 use Opulence\Framework\Composer\Executable;
 use Opulence\Framework\Configuration\Config;
-use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
+use RuntimeException;
 
 /**
  * Defines the Composer bootstrapper
  */
-class ComposerBootstrapper extends LazyBootstrapper
+class ComposerBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc
      */
-    public function getBindings() : array
-    {
-        return [Composer::class, Executable::class];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function registerBindings(IContainer $container) : void
+    public function registerBindings(IContainer $container): void
     {
         $rootPath = Config::get('paths', 'root');
         $psr4RootPath = Config::get('paths', 'src');
+
+        if (!is_string($rootPath) || !is_string($psr4RootPath)) {
+            throw new RuntimeException('Paths not configured');
+        }
+
         $composer = Composer::createFromRawConfig($rootPath, $psr4RootPath);
         $executable = new Executable($rootPath);
         $container->bindInstance(Composer::class, $composer);

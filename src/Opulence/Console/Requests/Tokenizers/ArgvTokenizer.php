@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Requests\Tokenizers;
 
@@ -18,7 +20,7 @@ class ArgvTokenizer implements ITokenizer
     /**
      * @inheritdoc
      */
-    public function tokenize($input) : array
+    public function tokenize($input): array
     {
         // Get rid of the application name
         array_shift($input);

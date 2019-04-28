@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\ConnectionPools\Strategies\ServerSelection;
 
@@ -25,5 +27,5 @@ interface IServerSelectionStrategy
      * @return Server The selected server
      * @throws InvalidArgumentException Thrown if a server could not be selected
      */
-    public function select($servers) : Server;
+    public function select($servers): Server;
 }

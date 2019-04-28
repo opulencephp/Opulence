@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authorization\Tests\Roles;
 
@@ -16,6 +18,7 @@ use Opulence\Authorization\Roles\Orm\IRoleRepository;
 use Opulence\Authorization\Roles\Role;
 use Opulence\Authorization\Roles\RoleMembership;
 use Opulence\Authorization\Roles\Roles;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the roles
@@ -23,16 +26,16 @@ use Opulence\Authorization\Roles\Roles;
 class RolesTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Roles The roles to use in tests */
-    private $roles = null;
-    /** @var IRoleRepository|\PHPUnit_Framework_MockObject_MockObject The role repository to use in tests */
-    private $roleRepository = null;
-    /** @var IRoleMembershipRepository|\PHPUnit_Framework_MockObject_MockObject The role membership repository to use in tests */
-    private $roleMembershipRepository = null;
+    private $roles;
+    /** @var IRoleRepository|MockObject The role repository to use in tests */
+    private $roleRepository;
+    /** @var IRoleMembershipRepository|MockObject The role membership repository to use in tests */
+    private $roleMembershipRepository;
 
     /**
      * Tests up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->roleRepository = $this->createMock(IRoleRepository::class);
         $this->roleMembershipRepository = $this->createMock(IRoleMembershipRepository::class);
@@ -42,7 +45,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that assigning a non-existent role throws an exception
      */
-    public function testAssigningNonExistentRoleThrowsException() : void
+    public function testAssigningNonExistentRoleThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->roleRepository->expects($this->once())
@@ -55,7 +58,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for existing role
      */
-    public function testCheckingForExistingRole() : void
+    public function testCheckingForExistingRole(): void
     {
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -67,7 +70,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for non-existent role
      */
-    public function testCheckingForNonExistentRole() : void
+    public function testCheckingForNonExistentRole(): void
     {
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -79,7 +82,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that creating a role adds it to the repository
      */
-    public function testCreatingRoleAddsToRepository() : void
+    public function testCreatingRoleAddsToRepository(): void
     {
         $role = new Role(-1, 'foo');
         $this->roleRepository->expects($this->once())
@@ -91,7 +94,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deleting an existing role
      */
-    public function testDeletingExistingRole() : void
+    public function testDeletingExistingRole(): void
     {
         $role = new Role(1, 'foo');
         $this->roleRepository->expects($this->once())
@@ -104,7 +107,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests deleting a non-existent role
      */
-    public function testDeletingNonExistentRole() : void
+    public function testDeletingNonExistentRole(): void
     {
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -116,7 +119,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the user Ids with a non-existent role
      */
-    public function testGettingUserIdsWithNonExistentRole() : void
+    public function testGettingUserIdsWithNonExistentRole(): void
     {
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -128,7 +131,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the user Ids with a role
      */
-    public function testGettingUserIdsWithRole() : void
+    public function testGettingUserIdsWithRole(): void
     {
         $memberships = [
             new RoleMembership(1, 2, new Role(3, 'foo')),
@@ -148,7 +151,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a membership is added on assignment
      */
-    public function testMembershipIsAddedOnAssignment() : void
+    public function testMembershipIsAddedOnAssignment(): void
     {
         $role = new Role(3, 'foo');
         $membership = new RoleMembership(-1, 2, $role);
@@ -165,7 +168,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests all removing roles from a user
      */
-    public function testRemovingAllRolesFromUser() : void
+    public function testRemovingAllRolesFromUser(): void
     {
         $memberships = [
             new RoleMembership(1, 2, new Role(3, 'foo')),
@@ -191,7 +194,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removing roles from a user
      */
-    public function testRemovingRolesFromUser() : void
+    public function testRemovingRolesFromUser(): void
     {
         $memberships = [
             new RoleMembership(1, 2, new Role(3, 'foo')),
@@ -214,7 +217,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a user does not have a non-existent role
      */
-    public function testUserDoesNotHaveNonExistentRole() : void
+    public function testUserDoesNotHaveNonExistentRole(): void
     {
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -226,7 +229,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a user does not have a role
      */
-    public function testUserDoesNotHaveRole() : void
+    public function testUserDoesNotHaveRole(): void
     {
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -242,7 +245,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a user has a role
      */
-    public function testUserHasRole() : void
+    public function testUserHasRole(): void
     {
         $this->roleRepository->expects($this->once())
             ->method('getByName')
@@ -258,7 +261,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the user roles are returned
      */
-    public function testUserRolesAreReturned() : void
+    public function testUserRolesAreReturned(): void
     {
         $membership = new RoleMembership(1, 2, new Role(3, 'foo'));
         $this->roleMembershipRepository->expects($this->once())

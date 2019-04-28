@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Ioc\Tests\Mocks;
 
@@ -16,7 +18,7 @@ namespace Opulence\Ioc\Tests\Mocks;
 class Foo implements IFoo
 {
     /** @var IPerson A dependency */
-    private $person = null;
+    private $person;
 
     public function __construct(IPerson $person)
     {
@@ -26,7 +28,7 @@ class Foo implements IFoo
     /**
      * @inheritdoc
      */
-    public function getClassName() : string
+    public function getClassName(): string
     {
         return __CLASS__;
     }

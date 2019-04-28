@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Sessions\Tests\Handlers;
 
@@ -14,6 +16,7 @@ use Opulence\Cryptography\Encryption\EncryptionException;
 use Opulence\Cryptography\Encryption\IEncrypter;
 use Opulence\Sessions\Handlers\SessionEncrypter;
 use Opulence\Sessions\Handlers\SessionEncryptionException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the session encrypter
@@ -21,14 +24,14 @@ use Opulence\Sessions\Handlers\SessionEncryptionException;
 class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SessionEncrypter The session encrypter to use in tests */
-    private $sessionEncrypter = null;
-    /** @var IEncrypter|\PHPUnit_Framework_MockObject_MockObject The Opulence encrypter the session encrypter uses */
-    private $opulenceEncrypter = null;
+    private $sessionEncrypter;
+    /** @var IEncrypter|MockObject The Opulence encrypter the session encrypter uses */
+    private $opulenceEncrypter;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->opulenceEncrypter = $this->createMock(IEncrypter::class);
         $this->sessionEncrypter = new SessionEncrypter($this->opulenceEncrypter);
@@ -37,7 +40,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the Opulence encrypter's exceptions are converted when decrypting
      */
-    public function testOpulenceEncrypterExceptionIsConvertedWhenDecrypting() : void
+    public function testOpulenceEncrypterExceptionIsConvertedWhenDecrypting(): void
     {
         $this->expectException(SessionEncryptionException::class);
         $this->opulenceEncrypter->expects($this->once())
@@ -50,7 +53,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the Opulence encrypter's exceptions are converted when encrypting
      */
-    public function testOpulenceEncrypterExceptionIsConvertedWhenEncrypting() : void
+    public function testOpulenceEncrypterExceptionIsConvertedWhenEncrypting(): void
     {
         $this->expectException(SessionEncryptionException::class);
         $this->opulenceEncrypter->expects($this->once())
@@ -63,7 +66,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the Opulence encrypter is used to decrypt data
      */
-    public function testOpulenceEncrypterUsedToDecryptData() : void
+    public function testOpulenceEncrypterUsedToDecryptData(): void
     {
         $this->opulenceEncrypter->expects($this->once())
             ->method('decrypt')
@@ -75,7 +78,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the Opulence encrypter is used to encrypt data
      */
-    public function testOpulenceEncrypterUsedToEncryptData() : void
+    public function testOpulenceEncrypterUsedToEncryptData(): void
     {
         $this->opulenceEncrypter->expects($this->once())
             ->method('encrypt')

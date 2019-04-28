@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections\Tests;
 
@@ -25,7 +27,7 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests whether the hash table has a certain key
      */
-    public function testContainsKey() : void
+    public function testContainsKey(): void
     {
         $hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar')]);
         $this->assertFalse($hashTable->containsKey('baz'));
@@ -35,7 +37,7 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that checking if a key exists returns true even if the value is null
      */
-    public function testContainsKeyReturnsTrueEvenIfValuesIsNull() : void
+    public function testContainsKeyReturnsTrueEvenIfValuesIsNull(): void
     {
         $hashTable = new ImmutableHashTable([new KeyValuePair('foo', null)]);
         $this->assertTrue($hashTable->containsKey('foo'));
@@ -44,7 +46,7 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests whether the hash table has a certain value
      */
-    public function testContainsValue() : void
+    public function testContainsValue(): void
     {
         $hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar')]);
         $this->assertFalse($hashTable->containsValue('baz'));
@@ -54,7 +56,7 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests counting
      */
-    public function testCount() : void
+    public function testCount(): void
     {
         $hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar'), new KeyValuePair('baz', 'blah')]);
         $this->assertEquals(2, $hashTable->count());
@@ -63,7 +65,7 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a value
      */
-    public function testGetting() : void
+    public function testGetting(): void
     {
         $hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar')]);
         $this->assertEquals('bar', $hashTable->get('foo'));
@@ -72,7 +74,7 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an absent variable throws an exception
      */
-    public function testGettingAbsentVariableThrowsException() : void
+    public function testGettingAbsentVariableThrowsException(): void
     {
         $this->expectException(OutOfBoundsException::class);
         $hashTable = new ImmutableHashTable([]);
@@ -82,7 +84,7 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that getting the keys returns the original keys, not the hash keys
      */
-    public function testGettingKeysReturnsOriginalKeysNotHashKeys() : void
+    public function testGettingKeysReturnsOriginalKeysNotHashKeys(): void
     {
         $kvp1 = new KeyValuePair(new MockObject(), 'foo');
         $kvp2 = new KeyValuePair(new MockObject(), 'bar');
@@ -93,7 +95,7 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that getting the values returns a list of values
      */
-    public function testGettingValuesReturnsListOfValues() : void
+    public function testGettingValuesReturnsListOfValues(): void
     {
         $kvp1 = new KeyValuePair('foo', 'bar');
         $kvp2 = new KeyValuePair('baz', 'blah');
@@ -104,7 +106,7 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests iterating over the values
      */
-    public function testIteratingOverValues() : void
+    public function testIteratingOverValues(): void
     {
         $expectedArray = [
             new KeyValuePair('foo', 'bar'),
@@ -125,7 +127,7 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a non-key-value pair in the constructor throws an exception
      */
-    public function testNonKeyValuePairInConstructorThrowsException() : void
+    public function testNonKeyValuePairInConstructorThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new ImmutableHashTable(['foo' => 'bar']);
@@ -134,7 +136,7 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that setting a value throws an exception
      */
-    public function testSettingValueThrowsException() : void
+    public function testSettingValueThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
         $hashTable = new ImmutableHashTable([]);
@@ -144,7 +146,7 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting as array
      */
-    public function testToArray() : void
+    public function testToArray(): void
     {
         $hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar'), new KeyValuePair('baz', 'blah')]);
         $expectedArray = [
@@ -157,7 +159,7 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests the trying to get a value returns true if the key exists and false if it doesn't
      */
-    public function testTryGetReturnsTrueIfKeyExistsAndFalseIfValueDoesNotExist() : void
+    public function testTryGetReturnsTrueIfKeyExistsAndFalseIfValueDoesNotExist(): void
     {
         $hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar')]);
         $value = null;
@@ -170,7 +172,7 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that unsetting a value throws an exception
      */
-    public function testUnsettingValueThrowsException() : void
+    public function testUnsettingValueThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
         $hashTable = new ImmutableHashTable([]);

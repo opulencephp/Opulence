@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Commands;
 
@@ -27,12 +29,12 @@ use Opulence\Console\Tests\Responses\Mocks\Response;
 class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CommandCollection The list of commands to test */
-    private $collection = null;
+    private $collection;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->collection = new CommandCollection(new CommandCompiler());
     }
@@ -40,7 +42,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a command
      */
-    public function testAdd() : void
+    public function testAdd(): void
     {
         $command = new SimpleCommand('foo', 'The foo command');
         $this->collection->add($command);
@@ -50,7 +52,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a command that already exists
      */
-    public function testAddingDuplicateNames() : void
+    public function testAddingDuplicateNames(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->collection->add(new SimpleCommand('foo', 'The foo command'));
@@ -60,7 +62,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests calling a command
      */
-    public function testCallingCommand() : void
+    public function testCallingCommand(): void
     {
         $this->collection->add(new HappyHolidayCommand());
         $response = new Response(new Compiler(new Lexer(), new Parser()));
@@ -72,7 +74,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests trying to call a non-existent command
      */
-    public function testCallingNonExistentCommand() : void
+    public function testCallingNonExistentCommand(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->collection->call('fake', new SilentResponse(), [], []);
@@ -81,7 +83,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if a command exists
      */
-    public function testCheckingIfCommandExists() : void
+    public function testCheckingIfCommandExists(): void
     {
         $this->collection->add(new SimpleCommand('foo', 'The foo command'));
         $this->assertTrue($this->collection->has('foo'));
@@ -91,7 +93,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all commands
      */
-    public function testGettingAll() : void
+    public function testGettingAll(): void
     {
         $fooCommand = new SimpleCommand('foo', 'The foo command');
         $barCommand = new SimpleCommand('bar', 'The bar command');
@@ -103,7 +105,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a command that does not exists
      */
-    public function testGettingCommandThatDoesNotExists() : void
+    public function testGettingCommandThatDoesNotExists(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->collection->get('foo');
@@ -112,7 +114,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests overwriting a command that already exists
      */
-    public function testOverwritingExistingCommand() : void
+    public function testOverwritingExistingCommand(): void
     {
         $originalCommand = new SimpleCommand('foo', 'The foo command');
         $overwritingCommand = new SimpleCommand('foo', 'The foo command copy');

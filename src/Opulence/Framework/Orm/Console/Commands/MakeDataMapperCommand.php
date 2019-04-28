@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Orm\Console\Commands;
 
@@ -38,7 +40,7 @@ class MakeDataMapperCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function compile(string $templateContents, string $fullyQualifiedClassName) : string
+    protected function compile(string $templateContents, string $fullyQualifiedClassName): string
     {
         $compiledContents = parent::compile($templateContents, $fullyQualifiedClassName);
         $compiledContents = str_replace('{{entityType}}', $this->entityClassName, $compiledContents);
@@ -49,7 +51,7 @@ class MakeDataMapperCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function define() : void
+    protected function define(): void
     {
         parent::define();
 
@@ -64,12 +66,17 @@ class MakeDataMapperCommand extends MakeCommand
     {
         $this->dataMapperType = self::$dataMapperTypes[$this->prompt->ask(
             new MultipleChoice(
-                'Which type of data mapper are you making?', array_keys(self::$dataMapperTypes)
-            ), $response)];
+                'Which type of data mapper are you making?',
+                array_keys(self::$dataMapperTypes)
+            ),
+            $response
+        )];
         $this->entityClassName = $this->prompt->ask(
             new Question(
                 'What is the fully-qualified class name for the types of entities this data mapper is handling?'
-            ), $response);
+            ),
+            $response
+        );
         $this->entityClassName = '\\' . ltrim($this->entityClassName, '\\');
         $explodedEntityClassName = explode('\\', $this->entityClassName);
         $this->entityVariableName = lcfirst(end($explodedEntityClassName));
@@ -80,7 +87,7 @@ class MakeDataMapperCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function getDefaultNamespace(string $rootNamespace) : string
+    protected function getDefaultNamespace(string $rootNamespace): string
     {
         return $rootNamespace . '\\Infrastructure\\Orm';
     }
@@ -88,7 +95,7 @@ class MakeDataMapperCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function getFileTemplatePath() : string
+    protected function getFileTemplatePath(): string
     {
         return __DIR__ . "/templates/{$this->dataMapperType}.template";
     }

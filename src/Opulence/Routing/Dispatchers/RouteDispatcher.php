@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Dispatchers;
 
@@ -31,9 +33,9 @@ use ReflectionParameter;
 class RouteDispatcher implements IRouteDispatcher
 {
     /** @var IDependencyResolver The dependency resolver */
-    private $dependencyResolver = null;
+    private $dependencyResolver;
     /** @var IMiddlewarePipeline The middleware pipeline */
-    private $middlewarePipeline = null;
+    private $middlewarePipeline;
 
     /**
      * @param IDependencyResolver $dependencyResolver The dependency resolver
@@ -48,7 +50,7 @@ class RouteDispatcher implements IRouteDispatcher
     /**
      * @inheritdoc
      */
-    public function dispatch(CompiledRoute $route, Request $request, &$controller = null) : Response
+    public function dispatch(CompiledRoute $route, Request $request, &$controller = null): Response
     {
         $resolvedMiddleware = $this->resolveMiddleware($route->getMiddleware());
         $controllerCallable = function (Request $request) use ($route, &$controller) {
@@ -72,7 +74,7 @@ class RouteDispatcher implements IRouteDispatcher
      * @return Response Returns the value from the controller method
      * @throws RouteException Thrown if the method could not be called on the controller
      */
-    private function callController($controller, CompiledRoute $route) : Response
+    private function callController($controller, CompiledRoute $route): Response
     {
         if (is_callable($controller)) {
             try {
@@ -107,7 +109,8 @@ class RouteDispatcher implements IRouteDispatcher
 
             if ($controller instanceof Controller) {
                 $response = $controller->callMethod(
-                    $route->getControllerMethod(), $parameters
+                    $route->getControllerMethod(),
+                    $parameters
                 );
             } else {
                 $response = $controller->{$route->getControllerMethod()}(...$parameters);
@@ -175,7 +178,7 @@ class RouteDispatcher implements IRouteDispatcher
         array $pathVars,
         CompiledRoute $route,
         bool $acceptObjectParameters
-    ) : array {
+    ): array {
         $resolvedParameters = [];
 
         // Match the route variables to the method parameters
@@ -206,7 +209,7 @@ class RouteDispatcher implements IRouteDispatcher
      * @param array $middleware The middleware to resolve
      * @return IMiddleware[] The list of resolved middleware
      */
-    private function resolveMiddleware(array $middleware) : array
+    private function resolveMiddleware(array $middleware): array
     {
         $resolvedMiddleware = [];
 

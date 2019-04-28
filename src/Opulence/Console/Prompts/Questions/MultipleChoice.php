@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Prompts\Questions;
 
@@ -18,7 +20,7 @@ use InvalidArgumentException;
 class MultipleChoice extends Question
 {
     /** @var array The list of choices */
-    private $choices = [];
+    private $choices;
     /** @var string The string to display before the input */
     private $answerLineString = '  > ';
     /** @var bool Whether or not to allow multiple choices */
@@ -39,7 +41,7 @@ class MultipleChoice extends Question
     /**
      * @return bool
      */
-    public function allowsMultipleChoices() : bool
+    public function allowsMultipleChoices(): bool
     {
         return $this->allowsMultipleChoices;
     }
@@ -49,7 +51,7 @@ class MultipleChoice extends Question
      *
      * @return bool True if the array is associative, otherwise false
      */
-    public function choicesAreAssociative() : bool
+    public function choicesAreAssociative(): bool
     {
         return count(array_filter(array_keys($this->choices), 'is_string')) > 0;
     }
@@ -94,7 +96,7 @@ class MultipleChoice extends Question
     /**
      * @return string
      */
-    public function getAnswerLineString() : string
+    public function getAnswerLineString(): string
     {
         return $this->answerLineString;
     }
@@ -102,7 +104,7 @@ class MultipleChoice extends Question
     /**
      * @return array
      */
-    public function getChoices() : array
+    public function getChoices(): array
     {
         return $this->choices;
     }
@@ -110,7 +112,7 @@ class MultipleChoice extends Question
     /**
      * @param bool $allowsMultipleChoices
      */
-    public function setAllowsMultipleChoices(bool $allowsMultipleChoices) : void
+    public function setAllowsMultipleChoices(bool $allowsMultipleChoices): void
     {
         $this->allowsMultipleChoices = $allowsMultipleChoices;
     }
@@ -118,7 +120,7 @@ class MultipleChoice extends Question
     /**
      * @param string $answerLineString
      */
-    public function setAnswerLineString(string $answerLineString) : void
+    public function setAnswerLineString(string $answerLineString): void
     {
         $this->answerLineString = $answerLineString;
     }
@@ -129,7 +131,7 @@ class MultipleChoice extends Question
      * @param array $answers The list of answers
      * @return array The list of selected choices
      */
-    private function getSelectedAssociativeChoices(array $answers) : array
+    private function getSelectedAssociativeChoices(array $answers): array
     {
         $selectedChoices = [];
 
@@ -149,7 +151,7 @@ class MultipleChoice extends Question
      * @return array The list of selected choices
      * @throws InvalidArgumentException Thrown if the answers are not of the correct type
      */
-    private function getSelectedIndexChoices(array $answers) : array
+    private function getSelectedIndexChoices(array $answers): array
     {
         $selectedChoices = [];
 

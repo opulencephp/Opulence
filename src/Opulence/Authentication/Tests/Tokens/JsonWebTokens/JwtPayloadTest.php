@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens;
 
@@ -20,12 +22,12 @@ use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
 class JwtPayloadTest extends \PHPUnit\Framework\TestCase
 {
     /** @var JwtPayload The payload to use in tests */
-    private $payload = null;
+    private $payload;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->payload = new JwtPayload();
     }
@@ -33,7 +35,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all values
      */
-    public function testGettingAllValues() : void
+    public function testGettingAllValues(): void
     {
         $claims = [
             'iss' => null,
@@ -83,7 +85,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the audience
      */
-    public function testGettingAudience() : void
+    public function testGettingAudience(): void
     {
         $this->assertNull($this->payload->getAudience());
         $this->payload->setAudience('foo');
@@ -93,7 +95,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the encoded string
      */
-    public function testGettingEncodedString() : void
+    public function testGettingEncodedString(): void
     {
         $this->payload->setIssuer('foo');
         $claims = [
@@ -121,7 +123,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the Id
      */
-    public function testGettingId() : void
+    public function testGettingId(): void
     {
         $this->assertNotEmpty($this->payload->get('jti'));
         $this->assertNotEmpty($this->payload->getId());
@@ -130,7 +132,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the issued at
      */
-    public function testGettingIssuedAt() : void
+    public function testGettingIssuedAt(): void
     {
         $this->assertNull($this->payload->getIssuedAt());
         $date = new DateTimeImmutable();
@@ -141,7 +143,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the issuer
      */
-    public function testGettingIssuer() : void
+    public function testGettingIssuer(): void
     {
         $this->assertNull($this->payload->getIssuer());
         $this->payload->setIssuer('foo');
@@ -151,7 +153,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the subject
      */
-    public function testGettingSubject() : void
+    public function testGettingSubject(): void
     {
         $this->assertNull($this->payload->getSubject());
         $this->payload->setSubject('foo');
@@ -161,7 +163,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the valid from
      */
-    public function testGettingValidFrom() : void
+    public function testGettingValidFrom(): void
     {
         $this->assertNull($this->payload->getValidFrom());
         $date = new DateTimeImmutable();
@@ -172,7 +174,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the valid to
      */
-    public function testGettingValidTo() : void
+    public function testGettingValidTo(): void
     {
         $this->assertNull($this->payload->getValidTo());
         $date = new DateTimeImmutable();
@@ -183,7 +185,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the value for an extra claim
      */
-    public function testGettingValue() : void
+    public function testGettingValue(): void
     {
         $this->assertNull($this->payload->get('foo'));
         $this->payload->add('foo', 'bar');
@@ -195,7 +197,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the Id changes with new claims
      */
-    public function testIdChangesWithNewClaims() : void
+    public function testIdChangesWithNewClaims(): void
     {
         $jti1 = $this->payload->getId();
         $this->payload->add('foo', 'bar');
@@ -209,7 +211,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the Id does not change with new claims when manually set
      */
-    public function testIdDoesNotChangeWithNewClaimsWhenManuallySet() : void
+    public function testIdDoesNotChangeWithNewClaimsWhenManuallySet(): void
     {
         $this->payload->setId('theJti');
         $jti1 = $this->payload->getId();
@@ -226,7 +228,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the audience with an invalid type throws an exception
      */
-    public function testInvalidAudienceThrowsException() : void
+    public function testInvalidAudienceThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->payload->setAudience(new DateTimeImmutable());
@@ -235,7 +237,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the Id
      */
-    public function testSettingId() : void
+    public function testSettingId(): void
     {
         $this->payload->setId('foo');
         $this->assertEquals('foo', $this->payload->get('jti'));
@@ -245,7 +247,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting multiple audiences
      */
-    public function testSettingMultipleAudiences() : void
+    public function testSettingMultipleAudiences(): void
     {
         $this->payload->setAudience(['foo', 'bar']);
         $this->assertEquals(['foo', 'bar'], $this->payload->getAudience());

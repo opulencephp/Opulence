@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Tests\Mocks;
 
@@ -27,7 +29,7 @@ class Controller extends BaseController
      * @param mixed $blah The optional third parameter
      * @return Response The parameter names to their values
      */
-    public function multipleParametersWithDefaultValues($foo, $bar, $blah = '724') : Response
+    public function multipleParametersWithDefaultValues($foo, $bar, $blah = '724'): Response
     {
         return new Response("foo:$foo, bar:$bar, blah:$blah");
     }
@@ -37,7 +39,7 @@ class Controller extends BaseController
      *
      * @return Response An empty string
      */
-    public function noParameters() : Response
+    public function noParameters(): Response
     {
         return new Response('noParameters');
     }
@@ -48,7 +50,7 @@ class Controller extends BaseController
      * @param mixed $foo The parameter
      * @return Response The parameter name to its value
      */
-    public function oneParameter($foo) : Response
+    public function oneParameter($foo): Response
     {
         return new Response("foo:$foo");
     }
@@ -56,7 +58,7 @@ class Controller extends BaseController
     /**
      * Mocks a method that does not return anything
      */
-    public function returnsNothing() : void
+    public function returnsNothing(): void
     {
         // Don't do anything
     }
@@ -64,7 +66,7 @@ class Controller extends BaseController
     /**
      * Mocks a method that returns text
      */
-    public function returnsText() : string
+    public function returnsText(): string
     {
         return 'returnsText';
     }
@@ -78,7 +80,7 @@ class Controller extends BaseController
      * @param mixed $blah The fourth parameter
      * @return Response The parameter names to their values
      */
-    public function severalParameters($foo, $bar, $baz, $blah) : Response
+    public function severalParameters($foo, $bar, $baz, $blah): Response
     {
         return new Response("foo:$foo, bar:$bar, baz:$baz, blah:$blah");
     }
@@ -86,7 +88,7 @@ class Controller extends BaseController
     /**
      * @inheritdoc
      */
-    public function showHttpError($statusCode) : Response
+    public function showHttpError($statusCode): Response
     {
         return new Response('foo', $statusCode);
     }
@@ -94,7 +96,7 @@ class Controller extends BaseController
     /**
      * Mocks a method that throws an HTTP exception
      */
-    public function throwsHttpException() : void
+    public function throwsHttpException(): void
     {
         throw new HttpException(400);
     }
@@ -106,7 +108,7 @@ class Controller extends BaseController
      * @param mixed $bar The second parameter
      * @return Response The parameter names to their values
      */
-    public function twoParameters($foo, $bar) : Response
+    public function twoParameters($foo, $bar): Response
     {
         return new Response("foo:$foo, bar:$bar");
     }
@@ -116,7 +118,7 @@ class Controller extends BaseController
      *
      * @return Response The name of the method
      */
-    protected function protectedMethod() : Response
+    protected function protectedMethod(): Response
     {
         return new Response('protectedMethod');
     }
@@ -126,7 +128,7 @@ class Controller extends BaseController
      *
      * @return Response The name of the method
      */
-    private function privateMethod() : Response
+    private function privateMethod(): Response
     {
         return new Response('privateMethod');
     }

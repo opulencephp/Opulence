@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authorization\Roles\Orm;
 
@@ -22,21 +24,21 @@ interface IRoleMembershipRepository
      *
      * @param RoleMembership $roleMembership The role membership to add
      */
-    public function add($roleMembership) : void;
+    public function add($roleMembership): void;
 
     /**
      * Deletes a role membership
      *
      * @param RoleMembership $roleMembership The role membership to delete
      */
-    public function delete($roleMembership) : void;
+    public function delete($roleMembership): void;
 
     /**
      * Gets all the role memberships
      *
      * @return RoleMembership[] The list of all the role memberships
      */
-    public function getAll() : array;
+    public function getAll(): array;
 
     /**
      * Gets the role membership with the input Id
@@ -52,7 +54,7 @@ interface IRoleMembershipRepository
      * @param int|string $roleId The role Id whose memberships we want
      * @return RoleMembership[] Gets the memberships by role Id
      */
-    public function getByRoleId($roleId) : array;
+    public function getByRoleId($roleId): array;
 
     /**
      * Gets the membership for a subject with the input identity
@@ -61,7 +63,7 @@ interface IRoleMembershipRepository
      * @param int|string $roleId The role Id to search for
      * @return RoleMembership|null The role membership if one was found, otherwise false
      */
-    public function getBySubjectAndRoleId($subjectId, $roleId) : ?RoleMembership;
+    public function getBySubjectAndRoleId($subjectId, $roleId): ?RoleMembership;
 
     /**
      * Gets the list of role memberships for a subject
@@ -69,5 +71,5 @@ interface IRoleMembershipRepository
      * @param int|string $subjectId The subject Id
      * @return RoleMembership[] The list of role memberships for this subject
      */
-    public function getBySubjectId($subjectId) : array;
+    public function getBySubjectId($subjectId): array;
 }

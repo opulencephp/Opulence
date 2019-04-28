@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Tests\Requests;
 
@@ -21,7 +23,7 @@ class FilesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding files creates files
      */
-    public function testAddingFilesCreatesFiles() : void
+    public function testAddingFilesCreatesFiles(): void
     {
         $files = new Files([]);
         $files->add('foo', [
@@ -44,7 +46,7 @@ class FilesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing files through constructor creates files
      */
-    public function testPassingFilesThroughConstructorCreatesFiles() : void
+    public function testPassingFilesThroughConstructorCreatesFiles(): void
     {
         $files = new Files([
             'foo' => [

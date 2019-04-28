@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders\PostgreSql;
 
@@ -18,7 +20,7 @@ use Opulence\QueryBuilders\InsertQuery as BaseInsertQuery;
 class InsertQuery extends BaseInsertQuery
 {
     /** @var AugmentingQueryBuilder Handles functionality common to augmenting queries */
-    protected $augmentingQueryBuilder = null;
+    protected $augmentingQueryBuilder;
 
     /**
      * @param string $tableName The name of the table we're inserting into
@@ -38,7 +40,7 @@ class InsertQuery extends BaseInsertQuery
      * @param string[] $expression,... A variable list of expressions to add to the "RETURNING" clause
      * @return self For method chaining
      */
-    public function addReturning(string ...$expression) : self
+    public function addReturning(string ...$expression): self
     {
         $this->augmentingQueryBuilder->addReturning(...$expression);
 
@@ -48,7 +50,7 @@ class InsertQuery extends BaseInsertQuery
     /**
      * @inheritdoc
      */
-    public function getSql() : string
+    public function getSql(): string
     {
         $sql = parent::getSql();
         $sql .= $this->augmentingQueryBuilder->getReturningClauseSql();
@@ -63,7 +65,7 @@ class InsertQuery extends BaseInsertQuery
      * @param string[] $expression,... A variable list of expressions to add to the "RETURNING" clause
      * @return self For method chaining
      */
-    public function returning(string ...$expression) : self
+    public function returning(string ...$expression): self
     {
         $this->augmentingQueryBuilder->returning(...$expression);
 

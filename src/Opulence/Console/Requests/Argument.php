@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Requests;
 
@@ -18,13 +20,13 @@ use InvalidArgumentException;
 class Argument
 {
     /** @var string The name of the argument */
-    private $name = '';
+    private $name;
     /** @var int The type of argument this is */
-    private $type = ArgumentTypes::REQUIRED;
+    private $type;
     /** @var string A brief description of the argument */
-    private $description = '';
+    private $description;
     /** @var mixed The default value for the argument if it's optional */
-    private $defaultValue = null;
+    private $defaultValue;
 
     /**
      * @param string $name The name of the argument
@@ -56,7 +58,7 @@ class Argument
     /**
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -64,7 +66,7 @@ class Argument
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -74,7 +76,7 @@ class Argument
      *
      * @return bool True if the argument is an array, otherwise false
      */
-    public function isArray() : bool
+    public function isArray(): bool
     {
         return ($this->type & ArgumentTypes::IS_ARRAY) === ArgumentTypes::IS_ARRAY;
     }
@@ -84,7 +86,7 @@ class Argument
      *
      * @return bool True if the argument is optional, otherwise false
      */
-    public function isOptional() : bool
+    public function isOptional(): bool
     {
         return ($this->type & ArgumentTypes::OPTIONAL) === ArgumentTypes::OPTIONAL;
     }
@@ -94,7 +96,7 @@ class Argument
      *
      * @return bool True if the argument is required, otherwise false
      */
-    public function isRequired() : bool
+    public function isRequired(): bool
     {
         return ($this->type & ArgumentTypes::REQUIRED) === ArgumentTypes::REQUIRED;
     }

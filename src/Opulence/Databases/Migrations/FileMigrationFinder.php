@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Migrations;
 
@@ -27,7 +29,7 @@ class FileMigrationFinder
      * @return string[] The list of all migration class names
      * @throws InvalidArgumentException Thrown if the paths are not a string or array
      */
-    public function findAll($paths) : array
+    public function findAll($paths): array
     {
         if (is_string($paths)) {
             $paths = [$paths];
@@ -80,7 +82,7 @@ class FileMigrationFinder
      * @param string[] $tokens The array of tokens
      * @return string[] The names of the classes
      */
-    private function getClassNamesFromTokens(array $tokens) : array
+    private function getClassNamesFromTokens(array $tokens): array
     {
         for ($i = 0;$i < count($tokens);$i++) {
             // Skip literals
@@ -114,7 +116,9 @@ class FileMigrationFinder
                         if ($tokens[$j][0] === T_DOUBLE_COLON) {
                             $isClassConstant = true;
                             break 2;
-                        } elseif ($tokens[$j][0] === T_WHITESPACE) {
+                        }
+
+                        if ($tokens[$j][0] === T_WHITESPACE) {
                             // Since we found whitespace, then we know this isn't a class constant
                             break;
                         }

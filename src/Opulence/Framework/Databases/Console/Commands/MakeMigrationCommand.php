@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Framework\Databases\Console\Commands;
 
@@ -21,7 +23,7 @@ class MakeMigrationCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function compile(string $templateContents, string $fullyQualifiedClassName) : string
+    protected function compile(string $templateContents, string $fullyQualifiedClassName): string
     {
         $compiledContents = parent::compile($templateContents, $fullyQualifiedClassName);
         $formattedCreationDate = (new DateTime)->format(DateTime::ATOM);
@@ -32,7 +34,7 @@ class MakeMigrationCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function define() : void
+    protected function define(): void
     {
         parent::define();
 
@@ -43,7 +45,7 @@ class MakeMigrationCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function getDefaultNamespace(string $rootNamespace) : string
+    protected function getDefaultNamespace(string $rootNamespace): string
     {
         return $rootNamespace . '\\Infrastructure\\Databases\\Migrations';
     }
@@ -51,7 +53,7 @@ class MakeMigrationCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function getFileTemplatePath() : string
+    protected function getFileTemplatePath(): string
     {
         return __DIR__ . '/templates/Migration.template';
     }

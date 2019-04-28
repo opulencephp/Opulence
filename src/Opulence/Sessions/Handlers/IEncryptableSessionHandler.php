@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Sessions\Handlers;
 
@@ -20,12 +22,12 @@ interface IEncryptableSessionHandler
      *
      * @param ISessionEncrypter $encrypter The encrypter to use
      */
-    public function setEncrypter(ISessionEncrypter $encrypter) : void;
+    public function setEncrypter(ISessionEncrypter $encrypter): void;
 
     /**
      * Sets whether or not to use encryption
      *
      * @param bool $useEncryption Whether or not to use encryption
      */
-    public function useEncryption(bool $useEncryption) : void;
+    public function useEncryption(bool $useEncryption): void;
 }

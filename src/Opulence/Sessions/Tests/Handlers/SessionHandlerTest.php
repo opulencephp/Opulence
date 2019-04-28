@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Sessions\Tests\Handlers;
 
@@ -14,21 +16,22 @@ use LogicException;
 use Opulence\Sessions\Handlers\ISessionEncrypter;
 use Opulence\Sessions\Handlers\SessionEncryptionException;
 use Opulence\Sessions\Handlers\SessionHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the base session handler
  */
 class SessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var SessionHandler|\PHPUnit_Framework_MockObject_MockObject The session handler to use in tests */
-    private $handler = null;
-    /** @var ISessionEncrypter|\PHPUnit_Framework_MockObject_MockObject The encrypter to use in tests */
-    private $encrypter = null;
+    /** @var SessionHandler|MockObject The session handler to use in tests */
+    private $handler;
+    /** @var ISessionEncrypter|MockObject The encrypter to use in tests */
+    private $encrypter;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->handler = $this->getMockForAbstractClass(SessionHandler::class);
         $this->encrypter = $this->createMock(ISessionEncrypter::class);
@@ -37,7 +40,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an empty string is written when the encrypter fails
      */
-    public function testEmptyStringIsWrittenWhenEncrypterFails() : void
+    public function testEmptyStringIsWrittenWhenEncrypterFails(): void
     {
         $this->handler->useEncryption(true);
         $this->handler->setEncrypter($this->encrypter);
@@ -52,7 +55,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown when reading and the encrypter is not set
      */
-    public function testExceptionIsThrownWhenReadingWithEncrypterNotSet() : void
+    public function testExceptionIsThrownWhenReadingWithEncrypterNotSet(): void
     {
         $this->expectException(LogicException::class);
         $this->handler->useEncryption(true);
@@ -63,7 +66,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown when writing and the encrypter is not set
      */
-    public function testExceptionIsThrownWhenWritingWithEncrypterNotSet() : void
+    public function testExceptionIsThrownWhenWritingWithEncrypterNotSet(): void
     {
         $this->expectException(LogicException::class);
         $this->handler->useEncryption(true);
@@ -74,7 +77,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that data being read is not decrypted when not using an encrypter
      */
-    public function testReadDataIsNotDecryptedWhenNotUsingEncrypter() : void
+    public function testReadDataIsNotDecryptedWhenNotUsingEncrypter(): void
     {
         $this->handler->expects($this->any())->method('doRead')->will($this->returnValue('bar'));
         $this->assertEquals('bar', $this->handler->read('foo'));
@@ -83,7 +86,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests reading encrypted data
      */
-    public function testReadingEncryptedData() : void
+    public function testReadingEncryptedData(): void
     {
         $this->handler->useEncryption(true);
         $this->handler->setEncrypter($this->encrypter);
@@ -95,7 +98,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that a serialized empty array is returned when the encrypter fails to read the data
      */
-    public function testSerializedEmptyArrayReturnedWhenEncrypterFailsToReadData() : void
+    public function testSerializedEmptyArrayReturnedWhenEncrypterFailsToReadData(): void
     {
         $this->handler->useEncryption(true);
         $this->handler->setEncrypter($this->encrypter);
@@ -108,7 +111,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests writing encrypted data
      */
-    public function testWritingEncryptedData() : void
+    public function testWritingEncryptedData(): void
     {
         $this->handler->useEncryption(true);
         $this->handler->setEncrypter($this->encrypter);
@@ -122,7 +125,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that data being written is not encrypted when not using an encrypter
      */
-    public function testWrittenDataIsNotEncryptedWhenNotUsingEncrypter() : void
+    public function testWrittenDataIsNotEncryptedWhenNotUsingEncrypter(): void
     {
         $this->handler->expects($this->any())->method('doWrite')->with('theId', 'foo');
         $this->handler->write('theId', 'foo');

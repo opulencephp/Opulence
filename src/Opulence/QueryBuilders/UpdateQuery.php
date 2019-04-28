@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders;
 
@@ -19,9 +21,9 @@ use Opulence\QueryBuilders\Conditions\ICondition;
 class UpdateQuery extends Query
 {
     /** @var AugmentingQueryBuilder Handles functionality common to augmenting queries */
-    protected $augmentingQueryBuilder = null;
+    protected $augmentingQueryBuilder;
     /** @var ConditionalQueryBuilder Handles functionality common to conditional queries */
-    protected $conditionalQueryBuilder = null;
+    protected $conditionalQueryBuilder;
 
     /**
      * @param string $tableName The name of the table we're querying
@@ -46,7 +48,7 @@ class UpdateQuery extends Query
      * @return self For method chaining
      * @throws InvalidQueryException Thrown if the query is invalid
      */
-    public function addColumnValues(array $columnNamesToValues) : self
+    public function addColumnValues(array $columnNamesToValues): self
     {
         if (count($columnNamesToValues) > 0) {
             $this->addUnnamedPlaceholderValues(array_values($columnNamesToValues));
@@ -74,7 +76,7 @@ class UpdateQuery extends Query
      * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function andWhere(...$conditions) : self
+    public function andWhere(...$conditions): self
     {
         $this->conditionalQueryBuilder->andWhere(
             ...$this->createConditionExpressions($conditions)
@@ -86,7 +88,7 @@ class UpdateQuery extends Query
     /**
      * @inheritdoc
      */
-    public function getSql() : string
+    public function getSql(): string
     {
         $sql = 'UPDATE ' . $this->tableName . (empty($this->tableAlias) ? '' : ' AS ' . $this->tableAlias) . ' SET';
 
@@ -108,7 +110,7 @@ class UpdateQuery extends Query
      * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function orWhere(...$conditions) : self
+    public function orWhere(...$conditions): self
     {
         $this->conditionalQueryBuilder->orWhere(
             ...$this->createConditionExpressions($conditions)
@@ -124,7 +126,7 @@ class UpdateQuery extends Query
      * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function where(...$conditions) : self
+    public function where(...$conditions): self
     {
         $this->conditionalQueryBuilder->where(
             ...$this->createConditionExpressions($conditions)
@@ -139,7 +141,7 @@ class UpdateQuery extends Query
      * @param array $conditions The list of strings of condition objects to convert
      * @return array The list of condition expressions
      */
-    private function createConditionExpressions(array $conditions) : array
+    private function createConditionExpressions(array $conditions): array
     {
         $conditionExpressions = [];
 

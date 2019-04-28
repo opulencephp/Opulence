@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Requests\Parsers;
 
@@ -19,12 +21,12 @@ use Opulence\Console\Requests\Parsers\ArrayListParser;
 class ArrayListParserTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayListParser The parser to use in tests */
-    private $parser = null;
+    private $parser;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->parser = new ArrayListParser();
     }
@@ -32,7 +34,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that backslashes are respected
      */
-    public function testBackslashesAreRespected() : void
+    public function testBackslashesAreRespected(): void
     {
         $request = $this->parser->parse([
             'name' => 'foo',
@@ -44,7 +46,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Test not passing arguments
      */
-    public function testNotPassingArguments() : void
+    public function testNotPassingArguments(): void
     {
         $request = $this->parser->parse([
             'name' => 'foo',
@@ -59,7 +61,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Test not passing options
      */
-    public function testNotPassingOptions() : void
+    public function testNotPassingOptions(): void
     {
         $request = $this->parser->parse([
             'name' => 'foo',
@@ -73,7 +75,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests parsing arguments and options
      */
-    public function testParsingArgumentsAndOptions() : void
+    public function testParsingArgumentsAndOptions(): void
     {
         $request = $this->parser->parse([
             'name' => 'foo',
@@ -89,7 +91,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Test passing the command name
      */
-    public function testPassingCommandName() : void
+    public function testPassingCommandName(): void
     {
         $request = $this->parser->parse([
             'name' => 'mycommand'
@@ -100,7 +102,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing in an invalid input type
      */
-    public function testPassingInvalidInputType() : void
+    public function testPassingInvalidInputType(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->parser->parse('foo');

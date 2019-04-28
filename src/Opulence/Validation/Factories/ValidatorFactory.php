@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Factories;
 
@@ -20,7 +22,7 @@ use Opulence\Validation\Validator;
 class ValidatorFactory implements IValidatorFactory
 {
     /** @var RulesFactory The rules factory */
-    protected $rulesFactory = null;
+    protected $rulesFactory;
 
     /**
      * @param RulesFactory $rulesFactory The rules factory
@@ -33,7 +35,7 @@ class ValidatorFactory implements IValidatorFactory
     /**
      * @inheritdoc
      */
-    public function createValidator() : IValidator
+    public function createValidator(): IValidator
     {
         return new Validator($this->rulesFactory);
     }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Responses\Compilers\Parsers\Nodes;
 
@@ -20,7 +22,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a child
      */
-    public function testAddingChild() : void
+    public function testAddingChild(): void
     {
         $parent = new Node('foo');
         $child = new Node('bar');
@@ -32,7 +34,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if nodes are leaves
      */
-    public function testCheckingIfLeaves() : void
+    public function testCheckingIfLeaves(): void
     {
         $parent = new Node('foo');
         $child = new Node('bar');
@@ -44,7 +46,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if nodes are roots
      */
-    public function testCheckingIfRoots() : void
+    public function testCheckingIfRoots(): void
     {
         $parent = new Node('foo');
         $child = new Node('bar');
@@ -56,7 +58,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the value
      */
-    public function testGettingValue() : void
+    public function testGettingValue(): void
     {
         $node = new Node('foo');
         $this->assertEquals('foo', $node->getValue());

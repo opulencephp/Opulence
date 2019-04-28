@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Requests\Parsers;
 
@@ -24,7 +26,7 @@ abstract class Parser implements IParser
      * @param string $token The token to parse
      * @return string The parsed argument
      */
-    protected function parseArgument(string $token) : string
+    protected function parseArgument(string $token): string
     {
         return $this->trimQuotes($token);
     }
@@ -37,7 +39,7 @@ abstract class Parser implements IParser
      * @return array The name of the option mapped to its value
      * @throws RuntimeException Thrown if the option could not be parsed
      */
-    protected function parseLongOption(string $token, array &$remainingTokens) : array
+    protected function parseLongOption(string $token, array &$remainingTokens): array
     {
         if (mb_strpos($token, '--') !== 0) {
             throw new RuntimeException("Invalid long option \"$token\"");
@@ -54,7 +56,7 @@ abstract class Parser implements IParser
             $nextToken = array_shift($remainingTokens);
 
             // Check if the next token is also an option
-            if (mb_substr($nextToken, 0, 1) === '-' || empty($nextToken)) {
+            if (empty($nextToken) || mb_substr($nextToken, 0, 1) === '-') {
                 // The option must have not had a value, so put the next token back
                 array_unshift($remainingTokens, $nextToken);
 
@@ -65,7 +67,7 @@ abstract class Parser implements IParser
             $option .= '=' . $nextToken;
         }
 
-        list($name, $value) = explode('=', $option);
+        [$name, $value] = explode('=', $option);
         $value = $this->trimQuotes($value);
 
         return [$name, $value];
@@ -78,7 +80,7 @@ abstract class Parser implements IParser
      * @return array The name of the option mapped to its value
      * @throws RuntimeException Thrown if the option could not be parsed
      */
-    protected function parseShortOption(string $token) : array
+    protected function parseShortOption(string $token): array
     {
         if (mb_substr($token, 0, 1) !== '-') {
             throw new RuntimeException("Invalid short option \"$token\"");
@@ -106,7 +108,7 @@ abstract class Parser implements IParser
      * @return Request The parsed request
      * @throws RuntimeException Thrown if there is an invalid token
      */
-    protected function parseTokens(array $tokens) : Request
+    protected function parseTokens(array $tokens): Request
     {
         $request = new Request();
         $hasParsedCommandName = false;
@@ -142,7 +144,7 @@ abstract class Parser implements IParser
      * @param string $token Trims quotes off of a token
      * @return string The trimmed token
      */
-    protected function trimQuotes(string $token) : string
+    protected function trimQuotes(string $token): string
     {
         // Trim any quotes
         if (($firstValueChar = mb_substr($token, 0, 1)) === mb_substr($token, -1)) {

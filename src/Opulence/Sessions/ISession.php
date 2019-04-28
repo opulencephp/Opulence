@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Sessions;
 
@@ -20,14 +22,14 @@ interface ISession extends ArrayAccess
     /**
      * Marks newly flashed data as old, and old data is deleted
      */
-    public function ageFlashData() : void;
+    public function ageFlashData(): void;
 
     /**
      * Deletes a variable
      *
      * @param string $key The name of the variable to delete
      */
-    public function delete(string $key) : void;
+    public function delete(string $key): void;
 
     /**
      * Flashes data for exactly one request
@@ -35,12 +37,12 @@ interface ISession extends ArrayAccess
      * @param string $key The name of the variable to set
      * @param mixed $value The value of the variable
      */
-    public function flash(string $key, $value) : void;
+    public function flash(string $key, $value): void;
 
     /**
      * Flushes all the session variables
      */
-    public function flush() : void;
+    public function flush(): void;
 
     /**
      * Gets the value of a variable
@@ -56,7 +58,7 @@ interface ISession extends ArrayAccess
      *
      * @return array The list of all session variables
      */
-    public function getAll() : array;
+    public function getAll(): array;
 
     /**
      * Gets the session Id
@@ -70,7 +72,7 @@ interface ISession extends ArrayAccess
      *
      * @return string The session name
      */
-    public function getName() : string;
+    public function getName(): string;
 
     /**
      * Gets whether or not a session variable is set
@@ -78,24 +80,24 @@ interface ISession extends ArrayAccess
      * @param string $key The name of the variable to search for
      * @return bool True if the session has a variable, otherwise false
      */
-    public function has(string $key) : bool;
+    public function has(string $key): bool;
 
     /**
      * Gets whether or not the session has started
      *
      * @return bool True if the session has started, otherwise false
      */
-    public function hasStarted() : bool;
+    public function hasStarted(): bool;
 
     /**
      * Reflashes all of the flash data
      */
-    public function reflash() : void;
+    public function reflash(): void;
 
     /**
      * Regenerates the Id
      */
-    public function regenerateId() : void;
+    public function regenerateId(): void;
 
     /**
      * Sets the value of a variable
@@ -103,14 +105,14 @@ interface ISession extends ArrayAccess
      * @param string $key The name of the variable to set
      * @param mixed $value The value of the variable
      */
-    public function set(string $key, $value) : void;
+    public function set(string $key, $value): void;
 
     /**
      * Sets the session Id
      *
      * @param int|string $id The session Id
      */
-    public function setId($id) : void;
+    public function setId($id): void;
 
     /**
      * Sets the value of many variables
@@ -119,14 +121,14 @@ interface ISession extends ArrayAccess
      *
      * @param array $variables The name => value pairings of session variables
      */
-    public function setMany(array $variables) : void;
+    public function setMany(array $variables): void;
 
     /**
      * Sets the session name
      *
      * @param string $name The session name
      */
-    public function setName(string $name) : void;
+    public function setName(string $name): void;
 
     /**
      * Starts the session
@@ -134,5 +136,5 @@ interface ISession extends ArrayAccess
      * @param array $vars The list of variables in this session
      * @return bool True if the session started successfully
      */
-    public function start(array $vars = []) : bool;
+    public function start(array $vars = []): bool;
 }

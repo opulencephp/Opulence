@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Commands;
 
@@ -37,11 +39,11 @@ Command: <info>{{name}}</info>
 {{options}}{{helpText}}
 EOF;
     /** @var ICommand The command to help with */
-    private $command = null;
+    private $command;
     /** @var CommandFormatter The formatter that converts a command object to text */
-    private $commandFormatter = null;
+    private $commandFormatter;
     /** @var PaddingFormatter The space padding formatter to use */
-    private $paddingFormatter = null;
+    private $paddingFormatter;
 
     /**
      * @param CommandFormatter $commandFormatter The formatter that converts a command object to text
@@ -60,7 +62,7 @@ EOF;
      *
      * @param ICommand $command The command to help with
      */
-    public function setCommand(ICommand $command) : void
+    public function setCommand(ICommand $command): void
     {
         $this->command = $command;
     }
@@ -68,7 +70,7 @@ EOF;
     /**
      * @inheritdoc
      */
-    protected function define() : void
+    protected function define(): void
     {
         $this->setName('help')
             ->setDescription('Displays information about a command')
@@ -100,8 +102,11 @@ EOF;
 
             // Compile the template
             $compiledTemplate = self::$template;
-            $compiledTemplate = str_replace('{{command}}', $this->commandFormatter->format($this->command),
-                $compiledTemplate);
+            $compiledTemplate = str_replace(
+                '{{command}}',
+                $this->commandFormatter->format($this->command),
+                $compiledTemplate
+            );
             $compiledTemplate = str_replace('{{description}}', $descriptionText, $compiledTemplate);
             $compiledTemplate = str_replace('{{name}}', $this->command->getName(), $compiledTemplate);
             $compiledTemplate = str_replace('{{arguments}}', $this->getArgumentText(), $compiledTemplate);
@@ -117,7 +122,7 @@ EOF;
      *
      * @return string The arguments as text
      */
-    private function getArgumentText() : string
+    private function getArgumentText(): string
     {
         if (count($this->command->getArguments()) === 0) {
             return '  No arguments';
@@ -140,7 +145,7 @@ EOF;
      * @param Option $option The option to convert to text
      * @return string The option names as text
      */
-    private function getOptionNames(Option $option) : string
+    private function getOptionNames(Option $option): string
     {
         $optionNames = "--{$option->getName()}";
 
@@ -156,7 +161,7 @@ EOF;
      *
      * @return string The options as text
      */
-    private function getOptionText() : string
+    private function getOptionText(): string
     {
         if (count($this->command->getOptions()) === 0) {
             return '  No options';

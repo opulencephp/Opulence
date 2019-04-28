@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Cryptography\Encryption\Keys;
 
@@ -16,7 +18,7 @@ namespace Opulence\Cryptography\Encryption\Keys;
 interface IKeyDeriver
 {
     /** The number of bytes the key salt should be */
-    const KEY_SALT_BYTE_LENGTH = 32;
+    public const KEY_SALT_BYTE_LENGTH = 32;
 
     /**
      * Derives suitable encryption keys from a cryptographically-strong key
@@ -26,7 +28,7 @@ interface IKeyDeriver
      * @param int $keyByteLength The desired number of bytes the keys should be
      * @return DerivedKeys The derived keys
      */
-    public function deriveKeysFromKey(string $key, string $salt, int $keyByteLength) : DerivedKeys;
+    public function deriveKeysFromKey(string $key, string $salt, int $keyByteLength): DerivedKeys;
 
     /**
      * Derives suitable encryption keys from a password
@@ -36,5 +38,5 @@ interface IKeyDeriver
      * @param int $keyByteLength The desired number of bytes the keys should be
      * @return DerivedKeys The derived keys
      */
-    public function deriveKeysFromPassword(string $password, string $salt, int $keyByteLength) : DerivedKeys;
+    public function deriveKeysFromPassword(string $password, string $salt, int $keyByteLength): DerivedKeys;
 }

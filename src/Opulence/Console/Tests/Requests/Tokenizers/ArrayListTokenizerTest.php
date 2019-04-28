@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Tests\Requests\Tokenizers;
 
@@ -19,12 +21,12 @@ use RuntimeException;
 class ArrayListTokenizerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayListTokenizer The tokenizer to use in tests */
-    private $tokenizer = null;
+    private $tokenizer;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->tokenizer = new ArrayListTokenizer();
     }
@@ -32,7 +34,7 @@ class ArrayListTokenizerTest extends \PHPUnit\Framework\TestCase
     /**
      * Test not passing the command name
      */
-    public function testNotPassingCommandName() : void
+    public function testNotPassingCommandName(): void
     {
         $this->expectException(RuntimeException::class);
         $this->tokenizer->tokenize([
@@ -43,7 +45,7 @@ class ArrayListTokenizerTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests tokenizing arguments and options
      */
-    public function testTokenizingArgumentsAndOptions() : void
+    public function testTokenizingArgumentsAndOptions(): void
     {
         $tokens = $this->tokenizer->tokenize([
             'name' => 'foo',

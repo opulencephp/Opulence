@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Validation\Rules;
 
@@ -18,12 +20,12 @@ use InvalidArgumentException;
 class EqualsRule implements IRuleWithArgs
 {
     /** @var mixed The value to compare against */
-    protected $value = null;
+    protected $value;
 
     /**
      * @inheritdoc
      */
-    public function getSlug() : string
+    public function getSlug(): string
     {
         return 'equals';
     }
@@ -31,7 +33,7 @@ class EqualsRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = []) : bool
+    public function passes($value, array $allValues = []): bool
     {
         return $value === $this->value;
     }
@@ -39,7 +41,7 @@ class EqualsRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function setArgs(array $args) : void
+    public function setArgs(array $args): void
     {
         if (count($args) !== 1) {
             throw new InvalidArgumentException('Must pass a value to compare against');

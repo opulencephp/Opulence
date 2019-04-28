@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders;
 
@@ -19,7 +21,7 @@ use Opulence\QueryBuilders\Conditions\ICondition;
 class SelectQuery extends Query
 {
     /** @var ConditionalQueryBuilder Handles functionality common to conditional queries */
-    protected $conditionalQueryBuilder = null;
+    protected $conditionalQueryBuilder;
     /** @var array The list of select expressions */
     protected $selectExpressions = [];
     /** @var array The list of join statements */
@@ -50,7 +52,7 @@ class SelectQuery extends Query
      * @param string[] $expression,... A variable list of expressions of what to group by
      * @return self For method chaining
      */
-    public function addGroupBy(string ...$expression) : self
+    public function addGroupBy(string ...$expression): self
     {
         $this->groupByClauses = array_merge($this->groupByClauses, $expression);
 
@@ -63,7 +65,7 @@ class SelectQuery extends Query
      * @param string[] $expression,... A variable list of expressions to order by
      * @return self For method chaining
      */
-    public function addOrderBy(string ...$expression) : self
+    public function addOrderBy(string ...$expression): self
     {
         $this->orderBy = array_merge($this->orderBy, $expression);
 
@@ -76,7 +78,7 @@ class SelectQuery extends Query
      * @param string[] $expression,... A variable list of select expressions
      * @return self For method chaining
      */
-    public function addSelectExpression(string ...$expression) : self
+    public function addSelectExpression(string ...$expression): self
     {
         $this->selectExpressions = array_merge($this->selectExpressions, $expression);
 
@@ -89,10 +91,12 @@ class SelectQuery extends Query
      * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function andHaving(...$conditions) : self
+    public function andHaving(...$conditions): self
     {
         $this->havingConditions = $this->conditionalQueryBuilder->addConditionToClause(
-            $this->havingConditions, 'AND', ...$this->createConditionExpressions($conditions)
+            $this->havingConditions,
+            'AND',
+            ...$this->createConditionExpressions($conditions)
         );
 
         return $this;
@@ -104,7 +108,7 @@ class SelectQuery extends Query
      * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function andWhere(...$conditions) : self
+    public function andWhere(...$conditions): self
     {
         $this->conditionalQueryBuilder->andWhere(
             ...$this->createConditionExpressions($conditions)
@@ -120,7 +124,7 @@ class SelectQuery extends Query
      * @param string $tableAlias The alias of the table name
      * @return self For method chaining
      */
-    public function from(string $tableName, string $tableAlias = '') : self
+    public function from(string $tableName, string $tableAlias = ''): self
     {
         $this->setTable($tableName, $tableAlias);
 
@@ -130,7 +134,7 @@ class SelectQuery extends Query
     /**
      * @inheritdoc
      */
-    public function getSql() : string
+    public function getSql(): string
     {
         // Build the selector
         $sql = 'SELECT ' . implode(', ', $this->selectExpressions)
@@ -146,8 +150,10 @@ class SelectQuery extends Query
         }
 
         // Add any conditions
-        $sql .= $this->conditionalQueryBuilder->getClauseConditionSql('WHERE',
-            $this->conditionalQueryBuilder->getWhereConditions());
+        $sql .= $this->conditionalQueryBuilder->getClauseConditionSql(
+            'WHERE',
+            $this->conditionalQueryBuilder->getWhereConditions()
+        );
 
         // Add groupings
         if (count($this->groupByClauses) > 0) {
@@ -182,7 +188,7 @@ class SelectQuery extends Query
      * @param string[] $expression,... A variable list of expressions of what to group by
      * @return self For method chaining
      */
-    public function groupBy(string ...$expression) : self
+    public function groupBy(string ...$expression): self
     {
         $this->groupByClauses = $expression;
 
@@ -196,12 +202,14 @@ class SelectQuery extends Query
      * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function having(...$conditions) : self
+    public function having(...$conditions): self
     {
         // We want to wipe out anything already in the condition list
         $this->havingConditions = [];
         $this->havingConditions = $this->conditionalQueryBuilder->addConditionToClause(
-            $this->havingConditions, 'AND', ...$this->createConditionExpressions($conditions)
+            $this->havingConditions,
+            'AND',
+            ...$this->createConditionExpressions($conditions)
         );
 
         return $this;
@@ -215,7 +223,7 @@ class SelectQuery extends Query
      * @param string $condition The "ON" portion of the join
      * @return self For method chaining
      */
-    public function innerJoin(string $tableName, string $tableAlias, string $condition) : self
+    public function innerJoin(string $tableName, string $tableAlias, string $condition): self
     {
         $this->joins['inner'][] = ['tableName' => $tableName, 'tableAlias' => $tableAlias, 'condition' => $condition];
 
@@ -231,7 +239,7 @@ class SelectQuery extends Query
      * @param string $condition The "ON" portion of the join
      * @return self For method chaining
      */
-    public function join(string $tableName, string $tableAlias, string $condition) : self
+    public function join(string $tableName, string $tableAlias, string $condition): self
     {
         return $this->innerJoin($tableName, $tableAlias, $condition);
     }
@@ -244,7 +252,7 @@ class SelectQuery extends Query
      * @param string $condition The "ON" portion of the join
      * @return self For method chaining
      */
-    public function leftJoin(string $tableName, string $tableAlias, string $condition) : self
+    public function leftJoin(string $tableName, string $tableAlias, string $condition): self
     {
         $this->joins['left'][] = ['tableName' => $tableName, 'tableAlias' => $tableAlias, 'condition' => $condition];
 
@@ -258,7 +266,7 @@ class SelectQuery extends Query
      *      or the name of the placeholder value that will contain the number of rows
      * @return self For method chaining
      */
-    public function limit($numRows) : self
+    public function limit($numRows): self
     {
         $this->limit = $numRows;
 
@@ -272,7 +280,7 @@ class SelectQuery extends Query
      *      or the name of the placeholder value that will contain the number of rows
      * @return self For method chaining
      */
-    public function offset($numRows) : self
+    public function offset($numRows): self
     {
         $this->offset = $numRows;
 
@@ -285,10 +293,12 @@ class SelectQuery extends Query
      * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function orHaving(...$conditions) : self
+    public function orHaving(...$conditions): self
     {
         $this->havingConditions = $this->conditionalQueryBuilder->addConditionToClause(
-            $this->havingConditions, 'OR', ...$this->createConditionExpressions($conditions)
+            $this->havingConditions,
+            'OR',
+            ...$this->createConditionExpressions($conditions)
         );
 
         return $this;
@@ -300,7 +310,7 @@ class SelectQuery extends Query
      * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function orWhere(...$conditions) : self
+    public function orWhere(...$conditions): self
     {
         $this->conditionalQueryBuilder->orWhere(
             ...$this->createConditionExpressions($conditions)
@@ -316,7 +326,7 @@ class SelectQuery extends Query
      * @param string[] $expression,... A variable list of expressions to order by
      * @return self For method chaining
      */
-    public function orderBy(string ...$expression) : self
+    public function orderBy(string ...$expression): self
     {
         $this->orderBy = $expression;
 
@@ -331,7 +341,7 @@ class SelectQuery extends Query
      * @param string $condition The "ON" portion of the join
      * @return self For method chaining
      */
-    public function rightJoin(string $tableName, string $tableAlias, string $condition) : self
+    public function rightJoin(string $tableName, string $tableAlias, string $condition): self
     {
         $this->joins['right'][] = ['tableName' => $tableName, 'tableAlias' => $tableAlias, 'condition' => $condition];
 
@@ -345,7 +355,7 @@ class SelectQuery extends Query
      * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function where(...$conditions) : self
+    public function where(...$conditions): self
     {
         $this->conditionalQueryBuilder->where(
             ...$this->createConditionExpressions($conditions)
@@ -360,7 +370,7 @@ class SelectQuery extends Query
      * @param array $conditions The list of strings of condition objects to convert
      * @return array The list of condition expressions
      */
-    private function createConditionExpressions(array $conditions) : array
+    private function createConditionExpressions(array $conditions): array
     {
         $conditionExpressions = [];
 

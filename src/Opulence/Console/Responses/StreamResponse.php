@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Responses;
 
@@ -19,7 +21,7 @@ use Opulence\Console\Responses\Compilers\ICompiler;
 class StreamResponse extends Response
 {
     /** @var resource The output stream */
-    protected $stream = null;
+    protected $stream;
 
     /**
      * @param resource $stream The stream to write to
@@ -40,7 +42,7 @@ class StreamResponse extends Response
     /**
      * @inheritdoc
      */
-    public function clear() : void
+    public function clear(): void
     {
         // Don't do anything
     }
@@ -56,7 +58,7 @@ class StreamResponse extends Response
     /**
      * @inheritdoc
      */
-    protected function doWrite(string $message, bool $includeNewLine) : void
+    protected function doWrite(string $message, bool $includeNewLine): void
     {
         fwrite($this->stream, $message . ($includeNewLine ? PHP_EOL : ''));
         fflush($this->stream);

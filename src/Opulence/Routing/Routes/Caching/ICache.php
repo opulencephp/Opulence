@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Routes\Caching;
 
@@ -19,14 +21,14 @@ use Opulence\Routing\Routes\RouteCollection;
 interface ICache
 {
     /** The default name of the cached routes file */
-    const DEFAULT_CACHED_ROUTES_FILE_NAME = 'cachedRoutes.php';
+    public const DEFAULT_CACHED_ROUTES_FILE_NAME = 'cachedRoutes.php';
 
     /**
      * Flushes the cache
      *
      * @param string $filePath The path where the route collection resides
      */
-    public function flush(string $filePath) : void;
+    public function flush(string $filePath): void;
 
     /**
      * Gets the route collection from cache
@@ -36,7 +38,7 @@ interface ICache
      * @param string $rawFilePath The path to the raw route collection in case of a cache miss
      * @return RouteCollection The route collection
      */
-    public function get(string $cacheFilePath, Router $router, string $rawFilePath) : RouteCollection;
+    public function get(string $cacheFilePath, Router $router, string $rawFilePath): RouteCollection;
 
     /**
      * Sets the route collection in cache
@@ -44,5 +46,5 @@ interface ICache
      * @param string $filePath The path where the route collection resides
      * @param RouteCollection $routes The route collection to store
      */
-    public function set(string $filePath, RouteCollection $routes) : void;
+    public function set(string $filePath, RouteCollection $routes): void;
 }

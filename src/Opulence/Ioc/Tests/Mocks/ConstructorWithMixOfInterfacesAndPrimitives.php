@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Ioc\Tests\Mocks;
 
@@ -16,11 +18,11 @@ namespace Opulence\Ioc\Tests\Mocks;
 class ConstructorWithMixOfInterfacesAndPrimitives
 {
     /** @var IFoo A dependency */
-    private $foo = null;
+    private $foo;
     /** @var int A primitive */
-    private $id = -1;
+    private $id;
     /** @var IPerson A dependency */
-    private $person = null;
+    private $person;
 
     /**
      * @param IFoo $foo A dependency
@@ -37,7 +39,7 @@ class ConstructorWithMixOfInterfacesAndPrimitives
     /**
      * @return IFoo
      */
-    public function getFoo() : IFoo
+    public function getFoo(): IFoo
     {
         return $this->foo;
     }
@@ -45,7 +47,7 @@ class ConstructorWithMixOfInterfacesAndPrimitives
     /**
      * @return int
      */
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -53,7 +55,7 @@ class ConstructorWithMixOfInterfacesAndPrimitives
     /**
      * @return IPerson
      */
-    public function getPerson() : IPerson
+    public function getPerson(): IPerson
     {
         return $this->person;
     }

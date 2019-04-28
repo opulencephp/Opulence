@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Routing\Dispatchers;
 
@@ -30,5 +32,5 @@ interface IRouteDispatcher
      * @return Response The response from the controller or pre/post filters if there was one
      * @throws RouteException Thrown if the method could not be called on the controller
      */
-    public function dispatch(CompiledRoute $route, Request $request, &$controller = null) : Response;
+    public function dispatch(CompiledRoute $route, Request $request, &$controller = null): Response;
 }

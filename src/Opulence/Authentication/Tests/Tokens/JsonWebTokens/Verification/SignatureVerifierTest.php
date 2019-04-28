@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens\Verification;
 
@@ -16,6 +18,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtErrorTypes;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\SignatureVerifier;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the signature verifier
@@ -23,16 +26,16 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SignatureVerifier The verifier to use in tests */
-    private $verifier = null;
-    /** @var ISigner|\PHPUnit_Framework_MockObject_MockObject The signer to use in tests */
-    private $signer = null;
-    /** @var SignedJwt|\PHPUnit_Framework_MockObject_MockObject The token to use in tests */
-    private $jwt = null;
+    private $verifier;
+    /** @var ISigner|MockObject The signer to use in tests */
+    private $signer;
+    /** @var SignedJwt|MockObject The token to use in tests */
+    private $jwt;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->verifier = new SignatureVerifier($this->signer);
@@ -44,7 +47,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an empty signature
      */
-    public function testEmptySignature() : void
+    public function testEmptySignature(): void
     {
         $this->jwt->expects($this->once())
             ->method('getSignature')
@@ -56,7 +59,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an incorrect signature
      */
-    public function testIncorrectSignature() : void
+    public function testIncorrectSignature(): void
     {
         $this->jwt->expects($this->once())
             ->method('getSignature')
@@ -71,7 +74,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests mismatched algorithm
      */
-    public function testMismatchedAlgorithm() : void
+    public function testMismatchedAlgorithm(): void
     {
         $this->jwt->expects($this->once())
             ->method('getSignature')
@@ -96,7 +99,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests verifying valid token
      */
-    public function testVerifyingValidToken() : void
+    public function testVerifyingValidToken(): void
     {
         $this->jwt->expects($this->once())
             ->method('getSignature')

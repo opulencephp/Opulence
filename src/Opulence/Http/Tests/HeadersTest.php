@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Tests;
 
@@ -18,12 +20,12 @@ use Opulence\Http\Headers;
 class HeadersTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Headers The headers to use in tests */
-    private $headers = null;
+    private $headers;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->headers = new Headers();
     }
@@ -31,7 +33,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that added names are normalized
      */
-    public function testAddedNamesAreNormalized() : void
+    public function testAddedNamesAreNormalized(): void
     {
         $this->headers->add('FOO', 'fooval');
         $this->assertEquals('fooval', $this->headers->get('foo'));
@@ -41,7 +43,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a string value
      */
-    public function testAddingStringValue() : void
+    public function testAddingStringValue(): void
     {
         $this->headers->add('foo', 'bar');
         $this->assertEquals('bar', $this->headers->get('foo'));
@@ -50,7 +52,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests returning all the values when the key does not exist
      */
-    public function testGettingAllValuesWhenKeyDoesNotExist() : void
+    public function testGettingAllValuesWhenKeyDoesNotExist(): void
     {
         $this->assertEquals('foo', $this->headers->get('THIS_DOES_NOT_EXIST', 'foo', false));
     }
@@ -58,7 +60,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests returning only the first value
      */
-    public function testGettingFirstValue() : void
+    public function testGettingFirstValue(): void
     {
         $this->headers->set('FOO', 'bar');
         $this->assertEquals('bar', $this->headers->get('FOO', null, true));
@@ -67,7 +69,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests returning only the first value when the key does not exist
      */
-    public function testGettingFirstValueWhenKeyDoesNotExist() : void
+    public function testGettingFirstValueWhenKeyDoesNotExist(): void
     {
         $this->assertEquals('foo', $this->headers->get('THIS_DOES_NOT_EXIST', 'foo', true));
     }
@@ -75,7 +77,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests returning a value
      */
-    public function testGettingValue() : void
+    public function testGettingValue(): void
     {
         $this->headers->set('FOO', 'bar');
         $this->assertEquals(['bar'], $this->headers->get('FOO', null, false));
@@ -84,7 +86,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that names are case insensitive
      */
-    public function testNamesAreCaseInsensitive() : void
+    public function testNamesAreCaseInsensitive(): void
     {
         $headers = new Headers();
         $headers->add('FOO', 'fooval');
@@ -109,7 +111,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that set names are normalized
      */
-    public function testSetNamesAreNormalized() : void
+    public function testSetNamesAreNormalized(): void
     {
         $this->headers->set('FOO', 'fooval');
         $this->assertEquals('fooval', $this->headers->get('foo'));

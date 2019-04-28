@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Memcached\Types;
 
@@ -25,7 +27,7 @@ class TypeMapper
      * @param int $boolean The Memcached boolean to convert from
      * @return bool The PHP boolean
      */
-    public function fromMemcachedBoolean($boolean) : bool
+    public function fromMemcachedBoolean($boolean): bool
     {
         return $boolean == 1;
     }
@@ -36,9 +38,9 @@ class TypeMapper
      * @param int $timestamp The Unix timestamp to convert from
      * @return DateTime The PHP timestamp
      */
-    public function fromMemcachedTimestamp($timestamp) : DateTime
+    public function fromMemcachedTimestamp($timestamp): DateTime
     {
-        $date = DateTime::createFromFormat('U', $timestamp);
+        $date = DateTime::createFromFormat('U', (string)$timestamp);
         $date->setTimezone(new DateTimeZone(date_default_timezone_get()));
 
         return $date;
@@ -50,7 +52,7 @@ class TypeMapper
      * @param bool $boolean The PHP boolean to convert
      * @return int The Memcached boolean
      */
-    public function toMemcachedBoolean(bool $boolean) : int
+    public function toMemcachedBoolean(bool $boolean): int
     {
         if ($boolean) {
             return 1;
@@ -65,7 +67,7 @@ class TypeMapper
      * @param DateTimeInterface $timestamp The PHP timestamp to convert
      * @return int The Unix timestamp
      */
-    public function toMemcachedTimestamp(DateTimeInterface $timestamp) : int
+    public function toMemcachedTimestamp(DateTimeInterface $timestamp): int
     {
         return $timestamp->getTimestamp();
     }

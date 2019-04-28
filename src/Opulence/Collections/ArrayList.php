@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections;
 
@@ -33,7 +35,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function add($value) : void
+    public function add($value): void
     {
         $this->values[] = $value;
     }
@@ -41,7 +43,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function addRange(array $values) : void
+    public function addRange(array $values): void
     {
         foreach ($values as $value) {
             $this->add($value);
@@ -51,7 +53,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function clear() : void
+    public function clear(): void
     {
         $this->values = [];
     }
@@ -59,7 +61,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function containsValue($value) : bool
+    public function containsValue($value): bool
     {
         return $this->indexOf($value) !== null;
     }
@@ -67,7 +69,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->values);
     }
@@ -87,7 +89,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function getIterator() : Traversable
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->values);
     }
@@ -95,7 +97,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function indexOf($value) : ?int
+    public function indexOf($value): ?int
     {
         if (($index = array_search($value, $this->values)) === false) {
             return null;
@@ -107,7 +109,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function insert(int $index, $value) : void
+    public function insert(int $index, $value): void
     {
         array_splice($this->values, $index, 0, $value);
     }
@@ -115,7 +117,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function intersect(array $values) : void
+    public function intersect(array $values): void
     {
         $intersectedValues = array_intersect($this->values, $values);
         $this->clear();
@@ -125,7 +127,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function offsetExists($index) : bool
+    public function offsetExists($index): bool
     {
         return array_key_exists($index, $this->values);
     }
@@ -141,7 +143,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function offsetSet($index, $value) : void
+    public function offsetSet($index, $value): void
     {
         $this->insert($index, $value);
     }
@@ -149,7 +151,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function offsetUnset($index) : void
+    public function offsetUnset($index): void
     {
         $this->removeIndex($index);
     }
@@ -157,7 +159,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function removeIndex(int $index) : void
+    public function removeIndex(int $index): void
     {
         unset($this->values[$index]);
     }
@@ -165,7 +167,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function removeValue($value) : void
+    public function removeValue($value): void
     {
         $index = $this->indexOf($value);
 
@@ -177,7 +179,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function reverse() : void
+    public function reverse(): void
     {
         $this->values = array_reverse($this->values);
     }
@@ -185,7 +187,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function sort(callable $comparer) : void
+    public function sort(callable $comparer): void
     {
         usort($this->values, $comparer);
     }
@@ -193,7 +195,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         return $this->values;
     }
@@ -201,7 +203,7 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function union(array $values) : void
+    public function union(array $values): void
     {
         $unionedValues = array_merge(($this->values), $values);
         $this->clear();

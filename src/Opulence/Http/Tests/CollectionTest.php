@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Tests;
 
@@ -18,12 +20,12 @@ use Opulence\Http\Collection;
 class CollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Collection The parameters to use in tests */
-    private $parameters = null;
+    private $parameters;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->parameters = new Collection([]);
     }
@@ -31,7 +33,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a parameter
      */
-    public function testAdding() : void
+    public function testAdding(): void
     {
         $this->parameters->add('foo', 'bar');
         $this->assertEquals('bar', $this->parameters->get('foo'));
@@ -40,7 +42,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if an offset exists
      */
-    public function testCheckingOffsetExists() : void
+    public function testCheckingOffsetExists(): void
     {
         $this->parameters['foo'] = 'bar';
         $this->assertTrue(isset($this->parameters['foo']));
@@ -49,7 +51,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests counting
      */
-    public function testCount() : void
+    public function testCount(): void
     {
         $this->parameters->add('foo', 'bar');
         $this->assertEquals(1, $this->parameters->count());
@@ -60,7 +62,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests exchanging the array
      */
-    public function testExchangingArray() : void
+    public function testExchangingArray(): void
     {
         $this->parameters->add('foo', 'bar');
         $this->assertEquals(['foo' => 'bar'], $this->parameters->exchangeArray(['bar' => 'foo']));
@@ -70,7 +72,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a parameter
      */
-    public function testGetting() : void
+    public function testGetting(): void
     {
         $this->parameters->add('foo', 'bar');
         $this->assertEquals('bar', $this->parameters->get('foo'));
@@ -79,7 +81,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an absent variable with a default
      */
-    public function testGettingAbsentVariableWithDefault() : void
+    public function testGettingAbsentVariableWithDefault(): void
     {
         $this->assertEquals('blah', $this->parameters->get('does not exist', 'blah'));
     }
@@ -87,7 +89,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an absent variable with no default
      */
-    public function testGettingAbsentVariableWithNoDefault() : void
+    public function testGettingAbsentVariableWithNoDefault(): void
     {
         $this->assertNull($this->parameters->get('does not exist'));
     }
@@ -95,7 +97,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting all the parameters
      */
-    public function testGettingAll() : void
+    public function testGettingAll(): void
     {
         $this->parameters->add('foo', 'bar');
         $this->parameters->add('bar', 'foo');
@@ -108,7 +110,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting as array
      */
-    public function testGettingAsArray() : void
+    public function testGettingAsArray(): void
     {
         $this->parameters->add('foo', 'bar');
         $this->assertEquals('bar', $this->parameters['foo']);
@@ -117,7 +119,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests whether the parameters has a certain parameter
      */
-    public function testHas() : void
+    public function testHas(): void
     {
         $this->assertFalse($this->parameters->has('foo'));
         $this->parameters->add('foo', 'bar');
@@ -127,7 +129,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests passing parameters through the constructor
      */
-    public function testPassingParametersInConstructor() : void
+    public function testPassingParametersInConstructor(): void
     {
         $parametersArray = ['foo' => 'bar', 'bar' => 'foo'];
         $parameters = new Collection($parametersArray);
@@ -137,7 +139,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests removing a parameter
      */
-    public function testRemove() : void
+    public function testRemove(): void
     {
         $this->parameters->add('foo', 'bar');
         $this->parameters->remove('foo');
@@ -147,7 +149,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting a parameter
      */
-    public function testSetting() : void
+    public function testSetting(): void
     {
         $this->parameters->set('foo', 'bar');
         $this->assertEquals('bar', $this->parameters->get('foo'));
@@ -156,7 +158,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting an item
      */
-    public function testSettingItem() : void
+    public function testSettingItem(): void
     {
         $this->parameters['foo'] = 'bar';
         $this->assertEquals('bar', $this->parameters['foo']);
@@ -165,7 +167,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests unsetting a parameter
      */
-    public function testUnsetting() : void
+    public function testUnsetting(): void
     {
         $this->parameters['foo'] = 'bar';
         unset($this->parameters['foo']);
@@ -175,7 +177,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests unsetting an item
      */
-    public function testUnsettingItem() : void
+    public function testUnsettingItem(): void
     {
         $this->parameters->add('foo', 'bar');
         unset($this->parameters['foo']);

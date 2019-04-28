@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Responses;
 
@@ -18,19 +20,19 @@ use DateTime;
 class Cookie
 {
     /** @var string The name of the cookie */
-    private $name = '';
+    private $name;
     /** @var mixed The value of the cookie */
-    private $value = '';
+    private $value;
     /** @var int The expiration timestamp of the cookie */
-    private $expiration = null;
+    private $expiration;
     /** @var string The path the cookie is valid on */
-    private $path = '/';
+    private $path;
     /** @var string The domain the cookie is valid on */
-    private $domain = '';
+    private $domain;
     /** @var bool Whether or not this cookie is on HTTPS */
-    private $isSecure = false;
+    private $isSecure;
     /** @var bool Whether or not this cookie is HTTP only */
-    private $isHttpOnly = true;
+    private $isHttpOnly;
 
     /**
      * @param string $name The name of the cookie
@@ -62,7 +64,7 @@ class Cookie
     /**
      * @return string
      */
-    public function getDomain() : string
+    public function getDomain(): string
     {
         return $this->domain;
     }
@@ -70,7 +72,7 @@ class Cookie
     /**
      * @return int
      */
-    public function getExpiration() : int
+    public function getExpiration(): int
     {
         return $this->expiration;
     }
@@ -78,7 +80,7 @@ class Cookie
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -86,7 +88,7 @@ class Cookie
     /**
      * @return string
      */
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -102,7 +104,7 @@ class Cookie
     /**
      * @return bool
      */
-    public function isHttpOnly() : bool
+    public function isHttpOnly(): bool
     {
         return $this->isHttpOnly;
     }
@@ -110,7 +112,7 @@ class Cookie
     /**
      * @return bool
      */
-    public function isSecure() : bool
+    public function isSecure(): bool
     {
         return $this->isSecure;
     }

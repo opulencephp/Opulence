@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Databases\Tests\ConnectionPools;
 
@@ -22,7 +24,7 @@ class ConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the list of driver names
      */
-    public function testGettingDriverNames() : void
+    public function testGettingDriverNames(): void
     {
         $this->assertEquals(['pdo_mysql', 'pdo_pgsql'], ConnectionPool::getDriverNames());
     }
@@ -30,7 +32,7 @@ class ConnectionPoolTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests setting the master
      */
-    public function testSettingMaster() : void
+    public function testSettingMaster(): void
     {
         $connectionPool = new ConnectionPool(new Driver(), new MockServer());
         $master = new MockServer();

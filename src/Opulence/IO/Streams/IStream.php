@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\IO\Streams;
 
@@ -23,14 +25,14 @@ interface IStream
      *
      * @return string The entire stream as a string
      */
-    public function __toString() : string;
+    public function __toString(): string;
 
     /**
      * Closes the stream
      *
      * @throws RuntimeException Thrown if the stream failed to be closed
      */
-    public function close() : void;
+    public function close(): void;
 
     /**
      * Copies this stream to another
@@ -39,7 +41,7 @@ interface IStream
      * @param int $bufferSize The buffer size to use when copying, if needed
      * @throws RuntimeException Thrown if the source stream is closed
      */
-    public function copyToStream(IStream $stream, int $bufferSize = 8192) : void;
+    public function copyToStream(IStream $stream, int $bufferSize = 8192): void;
 
     /**
      * Gets the length of the stream
@@ -47,7 +49,7 @@ interface IStream
      * @return int|null The length of the stream if knowable, otherwise null
      * @throws RuntimeException Thrown if the stream is closed
      */
-    public function getLength() : ?int;
+    public function getLength(): ?int;
 
     /**
      * Gets the current stream position
@@ -55,7 +57,7 @@ interface IStream
      * @return int The current position of the stream
      * @throws RuntimeException Thrown if the position cannot be determined
      */
-    public function getPosition() : int;
+    public function getPosition(): int;
 
     /**
      * Gets whether or not the stream is at the end of file
@@ -63,28 +65,28 @@ interface IStream
      * @return bool True if the stream is end of file, otherwise false
      * @throws RuntimeException Thrown if the stream is closed or EOF cannot be determined
      */
-    public function isEof() : bool;
+    public function isEof(): bool;
 
     /**
      * Gets whether or not the stream is readable
      *
      * @return bool True if the stream is readable, otherwise false
      */
-    public function isReadable() : bool;
+    public function isReadable(): bool;
 
     /**
      * Gets whether or not the stream is seekable
      *
      * @return bool True if the stream is seekable, otherwise false
      */
-    public function isSeekable() : bool;
+    public function isSeekable(): bool;
 
     /**
      * Gets whether or not the stream is writable
      *
      * @return bool True if the stream is writable, otherwise false
      */
-    public function isWritable() : bool;
+    public function isWritable(): bool;
 
     /**
      * Reads a chunk of the stream
@@ -93,7 +95,7 @@ interface IStream
      * @return string The stream contents as a string
      * @throws RuntimeException Thrown if the stream is not readable
      */
-    public function read(int $length) : string;
+    public function read(int $length): string;
 
     /**
      * Reads to the end of the stream
@@ -101,14 +103,14 @@ interface IStream
      * @return string The stream contents as a string
      * @throws RuntimeException Thrown if the stream is not readable
      */
-    public function readToEnd() : string;
+    public function readToEnd(): string;
 
     /**
      * Rewinds to the beginning of the stream
      *
      * @throws RuntimeException Thrown if the stream is not seekable
      */
-    public function rewind() : void;
+    public function rewind(): void;
 
     /**
      * Seeks to a certain position in the stream
@@ -117,7 +119,7 @@ interface IStream
      * @param int $whence How the position will be calculated from the offset (identical to fseek())
      * @throws RuntimeException Thrown if the stream is not seekable
      */
-    public function seek(int $offset, int $whence = SEEK_SET) : void;
+    public function seek(int $offset, int $whence = SEEK_SET): void;
 
     /**
      * Writes to the stream
@@ -125,5 +127,5 @@ interface IStream
      * @param string $data The data to write
      * @throws RuntimeException Thrown if the stream is not writable
      */
-    public function write(string $data) : void;
+    public function write(string $data): void;
 }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Responses\Compilers\Elements;
 
@@ -61,9 +63,9 @@ class Style
         TextStyles::BLINK => [5, 25]
     ];
     /** @var string|null The foreground color */
-    private $foregroundColor = null;
+    private $foregroundColor;
     /** @var string|null The background color */
-    private $backgroundColor = null;
+    private $backgroundColor;
     /** @var array The list of text styles */
     private $textStyles = [];
 
@@ -85,7 +87,7 @@ class Style
      * @param string $style The name of the text style
      * @throws InvalidArgumentException Thrown if the text style does not exist
      */
-    public function addTextStyle(string $style) : void
+    public function addTextStyle(string $style): void
     {
         if (!isset(self::$supportedTextStyles[$style])) {
             throw new InvalidArgumentException("Invalid text style \"$style\"");
@@ -103,7 +105,7 @@ class Style
      * @param array $styles The names of the text styles
      * @throws InvalidArgumentException Thrown if the text styles do not exist
      */
-    public function addTextStyles(array $styles) : void
+    public function addTextStyles(array $styles): void
     {
         foreach ($styles as $style) {
             $this->addTextStyle($style);
@@ -116,7 +118,7 @@ class Style
      * @param string $text The text to format
      * @return string The formatted text
      */
-    public function format(string $text) : string
+    public function format(string $text): string
     {
         if ($text === '') {
             return $text;
@@ -156,7 +158,7 @@ class Style
     /**
      * @return string|null
      */
-    public function getBackgroundColor() : ?string
+    public function getBackgroundColor(): ?string
     {
         return $this->backgroundColor;
     }
@@ -164,7 +166,7 @@ class Style
     /**
      * @return string|null
      */
-    public function getForegroundColor() : ?string
+    public function getForegroundColor(): ?string
     {
         return $this->foregroundColor;
     }
@@ -172,7 +174,7 @@ class Style
     /**
      * @return array
      */
-    public function getTextStyles() : array
+    public function getTextStyles(): array
     {
         return $this->textStyles;
     }
@@ -183,7 +185,7 @@ class Style
      * @param string $style The style to remove
      * @throws InvalidArgumentException Thrown if the text style is invalid
      */
-    public function removeTextStyle(string $style) : void
+    public function removeTextStyle(string $style): void
     {
         if (!isset(self::$supportedTextStyles[$style])) {
             throw new InvalidArgumentException("Invalid text style \"$style\"");
@@ -198,7 +200,7 @@ class Style
      * @param string|null $backgroundColor
      * @throws InvalidArgumentException Thrown if the color was invalid
      */
-    public function setBackgroundColor(string $backgroundColor = null) : void
+    public function setBackgroundColor(string $backgroundColor = null): void
     {
         if ($backgroundColor !== null && !isset(self::$supportedBackgroundColors[$backgroundColor])) {
             throw new InvalidArgumentException("Invalid background color \"$backgroundColor\"");
@@ -211,7 +213,7 @@ class Style
      * @param string|null $foregroundColor
      * @throws InvalidArgumentException Thrown if the color was invalid
      */
-    public function setForegroundColor(string $foregroundColor = null) : void
+    public function setForegroundColor(string $foregroundColor = null): void
     {
         if ($foregroundColor !== null && !isset(self::$supportedForegroundColors[$foregroundColor])) {
             throw new InvalidArgumentException("Invalid foreground color \"$foregroundColor\"");

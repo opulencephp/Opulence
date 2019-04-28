@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Responses\Compilers\Lexers;
 
@@ -22,7 +24,7 @@ class Lexer implements ILexer
     /**
      * @inheritdoc
      */
-    public function lex(string $text) : array
+    public function lex(string $text): array
     {
         $tokens = [];
         $wordBuffer = '';
@@ -132,7 +134,7 @@ class Lexer implements ILexer
      * @param int $position The numerical position to grab text around
      * @return string The surrounding text
      */
-    private function getSurroundingText(array $charArray, int $position) : string
+    private function getSurroundingText(array $charArray, int $position): string
     {
         if (count($charArray) <= 3) {
             return implode('', $charArray);
@@ -152,7 +154,7 @@ class Lexer implements ILexer
      * @param int $currPosition The current position
      * @return string|null The previous character if there is one, otherwise null
      */
-    private function lookBehind(array $charArray, int $currPosition) : ?string
+    private function lookBehind(array $charArray, int $currPosition): ?string
     {
         if ($currPosition === 0 || count($charArray) === 0) {
             return null;
@@ -168,7 +170,7 @@ class Lexer implements ILexer
      * @param int $currPosition The current position
      * @return string|null The next character if there is one, otherwise null
      */
-    private function peek(array $charArray, int $currPosition) : ?string
+    private function peek(array $charArray, int $currPosition): ?string
     {
         $charArrayLength = count($charArray);
 

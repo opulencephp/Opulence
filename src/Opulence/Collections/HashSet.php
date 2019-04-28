@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections;
 
@@ -21,7 +23,7 @@ class HashSet implements ISet
     /** @var array The set of values */
     protected $values = [];
     /** @var KeyHasher The key hasher to use */
-    private $keyHasher = null;
+    private $keyHasher;
 
     /**
      * @param array $values The set of values
@@ -35,7 +37,7 @@ class HashSet implements ISet
     /**
      * @inheritdoc
      */
-    public function add($value) : void
+    public function add($value): void
     {
         $this->values[$this->getHashKey($value)] = $value;
     }
@@ -43,7 +45,7 @@ class HashSet implements ISet
     /**
      * @inheritdoc
      */
-    public function addRange(array $values) : void
+    public function addRange(array $values): void
     {
         foreach ($values as $value) {
             $this->add($value);
@@ -53,7 +55,7 @@ class HashSet implements ISet
     /**
      * @inheritdoc
      */
-    public function clear() : void
+    public function clear(): void
     {
         $this->values = [];
     }
@@ -61,7 +63,7 @@ class HashSet implements ISet
     /**
      * @inheritdoc
      */
-    public function containsValue($value) : bool
+    public function containsValue($value): bool
     {
         return isset($this->values[$this->getHashKey($value)]);
     }
@@ -69,7 +71,7 @@ class HashSet implements ISet
     /**
      * @inheritdoc
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->values);
     }
@@ -77,7 +79,7 @@ class HashSet implements ISet
     /**
      * @inheritdoc
      */
-    public function getIterator() : Traversable
+    public function getIterator(): Traversable
     {
         return new ArrayIterator(array_values($this->values));
     }
@@ -85,7 +87,7 @@ class HashSet implements ISet
     /**
      * @inheritdoc
      */
-    public function intersect(array $values) : void
+    public function intersect(array $values): void
     {
         $intersectedValues = [];
 
@@ -103,7 +105,7 @@ class HashSet implements ISet
     /**
      * @inheritdoc
      */
-    public function removeValue($value) : void
+    public function removeValue($value): void
     {
         unset($this->values[$this->getHashKey($value)]);
     }
@@ -111,7 +113,7 @@ class HashSet implements ISet
     /**
      * @inheritdoc
      */
-    public function sort(callable $comparer) : void
+    public function sort(callable $comparer): void
     {
         usort($this->values, $comparer);
     }
@@ -119,7 +121,7 @@ class HashSet implements ISet
     /**
      * @inheritdoc
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         return array_values($this->values);
     }
@@ -127,7 +129,7 @@ class HashSet implements ISet
     /**
      * @inheritdoc
      */
-    public function union(array $values) : void
+    public function union(array $values): void
     {
         $unionedValues = array_merge(array_values($this->values), $values);
         $this->clear();
@@ -142,7 +144,7 @@ class HashSet implements ISet
      * @return string The hash key
      * @throws RuntimeException Thrown if the hash key could not be calculated
      */
-    protected function getHashKey($value) : string
+    protected function getHashKey($value): string
     {
         return $this->keyHasher->getHashKey($value);
     }

@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\QueryBuilders\Tests\PostgreSql;
 
@@ -21,7 +23,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding to a "RETURNING" clause
      */
-    public function testAddReturning() : void
+    public function testAddReturning(): void
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->returning('id')
@@ -35,7 +37,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests all the methods in a single, complicated query
      */
-    public function testEverything() : void
+    public function testEverything(): void
     {
         $query = new UpdateQuery('users', 'u', ['name' => 'david']);
         $query->addColumnValues(['email' => 'bar@foo.com'])
@@ -45,8 +47,10 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
             ->returning('u.id')
             ->addReturning('u.name')
             ->addUnnamedPlaceholderValues([[18175, PDO::PARAM_INT], 'foo@bar.com', 'dave']);
-        $this->assertEquals("UPDATE users AS u SET name = ?, email = ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer') RETURNING u.id, u.name",
-            $query->getSql());
+        $this->assertEquals(
+            "UPDATE users AS u SET name = ?, email = ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer') RETURNING u.id, u.name",
+            $query->getSql()
+        );
         $this->assertEquals([
             ['david', PDO::PARAM_STR],
             ['bar@foo.com', PDO::PARAM_STR],
@@ -59,7 +63,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests adding a "RETURNING" clause
      */
-    public function testReturning() : void
+    public function testReturning(): void
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->returning('id');

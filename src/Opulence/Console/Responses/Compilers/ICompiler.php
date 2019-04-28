@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Console\Responses\Compilers;
 
@@ -25,7 +27,7 @@ interface ICompiler
      * @return string The compiled message
      * @throws RuntimeException Thrown if there was an issue compiling the message
      */
-    public function compile(string $message) : string;
+    public function compile(string $message): string;
 
     /**
      * Registers an element
@@ -33,12 +35,12 @@ interface ICompiler
      * @param string $name The name of the element
      * @param Style $style The style of the element
      */
-    public function registerElement(string $name, Style $style) : void;
+    public function registerElement(string $name, Style $style): void;
 
     /**
      * Sets whether or not messages should be styled
      *
      * @param bool $isStyled Whether or not messages should be styled
      */
-    public function setStyled(bool $isStyled) : void;
+    public function setStyled(bool $isStyled): void;
 }

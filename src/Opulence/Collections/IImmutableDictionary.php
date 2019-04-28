@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Collections;
 
@@ -28,7 +30,7 @@ interface IImmutableDictionary extends ArrayAccess, Countable, IteratorAggregate
      * @return bool True if the key exists, otherwise false
      * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function containsKey($key) : bool;
+    public function containsKey($key): bool;
 
     /**
      * Gets whether or not the value exists in the hash table
@@ -36,7 +38,7 @@ interface IImmutableDictionary extends ArrayAccess, Countable, IteratorAggregate
      * @param mixed $value The value to search for
      * @return bool True if the value exists, otherwise false
      */
-    public function containsValue($value) : bool;
+    public function containsValue($value): bool;
 
     /**
      * Gets the value of the key
@@ -53,21 +55,21 @@ interface IImmutableDictionary extends ArrayAccess, Countable, IteratorAggregate
      *
      * @return array The list of keys in the dictionary
      */
-    public function getKeys() : array;
+    public function getKeys(): array;
 
     /**
      * Gets the list of values in the dictionary
      *
      * @return array The list of values in the dictionary
      */
-    public function getValues() : array;
+    public function getValues(): array;
 
     /**
      * Gets all of the values as an array of key-value pairs
      *
      * @return array All of the values as a list of key-value pairs
      */
-    public function toArray() : array;
+    public function toArray(): array;
 
     /**
      * Attempts to get the value at a key
@@ -76,5 +78,5 @@ interface IImmutableDictionary extends ArrayAccess, Countable, IteratorAggregate
      * @param mixed $value The value of the key, if it exists
      * @return bool True if the key existed, otherwise false
      */
-    public function tryGet($key, &$value) : bool;
+    public function tryGet($key, &$value): bool;
 }

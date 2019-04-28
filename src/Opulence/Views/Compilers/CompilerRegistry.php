@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Compilers;
 
@@ -24,7 +26,7 @@ class CompilerRegistry implements ICompilerRegistry
     /**
      * @inheritdoc
      */
-    public function getCompiler(IView $view) : ICompiler
+    public function getCompiler(IView $view): ICompiler
     {
         $extension = $this->getExtension($view);
 
@@ -38,7 +40,7 @@ class CompilerRegistry implements ICompilerRegistry
     /**
      * @inheritdoc
      */
-    public function registerCompiler(string $extension, ICompiler $compiler) : void
+    public function registerCompiler(string $extension, ICompiler $compiler): void
     {
         $this->compilers[$extension] = $compiler;
     }
@@ -50,7 +52,7 @@ class CompilerRegistry implements ICompilerRegistry
      * @return string The view's extension
      * @throws InvalidArgumentException Thrown if no extension was found
      */
-    protected function getExtension(IView $view) : string
+    protected function getExtension(IView $view): string
     {
         // Find a registered extension that the view's path ends with
         foreach (array_keys($this->compilers) as $extension) {

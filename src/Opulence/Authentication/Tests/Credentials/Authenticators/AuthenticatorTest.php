@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Credentials\Authenticators;
 
@@ -15,6 +17,7 @@ use Opulence\Authentication\Credentials\Authenticators\Authenticator;
 use Opulence\Authentication\Credentials\Authenticators\IAuthenticator;
 use Opulence\Authentication\Credentials\Authenticators\IAuthenticatorRegistry;
 use Opulence\Authentication\Credentials\ICredential;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the authenticator
@@ -22,14 +25,14 @@ use Opulence\Authentication\Credentials\ICredential;
 class AuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Authenticator The authenticator to use in tests */
-    private $authenticator = null;
-    /** @var IAuthenticatorRegistry|\PHPUnit_Framework_MockObject_MockObject The authenticator registry to use in tests */
-    private $authenticatorRegistry = null;
+    private $authenticator;
+    /** @var IAuthenticatorRegistry|MockObject The authenticator registry to use in tests */
+    private $authenticatorRegistry;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->authenticatorRegistry = $this->createMock(IAuthenticatorRegistry::class);
         $this->authenticator = new Authenticator($this->authenticatorRegistry);
@@ -38,9 +41,9 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an authenticator that successfully authenticates a credential
      */
-    public function testAuthenticatorThatSuccessfullyAuthenticatesCredential() : void
+    public function testAuthenticatorThatSuccessfullyAuthenticatesCredential(): void
     {
-        /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
+        /** @var ICredential|MockObject $credential */
         $credential = $this->createMock(ICredential::class);
         $credential->expects($this->once())
             ->method('getType')
@@ -61,9 +64,9 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests an authenticator that unsuccessfully authenticates a credential
      */
-    public function testAuthenticatorThatUnsuccessfullyAuthenticatesCredential() : void
+    public function testAuthenticatorThatUnsuccessfullyAuthenticatesCredential(): void
     {
-        /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
+        /** @var ICredential|MockObject $credential */
         $credential = $this->createMock(ICredential::class);
         $credential->expects($this->once())
             ->method('getType')
@@ -84,10 +87,10 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that an exception is thrown with no authenticator for a credential
      */
-    public function testExceptionThrownWithNoAuthenticatorForCredential() : void
+    public function testExceptionThrownWithNoAuthenticatorForCredential(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
+        /** @var ICredential|MockObject $credential */
         $credential = $this->createMock(ICredential::class);
         $credential->expects($this->once())
             ->method('getType')

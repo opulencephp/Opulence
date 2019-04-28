@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests;
 
@@ -18,12 +20,12 @@ use Opulence\Authentication\Principal;
 class PrincipalTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Principal The principal to use in tests */
-    private $principal = null;
+    private $principal;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->principal = new Principal('foo', 'bar', ['baz']);
     }
@@ -31,7 +33,7 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking if a principal has roles
      */
-    public function testCheckingRoles() : void
+    public function testCheckingRoles(): void
     {
         $this->assertTrue($this->principal->hasRole('baz'));
         $this->assertFalse($this->principal->hasRole('doesNotExist'));
@@ -40,7 +42,7 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the Id
      */
-    public function testGettingId() : void
+    public function testGettingId(): void
     {
         $this->assertEquals('bar', $this->principal->getId());
     }
@@ -48,7 +50,7 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the roles
      */
-    public function testGettingRoles() : void
+    public function testGettingRoles(): void
     {
         $this->assertEquals(['baz'], $this->principal->getRoles());
     }
@@ -56,7 +58,7 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the type
      */
-    public function testGettingType() : void
+    public function testGettingType(): void
     {
         $this->assertEquals('foo', $this->principal->getType());
     }

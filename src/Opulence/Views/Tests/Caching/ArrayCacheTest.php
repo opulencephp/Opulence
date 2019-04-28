@@ -1,17 +1,20 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Caching;
 
 use Opulence\Views\Caching\ArrayCache;
 use Opulence\Views\IView;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the view array cache
@@ -19,14 +22,14 @@ use Opulence\Views\IView;
 class ArrayCacheTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayCache The cache to use in tests */
-    private $cache = null;
-    /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
-    private $view = null;
+    private $cache;
+    /** @var IView|MockObject The view to use in tests */
+    private $view;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->cache = new ArrayCache();
         $this->view = $this->createMock(IView::class);
@@ -35,7 +38,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests flushing the cache removes views
      */
-    public function testFlushingCacheRemovesViews() : void
+    public function testFlushingCacheRemovesViews(): void
     {
         $this->cache->set($this->view, 'foo');
         $this->cache->flush();
@@ -46,7 +49,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting an existing view
      */
-    public function testGettingExistingView() : void
+    public function testGettingExistingView(): void
     {
         $this->cache->set($this->view, 'foo');
         $this->assertEquals('foo', $this->cache->get($this->view));
@@ -56,7 +59,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting a non-existent view
      */
-    public function testGettingNonExistentView() : void
+    public function testGettingNonExistentView(): void
     {
         $this->assertNull($this->cache->get($this->view));
         $this->assertFalse($this->cache->has($this->view));
@@ -65,7 +68,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting views with the same content but different view variables
      */
-    public function testGettingViewsWithSameContentButDifferentViewVariables() : void
+    public function testGettingViewsWithSameContentButDifferentViewVariables(): void
     {
         $view1 = $this->createMock(IView::class);
         $view2 = $this->createMock(IView::class);

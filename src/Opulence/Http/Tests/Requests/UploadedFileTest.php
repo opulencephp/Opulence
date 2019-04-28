@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Http\Tests\Requests;
 
@@ -19,16 +21,16 @@ use Opulence\Http\Tests\Requests\Mocks\UploadedFile as MockUploadedFile;
 class UploadedFileTest extends \PHPUnit\Framework\TestCase
 {
     /** The uploaded file's filename */
-    const UPLOADED_FILE_FILENAME = '/files/UploadedFile.txt';
+    private const UPLOADED_FILE_FILENAME = '/files/UploadedFile.txt';
     /** The temporary file's filename */
-    const TEMP_FILENAME = '/files/TempFile.txt';
+    private const TEMP_FILENAME = '/files/TempFile.txt';
     /** @var MockUploadedFile The uploaded file to use in tests */
-    private $file = null;
+    private $file;
 
     /**
      * Tears down the class
      */
-    public static function tearDownAfterClass() : void
+    public static function tearDownAfterClass(): void
     {
         $files = glob(__DIR__ . '/tmp/*');
 
@@ -44,7 +46,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->file = new MockUploadedFile(
             __DIR__ . self::UPLOADED_FILE_FILENAME,
@@ -58,7 +60,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests checking for errors
      */
-    public function testCheckingForErrors() : void
+    public function testCheckingForErrors(): void
     {
         $validFile = new MockUploadedFile(
             __DIR__ . self::UPLOADED_FILE_FILENAME,
@@ -81,7 +83,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the default error
      */
-    public function testGettingDefaultError() : void
+    public function testGettingDefaultError(): void
     {
         $file = new MockUploadedFile(
             __DIR__ . self::UPLOADED_FILE_FILENAME,
@@ -94,7 +96,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the default temp mime type
      */
-    public function testGettingDefaultTempMimeType() : void
+    public function testGettingDefaultTempMimeType(): void
     {
         $file = new MockUploadedFile(
             __DIR__ . self::UPLOADED_FILE_FILENAME,
@@ -107,7 +109,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the error
      */
-    public function testGettingError() : void
+    public function testGettingError(): void
     {
         $file = new MockUploadedFile(
             __DIR__ . self::UPLOADED_FILE_FILENAME,
@@ -122,7 +124,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the mime type
      */
-    public function testGettingMimeType() : void
+    public function testGettingMimeType(): void
     {
         $file = new MockUploadedFile(
             __DIR__ . self::UPLOADED_FILE_FILENAME,
@@ -136,7 +138,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the path
      */
-    public function testGettingPath() : void
+    public function testGettingPath(): void
     {
         $this->assertEquals(__DIR__ . '/files', $this->file->getPath());
     }
@@ -144,7 +146,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the temp extension
      */
-    public function testGettingTempExtension() : void
+    public function testGettingTempExtension(): void
     {
         $this->assertEquals('txt', $this->file->getTempExtension());
     }
@@ -152,7 +154,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the temp filename
      */
-    public function testGettingTempFilename() : void
+    public function testGettingTempFilename(): void
     {
         $this->assertEquals(__DIR__ . self::TEMP_FILENAME, $this->file->getTempFilename());
     }
@@ -160,7 +162,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the temp mime type
      */
-    public function testGettingTempMimeType() : void
+    public function testGettingTempMimeType(): void
     {
         $this->assertEquals('text/plain', $this->file->getTempMimeType());
     }
@@ -168,7 +170,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests getting the size
      */
-    public function testGettingTempSize() : void
+    public function testGettingTempSize(): void
     {
         $this->assertEquals(100, $this->file->getTempSize());
     }
@@ -176,7 +178,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests moving the file
      */
-    public function testMovingFile() : void
+    public function testMovingFile(): void
     {
         // Test specifying directory for target and a filename
         $this->file->move(__DIR__ . '/tmp', 'bar.txt');
@@ -189,7 +191,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests moving a file with errors
      */
-    public function testMovingFileWithErrors() : void
+    public function testMovingFileWithErrors(): void
     {
         $this->expectException(UploadException::class);
         $file = new MockUploadedFile(

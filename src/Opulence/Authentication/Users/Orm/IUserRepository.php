@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Users\Orm;
 
@@ -22,21 +24,21 @@ interface IUserRepository
      *
      * @param IUser $user The user to add
      */
-    public function add($user) : void;
+    public function add($user): void;
 
     /**
      * Deletes a user from the repo
      *
      * @param IUser $user The user to delete
      */
-    public function delete($user) : void;
+    public function delete($user): void;
 
     /**
      * Gets all the users
      *
      * @return IUser[] The list of all the users
      */
-    public function getAll() : array;
+    public function getAll(): array;
 
     /**
      * Gets the user with the input Id
@@ -52,5 +54,5 @@ interface IUserRepository
      * @param string $username The input username
      * @return IUser|null The user, if one was found, otherwise null
      */
-    public function getByUsername(string $username) : ?IUser;
+    public function getByUsername(string $username): ?IUser;
 }

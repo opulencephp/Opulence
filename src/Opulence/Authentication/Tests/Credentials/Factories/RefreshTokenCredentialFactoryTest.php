@@ -1,12 +1,14 @@
 <?php
 
-/*
+/**
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2019 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
+declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Credentials\Factories;
 
@@ -17,6 +19,7 @@ use Opulence\Authentication\IPrincipal;
 use Opulence\Authentication\ISubject;
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the refresh credential factory
@@ -24,16 +27,16 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RefreshTokenCredentialFactory The factory to use in tests */
-    private $factory = null;
-    /** @var ISigner|\PHPUnit_Framework_MockObject_MockObject The signer to use in tests */
-    private $signer = null;
-    /** @var ISubject|\PHPUnit_Framework_MockObject_MockObject The subject to use in tests */
-    private $subject = null;
+    private $factory;
+    /** @var ISigner|MockObject The signer to use in tests */
+    private $signer;
+    /** @var ISubject|MockObject The subject to use in tests */
+    private $subject;
 
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->signer->expects($this->any())
@@ -59,7 +62,7 @@ class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests that the claims are added
      */
-    public function testClaimsAdded() : void
+    public function testClaimsAdded(): void
     {
         $credential = $this->factory->createCredentialForSubject($this->subject);
         $tokenString = $credential->getValue('token');
