@@ -22,14 +22,14 @@ use RuntimeException;
 class ViewTest extends \PHPUnit\Framework\TestCase
 {
     /** The path to the test view with default tags */
-    const VIEW_PATH_WITH_DEFAULT_TAGS = '/files/TestWithDefaultTagDelimiters.html';
+    private const VIEW_PATH_WITH_DEFAULT_TAGS = '/files/TestWithDefaultTagDelimiters.html';
     /** The path to the test view with PHP code */
-    const VIEW_PATH_WITH_INVALID_PHP_CODE = '/files/TestWithInvalidPhp.html';
+    private const VIEW_PATH_WITH_INVALID_PHP_CODE = '/files/TestWithInvalidPhp.html';
 
     /** @var View The view to use in the tests */
-    private $view = null;
+    private $view;
     /** @var FileSystem The file system used to read views */
-    private $fileSystem = null;
+    private $fileSystem;
 
     /**
      * Sets up the tests

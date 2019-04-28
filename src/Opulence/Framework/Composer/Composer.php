@@ -18,7 +18,7 @@ namespace Opulence\Framework\Composer;
 class Composer
 {
     /** @var array The raw config */
-    private $rawConfig = [];
+    private $rawConfig;
     /** @var string The path to the root of the project */
     private $rootPath = '';
     /** @var string The path to the PSR-4 source directory */

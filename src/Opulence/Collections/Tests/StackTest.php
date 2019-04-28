@@ -20,7 +20,7 @@ use Opulence\Collections\Stack;
 class StackTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Stack The stack to use in tests */
-    private $stack = null;
+    private $stack;
 
     /**
      * Sets up the tests

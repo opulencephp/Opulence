@@ -23,9 +23,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ResponseAssertions The response assertions to use in tests */
-    private $assertions = null;
+    private $assertions;
     /** @var StreamResponse|MockObject The response to use in tests */
-    private $mockResponse = null;
+    private $mockResponse;
 
     /**
      * Sets up the tests

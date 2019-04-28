@@ -20,7 +20,7 @@ use Opulence\QueryBuilders\InsertQuery as BaseInsertQuery;
 class InsertQuery extends BaseInsertQuery
 {
     /** @var AugmentingQueryBuilder Handles functionality common to augmenting queries */
-    protected $augmentingQueryBuilder = null;
+    protected $augmentingQueryBuilder;
 
     /**
      * @param string $tableName The name of the table we're inserting into

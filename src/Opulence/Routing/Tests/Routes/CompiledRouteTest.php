@@ -22,9 +22,9 @@ use Opulence\Routing\Routes\Route;
 class CompiledRouteTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CompiledRoute The route to test */
-    private $compiledRoute = null;
+    private $compiledRoute;
     /** @var ParsedRoute The parsed route */
-    private $parsedRoute = null;
+    private $parsedRoute;
 
     /**
      * Sets up the tests

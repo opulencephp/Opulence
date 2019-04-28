@@ -21,7 +21,7 @@ use LogicException;
 class RegexRule implements IRuleWithArgs
 {
     /** @var string The regular expression to run */
-    protected $regex = null;
+    protected $regex;
 
     /**
      * @inheritdoc

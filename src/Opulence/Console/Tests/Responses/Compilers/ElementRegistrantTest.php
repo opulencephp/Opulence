@@ -25,7 +25,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ElementRegistrantTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ElementRegistrant The registrant to use in tests */
-    private $registrant = null;
+    private $registrant;
 
     /**
      * Sets up the tests

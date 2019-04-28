@@ -18,13 +18,13 @@ namespace Opulence\Orm\Tests\Repositories\Mocks;
 class User
 {
     /** @var int The user Id */
-    private $id = -1;
+    private $id;
     /** @var int The Id of an imaginary aggregate root (eg parent) of this user */
-    private $aggregateRootId = -1;
+    private $aggregateRootId;
     /** @var int The Id of a second imaginary aggregate root of this user */
-    private $secondAggregateRootId = -1;
+    private $secondAggregateRootId;
     /** @var string The username */
-    private $username = '';
+    private $username;
 
     /**
      * @param int $id The user Id

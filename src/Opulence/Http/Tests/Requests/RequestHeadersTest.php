@@ -20,7 +20,7 @@ use Opulence\Http\Requests\RequestHeaders;
 class RequestHeadersTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RequestHeaders The headers to use in tests */
-    private $headers = null;
+    private $headers;
     /** @var array The server array to use */
     private $serverArray = [
         'NON_HEADER' => 'foo',

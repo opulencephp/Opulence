@@ -31,15 +31,15 @@ use Opulence\Console\Tests\Responses\Mocks\Response;
 class KernelTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CommandCompiler The command compiler */
-    private $compiler = null;
+    private $compiler;
     /** @var CommandCollection The list of commands */
-    private $commands = null;
+    private $commands;
     /** @var StringParser The request parser */
-    private $parser = null;
+    private $parser;
     /** @var Response The response to use in tests */
-    private $response = null;
+    private $response;
     /** @var Kernel The kernel to use in tests */
-    private $kernel = null;
+    private $kernel;
 
     /**
      * Sets up the tests

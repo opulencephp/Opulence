@@ -32,7 +32,7 @@ abstract class Query
      *
      * @var bool|null
      */
-    protected $usingUnnamedPlaceholders = null;
+    protected $usingUnnamedPlaceholders;
 
     /**
      * Gets the SQL statement as a string

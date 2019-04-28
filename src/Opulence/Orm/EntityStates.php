@@ -18,13 +18,13 @@ namespace Opulence\Orm;
 class EntityStates
 {
     /** A new entity that will be registered */
-    const QUEUED = 1;
+    public const QUEUED = 1;
     /** A registered, persisted entity */
-    const REGISTERED = 2;
+    public const REGISTERED = 2;
     /** An entity that is no longer registered */
-    const UNREGISTERED = 3;
+    public const UNREGISTERED = 3;
     /** An entity that will be unregistered */
-    const DEQUEUED = 4;
+    public const DEQUEUED = 4;
     /** An entity that was never registered */
-    const NEVER_REGISTERED = 5;
+    public const NEVER_REGISTERED = 5;
 }

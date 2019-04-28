@@ -26,13 +26,13 @@ use RuntimeException;
 class EntityRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var EntityRegistry The entity registry to use in tests */
-    private $entityRegistry = null;
+    private $entityRegistry;
     /** @var User An entity to use in the tests */
-    private $entity1 = null;
+    private $entity1;
     /** @var User An entity to use in the tests */
-    private $entity2 = null;
+    private $entity2;
     /** @var User An entity to use in the tests */
-    private $entity3 = null;
+    private $entity3;
     /** @var string Entity 1's object hash Id */
     private $entity1HashId;
     /** @var string Entity 2's object hash Id */

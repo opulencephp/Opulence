@@ -24,9 +24,9 @@ use Opulence\Views\View;
 class ViewFactory implements IViewFactory
 {
     /** @var IViewNameResolver The view name resolver used to get paths to views */
-    protected $viewNameResolver = null;
+    protected $viewNameResolver;
     /** @var IViewReader The view reader */
-    protected $viewReader = null;
+    protected $viewReader;
     /** @var array The mapping of view paths to a list of builders to run whenever the view is created */
     protected $builders = [];
 

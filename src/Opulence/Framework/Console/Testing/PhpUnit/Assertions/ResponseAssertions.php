@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 class ResponseAssertions extends TestCase
 {
     /** @var StreamResponse The response stream */
-    protected $response = null;
+    protected $response;
     /** @var int The status code */
     protected $statusCode = -1;
 

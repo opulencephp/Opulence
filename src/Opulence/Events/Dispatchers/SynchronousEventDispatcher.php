@@ -18,7 +18,7 @@ namespace Opulence\Events\Dispatchers;
 class SynchronousEventDispatcher implements IEventDispatcher
 {
     /** @var IEventRegistry The event registry */
-    private $eventRegistry = null;
+    private $eventRegistry;
 
     /**
      * @param IEventRegistry $eventRegistry The event registry

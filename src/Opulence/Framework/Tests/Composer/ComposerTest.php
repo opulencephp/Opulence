@@ -42,7 +42,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
         ]
     ];
     /** @var Composer The Composer with a fully-loaded config */
-    private $composer = null;
+    private $composer;
     /** @var string The path to the root directory */
     private $rootPath = '';
     /** @var string The path to the PSR-4 source directory */

@@ -24,13 +24,13 @@ use Opulence\Views\IView;
 class Controller
 {
     /** @var IView The view used in the response */
-    protected $view = null;
+    protected $view;
     /** @var ICompiler The view compiler to use */
-    protected $viewCompiler = null;
+    protected $viewCompiler;
     /** @var IViewFactory The view factory to use */
-    protected $viewFactory = null;
+    protected $viewFactory;
     /** @var Request The HTTP request */
-    protected $request = null;
+    protected $request;
 
     /**
      * Actually calls the method in the controller

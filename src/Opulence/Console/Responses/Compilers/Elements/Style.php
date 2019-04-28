@@ -63,9 +63,9 @@ class Style
         TextStyles::BLINK => [5, 25]
     ];
     /** @var string|null The foreground color */
-    private $foregroundColor = null;
+    private $foregroundColor;
     /** @var string|null The background color */
-    private $backgroundColor = null;
+    private $backgroundColor;
     /** @var array The list of text styles */
     private $textStyles = [];
 

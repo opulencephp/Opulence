@@ -23,14 +23,14 @@ use PDOException;
 abstract class SqlDataMapper implements IDataMapper
 {
     /** Defines a single entity */
-    const VALUE_TYPE_ENTITY = 0;
+    public const VALUE_TYPE_ENTITY = 0;
     /** Defines an array of entities */
-    const VALUE_TYPE_ARRAY = 1;
+    public const VALUE_TYPE_ARRAY = 1;
 
     /** @var IConnection The read connection */
-    protected $readConnection = null;
+    protected $readConnection;
     /** @var IConnection The write connection */
-    protected $writeConnection = null;
+    protected $writeConnection;
 
     /**
      * @param IConnection $readConnection The read connection

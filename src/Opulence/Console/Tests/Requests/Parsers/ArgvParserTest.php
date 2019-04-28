@@ -21,7 +21,7 @@ use Opulence\Console\Requests\Parsers\ArgvParser;
 class ArgvParserTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArgvParser The parser to use in tests */
-    private $parser = null;
+    private $parser;
 
     /**
      * Sets up the tests

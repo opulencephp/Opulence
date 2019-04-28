@@ -24,7 +24,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContex
 class RefreshTokenAuthenticator extends JwtAuthenticator
 {
     /** @var IJwtRepository The refresh token repository */
-    protected $refreshTokenRepository = null;
+    protected $refreshTokenRepository;
 
     /**
      * @inheritdoc

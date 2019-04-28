@@ -25,7 +25,7 @@ use Opulence\Routing\Urls\UrlGenerator;
 class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var UrlGenerator The generator to use in tests */
-    private $generator = null;
+    private $generator;
 
     /**
      * Sets up the tests

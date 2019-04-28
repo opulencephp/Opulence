@@ -23,9 +23,9 @@ use Psr\Log\LoggerInterface;
 class ErrorHandler implements IErrorHandler
 {
     /** @var LoggerInterface The logger */
-    protected $logger = null;
+    protected $logger;
     /** @var IExceptionHandler The exception handler */
-    protected $exceptionHandler = null;
+    protected $exceptionHandler;
     /** @var int $loggedLevels The bitwise value of error levels that are to be logged */
     protected $loggedLevels = 0;
     /** @var int $thrownLevels The bitwise value of error levels that are to be thrown as exceptions */

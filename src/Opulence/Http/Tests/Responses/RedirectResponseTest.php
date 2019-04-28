@@ -21,7 +21,7 @@ use Opulence\Http\Responses\ResponseHeaders;
 class RedirectResponseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RedirectResponse The response to use in tests */
-    private $redirectResponse = null;
+    private $redirectResponse;
 
     /**
      * Sets up the tests

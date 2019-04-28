@@ -20,7 +20,7 @@ use Opulence\Sessions\Handlers\ArraySessionHandler;
 class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArraySessionHandler The handler to use in tests */
-    private $handler = null;
+    private $handler;
 
     /**
      * Sets up the tests

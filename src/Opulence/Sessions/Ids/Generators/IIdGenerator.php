@@ -18,9 +18,9 @@ namespace Opulence\Sessions\Ids\Generators;
 interface IIdGenerator
 {
     /** The minimum length Id that is cryptographically secure */
-    const MIN_LENGTH = 16;
+    public const MIN_LENGTH = 16;
     /** The maximum length Id that PHP allows */
-    const MAX_LENGTH = 128;
+    public const MAX_LENGTH = 128;
 
     /**
      * Generates an Id

@@ -37,9 +37,9 @@ use Opulence\Routing\Urls\UrlGenerator;
 class RouterBootstrapper extends Bootstrapper
 {
     /** @var ICache The route cache */
-    protected $cache = null;
+    protected $cache;
     /** @var IParser The route parser */
-    protected $parser = null;
+    protected $parser;
 
     /**
      * @inheritdoc

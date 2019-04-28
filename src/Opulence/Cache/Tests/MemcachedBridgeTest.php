@@ -23,11 +23,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MemcachedBridge The bridge to use in tests */
-    private $bridge = null;
+    private $bridge;
     /** @var Memcached|MockObject The Memcached driver */
-    private $memcached = null;
+    private $memcached;
     /** @var Client|MockObject The client to use in tests */
-    private $client = null;
+    private $client;
 
     /**
      * Sets up the tests

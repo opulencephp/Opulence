@@ -21,9 +21,9 @@ use Opulence\Console\Prompts\Questions\MultipleChoice;
 class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MultipleChoice The indexed-choice question to use in tests */
-    private $indexedChoiceQuestion = null;
+    private $indexedChoiceQuestion;
     /** @var MultipleChoice The keyed-choice question to use in tests */
-    private $keyedChoiceQuestion = null;
+    private $keyedChoiceQuestion;
 
     /**
      * Sets up the tests

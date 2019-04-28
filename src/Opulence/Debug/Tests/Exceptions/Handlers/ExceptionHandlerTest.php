@@ -25,11 +25,11 @@ use RuntimeException;
 class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ExceptionHandler The handler to use in tests */
-    private $handler = null;
+    private $handler;
     /** @var LoggerInterface|MockObject The logger to use in tests */
-    private $logger = null;
+    private $logger;
     /** @var IExceptionRenderer|MockObject The renderer to use in tests */
-    private $renderer = null;
+    private $renderer;
 
     /**
      * Sets up the tests

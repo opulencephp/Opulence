@@ -18,21 +18,21 @@ namespace Opulence\Views;
 class View implements IView
 {
     /** The default open tag for unsanitized delimiter  */
-    const DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER = '{{!';
+    public const DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER = '{{!';
     /** The default close tag for unsanitized delimiter  */
-    const DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER = '!}}';
+    public const DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER = '!}}';
     /** The default open tag for sanitized delimiter  */
-    const DEFAULT_OPEN_SANITIZED_TAG_DELIMITER = '{{';
+    public const DEFAULT_OPEN_SANITIZED_TAG_DELIMITER = '{{';
     /** The default close tag for sanitized delimiter */
-    const DEFAULT_CLOSE_SANITIZED_TAG_DELIMITER = '}}';
+    public const DEFAULT_CLOSE_SANITIZED_TAG_DELIMITER = '}}';
     /** The default open tag for directive delimiter  */
-    const DEFAULT_OPEN_DIRECTIVE_DELIMITER = '<%';
+    public const DEFAULT_OPEN_DIRECTIVE_DELIMITER = '<%';
     /** The default close tag for directive delimiter */
-    const DEFAULT_CLOSE_DIRECTIVE_DELIMITER = '%>';
+    public const DEFAULT_CLOSE_DIRECTIVE_DELIMITER = '%>';
     /** The default open tag for comment delimiter  */
-    const DEFAULT_OPEN_COMMENT_DELIMITER = '{#';
+    public const DEFAULT_OPEN_COMMENT_DELIMITER = '{#';
     /** The default close tag for comment delimiter */
-    const DEFAULT_CLOSE_COMMENT_DELIMITER = '#}';
+    public const DEFAULT_CLOSE_COMMENT_DELIMITER = '#}';
 
     /** @var string The uncompiled contents of the view */
     protected $contents = '';

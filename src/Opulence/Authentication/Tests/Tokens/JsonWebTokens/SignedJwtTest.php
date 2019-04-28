@@ -27,9 +27,9 @@ use Opulence\Authentication\Tokens\Signatures\RsaSsaPkcsSigner;
 class SignedJwtTest extends \PHPUnit\Framework\TestCase
 {
     /** @var JwtHeader The header to use in tests */
-    private $header = null;
+    private $header;
     /** @var JwtPayload The payload to use in tests */
-    private $payload = null;
+    private $payload;
 
     /**
      * Sets up the tests

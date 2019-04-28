@@ -20,7 +20,7 @@ use Opulence\Sessions\Ids\Generators\IdGenerator;
 class IdGeneratorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IdGenerator The Id generator to use in tests */
-    private $generator = null;
+    private $generator;
 
     /**
      * Sets up the tests

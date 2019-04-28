@@ -25,7 +25,7 @@ class UrlGenerator
     /** @var string The regex used to remove leftover brackets and variables */
     private static $leftoverBracketsAndVariablesRegex = "#(\[/?:.+\]|\[|\])|(:([\w]+)(?:=([^:\[\]/]+))?)#";
     /** @var RouteCollection The list of routes */
-    private $routeCollection = null;
+    private $routeCollection;
 
     /**
      * @param RouteCollection $routeCollection The list of routes

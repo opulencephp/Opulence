@@ -25,9 +25,9 @@ use RuntimeException;
 class Compiler implements ICompiler
 {
     /** @var ILexer The lexer to use */
-    private $lexer = null;
+    private $lexer;
     /** @var IParser The parser to use */
-    private $parser = null;
+    private $parser;
     /** @var Style[] The list of elements registered to the compiler */
     private $elements = [];
     /** @var bool Whether or not messages should be styled */

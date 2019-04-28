@@ -27,9 +27,9 @@ use Opulence\Console\Tests\Commands\Mocks\SimpleCommand;
 class CommandFormatterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CommandFormatter The formatter to use in tests */
-    private $formatter = null;
+    private $formatter;
     /** @var CommandCollection The list of registered commands */
-    private $commandCollection = null;
+    private $commandCollection;
 
     /**
      * Sets up the tests

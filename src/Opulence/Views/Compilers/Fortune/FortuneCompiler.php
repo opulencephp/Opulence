@@ -22,9 +22,9 @@ use Opulence\Views\IView;
 class FortuneCompiler extends PhpCompiler
 {
     /** @var ITranspiler The transpiler that converts Fortune code to PHP code */
-    protected $transpiler = null;
+    protected $transpiler;
     /** @var IViewFactory The view factory */
-    protected $viewFactory = null;
+    protected $viewFactory;
 
     /**
      * @param ITranspiler $transpiler The transpiler that converts Fortune code to PHP code

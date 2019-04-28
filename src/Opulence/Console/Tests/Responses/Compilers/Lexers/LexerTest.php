@@ -23,7 +23,7 @@ use RuntimeException;
 class LexerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Lexer The lexer to use in tests */
-    private $lexer = null;
+    private $lexer;
 
     /**
      * Sets up the tests

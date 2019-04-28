@@ -31,7 +31,7 @@ class JwtPayload
         'jti' => null
     ];
     /** @var string The salt used to make the JTI random */
-    private $jtiSalt = '';
+    private $jtiSalt;
 
     public function __construct()
     {

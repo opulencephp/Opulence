@@ -21,7 +21,7 @@ use Opulence\QueryBuilders\Conditions\ICondition;
 class SelectQuery extends Query
 {
     /** @var ConditionalQueryBuilder Handles functionality common to conditional queries */
-    protected $conditionalQueryBuilder = null;
+    protected $conditionalQueryBuilder;
     /** @var array The list of select expressions */
     protected $selectExpressions = [];
     /** @var array The list of join statements */

@@ -24,7 +24,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class PhpCompilerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PhpCompiler The compiler to use in tests */
-    private $compiler = null;
+    private $compiler;
 
     /**
      * Sets up the tests

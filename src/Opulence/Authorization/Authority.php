@@ -20,11 +20,11 @@ use Opulence\Authorization\Permissions\IPermissionRegistry;
 class Authority implements IAuthority
 {
     /** @var int|string The primary identity of the current subject */
-    protected $subjectId = -1;
+    protected $subjectId;
     /** @var array The list of roles the subject has */
-    protected $subjectRoles = null;
+    protected $subjectRoles;
     /** @var IPermissionRegistry The permission registry */
-    protected $permissionRegistry = null;
+    protected $permissionRegistry;
 
     /**
      * @param int|string $subjectId The primary identity of the current subject

@@ -35,9 +35,9 @@ use RuntimeException;
 class CommandTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SimpleCommand The command to use in tests */
-    private $command = null;
+    private $command;
     /** @var CommandCollection The list of registered commands */
-    private $commandCollection = null;
+    private $commandCollection;
 
     /**
      * Sets up the tests

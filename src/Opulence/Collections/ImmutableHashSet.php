@@ -24,7 +24,7 @@ class ImmutableHashSet implements IImmutableSet
     /** @var array The set of values */
     protected $values = [];
     /** @var KeyHasher The key hasher to use */
-    private $keyHasher = null;
+    private $keyHasher;
 
     /**
      * @param array $values The set of values

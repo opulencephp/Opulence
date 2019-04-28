@@ -25,7 +25,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Transpiler The transpiler to use in tests */
-    private $transpiler = null;
+    private $transpiler;
 
     /**
      * Sets up the tests

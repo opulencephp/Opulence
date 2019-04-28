@@ -22,7 +22,7 @@ use PDO;
 class DeleteQueryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ICondition The condition to use in tests */
-    private $condition = null;
+    private $condition;
 
     /**
      * Sets up the tests

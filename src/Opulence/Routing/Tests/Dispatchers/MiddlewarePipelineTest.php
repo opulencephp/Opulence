@@ -24,7 +24,7 @@ use Opulence\Routing\Tests\Middleware\Mocks\ReturnsSomethingMiddleware;
 class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MiddlewarePipeline The middleware pipeline */
-    private $middlewarePipeline = null;
+    private $middlewarePipeline;
 
     /**
      * Sets up tests

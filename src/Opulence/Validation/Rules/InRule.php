@@ -21,7 +21,7 @@ use LogicException;
 class InRule implements IRuleWithArgs
 {
     /** @var array The value to compare against */
-    protected $array = null;
+    protected $array;
 
     /**
      * @inheritdoc

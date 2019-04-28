@@ -23,9 +23,9 @@ use Throwable;
 class ExceptionHandler implements IExceptionHandler
 {
     /** @var LoggerInterface The logger */
-    protected $logger = null;
+    protected $logger;
     /** @var IExceptionRenderer The exception renderer */
-    protected $exceptionRenderer = null;
+    protected $exceptionRenderer;
     /** @var array The list of exception classes to not log */
     protected $exceptionsNotLogged = [];
 

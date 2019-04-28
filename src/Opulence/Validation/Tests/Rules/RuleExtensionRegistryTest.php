@@ -24,7 +24,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RuleExtensionRegistry The registry to use in tests */
-    private $registry = null;
+    private $registry;
 
     /**
      * Sets up the tests

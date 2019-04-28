@@ -20,13 +20,13 @@ use InvalidArgumentException;
 class Argument
 {
     /** @var string The name of the argument */
-    private $name = '';
+    private $name;
     /** @var int The type of argument this is */
-    private $type = ArgumentTypes::REQUIRED;
+    private $type;
     /** @var string A brief description of the argument */
-    private $description = '';
+    private $description;
     /** @var mixed The default value for the argument if it's optional */
-    private $defaultValue = null;
+    private $defaultValue;
 
     /**
      * @param string $name The name of the argument

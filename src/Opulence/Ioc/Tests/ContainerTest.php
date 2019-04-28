@@ -38,7 +38,7 @@ use Opulence\Ioc\Tests\Mocks\StaticSetters;
 class ContainerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Container The container to use in tests */
-    private $container = null;
+    private $container;
     /** @var string The name of the simple interface to use in tests */
     private $fooInterface = IFoo::class;
     /** @var string The name of the simple interface to use in tests */

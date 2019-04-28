@@ -22,7 +22,7 @@ use Opulence\Authentication\ISubject;
 class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AuthenticationContext The context to use in tests */
-    private $context = null;
+    private $context;
 
     /**
      * Sets up the tests

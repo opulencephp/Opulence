@@ -20,7 +20,7 @@ use Opulence\Http\Headers;
 class HeadersTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Headers The headers to use in tests */
-    private $headers = null;
+    private $headers;
 
     /**
      * Sets up the tests

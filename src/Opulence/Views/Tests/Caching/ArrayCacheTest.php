@@ -22,9 +22,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ArrayCacheTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayCache The cache to use in tests */
-    private $cache = null;
+    private $cache;
     /** @var IView|MockObject The view to use in tests */
-    private $view = null;
+    private $view;
 
     /**
      * Sets up the tests

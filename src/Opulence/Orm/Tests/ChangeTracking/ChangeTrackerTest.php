@@ -22,11 +22,11 @@ use Opulence\Orm\Tests\ChangeTracking\Mocks\User;
 class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ChangeTracker The change tracker to use in tests */
-    private $changeTracker = null;
+    private $changeTracker;
     /** @var User An entity to use in the tests */
-    private $entity1 = null;
+    private $entity1;
     /** @var User An entity to use in the tests */
-    private $entity2 = null;
+    private $entity2;
 
     /**
      * Sets up the tests

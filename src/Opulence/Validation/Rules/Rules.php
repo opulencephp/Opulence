@@ -25,11 +25,11 @@ use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
 class Rules
 {
     /** @var RuleExtensionRegistry The rule extension registry */
-    protected $ruleExtensionRegistry = null;
+    protected $ruleExtensionRegistry;
     /** @var ErrorTemplateRegistry The error template registry */
-    protected $errorTemplateRegistry = null;
+    protected $errorTemplateRegistry;
     /** @var ICompiler The error template compiler */
-    protected $errorTemplateCompiler = null;
+    protected $errorTemplateCompiler;
     /** @var array The data used to compile error templates */
     protected $errorSlugsAndPlaceholders = [];
     /** @var IRule[] The list of rules */

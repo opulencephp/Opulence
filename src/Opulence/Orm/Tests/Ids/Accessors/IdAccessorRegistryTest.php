@@ -25,9 +25,9 @@ use Opulence\Orm\Tests\Ids\Accessors\Mocks\User;
 class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IdAccessorRegistry The registry to use in tests */
-    private $registry = null;
+    private $registry;
     /** @var User An entity to use in the tests */
-    private $entity1 = null;
+    private $entity1;
 
     /**
      * Sets up the tests

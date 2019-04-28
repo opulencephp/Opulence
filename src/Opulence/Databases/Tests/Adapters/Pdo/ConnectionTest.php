@@ -22,11 +22,11 @@ use Opulence\Databases\Tests\Mocks\Server;
 class ConnectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Provider They provider this connection uses */
-    private $provider = null;
+    private $provider;
     /** @var Server A database server to connect to */
-    private $server = null;
+    private $server;
     /** @var Connection The Connection object we're connecting to */
-    private $pdo = null;
+    private $pdo;
 
     /**
      * Sets up the tests

@@ -23,7 +23,7 @@ use Opulence\Console\Tests\Responses\Mocks\Response;
 class ResponseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Response The response to use in tests */
-    private $response = null;
+    private $response;
 
     /**
      * Sets up the tests

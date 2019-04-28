@@ -21,7 +21,7 @@ use Opulence\Console\Requests\Request;
 class RequestTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Request The request to use in tests */
-    private $request = null;
+    private $request;
 
     /**
      * Sets up the tests

@@ -60,15 +60,15 @@ class Stream implements IStream
         'x+t'
     ];
     /** @var resource The underlying stream handle */
-    private $handle = null;
+    private $handle;
     /** @var int|null The length of the stream, if known */
-    private $length = null;
+    private $length;
     /** @var bool Whether or not the stream is readable */
-    private $isReadable = false;
+    private $isReadable;
     /** @var bool Whether or not the stream is seekable */
-    private $isSeekable = false;
+    private $isSeekable;
     /** @var bool Whether or not the stream is writable */
-    private $isWritable = false;
+    private $isWritable;
 
     /**
      * @param resource $handle The underlying stream handle

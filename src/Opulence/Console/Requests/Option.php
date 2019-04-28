@@ -20,15 +20,15 @@ use InvalidArgumentException;
 class Option
 {
     /** @var string The name of the option */
-    private $name = '';
+    private $name;
     /** @var string|null The short name of the option if it has one, otherwise null */
-    private $shortName = '';
+    private $shortName;
     /** @var int The type of option this is */
-    private $type = OptionTypes::REQUIRED_VALUE;
+    private $type;
     /** @var string A brief description of the option */
-    private $description = '';
+    private $description;
     /** @var mixed The default value for the option if it's optional */
-    private $defaultValue = null;
+    private $defaultValue;
 
     /**
      * @param string $name The name of the option

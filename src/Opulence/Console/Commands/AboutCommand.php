@@ -28,12 +28,11 @@ About <b>Apex</b>
 {{commands}}
 EOF;
     /** @var PaddingFormatter The space padding formatter to use */
-    private $paddingFormatter = null;
+    private $paddingFormatter;
 
     /**
      * @param CommandCollection $commands The list of commands
      * @param PaddingFormatter $paddingFormatter The space padding formatter to use
-     * @param string $applicationVersion The version number of the application
      */
     public function __construct(
         CommandCollection $commands,

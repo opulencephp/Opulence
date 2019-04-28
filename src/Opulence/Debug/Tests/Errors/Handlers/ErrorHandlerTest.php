@@ -24,9 +24,9 @@ use Psr\Log\LoggerInterface;
 class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IExceptionHandler|MockObject */
-    private $exceptionHandler = null;
+    private $exceptionHandler;
     /** @var LoggerInterface|MockObject The logger to use in tests */
-    private $logger = null;
+    private $logger;
 
     /**
      * Sets up the tests

@@ -18,9 +18,9 @@ namespace Opulence\Console\Responses\Compilers\Elements;
 class TextStyles
 {
     /** Text is blinking */
-    const BLINK = 'blink';
+    public const BLINK = 'blink';
     /** Text is bold */
-    const BOLD = 'bold';
+    public const BOLD = 'bold';
     /** Text is underlined */
-    const UNDERLINE = 'underline';
+    public const UNDERLINE = 'underline';
 }

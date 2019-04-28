@@ -39,15 +39,15 @@ class UnitOfWork implements IUnitOfWork
     /** @var int The count of all scheduled actions (even unset ones), which is used for performance */
     private $scheduledActionCount = 0;
     /** @var IConnection The connection to use in our unit of work */
-    private $connection = null;
+    private $connection;
     /** @var IEntityRegistry What manages/tracks entities for our unit of work */
-    private $entityRegistry = null;
+    private $entityRegistry;
     /** @var IIdAccessorRegistry The Id accessor registry */
-    private $idAccessorRegistry = null;
+    private $idAccessorRegistry;
     /** @var IIdGeneratorRegistry The Id generator registry */
-    private $idGeneratorRegistry = null;
+    private $idGeneratorRegistry;
     /** @var IChangeTracker The change tracker */
-    private $changeTracker = null;
+    private $changeTracker;
     /** @var array The mapping of class names to their data mappers */
     private $dataMappers = [];
     /**

@@ -22,11 +22,11 @@ use Opulence\Authentication\Tokens\JsonWebTokens\UnsignedJwt;
 class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
 {
     /** @var UnsignedJwt The JWT to use in tests */
-    private $jwt = null;
+    private $jwt;
     /** @var JwtHeader The header to use in tests */
-    private $header = null;
+    private $header;
     /** @var JwtPayload The payload to use in tests */
-    private $payload = null;
+    private $payload;
 
     /**
      * Sets up the tests

@@ -25,9 +25,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 class AuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Authenticator The authenticator to use in tests */
-    private $authenticator = null;
+    private $authenticator;
     /** @var IAuthenticatorRegistry|MockObject The authenticator registry to use in tests */
-    private $authenticatorRegistry = null;
+    private $authenticatorRegistry;
 
     /**
      * Sets up the tests

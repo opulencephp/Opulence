@@ -18,9 +18,9 @@ namespace Opulence\Authentication\Credentials;
 class Credential implements ICredential
 {
     /** @var string The type of credential this is */
-    protected $type = -1;
+    protected $type;
     /** @var array The mapping of value names to their values */
-    protected $values = [];
+    protected $values;
 
     /**
      * @param string $type The type of credential this is

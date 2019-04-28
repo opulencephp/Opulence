@@ -26,9 +26,9 @@ use Opulence\Sessions\ISession;
 abstract class CheckCsrfToken implements IMiddleware
 {
     /** @var CsrfTokenChecker The CSRF token checker */
-    protected $csrfTokenChecker = null;
+    protected $csrfTokenChecker;
     /** @var ISession The current session */
-    protected $session = null;
+    protected $session;
 
     /**
      * @param CsrfTokenChecker $csrfTokenChecker The CSRF token checker

@@ -40,11 +40,11 @@ class Encrypter implements IEncrypter
     /** @var string The byte length of generated HMACs */
     private static $hmacByteLength = 128;
     /** @var Secret The encryption secret that will be used to derive keys */
-    private $secret = null;
+    private $secret;
     /** @var string The encryption cipher */
     private $cipher = Ciphers::AES_256_CTR;
     /** @var IKeyDeriver The key deriver to use */
-    private $keyDeriver = null;
+    private $keyDeriver;
 
     /**
      * @param Secret $secret The encryption secret that will be used to derive keys

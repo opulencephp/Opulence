@@ -18,9 +18,9 @@ namespace Opulence\Framework\Console\Testing\PhpUnit;
 class CommandBuilder
 {
     /** @var IntegrationTestCase The integration test that created this */
-    protected $integrationTest = null;
+    protected $integrationTest;
     /** @var string The command name */
-    protected $commandName = null;
+    protected $commandName;
     /** @var array The list of arguments */
     protected $arguments = [];
     /** @var array The list of options */

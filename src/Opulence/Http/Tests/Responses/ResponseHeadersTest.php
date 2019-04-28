@@ -22,7 +22,7 @@ use Opulence\Http\Responses\ResponseHeaders;
 class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ResponseHeaders The headers to use in tests */
-    private $headers = null;
+    private $headers;
 
     /**
      * Sets up the tests

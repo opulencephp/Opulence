@@ -22,7 +22,7 @@ use Opulence\Authentication\Credentials\Authenticators\IAuthenticator;
 class AuthenticatorRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AuthenticatorRegistry The registry to use in tests */
-    private $registry = null;
+    private $registry;
 
     /**
      * Sets up the tests

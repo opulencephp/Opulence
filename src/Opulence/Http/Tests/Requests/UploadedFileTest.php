@@ -21,11 +21,11 @@ use Opulence\Http\Tests\Requests\Mocks\UploadedFile as MockUploadedFile;
 class UploadedFileTest extends \PHPUnit\Framework\TestCase
 {
     /** The uploaded file's filename */
-    const UPLOADED_FILE_FILENAME = '/files/UploadedFile.txt';
+    private const UPLOADED_FILE_FILENAME = '/files/UploadedFile.txt';
     /** The temporary file's filename */
-    const TEMP_FILENAME = '/files/TempFile.txt';
+    private const TEMP_FILENAME = '/files/TempFile.txt';
     /** @var MockUploadedFile The uploaded file to use in tests */
-    private $file = null;
+    private $file;
 
     /**
      * Tears down the class

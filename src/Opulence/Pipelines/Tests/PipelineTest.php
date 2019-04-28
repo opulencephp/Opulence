@@ -23,7 +23,7 @@ use Opulence\Pipelines\Tests\Mocks\Stage2;
 class PipelineTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Pipeline The pipeline to use in tests */
-    private $pipeline = null;
+    private $pipeline;
 
     /**
      * Sets up the tests

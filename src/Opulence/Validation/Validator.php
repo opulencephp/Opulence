@@ -22,11 +22,11 @@ use Opulence\Validation\Rules\Rules;
 class Validator implements IValidator
 {
     /** @var RulesFactory The rules factory */
-    protected $rulesFactory = null;
+    protected $rulesFactory;
     /** @var Rules[] The list of rules by field name */
     protected $rulesByField = [];
     /** @var ErrorCollection The error collection */
-    protected $errors = null;
+    protected $errors;
 
     /**
      * @param RulesFactory $rulesFactory The rules factory

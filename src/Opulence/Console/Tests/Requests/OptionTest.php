@@ -22,7 +22,7 @@ use Opulence\Console\Requests\OptionTypes;
 class OptionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Option The option to use in tests */
-    private $option = null;
+    private $option;
 
     /**
      * Sets up the tests

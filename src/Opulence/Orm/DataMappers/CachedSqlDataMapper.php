@@ -23,11 +23,11 @@ use Opulence\Orm\OrmException;
 abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
 {
     /** @var ICacheDataMapper The cache mapper to use for temporary storage */
-    protected $cacheDataMapper = null;
+    protected $cacheDataMapper;
     /** @var SqlDataMapper The SQL database data mapper to use for permanent storage */
-    protected $sqlDataMapper = null;
+    protected $sqlDataMapper;
     /** @var IIdAccessorRegistry The Id accessor registry */
-    protected $idAccessorRegistry = null;
+    protected $idAccessorRegistry;
     /** @var array The list of actions that are scheduled for committing */
     protected $scheduledActions = [];
 

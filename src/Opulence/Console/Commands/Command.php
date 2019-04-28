@@ -39,9 +39,9 @@ abstract class Command implements ICommand
     /** @var string The help text to be displayed in the help command */
     protected $helpText = '';
     /** @var CommandCollection The list of registered commands */
-    protected $commandCollection = null;
+    protected $commandCollection;
     /** @var bool Whether or not the base class' constructor was called */
-    private $constructorCalled = false;
+    private $constructorCalled;
 
     /**
      * To ensure that the command is properly instantiated, be sure to

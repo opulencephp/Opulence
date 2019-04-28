@@ -18,7 +18,7 @@ namespace Opulence\Cache;
 class FileBridge implements ICacheBridge
 {
     /** @var string The path to the files */
-    private $path = '';
+    private $path;
 
     /**
      * @param string $path The path to the files

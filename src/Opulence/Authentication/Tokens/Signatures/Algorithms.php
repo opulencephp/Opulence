@@ -20,17 +20,17 @@ use InvalidArgumentException;
 class Algorithms
 {
     /** The RSA SHA256 algorithm */
-    const RSA_SHA256 = 'RS256';
+    public const RSA_SHA256 = 'RS256';
     /** The RSA SHA384 algorithm */
-    const RSA_SHA384 = 'RS384';
+    public const RSA_SHA384 = 'RS384';
     /** The RSA SHA512 algorithm */
-    const RSA_SHA512 = 'RS512';
+    public const RSA_SHA512 = 'RS512';
     /** The SHA256 algorithm */
-    const SHA256 = 'HS256';
+    public const SHA256 = 'HS256';
     /** The SHA384 algorithm */
-    const SHA384 = 'HS384';
+    public const SHA384 = 'HS384';
     /** The SHA512 algorithm */
-    const SHA512 = 'HS512';
+    public const SHA512 = 'HS512';
 
     /**
      * Gets all the supported algorithms

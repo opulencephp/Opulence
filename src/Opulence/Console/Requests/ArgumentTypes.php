@@ -18,9 +18,9 @@ namespace Opulence\Console\Requests;
 class ArgumentTypes
 {
     /** The argument is required */
-    const REQUIRED = 1;
+    public const REQUIRED = 1;
     /** The argument is optional */
-    const OPTIONAL = 2;
+    public const OPTIONAL = 2;
     /** The argument is an array */
-    const IS_ARRAY = 4;
+    public const IS_ARRAY = 4;
 }

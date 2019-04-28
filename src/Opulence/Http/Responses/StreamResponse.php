@@ -20,7 +20,7 @@ use LogicException;
 class StreamResponse extends Response
 {
     /** @var callable The stream callback */
-    protected $streamCallback = null;
+    protected $streamCallback;
     /** @var bool Whether or not we've sent the stream */
     protected $hasSentStream = false;
 

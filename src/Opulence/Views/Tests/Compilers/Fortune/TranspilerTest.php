@@ -37,19 +37,19 @@ use RuntimeException;
 class TranspilerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Transpiler The transpiler to use in tests */
-    private $transpiler = null;
+    private $transpiler;
     /** @var ILexer|MockObject The lexer to use in tests */
-    private $lexer = null;
+    private $lexer;
     /** @var IParser|MockObject The parser to use in tests */
-    private $parser = null;
+    private $parser;
     /** @var AbstractSyntaxTree The AST to use in tests */
-    private $ast = null;
+    private $ast;
     /** @var ICache|MockObject The view cache to use in tests */
-    private $cache = null;
+    private $cache;
     /** @var IView|MockObject The view to use in tests */
-    private $view = null;
+    private $view;
     /** @var XssFilter The filter to use in tests */
-    private $xssFilter = null;
+    private $xssFilter;
 
     /**
      * Sets up the tests

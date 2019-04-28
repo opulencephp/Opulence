@@ -18,11 +18,11 @@ namespace Opulence\Authentication\Clients;
 class Client implements IClient
 {
     /** @var int|string The client Id */
-    private $id = -1;
+    private $id;
     /** @var string The client name */
-    private $name = '';
+    private $name;
     /** @var string The client secret */
-    private $secret = '';
+    private $secret;
 
     /**
      * @param int|string $id The client Id

@@ -22,11 +22,11 @@ class VerificationContext
     /** @var array The audience */
     private $audience = [];
     /** @var string|null The issuer */
-    private $issuer = null;
+    private $issuer;
     /** @var ISigner The signer */
-    private $signer = null;
+    private $signer;
     /** @var string|null The subject */
-    private $subject = null;
+    private $subject;
 
     /**
      * @param ISigner $signer The signer

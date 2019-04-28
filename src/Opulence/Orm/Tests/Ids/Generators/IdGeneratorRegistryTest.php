@@ -22,7 +22,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class IdGeneratorRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IdGeneratorRegistry The registry to use in tests */
-    private $registry = null;
+    private $registry;
 
     /**
      * Sets up the tests

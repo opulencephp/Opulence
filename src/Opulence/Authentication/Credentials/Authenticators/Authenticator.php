@@ -21,7 +21,7 @@ use Opulence\Authentication\ISubject;
 class Authenticator implements IAuthenticator
 {
     /** @var IAuthenticatorRegistry The authenticator registry */
-    protected $authenticatorRegistry = null;
+    protected $authenticatorRegistry;
 
     /**
      * @param IAuthenticatorRegistry $authenticatorRegistry The authenticator registry

@@ -21,7 +21,7 @@ use Opulence\Console\Responses\Compilers\ICompiler;
 class StreamResponse extends Response
 {
     /** @var resource The output stream */
-    protected $stream = null;
+    protected $stream;
 
     /**
      * @param resource $stream The stream to write to

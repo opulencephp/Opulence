@@ -25,9 +25,9 @@ class CommandCollection
     /** @var ICommand[] The list of commands */
     private $commands = [];
     /** @var ICompiler The command compiler */
-    private $commandCompiler = null;
+    private $commandCompiler;
     /** @var ArrayListParser The request parser */
-    private $requestParser = null;
+    private $requestParser;
 
     /**
      * @param ICompiler $commandCompiler The command compiler

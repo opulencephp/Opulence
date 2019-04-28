@@ -18,11 +18,11 @@ namespace Opulence\Console\Responses\Compilers\Lexers\Tokens;
 class Token
 {
     /** @var int The token type */
-    private $type = null;
+    private $type;
     /** @var mixed The value of the token */
-    private $value = null;
+    private $value;
     /** @var int The position of the token in the original text */
-    private $position = 0;
+    private $position;
 
     /**
      * @param string $type The token type

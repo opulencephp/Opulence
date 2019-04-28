@@ -21,9 +21,9 @@ use Opulence\QueryBuilders\Conditions\ICondition;
 class UpdateQuery extends Query
 {
     /** @var AugmentingQueryBuilder Handles functionality common to augmenting queries */
-    protected $augmentingQueryBuilder = null;
+    protected $augmentingQueryBuilder;
     /** @var ConditionalQueryBuilder Handles functionality common to conditional queries */
-    protected $conditionalQueryBuilder = null;
+    protected $conditionalQueryBuilder;
 
     /**
      * @param string $tableName The name of the table we're querying

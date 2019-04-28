@@ -18,7 +18,7 @@ namespace Opulence\Ioc\Tests\Mocks;
 class ConstructorWithInterface
 {
     /** @var IFoo The object passed into the constructor */
-    private $foo = null;
+    private $foo;
 
     /**
      * @param IFoo $foo The object to use

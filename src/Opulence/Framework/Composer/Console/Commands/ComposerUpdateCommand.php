@@ -22,7 +22,7 @@ use Opulence\Framework\Composer\Executable;
 class ComposerUpdateCommand extends Command
 {
     /** @var Executable The executable wrapper */
-    private $executable = null;
+    private $executable;
 
     /**
      * @param Executable $executable The Composer executable

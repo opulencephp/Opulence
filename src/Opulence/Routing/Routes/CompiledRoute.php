@@ -18,9 +18,9 @@ namespace Opulence\Routing\Routes;
 class CompiledRoute extends ParsedRoute
 {
     /** @var bool Whether or not this route is a match */
-    private $isMatch = false;
+    private $isMatch;
     /** @var array The mapping of path variable names to values */
-    private $pathVars = [];
+    private $pathVars;
 
     /**
      * @param ParsedRoute $parsedRoute The parsed route that was compiled

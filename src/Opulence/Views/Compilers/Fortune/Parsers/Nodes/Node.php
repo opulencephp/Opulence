@@ -18,9 +18,9 @@ namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 abstract class Node
 {
     /** @var mixed|null The value of the node */
-    protected $value = null;
+    protected $value;
     /** @var Node|null The parent node */
-    protected $parent = null;
+    protected $parent;
     /** @var Node[] The child nodes */
     protected $children = [];
 

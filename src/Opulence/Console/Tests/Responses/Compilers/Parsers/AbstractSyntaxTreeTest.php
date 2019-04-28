@@ -22,7 +22,7 @@ use Opulence\Console\Tests\Responses\Compilers\Parsers\Nodes\Mocks\Node;
 class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AbstractSyntaxTree The tree to use in tests */
-    private $tree = null;
+    private $tree;
 
     /**
      * Sets up the tests

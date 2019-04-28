@@ -20,7 +20,7 @@ use Opulence\Authorization\Permissions\PermissionRegistry;
 class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PermissionRegistry The registry to use in tests */
-    private $registry = null;
+    private $registry;
 
     /**
      * Sets up the tests

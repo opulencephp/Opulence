@@ -22,7 +22,7 @@ use Opulence\Sessions\ISession;
 class CsrfTokenChecker
 {
     /** The token input name */
-    const TOKEN_INPUT_NAME = '__OPULENCE_CSRF_TOKEN';
+    public const TOKEN_INPUT_NAME = '__OPULENCE_CSRF_TOKEN';
 
     /**
      * Checks if the token is valid

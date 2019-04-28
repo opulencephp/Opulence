@@ -23,9 +23,9 @@ class FileSessionHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var string The path to the temporary session files */
     private static $path = 'tmp';
     /** @var FileSessionHandler The handler to test */
-    private $handler = null;
+    private $handler;
     /** @var FileSystem The file system to use in tests */
-    private $fileSystem = null;
+    private $fileSystem;
 
     /**
      * Does some setup before any tests

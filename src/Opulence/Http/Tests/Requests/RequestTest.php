@@ -37,7 +37,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /** @var array A clone of the $_POST array, which we can use to restore original values */
     private static $postClone = [];
     /** @var Request The request to use in tests */
-    private $request = null;
+    private $request;
 
     /**
      * Sets up all of the tests

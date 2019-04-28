@@ -20,9 +20,9 @@ use Exception;
 class HttpException extends Exception
 {
     /** @var int The HTTP status code */
-    private $statusCode = 200;
+    private $statusCode;
     /** @var array The list of headers to include */
-    private $headers = [];
+    private $headers;
 
     /**
      * @inheritdoc

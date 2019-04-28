@@ -18,13 +18,13 @@ namespace Opulence\Environments;
 class Environment
 {
     /** The production environment */
-    const PRODUCTION = 'production';
+    public const PRODUCTION = 'production';
     /** The staging environment */
-    const STAGING = 'staging';
+    public const STAGING = 'staging';
     /** The testing environment */
-    const TESTING = 'testing';
+    public const TESTING = 'testing';
     /** The development environment */
-    const DEVELOPMENT = 'development';
+    public const DEVELOPMENT = 'development';
 
     /**
      * Gets the value of an environment variable

@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 class ViewAssertions extends TestCase
 {
     /** @var Controller|mixed The matched controller */
-    protected $controller = null;
+    protected $controller;
 
     /**
      * Asserts that the view has a variable

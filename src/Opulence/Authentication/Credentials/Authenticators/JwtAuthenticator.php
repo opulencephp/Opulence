@@ -28,11 +28,11 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContex
 class JwtAuthenticator implements IAuthenticator
 {
     /** @var JwtVerifier The JWT verifier */
-    protected $jwtVerifier = null;
+    protected $jwtVerifier;
     /** @var VerificationContext The verification context to use */
-    protected $verificationContext = null;
+    protected $verificationContext;
     /** @var SignedJwt|null The signed JWT generated from authentication */
-    protected $signedJwt = null;
+    protected $signedJwt;
 
     /**
      * @param JwtVerifier $jwtVerifier The JWT verifier

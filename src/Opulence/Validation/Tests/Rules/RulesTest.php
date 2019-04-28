@@ -30,13 +30,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 class RulesTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Rules The rules to use in the tests */
-    private $rules = null;
+    private $rules;
     /** @var RuleExtensionRegistry|MockObject The rule extension registry */
-    private $ruleExtensionRegistry = null;
+    private $ruleExtensionRegistry;
     /** @var ErrorTemplateRegistry|MockObject The error template registry */
-    private $errorTemplateRegistry = null;
+    private $errorTemplateRegistry;
     /** @var ICompiler|MockObject The error template compiler */
-    private $errorTemplateCompiler = null;
+    private $errorTemplateCompiler;
 
     /**
      * Sets up the tests

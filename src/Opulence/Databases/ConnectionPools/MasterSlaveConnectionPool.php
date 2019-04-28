@@ -29,7 +29,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
         'custom' => []
     ];
     /** @var IServerSelectionStrategy The slave selection strategy */
-    protected $slaveSelectionStrategy = null;
+    protected $slaveSelectionStrategy;
 
     /**
      * @inheritdoc

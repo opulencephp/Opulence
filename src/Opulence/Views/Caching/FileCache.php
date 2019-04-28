@@ -23,9 +23,9 @@ use RecursiveIteratorIterator;
 class FileCache implements ICache
 {
     /** @var string The path to store the cached views at */
-    private $path = null;
+    private $path;
     /** @var int The number of seconds cached views should live */
-    private $lifetime = self::DEFAULT_LIFETIME;
+    private $lifetime;
     /** @var int The chance (out of the total) that garbage collection will be run */
     private $gcChance = self::DEFAULT_GC_CHANCE;
     /** @var int The number the chance will be divided by to calculate the probability */

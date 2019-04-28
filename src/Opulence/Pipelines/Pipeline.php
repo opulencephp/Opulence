@@ -20,13 +20,13 @@ use Closure;
 class Pipeline implements IPipeline
 {
     /** @var mixed The input to send through the pipeline */
-    private $input = null;
+    private $input;
     /** @var array The list of stages to send input through */
     private $stages = [];
     /** @var string The method to call if the stages are not closures */
-    private $methodToCall = null;
+    private $methodToCall;
     /** @var callable The callback to execute at the end */
-    private $callback = null;
+    private $callback;
 
     /**
      * @inheritdoc

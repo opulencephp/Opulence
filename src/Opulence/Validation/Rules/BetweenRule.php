@@ -21,9 +21,9 @@ use LogicException;
 class BetweenRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
 {
     /** @var int|float The minimum */
-    protected $min = null;
+    protected $min;
     /** @var int|float The maximum */
-    protected $max = null;
+    protected $max;
     /** @var bool Whether or not the extremes are inclusive */
     protected $isInclusive = true;
 

@@ -31,7 +31,7 @@ class Route
     /** @var string The name of the controller method this route calls */
     protected $controllerMethod = '';
     /** @var string|callable|null The controller/method or closure to be used as a controller */
-    protected $controller = null;
+    protected $controller;
     /** @var string The name of this route, if it is a named route */
     protected $name = '';
     /** @var bool Whether or not this route only matches HTTPS requests */

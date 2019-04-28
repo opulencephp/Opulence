@@ -20,7 +20,7 @@ use Opulence\Console\Responses\SilentResponse;
 class SilentResponseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SilentResponse The response to use in tests */
-    private $response = null;
+    private $response;
 
     /**
      * Sets up the tests

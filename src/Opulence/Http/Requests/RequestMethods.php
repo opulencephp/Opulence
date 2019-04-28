@@ -18,23 +18,23 @@ namespace Opulence\Http\Requests;
 class RequestMethods
 {
     /** The delete method */
-    const DELETE = 'DELETE';
+    public const DELETE = 'DELETE';
     /** The get method */
-    const GET = 'GET';
+    public const GET = 'GET';
     /** The post method */
-    const POST = 'POST';
+    public const POST = 'POST';
     /** The put method */
-    const PUT = 'PUT';
+    public const PUT = 'PUT';
     /** The head method */
-    const HEAD = 'HEAD';
+    public const HEAD = 'HEAD';
     /** The trace method */
-    const TRACE = 'TRACE';
+    public const TRACE = 'TRACE';
     /** The purge method */
-    const PURGE = 'PURGE';
+    public const PURGE = 'PURGE';
     /** The connect method */
-    const CONNECT = 'CONNECT';
+    public const CONNECT = 'CONNECT';
     /** The patch method */
-    const PATCH = 'PATCH';
+    public const PATCH = 'PATCH';
     /** The options method */
-    const OPTIONS = 'OPTIONS';
+    public const OPTIONS = 'OPTIONS';
 }

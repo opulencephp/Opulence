@@ -25,11 +25,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class NotBeforeVerifierTest extends \PHPUnit\Framework\TestCase
 {
     /** @var NotBeforeVerifier The verifier to use in tests */
-    private $verifier = null;
+    private $verifier;
     /** @var SignedJwt|MockObject The token to use in tests */
-    private $jwt = null;
+    private $jwt;
     /** @var JwtPayload|MockObject The payload to use in tests */
-    private $jwtPayload = null;
+    private $jwtPayload;
 
     /**
      * Sets up the tests

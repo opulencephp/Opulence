@@ -20,11 +20,11 @@ use Opulence\Views\IView;
 interface ICache
 {
     /** The default lifetime of a cached view */
-    const DEFAULT_LIFETIME = 3600;
+    public const DEFAULT_LIFETIME = 3600;
     /** The default chance that garbage collection will be run in this instance */
-    const DEFAULT_GC_CHANCE = 1;
+    public const DEFAULT_GC_CHANCE = 1;
     /** The default number the chance will be divided by to calculate the probability */
-    const DEFAULT_GC_DIVISOR = 1000;
+    public const DEFAULT_GC_DIVISOR = 1000;
 
     /**
      * Flushes all of the compiled views from cache

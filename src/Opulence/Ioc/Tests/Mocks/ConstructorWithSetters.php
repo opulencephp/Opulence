@@ -20,9 +20,9 @@ class ConstructorWithSetters
     /** @var string A primitive */
     private $primitive = '';
     /** @var IFoo An interface dependency */
-    private $interface = null;
+    private $interface;
     /** @var Bar A concrete dependency */
-    private $concrete = null;
+    private $concrete;
 
     /**
      * @return Bar

@@ -32,11 +32,11 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
     /** @var string The name of the table to read and write to */
     protected $tableName = '';
     /** @var IConnection The database connection */
-    protected $connection = null;
+    protected $connection;
     /** @var BaseQueryBuilder The query builder */
-    protected $queryBuilder = null;
+    protected $queryBuilder;
     /** @var TypeMapperFactory The type mapper factory */
-    protected $typeMapperFactory = null;
+    protected $typeMapperFactory;
 
     /**
      * @param string $tableName The name of the table to read and write to

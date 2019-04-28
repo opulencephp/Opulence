@@ -18,11 +18,11 @@ namespace Opulence\Validation\Tests\Rules\Models\Mocks;
 class User
 {
     /** @var int The user's database Id */
-    private $id = -1;
+    private $id;
     /** @var string The user's name */
-    private $name = '';
+    private $name;
     /** @var string The user's email */
-    private $email = '';
+    private $email;
 
     /**
      * @param int $id The user's database Id

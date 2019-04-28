@@ -30,11 +30,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MockRenderer The renderer to use in tests */
-    private $renderer = null;
+    private $renderer;
     /** @var IViewFactory|MockObject The view factory to use in tests */
-    private $viewFactory = null;
+    private $viewFactory;
     /** @var ICompiler|MockObject The view compiler to use in tests */
-    private $viewCompiler = null;
+    private $viewCompiler;
 
     /**
      * Sets up the tests

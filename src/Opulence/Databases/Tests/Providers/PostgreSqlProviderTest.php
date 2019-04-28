@@ -20,7 +20,7 @@ use Opulence\Databases\Providers\PostgreSqlProvider;
 class PostgreSqlProviderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PostgreSqlProvider The provider to use for tests */
-    private $provider = null;
+    private $provider;
 
     /**
      * Sets up the tests

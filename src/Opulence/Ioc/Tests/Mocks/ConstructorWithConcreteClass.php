@@ -18,7 +18,7 @@ namespace Opulence\Ioc\Tests\Mocks;
 class ConstructorWithConcreteClass
 {
     /** @var Bar The object passed into the constructor */
-    private $foo = null;
+    private $foo;
 
     /**
      * @param Bar $foo The object to use

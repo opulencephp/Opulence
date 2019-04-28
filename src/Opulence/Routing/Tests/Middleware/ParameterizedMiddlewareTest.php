@@ -21,7 +21,7 @@ use Opulence\Routing\Tests\Middleware\Mocks\ParameterizedMiddleware as Parameter
 class ParameterizedMiddlewareTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ParameterizedMiddlewareMock The middleware to use in tests */
-    private $middleware = null;
+    private $middleware;
 
     /**
      * Sets up the tests

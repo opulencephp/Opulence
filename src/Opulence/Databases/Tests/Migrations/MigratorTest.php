@@ -25,11 +25,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class MigratorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IConnection|MockObject The database connection the migrator uses */
-    private $connection = null;
+    private $connection;
     /** @var IMigrationResolver|MockObject The migration resolver */
-    private $migrationResolver = null;
+    private $migrationResolver;
     /** @var IExecutedMigrationRepository|MockObject The executed migration repository */
-    private $executedMigrations = null;
+    private $executedMigrations;
 
     /**
      * Sets up the tests

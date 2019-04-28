@@ -49,33 +49,33 @@ class Request
     /** @var array The client's IP addresses */
     private $clientIPAddresses = [];
     /** @var Collection The list of GET parameters */
-    private $query = null;
+    private $query;
     /** @var Collection The list of POST parameters */
-    private $post = null;
+    private $post;
     /** @var Collection The list of PUT parameters */
-    private $put = null;
+    private $put;
     /** @var Collection The list of PATCH parameters */
-    private $patch = null;
+    private $patch;
     /** @var Collection The list of DELETE parameters */
-    private $delete = null;
+    private $delete;
     /** @var RequestHeaders The list of headers */
-    private $headers = null;
+    private $headers;
     /** @var Collection The list of SERVER parameters */
-    private $server = null;
+    private $server;
     /** @var Collection The list of FILES parameters */
-    private $files = null;
+    private $files;
     /** @var Collection The list of ENV parameters */
-    private $env = null;
+    private $env;
     /** @var Collection The list of cookies */
-    private $cookies = null;
+    private $cookies;
     /** @var string The path of the request, which does not include the query string */
     private $path = '';
     /** @var string The previous URL */
     private $previousUrl = '';
     /** @var string The raw body of the request */
-    private $rawBody = null;
+    private $rawBody;
     /** @var Collection The original collection if we're faking the method via a form input value */
-    private $originalMethodCollection = null;
+    private $originalMethodCollection;
 
     /**
      * @param array $query The GET parameters

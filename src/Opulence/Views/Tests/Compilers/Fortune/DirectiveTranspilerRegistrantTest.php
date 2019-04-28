@@ -27,11 +27,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
 {
     /** @var DirectiveTranspilerRegistrant The registrant to use in tests */
-    private $registrant = null;
+    private $registrant;
     /** @var Transpiler The transpiler to use in tests */
-    private $transpiler = null;
+    private $transpiler;
     /** @var View The view to use in tests */
-    private $view = null;
+    private $view;
 
     /**
      * Sets up the tests

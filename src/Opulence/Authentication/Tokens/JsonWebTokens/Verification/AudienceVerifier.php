@@ -20,7 +20,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 class AudienceVerifier implements IVerifier
 {
     /** @var array The audience */
-    private $audience = [];
+    private $audience;
 
     /**
      * @param string|array $audience The audience

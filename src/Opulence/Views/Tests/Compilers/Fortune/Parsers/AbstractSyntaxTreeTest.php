@@ -23,7 +23,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AbstractSyntaxTree The tree to use in tests */
-    private $tree = null;
+    private $tree;
 
     /**
      * Sets up the tests

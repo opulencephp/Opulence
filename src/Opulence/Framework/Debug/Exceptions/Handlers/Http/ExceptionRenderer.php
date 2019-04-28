@@ -28,13 +28,13 @@ use Throwable;
 class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
 {
     /** @var Request The current HTTP request */
-    protected $request = null;
+    protected $request;
     /** @var Response The last HTTP response */
-    protected $response = null;
+    protected $response;
     /** @var ICompiler|null The view compiler */
-    protected $viewCompiler = null;
+    protected $viewCompiler;
     /** @var IViewFactory|null The view factory */
-    protected $viewFactory = null;
+    protected $viewFactory;
 
     /**
      * @inheritdoc

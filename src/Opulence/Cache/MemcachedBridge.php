@@ -20,7 +20,7 @@ use Opulence\Memcached\Memcached;
 class MemcachedBridge implements ICacheBridge
 {
     /** @var Memcached The Memcached driver */
-    protected $memcached = null;
+    protected $memcached;
     /** @var string The name of the client to connect to */
     protected $clientName = 'default';
     /** @var string The prefix to use on all keys */

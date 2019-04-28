@@ -18,9 +18,9 @@ namespace Opulence\Ioc\Tests\Mocks;
 class ConstructorWithInterfaceAndSetters
 {
     /** @var IFoo A dependency */
-    private $constructorDependency = null;
+    private $constructorDependency;
     /** @var IPerson A dependency */
-    private $setterDependency = null;
+    private $setterDependency;
 
     public function __construct(IFoo $foo)
     {

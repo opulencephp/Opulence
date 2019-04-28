@@ -21,7 +21,7 @@ use LogicException;
 class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
 {
     /** @var string The name of the field to compare to */
-    protected $fieldName = null;
+    protected $fieldName;
 
     /**
      * @inheritdoc

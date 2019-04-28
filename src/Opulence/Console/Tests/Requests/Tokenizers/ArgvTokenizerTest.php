@@ -20,7 +20,7 @@ use Opulence\Console\Requests\Tokenizers\ArgvTokenizer;
 class ArgvTokenizerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArgvTokenizer The tokenizer to use in tests */
-    private $tokenizer = null;
+    private $tokenizer;
 
     /**
      * Sets up the tests

@@ -24,13 +24,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 class SynchronousEventDispatcherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SynchronousEventDispatcher The dispatcher to use in tests */
-    private $dispatcher = null;
+    private $dispatcher;
     /** @var IEventRegistry|MockObject The event registry to use in tests */
-    private $eventRegistry = null;
+    private $eventRegistry;
     /** @var Event The event to use in tests */
-    private $event = null;
+    private $event;
     /** @var Listener|MockObject The mock listener to use in tests */
-    private $listener = null;
+    private $listener;
 
     /**
      * Sets up the tests

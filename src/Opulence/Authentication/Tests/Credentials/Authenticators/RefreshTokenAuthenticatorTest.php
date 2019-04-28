@@ -34,13 +34,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RefreshTokenAuthenticator The authenticator to use in tests */
-    private $authenticator = null;
+    private $authenticator;
     /** @var JwtVerifier|MockObject The JWT verifier to use in tests */
-    private $jwtVerifier = null;
+    private $jwtVerifier;
     /** @var ICredential|MockObject The credential to use in tests */
-    private $credential = null;
+    private $credential;
     /** @var IJwtRepository|MockObject The refresh token repository */
-    private $refreshTokenRepository = null;
+    private $refreshTokenRepository;
 
     /**
      * Sets up the tests

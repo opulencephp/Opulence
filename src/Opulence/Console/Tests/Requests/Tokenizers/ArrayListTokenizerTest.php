@@ -21,7 +21,7 @@ use RuntimeException;
 class ArrayListTokenizerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayListTokenizer The tokenizer to use in tests */
-    private $tokenizer = null;
+    private $tokenizer;
 
     /**
      * Sets up the tests

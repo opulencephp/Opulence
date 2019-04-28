@@ -20,9 +20,9 @@ use Opulence\Authentication\Tokens\IUnsignedToken;
 class UnsignedJwt implements IUnsignedToken
 {
     /** @var JwtHeader The header */
-    protected $header = null;
+    protected $header;
     /** @var JwtPayload The payload */
-    protected $payload = null;
+    protected $payload;
 
     /**
      * @param JwtHeader $header The header

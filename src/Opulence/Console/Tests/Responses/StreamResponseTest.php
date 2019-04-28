@@ -24,9 +24,9 @@ use Opulence\Console\Responses\StreamResponse;
 class StreamResponseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var StreamResponse The response to use in tests */
-    private $response = null;
+    private $response;
     /** @var Compiler The compiler to use in tests */
-    private $compiler = null;
+    private $compiler;
 
     /**
      * Sets up the tests

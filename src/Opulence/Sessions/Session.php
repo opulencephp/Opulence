@@ -22,16 +22,16 @@ use Opulence\Sessions\Ids\Generators\IIdGenerator;
 class Session implements ISession
 {
     /** The key for new flash keys */
-    const NEW_FLASH_KEYS_KEY = '__OPULENCE_NEW_FLASH_KEYS';
+    public const NEW_FLASH_KEYS_KEY = '__OPULENCE_NEW_FLASH_KEYS';
     /** The key for stale flash keys */
-    const STALE_FLASH_KEYS_KEY = '__OPULENCE_STALE_FLASH_KEYS';
+    public const STALE_FLASH_KEYS_KEY = '__OPULENCE_STALE_FLASH_KEYS';
 
     /** @var int|string The session Id */
     private $id = '';
     /** @var string The session name */
     private $name = '';
     /** @var IIdGenerator The Id generator to use */
-    private $idGenerator = null;
+    private $idGenerator;
     /** @var array The mapping of variable names to values */
     private $vars = [];
     /** @var bool Whether or not the session has started */

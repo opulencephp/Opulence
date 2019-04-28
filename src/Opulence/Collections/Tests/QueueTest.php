@@ -20,7 +20,7 @@ use Opulence\Collections\Queue;
 class QueueTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Queue The queue to use in tests */
-    private $queue = null;
+    private $queue;
 
     /**
      * Sets up the tests

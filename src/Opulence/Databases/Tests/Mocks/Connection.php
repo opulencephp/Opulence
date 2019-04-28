@@ -24,9 +24,9 @@ use PDO;
 class Connection implements IConnection
 {
     /** @var Provider The provider used by this connection */
-    private $provider = null;
+    private $provider;
     /** @var RealServer The server to connect to */
-    private $server = null;
+    private $server;
     /** @var bool Whether or not we're in a transaction */
     private $inTransaction = false;
     /** @var array The mapping of sequence names to last insert Ids */

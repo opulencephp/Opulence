@@ -20,7 +20,7 @@ use Opulence\Http\Collection;
 class CollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Collection The parameters to use in tests */
-    private $parameters = null;
+    private $parameters;
 
     /**
      * Sets up the tests

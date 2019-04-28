@@ -36,11 +36,11 @@ use Throwable;
 class Kernel
 {
     /** @var IParser The request parser to use */
-    private $requestParser = null;
+    private $requestParser;
     /** @var ICommandCompiler The command compiler to use */
-    private $commandCompiler = null;
+    private $commandCompiler;
     /** @var CommandCollection The list of commands to choose from */
-    private $commandCollection = null;
+    private $commandCollection;
 
     /**
      * @param IParser $requestParser The request parser to use

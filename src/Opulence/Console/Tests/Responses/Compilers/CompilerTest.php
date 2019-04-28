@@ -24,7 +24,7 @@ use RuntimeException;
 class CompilerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Compiler The compiler to use in tests */
-    private $compiler = null;
+    private $compiler;
 
     /**
      * Sets up the tests

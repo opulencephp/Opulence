@@ -26,7 +26,7 @@ class ImmutableHashTable implements IImmutableDictionary
     /** @var KeyValuePair[] The list of values */
     protected $hashKeysToKvps = [];
     /** @var KeyHasher The key hasher to use */
-    private $keyHasher = null;
+    private $keyHasher;
 
     /**
      * @param KeyValuePair[] $kvps The list of values to add

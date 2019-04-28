@@ -18,9 +18,9 @@ namespace Opulence\Collections;
 class KeyValuePair
 {
     /** @var mixed The key */
-    private $key = null;
+    private $key;
     /** @var mixed The value */
-    private $value = null;
+    private $value;
 
     /**
      * @param mixed $key The key

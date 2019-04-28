@@ -25,9 +25,9 @@ use RuntimeException;
 class Prompt
 {
     /** @var PaddingFormatter The space padding formatter to use */
-    private $paddingFormatter = null;
+    private $paddingFormatter;
     /** @var resource The input stream to look for answers in */
-    private $inputStream = null;
+    private $inputStream;
 
     /***
      * @param PaddingFormatter $paddingFormatter The space padding formatter to use

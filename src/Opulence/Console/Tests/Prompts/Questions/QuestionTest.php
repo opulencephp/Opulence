@@ -20,7 +20,7 @@ use Opulence\Console\Prompts\Questions\Question;
 class QuestionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Question The question to use in tests */
-    private $question = null;
+    private $question;
 
     /**
      * Sets up the tests

@@ -33,9 +33,9 @@ use ReflectionParameter;
 class RouteDispatcher implements IRouteDispatcher
 {
     /** @var IDependencyResolver The dependency resolver */
-    private $dependencyResolver = null;
+    private $dependencyResolver;
     /** @var IMiddlewarePipeline The middleware pipeline */
-    private $middlewarePipeline = null;
+    private $middlewarePipeline;
 
     /**
      * @param IDependencyResolver $dependencyResolver The dependency resolver

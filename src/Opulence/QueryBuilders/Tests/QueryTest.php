@@ -22,7 +22,7 @@ use PDO;
 class QueryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Query The query object stub */
-    private $query = null;
+    private $query;
 
     /**
      * Sets up the test

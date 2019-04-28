@@ -33,13 +33,13 @@ use RuntimeException;
 class Transpiler implements ITranspiler
 {
     /** @var ILexer The view lexer */
-    protected $lexer = null;
+    protected $lexer;
     /** @var IParser The view parser */
-    protected $parser = null;
+    protected $parser;
     /** @var ICache The transpiled view cache */
-    protected $cache = null;
+    protected $cache;
     /** @var XssFilter The XSS filter to use to sanitize text */
-    protected $xssFilter = null;
+    protected $xssFilter;
     /** @var callable[] The mapping of directive names to their transpilers */
     protected $directiveTranspilers = [];
     /** @var callable[] The mapping of view function names to their definitions */

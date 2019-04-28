@@ -21,9 +21,9 @@ use Opulence\Http\HttpException;
 class HttpExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var HttpException The exception to use in tests */
-    private $exception = null;
+    private $exception;
     /** @var Exception The previous exception */
-    private $previousException = null;
+    private $previousException;
 
     /**
      * Sets up the tests

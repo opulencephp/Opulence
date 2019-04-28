@@ -21,11 +21,11 @@ use RuntimeException;
 class RsaSsaPkcsSigner implements ISigner
 {
     /** @var string The algorithm to use */
-    private $algorithm = Algorithms::SHA256;
+    private $algorithm;
     /** @var string|resource The public key */
-    private $publicKey = null;
+    private $publicKey;
     /** @var string|resource The private key */
-    private $privateKey = null;
+    private $privateKey;
 
     /**
      * @param string $algorithm The algorithm to use

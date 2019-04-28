@@ -40,11 +40,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RouteDispatcher The dispatcher to use in tests */
-    private $dispatcher = null;
+    private $dispatcher;
     /** @var Request The request to use in tests */
-    private $request = null;
+    private $request;
     /** @var IDependencyResolver|MockObject The dependency resolver to use in tests */
-    private $dependencyResolver = null;
+    private $dependencyResolver;
 
     /**
      * Sets up the tests

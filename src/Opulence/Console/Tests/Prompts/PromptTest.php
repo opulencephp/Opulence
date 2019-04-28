@@ -28,9 +28,9 @@ use Opulence\Console\Tests\Responses\Mocks\Response;
 class PromptTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Response The response to use in tests */
-    private $response = null;
+    private $response;
     /** @var PaddingFormatter The space padding formatter to use in tests */
-    private $paddingFormatter = null;
+    private $paddingFormatter;
 
     /**
      * Sets up the tests

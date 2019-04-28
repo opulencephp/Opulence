@@ -20,7 +20,7 @@ use InvalidArgumentException;
 class EqualsRule implements IRuleWithArgs
 {
     /** @var mixed The value to compare against */
-    protected $value = null;
+    protected $value;
 
     /**
      * @inheritdoc

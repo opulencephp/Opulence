@@ -32,13 +32,13 @@ use Throwable;
 class Kernel
 {
     /** @var IContainer The dependency injection container */
-    private $container = null;
+    private $container;
     /** @var Router The router to use for requests */
-    private $router = null;
+    private $router;
     /** @var IExceptionHandler The exception handler used by the kernel */
-    private $exceptionHandler = null;
+    private $exceptionHandler;
     /** @var IExceptionRenderer The exception renderer used by the kernel */
-    private $exceptionRenderer = null;
+    private $exceptionRenderer;
     /** @var array The list of global middleware */
     private $middleware = [];
     /** @var bool Whether or not all middleware are disabled */

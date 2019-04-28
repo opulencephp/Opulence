@@ -25,9 +25,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ContainerMigrationResolverTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ContainerMigrationResolver The migration resolver to use in tests */
-    private $migrationResolver = null;
+    private $migrationResolver;
     /** @var IContainer|MockObject The IoC container to use in tests */
-    private $container = null;
+    private $container;
 
     /**
      * Sets up tests

@@ -23,7 +23,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SingleServerSelectionStrategy The strategy to use in tests */
-    private $strategy = null;
+    private $strategy;
 
     /**
      * Sets up the tests

@@ -25,9 +25,9 @@ use stdClass;
 class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ViewAssertions The assertions to use in tests */
-    private $assertions = null;
+    private $assertions;
     /** @var IView|MockObject The view to use in tests */
-    private $mockView = null;
+    private $mockView;
 
     /**
      * Sets up the tests

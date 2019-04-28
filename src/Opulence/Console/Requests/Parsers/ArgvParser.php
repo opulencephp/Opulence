@@ -22,7 +22,7 @@ use Opulence\Console\Requests\Tokenizers\ArgvTokenizer;
 class ArgvParser extends Parser
 {
     /** @var ArgvTokenizer The tokenizer to use */
-    private $tokenizer = null;
+    private $tokenizer;
 
     public function __construct()
     {

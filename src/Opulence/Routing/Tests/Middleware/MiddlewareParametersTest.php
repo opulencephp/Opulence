@@ -20,7 +20,7 @@ use Opulence\Routing\Middleware\MiddlewareParameters;
 class MiddlewareParametersTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MiddlewareParameters The parameters to use in tests */
-    private $parameters = null;
+    private $parameters;
 
     /**
      * Sets up the tests

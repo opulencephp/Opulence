@@ -20,7 +20,7 @@ use Opulence\Authentication\Principal;
 class PrincipalTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Principal The principal to use in tests */
-    private $principal = null;
+    private $principal;
 
     /**
      * Sets up the tests

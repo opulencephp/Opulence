@@ -23,7 +23,7 @@ use Opulence\Console\Responses\IResponse;
 class SinglePromptCommand extends Command
 {
     /** @var Prompt The prompt to use */
-    private $prompt = null;
+    private $prompt;
 
     /**
      * @param Prompt $prompt The prompt to use

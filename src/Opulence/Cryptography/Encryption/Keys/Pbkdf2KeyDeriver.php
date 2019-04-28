@@ -20,7 +20,7 @@ use InvalidArgumentException;
 class Pbkdf2KeyDeriver implements IKeyDeriver
 {
     /** The number of iterations to perform when deriving a key */
-    const PBKDF2_NUM_ITERATIONS = 25000;
+    private const PBKDF2_NUM_ITERATIONS = 25000;
     /** @var int The number of iterations to perform */
     private $numIterations = self::PBKDF2_NUM_ITERATIONS;
 

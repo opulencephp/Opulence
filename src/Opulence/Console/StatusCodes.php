@@ -18,11 +18,11 @@ namespace Opulence\Console;
 class StatusCodes
 {
     /** Everything executed successfully */
-    const OK = 0;
+    public const OK = 0;
     /** There was a warning */
-    const WARNING = 1;
+    public const WARNING = 1;
     /** There was a non-fatal error */
-    const ERROR = 2;
+    public const ERROR = 2;
     /** The application crashed */
-    const FATAL = 3;
+    public const FATAL = 3;
 }

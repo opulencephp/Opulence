@@ -21,7 +21,7 @@ use LogicException;
 class CallbackRule implements IRuleWithArgs
 {
     /** @var callable The callback to run */
-    protected $callback = null;
+    protected $callback;
 
     /**
      * @inheritdoc

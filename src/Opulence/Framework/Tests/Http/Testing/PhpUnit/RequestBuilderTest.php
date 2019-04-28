@@ -25,7 +25,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class RequestBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IntegrationTestCase|MockObject The integration test to use in tests */
-    private $integrationTest = null;
+    private $integrationTest;
 
     /**
      * Sets up the tests

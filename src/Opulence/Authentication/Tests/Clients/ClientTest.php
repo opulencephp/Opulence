@@ -20,7 +20,7 @@ use Opulence\Authentication\Clients\Client;
 class ClientTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Client The client to use in tests */
-    private $client = null;
+    private $client;
 
     /**
      * Sets up the tests

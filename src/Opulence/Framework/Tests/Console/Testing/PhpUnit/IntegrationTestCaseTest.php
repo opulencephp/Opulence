@@ -30,7 +30,7 @@ use Opulence\Framework\Tests\Console\Testing\PhpUnit\Mocks\IntegrationTestCase a
 class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MockIntegrationTestCase The console integration test to use in tests */
-    private $testCase = null;
+    private $testCase;
 
     /**
      * Sets up the tests

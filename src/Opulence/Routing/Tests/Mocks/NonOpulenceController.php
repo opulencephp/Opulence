@@ -21,7 +21,7 @@ use Opulence\Http\Responses\Response;
 class NonOpulenceController
 {
     /** @var Request The HTTP request */
-    private $request = null;
+    private $request;
 
     /**
      * @param Request $request The HTTP request

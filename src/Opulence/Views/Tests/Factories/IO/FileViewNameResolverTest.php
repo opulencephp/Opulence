@@ -21,7 +21,7 @@ use Opulence\Views\Factories\IO\FileViewNameResolver;
 class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FileViewNameResolver The resolver to use in tests */
-    private $resolver = null;
+    private $resolver;
 
     /**
      * Sets up files before any of the tests are run

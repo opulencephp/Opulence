@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FileInspectionBindingCacheTest extends TestCase
 {
-    /** @const string The path to the cache */
+    /** string The path to the cache */
     private const FILE_PATH = __DIR__ . '/tmp/cache.txt';
     /** @var FileInspectionBindingCache */
     private $cache;

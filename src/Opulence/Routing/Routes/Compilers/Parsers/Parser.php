@@ -27,7 +27,7 @@ class Parser implements IParser
      *
      * @internal
      */
-    const VARIABLE_MAXIMUM_LENGTH = 32;
+    public const VARIABLE_MAXIMUM_LENGTH = 32;
     /** @var string The variable matching regex */
     private static $variableMatchingRegex = '#:([a-zA-Z_][a-zA-Z0-9_]*)(?:=([^:\[\]/]+))?#';
     /** @var int The cursor of the currently parsed route */

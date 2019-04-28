@@ -22,7 +22,7 @@ use Opulence\Collections\Tests\Mocks\UnserializableObject;
 class KeyHasherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var KeyHasher The hasher to use in tests */
-    private $keyHasher = null;
+    private $keyHasher;
 
     /**
      * Sets up the tests

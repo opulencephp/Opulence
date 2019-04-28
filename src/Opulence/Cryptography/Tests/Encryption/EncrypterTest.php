@@ -24,9 +24,9 @@ use Opulence\Cryptography\Encryption\Keys\Password;
 class EncrypterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Encrypter The encrypter that uses a password to use in tests */
-    private $encrypterWithPassword = null;
+    private $encrypterWithPassword;
     /** @var Encrypter The encrypter that uses a key to use in tests */
-    private $encrypterWithKey = null;
+    private $encrypterWithKey;
 
     /**
      * Sets up the tests

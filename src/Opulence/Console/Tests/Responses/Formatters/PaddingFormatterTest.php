@@ -20,7 +20,7 @@ use Opulence\Console\Responses\Formatters\PaddingFormatter;
 class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PaddingFormatter The formatter to use in tests */
-    private $formatter = null;
+    private $formatter;
 
     /**
      * Sets up the tests

@@ -26,11 +26,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SignatureVerifier The verifier to use in tests */
-    private $verifier = null;
+    private $verifier;
     /** @var ISigner|MockObject The signer to use in tests */
-    private $signer = null;
+    private $signer;
     /** @var SignedJwt|MockObject The token to use in tests */
-    private $jwt = null;
+    private $jwt;
 
     /**
      * Sets up the tests

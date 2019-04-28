@@ -33,11 +33,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var JwtAuthenticator The authenticator to use in tests */
-    private $authenticator = null;
+    private $authenticator;
     /** @var JwtVerifier|MockObject The JWT verifier to use in tests */
-    private $jwtVerifier = null;
+    private $jwtVerifier;
     /** @var ICredential|MockObject The credential to use in tests */
-    private $credential = null;
+    private $credential;
 
     /**
      * Sets up the tests

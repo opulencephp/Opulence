@@ -24,7 +24,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class SubjectTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Subject The subject to use in tests */
-    private $subject = null;
+    private $subject;
 
     /**
      * Sets up the tests

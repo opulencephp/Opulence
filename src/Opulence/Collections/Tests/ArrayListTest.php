@@ -21,7 +21,7 @@ use OutOfRangeException;
 class ArrayListTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayList The array list to use in tests */
-    private $arrayList = null;
+    private $arrayList;
 
     /**
      * Sets up the tests

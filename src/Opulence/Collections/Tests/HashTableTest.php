@@ -24,7 +24,7 @@ use OutOfBoundsException;
 class HashTableTest extends \PHPUnit\Framework\TestCase
 {
     /** @var HashTable The hash table to use in tests */
-    private $hashTable = null;
+    private $hashTable;
 
     /**
      * Sets up the tests

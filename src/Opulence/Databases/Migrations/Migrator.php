@@ -20,13 +20,13 @@ use Opulence\Databases\IConnection;
 class Migrator implements IMigrator
 {
     /** @var string[] The list of migration classes */
-    private $allMigrationClasses = [];
+    private $allMigrationClasses;
     /** @var IConnection The connection to use in the migrations */
-    private $connection = null;
+    private $connection;
     /** @var IMigrationResolver The migration resolver */
-    private $migrationResolver = null;
+    private $migrationResolver;
     /** @var IExecutedMigrationRepository The executed migration repository */
-    private $executedMigrations = null;
+    private $executedMigrations;
 
     /**
      * @param string[] $allMigrationClasses The list of migration classes

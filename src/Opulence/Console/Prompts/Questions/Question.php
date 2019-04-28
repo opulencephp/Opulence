@@ -18,9 +18,9 @@ namespace Opulence\Console\Prompts\Questions;
 class Question implements IQuestion
 {
     /** @var string The question text */
-    private $question = '';
+    private $question;
     /** @var mixed The default answer to the question */
-    private $defaultAnswer = null;
+    private $defaultAnswer;
 
     /**
      * @param string $question The question text

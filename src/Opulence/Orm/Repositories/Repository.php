@@ -24,9 +24,9 @@ class Repository implements IRepository
     /** @var string The name of the class whose objects this repo is getting */
     protected $className = '';
     /** @var IDataMapper The data mapper to use in this repo */
-    protected $dataMapper = null;
+    protected $dataMapper;
     /** @var IUnitOfWork The unit of work to use in this repo */
-    protected $unitOfWork = null;
+    protected $unitOfWork;
 
     /**
      * @param string $className The name of the class whose objects this repo is getting

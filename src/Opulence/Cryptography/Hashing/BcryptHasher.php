@@ -18,7 +18,7 @@ namespace Opulence\Cryptography\Hashing;
 class BcryptHasher extends Hasher
 {
     /** The default cost used by this hasher */
-    const DEFAULT_COST = 10;
+    public const DEFAULT_COST = 10;
 
     /**
      * @inheritdoc

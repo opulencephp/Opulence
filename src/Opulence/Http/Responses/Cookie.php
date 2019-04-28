@@ -20,19 +20,19 @@ use DateTime;
 class Cookie
 {
     /** @var string The name of the cookie */
-    private $name = '';
+    private $name;
     /** @var mixed The value of the cookie */
-    private $value = '';
+    private $value;
     /** @var int The expiration timestamp of the cookie */
-    private $expiration = null;
+    private $expiration;
     /** @var string The path the cookie is valid on */
-    private $path = '/';
+    private $path;
     /** @var string The domain the cookie is valid on */
-    private $domain = '';
+    private $domain;
     /** @var bool Whether or not this cookie is on HTTPS */
-    private $isSecure = false;
+    private $isSecure;
     /** @var bool Whether or not this cookie is HTTP only */
-    private $isHttpOnly = true;
+    private $isHttpOnly;
 
     /**
      * @param string $name The name of the cookie

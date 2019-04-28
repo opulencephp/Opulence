@@ -26,11 +26,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class RolesTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Roles The roles to use in tests */
-    private $roles = null;
+    private $roles;
     /** @var IRoleRepository|MockObject The role repository to use in tests */
-    private $roleRepository = null;
+    private $roleRepository;
     /** @var IRoleMembershipRepository|MockObject The role membership repository to use in tests */
-    private $roleMembershipRepository = null;
+    private $roleMembershipRepository;
 
     /**
      * Tests up the tests

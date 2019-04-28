@@ -21,7 +21,7 @@ use Opulence\Console\Requests\Parsers\ArrayListParser;
 class ArrayListParserTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayListParser The parser to use in tests */
-    private $parser = null;
+    private $parser;
 
     /**
      * Sets up the tests

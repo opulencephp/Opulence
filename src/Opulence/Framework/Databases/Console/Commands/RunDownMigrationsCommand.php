@@ -24,7 +24,7 @@ use Opulence\Databases\Migrations\IMigrator;
 class RunDownMigrationsCommand extends Command
 {
     /** @var IMigrator The migrator to use */
-    private $migrator = null;
+    private $migrator;
 
     /**
      * @param IMigrator $migrator The migrator to use

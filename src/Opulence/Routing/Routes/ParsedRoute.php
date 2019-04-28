@@ -19,7 +19,7 @@ namespace Opulence\Routing\Routes;
 class ParsedRoute extends Route
 {
     /** @var string|null The parsed (regex) host if set, otherwise null */
-    protected $hostRegex = null;
+    protected $hostRegex;
     /** @var string The parsed (regex) path */
     protected $pathRegex = '';
     /** @var array The mapping of route-variables to their default values */

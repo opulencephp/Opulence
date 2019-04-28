@@ -25,11 +25,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CsrfTokenChecker The token checker to use in tests */
-    private $checker = null;
+    private $checker;
     /** @var Request|MockObject The request mock */
-    private $request = null;
+    private $request;
     /** @var ISession|MockObject The session mock */
-    private $session = null;
+    private $session;
 
     /**
      * Sets up the tests

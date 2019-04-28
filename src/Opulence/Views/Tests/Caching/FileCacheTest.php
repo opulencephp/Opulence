@@ -23,11 +23,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class FileCacheTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FileSystem The file system to use to read cached views */
-    private $fileSystem = null;
+    private $fileSystem;
     /** @var FileCache The cache to use in tests */
-    private $cache = null;
+    private $cache;
     /** @var IView|MockObject The view to use in tests */
-    private $view = null;
+    private $view;
 
     /**
      * Does some setup before any tests

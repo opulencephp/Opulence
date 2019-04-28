@@ -24,7 +24,7 @@ class Response
     /** @var mixed The content of the response */
     protected $content = '';
     /** @var ResponseHeaders The headers in this response */
-    protected $headers = null;
+    protected $headers;
     /** @var int The status code of this response */
     protected $statusCode = ResponseHeaders::HTTP_OK;
     /** @var string The status text of this response */

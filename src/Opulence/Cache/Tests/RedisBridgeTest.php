@@ -23,11 +23,11 @@ use Predis\Client;
 class RedisBridgeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RedisBridge The bridge to use in tests */
-    private $bridge = null;
+    private $bridge;
     /** @var Redis|MockObject The Redis driver */
-    private $redis = null;
+    private $redis;
     /** @var Client|MockObject The Redis client */
-    private $client = null;
+    private $client;
 
     /**
      * Sets up the tests

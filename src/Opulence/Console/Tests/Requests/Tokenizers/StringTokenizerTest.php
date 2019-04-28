@@ -21,7 +21,7 @@ use RuntimeException;
 class StringTokenizerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var StringTokenizer The tokenizer to use in tests */
-    private $tokenizer = null;
+    private $tokenizer;
 
     /**
      * Sets up the tests

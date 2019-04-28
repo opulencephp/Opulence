@@ -24,9 +24,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SessionEncrypter The session encrypter to use in tests */
-    private $sessionEncrypter = null;
+    private $sessionEncrypter;
     /** @var IEncrypter|MockObject The Opulence encrypter the session encrypter uses */
-    private $opulenceEncrypter = null;
+    private $opulenceEncrypter;
 
     /**
      * Sets up the tests

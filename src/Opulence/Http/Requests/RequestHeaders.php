@@ -20,15 +20,15 @@ use Opulence\Http\Headers;
 class RequestHeaders extends Headers
 {
     /** The client's host */
-    const CLIENT_HOST = 'client-host';
+    public const CLIENT_HOST = 'client-host';
     /** The client's IP address */
-    const CLIENT_IP = 'client-ip';
+    public const CLIENT_IP = 'client-ip';
     /** The client's port */
-    const CLIENT_PORT = 'client-port';
+    public const CLIENT_PORT = 'client-port';
     /** The client's protocol */
-    const CLIENT_PROTO = 'client-proto';
+    public const CLIENT_PROTO = 'client-proto';
     /** The forwarded headers */
-    const FORWARDED = 'forwarded';
+    public const FORWARDED = 'forwarded';
     /** @var array The list of HTTP request headers that don't begin with "HTTP_" */
     protected static $specialCaseHeaders = [
         'AUTH_TYPE' => true,

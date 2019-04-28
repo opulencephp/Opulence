@@ -40,11 +40,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class RouterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Router The router to use in tests */
-    private $router = null;
+    private $router;
     /** @var Parser The parser to use */
-    private $parser = null;
+    private $parser;
     /** @var Compiler The compiler to use */
-    private $compiler = null;
+    private $compiler;
 
     /**
      * Sets up the tests

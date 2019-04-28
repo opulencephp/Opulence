@@ -18,19 +18,19 @@ namespace Opulence\Console\Responses\Compilers\Elements;
 class Colors
 {
     /** The color black */
-    const BLACK = 'black';
+    public const BLACK = 'black';
     /** The color blue */
-    const BLUE = 'blue';
+    public const BLUE = 'blue';
     /** The color cyan */
-    const CYAN = 'cyan';
+    public const CYAN = 'cyan';
     /** The color green */
-    const GREEN = 'green';
+    public const GREEN = 'green';
     /** The color magenta */
-    const MAGENTA = 'magenta';
+    public const MAGENTA = 'magenta';
     /** The color red */
-    const RED = 'red';
+    public const RED = 'red';
     /** The color white */
-    const WHITE = 'white';
+    public const WHITE = 'white';
     /** The color yellow */
-    const YELLOW = 'yellow';
+    public const YELLOW = 'yellow';
 }

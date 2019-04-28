@@ -29,13 +29,13 @@ use RuntimeException;
 class CompilerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Compiler The compiler to use in tests */
-    private $compiler = null;
+    private $compiler;
     /** @var Command The command to use in tests */
-    private $command = null;
+    private $command;
     /** @var CommandCollection The list of registered commands */
-    private $commandCollection = null;
+    private $commandCollection;
     /** @var Request The request to use in tests */
-    private $request = null;
+    private $request;
 
     /**
      * Sets up the tests

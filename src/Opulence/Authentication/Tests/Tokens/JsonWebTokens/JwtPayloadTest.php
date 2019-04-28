@@ -22,7 +22,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
 class JwtPayloadTest extends \PHPUnit\Framework\TestCase
 {
     /** @var JwtPayload The payload to use in tests */
-    private $payload = null;
+    private $payload;
 
     /**
      * Sets up the tests

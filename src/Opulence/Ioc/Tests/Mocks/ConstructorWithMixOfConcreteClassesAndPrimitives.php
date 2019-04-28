@@ -18,11 +18,11 @@ namespace Opulence\Ioc\Tests\Mocks;
 class ConstructorWithMixOfConcreteClassesAndPrimitives
 {
     /** @var Bar A dependency */
-    private $foo = null;
+    private $foo;
     /** @var int A primitive */
-    private $id = -1;
+    private $id;
     /** @var Dave A dependency */
-    private $person = null;
+    private $person;
 
     /**
      * @param Bar $foo A dependency

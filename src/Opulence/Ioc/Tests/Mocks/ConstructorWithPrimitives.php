@@ -18,9 +18,9 @@ namespace Opulence\Ioc\Tests\Mocks;
 class ConstructorWithPrimitives
 {
     /** @var string A primitive stored by this class */
-    private $foo = '';
+    private $foo;
     /** @var string A primitive stored by this class */
-    private $bar = '';
+    private $bar;
 
     /**
      * @param string $foo A primitive to store in this class

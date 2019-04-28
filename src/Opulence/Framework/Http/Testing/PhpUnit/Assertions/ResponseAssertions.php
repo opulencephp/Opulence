@@ -25,7 +25,7 @@ use RecursiveIteratorIterator;
 class ResponseAssertions extends TestCase
 {
     /** @var Response The HTTP response */
-    protected $response = null;
+    protected $response;
 
     /**
      * Asserts that the response's contents match the input

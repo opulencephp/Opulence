@@ -20,7 +20,7 @@ use Opulence\Console\Responses\Compilers\ICompiler;
 abstract class Response implements IResponse
 {
     /** @var ICompiler The response compiler to use */
-    protected $compiler = null;
+    protected $compiler;
 
     /**
      * @param ICompiler $compiler The response compiler to use

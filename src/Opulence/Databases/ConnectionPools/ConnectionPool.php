@@ -36,15 +36,15 @@ abstract class ConnectionPool
         'custom' => []
     ];
     /** @var IDriver The driver to use for connections made by this pool */
-    protected $driver = null;
+    protected $driver;
     /** @var array The list of connection options */
     protected $connectionOptions = [];
     /** @var array The list of driver options */
     protected $driverOptions = [];
     /** @var IConnection|null The connection to use for read queries */
-    protected $readConnection = null;
+    protected $readConnection;
     /** @var IConnection|null The connection to use for write queries */
-    protected $writeConnection = null;
+    protected $writeConnection;
 
     /**
      * @param IDriver $driver The driver to use

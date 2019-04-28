@@ -30,19 +30,19 @@ use PHPUnit\Framework\TestCase;
 abstract class IntegrationTestCase extends TestCase
 {
     /** @var IContainer The IoC container */
-    protected $container = null;
+    protected $container;
     /** @var Router The router */
-    protected $router = null;
+    protected $router;
     /** @var Request The default request */
-    protected $defaultRequest = null;
+    protected $defaultRequest;
     /** @var Kernel The HTTP kernel */
-    protected $kernel = null;
+    protected $kernel;
     /** @var Response The response from the last route */
-    protected $response = null;
+    protected $response;
     /** @var ResponseAssertions The response assertions */
-    protected $assertResponse = null;
+    protected $assertResponse;
     /** @var ViewAssertions The view assertions */
-    protected $assertView = null;
+    protected $assertView;
 
     /**
      * Creates a request builder for a DELETE request

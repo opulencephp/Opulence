@@ -18,11 +18,11 @@ namespace Opulence\Views\Compilers\Fortune\Lexers\Tokens;
 class Token
 {
     /** @var int The token type */
-    private $type = null;
+    private $type;
     /** @var mixed The value of the token */
-    private $value = null;
+    private $value;
     /** @var int The line the token is on */
-    private $line = 0;
+    private $line;
 
     /**
      * @param string $type The token type

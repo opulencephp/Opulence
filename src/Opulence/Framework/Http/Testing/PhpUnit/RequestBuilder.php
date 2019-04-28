@@ -22,11 +22,11 @@ use Opulence\Http\Requests\UploadedFile;
 class RequestBuilder
 {
     /** @var IntegrationTestCase The integration test that created this builder */
-    private $integrationTest = null;
+    private $integrationTest;
     /** @var string|null The URL of the request */
-    private $url = null;
+    private $url;
     /** @var string|null The HTTP method of the request */
-    private $method = null;
+    private $method;
     /** @var array The headers */
     private $server = [];
     /** @var array The parameters */
@@ -38,7 +38,7 @@ class RequestBuilder
     /** @var array The environment parameters */
     private $env = [];
     /** @var mixed|null The raw body */
-    private $rawBody = null;
+    private $rawBody;
 
     /**
      * @param IntegrationTestCase $integrationTest The integration test that created this builder

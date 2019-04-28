@@ -25,7 +25,7 @@ use RuntimeException;
 class MultiStreamTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MultiStream The stream to use in tests */
-    private $multiStream = null;
+    private $multiStream;
 
     /**
      * Sets up the tests

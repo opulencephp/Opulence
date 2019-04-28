@@ -22,7 +22,7 @@ use Opulence\Console\Requests\ArgumentTypes;
 class ArgumentTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Argument The argument to use in tests */
-    private $argument = null;
+    private $argument;
 
     /**
      * Sets up the tests

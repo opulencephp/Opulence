@@ -20,7 +20,7 @@ use Opulence\QueryBuilders\UpdateQuery as BaseUpdateQuery;
 class UpdateQuery extends BaseUpdateQuery
 {
     /** @var AugmentingQueryBuilder Handles functionality common to augmenting queries */
-    protected $augmentingQueryBuilder = null;
+    protected $augmentingQueryBuilder;
 
     /**
      * @param string $tableName The name of the table we're querying

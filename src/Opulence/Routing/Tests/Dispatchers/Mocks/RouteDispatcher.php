@@ -24,7 +24,7 @@ use Opulence\Routing\Routes\CompiledRoute;
 class RouteDispatcher extends BaseDispatcher
 {
     /** @var CompiledRoute The last route */
-    private $lastRoute = null;
+    private $lastRoute;
 
     /**
      * For the sake of testing the router, simply store the dispatched route rather than its output

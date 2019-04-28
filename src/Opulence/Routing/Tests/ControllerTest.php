@@ -21,7 +21,7 @@ use Opulence\Routing\Controller;
 class ControllerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Controller The controller to use in tests */
-    private $controller = null;
+    private $controller;
 
     /**
      * Sets up the tests

@@ -21,7 +21,7 @@ use Opulence\Views\Compilers\Fortune\Lexers\Tokens\TokenTypes;
 class TokenTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Token The token to use in tests */
-    private $token = null;
+    private $token;
 
     /**
      * Sets up the tests

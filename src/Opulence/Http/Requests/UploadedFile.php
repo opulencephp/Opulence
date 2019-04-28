@@ -21,13 +21,13 @@ use SplFileInfo;
 class UploadedFile extends SplFileInfo
 {
     /** @var string The temporary name of the file */
-    private $tmpFilename = '';
+    private $tmpFilename;
     /** @var int The size of the file in bytes */
-    private $tmpSize = 0;
+    private $tmpSize;
     /** @var string The mime type of the file */
-    private $tmpMimeType = '';
+    private $tmpMimeType;
     /** @var int The error message, if there was any */
-    private $error = UPLOAD_ERR_OK;
+    private $error;
 
     /**
      * @param string $path The path to the file

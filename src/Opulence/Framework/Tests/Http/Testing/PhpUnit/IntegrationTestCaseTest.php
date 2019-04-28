@@ -21,7 +21,7 @@ use Opulence\Framework\Tests\Http\Testing\PhpUnit\Mocks\IntegrationTestCase as M
 class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MockIntegrationTestCase The HTTP integration test to use in tests */
-    private $integrationTest = null;
+    private $integrationTest;
 
     /**
      * Sets up the tests

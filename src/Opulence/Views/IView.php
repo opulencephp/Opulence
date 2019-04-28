@@ -18,13 +18,13 @@ namespace Opulence\Views;
 interface IView
 {
     /** The directive delimiter */
-    const DELIMITER_TYPE_DIRECTIVE = 1;
+    public const DELIMITER_TYPE_DIRECTIVE = 1;
     /** The sanitized tag delimiter */
-    const DELIMITER_TYPE_SANITIZED_TAG = 2;
+    public const DELIMITER_TYPE_SANITIZED_TAG = 2;
     /** The unsanitized tag delimiter */
-    const DELIMITER_TYPE_UNSANITIZED_TAG = 3;
+    public const DELIMITER_TYPE_UNSANITIZED_TAG = 3;
     /** The comment delimiter */
-    const DELIMITER_TYPE_COMMENT = 4;
+    public const DELIMITER_TYPE_COMMENT = 4;
 
     /**
      * Gets the uncompiled contents

@@ -21,7 +21,7 @@ use Opulence\Collections\Tests\Mocks\MockObject;
 class HashSetTest extends \PHPUnit\Framework\TestCase
 {
     /** @var HashSet The set to use in tests */
-    private $set = null;
+    private $set;
 
     /**
      * Sets up the tests

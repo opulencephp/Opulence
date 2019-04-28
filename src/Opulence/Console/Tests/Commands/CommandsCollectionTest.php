@@ -29,7 +29,7 @@ use Opulence\Console\Tests\Responses\Mocks\Response;
 class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CommandCollection The list of commands to test */
-    private $collection = null;
+    private $collection;
 
     /**
      * Sets up the tests

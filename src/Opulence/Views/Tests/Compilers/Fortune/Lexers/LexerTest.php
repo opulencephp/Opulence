@@ -25,9 +25,9 @@ use RuntimeException;
 class LexerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Lexer The lexer to use in tests */
-    private $lexer = null;
+    private $lexer;
     /** @var View|MockObject The view to use in tests */
-    private $view = null;
+    private $view;
 
     /**
      * Sets up the tests

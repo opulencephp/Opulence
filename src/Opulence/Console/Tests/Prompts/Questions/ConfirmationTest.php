@@ -20,7 +20,7 @@ use Opulence\Console\Prompts\Questions\Confirmation;
 class ConfirmationTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Confirmation The question to use in tests */
-    private $question = null;
+    private $question;
 
     /**
      * Sets up the tests

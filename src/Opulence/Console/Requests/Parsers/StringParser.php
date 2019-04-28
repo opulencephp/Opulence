@@ -21,7 +21,7 @@ use Opulence\Console\Requests\Tokenizers\StringTokenizer;
 class StringParser extends Parser
 {
     /** @var StringTokenizer The tokenizer to use */
-    private $tokenizer = null;
+    private $tokenizer;
 
     public function __construct()
     {

@@ -30,17 +30,17 @@ use Opulence\Routing\Routes\RouteCollection;
 class Router
 {
     /** @var ICompiler The compiler used by this router */
-    protected $compiler = null;
+    protected $compiler;
     /** @var IParser The parser used by this router */
-    protected $parser = null;
+    protected $parser;
     /** @var IRouteDispatcher The route dispatcher */
-    protected $dispatcher = null;
+    protected $dispatcher;
     /** @var RouteCollection The list of routes */
-    protected $routeCollection = null;
+    protected $routeCollection;
     /** @var CompiledRoute|null The matched route if there is one, otherwise null */
-    protected $matchedRoute = null;
+    protected $matchedRoute;
     /** @var Controller|mixed|null The matched controller if there is one, otherwise null */
-    protected $matchedController = null;
+    protected $matchedController;
     /** @var array The list of options in the current group stack */
     protected $groupOptionsStack = [];
 

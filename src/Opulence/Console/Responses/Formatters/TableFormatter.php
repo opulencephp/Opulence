@@ -18,7 +18,7 @@ namespace Opulence\Console\Responses\Formatters;
 class TableFormatter
 {
     /** @var PaddingFormatter The padding formatter */
-    private $padding = null;
+    private $padding;
     /** @var string The padding string */
     private $cellPaddingString = ' ';
     /** @var string The character to use for vertical borders */

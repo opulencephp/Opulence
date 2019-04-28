@@ -26,11 +26,11 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 class JwtVerifierTest extends \PHPUnit\Framework\TestCase
 {
     /** @var JwtVerifier The verifier to use in tests */
-    private $verifier = null;
+    private $verifier;
     /** @var ISigner The signer to use in tests */
-    private $signer = null;
+    private $signer;
     /** @var VerificationContext The verification context to use in tests */
-    private $context = null;
+    private $context;
 
     /**
      * Sets up the tests

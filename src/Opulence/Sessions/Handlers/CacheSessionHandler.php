@@ -20,9 +20,9 @@ use Opulence\Cache\ICacheBridge;
 class CacheSessionHandler extends SessionHandler
 {
     /** @var ICacheBridge The cache to use */
-    private $cache = null;
+    private $cache;
     /** @var int The lifetime in seconds */
-    private $lifetime = 0;
+    private $lifetime;
 
     /**
      * @param ICacheBridge $cache The cache to use

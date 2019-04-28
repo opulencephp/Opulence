@@ -39,11 +39,11 @@ Command: <info>{{name}}</info>
 {{options}}{{helpText}}
 EOF;
     /** @var ICommand The command to help with */
-    private $command = null;
+    private $command;
     /** @var CommandFormatter The formatter that converts a command object to text */
-    private $commandFormatter = null;
+    private $commandFormatter;
     /** @var PaddingFormatter The space padding formatter to use */
-    private $paddingFormatter = null;
+    private $paddingFormatter;
 
     /**
      * @param CommandFormatter $commandFormatter The formatter that converts a command object to text

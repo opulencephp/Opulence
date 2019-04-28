@@ -18,7 +18,7 @@ namespace Opulence\Sessions\Ids\Generators;
 class IdGenerator implements IIdGenerator
 {
     /** The default length of an Id */
-    const DEFAULT_LENGTH = 40;
+    public const DEFAULT_LENGTH = 40;
 
     /**
      * @inheritdoc

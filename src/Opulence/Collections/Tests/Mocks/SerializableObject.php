@@ -18,7 +18,7 @@ namespace Opulence\Collections\Tests\Mocks;
 class SerializableObject
 {
     /** @var string The string value to serialize to */
-    private $stringValue = '';
+    private $stringValue;
 
     /**
      * @param string $stringValue The string value to serialize to

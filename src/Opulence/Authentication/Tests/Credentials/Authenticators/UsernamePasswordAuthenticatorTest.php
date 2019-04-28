@@ -27,13 +27,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var UsernamePasswordAuthenticator The authenticator to use in tests */
-    private $authenticator = null;
+    private $authenticator;
     /** @var IUserRepository|MockObject The user repository to use in tests */
-    private $userRepository = null;
+    private $userRepository;
     /** @var IRoleRepository|MockObject The role repository to use in tests */
-    private $roleRepository = null;
+    private $roleRepository;
     /** @var ICredential|MockObject The credential to use in tests */
-    private $credential = null;
+    private $credential;
 
     /**
      * Sets up the tests

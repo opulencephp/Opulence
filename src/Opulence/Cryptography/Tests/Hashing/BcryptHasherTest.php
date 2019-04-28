@@ -20,7 +20,7 @@ use Opulence\Cryptography\Hashing\BcryptHasher;
 class BcryptHasherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var BcryptHasher The hasher to use in the tests */
-    private $hasher = null;
+    private $hasher;
 
     /**
      * Sets up the tests

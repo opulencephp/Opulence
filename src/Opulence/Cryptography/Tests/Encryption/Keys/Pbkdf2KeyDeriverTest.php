@@ -22,7 +22,7 @@ use Opulence\Cryptography\Encryption\Keys\Pbkdf2KeyDeriver;
 class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Pbkdf2KeyDeriver The key deriver to use in tests */
-    private $keyDeriver = null;
+    private $keyDeriver;
 
     /**
      * Sets up the tests

@@ -46,7 +46,7 @@ namespace Opulence\Debug\Tests\Exceptions\Handlers\Http
     class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     {
         /** @var ExceptionRenderer The renderer to use in tests */
-        private $renderer = null;
+        private $renderer;
 
         /**
          * Sets up the tests

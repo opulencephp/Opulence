@@ -29,7 +29,7 @@ use Opulence\Routing\Tests\Dispatchers\Mocks\RouteDispatcher;
 class Router extends BaseRouter
 {
     /** @var RouteDispatcher The mock dispatcher */
-    protected $dispatcher = null;
+    protected $dispatcher;
 
     /**
      * @inheritdoc

@@ -18,7 +18,7 @@ namespace Opulence\Ioc\Tests\Mocks;
 class Foo implements IFoo
 {
     /** @var IPerson A dependency */
-    private $person = null;
+    private $person;
 
     public function __construct(IPerson $person)
     {

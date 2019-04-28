@@ -23,7 +23,7 @@ use Opulence\Routing\Routes\Route;
 class ParserTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Parser The parser to use in tests */
-    private $parser = null;
+    private $parser;
 
     /**
      * Sets up the tests

@@ -23,9 +23,9 @@ use Opulence\Authorization\Roles\IRoles;
 class AuthorityTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Authority The authority to use in tests */
-    private $authority = null;
+    private $authority;
     /** @var PermissionRegistry The registry to use in tests */
-    private $permissionRegistry = null;
+    private $permissionRegistry;
 
     /**
      * Sets up the tests

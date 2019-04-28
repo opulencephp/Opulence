@@ -22,7 +22,7 @@ use Opulence\Console\Requests\Tokenizers\ArrayListTokenizer;
 class ArrayListParser extends Parser
 {
     /** @var ArrayListTokenizer The tokenizer to use */
-    private $tokenizer = null;
+    private $tokenizer;
 
     public function __construct()
     {

@@ -22,9 +22,9 @@ use Opulence\Views\IView;
 class GenericCache implements ICache
 {
     /** @var ICacheBridge A caching implementation */
-    private $bridge = null;
+    private $bridge;
     /** @var int The cache lifetime in seconds */
-    private $lifetime = -1;
+    private $lifetime;
 
     /**
      * @param ICacheBridge $bridge A caching implementation

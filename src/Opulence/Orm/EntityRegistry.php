@@ -21,9 +21,9 @@ use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
 class EntityRegistry implements IEntityRegistry
 {
     /** @var IIdAccessorRegistry The Id accessory registry */
-    protected $idAccessorRegistry = null;
+    protected $idAccessorRegistry;
     /** @var IChangeTracker The change tracker */
-    protected $changeTracker = null;
+    protected $changeTracker;
     /** @var array The mapping of entities' object hash Ids to their various states */
     private $entityStates = [];
     /** @var array The mapping of class names to a list of entities of that class */

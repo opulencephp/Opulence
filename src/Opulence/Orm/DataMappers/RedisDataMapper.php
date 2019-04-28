@@ -20,14 +20,14 @@ use Opulence\Redis\Redis;
 abstract class RedisDataMapper implements ICacheDataMapper
 {
     /** Defines a string value */
-    const VALUE_TYPE_STRING = 0;
+    public const VALUE_TYPE_STRING = 0;
     /** Defines a set value */
-    const VALUE_TYPE_SET = 1;
+    public const VALUE_TYPE_SET = 1;
     /** Defines a sorted set value */
-    const VALUE_TYPE_SORTED_SET = 2;
+    public const VALUE_TYPE_SORTED_SET = 2;
 
     /** @var Redis The Redis cache to use for queries */
-    protected $redis = null;
+    protected $redis;
 
     /**
      * @param Redis $redis The Redis cache to use for queries

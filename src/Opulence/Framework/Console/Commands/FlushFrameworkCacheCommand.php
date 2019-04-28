@@ -24,9 +24,9 @@ use Opulence\Views\Caching\ICache as ViewCache;
 class FlushFrameworkCacheCommand extends Command
 {
     /** @var RouteCache The route cache */
-    private $routeCache = null;
+    private $routeCache;
     /** @var ViewCache The view cache */
-    private $viewCache = null;
+    private $viewCache;
 
     /**
      * @param RouteCache $routeCache The route cache

@@ -21,13 +21,13 @@ use Opulence\Http\Responses\Cookie;
 class CookieTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Cookie The cookie to test */
-    private $cookie = null;
+    private $cookie;
     /** @var string The name of the cookie */
-    private $name = '';
+    private $name;
     /** @var mixed The value of the cookie */
-    private $value = '';
+    private $value;
     /** @var DateTime The expiration of the cookie */
-    private $expiration = null;
+    private $expiration;
     /** @var string The path the cookie is valid on */
     private $path = '/';
     /** @var string The domain the cookie is valid on */

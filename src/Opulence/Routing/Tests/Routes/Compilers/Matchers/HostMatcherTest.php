@@ -24,11 +24,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class HostMatcherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var HostMatcher The matcher to use in tests */
-    private $matcher = null;
+    private $matcher;
     /** @var Request|MockObject The request to use in tests */
-    private $request = null;
+    private $request;
     /** @var ParsedRoute|MockObject The route to use in tests */
-    private $route = null;
+    private $route;
 
     /**
      * Sets up the tests
