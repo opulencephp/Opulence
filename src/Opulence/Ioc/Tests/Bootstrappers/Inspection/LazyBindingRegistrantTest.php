@@ -14,7 +14,7 @@ namespace Opulence\Ioc\Tests\Bootstrappers\Inspection;
 
 use Closure;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\Bootstrappers\Inspection\LazyBindingResolverRegistry;
+use Opulence\Ioc\Bootstrappers\Inspection\LazyBindingRegistrant;
 use Opulence\Ioc\Bootstrappers\Inspection\TargetedInspectionBinding;
 use Opulence\Ioc\Bootstrappers\Inspection\UniversalInspectionBinding;
 use Opulence\Ioc\IContainer;
@@ -24,19 +24,19 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests the lazy binding resolver registry
+ * Tests the lazy binding registrant
  */
-class LazyBindingResolverRegistryTest extends TestCase
+class LazyBindingRegistrantTest extends TestCase
 {
-    /** @var LazyBindingResolverRegistry */
-    private $bindingResolvers;
+    /** @var LazyBindingRegistrant */
+    private $registrant;
     /** @var IContainer|MockObject */
     private $container;
 
     protected function setUp(): void
     {
         $this->container = $this->createMock(IContainer::class);
-        $this->bindingResolvers = new LazyBindingResolverRegistry($this->container);
+        $this->registrant = new LazyBindingRegistrant($this->container);
     }
 
     public function testRegisteringTargetedBindingAndResolvingItWillAddBindingSetInConstructor(): void
@@ -127,7 +127,7 @@ class LazyBindingResolverRegistryTest extends TestCase
         $this->container->method('resolve')
             ->with(IFoo::class)
             ->willReturn($bootstrapper->foo);
-        $this->bindingResolvers->registerBindingResolvers($bindings);
+        $this->registrant->registerBindings($bindings);
         $initialCallback($this->container);
         $initialFactory();
         $unbindCallback($this->container);
@@ -151,7 +151,7 @@ class LazyBindingResolverRegistryTest extends TestCase
             ->with('bar', $this->callback(function (Closure $factory) {
                 return $factory instanceof Closure;
             }));
-        $this->bindingResolvers->registerBindingResolvers($bindings);
+        $this->registrant->registerBindings($bindings);
     }
 
     public function testRegisteringUniversalBindingAndResolvingItWillAddBindingSetInConstructor(): void
@@ -181,7 +181,7 @@ class LazyBindingResolverRegistryTest extends TestCase
             ->with(IFoo::class, $this->callback(function (Foo $foo) {
                 return $foo instanceof Foo;
             }));
-        $this->bindingResolvers->registerBindingResolvers($bindings);
+        $this->registrant->registerBindings($bindings);
         $actualFactory();
     }
 
@@ -199,6 +199,6 @@ class LazyBindingResolverRegistryTest extends TestCase
             ->with(IFoo::class, $this->callback(function (Closure $factory) {
                 return $factory instanceof Closure;
             }));
-        $this->bindingResolvers->registerBindingResolvers($bindings);
+        $this->registrant->registerBindings($bindings);
     }
 }

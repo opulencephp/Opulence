@@ -15,9 +15,9 @@ namespace Opulence\Ioc\Bootstrappers\Inspection;
 use Opulence\Ioc\IContainer;
 
 /**
- * Defines what registers our lazy binding resolvers
+ * Defines what registers our lazy bindings to the container
  */
-final class LazyBindingResolverRegistry
+final class LazyBindingRegistrant
 {
     /** @var IContainer The container to bind our resolvers to */
     private $container;
@@ -33,11 +33,11 @@ final class LazyBindingResolverRegistry
     }
 
     /**
-     * Registers resolvers for bindings found during inspection
+     * Registers bindings found during inspection
      *
      * @param InspectionBinding[] $inspectionBindings The bindings whose resolvers we're going to register
      */
-    public function registerBindingResolvers(array $inspectionBindings): void
+    public function registerBindings(array $inspectionBindings): void
     {
         foreach ($inspectionBindings as $inspectionBinding) {
             $resolvingFactory = function () use ($inspectionBinding) {
