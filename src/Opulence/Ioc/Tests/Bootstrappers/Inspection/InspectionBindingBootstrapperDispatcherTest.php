@@ -43,8 +43,7 @@ class InspectionBindingBootstrapperDispatcherTest extends TestCase
 
     public function testDispatchingWithCacheForcesBindingInspectionAndSetsCacheOnCacheMiss(): void
     {
-        $expectedBootstrapper = new class extends Bootstrapper
-        {
+        $expectedBootstrapper = new class extends Bootstrapper {
             public function registerBindings(IContainer $container): void
             {
                 $container->bindPrototype('foo', 'bar');
@@ -71,8 +70,7 @@ class InspectionBindingBootstrapperDispatcherTest extends TestCase
 
     public function testDispatchingWithCacheUsesResultsOnCacheHit(): void
     {
-        $expectedBootstrapper = new class extends Bootstrapper
-        {
+        $expectedBootstrapper = new class extends Bootstrapper {
             public function registerBindings(IContainer $container): void
             {
                 $container->bindPrototype('foo', 'bar');
@@ -93,8 +91,7 @@ class InspectionBindingBootstrapperDispatcherTest extends TestCase
     public function testDispatchingWithoutCacheForcesBindingInspection(): void
     {
         $dispatcher = new InspectionBindingBootstrapperDispatcher($this->container);
-        $bootstrapper = new class extends Bootstrapper
-        {
+        $bootstrapper = new class extends Bootstrapper {
             public function registerBindings(IContainer $container): void
             {
                 $container->bindPrototype('foo', 'bar');
