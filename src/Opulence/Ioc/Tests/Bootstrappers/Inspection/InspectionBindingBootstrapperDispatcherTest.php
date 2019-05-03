@@ -87,21 +87,4 @@ class InspectionBindingBootstrapperDispatcherTest extends TestCase
             }));
         $this->dispatcher->dispatch([$expectedBootstrapper]);
     }
-
-    public function testDispatchingWithoutCacheForcesBindingInspection(): void
-    {
-        $dispatcher = new InspectionBindingBootstrapperDispatcher($this->container);
-        $bootstrapper = new class extends Bootstrapper {
-            public function registerBindings(IContainer $container): void
-            {
-                $container->bindPrototype('foo', 'bar');
-            }
-        };
-        $this->container->expects($this->once())
-            ->method('bindFactory')
-            ->with('foo', $this->callback(function (Closure $factory) {
-                return true;
-            }));
-        $dispatcher->dispatch([$bootstrapper]);
-    }
 }
