@@ -97,8 +97,7 @@ final class BindingInspectionContainer extends Container
 
             if (!isset($this->inspectionBindings[$interface])) {
                 $this->inspectionBindings[$interface] = [$inspectionBinding];
-
-                return;
+                continue;
             }
 
             // Check if this exact binding has already been registered
