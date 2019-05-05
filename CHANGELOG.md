@@ -49,6 +49,7 @@
 
 <h3>IoC</h3>
 
+* `IContainer::resolve()` now throws a `ResolutionException` when something could not be resolved (it extends `IocException`)
 * Added `IContainer::tryResolve()` to simplify trying to resolve something without needing `try`/`catch` blocks
 * Made `Opulence\Ioc\Bootstrappers\Bootstrapper` abstract, added final constructor
 * Renamed `IBinding` to `IContainerBinding`, `ClassBinding` to `ClassContainerBinding`, `FactoryBinding` to `FactoryContainerBinding`, and `InstanceBinding` to `InstanceContainerBinding`

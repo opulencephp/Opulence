@@ -100,7 +100,7 @@ interface IContainer
      *
      * @param string $interface The interface to resolve
      * @return mixed The resolved instance
-     * @throws IocException Thrown if there was an error resolving the interface
+     * @throws ResolutionException Thrown if there was an error resolving the interface
      */
     public function resolve(string $interface);
 

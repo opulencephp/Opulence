@@ -196,7 +196,7 @@ class Container implements IContainer
             $instance = $this->resolve($interface);
 
             return true;
-        } catch (IocException $ex) {
+        } catch (ResolutionException $ex) {
             return false;
         }
     }
@@ -271,11 +271,13 @@ class Container implements IContainer
     {
         try {
             if (isset($this->constructorReflectionCache[$class])) {
-                list($constructor, $parameters) = $this->constructorReflectionCache[$class];
+                [$constructor, $parameters] = $this->constructorReflectionCache[$class];
             } else {
                 $reflectionClass = new ReflectionClass($class);
                 if (!$reflectionClass->isInstantiable()) {
-                    throw new IocException(
+                    throw new ResolutionException(
+                        $class,
+                        $this->currentTarget,
                         sprintf(
                             '%s is not instantiable%s',
                             $class,
@@ -297,8 +299,8 @@ class Container implements IContainer
             $constructorParameters = $this->resolveParameters($class, $parameters, $primitives);
 
             return new $class(...$constructorParameters);
-        } catch (ReflectionException $ex) {
-            throw new IocException("Failed to resolve class $class", 0, $ex);
+        } catch (ReflectionException | IocException $ex) {
+            throw new ResolutionException($class, $this->currentTarget, "Failed to resolve class $class", 0, $ex);
         }
     }
 
@@ -368,11 +370,13 @@ class Container implements IContainer
             return $parameter->getDefaultValue();
         }
 
-        throw new IocException(sprintf(
-            'No default value available for %s in %s::%s()',
-            $parameter->getName(),
-            $parameter->getDeclaringClass()->getName(),
-            $parameter->getDeclaringFunction()->getName()
-        ));
+        throw new IocException(
+            sprintf(
+                'No default value available for %s in %s::%s()',
+                $parameter->getName(),
+                $parameter->getDeclaringClass()->getName(),
+                $parameter->getDeclaringFunction()->getName()
+            )
+        );
     }
 }

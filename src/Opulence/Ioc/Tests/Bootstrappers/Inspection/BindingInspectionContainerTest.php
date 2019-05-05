@@ -86,37 +86,43 @@ class BindingInspectionContainerTest extends TestCase
         }
     }
 
-    public function testCallingClosureReturnsNull(): void
+    public function testBindingSameTargetedBindingTwiceOnlyRegistersItOnce(): void
     {
-        $this->assertNull($this->container->callClosure(function () {
-            return 'foo';
-        }));
-    }
-
-    public function testCallingMethodReturnsNull(): void
-    {
-        $object = new class {
-            public function foo(): string
+        $bootstrapper = new class extends Bootstrapper {
+            public function registerBindings(IContainer $container): void
             {
-                return 'foo';
+                $container->for('foo', function (IContainer $container) {
+                    $container->bindSingleton(IFoo::class, Foo::class);
+                });
             }
         };
-        $this->assertNull($this->container->callMethod($object, 'foo'));
+        $this->container->setBootstrapper($bootstrapper);
+        $bootstrapper->registerBindings($this->container);
+        // Re-register bindings
+        $bootstrapper->registerBindings($this->container);
+        /** @var TargetedInspectionBinding[] $actualBindings */
+        $actualBindings = $this->container->getBindings();
+        $this->assertCount(1, $actualBindings);
+        $this->assertEquals('foo', $actualBindings[0]->getTargetClass());
+        $this->assertEquals(IFoo::class, $actualBindings[0]->getInterface());
+        $this->assertSame($bootstrapper, $actualBindings[0]->getBootstrapper());
     }
 
-    public function testHasBindingReturnsNull(): void
+    public function testBindingSameUniversalBindingTwiceOnlyRegistersItOnce(): void
     {
-        $this->assertFalse($this->container->hasBinding('foo'));
-    }
-
-    public function testResolveReturnsNull(): void
-    {
-        $this->assertNull($this->container->resolve('foo'));
-    }
-
-    public function testTryResolveReturnsFalse(): void
-    {
-        $instance = null;
-        $this->assertFalse($this->container->tryResolve('foo', $instance));
+        $bootstrapper = new class extends Bootstrapper {
+            public function registerBindings(IContainer $container): void
+            {
+                $container->bindSingleton(IFoo::class, Foo::class);
+            }
+        };
+        $this->container->setBootstrapper($bootstrapper);
+        $bootstrapper->registerBindings($this->container);
+        // Re-register bindings
+        $bootstrapper->registerBindings($this->container);
+        $actualBindings = $this->container->getBindings();
+        $this->assertCount(1, $actualBindings);
+        $this->assertEquals(IFoo::class, $actualBindings[0]->getInterface());
+        $this->assertSame($bootstrapper, $actualBindings[0]->getBootstrapper());
     }
 }
