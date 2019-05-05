@@ -15,6 +15,7 @@ namespace Opulence\Ioc\Tests;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
 use Opulence\Ioc\IocException;
+use Opulence\Ioc\ResolutionException;
 use Opulence\Ioc\Tests\Mocks\Bar;
 use Opulence\Ioc\Tests\Mocks\BaseClass;
 use Opulence\Ioc\Tests\Mocks\Blah;
@@ -365,7 +366,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreatingInstanceWithUnsetConstructorPrimitive(): void
     {
-        $this->expectException(IocException::class);
+        $this->expectException(ResolutionException::class);
         $this->container->resolve($this->constructorWithPrimitives);
     }
 
@@ -374,7 +375,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreatingInterfaceWithoutBinding(): void
     {
-        $this->expectException(IocException::class);
+        $this->expectException(ResolutionException::class);
         $this->container->resolve($this->fooInterface);
     }
 
@@ -406,7 +407,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreatingPrototypeObjectWithUnsetConstructorPrimitive(): void
     {
-        $this->expectException(IocException::class);
+        $this->expectException(ResolutionException::class);
         $this->container->resolve($this->constructorWithPrimitives);
     }
 
@@ -490,7 +491,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testDependencyThatHasDependencyWithoutBindingAllDependencies(): void
     {
-        $this->expectException(IocException::class);
+        $this->expectException(ResolutionException::class);
         $this->container->bindSingleton($this->fooInterface, $this->concreteFooWithIPersonDependency);
         $this->container->resolve($this->fooInterface);
     }
@@ -656,7 +657,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testResolvingPrototypeNonExistentClass(): void
     {
-        $this->expectException(IocException::class);
+        $this->expectException(ResolutionException::class);
         $this->container->resolve('DoesNotExist');
     }
 
