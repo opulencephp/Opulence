@@ -22,7 +22,13 @@ class ResolutionExceptionTest extends TestCase
 {
     public function testGetInterfaceReturnsInterfaceInjectedInConstructor(): void
     {
-        $exception = new ResolutionException('foo');
+        $exception = new ResolutionException('foo', null);
         $this->assertEquals('foo', $exception->getInterface());
+    }
+
+    public function testGetTargetClassReturnsTargetClassInjectedInConstructor(): void
+    {
+        $exception = new ResolutionException('foo', 'bar');
+        $this->assertEquals('bar', $exception->getTargetClass());
     }
 }

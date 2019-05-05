@@ -277,6 +277,7 @@ class Container implements IContainer
                 if (!$reflectionClass->isInstantiable()) {
                     throw new ResolutionException(
                         $class,
+                        $this->currentTarget,
                         sprintf(
                             '%s is not instantiable%s',
                             $class,
@@ -299,7 +300,7 @@ class Container implements IContainer
 
             return new $class(...$constructorParameters);
         } catch (ReflectionException | IocException $ex) {
-            throw new ResolutionException($class, "Failed to resolve class $class", 0, $ex);
+            throw new ResolutionException($class, $this->currentTarget, "Failed to resolve class $class", 0, $ex);
         }
     }
 

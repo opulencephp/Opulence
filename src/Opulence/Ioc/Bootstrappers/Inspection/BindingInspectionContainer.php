@@ -13,18 +13,16 @@ declare(strict_types=1);
 namespace Opulence\Ioc\Bootstrappers\Inspection;
 
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\IContainer;
+use Opulence\Ioc\Container;
 
 /**
  * Defines a container that can be used to inspect the bindings set in a bootstrapper
  * @internal
  */
-final class BindingInspectionContainer implements IContainer
+final class BindingInspectionContainer extends Container
 {
     /** @var InspectionBinding[] The inspection bindings that were found */
-    private $bindings = [];
-    /** @var string|null The current target class */
-    private $currTargetClass;
+    private $inspectionBindings = [];
     /** @var Bootstrapper The current bootstrapper class */
     private $currBootstrapper;
 
@@ -33,9 +31,8 @@ final class BindingInspectionContainer implements IContainer
      */
     public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false): void
     {
-        foreach ((array)$interfaces as $interface) {
-            $this->bindings[] = $this->createInspectionBinding($interface);
-        }
+        $this->addInspectionBinding($interfaces);
+        parent::bindFactory($interfaces, $factory, $resolveAsSingleton);
     }
 
     /**
@@ -43,9 +40,8 @@ final class BindingInspectionContainer implements IContainer
      */
     public function bindInstance($interfaces, $instance): void
     {
-        foreach ((array)$interfaces as $interface) {
-            $this->bindings[] = $this->createInspectionBinding($interface);
-        }
+        $this->addInspectionBinding($interfaces);
+        parent::bindInstance($interfaces, $instance);
     }
 
     /**
@@ -53,9 +49,8 @@ final class BindingInspectionContainer implements IContainer
      */
     public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = []): void
     {
-        foreach ((array)$interfaces as $interface) {
-            $this->bindings[] = $this->createInspectionBinding($interface);
-        }
+        $this->addInspectionBinding($interfaces);
+        parent::bindPrototype($interfaces, $concreteClass, $primitives);
     }
 
     /**
@@ -63,32 +58,8 @@ final class BindingInspectionContainer implements IContainer
      */
     public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = []): void
     {
-        foreach ((array)$interfaces as $interface) {
-            $this->bindings[] = $this->createInspectionBinding($interface);
-        }
-    }
-
-    public function callClosure(callable $closure, array $primitives = [])
-    {
-        return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function callMethod($instance, string $methodName, array $primitives = [], bool $ignoreMissingMethod = false)
-    {
-        return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function for(string $targetClass, callable $callback)
-    {
-        $this->currTargetClass = $targetClass;
-        $callback($this);
-        $this->currTargetClass = null;
+        $this->addInspectionBinding($interfaces);
+        parent::bindSingleton($interfaces, $concreteClass, $primitives);
     }
 
     /**
@@ -98,23 +69,14 @@ final class BindingInspectionContainer implements IContainer
      */
     public function getBindings(): array
     {
-        return $this->bindings;
-    }
+        // We don't want the keys returned
+        $inspectionBindings = [];
 
-    /**
-     * @inheritdoc
-     */
-    public function hasBinding(string $interface): bool
-    {
-        return false;
-    }
+        foreach ($this->inspectionBindings as $interface => $bindings) {
+            $inspectionBindings = \array_merge($inspectionBindings, $bindings);
+        }
 
-    /**
-     * @inheritdoc
-     */
-    public function resolve(string $interface)
-    {
-        return null;
+        return $inspectionBindings;
     }
 
     public function setBootstrapper(Bootstrapper $bootstrapper): void
@@ -123,19 +85,49 @@ final class BindingInspectionContainer implements IContainer
     }
 
     /**
-     * @inheritdoc
+     * Adds a binding to the container if it does not already exist
+     *
+     * @param array|string $interfaces The interface or interfaces we're registering a binding for
      */
-    public function tryResolve(string $interface, &$instance): bool
+    private function addInspectionBinding($interfaces): void
     {
-        return false;
-    }
+        foreach ((array)$interfaces as $interface) {
+            $inspectionBinding = $this->createInspectionBinding($interface);
+            $isTargetedBinding = $inspectionBinding instanceof TargetedInspectionBinding;
 
-    /**
-     * @inheritdoc
-     */
-    public function unbind($interfaces): void
-    {
-        // Don't do anything
+            if (!isset($this->inspectionBindings[$interface])) {
+                $this->inspectionBindings[$interface] = [$inspectionBinding];
+
+                return;
+            }
+
+            // Check if this exact binding has already been registered
+            $bindingAlreadyExists = false;
+
+            /** @var InspectionBinding $existingInspectionBinding */
+            foreach ($this->inspectionBindings[$interface] as $existingInspectionBinding) {
+                if (
+                    $inspectionBinding->getInterface() !== $existingInspectionBinding->getInterface()
+                    || $inspectionBinding->getBootstrapper() !== $existingInspectionBinding->getBootstrapper()
+                ) {
+                    continue;
+                }
+
+                if ($isTargetedBinding) {
+                    if ($existingInspectionBinding instanceof TargetedInspectionBinding) {
+                        $bindingAlreadyExists = true;
+                        break;
+                    }
+                } elseif ($existingInspectionBinding instanceof UniversalInspectionBinding) {
+                    $bindingAlreadyExists = true;
+                    break;
+                }
+            }
+
+            if (!$bindingAlreadyExists) {
+                $this->inspectionBindings[$interface][] = $inspectionBinding;
+            }
+        }
     }
 
     /**
@@ -146,8 +138,8 @@ final class BindingInspectionContainer implements IContainer
      */
     private function createInspectionBinding(string $interface): InspectionBinding
     {
-        return $this->currTargetClass === null
+        return $this->currentTarget === null
             ? new UniversalInspectionBinding($interface, $this->currBootstrapper)
-            : new TargetedInspectionBinding($this->currTargetClass, $interface, $this->currBootstrapper);
+            : new TargetedInspectionBinding($this->currentTarget, $interface, $this->currBootstrapper);
     }
 }
