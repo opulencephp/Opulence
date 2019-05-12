@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Opulence\Ioc\Tests\Bootstrappers\Inspection;
 
 use Opulence\Ioc\Bootstrappers\Inspection\BindingInspectionContainer;
-use Opulence\Ioc\Bootstrappers\Inspection\TargetedInspectionBinding;
-use Opulence\Ioc\Bootstrappers\Inspection\UniversalInspectionBinding;
+use Opulence\Ioc\Bootstrappers\Inspection\TargetedBootstrapperBinding;
+use Opulence\Ioc\Bootstrappers\Inspection\UniversalBootstrapperBinding;
 use Opulence\Ioc\IContainer;
 use Opulence\Ioc\Tests\Bootstrappers\Inspection\Mocks\Foo;
 use Opulence\Ioc\Tests\Bootstrappers\Inspection\Mocks\IFoo;
@@ -53,9 +53,9 @@ class BindingInspectionContainerTest extends TestCase
         $expectedBootstrapper->registerBindings($this->container);
         $actualBindings = $this->container->getBindings();
 
-        /** @var TargetedInspectionBinding $actualBinding */
+        /** @var TargetedBootstrapperBinding $actualBinding */
         foreach ($actualBindings as $actualBinding) {
-            $this->assertInstanceOf(TargetedInspectionBinding::class, $actualBinding);
+            $this->assertInstanceOf(TargetedBootstrapperBinding::class, $actualBinding);
             $this->assertEquals('bar', $actualBinding->getTargetClass());
             $this->assertEquals(IFoo::class, $actualBinding->getInterface());
             $this->assertSame($expectedBootstrapper, $actualBinding->getBootstrapper());
@@ -80,7 +80,7 @@ class BindingInspectionContainerTest extends TestCase
         $actualBindings = $this->container->getBindings();
 
         foreach ($actualBindings as $actualBinding) {
-            $this->assertInstanceOf(UniversalInspectionBinding::class, $actualBinding);
+            $this->assertInstanceOf(UniversalBootstrapperBinding::class, $actualBinding);
             $this->assertEquals(IFoo::class, $actualBinding->getInterface());
             $this->assertSame($expectedBootstrapper, $actualBinding->getBootstrapper());
         }
@@ -100,7 +100,7 @@ class BindingInspectionContainerTest extends TestCase
         $bootstrapper->registerBindings($this->container);
         // Re-register bindings
         $bootstrapper->registerBindings($this->container);
-        /** @var TargetedInspectionBinding[] $actualBindings */
+        /** @var TargetedBootstrapperBinding[] $actualBindings */
         $actualBindings = $this->container->getBindings();
         $this->assertCount(1, $actualBindings);
         $this->assertEquals('foo', $actualBindings[0]->getTargetClass());

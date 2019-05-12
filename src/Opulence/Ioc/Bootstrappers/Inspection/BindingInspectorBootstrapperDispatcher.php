@@ -13,13 +13,16 @@ declare(strict_types=1);
 namespace Opulence\Ioc\Bootstrappers\Inspection;
 
 use Opulence\Ioc\Bootstrappers\IBootstrapperDispatcher;
-use Opulence\Ioc\Bootstrappers\Inspection\Caching\IInspectionBindingCache;
+use Opulence\Ioc\Bootstrappers\Inspection\Caching\IBootstrapperBindingCache;
 use Opulence\Ioc\IContainer;
 
-final class InspectionBindingBootstrapperDispatcher implements IBootstrapperDispatcher
+/**
+ * Defines a bootstrapper dispatcher that uses binding inspection
+ */
+final class BindingInspectorBootstrapperDispatcher implements IBootstrapperDispatcher
 {
-    /** @var IInspectionBindingCache|null The cache to save inspection bindings with, or null if not caching */
-    private $inspectionBindingCache;
+    /** @var IBootstrapperBindingCache|null The cache to save bootstrapper bindings with, or null if not caching */
+    private $bootstrapperBindingCache;
     /** @var LazyBindingRegistrant The registrant for our lazy bindings */
     private $lazyBindingRegistrant;
     /** @var BindingInspector The binding inspector to use */
@@ -27,15 +30,15 @@ final class InspectionBindingBootstrapperDispatcher implements IBootstrapperDisp
 
     /**
      * @param IContainer $container The container to use when dispatching bootstrappers
-     * @param IInspectionBindingCache|null $inspectionBindingCache The cache to use for inspection bindings, or null if not caching
+     * @param IBootstrapperBindingCache|null $bootstrapperBindingCache The cache to use for bootstrapper bindings, or null if not caching
      * @param BindingInspector|null $bindingInspector The binding inspector to use, or null if using the default
      */
     public function __construct(
         IContainer $container,
-        IInspectionBindingCache $inspectionBindingCache = null,
+        IBootstrapperBindingCache $bootstrapperBindingCache = null,
         BindingInspector $bindingInspector = null
     ) {
-        $this->inspectionBindingCache = $inspectionBindingCache;
+        $this->bootstrapperBindingCache = $bootstrapperBindingCache;
         $this->bindingInspector = $bindingInspector ?? new BindingInspector();
         $this->lazyBindingRegistrant = new LazyBindingRegistrant($container);
     }
@@ -45,13 +48,13 @@ final class InspectionBindingBootstrapperDispatcher implements IBootstrapperDisp
      */
     public function dispatch(array $bootstrappers): void
     {
-        if ($this->inspectionBindingCache === null) {
-            $inspectionBindings = $this->bindingInspector->getBindings($bootstrappers);
-        } elseif (($inspectionBindings = $this->inspectionBindingCache->get()) === null) {
-            $inspectionBindings = $this->bindingInspector->getBindings($bootstrappers);
-            $this->inspectionBindingCache->set($inspectionBindings);
+        if ($this->bootstrapperBindingCache === null) {
+            $bootstrapperBindings = $this->bindingInspector->getBindings($bootstrappers);
+        } elseif (($bootstrapperBindings = $this->bootstrapperBindingCache->get()) === null) {
+            $bootstrapperBindings = $this->bindingInspector->getBindings($bootstrappers);
+            $this->bootstrapperBindingCache->set($bootstrapperBindings);
         }
 
-        $this->lazyBindingRegistrant->registerBindings($inspectionBindings);
+        $this->lazyBindingRegistrant->registerBindings($bootstrapperBindings);
     }
 }

@@ -21,8 +21,8 @@ use Opulence\Ioc\Container;
  */
 final class BindingInspectionContainer extends Container
 {
-    /** @var InspectionBinding[] The inspection bindings that were found */
-    private $inspectionBindings = [];
+    /** @var BootstrapperBinding[] The bootstrapper bindings that were found */
+    private $bootstrapperBindings = [];
     /** @var Bootstrapper The current bootstrapper class */
     private $currBootstrapper;
 
@@ -31,7 +31,7 @@ final class BindingInspectionContainer extends Container
      */
     public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false): void
     {
-        $this->addInspectionBinding($interfaces);
+        $this->addBootstrapperBinding($interfaces);
         parent::bindFactory($interfaces, $factory, $resolveAsSingleton);
     }
 
@@ -40,7 +40,7 @@ final class BindingInspectionContainer extends Container
      */
     public function bindInstance($interfaces, $instance): void
     {
-        $this->addInspectionBinding($interfaces);
+        $this->addBootstrapperBinding($interfaces);
         parent::bindInstance($interfaces, $instance);
     }
 
@@ -49,7 +49,7 @@ final class BindingInspectionContainer extends Container
      */
     public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = []): void
     {
-        $this->addInspectionBinding($interfaces);
+        $this->addBootstrapperBinding($interfaces);
         parent::bindPrototype($interfaces, $concreteClass, $primitives);
     }
 
@@ -58,25 +58,25 @@ final class BindingInspectionContainer extends Container
      */
     public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = []): void
     {
-        $this->addInspectionBinding($interfaces);
+        $this->addBootstrapperBinding($interfaces);
         parent::bindSingleton($interfaces, $concreteClass, $primitives);
     }
 
     /**
      * Gets all the bindings that were found
      *
-     * @return InspectionBinding[] The bindings that were found
+     * @return BootstrapperBinding[] The bindings that were found
      */
     public function getBindings(): array
     {
         // We don't want the keys returned
-        $inspectionBindings = [];
+        $bootstrapperBindings = [];
 
-        foreach ($this->inspectionBindings as $interface => $bindings) {
-            $inspectionBindings = \array_merge($inspectionBindings, $bindings);
+        foreach ($this->bootstrapperBindings as $interface => $bindings) {
+            $bootstrapperBindings = \array_merge($bootstrapperBindings, $bindings);
         }
 
-        return $inspectionBindings;
+        return $bootstrapperBindings;
     }
 
     public function setBootstrapper(Bootstrapper $bootstrapper): void
@@ -89,42 +89,42 @@ final class BindingInspectionContainer extends Container
      *
      * @param array|string $interfaces The interface or interfaces we're registering a binding for
      */
-    private function addInspectionBinding($interfaces): void
+    private function addBootstrapperBinding($interfaces): void
     {
         foreach ((array)$interfaces as $interface) {
-            $inspectionBinding = $this->createInspectionBinding($interface);
-            $isTargetedBinding = $inspectionBinding instanceof TargetedInspectionBinding;
+            $bootstrapperBinding = $this->createBootstrapperBinding($interface);
+            $isTargetedBinding = $bootstrapperBinding instanceof TargetedBootstrapperBinding;
 
-            if (!isset($this->inspectionBindings[$interface])) {
-                $this->inspectionBindings[$interface] = [$inspectionBinding];
+            if (!isset($this->bootstrapperBindings[$interface])) {
+                $this->bootstrapperBindings[$interface] = [$bootstrapperBinding];
                 continue;
             }
 
             // Check if this exact binding has already been registered
             $bindingAlreadyExists = false;
 
-            /** @var InspectionBinding $existingInspectionBinding */
-            foreach ($this->inspectionBindings[$interface] as $existingInspectionBinding) {
+            /** @var BootstrapperBinding $existingBootstrapperBinding */
+            foreach ($this->bootstrapperBindings[$interface] as $existingBootstrapperBinding) {
                 if (
-                    $inspectionBinding->getInterface() !== $existingInspectionBinding->getInterface()
-                    || $inspectionBinding->getBootstrapper() !== $existingInspectionBinding->getBootstrapper()
+                    $bootstrapperBinding->getInterface() !== $existingBootstrapperBinding->getInterface()
+                    || $bootstrapperBinding->getBootstrapper() !== $existingBootstrapperBinding->getBootstrapper()
                 ) {
                     continue;
                 }
 
                 if ($isTargetedBinding) {
-                    if ($existingInspectionBinding instanceof TargetedInspectionBinding) {
+                    if ($existingBootstrapperBinding instanceof TargetedBootstrapperBinding) {
                         $bindingAlreadyExists = true;
                         break;
                     }
-                } elseif ($existingInspectionBinding instanceof UniversalInspectionBinding) {
+                } elseif ($existingBootstrapperBinding instanceof UniversalBootstrapperBinding) {
                     $bindingAlreadyExists = true;
                     break;
                 }
             }
 
             if (!$bindingAlreadyExists) {
-                $this->inspectionBindings[$interface][] = $inspectionBinding;
+                $this->bootstrapperBindings[$interface][] = $bootstrapperBinding;
             }
         }
     }
@@ -133,12 +133,12 @@ final class BindingInspectionContainer extends Container
      * Creates an inspection binding
      *
      * @param string $interface The interface that was bound
-     * @return InspectionBinding The binding for the interface
+     * @return BootstrapperBinding The binding for the interface
      */
-    private function createInspectionBinding(string $interface): InspectionBinding
+    private function createBootstrapperBinding(string $interface): BootstrapperBinding
     {
         return $this->currentTarget === null
-            ? new UniversalInspectionBinding($interface, $this->currBootstrapper)
-            : new TargetedInspectionBinding($this->currentTarget, $interface, $this->currBootstrapper);
+            ? new UniversalBootstrapperBinding($interface, $this->currBootstrapper)
+            : new TargetedBootstrapperBinding($this->currentTarget, $interface, $this->currBootstrapper);
     }
 }

@@ -13,14 +13,14 @@ declare(strict_types=1);
 namespace Opulence\Ioc\Tests\Bootstrappers\Inspection;
 
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\Bootstrappers\Inspection\UniversalInspectionBinding;
+use Opulence\Ioc\Bootstrappers\Inspection\UniversalBootstrapperBinding;
 use Opulence\Ioc\IContainer;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests the universal inspection binding
+ * Tests the universal bootstrapper binding
  */
-class UniversalInspectionBindingTest extends TestCase
+class UniversalBootstrapperBindingTest extends TestCase
 {
     public function testGettingPropertiesReturnsOneSetInConstructor(): void
     {
@@ -30,7 +30,7 @@ class UniversalInspectionBindingTest extends TestCase
                 // Don't do anything
             }
         };
-        $binding = new UniversalInspectionBinding('foo', $expectedBootstrapper);
+        $binding = new UniversalBootstrapperBinding('foo', $expectedBootstrapper);
         $this->assertEquals('foo', $binding->getInterface());
         $this->assertSame($expectedBootstrapper, $binding->getBootstrapper());
     }

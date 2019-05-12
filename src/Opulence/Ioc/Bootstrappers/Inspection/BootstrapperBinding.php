@@ -15,9 +15,9 @@ namespace Opulence\Ioc\Bootstrappers\Inspection;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 
 /**
- * Defines the base class for inspection bindings to implement
+ * Defines the base class for bootstrapper bindings to implement
  */
-abstract class InspectionBinding
+abstract class BootstrapperBinding
 {
     /** @var string The interface that was bound */
     protected $interface;

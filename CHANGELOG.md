@@ -55,7 +55,7 @@
 * Renamed `IBinding` to `IContainerBinding`, `ClassBinding` to `ClassContainerBinding`, `FactoryBinding` to `FactoryContainerBinding`, and `InstanceBinding` to `InstanceContainerBinding`
 * Made `IContainerBinding`, `ClassContainerBinding`, `FactoryContainerBinding`, and `InstanceContainerBinding` internal
 * Moved `IBootstrapperDispatcher` to `Opulence\Ioc\Bootstrappers`, and removed `BootstrapperDispatcher`
-* Added `EagerBootstrapperDispatcher`, `InspectionBindingBootstrapperDispatcher`, and `LazyBindingRegistrant`
+* Added `BindingInspectorBootstrapperDispatcher` and `LazyBindingRegistrant`
 * Removed `ILazyBootstrapper`
   * All bootstrappers can be lazy now with inspections
 * Removed `IBootstrapperRegistry` and `BootstrapperRegistry`

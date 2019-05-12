@@ -17,7 +17,7 @@ use Opulence\Ioc\Bootstrappers\Bootstrapper;
 /**
  * Defines a binding that is universal
  */
-final class UniversalInspectionBinding extends InspectionBinding
+final class UniversalBootstrapperBinding extends BootstrapperBinding
 {
     /**
      * @param string $interface The interface that was bound

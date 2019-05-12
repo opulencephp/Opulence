@@ -15,30 +15,30 @@ namespace Opulence\Ioc\Tests\Bootstrappers\Inspection;
 use Closure;
 use Opulence\Collections\Tests\Mocks\MockObject;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\Bootstrappers\Inspection\Caching\IInspectionBindingCache;
-use Opulence\Ioc\Bootstrappers\Inspection\InspectionBinding;
-use Opulence\Ioc\Bootstrappers\Inspection\InspectionBindingBootstrapperDispatcher;
-use Opulence\Ioc\Bootstrappers\Inspection\UniversalInspectionBinding;
+use Opulence\Ioc\Bootstrappers\Inspection\BindingInspectorBootstrapperDispatcher;
+use Opulence\Ioc\Bootstrappers\Inspection\BootstrapperBinding;
+use Opulence\Ioc\Bootstrappers\Inspection\Caching\IBootstrapperBindingCache;
+use Opulence\Ioc\Bootstrappers\Inspection\UniversalBootstrapperBinding;
 use Opulence\Ioc\IContainer;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the inspection binding bootstrapper dispatcher
  */
-class InspectionBindingBootstrapperDispatcherTest extends TestCase
+class BindingInspectorBootstrapperDispatcherTest extends TestCase
 {
-    /** @var InspectionBindingBootstrapperDispatcher */
+    /** @var BindingInspectorBootstrapperDispatcher */
     private $dispatcher;
     /** @var IContainer|MockObject */
     private $container;
-    /** @var IInspectionBindingCache|MockObject */
+    /** @var IBootstrapperBindingCache|MockObject */
     private $cache;
 
     protected function setUp(): void
     {
         $this->container = $this->createMock(IContainer::class);
-        $this->cache = $this->createMock(IInspectionBindingCache::class);
-        $this->dispatcher = new InspectionBindingBootstrapperDispatcher($this->container, $this->cache);
+        $this->cache = $this->createMock(IBootstrapperBindingCache::class);
+        $this->dispatcher = new BindingInspectorBootstrapperDispatcher($this->container, $this->cache);
     }
 
     public function testDispatchingWithCacheForcesBindingInspectionAndSetsCacheOnCacheMiss(): void
@@ -54,11 +54,11 @@ class InspectionBindingBootstrapperDispatcherTest extends TestCase
             ->willReturn(null);
         $this->cache->expects($this->once())
             ->method('set')
-            ->with($this->callback(function (array $inspectionBindings) use ($expectedBootstrapper) {
-                /** @var InspectionBinding[] $inspectionBindings */
-                return \count($inspectionBindings) === 1
-                    && $inspectionBindings[0]->getBootstrapper() === $expectedBootstrapper
-                    && $inspectionBindings[0]->getInterface() === 'foo';
+            ->with($this->callback(function (array $bootstrapperBindings) use ($expectedBootstrapper) {
+                /** @var BootstrapperBinding[] $bootstrapperBindings */
+                return \count($bootstrapperBindings) === 1
+                    && $bootstrapperBindings[0]->getBootstrapper() === $expectedBootstrapper
+                    && $bootstrapperBindings[0]->getInterface() === 'foo';
             }));
         $this->container->expects($this->once())
             ->method('bindFactory')
@@ -76,7 +76,7 @@ class InspectionBindingBootstrapperDispatcherTest extends TestCase
                 $container->bindPrototype('foo', 'bar');
             }
         };
-        $expectedBindings = [new UniversalInspectionBinding('foo', $expectedBootstrapper)];
+        $expectedBindings = [new UniversalBootstrapperBinding('foo', $expectedBootstrapper)];
         $this->cache->expects($this->once())
             ->method('get')
             ->willReturn($expectedBindings);
@@ -90,7 +90,7 @@ class InspectionBindingBootstrapperDispatcherTest extends TestCase
 
     public function testDispatchingWithNoCacheForcesBindingInspection(): void
     {
-        $dispatcher = new InspectionBindingBootstrapperDispatcher($this->container);
+        $dispatcher = new BindingInspectorBootstrapperDispatcher($this->container);
         $expectedBootstrapper = new class extends Bootstrapper {
             public function registerBindings(IContainer $container): void
             {

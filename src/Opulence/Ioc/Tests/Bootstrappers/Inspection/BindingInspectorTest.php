@@ -16,7 +16,7 @@ use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\Bootstrappers\Inspection\BindingInspectionContainer;
 use Opulence\Ioc\Bootstrappers\Inspection\BindingInspector;
 use Opulence\Ioc\Bootstrappers\Inspection\ImpossibleBindingException;
-use Opulence\Ioc\Bootstrappers\Inspection\TargetedInspectionBinding;
+use Opulence\Ioc\Bootstrappers\Inspection\TargetedBootstrapperBinding;
 use Opulence\Ioc\IContainer;
 use Opulence\Ioc\Tests\Bootstrappers\Inspection\Mocks\Bar;
 use Opulence\Ioc\Tests\Bootstrappers\Inspection\Mocks\Foo;
@@ -50,6 +50,31 @@ class BindingInspectorTest extends TestCase
             }
         };
         $this->inspector->getBindings([$bootstrapper]);
+    }
+
+    public function testInspectingBootstrappersWithCyclicalDependenciesThrowsException(): void
+    {
+        $this->expectException(ImpossibleBindingException::class);
+        $bootstrapperA = new class extends Bootstrapper {
+            public function registerBindings(IContainer $container): void
+            {
+                /*
+                 * Order here is important - a truly cyclical dependency means those dependencies are resolved prior
+                 * to them being bound
+                 */
+                $container->resolve(IFoo::class);
+                $container->bindInstance(IBar::class, new Bar());
+            }
+        };
+        $bootstrapperB = new class extends Bootstrapper {
+            public function registerBindings(IContainer $container): void
+            {
+                // Ditto about order being important
+                $container->resolve(IBar::class);
+                $container->bindInstance(IFoo::class, new Foo());
+            }
+        };
+        $this->inspector->getBindings([$bootstrapperA, $bootstrapperB]);
     }
 
     public function testInspectingBootstrapperThatNeedsTargetedBindingWorksWhenOneHasUniversalBinding(): void
@@ -136,7 +161,7 @@ class BindingInspectorTest extends TestCase
                 });
             }
         };
-        /** @var TargetedInspectionBinding[] $actualBindings */
+        /** @var TargetedBootstrapperBinding[] $actualBindings */
         $actualBindings = $this->inspector->getBindings([$bootstrapperA, $bootstrapperB]);
         $this->assertCount(2, $actualBindings);
         $this->assertEquals('SomeClass', $actualBindings[0]->getTargetClass());

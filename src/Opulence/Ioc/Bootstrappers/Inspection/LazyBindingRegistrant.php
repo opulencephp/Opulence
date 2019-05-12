@@ -35,26 +35,26 @@ final class LazyBindingRegistrant
     /**
      * Registers bindings found during inspection
      *
-     * @param InspectionBinding[] $inspectionBindings The bindings whose resolvers we're going to register
+     * @param BootstrapperBinding[] $bootstrapperBindings The bindings whose resolvers we're going to register
      */
-    public function registerBindings(array $inspectionBindings): void
+    public function registerBindings(array $bootstrapperBindings): void
     {
-        foreach ($inspectionBindings as $inspectionBinding) {
-            $resolvingFactory = function () use ($inspectionBinding) {
+        foreach ($bootstrapperBindings as $bootstrapperBinding) {
+            $resolvingFactory = function () use ($bootstrapperBinding) {
                 /**
-                 * To make sure this factory isn't used anymore to resolve the bound class, unbind it and rely on the
+                 * To make sure this factory isn't used anymore to resolve the bound interface, unbind it and rely on the
                  * binding defined in the bootstrapper.  Otherwise, we'd get into an infinite loop every time we tried
                  * to resolve it.
                  */
-                if ($inspectionBinding instanceof TargetedInspectionBinding) {
-                    $this->container->for($inspectionBinding->getTargetClass(), function (IContainer $container) use ($inspectionBinding) {
-                        $container->unbind($inspectionBinding->getInterface());
+                if ($bootstrapperBinding instanceof TargetedBootstrapperBinding) {
+                    $this->container->for($bootstrapperBinding->getTargetClass(), function (IContainer $container) use ($bootstrapperBinding) {
+                        $container->unbind($bootstrapperBinding->getInterface());
                     });
                 } else {
-                    $this->container->unbind($inspectionBinding->getInterface());
+                    $this->container->unbind($bootstrapperBinding->getInterface());
                 }
 
-                $bootstrapper = $inspectionBinding->getBootstrapper();
+                $bootstrapper = $bootstrapperBinding->getBootstrapper();
                 $bootstrapperClass = \get_class($bootstrapper);
 
                 // Make sure we don't double-dispatch this bootstrapper
@@ -63,21 +63,21 @@ final class LazyBindingRegistrant
                     $this->alreadyDispatchedBootstrapperClasses[$bootstrapperClass] = true;
                 }
 
-                if ($inspectionBinding instanceof TargetedInspectionBinding) {
-                    return $this->container->for($inspectionBinding->getTargetClass(), function (IContainer $container) use ($inspectionBinding) {
-                        return $container->resolve($inspectionBinding->getInterface());
+                if ($bootstrapperBinding instanceof TargetedBootstrapperBinding) {
+                    return $this->container->for($bootstrapperBinding->getTargetClass(), function (IContainer $container) use ($bootstrapperBinding) {
+                        return $container->resolve($bootstrapperBinding->getInterface());
                     });
                 }
 
-                return $this->container->resolve($inspectionBinding->getInterface());
+                return $this->container->resolve($bootstrapperBinding->getInterface());
             };
 
-            if ($inspectionBinding instanceof TargetedInspectionBinding) {
-                $this->container->for($inspectionBinding->getTargetClass(), function (IContainer $container) use ($inspectionBinding, $resolvingFactory) {
-                    $container->bindFactory($inspectionBinding->getInterface(), $resolvingFactory);
+            if ($bootstrapperBinding instanceof TargetedBootstrapperBinding) {
+                $this->container->for($bootstrapperBinding->getTargetClass(), function (IContainer $container) use ($bootstrapperBinding, $resolvingFactory) {
+                    $container->bindFactory($bootstrapperBinding->getInterface(), $resolvingFactory);
                 });
             } else {
-                $this->container->bindFactory($inspectionBinding->getInterface(), $resolvingFactory);
+                $this->container->bindFactory($bootstrapperBinding->getInterface(), $resolvingFactory);
             }
         }
     }

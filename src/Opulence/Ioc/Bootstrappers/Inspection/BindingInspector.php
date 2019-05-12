@@ -35,7 +35,7 @@ final class BindingInspector
      * Finds the bindings that were registered in a list of bootstrappers
      *
      * @param Bootstrapper[] $bootstrappers The bootstrappers to inspect
-     * @return InspectionBinding[] The list of bindings that were found
+     * @return BootstrapperBinding[] The list of bindings that were found
      * @throws ImpossibleBindingException Thrown if the bindings are not possible to resolve
      */
     public function getBindings(array $bootstrappers): array

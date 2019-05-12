@@ -12,24 +12,24 @@ declare(strict_types=1);
 
 namespace Opulence\Ioc\Tests\Bootstrappers\Inspection\Caching;
 
-use Opulence\Ioc\Bootstrappers\Inspection\Caching\FileInspectionBindingCache;
-use Opulence\Ioc\Bootstrappers\Inspection\UniversalInspectionBinding;
+use Opulence\Ioc\Bootstrappers\Inspection\Caching\FileBootstrapperBindingCache;
+use Opulence\Ioc\Bootstrappers\Inspection\UniversalBootstrapperBinding;
 use Opulence\Ioc\Tests\Bootstrappers\Inspection\Caching\Mocks\MockBootstrapper;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests the file inspection binding cache
+ * Tests the file bootstrapper binding cache
  */
-class FileInspectionBindingCacheTest extends TestCase
+class FileBootstrapperBindingCacheTest extends TestCase
 {
     /** string The path to the cache */
     private const FILE_PATH = __DIR__ . '/tmp/cache.txt';
-    /** @var FileInspectionBindingCache */
+    /** @var FileBootstrapperBindingCache */
     private $cache;
 
     protected function setUp(): void
     {
-        $this->cache = new FileInspectionBindingCache(self::FILE_PATH);
+        $this->cache = new FileBootstrapperBindingCache(self::FILE_PATH);
     }
 
     protected function tearDown(): void
@@ -48,7 +48,7 @@ class FileInspectionBindingCacheTest extends TestCase
 
     public function testGettingFromCacheWhenFileDoesExistReturnsBindings(): void
     {
-        $expectedBindings = [new UniversalInspectionBinding('foo', new MockBootstrapper())];
+        $expectedBindings = [new UniversalBootstrapperBinding('foo', new MockBootstrapper())];
         $this->cache->set($expectedBindings);
         $actualBindings = $this->cache->get();
         $this->assertIsArray($actualBindings);

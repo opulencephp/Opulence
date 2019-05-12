@@ -15,8 +15,8 @@ namespace Opulence\Ioc\Tests\Bootstrappers\Inspection;
 use Closure;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\Bootstrappers\Inspection\LazyBindingRegistrant;
-use Opulence\Ioc\Bootstrappers\Inspection\TargetedInspectionBinding;
-use Opulence\Ioc\Bootstrappers\Inspection\UniversalInspectionBinding;
+use Opulence\Ioc\Bootstrappers\Inspection\TargetedBootstrapperBinding;
+use Opulence\Ioc\Bootstrappers\Inspection\UniversalBootstrapperBinding;
 use Opulence\Ioc\IContainer;
 use Opulence\Ioc\Tests\Bootstrappers\Inspection\Mocks\Foo;
 use Opulence\Ioc\Tests\Bootstrappers\Inspection\Mocks\IFoo;
@@ -53,7 +53,7 @@ class LazyBindingRegistrantTest extends TestCase
                 });
             }
         };
-        $bindings = [new TargetedInspectionBinding('bar', IFoo::class, $bootstrapper)];
+        $bindings = [new TargetedBootstrapperBinding('bar', IFoo::class, $bootstrapper)];
         $initialCallback = function (IContainer $container) {
             // Don't do anything
         };
@@ -145,7 +145,7 @@ class LazyBindingRegistrantTest extends TestCase
                 });
             }
         };
-        $bindings = [new TargetedInspectionBinding('bar', IFoo::class, $bootstrapper)];
+        $bindings = [new TargetedBootstrapperBinding('bar', IFoo::class, $bootstrapper)];
         $this->container->expects($this->once())
             ->method('for')
             ->with('bar', $this->callback(function (Closure $factory) {
@@ -162,7 +162,7 @@ class LazyBindingRegistrantTest extends TestCase
                 $container->bindInstance(IFoo::class, new Foo());
             }
         };
-        $bindings = [new UniversalInspectionBinding(IFoo::class, $bootstrapper)];
+        $bindings = [new UniversalBootstrapperBinding(IFoo::class, $bootstrapper)];
         $actualFactory = function () {
             // Don't do anything
         };
@@ -193,7 +193,7 @@ class LazyBindingRegistrantTest extends TestCase
                 $container->bindInstance(IFoo::class, new Foo());
             }
         };
-        $bindings = [new UniversalInspectionBinding(IFoo::class, $bootstrapper)];
+        $bindings = [new UniversalBootstrapperBinding(IFoo::class, $bootstrapper)];
         $this->container->expects($this->once())
             ->method('bindFactory')
             ->with(IFoo::class, $this->callback(function (Closure $factory) {

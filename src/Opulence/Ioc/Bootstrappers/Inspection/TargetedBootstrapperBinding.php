@@ -17,7 +17,7 @@ use Opulence\Ioc\Bootstrappers\Bootstrapper;
 /**
  * Defines a targeted binding
  */
-final class TargetedInspectionBinding extends InspectionBinding
+final class TargetedBootstrapperBinding extends BootstrapperBinding
 {
     /** @var string The targeted class */
     private $targetClass;

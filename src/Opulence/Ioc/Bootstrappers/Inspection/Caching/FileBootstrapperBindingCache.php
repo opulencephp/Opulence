@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Opulence\Ioc\Bootstrappers\Inspection\Caching;
 
 /**
- * Defines the inspection binding cache that uses a file as the cache
+ * Defines the bootstrapper binding cache that uses a file as the cache
  */
-final class FileInspectionBindingCache implements IInspectionBindingCache
+final class FileBootstrapperBindingCache implements IBootstrapperBindingCache
 {
     /** @var string The cache file path */
     private $filePath;

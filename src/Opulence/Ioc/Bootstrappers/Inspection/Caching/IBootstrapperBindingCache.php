@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Opulence\Ioc\Bootstrappers\Inspection\Caching;
 
-use Opulence\Ioc\Bootstrappers\Inspection\InspectionBinding;
+use Opulence\Ioc\Bootstrappers\Inspection\BootstrapperBinding;
 
 /**
- * Defines the cache for inspection bindings
+ * Defines the cache for bootstrapper bindings
  */
-interface IInspectionBindingCache
+interface IBootstrapperBindingCache
 {
     /**
      * Flushes the cache
@@ -27,14 +27,14 @@ interface IInspectionBindingCache
     /**
      * Gets the bootstrapper bindings from cache if they exist
      *
-     * @return InspectionBinding[]|null The inspection bindings if they were found, otherwise null
+     * @return BootstrapperBinding[]|null The bootstrapper bindings if they were found, otherwise null
      */
     public function get(): ?array;
 
     /**
      * Writes the bootstrapper bindings
      *
-     * @param InspectionBinding[] $bindings The bindings to write
+     * @param BootstrapperBinding[] $bindings The bindings to write
      */
     public function set(array $bindings): void;
 }
