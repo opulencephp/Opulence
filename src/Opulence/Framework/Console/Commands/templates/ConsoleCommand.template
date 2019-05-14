@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 namespace {{namespace}};
 
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
 
-class {{class}} extends Command
+final class {{class}} extends Command
 {
     /**
      * Sets the arguments and options for this command

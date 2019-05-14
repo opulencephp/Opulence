@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 namespace {{namespace}};
 
 use DateTime;
 use Opulence\Databases\Migrations\Migration;
 
-class {{class}} extends Migration
+final class {{class}} extends Migration
 {
     /**
      * Gets the creation date, which is used for ordering
