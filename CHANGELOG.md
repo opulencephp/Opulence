@@ -80,6 +80,8 @@
 * `IUnitOfWork::detach()`, `IUnitOfWork::scheduleForDeletion()`, `IUnitOfWork::scheduleForInsertion()`, and `IUnitOfWork::scheduleForUpdate()` now requires the entity to be of type `object`
 * `IChangeTracker::hasChanged()` and `IChangeTracker::startTracking()` now require the entity to be of type `object`
 * `IRepository::add()` and `IRepository::delete()` now require the entity to be of type `object`
+* `RedisDataMapper::loadEntities()` is renamed to `createEntities()` and `RedisDataMapper::loadEntity()` to `createEntity()`
+* `SqlDataMapper::loadEntity()` to `createEntity()`
 
 <h3>Validation</h3>
 

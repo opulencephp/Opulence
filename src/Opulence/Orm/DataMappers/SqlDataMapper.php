@@ -43,12 +43,12 @@ abstract class SqlDataMapper implements IDataMapper
     }
 
     /**
-     * Loads an entity from a hash of data
+     * Creates an entity from a hash of data
      *
      * @param array $hash The hash of data to load the entity from
      * @return object The entity
      */
-    abstract protected function loadEntity(array $hash): object;
+    abstract protected function createEntity(array $hash): object;
 
     /**
      * Performs the read query for entity(ies) and returns any results
@@ -75,7 +75,7 @@ abstract class SqlDataMapper implements IDataMapper
             $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($rows as $row) {
-                $entities[] = $this->loadEntity($row);
+                $entities[] = $this->createEntity($row);
             }
 
             if ($valueType == self::VALUE_TYPE_ENTITY) {

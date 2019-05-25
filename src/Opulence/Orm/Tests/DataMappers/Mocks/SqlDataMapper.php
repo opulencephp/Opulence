@@ -94,7 +94,7 @@ class SqlDataMapper extends BaseSqlDataMapper
     /**
      * @inheritdoc
      */
-    protected function loadEntity(array $hash): object
+    protected function createEntity(array $hash): object
     {
         // We don't really care what this returns
         return $this;

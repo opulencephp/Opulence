@@ -64,15 +64,6 @@ class CachedSqlDataMapper extends BaseCachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function loadEntity(array $hash): object
-    {
-        // We don't really care what this returns
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
     protected function setCacheDataMapper($cache): void
     {
         $this->cacheDataMapper = new CacheDataMapper();

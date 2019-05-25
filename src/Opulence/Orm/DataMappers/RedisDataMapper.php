@@ -48,7 +48,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
             return null;
         }
 
-        return $this->loadEntity($entityHash);
+        return $this->createEntity($entityHash);
     }
 
     /**
@@ -87,20 +87,20 @@ abstract class RedisDataMapper implements ICacheDataMapper
     abstract protected function getValueFromRedis(string $key);
 
     /**
-     * Loads an entity from a hash of data
+     * Creates an entity from a hash of data
      *
      * @param array $hash The hash of data to load the entity from
      * @return object The entity
      */
-    abstract protected function loadEntity(array $hash): object;
+    abstract protected function createEntity(array $hash): object;
 
     /**
-     * Loads multiple entities from their Ids
+     * Creates multiple entities from their Ids
      *
      * @param array $entityIds The list of Ids of entities to load
      * @return array|null The list of entities if they were all found in cache, otherwise null
      */
-    protected function loadEntities(array $entityIds): ?array
+    protected function createEntities(array $entityIds): ?array
     {
         if (count($entityIds) === 0) {
             return null;
@@ -116,7 +116,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
                 return null;
             }
 
-            $entities[] = $this->loadEntity($hash);
+            $entities[] = $this->createEntity($hash);
         }
 
         return $entities;
@@ -164,7 +164,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
                 return null;
         }
 
-        $entities = $this->loadEntities($entityIds);
+        $entities = $this->createEntities($entityIds);
 
         if ($valueType === self::VALUE_TYPE_STRING) {
             return $entities[0];
