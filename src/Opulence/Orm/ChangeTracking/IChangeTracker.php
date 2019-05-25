@@ -26,7 +26,7 @@ interface IChangeTracker
      * @return bool True if the entity has changed, otherwise false
      * @throws OrmException Thrown if the entity was not registered in the first place
      */
-    public function hasChanged($entity): bool;
+    public function hasChanged(object $entity): bool;
 
     /**
      * Registers a function that compares two entities and determines whether or not they're the same
@@ -41,7 +41,7 @@ interface IChangeTracker
      *
      * @param object $entity The entity to start tracking
      */
-    public function startTracking($entity): void;
+    public function startTracking(object $entity): void;
 
     /**
      * Stops tracking an entity

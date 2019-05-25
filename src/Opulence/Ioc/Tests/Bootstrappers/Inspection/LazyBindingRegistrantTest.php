@@ -123,10 +123,6 @@ class LazyBindingRegistrantTest extends TestCase
             ->with(IFoo::class, $this->callback(function (Foo $foo) {
                 return true;
             }));
-        // Resolve the interface
-        $this->container->method('resolve')
-            ->with(IFoo::class)
-            ->willReturn($bootstrapper->foo);
         $this->registrant->registerBindings($bindings);
         $initialCallback($this->container);
         $initialFactory();

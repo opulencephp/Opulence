@@ -34,7 +34,7 @@ interface IEntityRegistry
      *
      * @param object $entity The entity to detach
      */
-    public function deregisterEntity($entity): void;
+    public function deregisterEntity(object $entity): void;
 
     /**
      * Gets the object's class name
@@ -42,7 +42,7 @@ interface IEntityRegistry
      * @param mixed $object The object whose class name we want
      * @return string The object's class name
      */
-    public function getClassName($object): string;
+    public function getClassName(object $object): string;
 
     /**
      * Gets the list of all registered entities
@@ -58,7 +58,7 @@ interface IEntityRegistry
      * @param int|string $id The entity's Id
      * @return object|null The entity if it was found, otherwise null
      */
-    public function getEntity(string $className, $id);
+    public function getEntity(string $className, $id): ?object;
 
     /**
      * Gets the entity state for the input entity
@@ -66,15 +66,15 @@ interface IEntityRegistry
      * @param object $entity The entity to check
      * @return int The entity state
      */
-    public function getEntityState($entity): int;
+    public function getEntityState(object $entity): int;
 
     /**
      * Gets a unique hash Id for an object
      *
-     * @param mixed $object The object whose hash we want
+     * @param object $object The object whose hash we want
      * @return string The object hash Id
      */
-    public function getObjectHashId($object): string;
+    public function getObjectHashId(object $object): string;
 
     /**
      * Gets whether or not an entity is registered
@@ -82,7 +82,7 @@ interface IEntityRegistry
      * @param object $entity The entity to check
      * @return bool True if the entity is registered, otherwise false
      */
-    public function isRegistered($entity): bool;
+    public function isRegistered(object $entity): bool;
 
     /**
      * Registers a function to set the aggregate root Id in a child entity after the aggregate root has been inserted
@@ -92,7 +92,7 @@ interface IEntityRegistry
      * @param object $child The child of the aggregate root
      * @param callable $function The function that contains the logic to set the aggregate root Id in the child
      */
-    public function registerAggregateRootCallback($aggregateRoot, $child, callable $function): void;
+    public function registerAggregateRootCallback(object $aggregateRoot, object $child, callable $function): void;
 
     /**
      * Registers an entity
@@ -100,14 +100,14 @@ interface IEntityRegistry
      * @param object $entity The entity to register
      * @throws OrmException Thrown if there was an error registering the entity
      */
-    public function registerEntity(&$entity): void;
+    public function registerEntity(object &$entity): void;
 
     /**
      * Runs any aggregate root child functions registered for the entity
      *
      * @param object $child The child whose aggregate root functions we're running
      */
-    public function runAggregateRootCallbacks($child): void;
+    public function runAggregateRootCallbacks(object $child): void;
 
     /**
      * Sets an entity's state
@@ -115,5 +115,5 @@ interface IEntityRegistry
      * @param object $entity The entity whose state we're setting
      * @param int $entityState The entity state
      */
-    public function setState($entity, int $entityState): void;
+    public function setState(object $entity, int $entityState): void;
 }

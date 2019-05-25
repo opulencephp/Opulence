@@ -62,7 +62,7 @@ class CacheDataMapper implements ICacheDataMapper
     /**
      * @inheritdoc
      */
-    public function getById($id)
+    public function getById($id): ?object
     {
         if (!isset($this->entities[$id])) {
             return null;

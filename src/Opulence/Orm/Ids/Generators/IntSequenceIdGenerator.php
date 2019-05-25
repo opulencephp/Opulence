@@ -22,7 +22,7 @@ class IntSequenceIdGenerator extends SequenceIdGenerator
     /**
      * @inheritdoc
      */
-    public function generate($entity)
+    public function generate(object $entity)
     {
         if ($this->connection === null) {
             throw new OrmException('Connection not set in sequence generator');
@@ -34,7 +34,7 @@ class IntSequenceIdGenerator extends SequenceIdGenerator
     /**
      * @inheritdoc
      */
-    public function getEmptyValue($entity)
+    public function getEmptyValue(object $entity)
     {
         return null;
     }

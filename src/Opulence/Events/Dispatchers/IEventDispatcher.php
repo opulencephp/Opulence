@@ -23,5 +23,5 @@ interface IEventDispatcher
      * @param string $eventName The name of the event to dispatch
      * @param object $event The event to dispatch
      */
-    public function dispatch(string $eventName, $event): void;
+    public function dispatch(string $eventName, object $event): void;
 }

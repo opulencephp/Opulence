@@ -66,7 +66,7 @@ class SqlDataMapper extends BaseSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getById($id)
+    public function getById($id): ?object
     {
         if (!isset($this->entities[$id])) {
             throw new OrmException('No entity found with Id ' . $id);
@@ -94,8 +94,9 @@ class SqlDataMapper extends BaseSqlDataMapper
     /**
      * @inheritdoc
      */
-    protected function loadEntity(array $hash)
+    protected function loadEntity(array $hash): object
     {
-        // Don't do anything
+        // We don't really care what this returns
+        return $this;
     }
 }

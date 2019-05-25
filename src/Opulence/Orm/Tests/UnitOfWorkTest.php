@@ -107,7 +107,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $method->invoke($this->unitOfWork);
         $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
         $this->unitOfWork->commit();
-        $this->assertTrue(in_array($this->entity1, $scheduledFoUpdate));
+        $this->assertContains($this->entity1, $scheduledFoUpdate);
     }
 
     /**
@@ -295,7 +295,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $method->setAccessible(true);
         $method->invoke($this->unitOfWork);
         $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
-        $this->assertFalse(in_array($this->entity1, $scheduledFoUpdate));
+        $this->assertNotContains($this->entity1, $scheduledFoUpdate);
     }
 
     /**
@@ -326,7 +326,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $method->invoke($this->unitOfWork);
         $scheduledFoDeletion = $this->unitOfWork->getScheduledEntityDeletions();
         $this->unitOfWork->commit();
-        $this->assertTrue(in_array($this->entity1, $scheduledFoDeletion));
+        $this->assertContains($this->entity1, $scheduledFoDeletion);
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
         $this->assertEquals(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
         $this->expectException(OrmException::class);
@@ -349,7 +349,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $scheduledFoInsertion = $this->unitOfWork->getScheduledEntityInsertions();
         $expectedId = $this->dataMapper->getCurrId() + 1;
         $this->unitOfWork->commit();
-        $this->assertTrue(in_array($this->entity1, $scheduledFoInsertion));
+        $this->assertContains($this->entity1, $scheduledFoInsertion);
         $this->assertEquals($this->entity1, $this->entityRegistry->getEntity($className, $this->entity1->getId()));
         $this->assertEquals(EntityStates::REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
         $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));
@@ -371,7 +371,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $method->invoke($this->unitOfWork);
         $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
         $this->unitOfWork->commit();
-        $this->assertTrue(in_array($this->entity1, $scheduledFoUpdate));
+        $this->assertContains($this->entity1, $scheduledFoUpdate);
         $this->assertEquals($this->entity1, $this->entityRegistry->getEntity($className, $this->entity1->getId()));
         $this->assertEquals(EntityStates::REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
         $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));

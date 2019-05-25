@@ -20,7 +20,7 @@ class UuidV4Generator implements IIdGenerator
     /**
      * @inheritdoc
      */
-    public function generate($entity)
+    public function generate(object $entity)
     {
         $string = \random_bytes(16);
         $string[6] = \chr(\ord($string[6]) & 0x0f | 0x40);
@@ -32,7 +32,7 @@ class UuidV4Generator implements IIdGenerator
     /**
      * @inheritdoc
      */
-    public function getEmptyValue($entity)
+    public function getEmptyValue(object $entity)
     {
         return '';
     }

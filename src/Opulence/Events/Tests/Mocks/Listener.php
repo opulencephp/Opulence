@@ -26,7 +26,7 @@ class Listener
      * @param string $eventName The name of the event
      * @param IEventDispatcher $dispatcher The event dispatcher
      */
-    public function doNothing1($event, $eventName, IEventDispatcher $dispatcher)
+    public function doNothing1(object $event, $eventName, IEventDispatcher $dispatcher)
     {
         // Don't do anything
     }
@@ -38,7 +38,7 @@ class Listener
      * @param string $eventName The name of the event
      * @param IEventDispatcher $dispatcher The event dispatcher
      */
-    public function doNothing2($event, $eventName, IEventDispatcher $dispatcher)
+    public function doNothing2(object $event, $eventName, IEventDispatcher $dispatcher)
     {
         // Don't do anything
     }

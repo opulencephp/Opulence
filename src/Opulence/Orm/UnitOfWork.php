@@ -148,18 +148,19 @@ class UnitOfWork implements IUnitOfWork
     /**
      * @inheritdoc
      */
-    public function detach($entity): void
+    public function detach(object $entity): void
     {
         $this->entityRegistry->deregisterEntity($entity);
         $objectHashId = $this->entityRegistry->getObjectHashId($entity);
-        // Remove all scheduled actions
-        unset($this->scheduledActions[$this->scheduledForInsertion[$objectHashId] ?? null]);
-        unset($this->scheduledActions[$this->scheduledForUpdate[$objectHashId] ?? null]);
-        unset($this->scheduledActions[$this->scheduledForDeletion[$objectHashId] ?? null]);
-        // Remove this entity from our action indices
-        unset($this->scheduledForInsertion[$objectHashId]);
-        unset($this->scheduledForUpdate[$objectHashId]);
-        unset($this->scheduledForDeletion[$objectHashId]);
+        // Remove all scheduled actions and the entity from our action indices
+        unset(
+            $this->scheduledActions[$this->scheduledForInsertion[$objectHashId] ?? null],
+            $this->scheduledActions[$this->scheduledForUpdate[$objectHashId] ?? null],
+            $this->scheduledActions[$this->scheduledForDeletion[$objectHashId] ?? null],
+            $this->scheduledForInsertion[$objectHashId],
+            $this->scheduledForUpdate[$objectHashId],
+            $this->scheduledForDeletion[$objectHashId]
+        );
     }
 
     /**
@@ -195,7 +196,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * @inheritdoc
      */
-    public function scheduleForDeletion($entity): void
+    public function scheduleForDeletion(object $entity): void
     {
         $objectHashId = $this->entityRegistry->getObjectHashId($entity);
         $this->scheduledActions[] = ['delete', $entity];
@@ -206,7 +207,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * @inheritdoc
      */
-    public function scheduleForInsertion($entity): void
+    public function scheduleForInsertion(object $entity): void
     {
         $objectHashId = $this->entityRegistry->getObjectHashId($entity);
         $this->scheduledActions[] = ['insert', $entity];
@@ -218,7 +219,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * @inheritdoc
      */
-    public function scheduleForUpdate($entity): void
+    public function scheduleForUpdate(object $entity): void
     {
         $objectHashId = $this->entityRegistry->getObjectHashId($entity);
         $this->scheduledActions[] = ['update', $entity];
@@ -236,10 +237,11 @@ class UnitOfWork implements IUnitOfWork
         foreach ($managedEntities as $entity) {
             $objectHashId = $this->entityRegistry->getObjectHashId($entity);
 
-            if ($this->entityRegistry->isRegistered($entity)
-                && !isset($this->scheduledForInsertion[$objectHashId])
+            if (
+                !isset($this->scheduledForInsertion[$objectHashId])
                 && !isset($this->scheduledForUpdate[$objectHashId])
                 && !isset($this->scheduledForDeletion[$objectHashId])
+                && $this->entityRegistry->isRegistered($entity)
                 && $this->changeTracker->hasChanged($entity)
             ) {
                 $this->scheduleForUpdate($entity);
@@ -251,8 +253,9 @@ class UnitOfWork implements IUnitOfWork
      * Attempts to update all the entities scheduled for deletion
      *
      * @param object $entity The entity to delete
+     * @throws OrmException Thrown if there was an error deleting the entity
      */
-    protected function delete($entity): void
+    protected function delete(object $entity): void
     {
         $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
         $dataMapper->delete($entity);
@@ -281,8 +284,9 @@ class UnitOfWork implements IUnitOfWork
      * Attempts to insert all the entities scheduled for insertion
      *
      * @param object $entity The entity to insert
+     * @throws OrmException Thrown if there was an error inserting the entity
      */
-    protected function insert($entity): void
+    protected function insert(object $entity): void
     {
         // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
         $this->entityRegistry->runAggregateRootCallbacks($entity);
@@ -364,8 +368,9 @@ class UnitOfWork implements IUnitOfWork
      * Attempts to update all the entities scheduled for updating
      *
      * @param object $entity The entity to update
+     * @throws OrmException Thrown if there was an error updating the entity
      */
-    protected function update($entity): void
+    protected function update(object $entity): void
     {
         // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
         $this->entityRegistry->runAggregateRootCallbacks($entity);

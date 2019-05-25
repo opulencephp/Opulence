@@ -47,9 +47,15 @@
 
 * Made `IHasher::verify()` and instance method (helps with unit testing)
 
+<h3>Events</h3>
+
+* `IEventDispatcher::dispatch()` now requires the event to be of type `object`
+
 <h3>IoC</h3>
 
 * `IContainer::resolve()` now throws a `ResolutionException` when something could not be resolved (it extends `IocException`)
+* `IContainer::resolve()` now must return an `object`
+* `IContainer::bindInstance()` now requires the instance parameter to be of type `object`
 * Added `IContainer::tryResolve()` to simplify trying to resolve something without needing `try`/`catch` blocks
 * Made `Opulence\Ioc\Bootstrappers\Bootstrapper` abstract, added final constructor
 * Renamed `IBinding` to `IContainerBinding`, `ClassBinding` to `ClassContainerBinding`, `FactoryBinding` to `FactoryContainerBinding`, and `InstanceBinding` to `InstanceContainerBinding`
@@ -60,6 +66,24 @@
   * All bootstrappers can be lazy now with inspections
 * Removed `IBootstrapperRegistry` and `BootstrapperRegistry`
 * Removed `IBootstrapperResolver` and `BootstrapperResolver`
+
+<h3>ORM</h3>
+
+* `IEntityRegistry::getEntity()`, `RedisDataMaper::loadEntity()`, `SqlDataMapper::loadEntity()`, `IRepository::getById()`, and `Repository::getById()` must return type `object
+* `IDataMapper::getById()`, `CachedSqlDataMapper::getById()`, and `ICacheDataMapper::getById()`  now must all return type `?object`
+* `IDataMapper::add()`, `IDataMapper::delete()`, and `IDataMapper::update()` now require the entity to be of type `object`
+* `IEntityRegistry::registerAggregateRootCallback()` now requires the aggregate root and child parameters to be of type `object`
+* `IEntityRegistry::deregisterEntity()`, `IEntityRegistry::getClassName()`, `IEntityRegistry::getEntityState()`, `IEntityRegistry::getObjectHashId()`, `IEntityRegistry::isRegistered()`, `IEntityRegistry::registerEntity()`, and `IEntityRegistry::setState()` now require the entity to be of type `object`
+* `IEntityRegistry::runAggregateRootCallbacks()` now requires the child to be of type `object`
+* `IIdAccessorRegistry::getEntityId()` and `IIdAccessorRegistry::setEntityId()` now require the entity to be of type `object`
+* `IIdGenerator::generate()` and `IIdGenerator::getEmptyValue()` now require the entity to be of type `object`
+* `IUnitOfWork::detach()`, `IUnitOfWork::scheduleForDeletion()`, `IUnitOfWork::scheduleForInsertion()`, and `IUnitOfWork::scheduleForUpdate()` now requires the entity to be of type `object`
+* `IChangeTracker::hasChanged()` and `IChangeTracker::startTracking()` now require the entity to be of type `object`
+* `IRepository::add()` and `IRepository::delete()` now require the entity to be of type `object`
+
+<h3>Validation</h3>
+
+* `ModelState::__construct()` now requires the model to be of type `object`
 
 <h3>Views</h3>
 

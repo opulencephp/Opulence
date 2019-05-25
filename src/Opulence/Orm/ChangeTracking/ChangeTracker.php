@@ -33,7 +33,7 @@ class ChangeTracker implements IChangeTracker
     /**
      * @inheritdoc
      */
-    public function hasChanged($entity): bool
+    public function hasChanged(object $entity): bool
     {
         if (!isset($this->objectHashIdsToOriginalData[spl_object_hash($entity)])) {
             throw new OrmException('Entity is not registered');
@@ -62,7 +62,7 @@ class ChangeTracker implements IChangeTracker
     /**
      * @inheritdoc
      */
-    public function startTracking($entity): void
+    public function startTracking(object $entity): void
     {
         $objectHashId = spl_object_hash($entity);
         $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;
@@ -90,7 +90,7 @@ class ChangeTracker implements IChangeTracker
      * @param object $entity The entity to check for changes
      * @return bool True if the entity has changed, otherwise false
      */
-    protected function hasChangedUsingComparisonFunction($entity): bool
+    protected function hasChangedUsingComparisonFunction(object $entity): bool
     {
         $objectHashId = spl_object_hash($entity);
         $originalData = $this->objectHashIdsToOriginalData[$objectHashId];

@@ -44,7 +44,7 @@ class Repository implements IRepository
     /**
      * @inheritdoc
      */
-    public function add($entity): void
+    public function add(object $entity): void
     {
         $this->unitOfWork->scheduleForInsertion($entity);
     }
@@ -52,7 +52,7 @@ class Repository implements IRepository
     /**
      * @inheritdoc
      */
-    public function delete($entity): void
+    public function delete(object $entity): void
     {
         $this->unitOfWork->scheduleForDeletion($entity);
     }
@@ -68,7 +68,7 @@ class Repository implements IRepository
     /**
      * @inheritdoc
      */
-    public function getById($id)
+    public function getById($id): object
     {
         $entity = $this->unitOfWork->getEntityRegistry()->getEntity($this->className, $id);
 
@@ -76,7 +76,13 @@ class Repository implements IRepository
             return $entity;
         }
 
-        return $this->getFromDataMapper('getById', [$id]);
+        $entity = $this->getFromDataMapper('getById', [$id]);
+
+        if ($entity === null) {
+            throw new OrmException("No entity exists with {$id}");
+        }
+
+        return $entity;
     }
 
     /**

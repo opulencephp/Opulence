@@ -56,7 +56,7 @@ class CachedSqlDataMapper extends BaseCachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getById($id)
+    public function getById($id): ?object
     {
         return $this->read('getById', [$id]);
     }
@@ -64,9 +64,10 @@ class CachedSqlDataMapper extends BaseCachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function loadEntity(array $hash)
+    public function loadEntity(array $hash): object
     {
-        // Don't do anything
+        // We don't really care what this returns
+        return $this;
     }
 
     /**

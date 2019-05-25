@@ -32,7 +32,7 @@ interface IContainer
      * @param string|array $interfaces The interface or interfaces to bind to
      * @param object $instance The instance to bind
      */
-    public function bindInstance($interfaces, $instance): void;
+    public function bindInstance($interfaces, object $instance): void;
 
     /**
      * Binds a non-singleton concrete class to an interface
@@ -99,10 +99,10 @@ interface IContainer
      * Resolve an instance of the interface
      *
      * @param string $interface The interface to resolve
-     * @return mixed The resolved instance
+     * @return object The resolved instance
      * @throws ResolutionException Thrown if there was an error resolving the interface
      */
-    public function resolve(string $interface);
+    public function resolve(string $interface): object;
 
     /**
      * Tries to resolve an instance of the interface

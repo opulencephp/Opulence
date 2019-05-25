@@ -138,6 +138,12 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($this->entity1, $this->repo->getById($this->entity1->getId()));
     }
 
+    public function testGettingByIdWhenDataMapperReturnsNullThrowsException(): void
+    {
+        $this->expectException(OrmException::class);
+        $this->repo->getById($this->entity1->getId());
+    }
+
     /**
      * Tests the repo and unit of work to make sure the same instance of an already-managed entity is returned by getAll
      */

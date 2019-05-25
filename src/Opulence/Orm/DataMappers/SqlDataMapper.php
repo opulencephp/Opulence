@@ -48,7 +48,7 @@ abstract class SqlDataMapper implements IDataMapper
      * @param array $hash The hash of data to load the entity from
      * @return object The entity
      */
-    abstract protected function loadEntity(array $hash);
+    abstract protected function loadEntity(array $hash): object;
 
     /**
      * Performs the read query for entity(ies) and returns any results
@@ -84,9 +84,9 @@ abstract class SqlDataMapper implements IDataMapper
                 }
 
                 return $entities[0];
-            } else {
-                return $entities;
             }
+
+            return $entities;
         } catch (PDOException $ex) {
             throw new OrmException('Unable to query entities', 0, $ex);
         }

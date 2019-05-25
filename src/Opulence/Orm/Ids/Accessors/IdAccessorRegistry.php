@@ -47,7 +47,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     /**
      * @inheritdoc
      */
-    public function getEntityId($entity)
+    public function getEntityId(object $entity)
     {
         $className = get_class($entity);
 
@@ -106,7 +106,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     /**
      * @inheritdoc
      */
-    public function setEntityId($entity, $id): void
+    public function setEntityId(object $entity, $id): void
     {
         $className = get_class($entity);
 

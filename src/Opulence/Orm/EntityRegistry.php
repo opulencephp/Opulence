@@ -72,7 +72,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function deregisterEntity($entity): void
+    public function deregisterEntity(object $entity): void
     {
         $entityState = $this->getEntityState($entity);
         unset($this->aggregateRootChildren[$this->getObjectHashId($entity)]);
@@ -90,7 +90,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function getClassName($object): string
+    public function getClassName(object $object): string
     {
         return get_class($object);
     }
@@ -116,7 +116,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function getEntity(string $className, $id)
+    public function getEntity(string $className, $id): ?object
     {
         $index = (string) $id;
         if (!isset($this->entities[$className][$index])) {
@@ -129,7 +129,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function getEntityState($entity): int
+    public function getEntityState(object $entity): int
     {
         $objectHashId = $this->getObjectHashId($entity);
 
@@ -143,7 +143,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function getObjectHashId($object): string
+    public function getObjectHashId(object $object): string
     {
         return spl_object_hash($object);
     }
@@ -151,7 +151,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function isRegistered($entity): bool
+    public function isRegistered(object $entity): bool
     {
         try {
             $entityId = (string) $this->idAccessorRegistry->getEntityId($entity);
@@ -171,7 +171,7 @@ class EntityRegistry implements IEntityRegistry
      * @param object $child The child of the aggregate root
      * @param callable $function The function that contains the logic to set the aggregate root Id in the child
      */
-    public function registerAggregateRootCallback($aggregateRoot, $child, callable $function): void
+    public function registerAggregateRootCallback(object $aggregateRoot, object $child, callable $function): void
     {
         $childObjectHashId = $this->getObjectHashId($child);
 
@@ -189,7 +189,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function registerEntity(&$entity): void
+    public function registerEntity(object &$entity): void
     {
         $className = $this->getClassName($entity);
         $entityId = (string) $this->idAccessorRegistry->getEntityId($entity);
@@ -212,7 +212,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function runAggregateRootCallbacks($child): void
+    public function runAggregateRootCallbacks(object $child): void
     {
         $objectHashId = $this->getObjectHashId($child);
 

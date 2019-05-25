@@ -51,7 +51,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function add($entity): void
+    public function add(object $entity): void
     {
         $this->sqlDataMapper->add($entity);
         $this->scheduleForCacheInsertion($entity);
@@ -89,7 +89,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function delete($entity): void
+    public function delete(object $entity): void
     {
         $this->sqlDataMapper->delete($entity);
         $this->scheduleForCacheDeletion($entity);
@@ -106,7 +106,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getById($id)
+    public function getById($id): ?object
     {
         return $this->read('getById', [$id]);
     }
@@ -167,7 +167,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function update($entity): void
+    public function update(object $entity): void
     {
         $this->sqlDataMapper->update($entity);
         $this->scheduleForCacheUpdate($entity);
@@ -236,7 +236,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      *
      * @param object $entity The entity to schedule
      */
-    protected function scheduleForCacheDeletion($entity): void
+    protected function scheduleForCacheDeletion(object $entity): void
     {
         $this->scheduledActions[] = ['delete', $entity];
     }
@@ -246,7 +246,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      *
      * @param object $entity The entity to schedule
      */
-    protected function scheduleForCacheInsertion($entity): void
+    protected function scheduleForCacheInsertion(object $entity): void
     {
         $this->scheduledActions[] = ['insert', $entity];
     }
@@ -256,7 +256,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      *
      * @param object $entity The entity to schedule
      */
-    protected function scheduleForCacheUpdate($entity): void
+    protected function scheduleForCacheUpdate(object $entity): void
     {
         $this->scheduledActions[] = ['update', $entity];
     }

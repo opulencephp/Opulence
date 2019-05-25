@@ -31,7 +31,7 @@ interface IUnitOfWork
      *
      * @param object $entity The entity to detach
      */
-    public function detach($entity): void;
+    public function detach(object $entity): void;
 
     /**
      * Disposes of all data in this unit of work
@@ -59,19 +59,19 @@ interface IUnitOfWork
      *
      * @param object $entity The entity to schedule for deletion
      */
-    public function scheduleForDeletion($entity): void;
+    public function scheduleForDeletion(object $entity): void;
 
     /**
      * Schedules an entity for insertion
      *
      * @param object $entity The entity to schedule for insertion
      */
-    public function scheduleForInsertion($entity): void;
+    public function scheduleForInsertion(object $entity): void;
 
     /**
      * Schedules an entity for insertion
      *
      * @param object $entity The entity to schedule for insertion
      */
-    public function scheduleForUpdate($entity): void;
+    public function scheduleForUpdate(object $entity): void;
 }

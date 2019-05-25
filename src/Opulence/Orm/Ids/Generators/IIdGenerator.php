@@ -23,7 +23,7 @@ interface IIdGenerator
      * @param object $entity The entity whose Id we're generating
      * @return mixed The Id of the entity
      */
-    public function generate($entity);
+    public function generate(object $entity);
 
     /**
      * Gets the value of the Id when it isn't set
@@ -31,7 +31,7 @@ interface IIdGenerator
      * @param object $entity The entity whose empty Id value we want
      * @return mixed The Id of an entity when it isn't set
      */
-    public function getEmptyValue($entity);
+    public function getEmptyValue(object $entity);
 
     /**
      * Gets whether or not the generator should be executed post-insert

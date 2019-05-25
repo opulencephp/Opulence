@@ -32,7 +32,7 @@ abstract class ModelState
      * @param object $model The model being validated
      * @param IValidatorFactory $validatorFactory The validator factory
      */
-    public function __construct($model, IValidatorFactory $validatorFactory)
+    public function __construct(object $model, IValidatorFactory $validatorFactory)
     {
         $this->validatorFactory = $validatorFactory;
         $validator = $this->validatorFactory->createValidator();

@@ -40,7 +40,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
     /**
      * @inheritdoc
      */
-    public function getById($id)
+    public function getById($id): ?object
     {
         $entityHash = $this->getEntityHashById($id);
 
@@ -92,7 +92,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
      * @param array $hash The hash of data to load the entity from
      * @return object The entity
      */
-    abstract protected function loadEntity(array $hash);
+    abstract protected function loadEntity(array $hash): object;
 
     /**
      * Loads multiple entities from their Ids

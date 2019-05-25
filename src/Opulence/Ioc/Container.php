@@ -57,7 +57,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function bindInstance($interfaces, $instance): void
+    public function bindInstance($interfaces, object $instance): void
     {
         $binding = new InstanceContainerBinding($instance);
 
@@ -150,7 +150,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function resolve(string $interface)
+    public function resolve(string $interface): object
     {
         $binding = $this->getBinding($interface);
 
@@ -267,7 +267,7 @@ class Container implements IContainer
      * @return object The resolved class
      * @throws IocException Thrown if the class could not be resolved
      */
-    protected function resolveClass(string $class, array $primitives = [])
+    protected function resolveClass(string $class, array $primitives = []): object
     {
         try {
             if (isset($this->constructorReflectionCache[$class])) {

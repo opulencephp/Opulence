@@ -25,7 +25,7 @@ interface IRepository
      * @param object $entity The entity to add
      * @throws OrmException Thrown if the entity couldn't be added
      */
-    public function add($entity): void;
+    public function add(object $entity): void;
 
     /**
      * Deletes an entity from the repo
@@ -33,7 +33,7 @@ interface IRepository
      * @param object $entity The entity to delete
      * @throws OrmException Thrown if the entity couldn't be deleted
      */
-    public function delete($entity): void;
+    public function delete(object $entity): void;
 
     /**
      * Gets all the entities
@@ -50,5 +50,5 @@ interface IRepository
      * @return object The entity with the input Id
      * @throws OrmException Thrown if there was no entity with the input Id
      */
-    public function getById($id);
+    public function getById($id): object;
 }

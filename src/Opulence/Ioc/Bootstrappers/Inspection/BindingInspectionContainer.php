@@ -38,7 +38,7 @@ final class BindingInspectionContainer extends Container
     /**
      * @inheritdoc
      */
-    public function bindInstance($interfaces, $instance): void
+    public function bindInstance($interfaces, object $instance): void
     {
         $this->addBootstrapperBinding($interfaces);
         parent::bindInstance($interfaces, $instance);

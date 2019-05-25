@@ -26,7 +26,7 @@ interface IIdAccessorRegistry
      * @return mixed The Id of the entity
      * @throws OrmException Thrown if no Id getter is registered for the entity
      */
-    public function getEntityId($entity);
+    public function getEntityId(object $entity);
 
     /**
      * Registers functions that get an Id and set the Id for all instances of the input class name
@@ -53,5 +53,5 @@ interface IIdAccessorRegistry
      * @param mixed $id The Id to set
      * @throws OrmException Thrown if no Id setter has been registered for this entity
      */
-    public function setEntityId($entity, $id): void;
+    public function setEntityId(object $entity, $id): void;
 }

@@ -24,7 +24,7 @@ class InstanceContainerBinding implements IContainerBinding
     /**
      * @param object $instance The instance
      */
-    public function __construct($instance)
+    public function __construct(object $instance)
     {
         $this->instance = $instance;
     }
@@ -32,7 +32,7 @@ class InstanceContainerBinding implements IContainerBinding
     /**
      * @return object
      */
-    public function getInstance()
+    public function getInstance(): object
     {
         return $this->instance;
     }
