@@ -274,6 +274,7 @@ class Container implements IContainer
                 [$constructor, $parameters] = $this->constructorReflectionCache[$class];
             } else {
                 $reflectionClass = new ReflectionClass($class);
+
                 if (!$reflectionClass->isInstantiable()) {
                     throw new ResolutionException(
                         $class,
@@ -340,7 +341,18 @@ class Container implements IContainer
                         return $container->resolve($parameter->getClass()->getName());
                     });
                 } else {
-                    $resolvedParameter = $this->resolve($parameterClassName);
+                    try {
+                        $resolvedParameter = $this->resolve($parameterClassName);
+                    } catch (ResolutionException $ex) {
+                        // Check for a default value
+                        if ($parameter->isDefaultValueAvailable()) {
+                            $resolvedParameter = $parameter->getDefaultValue();
+                        } elseif ($parameter->allowsNull()) {
+                            $resolvedParameter = null;
+                        } else {
+                            throw $ex;
+                        }
+                    }
                 }
             }
 

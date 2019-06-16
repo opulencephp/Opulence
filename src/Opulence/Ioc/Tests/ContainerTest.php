@@ -20,10 +20,12 @@ use Opulence\Ioc\Tests\Mocks\Bar;
 use Opulence\Ioc\Tests\Mocks\BaseClass;
 use Opulence\Ioc\Tests\Mocks\Blah;
 use Opulence\Ioc\Tests\Mocks\ConstructorWithConcreteClass;
+use Opulence\Ioc\Tests\Mocks\ConstructorWithDefaultValueObject;
 use Opulence\Ioc\Tests\Mocks\ConstructorWithDefaultValuePrimitives;
 use Opulence\Ioc\Tests\Mocks\ConstructorWithInterface;
 use Opulence\Ioc\Tests\Mocks\ConstructorWithMixOfConcreteClassesAndPrimitives;
 use Opulence\Ioc\Tests\Mocks\ConstructorWithMixOfInterfacesAndPrimitives;
+use Opulence\Ioc\Tests\Mocks\ConstructorWithNullableObject;
 use Opulence\Ioc\Tests\Mocks\ConstructorWithPrimitives;
 use Opulence\Ioc\Tests\Mocks\ConstructorWithSetters;
 use Opulence\Ioc\Tests\Mocks\Dave;
@@ -615,6 +617,26 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $this->container->bindSingleton(['foo', 'bar'], $this->concreteFoo);
         $this->assertTrue($this->container->hasBinding('foo'));
         $this->assertTrue($this->container->hasBinding('bar'));
+    }
+
+    /**
+     * Tests creating a singleton instance with an unset constructor primitive with a default value
+     */
+    public function testResolvingClassWithNullableObjectInConstructorThatCannotBeResolvedUsesNull(): void
+    {
+        $instance = $this->container->resolve(ConstructorWithNullableObject::class);
+        $this->assertInstanceOf(ConstructorWithNullableObject::class, $instance);
+        $this->assertInstanceOf(\DateTime::class, $instance->getFoo());
+    }
+
+    /**
+     * Tests creating a singleton instance with an unset constructor primitive with a default value
+     */
+    public function testResolvingClassWithObjectInConstructorThatCannotBeResolvedUsesDefaultValueIfAvailable(): void
+    {
+        $instance = $this->container->resolve(ConstructorWithDefaultValueObject::class);
+        $this->assertInstanceOf(ConstructorWithDefaultValueObject::class, $instance);
+        $this->assertInstanceOf(\DateTime::class, $instance->getFoo());
     }
 
     /**
