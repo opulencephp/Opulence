@@ -122,7 +122,7 @@ class Parser implements IParser
                     'Variable name "%s" cannot be longer than %d characters. Please use a shorter name.',
                     $variableName,
                     self::VARIABLE_MAXIMUM_LENGTH
-            )
+                )
             );
         }
 
