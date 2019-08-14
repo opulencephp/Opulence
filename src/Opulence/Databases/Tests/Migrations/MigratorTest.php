@@ -10,6 +10,8 @@
 
 namespace Opulence\Databases\Tests\Migrations;
 
+use Opulence\Collections\Tests\Mocks\MockObject;
+use Opulence\Databases\StatementException;
 use Opulence\Databases\IConnection;
 use Opulence\Databases\Migrations\IExecutedMigrationRepository;
 use Opulence\Databases\Migrations\IMigration;
@@ -189,5 +191,87 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
         $this->connection->expects($this->once())
             ->method('commit');
         $this->assertEquals(['bar'], $migrator->runMigrations());
+    }
+
+    /**
+     * Tests that running only un-executed migrations are run
+     */
+    public function testRunningMigrationsReturnsEarlyOnError() : void
+    {
+        /** @var StatementException|MockObject $exceptionStub */
+        $exceptionStub = $this->createMock(StatementException::class);
+
+        $migrator = new Migrator(
+            ['foo', 'bar'],
+            $this->connection,
+            $this->migrationResolver,
+            $this->executedMigrations
+        );
+        $this->executedMigrations->expects($this->once())
+            ->method('getAll')
+            ->willReturn([]);
+        $expectedMigration1 = $this->createMock(IMigration::class);
+        $expectedMigration1->expects($this->once())
+            ->method('up')
+            ->willThrowException($exceptionStub);
+        $expectedMigration2 = $this->createMock(IMigration::class);
+        $expectedMigration2->expects($this->never())
+            ->method('up');
+        $this->migrationResolver->expects($this->at(0))
+            ->method('resolve')
+            ->with('foo')
+            ->willReturn($expectedMigration1);
+        $this->migrationResolver->expects($this->at(1))
+            ->method('resolve')
+            ->with('bar')
+            ->willReturn($expectedMigration2);
+        $this->connection->expects($this->once())
+            ->method('beginTransaction');
+        $this->connection->expects($this->once())
+            ->method('rollBack');
+        $this->connection->expects($this->never())
+            ->method('commit');
+        $this->assertEquals([], $migrator->runMigrations());
+    }
+
+    /**
+     * Tests that running only un-executed migrations are run
+     */
+    public function testRollingBackAllMigrationsReturnsEarlyOnError() : void
+    {
+        /** @var StatementException|MockObject $exceptionStub */
+        $exceptionStub = $this->createMock(StatementException::class);
+
+        $migrator = new Migrator(
+            ['foo', 'bar'],
+            $this->connection,
+            $this->migrationResolver,
+            $this->executedMigrations
+        );
+        $this->executedMigrations->expects($this->once())
+            ->method('getAll')
+            ->willReturn(['foo', 'bar']);
+        $expectedMigration1 = $this->createMock(IMigration::class);
+        $expectedMigration1->expects($this->once())
+            ->method('down')
+            ->willThrowException($exceptionStub);
+        $expectedMigration2 = $this->createMock(IMigration::class);
+        $expectedMigration2->expects($this->never())
+            ->method('down');
+        $this->migrationResolver->expects($this->at(0))
+            ->method('resolve')
+            ->with('foo')
+            ->willReturn($expectedMigration1);
+        $this->migrationResolver->expects($this->at(1))
+            ->method('resolve')
+            ->with('bar')
+            ->willReturn($expectedMigration2);
+        $this->connection->expects($this->once())
+            ->method('beginTransaction');
+        $this->connection->expects($this->once())
+            ->method('rollBack');
+        $this->connection->expects($this->never())
+            ->method('commit');
+        $this->assertEquals([], $migrator->rollBackAllMigrations());
     }
 }
