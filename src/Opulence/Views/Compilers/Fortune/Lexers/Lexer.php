@@ -401,7 +401,7 @@ class Lexer implements ILexer
             $matchedStatement = false;
 
             // This is essentially a foreach loop that can be reset
-            while (list($statementOpenDelimiter, $methodName) = each($statementMethods)) {
+            while (list($statementOpenDelimiter, $methodName) = $this->eachPolyfill($statementMethods)) {
                 if ($this->matches($statementOpenDelimiter)) {
                     // This is an unescaped statement
                     $matchedStatement = true;
@@ -523,7 +523,7 @@ class Lexer implements ILexer
         $opulenceTokens = [];
 
         // This is essentially a foreach loop that can be fast-forwarded
-        while (list($index, $token) = each($phpTokens)) {
+        while (list($index, $token) = $this->eachPolyfill($phpTokens)) {
             if (is_string($token)) {
                 // Convert the simple token to an array for uniformity
                 $opulenceTokens[] = [T_STRING, $token, 0];
@@ -603,5 +603,25 @@ class Lexer implements ILexer
         } while ($replacementCount > 0);
 
         return trim($joinedTokens);
+    }
+
+    /**
+     * Polyfill for PHP each, which is now deprecated
+     *
+     * @param array $arr
+     *
+     * @return array|null
+     */
+    private function eachPolyfill(array &$arr)
+    {
+        $key   = key($arr);
+        $value = null;
+        if ($key !== null) {
+            $value = [$key, current($arr), 'key' => $key, 'value' => current($arr)];
+        }
+
+        next($arr);
+
+        return $value;
     }
 }
