@@ -38,7 +38,7 @@ class UrlGenerator
      * This function accepts variable-length arguments after the name
      *
      * @param string $name The named of the route whose URL we're generating
-     * @param array $args,... The list of arguments to pass in
+     * @param string  ...$args The list of arguments to pass in
      * @return string The generated URL if the route exists, otherwise an empty string
      * @throws URLException Thrown if there was an error generating the URL
      */
