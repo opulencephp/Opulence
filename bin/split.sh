@@ -43,13 +43,6 @@ function split()
 for repo in ${REPOS[@]}
 do
     lower_repo=$(echo "$repo" | awk '{print tolower($0)}')
-    git ls-remote --exit-code "$lower_repo"
-
-    if test $? = 1;
-    then
-        # Add the subtree remote, and do not leak any sensitive info in the logs
-        git remote add "$lower_repo" https://$GIT_USER:$GIT_ACCESS_TOKEN@github.com/opulencephp/$lower_repo.git >/dev/null 2>&1
-    fi
-
+    git remote add "$lower_repo" https://$GIT_USER:$GIT_ACCESS_TOKEN@github.com/opulencephp/$lower_repo.git >/dev/null 2>&1
     split "src/Opulence/$repo" "$lower_repo"
 done
