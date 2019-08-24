@@ -3,6 +3,10 @@ language: php
 php:
   - 7.3
 
+# Shallow clones can cause issues with subtree splits
+git:
+    depth: false
+
 before_script:
   - composer self-update
   - composer install
@@ -11,6 +15,16 @@ before_script:
 script:
   - vendor/bin/phpunit --verbose
   - composer run-script lint-check
+
+deploy:
+  # Push updates to the subtrees on tags
+  - provider: script
+    script: bash bin/split.sh $TRAVIS_BRANCH $GIT_USER $GIT_ACCESS_TOKEN
+    on:
+      tags: true
+      all_branches: true
+      condition: $TRAVIS_BRANCH =~ ^(develop|1.1|master)$
+    skip_cleanup: true
 
 notifications:
   email:
