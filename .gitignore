@@ -1,6 +1,6 @@
-/.idea
+/.idea/
 /.php_cs.cache
-/.subsplit/
+/.phpunit.result.cache
 /composer.lock
 /composer.phar
 /nbproject/
