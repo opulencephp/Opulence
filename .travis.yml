@@ -21,7 +21,6 @@ deploy:
   - provider: script
     script: bash bin/split.sh $TRAVIS_BRANCH $GIT_USER $GIT_ACCESS_TOKEN
     on:
-      tags: true
       all_branches: true
       condition: $TRAVIS_BRANCH =~ ^(develop|1.1|master)$
     skip_cleanup: true
