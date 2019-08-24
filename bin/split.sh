@@ -39,7 +39,7 @@ function split()
 
     # Push to the subtree's repo, and do not leak any sensitive info in the logs
     echo "Pushing $prefix to $remote"
-    git push "$remote" "$sha:refs/heads/$GIT_BRANCH" -f #>/dev/null 2>&1
+    git push "$remote" "$sha:refs/heads/$GIT_BRANCH" -f >/dev/null 2>&1
 }
 
 for repo in ${REPOS[@]}
