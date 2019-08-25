@@ -24,16 +24,17 @@ then
     exit 1
 fi
 
-for prefix in src/Opulence/*/ ;
+declare -A dirs_to_repos=(["Authentication"]="authentication" ["Authorization"]="authorization" ["Cache"]="cache" ["Collections"]="collections" ["Console"]="console" ["Cryptography"]="cryptography" ["Databases"]="databases" ["Debug"]="debug" ["Environments"]="environments" ["Events"]="events" ["Framework"]="framework" ["Http"]="http" ["IO"]="io" ["Ioc"]="ioc" ["Memcached"]="memcached" ["Orm"]="orm" ["Pipelines"]="pipelines" ["QueryBuilders"]="querybuilders" ["Redis"]="redis" ["Routing"]="routing" ["Sessions"]="sessions" ["Validation"]="validation" ["Views"]="views")
+
+for dir in "${!dirs_to_repos[@]}"
 do
-    repo=$(basename "$prefix")
-    remote=$(echo "$repo" | awk '{print tolower($0)}')
+    remote=${dirs_to_repos[$dir]}
 
     echo "Adding remote $remote"
     git remote add "$remote" https://$GIT_USER:$GIT_ACCESS_TOKEN@github.com/opulencephp/$remote.git >/dev/null 2>&1
 
-    echo "Splitting $repo"
-    sha=$(./bin/splitsh-lite --prefix="$prefix")
+    echo "Splitting $dir"
+    sha=$(./bin/splitsh-lite --prefix="src/$dir/")
 
     if [ -z "$sha" ]
     then
@@ -42,6 +43,6 @@ do
     fi
 
     # Push to the subtree's repo, and do not leak any sensitive info in the logs
-    echo "Pushing $repo to $remote"
+    echo "Pushing $dir to $remote"
     git push "$remote" "$sha:refs/heads/$GIT_BRANCH" -f >/dev/null 2>&1
 done
