@@ -34,7 +34,7 @@ do
     git remote add "$remote" https://$GIT_USER:$GIT_ACCESS_TOKEN@github.com/opulencephp/$remote.git >/dev/null 2>&1
 
     echo "Splitting $dir"
-    sha=$(./bin/splitsh-lite --prefix="src/$dir")
+    sha=$(./bin/splitsh-lite --prefix="src/Opulence/$dir")
 
     if [ -z "$sha" ]
     then
