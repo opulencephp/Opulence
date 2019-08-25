@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 GIT_BRANCH="$1"
 GIT_USER="$2"
 GIT_ACCESS_TOKEN="$3"
