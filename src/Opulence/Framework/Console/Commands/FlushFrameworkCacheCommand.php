@@ -14,8 +14,6 @@ namespace Opulence\Framework\Console\Commands;
 
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
-use Opulence\Framework\Configuration\Config;
-use Opulence\Routing\Routes\Caching\ICache as RouteCache;
 use Opulence\Views\Caching\ICache as ViewCache;
 
 /**
@@ -23,20 +21,16 @@ use Opulence\Views\Caching\ICache as ViewCache;
  */
 class FlushFrameworkCacheCommand extends Command
 {
-    /** @var RouteCache The route cache */
-    private $routeCache;
     /** @var ViewCache The view cache */
     private $viewCache;
 
     /**
-     * @param RouteCache $routeCache The route cache
      * @param ViewCache $viewCache The view cache
      */
-    public function __construct(RouteCache $routeCache, ViewCache $viewCache)
+    public function __construct(ViewCache $viewCache)
     {
         parent::__construct();
 
-        $this->routeCache = $routeCache;
         $this->viewCache = $viewCache;
     }
 
@@ -55,7 +49,6 @@ class FlushFrameworkCacheCommand extends Command
     protected function doExecute(IResponse $response)
     {
         $this->flushBootstrapperCache($response);
-        $this->flushRouteCache($response);
         $this->flushViewCache($response);
         $response->writeln('<success>Framework cache flushed</success>');
     }
@@ -70,20 +63,6 @@ class FlushFrameworkCacheCommand extends Command
         // Todo: Need to make this work with new way of caching bootstrappers in 2.0
 
         $response->writeln('<info>Bootstrapper cache flushed</info>');
-    }
-
-    /**
-     * Flushes the route cache
-     *
-     * @param IResponse $response The response to write to
-     */
-    private function flushRouteCache(IResponse $response): void
-    {
-        if (($path = Config::get('paths', 'routes.cache')) !== null) {
-            $this->routeCache->flush("$path/" . RouteCache::DEFAULT_CACHED_ROUTES_FILE_NAME);
-        }
-
-        $response->writeln('<info>Route cache flushed</info>');
     }
 
     /**

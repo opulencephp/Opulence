@@ -24,7 +24,7 @@ then
     exit 1
 fi
 
-declare -A dirs_to_repos=(["Authentication"]="authentication" ["Authorization"]="authorization" ["Cache"]="cache" ["Collections"]="collections" ["Console"]="console" ["Cryptography"]="cryptography" ["Databases"]="databases" ["Debug"]="debug" ["Environments"]="environments" ["Events"]="events" ["Framework"]="framework" ["Http"]="http" ["IO"]="io" ["Ioc"]="ioc" ["Memcached"]="memcached" ["Orm"]="orm" ["Pipelines"]="pipelines" ["QueryBuilders"]="querybuilders" ["Redis"]="redis" ["Routing"]="routing" ["Sessions"]="sessions" ["Validation"]="validation" ["Views"]="views")
+declare -A dirs_to_repos=(["Authentication"]="authentication" ["Authorization"]="authorization" ["Cache"]="cache" ["Collections"]="collections" ["Console"]="console" ["Cryptography"]="cryptography" ["Databases"]="databases" ["Framework"]="framework" ["IO"]="io" ["Ioc"]="ioc" ["Memcached"]="memcached" ["Orm"]="orm" ["Pipelines"]="pipelines" ["QueryBuilders"]="querybuilders" ["Redis"]="redis" ["Sessions"]="sessions" ["Validation"]="validation" ["Views"]="views")
 
 for dir in "${!dirs_to_repos[@]}"
 do

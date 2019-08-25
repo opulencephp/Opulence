@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Views\Bootstrappers;
 
-use Opulence\Environments\Environment;
 use Opulence\Framework\Configuration\Config;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
@@ -57,7 +56,7 @@ abstract class ViewBootstrapper extends Bootstrapper
         $container->bindInstance(IViewFactory::class, $this->viewFactory);
 
         // If we're developing, wipe out the view cache
-        if (getenv('ENV_NAME') === Environment::DEVELOPMENT) {
+        if (getenv('ENV_NAME') === 'development') {
             $this->viewCache->flush();
         }
     }

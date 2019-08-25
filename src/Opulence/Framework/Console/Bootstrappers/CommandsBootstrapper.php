@@ -32,13 +32,10 @@ use Opulence\Framework\Databases\Console\Commands\RunDownMigrationsCommand;
 use Opulence\Framework\Databases\Console\Commands\RunUpMigrationsCommand;
 use Opulence\Framework\Orm\Console\Commands\MakeDataMapperCommand;
 use Opulence\Framework\Orm\Console\Commands\MakeEntityCommand;
-use Opulence\Framework\Routing\Console\Commands\MakeControllerCommand;
-use Opulence\Framework\Routing\Console\Commands\MakeHttpMiddlewareCommand;
 use Opulence\Framework\Views\Console\Commands\FlushViewCacheCommand;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Ioc\IocException;
-use Opulence\Routing\Routes\Caching\ICache as RouteCache;
 use Opulence\Views\Caching\ICache as ViewCache;
 use RuntimeException;
 
@@ -57,11 +54,9 @@ class CommandsBootstrapper extends Bootstrapper
         EncryptionKeyGenerationCommand::class,
         FlushViewCacheCommand::class,
         MakeCommandCommand::class,
-        MakeControllerCommand::class,
         MakeMigrationCommand::class,
         MakeDataMapperCommand::class,
         MakeEntityCommand::class,
-        MakeHttpMiddlewareCommand::class,
         RenameAppCommand::class,
         RunDownMigrationsCommand::class,
         RunUpMigrationsCommand::class,
@@ -109,7 +104,6 @@ class CommandsBootstrapper extends Bootstrapper
         try {
             // Todo: Need this to work with new way of caching bootstrappers in 2.0
             $flushCacheCommand = new FlushFrameworkCacheCommand(
-                $container->resolve(RouteCache::class),
                 $container->resolve(ViewCache::class)
             );
             $commands->add($flushCacheCommand);
