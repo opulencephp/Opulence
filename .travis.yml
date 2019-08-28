@@ -17,7 +17,6 @@ script:
   - composer run-script lint-check
 
 deploy:
-  # Push updates to the subtrees on tags
   - provider: script
     script: bash bin/split.sh $TRAVIS_BRANCH $GIT_USER $GIT_ACCESS_TOKEN
     on:
