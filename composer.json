@@ -71,7 +71,6 @@
     "opulence/ioc": "self.version",
     "opulence/memcached": "self.version",
     "opulence/orm": "self.version",
-    "opulence/pipelines": "self.version",
     "opulence/querybuilders": "self.version",
     "opulence/redis": "self.version",
     "opulence/sessions": "self.version",

@@ -17,7 +17,6 @@
         <directory>src/Opulence/Ioc/Tests</directory>
         <directory>src/Opulence/Memcached/Tests</directory>
         <directory>src/Opulence/Orm/Tests</directory>
-        <directory>src/Opulence/Pipelines/Tests</directory>
         <directory>src/Opulence/QueryBuilders/Tests</directory>
         <directory>src/Opulence/Redis/Tests</directory>
         <directory>src/Opulence/Sessions/Tests</directory>
