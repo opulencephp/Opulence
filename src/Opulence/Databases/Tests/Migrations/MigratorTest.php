@@ -199,7 +199,12 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     public function testRunningMigrationsReturnsEarlyOnError() : void
     {
         /** @var StatementException|MockObject $exceptionStub */
-        $exceptionStub = $this->createMock(StatementException::class);
+        $exceptionStub = $this->getMockBuilder(StatementException::class)
+            ->disableOriginalConstructor()
+            ->setMethods([])
+            ->getMock();
+
+        $this->expectException(StatementException::class);
 
         $migrator = new Migrator(
             ['foo', 'bar'],
@@ -231,7 +236,8 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
             ->method('rollBack');
         $this->connection->expects($this->never())
             ->method('commit');
-        $this->assertEquals([], $migrator->runMigrations());
+
+        $migrator->runMigrations();
     }
 
     /**
@@ -240,7 +246,12 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     public function testRollingBackAllMigrationsReturnsEarlyOnError() : void
     {
         /** @var StatementException|MockObject $exceptionStub */
-        $exceptionStub = $this->createMock(StatementException::class);
+        $exceptionStub = $this->getMockBuilder(StatementException::class)
+            ->disableOriginalConstructor()
+            ->setMethods([])
+            ->getMock();
+
+        $this->expectException(StatementException::class);
 
         $migrator = new Migrator(
             ['foo', 'bar'],
@@ -272,6 +283,7 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
             ->method('rollBack');
         $this->connection->expects($this->never())
             ->method('commit');
-        $this->assertEquals([], $migrator->rollBackAllMigrations());
+
+        $migrator->rollBackAllMigrations();
     }
 }

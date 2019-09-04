@@ -47,6 +47,7 @@ class Migrator implements IMigrator
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function rollBackAllMigrations() : array
     {
@@ -58,7 +59,7 @@ class Migrator implements IMigrator
         } catch (Exception $e) {
             $this->connection->rollBack();
 
-            return [];
+            throw $e;
         }
 
         return $migrationClasses;
@@ -66,6 +67,7 @@ class Migrator implements IMigrator
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function rollBackMigrations(int $number = 1) : array
     {
@@ -77,7 +79,7 @@ class Migrator implements IMigrator
         } catch (Exception $e) {
             $this->connection->rollBack();
 
-            return [];
+            throw $e;
         }
 
         return $migrationClasses;
@@ -85,6 +87,7 @@ class Migrator implements IMigrator
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function runMigrations() : array
     {
@@ -100,7 +103,7 @@ class Migrator implements IMigrator
             } catch (\Exception $e) {
                 $this->connection->rollBack();
 
-                return [];
+                throw $e;
             }
 
             $this->executedMigrations->add(get_class($migration));

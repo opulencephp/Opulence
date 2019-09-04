@@ -35,24 +35,4 @@ class StatementException extends Exception
     {
         return $this->statement;
     }
-
-    /**
-     * @see https://www.php.net/manual/en/pdostatement.errorinfo.php
-     *
-     * @return array
-     */
-    public function getErrorInfo(): array
-    {
-        return $this->statement->errorInfo();
-    }
-
-    /**
-     * @see https://www.php.net/manual/en/pdostatement.errorcode.php
-     *
-     * @return string
-     */
-    public function getErrorCode(): string
-    {
-        return $this->statement->errorCode();
-    }
 }
