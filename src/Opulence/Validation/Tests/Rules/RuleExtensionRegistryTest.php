@@ -26,17 +26,11 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     /** @var RuleExtensionRegistry The registry to use in tests */
     private RuleExtensionRegistry $registry;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->registry = new RuleExtensionRegistry();
     }
 
-    /**
-     * Tests that a callback is converted to a rule
-     */
     public function testCallbackGetsConvertedToRule(): void
     {
         $rule = function () {
@@ -48,9 +42,6 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->registry->getRule('foo')->passes('bar'));
     }
 
-    /**
-     * Tests checking if the registry has a rule
-     */
     public function testCheckingIfRegistryHasRule(): void
     {
         /** @var IRule|MockObject $rule */
@@ -63,27 +54,18 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->registry->hasRule('bar'));
     }
 
-    /**
-     * Tests an exception is thrown when no extension is found
-     */
     public function testExceptionThrownWhenNoExtensionExists(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->registry->getRule('foo');
     }
 
-    /**
-     * Tests an exception is thrown when registering an invalid rule
-     */
     public function testExceptionThrownWhenRegisteringAnInvalidRule(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->registry->registerRuleExtension('foo', 'bar');
     }
 
-    /**
-     * Tests getting a rule object
-     */
     public function testGettingRuleObject(): void
     {
         /** @var IRule|MockObject $rule */
@@ -95,9 +77,6 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($rule, $this->registry->getRule('foo'));
     }
 
-    /**
-     * Tests that the slug is ignored if registering a rule object
-     */
     public function testSlugIgnoredIfRegisteringRuleObject(): void
     {
         /** @var IRule|MockObject $rule */

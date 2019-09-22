@@ -21,34 +21,22 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
 {
     private Provider $provider;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->provider = new Provider();
     }
 
-    /**
-     * Tests converting from a null SQL boolean
-     */
     public function testConvertingFromNullSqlBoolean(): void
     {
         $this->assertNull($this->provider->convertFromSqlBoolean(null));
     }
 
-    /**
-     * Tests converting from an SQL boolean
-     */
     public function testConvertingFromSqlBoolean(): void
     {
         $this->assertTrue($this->provider->convertFromSqlBoolean('1'));
         $this->assertFalse($this->provider->convertFromSqlBoolean('0'));
     }
 
-    /**
-     * Tests converting to an SQL boolean
-     */
     public function testConvertingToSqlBoolean(): void
     {
         $this->assertEquals(1, $this->provider->convertToSqlBoolean(true));

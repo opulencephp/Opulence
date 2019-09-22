@@ -37,9 +37,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /** @var Request The request to use in tests */
     private $request;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->compiler = new Compiler();
@@ -48,9 +45,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->request = new Request();
     }
 
-    /**
-     * Tests compiling an array argument
-     */
     public function testCompilingArrayArgument(): void
     {
         $argument = new Argument('foo', ArgumentTypes::IS_ARRAY, 'Foo command');
@@ -61,9 +55,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['bar', 'baz'], $compiledCommand->getArgumentValue('foo'));
     }
 
-    /**
-     * Tests compiling an array argument with an optional argument after it
-     */
     public function testCompilingArrayArgumentWitOptionalArgumentAfter(): void
     {
         $arrayArgument = new Argument('foo', ArgumentTypes::IS_ARRAY, 'Foo command');
@@ -77,9 +68,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('baz', $compiledCommand->getArgumentValue('bar'));
     }
 
-    /**
-     * Tests compiling an array argument with a required argument after it
-     */
     public function testCompilingArrayArgumentWitRequiredArgumentAfter(): void
     {
         $this->expectException(RuntimeException::class);
@@ -92,9 +80,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->compiler->compile($this->command, $this->request);
     }
 
-    /**
-     * Tests compiling a no value option
-     */
     public function testCompilingNoValueOption(): void
     {
         $option = new Option('foo', 'f', OptionTypes::NO_VALUE, 'Foo command');
@@ -103,9 +88,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($compiledCommand->getOptionValue('foo'));
     }
 
-    /**
-     * Tests compiling a no value option with a value
-     */
     public function testCompilingNoValueOptionWithAValue(): void
     {
         $this->expectException(RuntimeException::class);
@@ -115,9 +97,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->compiler->compile($this->command, $this->request);
     }
 
-    /**
-     * Tests compiling an option with a null short name still compiles
-     */
     public function testCompilingOptionWithNullShortNameStillCompiles(): void
     {
         $option = new Option('foo', null, OptionTypes::REQUIRED_VALUE, 'Foo command');
@@ -127,9 +106,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $compiledCommand->getOptionValue('foo'));
     }
 
-    /**
-     * Tests compiling an optional argument
-     */
     public function testCompilingOptionalArgument(): void
     {
         $optionalArgument = new Argument('foo', ArgumentTypes::OPTIONAL, 'Foo command');
@@ -139,9 +115,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $compiledCommand->getArgumentValue('foo'));
     }
 
-    /**
-     * Tests compiling an optional argument with a default value
-     */
     public function testCompilingOptionalArgumentWithDefaultValue(): void
     {
         $optionalArgument = new Argument('foo', ArgumentTypes::OPTIONAL, 'Foo command', 'baz');
@@ -150,9 +123,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('baz', $compiledCommand->getArgumentValue('foo'));
     }
 
-    /**
-     * Tests compiling optional arguments without any values
-     */
     public function testCompilingOptionalArgumentsWithoutAnyValues(): void
     {
         $optionalArgument1 = new Argument('foo', ArgumentTypes::OPTIONAL, 'Foo command', 'fooValue');
@@ -164,9 +134,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('barValue', $compiledCommand->getArgumentValue('bar'));
     }
 
-    /**
-     * Tests compiling an optional value option with a default value
-     */
     public function testCompilingOptionalValueOptionWithDefaultValue(): void
     {
         $option = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'Foo command', 'bar');
@@ -176,9 +143,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $compiledCommand->getOptionValue('foo'));
     }
 
-    /**
-     * Tests compiling a required and optional argument
-     */
     public function testCompilingRequiredAndOptionalArgument(): void
     {
         $requiredArgument = new Argument('foo', ArgumentTypes::REQUIRED, 'Foo command');
@@ -191,9 +155,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('baz', $compiledCommand->getArgumentValue('bar'));
     }
 
-    /**
-     * Tests compiling a required argument
-     */
     public function testCompilingRequiredArgument(): void
     {
         $requiredArgument = new Argument('foo', ArgumentTypes::REQUIRED, 'Foo command');
@@ -203,9 +164,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $compiledCommand->getArgumentValue('foo'));
     }
 
-    /**
-     * Tests compiling a required argument without a value
-     */
     public function testCompilingRequiredArgumentWithoutValue(): void
     {
         $this->expectException(RuntimeException::class);
@@ -214,9 +172,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->compiler->compile($this->command, $this->request);
     }
 
-    /**
-     * Tests compiling required arguments without specifying all values
-     */
     public function testCompilingRequiredArgumentsWithoutSpecifyingAllValues(): void
     {
         $this->expectException(RuntimeException::class);
@@ -228,9 +183,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->compiler->compile($this->command, $this->request);
     }
 
-    /**
-     * Tests compiling an required value option
-     */
     public function testCompilingRequiredValueOption(): void
     {
         $option = new Option('foo', 'f', OptionTypes::REQUIRED_VALUE, 'Foo command');
@@ -240,9 +192,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $compiledCommand->getOptionValue('foo'));
     }
 
-    /**
-     * Tests compiling a required value option without a value
-     */
     public function testCompilingRequiredValueOptionWithoutValue(): void
     {
         $this->expectException(RuntimeException::class);
@@ -252,9 +201,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->compiler->compile($this->command, $this->request);
     }
 
-    /**
-     * Tests that default values are used for options that are not set
-     */
     public function testDefaultValueIsUsedForOptionsThatAreNotSet(): void
     {
         $requiredValueOption = new Option('foo', 'f', OptionTypes::REQUIRED_VALUE, 'Foo command', 'foo value');
@@ -269,9 +215,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($compiledCommand->getOptionValue('baz'));
     }
 
-    /**
-     * Tests passing too many arguments
-     */
     public function testPassingTooManyArguments(): void
     {
         $this->expectException(RuntimeException::class);
@@ -282,9 +225,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->compiler->compile($this->command, $this->request);
     }
 
-    /**
-     * Tests checking that short and long options in a request point to the same option in a command
-     */
     public function testThatShortAndLongOptionsPointToSameOption(): void
     {
         $option = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'Foo command', 'bar');

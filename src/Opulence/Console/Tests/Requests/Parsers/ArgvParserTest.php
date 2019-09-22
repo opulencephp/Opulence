@@ -23,26 +23,17 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     /** @var ArgvParser The parser to use in tests */
     private $parser;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->parser = new ArgvParser();
     }
 
-    /**
-     * Tests that backslashes are respected
-     */
     public function testBackslashesAreRespected(): void
     {
         $request = $this->parser->parse(['apex', 'foo', 'bar\\baz']);
         $this->assertEquals(['bar\\baz'], $request->getArgumentValues());
     }
 
-    /**
-     * Tests parsing arguments and options
-     */
     public function testParsingArgumentsAndOptions(): void
     {
         $request = $this->parser->parse(['apex', 'foo', 'bar', '-r', '--name=dave']);
@@ -52,9 +43,6 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('dave', $request->getOptionValue('name'));
     }
 
-    /**
-     * Tests parsing a null string
-     */
     public function testParsingNullString(): void
     {
         $_SERVER['argv'] = ['apex', 'foo', 'bar', '-r', '--name=dave'];
@@ -65,18 +53,12 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('dave', $request->getOptionValue('name'));
     }
 
-    /**
-     * Tests parsing option with no value
-     */
     public function testParsingOptionWithNoValue(): void
     {
         $request = $this->parser->parse(['apex', 'foo', '--name']);
         $this->assertNull($request->getOptionValue('name'));
     }
 
-    /**
-     * Tests passing in an invalid input type
-     */
     public function testPassingInvalidInputType(): void
     {
         $this->expectException(InvalidArgumentException::class);

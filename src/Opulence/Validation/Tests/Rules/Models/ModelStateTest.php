@@ -32,9 +32,6 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     /** @var Rules|MockObject The rules to use in tests */
     private Rules $rules;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->rules = $this->getMockBuilder(Rules::class)
@@ -50,9 +47,6 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
             ->willReturn($this->validator);
     }
 
-    /**
-     * Tests an invalid model
-     */
     public function testInvalidModel(): void
     {
         $user = new User(1, 'Dave', 'foo');
@@ -84,9 +78,6 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(ErrorCollection::class, $modelState->getErrors());
     }
 
-    /**
-     * Tests a valid model
-     */
     public function testValidModel(): void
     {
         $user = new User(1, 'Dave', 'foo@bar.com');

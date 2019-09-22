@@ -39,9 +39,6 @@ class AccessTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
     /** @var ISubject|MockObject The subject to use in tests */
     private ISubject $subject;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->signer = $this->createMock(ISigner::class);
@@ -82,9 +79,6 @@ class AccessTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests that the claims are added
-     */
     public function testClaimsAdded(): void
     {
         $credential = $this->factory->createCredentialForSubject($this->subject);

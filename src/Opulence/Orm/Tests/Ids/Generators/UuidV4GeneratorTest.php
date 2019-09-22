@@ -29,9 +29,6 @@ class UuidV4GeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($generator->isPostInsert());
     }
 
-    /**
-     * Tests generating an Id
-     */
     public function testGeneratingId(): void
     {
         $entity = new stdClass();

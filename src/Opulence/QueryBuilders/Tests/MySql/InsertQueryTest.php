@@ -38,9 +38,6 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
         ], $query->getParameters());
     }
 
-    /**
-     * Tests a basic query
-     */
     public function testBasicQuery(): void
     {
         $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);

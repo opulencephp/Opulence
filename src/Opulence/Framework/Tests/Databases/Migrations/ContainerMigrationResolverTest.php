@@ -28,18 +28,12 @@ class ContainerMigrationResolverTest extends \PHPUnit\Framework\TestCase
     /** @var IContainer|MockObject The IoC container to use in tests */
     private IContainer $container;
 
-    /**
-     * Sets up tests
-     */
     protected function setUp(): void
     {
         $this->container = $this->createMock(IContainer::class);
         $this->migrationResolver = new ContainerMigrationResolver($this->container);
     }
 
-    /**
-     * Tests that the container is used to resolve migrations
-     */
     public function testContainerIsUsedToResolveDependencies(): void
     {
         $migration = $this->createMock(IMigration::class);
@@ -50,9 +44,6 @@ class ContainerMigrationResolverTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($migration, $this->migrationResolver->resolve('foo'));
     }
 
-    /**
-     * Tests that IoC exceptions are converted
-     */
     public function testIocExceptionsAreConverted(): void
     {
         $this->expectException(MigrationResolutionException::class);

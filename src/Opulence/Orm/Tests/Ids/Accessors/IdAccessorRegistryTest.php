@@ -27,9 +27,6 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     private IdAccessorRegistry $registry;
     private User $entity1;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->registry = new IdAccessorRegistry();
@@ -47,9 +44,6 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
         $this->entity1 = new User(724, 'foo');
     }
 
-    /**
-     * Tests that the entity interface's accessors are automatically set
-     */
     public function testEntityInterfaceAccessorsAutomaticallySet(): void
     {
         $entity = $this->createMock(IEntity::class);
@@ -67,17 +61,11 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, $this->registry->getEntityId($entity));
     }
 
-    /**
-     * Tests getting an entity Id
-     */
     public function testGettingEntityId(): void
     {
         $this->assertEquals(724, $this->registry->getEntityId($this->entity1));
     }
 
-    /**
-     * Tests getting an entity Id without registering a getter
-     */
     public function testGettingEntityIdWithoutRegisteringGetter(): void
     {
         $this->expectException(OrmException::class);
@@ -98,9 +86,6 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
         $this->registry->getEntityId(new Foo());
     }
 
-    /**
-     * Tests reflection accessors
-     */
     public function testReflectionAccessors(): void
     {
         $this->registry->registerReflectionIdAccessors(Foo::class, 'id');
@@ -109,9 +94,6 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(24, $this->registry->getEntityId($foo));
     }
 
-    /**
-     * Tests reflection accessors
-     */
     public function testReflectionAccessorsWithTwoClasses(): void
     {
         $this->registry->registerReflectionIdAccessors([Foo::class, Bar::class], 'id');
@@ -123,9 +105,6 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(42, $this->registry->getEntityId($bar));
     }
 
-    /**
-     * Tests registering an array of class names
-     */
     public function testRegisteringArrayOfClassNames(): void
     {
         $entity1 = $this->getMockBuilder(User::class)
@@ -156,18 +135,12 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
         $this->registry->setEntityId($entity2, 456);
     }
 
-    /**
-     * Tests setting an entity Id
-     */
     public function testSettingEntityId(): void
     {
         $this->registry->setEntityId($this->entity1, 333);
         $this->assertEquals(333, $this->entity1->getId());
     }
 
-    /**
-     * Tests setting an entity Id without registering a setter
-     */
     public function testSettingEntityIdWithoutRegisteringGetter(): void
     {
         $this->expectException(OrmException::class);

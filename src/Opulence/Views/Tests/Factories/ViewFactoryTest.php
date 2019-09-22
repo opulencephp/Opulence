@@ -32,9 +32,6 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
     private IViewReader $viewReader;
     private ViewFactory $viewFactory;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->viewNameResolver = $this->createMock(IViewNameResolver::class);
@@ -48,9 +45,6 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
             ->getMock();
     }
 
-    /**
-     * Tests checking if views exist
-     */
     public function testCheckingIfViewExists(): void
     {
         $this->viewNameResolver->expects($this->at(0))
@@ -63,9 +57,6 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->viewFactory->hasView('bar'));
     }
 
-    /**
-     * Tests registering a builder
-     */
     public function testRegisteringBuilder(): void
     {
         $this->viewFactory->registerBuilder('TestWithDefaultTagDelimiters', function (IView $view) {
@@ -78,9 +69,6 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $view->getVar('foo'));
     }
 
-    /**
-     * Tests registering builders to multiple paths
-     */
     public function testRegisteringBuilderToMultiplePaths(): void
     {
         $this->viewFactory->registerBuilder(
@@ -101,9 +89,6 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $view->getVar('foo'));
     }
 
-    /**
-     * Tests registering a builder for a view name and then creating that view with the exact same view name
-     */
     public function testRegisteringBuilderWithExactSameNameAsView(): void
     {
         $this->viewFactory->registerBuilder('TestWithDefaultTagDelimiters.html', function (IView $view) {
@@ -116,9 +101,6 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $view->getVar('foo'));
     }
 
-    /**
-     * Tests registering a builder for a view with an extension and then creating that view without an extension
-     */
     public function testRegisteringBuilderWithExtensionAndCreatingSameViewWithoutExtension(): void
     {
         $this->viewFactory->registerBuilder('TestWithDefaultTagDelimiters.html', function (IView $view) {
@@ -167,9 +149,6 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $view->getVars());
     }
 
-    /**
-     * Tests registering a builder for a view without an extension and then creating that view with an extension
-     */
     public function testRegisteringBuilderWithoutExtensionAndCreatingSameViewWithExtension(): void
     {
         $this->viewFactory->registerBuilder('TestWithDefaultTagDelimiters', function (IView $view) {
@@ -182,9 +161,6 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $view->getVar('foo'));
     }
 
-    /**
-     * Tests registering a closure builder
-     */
     public function testRegisteringClosureBuilder(): void
     {
         $this->viewFactory->registerBuilder('TestWithDefaultTagDelimiters', function (IView $view) {
@@ -199,9 +175,6 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $view->getVar('foo'));
     }
 
-    /**
-     * Tests registering multiple builders
-     */
     public function testRegisteringMultipleBuilders(): void
     {
         $this->viewFactory->registerBuilder('TestWithDefaultTagDelimiters', function (IView $view) {

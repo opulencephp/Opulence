@@ -21,25 +21,16 @@ class PostgreSqlProviderTest extends \PHPUnit\Framework\TestCase
 {
     private PostgreSqlProvider $provider;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->provider = new PostgreSqlProvider();
     }
 
-    /**
-     * Tests converting from a null SQL boolean
-     */
     public function testConvertingFromNullSqlBoolean(): void
     {
         $this->assertNull($this->provider->convertFromSqlBoolean(null));
     }
 
-    /**
-     * Tests converting from an SQL boolean
-     */
     public function testConvertingFromSqlBoolean(): void
     {
         $trueBooleanValues = [
@@ -68,9 +59,6 @@ class PostgreSqlProviderTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * Tests converting to an SQL boolean
-     */
     public function testConvertingToSqlBoolean(): void
     {
         $this->assertEquals('t', $this->provider->convertToSqlBoolean(true));

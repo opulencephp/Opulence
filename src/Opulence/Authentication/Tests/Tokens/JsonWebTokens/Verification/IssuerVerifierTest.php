@@ -29,9 +29,6 @@ class IssuerVerifierTest extends \PHPUnit\Framework\TestCase
     /** @var JwtPayload|MockObject The payload to use in tests */
     private JwtPayload $jwtPayload;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->verifier = new IssuerVerifier('foo');
@@ -44,9 +41,6 @@ class IssuerVerifierTest extends \PHPUnit\Framework\TestCase
             ->willReturn($this->jwtPayload);
     }
 
-    /**
-     * Tests that an invalid issuer
-     */
     public function testInvalidIssuer(): void
     {
         $this->jwtPayload->expects($this->once())
@@ -56,9 +50,6 @@ class IssuerVerifierTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(JwtErrorTypes::ISSUER_INVALID, $error);
     }
 
-    /**
-     * Tests verifying valid token
-     */
     public function testVerifyingValidToken(): void
     {
         $this->jwtPayload->expects($this->once())

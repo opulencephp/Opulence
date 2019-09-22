@@ -32,9 +32,6 @@ class BigIntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($generator->isPostInsert());
     }
 
-    /**
-     * Tests that an exception is thrown when no connection is set
-     */
     public function testExceptionThrownWhenConnectionNotSet(): void
     {
         $this->expectException(OrmException::class);
@@ -42,9 +39,6 @@ class BigIntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
         $idGenerator->generate(new stdClass());
     }
 
-    /**
-     * Tests generating an Id
-     */
     public function testGeneratingId(): void
     {
         $server = new Server();
@@ -65,9 +59,6 @@ class BigIntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($generator->getEmptyValue(new stdClass()));
     }
 
-    /**
-     * Tests setting new connection overrides connection in constructor
-     */
     public function testSettingNewConnectionOverridesConnectionInConstructor(): void
     {
         $server = new Server();

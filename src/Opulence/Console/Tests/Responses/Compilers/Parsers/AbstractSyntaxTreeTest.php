@@ -24,33 +24,21 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     /** @var AbstractSyntaxTree The tree to use in tests */
     private $tree;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->tree = new AbstractSyntaxTree();
     }
 
-    /**
-     * Tests getting the current node when none is set
-     */
     public function testGettingCurrentNodeWhenNoneIsSet(): void
     {
         $this->assertEquals(new RootNode(), $this->tree->getCurrentNode());
     }
 
-    /**
-     * Tests getting the root node
-     */
     public function testGettingRootNode(): void
     {
         $this->assertEquals(new RootNode(), $this->tree->getRootNode());
     }
 
-    /**
-     * Tests setting the current node
-     */
     public function testSettingCurrentNode(): void
     {
         $currentNode = new Node('foo');

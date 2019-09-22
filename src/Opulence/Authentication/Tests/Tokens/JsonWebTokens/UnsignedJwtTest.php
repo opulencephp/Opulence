@@ -25,9 +25,6 @@ class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
     private JwtHeader $header;
     private JwtPayload $payload;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->header = new JwtHeader();
@@ -35,25 +32,16 @@ class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
         $this->jwt = new UnsignedJwt($this->header, $this->payload);
     }
 
-    /**
-     * Tests getting the header
-     */
     public function testGettingHeader(): void
     {
         $this->assertSame($this->header, $this->jwt->getHeader());
     }
 
-    /**
-     * Tests getting the payload
-     */
     public function testGettingPayload(): void
     {
         $this->assertSame($this->payload, $this->jwt->getPayload());
     }
 
-    /**
-     * Tests getting the unsigned value
-     */
     public function testGettingUnsignedValue(): void
     {
         $this->assertEquals(

@@ -22,17 +22,11 @@ class StackTest extends \PHPUnit\Framework\TestCase
     /** @var Stack The stack to use in tests */
     private $stack;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->stack = new Stack();
     }
 
-    /**
-     * Tests clearing
-     */
     public function testClearing(): void
     {
         $this->stack->push('foo');
@@ -40,9 +34,6 @@ class StackTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $this->stack->toArray());
     }
 
-    /**
-     * Tests that has returns whether or not the value exists
-     */
     public function testContainsValueReturnsWhetherOrNotValueExists(): void
     {
         $this->assertFalse($this->stack->containsValue('foo'));
@@ -50,9 +41,6 @@ class StackTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->stack->containsValue('foo'));
     }
 
-    /**
-     * Tests counting
-     */
     public function testCounting(): void
     {
         $this->assertEquals(0, $this->stack->count());
@@ -62,9 +50,6 @@ class StackTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, $this->stack->count());
     }
 
-    /**
-     * Tests iterating over the values
-     */
     public function testIteratingOverValues(): void
     {
         $this->stack->push('foo');
@@ -78,17 +63,11 @@ class StackTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['bar', 'foo'], $actualValues);
     }
 
-    /**
-     * Tests that peeking when no values are in the stack returns null
-     */
     public function testPeekingWhenNoValuesInStackReturnsNull(): void
     {
         $this->assertNull($this->stack->peek());
     }
 
-    /**
-     * Tests that peek returns the top value
-     */
     public function testPeekReturnsTopValue(): void
     {
         $this->stack->push('foo');
@@ -97,9 +76,6 @@ class StackTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $this->stack->peek());
     }
 
-    /**
-     * Tests that popping removes the value from the stop of the stack
-     */
     public function testPoppingRemovesValueFromTopOfStack(): void
     {
         $this->stack->push('foo');
@@ -110,17 +86,11 @@ class StackTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $this->stack->toArray());
     }
 
-    /**
-     * Tests that popping when no values are in the stack returns null
-     */
     public function testPoppingWhenNoValuesAreInStackReturnsNull(): void
     {
         $this->assertNull($this->stack->pop());
     }
 
-    /**
-     * Tests that pushing adds the value to the top of the stack
-     */
     public function testPushingAddsValueToTopOfStack(): void
     {
         $this->stack->push('foo');
@@ -129,9 +99,6 @@ class StackTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo', $this->stack->pop());
     }
 
-    /**
-     * Tests that converting to an array actually converts it
-     */
     public function testToArrayConvertsTheStackToArray(): void
     {
         $this->stack->push('foo');

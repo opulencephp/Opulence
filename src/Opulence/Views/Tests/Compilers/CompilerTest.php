@@ -27,18 +27,12 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /** @var ICompilerRegistry|MockObject The compiler registry to use in tests */
     private ICompilerRegistry $registry;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->registry = $this->createMock(ICompilerRegistry::class);
         $this->compiler = new Compiler($this->registry);
     }
 
-    /**
-     * Tests that the correct compiler is used
-     */
     public function testCorrectCompilerIsUsed(): void
     {
         /** @var IView|MockObject $view */

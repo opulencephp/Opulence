@@ -28,9 +28,6 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
     /** @var Client|MockObject The client to use in tests */
     private Client $client;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $methods = ['decrement', 'delete', 'flush', 'get', 'getResultCode', 'increment', 'set'];
@@ -48,9 +45,6 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
         $this->bridge = new MemcachedBridge($this->memcached, 'default', 'dave:');
     }
 
-    /**
-     * Tests checking if a key exists
-     */
     public function testCheckingIfKeyExists(): void
     {
         $this->client->expects($this->at(0))
@@ -63,9 +57,6 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->bridge->has('foo'));
     }
 
-    /**
-     * Tests decrementing returns correct values
-     */
     public function testDecrementingReturnsCorrectValues(): void
     {
         $this->client->expects($this->at(0))
@@ -82,9 +73,6 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(5, $this->bridge->decrement('foo', 5));
     }
 
-    /**
-     * Tests deleting a key
-     */
     public function testDeletingKey(): void
     {
         $this->client->expects($this->once())
@@ -93,17 +81,11 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
         $this->bridge->delete('foo');
     }
 
-    /**
-     * Tests that the driver is the correct instance of Memcached
-     */
     public function testDriverIsCorrectInstance(): void
     {
         $this->assertSame($this->memcached, $this->bridge->getMemcached());
     }
 
-    /**
-     * Tests that an error when getting a value will return null
-     */
     public function testErrorDuringGetWillReturnNull(): void
     {
         $this->client->expects($this->once())
@@ -115,9 +97,6 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->bridge->get('foo'));
     }
 
-    /**
-     * Tests flushing the database
-     */
     public function testFlushing(): void
     {
         $this->client->expects($this->once())
@@ -125,9 +104,6 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
         $this->bridge->flush();
     }
 
-    /**
-     * Tests that getting a value works
-     */
     public function testGetWorks(): void
     {
         $this->client->expects($this->once())
@@ -139,9 +115,6 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $this->bridge->get('foo'));
     }
 
-    /**
-     * Tests incrementing returns correct values
-     */
     public function testIncrementingReturnsCorrectValues(): void
     {
         $this->client->expects($this->at(0))
@@ -158,9 +131,6 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(7, $this->bridge->increment('foo', 5));
     }
 
-    /**
-     * Tests that null is returned on cache miss
-     */
     public function testNullIsReturnedOnMiss(): void
     {
         $this->client->expects($this->once())
@@ -169,9 +139,6 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->bridge->get('foo'));
     }
 
-    /**
-     * Tests setting a value
-     */
     public function testSettingValue(): void
     {
         $this->client->expects($this->once())
@@ -180,9 +147,6 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
         $this->bridge->set('foo', 'bar', 60);
     }
 
-    /**
-     * Tests using a base Memcached instance
-     */
     public function testUsingBaseMemcachedInstance(): void
     {
         /** @var Memcached|MockObject $memcached */
@@ -194,9 +158,6 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($memcached, $bridge->getMemcached());
     }
 
-    /**
-     * Tests using a client beside the default one
-     */
     public function testUsingClientBesidesDefaultOne(): void
     {
         $client = $this->getMockBuilder(Client::class)

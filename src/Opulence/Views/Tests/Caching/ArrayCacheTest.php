@@ -25,18 +25,12 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     /** @var IView|MockObject The view to use in tests */
     private IView $view;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->cache = new ArrayCache();
         $this->view = $this->createMock(IView::class);
     }
 
-    /**
-     * Tests flushing the cache removes views
-     */
     public function testFlushingCacheRemovesViews(): void
     {
         $this->cache->set($this->view, 'foo');
@@ -45,9 +39,6 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->cache->has($this->view));
     }
 
-    /**
-     * Tests getting an existing view
-     */
     public function testGettingExistingView(): void
     {
         $this->cache->set($this->view, 'foo');
@@ -64,9 +55,6 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->cache->has($this->view));
     }
 
-    /**
-     * Tests getting views with the same content but different view variables
-     */
     public function testGettingViewsWithSameContentButDifferentViewVariables(): void
     {
         $view1 = $this->createMock(IView::class);

@@ -25,9 +25,6 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
     private Server $server;
     private ?Connection $pdo;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->provider = new Provider();
@@ -35,25 +32,16 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
         $this->pdo = new Connection($this->provider, $this->server, 'fakedsn', []);
     }
 
-    /**
-     * Does some housekeeping before ending the tests
-     */
     protected function tearDown(): void
     {
         $this->pdo = null;
     }
 
-    /**
-     * Tests getting the database provider
-     */
     public function testGettingDatabaseProvider(): void
     {
         $this->assertEquals($this->provider, $this->pdo->getDatabaseProvider());
     }
 
-    /**
-     * Tests getting the server
-     */
     public function testGettingServer(): void
     {
         $this->assertEquals($this->server, $this->pdo->getServer());

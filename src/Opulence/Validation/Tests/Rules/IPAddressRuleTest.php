@@ -19,9 +19,6 @@ use Opulence\Validation\Rules\IPAddressRule;
  */
 class IPAddressRuleTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests that a failing value
-     */
     public function testFailingValue(): void
     {
         $rule = new IPAddressRule();
@@ -29,18 +26,12 @@ class IPAddressRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($rule->passes('123'));
     }
 
-    /**
-     * Tests getting the slug
-     */
     public function testGettingSlug(): void
     {
         $rule = new IPAddressRule();
         $this->assertEquals('ipAddress', $rule->getSlug());
     }
 
-    /**
-     * Tests a passing value
-     */
     public function testPassingValue(): void
     {
         $rule = new IPAddressRule();

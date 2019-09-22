@@ -20,9 +20,6 @@ use Opulence\Authentication\Tokens\Signatures\Algorithms;
  */
 class AlgorithmsTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests checking for a supported algorithm
-     */
     public function testCheckingForSupportedAlgorithm(): void
     {
         foreach (Algorithms::getAll() as $algorithm) {
@@ -30,17 +27,11 @@ class AlgorithmsTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * Tests checking for an unsupported algorithm
-     */
     public function testCheckingForUnsupportedAlgorithm(): void
     {
         $this->assertFalse(Algorithms::has('foo'));
     }
 
-    /**
-     * Tests checking if an algorithm is symmetric
-     */
     public function testCheckingIfAlgorithmIsSymmetric(): void
     {
         $this->assertTrue(Algorithms::isSymmetric(Algorithms::SHA256));
@@ -51,18 +42,12 @@ class AlgorithmsTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(Algorithms::isSymmetric(Algorithms::RSA_SHA512));
     }
 
-    /**
-     * Tests that an exception is thrown when checking if an invalid algorithm is symmetric
-     */
     public function testExceptionThrownOnInvalidAlgorithmSymmetryCheck(): void
     {
         $this->expectException(InvalidArgumentException::class);
         Algorithms::isSymmetric('foo');
     }
 
-    /**
-     * Tests getting all algorithms
-     */
     public function testGettingAllAlgorithms(): void
     {
         $expected = [

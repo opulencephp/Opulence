@@ -24,9 +24,6 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     /** @var ICondition The condition to use in tests */
     private $condition;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->condition = $this->createMock(ICondition::class);
@@ -144,9 +141,6 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
     }
 
-    /**
-     * Tests a basic query
-     */
     public function testBasicQuery(): void
     {
         $query = new SelectQuery('id', 'name');
@@ -154,9 +148,6 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('SELECT id, name FROM users', $query->getSql());
     }
 
-    /**
-     * Tests a basic query with a table alias
-     */
     public function testBasicQueryWithAlias(): void
     {
         $query = new SelectQuery('u.id', 'u.name');
@@ -291,9 +282,6 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('SELECT id, name FROM users LIMIT :limit', $query->getSql());
     }
 
-    /**
-     * Tests mixing a WHERE expression and a WHERE condition object
-     */
     public function testMixingWhereExpessionAndObject(): void
     {
         $query = new SelectQuery('id');
@@ -412,9 +400,6 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('SELECT id, name FROM users ORDER BY id ASC, name DESC', $query->getSql());
     }
 
-    /**
-     * Tests a really basic query
-     */
     public function testReallyBasicQuery(): void
     {
         $query = new SelectQuery('id');

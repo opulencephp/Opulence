@@ -25,17 +25,11 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
 {
     private Subject $subject;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->subject = new Subject();
     }
 
-    /**
-     * Tests checking roles
-     */
     public function testCheckingRoles(): void
     {
         /** @var IPrincipal|MockObject $principal */
@@ -48,9 +42,6 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->subject->hasRole('bar'));
     }
 
-    /**
-     * Tests creating a subject with principals and credentials
-     */
     public function testCreatingSubjectWithPrincipalsAndCredentials(): void
     {
         $principals = [$this->createMock(IPrincipal::class)];
@@ -60,25 +51,16 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($credentials, $subject->getCredentials());
     }
 
-    /**
-     * Tests an empty array is returned with no credentials
-     */
     public function testEmptyArrayReturnedWithNoCredentials(): void
     {
         $this->assertEquals([], $this->subject->getCredentials());
     }
 
-    /**
-     * Tests an empty array is returned with no principals
-     */
     public function testEmptyArrayReturnedWithNoPrincipals(): void
     {
         $this->assertEquals([], $this->subject->getPrincipals());
     }
 
-    /**
-     * Tests getting an added credential
-     */
     public function testGettingAddedCredential(): void
     {
         /** @var ICredential|MockObject $credential */
@@ -90,9 +72,6 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$credential], $this->subject->getCredentials());
     }
 
-    /**
-     * Tests getting an added principal
-     */
     public function testGettingAddedPrincipal(): void
     {
         /** @var IPrincipal|MockObject $principal */
@@ -104,9 +83,6 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$principal], $this->subject->getPrincipals());
     }
 
-    /**
-     * Tests getting the primary principal
-     */
     public function testGettingPrimaryPrincipal(): void
     {
         /** @var IPrincipal|MockObject $principal */
@@ -119,9 +95,6 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$principal], $this->subject->getPrincipals());
     }
 
-    /**
-     * Tests getting roles
-     */
     public function testGettingRoles(): void
     {
         /** @var IPrincipal|MockObject $principal1 */
@@ -145,17 +118,11 @@ class SubjectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo', 'bar'], $this->subject->getRoles());
     }
 
-    /**
-     * Tests null is returned with no credential
-     */
     public function testNullReturnedWithNoCredential(): void
     {
         $this->assertNull($this->subject->getCredential('foo'));
     }
 
-    /**
-     * Tests null is returned with no principal
-     */
     public function testNullReturnedWithNoPrincipal(): void
     {
         $this->assertNull($this->subject->getPrincipal('foo'));

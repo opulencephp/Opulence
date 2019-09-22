@@ -30,9 +30,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     private Transpiler $transpiler;
     private View $view;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->view = new View();
@@ -45,9 +42,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         $this->transpiler = new Transpiler(new Lexer(), new Parser(), $cache, new XssFilter());
     }
 
-    /**
-     * Tests transpiling an else directive
-     */
     public function testTranspilingElse(): void
     {
         $this->view->setContents('<% else %>');
@@ -129,9 +123,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests transpiling an extend directive
-     */
     public function testTranspilingExtend(): void
     {
         $this->view->setContents('<% extends("foo.php") %>bar');
@@ -147,9 +138,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests transpiling a for directive
-     */
     public function testTranspilingFor(): void
     {
         $this->view->setContents('<% for($i=0;$i<10;$i++) %>');
@@ -185,9 +173,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests transpiling a foreach directive
-     */
     public function testTranspilingForeach(): void
     {
         $this->view->setContents('<% foreach($foo as $bar) %>');
@@ -197,9 +182,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests transpiling an if directive
-     */
     public function testTranspilingIf(): void
     {
         $this->view->setContents('<% if(true) %>');
@@ -209,9 +191,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests transpiling an include directive
-     */
     public function testTranspilingInclude(): void
     {
         $this->view->setContents('<% include("foo.php") %>bar');
@@ -228,9 +207,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests transpiling an include directive with passed variables
-     */
     public function testTranspilingIncludeWithPassedVariables(): void
     {
         $this->view->setContents('<% include("foo.php", ["foo" => "bar"]) %>baz');
@@ -247,9 +223,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests transpiling an include directive with passed variables that contain a comma
-     */
     public function testTranspilingIncludeWithPassedVariablesThatContainComma(): void
     {
         $this->view->setContents('<% include("foo.php", compact("foo", "bar")) %>baz');
@@ -266,9 +239,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests transpiling an include directive with a variable view name and passed variables
-     */
     public function testTranspilingIncludeWithVariableViewNameAndPassedVariables(): void
     {
         $this->view->setContents('<% include($foo, ["foo" => "bar"]) %>baz');
@@ -285,9 +255,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests transpiling a parent directive
-     */
     public function testTranspilingParent(): void
     {
         $this->view->setContents('<% parent %>');
@@ -297,9 +264,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests transpiling a part directive
-     */
     public function testTranspilingPart(): void
     {
         $this->view->setContents('<% part("foo") %>');
@@ -309,9 +273,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests transpiling a show directive
-     */
     public function testTranspilingShow(): void
     {
         $this->view->setContents('<% show("foo") %>');
@@ -321,9 +282,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests transpiling a show directive without an expression
-     */
     public function testTranspilingShowWithoutExpression(): void
     {
         $this->view->setContents('<% show %>');
@@ -333,9 +291,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests transpiling a while directive
-     */
     public function testTranspilingWhile(): void
     {
         $this->view->setContents('<% while(true) %>');

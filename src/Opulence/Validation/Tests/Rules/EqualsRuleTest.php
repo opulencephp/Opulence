@@ -20,9 +20,6 @@ use Opulence\Validation\Rules\EqualsRule;
  */
 class EqualsRuleTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests that equal values pass
-     */
     public function testEqualValuesPass(): void
     {
         $rule = new EqualsRule();
@@ -30,18 +27,12 @@ class EqualsRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($rule->passes('foo'));
     }
 
-    /**
-     * Tests getting the slug
-     */
     public function testGettingSlug(): void
     {
         $rule = new EqualsRule();
         $this->assertEquals('equals', $rule->getSlug());
     }
 
-    /**
-     * Tests passing an empty arg array
-     */
     public function testPassingEmptyArgArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -49,9 +40,6 @@ class EqualsRuleTest extends \PHPUnit\Framework\TestCase
         $rule->setArgs([]);
     }
 
-    /**
-     * Tests that unequal values fail
-     */
     public function testUnequalValuesFail(): void
     {
         $rule = new EqualsRule();

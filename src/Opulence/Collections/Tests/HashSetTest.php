@@ -23,17 +23,11 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
     /** @var HashSet The set to use in tests */
     private $set;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->set = new HashSet();
     }
 
-    /**
-     * Tests that adding an array value is acceptable
-     */
     public function testAddingArrayValueIsAcceptable(): void
     {
         $array = ['foo'];
@@ -42,9 +36,6 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$array], $this->set->toArray());
     }
 
-    /**
-     * Tests that adding primitive values is acceptable
-     */
     public function testAddingPrimitiveValuesIsAcceptable(): void
     {
         $int = 1;
@@ -56,9 +47,6 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$int, $string], $this->set->toArray());
     }
 
-    /**
-     * Tests that adding resource values is acceptable
-     */
     public function testAddingResourceValuesIsAcceptable(): void
     {
         $resource = fopen('php://temp', 'r+b');
@@ -67,9 +55,6 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$resource], $this->set->toArray());
     }
 
-    /**
-     * Tests adding a value
-     */
     public function testAddingValue(): void
     {
         $object = new MockObject();
@@ -77,9 +62,6 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$object], $this->set->toArray());
     }
 
-    /**
-     * Tests that checking the existence of a value returns whether or not that value exists
-     */
     public function testCheckingExistenceOfValueReturnsWhetherOrNotThatValueExists(): void
     {
         $this->assertFalse($this->set->containsValue('foo'));
@@ -91,9 +73,6 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->set->containsValue($object));
     }
 
-    /**
-     * Tests that clearing a set removes all the values
-     */
     public function testClearingSetRemovesAllValues(): void
     {
         $this->set->add(new MockObject());
@@ -101,9 +80,6 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $this->set->toArray());
     }
 
-    /**
-     * Tests that counting returns the number of unique values in a set
-     */
     public function testCountReturnsNumberOfUniqueValuesInSet(): void
     {
         $object1 = new MockObject();
@@ -117,9 +93,6 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, $this->set->count());
     }
 
-    /**
-     * Tests that equal but not same objects are not intersected
-     */
     public function testEqualButNotSameObjectsAreNotIntersected(): void
     {
         $object1 = new MockObject();
@@ -129,9 +102,6 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $this->set->toArray());
     }
 
-    /**
-     * Tests that intersecting values intersects that values of the set and the array
-     */
     public function testIntersectingIntersectsValuesOfSetAndArray(): void
     {
         $object1 = new MockObject();
@@ -163,9 +133,6 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedValues, $actualValues);
     }
 
-    /**
-     * Tests removing a value
-     */
     public function testRemovingValue(): void
     {
         $object = new MockObject();
@@ -174,9 +141,6 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $this->set->toArray());
     }
 
-    /**
-     * Tests sorting the list
-     */
     public function testSorting(): void
     {
         $comparer = function ($a, $b) {
@@ -192,9 +156,6 @@ class HashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['bar', 'foo'], $this->set->toArray());
     }
 
-    /**
-     * Tests that unioning values unions that values of the set and the array
-     */
     public function testUnionUnionsValuesOfSetAndArray(): void
     {
         $object = new MockObject();

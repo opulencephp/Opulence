@@ -27,17 +27,11 @@ class ElementRegistrantTest extends \PHPUnit\Framework\TestCase
     /** @var ElementRegistrant The registrant to use in tests */
     private $registrant;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->registrant = new ElementRegistrant();
     }
 
-    /**
-     * Tests that the correct elements are registered
-     */
     public function testCorrectElementsAreRegistered(): void
     {
         /** @var ICompiler|MockObject $compiler */

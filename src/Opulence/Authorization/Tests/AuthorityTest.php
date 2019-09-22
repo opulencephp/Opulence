@@ -25,9 +25,6 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     private Authority $authority;
     private PermissionRegistry $permissionRegistry;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->permissionRegistry = new PermissionRegistry();
@@ -35,9 +32,6 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
         $this->authority = new Authority(23, ['foo', 'bar'], $this->permissionRegistry);
     }
 
-    /**
-     * Tests can returns false when callback returns false
-     */
     public function testFalseCallback(): void
     {
         $this->permissionRegistry->registerCallback('foo', function () {
@@ -47,9 +41,6 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->authority->cannot('foo'));
     }
 
-    /**
-     * Tests that forUser creates a new instance
-     */
     public function testForUserCreatesNewInstance(): void
     {
         $forUserInstance = $this->authority->forSubject(1, []);
@@ -57,9 +48,6 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
         $this->assertNotSame($forUserInstance, $this->authority);
     }
 
-    /**
-     * Tests can returns false when user is does not have role
-     */
     public function testNoRoles(): void
     {
         $this->permissionRegistry->registerRoles('foo', 'bar');
@@ -67,9 +55,6 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->authority->cannot('baz'));
     }
 
-    /**
-     * Tests that an override is used
-     */
     public function testOverrideUsed(): void
     {
         $this->permissionRegistry->registerOverrideCallback(function ($userId, string $permission, $argument) {
@@ -86,9 +71,6 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->authority->cannot('foo', 'bar'));
     }
 
-    /**
-     * Tests can returns true when callback returns true
-     */
     public function testTrueCallback(): void
     {
         $this->permissionRegistry->registerCallback('foo', function () {
@@ -98,9 +80,6 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->authority->cannot('foo'));
     }
 
-    /**
-     * Tests can returns true when user has role
-     */
     public function testWithRoles(): void
     {
         $this->permissionRegistry->registerRoles('foo', 'bar');

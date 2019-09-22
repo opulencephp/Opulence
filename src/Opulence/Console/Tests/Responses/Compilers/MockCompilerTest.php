@@ -19,9 +19,6 @@ use Opulence\Console\Responses\Compilers\MockCompiler;
  */
 class MockCompilerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests compiling a styled message
-     */
     public function testCompilingStyledMessage(): void
     {
         $compiler = new MockCompiler();
@@ -29,9 +26,6 @@ class MockCompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('<foo>bar</foo>', $compiler->compile('<foo>bar</foo>'));
     }
 
-    /**
-     * Tests compiling an unstyled message
-     */
     public function testCompilingUnstyledMessage(): void
     {
         $compiler = new MockCompiler();

@@ -100,9 +100,6 @@ abstract class IntegrationTestCase extends TestCase
         return $this;
     }
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->requestParser = new ArrayListParser();

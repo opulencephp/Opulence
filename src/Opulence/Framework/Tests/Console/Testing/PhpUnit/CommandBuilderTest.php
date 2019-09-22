@@ -25,9 +25,6 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     private IntegrationTestCase $integrationTest;
     private CommandBuilder $commandBuilder;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->integrationTest = $this->createMock(IntegrationTestCase::class);
@@ -37,9 +34,6 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
         $this->commandBuilder = new CommandBuilder($this->integrationTest, 'foo');
     }
 
-    /**
-     * Tests building a basic command
-     */
     public function testBuildingBasicCommand(): void
     {
         $this->integrationTest->expects($this->once())
@@ -48,9 +42,6 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($this->integrationTest, $this->commandBuilder->execute());
     }
 
-    /**
-     * Tests building a command with multiple arguments
-     */
     public function testBuildingCommandWithMultipleArguments(): void
     {
         $this->integrationTest->expects($this->once())
@@ -63,9 +54,6 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests building a command with multiple options
-     */
     public function testBuildingCommandWithMultipleOptions(): void
     {
         $this->integrationTest->expects($this->once())
@@ -78,9 +66,6 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests building a command with multiple prompt answers
-     */
     public function testBuildingCommandWithMultiplePromptAnswers(): void
     {
         $this->integrationTest->expects($this->once())
@@ -93,9 +78,6 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests building a command with a single argument
-     */
     public function testBuildingCommandWithSingleArgument(): void
     {
         $this->integrationTest->expects($this->once())
@@ -108,9 +90,6 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests building a command with a single option
-     */
     public function testBuildingCommandWithSingleOption(): void
     {
         $this->integrationTest->expects($this->once())
@@ -123,9 +102,6 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests building a command with a single prompt answer
-     */
     public function testBuildingCommandWithSinglePromptAnswer(): void
     {
         $this->integrationTest->expects($this->once())
@@ -138,9 +114,6 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests building a command with an unstyled response
-     */
     public function testBuildingCommandWithUnstyledResponse(): void
     {
         $this->integrationTest->expects($this->once())

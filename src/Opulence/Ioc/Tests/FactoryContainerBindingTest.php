@@ -19,9 +19,6 @@ use Opulence\Ioc\FactoryContainerBinding;
  */
 class FactoryContainerBindingTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests checking if we should resolve as a singleton
-     */
     public function testCheckingIfResolvedAsSingleton(): void
     {
         $factory = function () {
@@ -32,9 +29,6 @@ class FactoryContainerBindingTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($prototypeFactory->resolveAsSingleton());
     }
 
-    /**
-     * Tests getting the factory
-     */
     public function testGettingFactory(): void
     {
         $factory = function () {

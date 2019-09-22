@@ -21,9 +21,6 @@ use PDO;
  */
 class InConditionTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests getting parameters for IN condition with parameters
-     */
     public function testGettingParametersForInConditionWithParameters(): void
     {
         $condition = new InCondition('foo', [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);
@@ -42,9 +39,6 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $condition->getParameters());
     }
 
-    /**
-     * Tests getting SQL for IN condition with parameters
-     */
     public function testGettingSqlForInConditionWithParameters(): void
     {
         $condition = new InCondition('foo', [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);
@@ -60,9 +54,6 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo IN (SELECT bar FROM baz)', $condition->getSql());
     }
 
-    /**
-     * Tests passing an invalid argument throws an exception
-     */
     public function testPassingInvalidArgumentThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);

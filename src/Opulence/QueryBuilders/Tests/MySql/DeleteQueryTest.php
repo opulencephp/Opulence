@@ -42,9 +42,6 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
         ], $query->getParameters());
     }
 
-    /**
-     * Tests the limit clause
-     */
     public function testLimit(): void
     {
         $query = new DeleteQuery('users');
@@ -52,9 +49,6 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('DELETE FROM users LIMIT 1', $query->getSql());
     }
 
-    /**
-     * Tests the limit clause with a named placeholder
-     */
     public function testLimitWithNamedPlaceholder(): void
     {
         $query = new DeleteQuery('users');

@@ -39,9 +39,6 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     /** @var CommandCollection The list of registered commands */
     private $commandCollection;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->commandCollection = new CommandCollection(new CommandCompiler());
@@ -49,9 +46,6 @@ class CommandTest extends \PHPUnit\Framework\TestCase
         $this->command = new SimpleCommand('foo', 'The foo command', "Bob Loblaw's Law Blog no habla Espanol");
     }
 
-    /**
-     * Tests adding an argument
-     */
     public function testAddingArgument(): void
     {
         $this->assertEquals([], $this->command->getArguments());
@@ -62,9 +56,6 @@ class CommandTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([$argument], $this->command->getArguments());
     }
 
-    /**
-     * Tests adding an option
-     */
     public function testAddingOption(): void
     {
         $option = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'bar', null);
@@ -73,9 +64,6 @@ class CommandTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($option, $this->command->getOption('foo'));
     }
 
-    /**
-     * Tests checking if an argument has a value
-     */
     public function testCheckingIfArgumentHasValue(): void
     {
         $noValueArgument = new Argument('novalue', ArgumentTypes::OPTIONAL, 'No value');
@@ -87,9 +75,6 @@ class CommandTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->command->argumentValueIsSet('hasvalue'));
     }
 
-    /**
-     * Tests checking if a set option is set
-     */
     public function testCheckingIfSetOptionIsSet(): void
     {
         $option = new Option('foo', 'f', OptionTypes::REQUIRED_VALUE, 'Foo command');
@@ -98,9 +83,6 @@ class CommandTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->command->optionIsSet('foo'));
     }
 
-    /**
-     * Tests checking if a set option without a value is set
-     */
     public function testCheckingIfSetOptionWithoutValueIsSet(): void
     {
         $option = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'Foo command');
@@ -109,17 +91,11 @@ class CommandTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->command->optionIsSet('foo'));
     }
 
-    /**
-     * Tests checking if an unset option is set
-     */
     public function testCheckingIfUnsetOptionIsSet(): void
     {
         $this->assertFalse($this->command->optionIsSet('fake'));
     }
 
-    /**
-     * Tests creating a command that does not construct its parent
-     */
     public function testCreatingCommandThatDoesNotConstructParent(): void
     {
         $this->expectException(RuntimeException::class);
@@ -127,25 +103,16 @@ class CommandTest extends \PHPUnit\Framework\TestCase
         $command->execute(new Response(new ResponseCompiler(new Lexer(), new Parser())));
     }
 
-    /**
-     * Tests getting the description
-     */
     public function testGettingDescription(): void
     {
         $this->assertEquals('The foo command', $this->command->getDescription());
     }
 
-    /**
-     * Tests Getting the help text
-     */
     public function testGettingHelpText(): void
     {
         $this->assertEquals("Bob Loblaw's Law Blog no habla Espanol", $this->command->getHelpText());
     }
 
-    /**
-     * Tests getting the name
-     */
     public function testGettingName(): void
     {
         $this->assertEquals('foo', $this->command->getName());
@@ -187,9 +154,6 @@ class CommandTest extends \PHPUnit\Framework\TestCase
         $this->command->getOptionValue('fake');
     }
 
-    /**
-     * Tests getting the value of an option with a default value
-     */
     public function testGettingValueOfOptionWithDefaultValue(): void
     {
         $option = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'Foo command', 'bar');
@@ -197,27 +161,18 @@ class CommandTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->command->getOptionValue('foo'));
     }
 
-    /**
-     * Tests not setting the command name in the constructor
-     */
     public function testNotSettingNameInConstructor(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new NamelessCommand(new CommandCollection(new CommandCompiler()));
     }
 
-    /**
-     * Tests setting an argument value
-     */
     public function testSettingArgumentValue(): void
     {
         $this->command->setArgumentValue('foo', 'bar');
         $this->assertEquals('bar', $this->command->getArgumentValue('foo'));
     }
 
-    /**
-     * Tests setting an option value
-     */
     public function testSettingOptionValue(): void
     {
         $option = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'Foo command', 'bar');

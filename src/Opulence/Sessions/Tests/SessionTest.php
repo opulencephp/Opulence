@@ -22,9 +22,6 @@ use Opulence\Sessions\Session;
  */
 class SessionTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests aging flashed data
-     */
     public function testAgingFlashData(): void
     {
         $session = new Session();
@@ -74,9 +71,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests that writing to flash data after aging it will reflash it
-     */
     public function testAgingFlashDataAndWritingToItAgain(): void
     {
         $session = new Session();
@@ -106,9 +100,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests checking if an offset exists
-     */
     public function testCheckingIfOffsetExists(): void
     {
         $session = new Session();
@@ -119,9 +110,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($session->has('bar'));
     }
 
-    /**
-     * Tests deleting a variable
-     */
     public function testDeletingVariable(): void
     {
         $session = new Session();
@@ -131,9 +119,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $session->getAll());
     }
 
-    /**
-     * Tests flashing data and getting it
-     */
     public function testFlashingDataAndGettingIt(): void
     {
         $session = new Session();
@@ -150,9 +135,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests flushing the session
-     */
     public function testFlushing(): void
     {
         $session = new Session();
@@ -162,9 +144,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $session->getAll());
     }
 
-    /**
-     * Tests getting all session variables
-     */
     public function testGettingAll(): void
     {
         $session = new Session();
@@ -173,9 +152,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo' => 'bar', 'baz' => 'blah'], $session->getAll());
     }
 
-    /**
-     * Tests getting the Id
-     */
     public function testGettingId(): void
     {
         $id = str_repeat('1', IIdGenerator::MIN_LENGTH);
@@ -204,9 +180,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $session->get('foo', 'bar'));
     }
 
-    /**
-     * Tests reflashing data
-     */
     public function testReflashing(): void
     {
         $session = new Session();
@@ -246,9 +219,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests regenerating the session Id
-     */
     public function testRegenerateId(): void
     {
         $generatedId = str_repeat('1', IIdGenerator::MIN_LENGTH);
@@ -262,9 +232,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($generatedId, $session->getId());
     }
 
-    /**
-     * Tests regenerating the session Id with the default generator
-     */
     public function testRegeneratingIdWithDefaultIdGenerator(): void
     {
         $session = new Session();
@@ -273,9 +240,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(IdGenerator::DEFAULT_LENGTH, strlen($session->getId()));
     }
 
-    /**
-     * Tests setting and getting the name
-     */
     public function testSettingAndGettingName(): void
     {
         $session = new Session();
@@ -283,9 +247,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo', $session->getName());
     }
 
-    /**
-     * Tests setting the Id
-     */
     public function testSettingId(): void
     {
         $constructorId = str_repeat('1', IIdGenerator::MIN_LENGTH);
@@ -297,9 +258,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($setterId, $session->getId());
     }
 
-    /**
-     * Tests that invalid Id causes a new Id to be generated
-     */
     public function testSettingInvalidIdCausesNewIdToBeGenerated(): void
     {
         $idGenerator = $this->createMock(IIdGenerator::class);
@@ -314,9 +272,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEquals(2, $session->getId());
     }
 
-    /**
-     * Tests setting many variables
-     */
     public function testSettingMany(): void
     {
         $session = new Session();
@@ -327,9 +282,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo' => 'somethingnew', 'baz' => 'blah'], $session->getAll());
     }
 
-    /**
-     * Tests setting a null offset
-     */
     public function testSettingNullOffset(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -337,9 +289,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $session[] = 'foo';
     }
 
-    /**
-     * Tests setting the offset
-     */
     public function testSettingOffset(): void
     {
         $session = new Session();
@@ -349,9 +298,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo' => 'bar'], $session->getAll());
     }
 
-    /**
-     * Tests setting a variable
-     */
     public function testSettingVariable(): void
     {
         $session = new Session();
@@ -360,9 +306,6 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo' => 'bar'], $session->getAll());
     }
 
-    /**
-     * Tests starting a session
-     */
     public function testStarting(): void
     {
         $variables = ['foo' => 'bar', 'baz' => 'blah'];
@@ -373,27 +316,18 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($session->hasStarted());
     }
 
-    /**
-     * Tests that a session is not marked as started before it's started
-     */
     public function testThatSessionNotMarkedAsStartedBeforeStarting(): void
     {
         $session = new Session();
         $this->assertFalse($session->hasStarted());
     }
 
-    /**
-     * Tests that an unset name is an empty string
-     */
     public function testUnsetNameIsEmptyString(): void
     {
         $session = new Session();
         $this->assertEquals('', $session->getName());
     }
 
-    /**
-     * Tests unsetting an offset
-     */
     public function testUnsettingOffset(): void
     {
         $session = new Session();

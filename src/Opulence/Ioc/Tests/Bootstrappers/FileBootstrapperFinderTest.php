@@ -28,9 +28,6 @@ class FileBootstrapperFinderTest extends TestCase
     private FileBootstrapperFinder $bootstrapperFinder;
     private string $topLevelBootstrapperNamespace = '';
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->bootstrapperFinder = new FileBootstrapperFinder();

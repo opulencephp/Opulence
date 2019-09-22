@@ -22,18 +22,12 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
     private Executable $executableWithoutPHAR;
     private Executable $executableWithPHAR;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->executableWithoutPHAR = new Executable(__DIR__);
         $this->executableWithPHAR = new Executable(__DIR__ . '/Mocks');
     }
 
-    /**
-     * Tests the dump autoload command
-     */
     public function testDumpAutoload(): void
     {
         $this->assertEquals('composer dump-autoload ', $this->executableWithoutPHAR->dumpAutoload());
@@ -43,9 +37,6 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests the dump autoload command with options
-     */
     public function testDumpAutoloadWithOptions(): void
     {
         $this->assertEquals('composer dump-autoload -o', $this->executableWithoutPHAR->dumpAutoload('-o'));
@@ -55,9 +46,6 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests the update command
-     */
     public function testUpdate(): void
     {
         $this->assertEquals('composer update ', $this->executableWithoutPHAR->update());
@@ -67,9 +55,6 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests the update command with options
-     */
     public function testUpdateWithOptions(): void
     {
         $this->assertEquals('composer update --prefer-dist', $this->executableWithoutPHAR->update('--prefer-dist'));

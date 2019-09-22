@@ -31,9 +31,6 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     /** @var SignedJwt|MockObject The token to use in tests */
     private SignedJwt $jwt;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->signer = $this->createMock(ISigner::class);
@@ -43,9 +40,6 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
             ->getMock();
     }
 
-    /**
-     * Tests an empty signature
-     */
     public function testEmptySignature(): void
     {
         $this->jwt->expects($this->once())
@@ -55,9 +49,6 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(JwtErrorTypes::SIGNATURE_INCORRECT, $error);
     }
 
-    /**
-     * Tests an incorrect signature
-     */
     public function testIncorrectSignature(): void
     {
         $this->jwt->expects($this->once())
@@ -70,9 +61,6 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(JwtErrorTypes::SIGNATURE_INCORRECT, $error);
     }
 
-    /**
-     * Tests mismatched algorithm
-     */
     public function testMismatchedAlgorithm(): void
     {
         $this->jwt->expects($this->once())
@@ -95,9 +83,6 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(JwtErrorTypes::SIGNATURE_ALGORITHM_MISMATCH, $error);
     }
 
-    /**
-     * Tests verifying valid token
-     */
     public function testVerifyingValidToken(): void
     {
         $this->jwt->expects($this->once())

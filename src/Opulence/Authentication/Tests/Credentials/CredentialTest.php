@@ -22,33 +22,21 @@ class CredentialTest extends \PHPUnit\Framework\TestCase
     /** @var Credential The credential to use in tests */
     private Credential $credential;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->credential = new Credential('foo', ['bar' => 'baz']);
     }
 
-    /**
-     * Tests getting the type
-     */
     public function testGettingType(): void
     {
         $this->assertEquals('foo', $this->credential->getType());
     }
 
-    /**
-     * Tests getting the value
-     */
     public function testGettingValue(): void
     {
         $this->assertEquals('baz', $this->credential->getValue('bar'));
     }
 
-    /**
-     * Tests getting the values
-     */
     public function testGettingValues(): void
     {
         $this->assertEquals(['bar' => 'baz'], $this->credential->getValues());

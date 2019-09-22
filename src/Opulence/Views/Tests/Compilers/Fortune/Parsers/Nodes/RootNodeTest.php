@@ -19,9 +19,6 @@ use Opulence\Views\Compilers\Fortune\Parsers\Nodes\RootNode;
  */
 class RootNodeTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests getting the parent
-     */
     public function testGettingParent(): void
     {
         $node = new RootNode();

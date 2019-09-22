@@ -25,18 +25,12 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     /** @var ISigner|MockObject The signer to use in tests */
     private ISigner $signer;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->context = new VerificationContext($this->signer);
     }
 
-    /**
-     * Test getting the default values
-     */
     public function testGettingDefaultValues(): void
     {
         $this->assertEquals([], $this->context->getAudience());
@@ -45,27 +39,18 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->context->getSubject());
     }
 
-    /**
-     * Tests setting an audience
-     */
     public function testSettingAudience(): void
     {
         $this->context->setAudience(['foo']);
         $this->assertEquals(['foo'], $this->context->getAudience());
     }
 
-    /**
-     * Tests setting a issuer
-     */
     public function testSettingIssuer(): void
     {
         $this->context->setIssuer('foo');
         $this->assertEquals('foo', $this->context->getIssuer());
     }
 
-    /**
-     * Tests setting a signer
-     */
     public function testSettingSigner(): void
     {
         /** @var ISigner $signer */
@@ -74,9 +59,6 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($signer, $this->context->getSigner());
     }
 
-    /**
-     * Tests setting a subject
-     */
     public function testSettingSubject(): void
     {
         $this->context->setSubject('foo');

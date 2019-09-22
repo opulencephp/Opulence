@@ -21,50 +21,32 @@ class ClientTest extends \PHPUnit\Framework\TestCase
 {
     private Client $client;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->client = new Client(123, 'foo', 'bar');
     }
 
-    /**
-     * Tests getting the Id
-     */
     public function testGettingId(): void
     {
         $this->assertEquals(123, $this->client->getId());
     }
 
-    /**
-     * Tests getting the name
-     */
     public function testGettingName(): void
     {
         $this->assertEquals('foo', $this->client->getName());
     }
 
-    /**
-     * Tests getting the secret
-     */
     public function testGettingSecret(): void
     {
         $this->assertEquals('bar', $this->client->getSecret());
     }
 
-    /**
-     * Tests setting the Id
-     */
     public function testSettingId(): void
     {
         $this->client->setId('new');
         $this->assertEquals('new', $this->client->getId());
     }
 
-    /**
-     * Tests setting the name
-     */
     public function testSettingName(): void
     {
         $this->client->setName('new');

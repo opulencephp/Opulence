@@ -31,17 +31,11 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
     /** @var CommandCollection The list of commands to test */
     private $collection;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->collection = new CommandCollection(new CommandCompiler());
     }
 
-    /**
-     * Tests adding a command
-     */
     public function testAdd(): void
     {
         $command = new SimpleCommand('foo', 'The foo command');
@@ -49,9 +43,6 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($command, $this->collection->get('foo'));
     }
 
-    /**
-     * Tests adding a command that already exists
-     */
     public function testAddingDuplicateNames(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -59,9 +50,6 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
         $this->collection->add(new SimpleCommand('foo', 'The foo command copy'));
     }
 
-    /**
-     * Tests calling a command
-     */
     public function testCallingCommand(): void
     {
         $this->collection->add(new HappyHolidayCommand());
@@ -80,9 +68,6 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
         $this->collection->call('fake', new SilentResponse(), [], []);
     }
 
-    /**
-     * Tests checking if a command exists
-     */
     public function testCheckingIfCommandExists(): void
     {
         $this->collection->add(new SimpleCommand('foo', 'The foo command'));
@@ -90,9 +75,6 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->collection->has('bar'));
     }
 
-    /**
-     * Tests getting all commands
-     */
     public function testGettingAll(): void
     {
         $fooCommand = new SimpleCommand('foo', 'The foo command');
@@ -102,18 +84,12 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$fooCommand, $barCommand], $this->collection->getAll());
     }
 
-    /**
-     * Tests getting a command that does not exists
-     */
     public function testGettingCommandThatDoesNotExists(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->collection->get('foo');
     }
 
-    /**
-     * Tests overwriting a command that already exists
-     */
     public function testOverwritingExistingCommand(): void
     {
         $originalCommand = new SimpleCommand('foo', 'The foo command');

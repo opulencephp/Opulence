@@ -23,17 +23,11 @@ class IdGeneratorRegistryTest extends \PHPUnit\Framework\TestCase
 {
     private IdGeneratorRegistry $registry;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->registry = new IdGeneratorRegistry();
     }
 
-    /**
-     * Tests that the correct instance is returned after registering a generator
-     */
     public function testCorrectInstanceReturnedAfterRegisteringGenerator(): void
     {
         /** @var IIdGenerator|MockObject $generator */

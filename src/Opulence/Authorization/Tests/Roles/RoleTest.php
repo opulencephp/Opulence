@@ -22,33 +22,21 @@ class RoleTest extends \PHPUnit\Framework\TestCase
     /** @var Role The role to use in tests */
     private Role $role;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->role = new Role(1, 'foo');
     }
 
-    /**
-     * Tests getting the Id
-     */
     public function testGettingId(): void
     {
         $this->assertEquals(1, $this->role->getId());
     }
 
-    /**
-     * Tests getting the name
-     */
     public function testGettingName(): void
     {
         $this->assertEquals('foo', $this->role->getName());
     }
 
-    /**
-     * Tests setting the Id
-     */
     public function testSettingId(): void
     {
         $this->role->setId(23);

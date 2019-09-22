@@ -23,17 +23,11 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
 {
     private JwtPayload $payload;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->payload = new JwtPayload();
     }
 
-    /**
-     * Tests getting all values
-     */
     public function testGettingAllValues(): void
     {
         $claims = [
@@ -81,9 +75,6 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($claims, $this->payload->getAll());
     }
 
-    /**
-     * Tests getting the audience
-     */
     public function testGettingAudience(): void
     {
         $this->assertNull($this->payload->getAudience());
@@ -91,9 +82,6 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo', $this->payload->getAudience());
     }
 
-    /**
-     * Tests getting the encoded string
-     */
     public function testGettingEncodedString(): void
     {
         $this->payload->setIssuer('foo');
@@ -119,18 +107,12 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests getting the Id
-     */
     public function testGettingId(): void
     {
         $this->assertNotEmpty($this->payload->get('jti'));
         $this->assertNotEmpty($this->payload->getId());
     }
 
-    /**
-     * Tests getting the issued at
-     */
     public function testGettingIssuedAt(): void
     {
         $this->assertNull($this->payload->getIssuedAt());
@@ -139,9 +121,6 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($date, $this->payload->getIssuedAt());
     }
 
-    /**
-     * Tests getting the issuer
-     */
     public function testGettingIssuer(): void
     {
         $this->assertNull($this->payload->getIssuer());
@@ -149,9 +128,6 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo', $this->payload->getIssuer());
     }
 
-    /**
-     * Tests getting the subject
-     */
     public function testGettingSubject(): void
     {
         $this->assertNull($this->payload->getSubject());
@@ -159,9 +135,6 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo', $this->payload->getSubject());
     }
 
-    /**
-     * Tests getting the valid from
-     */
     public function testGettingValidFrom(): void
     {
         $this->assertNull($this->payload->getValidFrom());
@@ -170,9 +143,6 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($date, $this->payload->getValidFrom());
     }
 
-    /**
-     * Tests getting the valid to
-     */
     public function testGettingValidTo(): void
     {
         $this->assertNull($this->payload->getValidTo());
@@ -181,9 +151,6 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($date, $this->payload->getValidTo());
     }
 
-    /**
-     * Tests getting the value for an extra claim
-     */
     public function testGettingValue(): void
     {
         $this->assertNull($this->payload->get('foo'));
@@ -193,9 +160,6 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('baz', $this->payload->get('foo'));
     }
 
-    /**
-     * Tests that the Id changes with new claims
-     */
     public function testIdChangesWithNewClaims(): void
     {
         $jti1 = $this->payload->getId();
@@ -207,9 +171,6 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEquals($jti2, $jti3);
     }
 
-    /**
-     * Tests that the Id does not change with new claims when manually set
-     */
     public function testIdDoesNotChangeWithNewClaimsWhenManuallySet(): void
     {
         $this->payload->setId('theJti');
@@ -224,18 +185,12 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($jti2, $jti3);
     }
 
-    /**
-     * Tests setting the audience with an invalid type throws an exception
-     */
     public function testInvalidAudienceThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->payload->setAudience(new DateTimeImmutable());
     }
 
-    /**
-     * Tests setting the Id
-     */
     public function testSettingId(): void
     {
         $this->payload->setId('foo');
@@ -243,9 +198,6 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo', $this->payload->getId());
     }
 
-    /**
-     * Tests setting multiple audiences
-     */
     public function testSettingMultipleAudiences(): void
     {
         $this->payload->setAudience(['foo', 'bar']);

@@ -37,9 +37,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     /** @var View The view to use in tests */
     private View $view;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         /** @var ICompilerRegistry|MockObject $registry */
@@ -59,9 +56,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
             ->willReturn($this->fortuneCompiler);
     }
 
-    /**
-     * Tests that a child inherits parent's variables
-     */
     public function testChildInheritsParentsVariables(): void
     {
         $parentView = new View('Foo', '');
@@ -77,9 +71,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling a custom view function
-     */
     public function testCompilingCustomViewFunction(): void
     {
         $this->transpiler->registerViewFunction('foo', function ($input) {
@@ -106,9 +97,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling an else statement
-     */
     public function testCompilingElseStatement(): void
     {
         $this->view->setContents('<% if(false) %>foo<% else %>bar<% endif %>');
@@ -118,9 +106,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling escaped structures
-     */
     public function testCompilingEscapedStructures(): void
     {
         $this->view->setContents('\{{foo}}\{{!bar!}}\<% baz %>');
@@ -147,9 +132,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling a for loop
-     */
     public function testCompilingForLoop(): void
     {
         $this->view->setContents('<% for($i=0;$i<2;$i++) %><?php echo $i; ?><% endfor %>');
@@ -159,9 +141,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling a foreach loop
-     */
     public function testCompilingForeachLoop(): void
     {
         $this->view->setContents('<% foreach([0, 1] as $item) %><?php echo $item; ?><% endforeach %>');
@@ -171,9 +150,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling an if statement
-     */
     public function testCompilingIfStatement(): void
     {
         $this->view->setContents('<% if(false) %>foo<% endif %>');
@@ -188,9 +164,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling an include statement
-     */
     public function testCompilingIncludeStatement(): void
     {
         $includedView = new View('Foo', 'foo');
@@ -226,9 +199,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling nested include statements
-     */
     public function testCompilingNestedIncludeStatements(): void
     {
         $includedView1 = new View('Foo', 'foo<% include("Bar") %>');
@@ -246,9 +216,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling nested parent statements
-     */
     public function testCompilingNestedParentStatements(): void
     {
         $parent1 = new View('Foo', '<% part("foo") %>bar<% endpart %><% show("foo") %>');
@@ -268,9 +235,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling a parent statement
-     */
     public function testCompilingParentStatement(): void
     {
         $parentView = new View('Foo', '<% part("foo") %>bar<% endpart %><% show("foo") %>');
@@ -285,9 +249,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling part and show statements
-     */
     public function testCompilingPartAndShowStatements(): void
     {
         $this->view->setContents('<% part("a") %>foo<% endpart %>');
@@ -307,9 +268,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling a view that uses custom tag delimiters
-     */
     public function testCompilingViewWithCustomTags(): void
     {
         $this->view->setContents('^^"A&W"$$ ++"A&W"-- (* if(true) *)foo(* endif *)');
@@ -324,9 +282,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling a while loop
-     */
     public function testCompilingWhileLoop(): void
     {
         $this->view->setContents('<?php $i = 0; ?><% while($i < 2) %>{{$i}}<?php $i++; ?><% endwhile %>');
@@ -336,9 +291,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests that included view's vars are isolated
-     */
     public function testIncludedViewVarsAreIsolated(): void
     {
         $includedView = new View('Foo', 'foo');
@@ -353,9 +305,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests that included view vars are isolated from outside view vars
-     */
     public function testIncludedViewVarsAreIsolatedFromOutsideViewVars(): void
     {
         $includedView = new View('Foo', '<?php echo isset($foo) ? "set" : "not set"; ?>');
@@ -370,18 +319,12 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests that line breaks are trimmed after compiling
-     */
     public function testLineBreaksAreTrimmedAfterCompiling(): void
     {
         $this->view->setContents(PHP_EOL . PHP_EOL . "\r\nfoo\r\n" . PHP_EOL . PHP_EOL);
         $this->assertEquals('foo', $this->fortuneCompiler->compile($this->view));
     }
 
-    /**
-     * Tests overriding a grandparent's part
-     */
     public function testOverridingGrandparentPart(): void
     {
         $grandparentView = new View('Foo', '<% part("foo") %>bar<% endpart %><% show("foo") %>');
@@ -401,9 +344,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests overriding a grandparent's variable
-     */
     public function testOverridingGrandparentVariable(): void
     {
         $grandparentView = new View('Foo', '{{$foo}}');
@@ -425,9 +365,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests overriding a parent's variable
-     */
     public function testOverridingParentVariable(): void
     {
         $parentView = new View('Foo', '{{$foo}}');
@@ -444,9 +381,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests overriding a parent's part
-     */
     public function testOverwritingParentPart(): void
     {
         $includedView = new View('Foo', '<% part("foo") %>bar<% endpart %><% show("foo") %>');
@@ -461,9 +395,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests that PHP user input is not evaluated
-     */
     public function testPhpInputIsNotEvaluated(): void
     {
         $this->view->setContents('<?php echo $foo; ?>');
@@ -474,9 +405,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests that shared vars override included view's vars
-     */
     public function testSharedVarsOverrideIncludedViewVars(): void
     {
         $includedView = new View('Foo', '<?php echo $foo; ?>');
@@ -491,9 +419,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests that the transpiler is called
-     */
     public function testTranspilerIsCalled(): void
     {
         /** @var ITranspiler|MockObject $transpiler */
@@ -511,9 +436,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($transpiler, $this->view->getVar('__opulenceFortuneTranspiler'));
     }
 
-    /**
-     * Tests that view comments are not displayed
-     */
     public function testViewCommentsAreNotDisplayed(): void
     {
         $this->view->setContents('{# Testing #}');

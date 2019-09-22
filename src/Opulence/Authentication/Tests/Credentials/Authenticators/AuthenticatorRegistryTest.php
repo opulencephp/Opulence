@@ -23,17 +23,11 @@ class AuthenticatorRegistryTest extends \PHPUnit\Framework\TestCase
 {
     private AuthenticatorRegistry $registry;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->registry = new AuthenticatorRegistry();
     }
 
-    /**
-     * Tests that the correct authenticator is returned
-     */
     public function testCorrectAuthenticatorReturned(): void
     {
         /** @var IAuthenticator $authenticator */

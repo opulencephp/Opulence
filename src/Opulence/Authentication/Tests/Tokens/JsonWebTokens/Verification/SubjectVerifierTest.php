@@ -29,9 +29,6 @@ class SubjectVerifierTest extends \PHPUnit\Framework\TestCase
     /** @var JwtPayload|MockObject The payload to use in tests */
     private JwtPayload $jwtPayload;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->verifier = new SubjectVerifier('foo');
@@ -44,9 +41,6 @@ class SubjectVerifierTest extends \PHPUnit\Framework\TestCase
             ->willReturn($this->jwtPayload);
     }
 
-    /**
-     * Tests an invalid subject
-     */
     public function testInvalidSubject(): void
     {
         $this->jwtPayload->expects($this->once())
@@ -56,9 +50,6 @@ class SubjectVerifierTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(JwtErrorTypes::SUBJECT_INVALID, $error);
     }
 
-    /**
-     * Tests verifying valid token
-     */
     public function testVerifyingValidToken(): void
     {
         $this->jwtPayload->expects($this->once())

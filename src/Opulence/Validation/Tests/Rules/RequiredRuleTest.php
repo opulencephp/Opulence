@@ -20,9 +20,6 @@ use Opulence\Validation\Rules\RequiredRule;
  */
 class RequiredRuleTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests that an empty array fails
-     */
     public function testEmptyArrayFails(): void
     {
         $rule = new RequiredRule();
@@ -34,18 +31,12 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($rule->passes($countable));
     }
 
-    /**
-     * Tests getting the slug
-     */
     public function testGettingSlug(): void
     {
         $rule = new RequiredRule();
         $this->assertEquals('required', $rule->getSlug());
     }
 
-    /**
-     * Tests that a set value passes
-     */
     public function testSetValuePasses(): void
     {
         $rule = new RequiredRule();
@@ -55,9 +46,6 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($rule->passes('foo'));
     }
 
-    /**
-     * Tests that an unset value fails
-     */
     public function testUnsetValueFails(): void
     {
         $rule = new RequiredRule();

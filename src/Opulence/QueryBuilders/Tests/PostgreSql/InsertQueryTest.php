@@ -20,9 +20,6 @@ use PDO;
  */
 class InsertQueryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests adding a column to return
-     */
     public function testAddReturning(): void
     {
         $query = new InsertQuery('users', ['name' => 'dave']);
@@ -50,9 +47,6 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
         ], $query->getParameters());
     }
 
-    /**
-     * Tests returning a column value
-     */
     public function testReturning(): void
     {
         $query = new InsertQuery('users', ['name' => 'dave']);

@@ -29,18 +29,12 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     private View $view;
     private FileSystem $fileSystem;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->view = new View();
         $this->fileSystem = new FileSystem();
     }
 
-    /**
-     * Tests getting the comment delimiters
-     */
     public function testGettingCommentDelimiters(): void
     {
         $directiveDelimiters = $this->view->getDelimiters(View::DELIMITER_TYPE_COMMENT);
@@ -50,17 +44,11 @@ class ViewTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo', 'bar'], $this->view->getDelimiters(View::DELIMITER_TYPE_COMMENT));
     }
 
-    /**
-     * Tests getting the delimiters for a type that does not have any
-     */
     public function testGettingDelimitersForTypeThatDoesNotHaveAny(): void
     {
         $this->assertEquals([null, null], $this->view->getDelimiters('foo'));
     }
 
-    /**
-     * Tests getting the directive delimiters
-     */
     public function testGettingDirectiveDelimiters(): void
     {
         $directiveDelimiters = $this->view->getDelimiters(View::DELIMITER_TYPE_DIRECTIVE);
@@ -78,9 +66,6 @@ class ViewTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->view->getVar('foo'));
     }
 
-    /**
-     * Tests getting the sanitized tag delimiters
-     */
     public function testGettingSanitizedTagDelimiters(): void
     {
         $sanitizedDelimiters = $this->view->getDelimiters(View::DELIMITER_TYPE_SANITIZED_TAG);
@@ -92,9 +77,6 @@ class ViewTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $sanitizedDelimiters[1]);
     }
 
-    /**
-     * Tests getting the unsanitized tag delimiters
-     */
     public function testGettingUnsanitizedTagDelimiters(): void
     {
         $unsanitizedTagDelimiters = $this->view->getDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG);
@@ -104,27 +86,18 @@ class ViewTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo', 'bar'], $this->view->getDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG));
     }
 
-    /**
-     * Tests getting a var
-     */
     public function testGettingVar(): void
     {
         $this->view->setVar('foo', 'bar');
         $this->assertEquals('bar', $this->view->getVar('foo'));
     }
 
-    /**
-     * Tests getting the vars
-     */
     public function testGettingVars(): void
     {
         $this->view->setVar('foo', 'bar');
         $this->assertEquals(['foo' => 'bar'], $this->view->getVars());
     }
 
-    /**
-     * Tests checking if a view has a variable
-     */
     public function testHasVar(): void
     {
         $this->assertFalse($this->view->hasVar('foo'));
@@ -136,44 +109,29 @@ class ViewTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->view->hasVar('baz'));
     }
 
-    /**
-     * Tests not setting the contents in the constructor
-     */
     public function testNotSettingContentsInConstructor(): void
     {
         $this->assertEmpty($this->view->getContents());
     }
 
-    /**
-     * Tests setting the contents
-     */
     public function testSettingContents(): void
     {
         $this->view->setContents('blah');
         $this->assertEquals('blah', $this->view->getContents());
     }
 
-    /**
-     * Tests setting the contents in the constructor
-     */
     public function testSettingContentsInConstructor(): void
     {
         $view = new View('foo', 'bar');
         $this->assertEquals('bar', $view->getContents());
     }
 
-    /**
-     * Tests setting delimiters
-     */
     public function testSettingDelimiters(): void
     {
         $this->view->setDelimiters('foo', ['bar', 'baz']);
         $this->assertEquals(['bar', 'baz'], $this->view->getDelimiters('foo'));
     }
 
-    /**
-     * Tests setting multiple variables in a view
-     */
     public function testSettingMultipleVariables(): void
     {
         $this->view->setVars(['foo' => 'bar', 'abc' => ['xyz']]);
@@ -184,27 +142,18 @@ class ViewTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo' => 'bar', 'abc' => ['xyz']], $vars);
     }
 
-    /**
-     * Tests setting the path in the constructor
-     */
     public function testSettingPathInConstructor(): void
     {
         $view = new View('foo');
         $this->assertEquals('foo', $view->getPath());
     }
 
-    /**
-     * Tests setting the path in the setter
-     */
     public function testSettingPathInSetter(): void
     {
         $this->view->setPath('foo');
         $this->assertEquals('foo', $this->view->getPath());
     }
 
-    /**
-     * Tests setting a variable in a view
-     */
     public function testSettingSingleVariable(): void
     {
         $this->view->setVar('foo', 'bar');
@@ -215,9 +164,6 @@ class ViewTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo' => 'bar'], $vars);
     }
 
-    /**
-     * Tests that nothing is output from an invalid view
-     */
     public function testThatNothingIsOutputFromInvalidView(): void
     {
         $output = '';

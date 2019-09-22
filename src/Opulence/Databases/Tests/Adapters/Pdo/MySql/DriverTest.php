@@ -20,9 +20,6 @@ use Opulence\Databases\Tests\Mocks\Server;
  */
 class DriverTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests creating the DSN with a Unix socket specified
-     */
     public function testCreatingDSNWithUnixSocket(): void
     {
         $server = new Server();
@@ -34,9 +31,6 @@ class DriverTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedResult, $this->getDSN($driver, $server, ['unix_socket' => $unixSocket]));
     }
 
-    /**
-     * Tests creating the DSN without a Unix socket specified
-     */
     public function testCreatingDSNWithoutUnixSocket(): void
     {
         $server = new Server();

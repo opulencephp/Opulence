@@ -28,18 +28,12 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
     /** @var IAuthenticatorRegistry|MockObject The authenticator registry to use in tests */
     private IAuthenticatorRegistry $authenticatorRegistry;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->authenticatorRegistry = $this->createMock(IAuthenticatorRegistry::class);
         $this->authenticator = new Authenticator($this->authenticatorRegistry);
     }
 
-    /**
-     * Tests an authenticator that successfully authenticates a credential
-     */
     public function testAuthenticatorThatSuccessfullyAuthenticatesCredential(): void
     {
         /** @var ICredential|MockObject $credential */
@@ -60,9 +54,6 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->authenticator->authenticate($credential, $subject));
     }
 
-    /**
-     * Tests an authenticator that unsuccessfully authenticates a credential
-     */
     public function testAuthenticatorThatUnsuccessfullyAuthenticatesCredential(): void
     {
         /** @var ICredential|MockObject $credential */
@@ -83,9 +74,6 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->authenticator->authenticate($credential, $subject));
     }
 
-    /**
-     * Tests that an exception is thrown with no authenticator for a credential
-     */
     public function testExceptionThrownWithNoAuthenticatorForCredential(): void
     {
         $this->expectException(InvalidArgumentException::class);

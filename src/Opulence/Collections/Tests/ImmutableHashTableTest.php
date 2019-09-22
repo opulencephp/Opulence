@@ -24,9 +24,6 @@ use RuntimeException;
  */
 class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests whether the hash table has a certain key
-     */
     public function testContainsKey(): void
     {
         $hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar')]);
@@ -34,18 +31,12 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($hashTable->containsKey('foo'));
     }
 
-    /**
-     * Tests that checking if a key exists returns true even if the value is null
-     */
     public function testContainsKeyReturnsTrueEvenIfValuesIsNull(): void
     {
         $hashTable = new ImmutableHashTable([new KeyValuePair('foo', null)]);
         $this->assertTrue($hashTable->containsKey('foo'));
     }
 
-    /**
-     * Tests whether the hash table has a certain value
-     */
     public function testContainsValue(): void
     {
         $hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar')]);
@@ -53,27 +44,18 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($hashTable->containsValue('bar'));
     }
 
-    /**
-     * Tests counting
-     */
     public function testCount(): void
     {
         $hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar'), new KeyValuePair('baz', 'blah')]);
         $this->assertEquals(2, $hashTable->count());
     }
 
-    /**
-     * Tests getting a value
-     */
     public function testGetting(): void
     {
         $hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar')]);
         $this->assertEquals('bar', $hashTable->get('foo'));
     }
 
-    /**
-     * Tests getting an absent variable throws an exception
-     */
     public function testGettingAbsentVariableThrowsException(): void
     {
         $this->expectException(OutOfBoundsException::class);
@@ -92,9 +74,6 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$kvp1->getKey(), $kvp2->getKey()], $hashTable->getKeys());
     }
 
-    /**
-     * Tests that getting the values returns a list of values
-     */
     public function testGettingValuesReturnsListOfValues(): void
     {
         $kvp1 = new KeyValuePair('foo', 'bar');
@@ -103,9 +82,6 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$kvp1->getKey(), $kvp2->getKey()], $hashTable->getKeys());
     }
 
-    /**
-     * Tests iterating over the values
-     */
     public function testIteratingOverValues(): void
     {
         $expectedArray = [
@@ -133,9 +109,6 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
         new ImmutableHashTable(['foo' => 'bar']);
     }
 
-    /**
-     * Tests that setting a value throws an exception
-     */
     public function testSettingValueThrowsException(): void
     {
         $this->expectException(RuntimeException::class);
@@ -143,9 +116,6 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
         $hashTable['foo'] = 'bar';
     }
 
-    /**
-     * Tests getting as array
-     */
     public function testToArray(): void
     {
         $hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar'), new KeyValuePair('baz', 'blah')]);
@@ -156,9 +126,6 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedArray, $hashTable->toArray());
     }
 
-    /**
-     * Tests the trying to get a value returns true if the key exists and false if it doesn't
-     */
     public function testTryGetReturnsTrueIfKeyExistsAndFalseIfValueDoesNotExist(): void
     {
         $hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar')]);
@@ -169,9 +136,6 @@ class ImmutableHashTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $value);
     }
 
-    /**
-     * Tests that unsetting a value throws an exception
-     */
     public function testUnsettingValueThrowsException(): void
     {
         $this->expectException(RuntimeException::class);

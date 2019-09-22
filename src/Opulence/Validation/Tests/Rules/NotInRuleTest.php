@@ -21,18 +21,12 @@ use Opulence\Validation\Rules\NotInRule;
  */
 class NotInRuleTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests getting the slug
-     */
     public function testGettingSlug(): void
     {
         $rule = new NotInRule();
         $this->assertEquals('notIn', $rule->getSlug());
     }
 
-    /**
-     * Tests that matching values pass
-     */
     public function testMatchingValuesPass(): void
     {
         $rule = new NotInRule();
@@ -50,9 +44,6 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($rule->passes('foo'));
     }
 
-    /**
-     * Tests not setting the args before passes
-     */
     public function testNotSettingArgBeforePasses(): void
     {
         $this->expectException(LogicException::class);
@@ -60,9 +51,6 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
         $rule->passes('foo');
     }
 
-    /**
-     * Tests passing an empty arg array
-     */
     public function testPassingEmptyArgArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -70,9 +58,6 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
         $rule->setArgs([]);
     }
 
-    /**
-     * Tests passing invalid args
-     */
     public function testPassingInvalidArgs(): void
     {
         $this->expectException(InvalidArgumentException::class);

@@ -37,9 +37,6 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /** @var ICompiler|MockObject */
     private ICompiler $errorTemplateCompiler;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);
@@ -57,9 +54,6 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->validator = new Validator($this->rulesFactory);
     }
 
-    /**
-     * Tests that the errors are empty before running the validator
-     */
     public function testErrorsAreEmptyBeforeRunningValidator(): void
     {
         $errors = $this->validator->getErrors();
@@ -67,9 +61,6 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $errors->getAll());
     }
 
-    /**
-     * Tests that errors are reset when validating twice
-     */
     public function testErrorsAreResetWhenValidatingTwice(): void
     {
         $rules = $this->getRules();
@@ -90,9 +81,6 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo' => ['error 1', 'error 2']], $this->validator->getErrors()->getAll());
     }
 
-    /**
-     * Tests that field returns rules
-     */
     public function testFieldReturnsRules(): void
     {
         $rules = $this->getRules();
@@ -102,9 +90,6 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($rules, $this->validator->field('foo'));
     }
 
-    /**
-     * Tests that rule pass results are respected
-     */
     public function testRulePassResultsAreRespected(): void
     {
         $rules = $this->getRules();
@@ -129,9 +114,6 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests that the same rules are returned when specifying same field
-     */
     public function testSameRulesAreReturnedWhenSpecifyingSameField(): void
     {
         $rules = $this->getRules();
@@ -158,9 +140,6 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
             ->getMock();
     }
 
-    /**
-     * Test using custom rules twice does not change their arguments
-     */
     public function testUsingCustomRulesTwiceDoesNotChangeThem()
     {
         $customRule = new class extends BetweenRule {

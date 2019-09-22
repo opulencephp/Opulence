@@ -22,17 +22,11 @@ class ConfirmationTest extends \PHPUnit\Framework\TestCase
     /** @var Confirmation The question to use in tests */
     private $question;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->question = new Confirmation('Is Dave cool (yn)');
     }
 
-    /**
-     * Tests formatting false values
-     */
     public function testFormattingFalseValues(): void
     {
         $this->assertFalse($this->question->formatAnswer('n'));
@@ -41,9 +35,6 @@ class ConfirmationTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->question->formatAnswer('NO'));
     }
 
-    /**
-     * Tests formatting true values
-     */
     public function testFormattingTrueValues(): void
     {
         $this->assertTrue($this->question->formatAnswer('y'));

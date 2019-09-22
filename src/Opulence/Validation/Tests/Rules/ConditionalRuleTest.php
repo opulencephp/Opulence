@@ -42,9 +42,6 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($rule->passes('foo'));
     }
 
-    /**
-     * Tests getting the slug
-     */
     public function testGettingSlug(): void
     {
         $rule = new ConditionalRule();
@@ -66,9 +63,6 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$subRule1, $subRule2], $rule->getRules());
     }
 
-    /**
-     * Tests not setting the args before passes
-     */
     public function testNotSettingArgBeforePasses(): void
     {
         $this->expectException(LogicException::class);
@@ -76,9 +70,6 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
         $rule->passes('foo');
     }
 
-    /**
-     * Tests that it a rule always passes with no extra rules
-     */
     public function testPassesWithNoExtraRules(): void
     {
         $trueCallback = function () {
@@ -95,9 +86,6 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($falseRule->passes('foo'));
     }
 
-    /**
-     * Tests passing an empty arg array
-     */
     public function testPassingEmptyArgArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -105,9 +93,6 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
         $rule->setArgs([]);
     }
 
-    /**
-     * Tests passing an invalid arg
-     */
     public function testPassingInvalidArg(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -115,9 +100,6 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
         $rule->setArgs(['foo']);
     }
 
-    /**
-     * Tests that rules always pass when the condition returns false
-     */
     public function testRulesAwaysPassWhenConditionReturnsFalse(): void
     {
         $callback = function () {

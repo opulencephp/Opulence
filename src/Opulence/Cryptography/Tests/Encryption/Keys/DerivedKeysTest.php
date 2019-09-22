@@ -21,25 +21,16 @@ class DerivedKeysTest extends \PHPUnit\Framework\TestCase
 {
     private DerivedKeys $derivedKeys;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->derivedKeys = new DerivedKeys(str_repeat('1', 32), str_repeat('2', 32));
     }
 
-    /**
-     * Tests getting the authentication key
-     */
     public function testGettingAuthenticationKey(): void
     {
         $this->assertEquals(str_repeat('2', 32), $this->derivedKeys->getAuthenticationKey());
     }
 
-    /**
-     * Tests getting the encryption key
-     */
     public function testGettingEncryptionKey(): void
     {
         $this->assertEquals(str_repeat('1', 32), $this->derivedKeys->getEncryptionKey());

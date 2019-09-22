@@ -19,9 +19,6 @@ use Opulence\Databases\Tests\Mocks\Server;
  */
 class ServerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests setting the character set
-     */
     public function testSettingCharset(): void
     {
         $charset = 'foo';
@@ -30,9 +27,6 @@ class ServerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($charset, $server->getCharset());
     }
 
-    /**
-     * Tests setting the data in the constructor
-     */
     public function testSettingDataInConstructor(): void
     {
         $server = new Server(
@@ -51,9 +45,6 @@ class ServerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('charset', $server->getCharset());
     }
 
-    /**
-     * Tests setting the database name
-     */
     public function testSettingDatabaseName(): void
     {
         $databaseName = 'dbname';
@@ -62,9 +53,6 @@ class ServerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($databaseName, $server->getDatabaseName());
     }
 
-    /**
-     * Tests setting the host
-     */
     public function testSettingHost(): void
     {
         $server = new Server();
@@ -72,9 +60,6 @@ class ServerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('127.0.0.1', $server->getHost());
     }
 
-    /**
-     * Tests setting the password
-     */
     public function testSettingPassword(): void
     {
         $password = 'bar';
@@ -83,9 +68,6 @@ class ServerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($password, $server->getPassword());
     }
 
-    /**
-     * Tests setting the port
-     */
     public function testSettingPort(): void
     {
         $server = new Server();
@@ -93,9 +75,6 @@ class ServerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(80, $server->getPort());
     }
 
-    /**
-     * Tests setting the username
-     */
     public function testSettingUsername(): void
     {
         $name = 'foo';

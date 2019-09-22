@@ -19,9 +19,6 @@ use Opulence\Views\Compilers\Fortune\Parsers\Nodes\Node;
  */
 class NodeTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests adding a child
-     */
     public function testAddingChild(): void
     {
         /** @var Node $parent */
@@ -33,9 +30,6 @@ class NodeTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($parent, $child->getParent());
     }
 
-    /**
-     * Tests checking if nodes are leaves
-     */
     public function testCheckingIfLeaves(): void
     {
         /** @var Node $parent */
@@ -47,9 +41,6 @@ class NodeTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($child->isLeaf());
     }
 
-    /**
-     * Tests checking if nodes are roots
-     */
     public function testCheckingIfRoots(): void
     {
         /** @var Node $parent */
@@ -61,9 +52,6 @@ class NodeTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($child->isRoot());
     }
 
-    /**
-     * Tests getting the value
-     */
     public function testGettingValue(): void
     {
         /** @var Node $node */

@@ -21,17 +21,11 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
 {
     private ArrayBridge $bridge;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->bridge = new ArrayBridge();
     }
 
-    /**
-     * Tests checking if a key exists
-     */
     public function testCheckingIfKeyExists(): void
     {
         $this->assertFalse($this->bridge->has('foo'));
@@ -43,9 +37,6 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->bridge->has('foo'));
     }
 
-    /**
-     * Tests decrementing values
-     */
     public function testDecrementingValues(): void
     {
         $this->bridge->set('foo', 11, 60);
@@ -55,9 +46,6 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(5, $this->bridge->decrement('foo', 5));
     }
 
-    /**
-     * Tests deleting a key
-     */
     public function testDeletingKey(): void
     {
         $this->bridge->set('foo', 'bar', 60);
@@ -65,9 +53,6 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->bridge->has('foo'));
     }
 
-    /**
-     * Tests flushing
-     */
     public function testFlushing(): void
     {
         $this->bridge->set('foo', 'bar', 60);
@@ -85,18 +70,12 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->bridge->get('foo'));
     }
 
-    /**
-     * Tests getting a set value
-     */
     public function testGettingSetValue(): void
     {
         $this->bridge->set('foo', 'bar', 60);
         $this->assertEquals('bar', $this->bridge->get('foo'));
     }
 
-    /**
-     * Tests incrementing values
-     */
     public function testIncrementingValues(): void
     {
         $this->bridge->set('foo', 1, 60);

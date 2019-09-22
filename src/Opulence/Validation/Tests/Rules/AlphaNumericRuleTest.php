@@ -19,9 +19,6 @@ use Opulence\Validation\Rules\AlphaNumericRule;
  */
 class AlphaNumericRuleTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests that a failing value
-     */
     public function testFailingValue(): void
     {
         $rule = new AlphaNumericRule();
@@ -30,18 +27,12 @@ class AlphaNumericRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($rule->passes('a1 b'));
     }
 
-    /**
-     * Tests getting the slug
-     */
     public function testGettingSlug(): void
     {
         $rule = new AlphaNumericRule();
         $this->assertEquals('alphaNumeric', $rule->getSlug());
     }
 
-    /**
-     * Tests a passing value
-     */
     public function testPassingValue(): void
     {
         $rule = new AlphaNumericRule();

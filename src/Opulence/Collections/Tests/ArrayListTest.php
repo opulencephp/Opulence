@@ -23,26 +23,17 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     /** @var ArrayList The array list to use in tests */
     private $arrayList;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->arrayList = new ArrayList();
     }
 
-    /**
-     * Tests adding a parameter
-     */
     public function testAdding(): void
     {
         $this->arrayList->add('foo');
         $this->assertEquals('foo', $this->arrayList->get(0));
     }
 
-    /**
-     * Tests adding a range of values
-     */
     public function testAddingRangeOfValues(): void
     {
         $this->arrayList->add('foo');
@@ -50,18 +41,12 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo', 'bar', 'baz'], $this->arrayList->toArray());
     }
 
-    /**
-     * Tests checking if an offset exists
-     */
     public function testCheckingOffsetExists(): void
     {
         $this->arrayList->add('foo');
         $this->assertTrue(isset($this->arrayList[0]));
     }
 
-    /**
-     * Tests clearing
-     */
     public function testClearing(): void
     {
         $this->arrayList->add('foo');
@@ -69,9 +54,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $this->arrayList->toArray());
     }
 
-    /**
-     * Tests whether the list has a certain parameter
-     */
     public function testContainsValue(): void
     {
         $this->assertFalse($this->arrayList->containsValue('foo'));
@@ -88,9 +70,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->arrayList->containsValue(null));
     }
 
-    /**
-     * Tests counting
-     */
     public function testCount(): void
     {
         $this->arrayList->add('foo');
@@ -99,18 +78,12 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, $this->arrayList->count());
     }
 
-    /**
-     * Tests getting a parameter
-     */
     public function testGetting(): void
     {
         $this->arrayList->add('foo');
         $this->assertEquals('foo', $this->arrayList->get(0));
     }
 
-    /**
-     * Tests that getting an index greater than the list length throws an exception
-     */
     public function testGettingIndexGreaterThanListLengthThrowsException(): void
     {
         $this->expectException(OutOfRangeException::class);
@@ -118,9 +91,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->arrayList->get(1);
     }
 
-    /**
-     * Tests that getting an index less than zero throws an exception
-     */
     public function testGettingIndexLessThanZeroThrowsException(): void
     {
         $this->expectException(OutOfRangeException::class);
@@ -128,9 +98,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->arrayList->get(-1);
     }
 
-    /**
-     * Tests getting all the parameters
-     */
     public function testGettingAll(): void
     {
         $this->arrayList->add('foo');
@@ -138,18 +105,12 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo', 'bar'], $this->arrayList->toArray());
     }
 
-    /**
-     * Tests getting as array
-     */
     public function testGettingAsArray(): void
     {
         $this->arrayList->add('foo');
         $this->assertEquals('foo', $this->arrayList[0]);
     }
 
-    /**
-     * Tests inserting a value
-     */
     public function testInsertingValue(): void
     {
         $this->arrayList->add('foo');
@@ -160,9 +121,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo', 'baz', 'bar'], $this->arrayList->toArray());
     }
 
-    /**
-     * Tests that intersecting values intersects that values of the array list and the array
-     */
     public function testIntersectingIntersectsValuesOfSetAndArray(): void
     {
         $this->arrayList->addRange(['foo', 'bar']);
@@ -170,9 +128,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['bar'], $this->arrayList->toArray());
     }
 
-    /**
-     * Tests iterating over the values
-     */
     public function testIteratingOverValues(): void
     {
         $this->arrayList->add('foo');
@@ -186,9 +141,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo', 'bar'], $actualValues);
     }
 
-    /**
-     * Tests passing parameters through the constructor
-     */
     public function testPassingParametersInConstructor(): void
     {
         $parametersArray = ['foo', 'bar'];
@@ -196,9 +148,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($parametersArray, $arrayList->toArray());
     }
 
-    /**
-     * Tests removing a value
-     */
     public function testRemove(): void
     {
         $this->arrayList->add('foo');
@@ -208,9 +157,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $this->arrayList->toArray());
     }
 
-    /**
-     * Tests removing a value at an index
-     */
     public function testRemoveAt(): void
     {
         $this->arrayList->add('foo');
@@ -220,9 +166,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $this->arrayList->toArray());
     }
 
-    /**
-     * Tests reversing the list
-     */
     public function testReversing(): void
     {
         $this->arrayList->add('foo');
@@ -231,9 +174,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['bar', 'foo'], $this->arrayList->toArray());
     }
 
-    /**
-     * Tests setting an item
-     */
     public function testSettingItem(): void
     {
         $this->arrayList->add('foo');
@@ -243,9 +183,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo', 'baz', 'bar'], $this->arrayList->toArray());
     }
 
-    /**
-     * Tests sorting the list
-     */
     public function testSorting(): void
     {
         $comparer = function ($a, $b) {
@@ -261,9 +198,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['bar', 'foo'], $this->arrayList->toArray());
     }
 
-    /**
-     * Tests that unioning values unions that values of the array list and the array
-     */
     public function testUnionUnionsValuesOfSetAndArray(): void
     {
         $this->arrayList->add('foo');
@@ -271,9 +205,6 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo', 'bar', 'baz'], $this->arrayList->toArray());
     }
 
-    /**
-     * Tests unsetting a parameter
-     */
     public function testUnsetting(): void
     {
         $this->arrayList->add('foo');

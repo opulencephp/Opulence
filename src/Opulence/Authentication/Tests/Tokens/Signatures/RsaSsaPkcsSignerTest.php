@@ -28,9 +28,6 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
     /** @var ISignedToken|MockObject The signed token to use in tests */
     private ISignedToken $signedToken;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->unsignedToken = $this->createMock(IUnsignedToken::class);
@@ -43,18 +40,12 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
             ->willReturn('unsignedValue');
     }
 
-    /**
-     * Tests getting the algorithm
-     */
     public function testGettingAlgorithm(): void
     {
         $signer = new RsaSsaPkcsSigner(Algorithms::RSA_SHA512, 'public', 'private');
         $this->assertEquals(Algorithms::RSA_SHA512, $signer->getAlgorithm());
     }
 
-    /**
-     * Tests signing with asymmetric algorithms
-     */
     public function testSigningWithAsymmetricAlgorithms(): void
     {
         $algorithms = [
@@ -79,9 +70,6 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * Tests verifying asymmetric algorithms
-     */
     public function testVerifyingAsymmetricAlgorithms(): void
     {
         $algorithms = [
@@ -118,9 +106,6 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
         $this->assertCount($numUnverified, $algorithms);
     }
 
-    /**
-     * Tests that verifying an empty signature returns false
-     */
     public function testVerifyingEmptySignatureReturnsFalse(): void
     {
         $jws = new RsaSsaPkcsSigner(Algorithms::SHA256, 'public', 'private');

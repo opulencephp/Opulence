@@ -28,9 +28,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /** @var View|MockObject The view to use in tests */
     private View $view;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->lexer = new Lexer();
@@ -39,9 +36,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
             ->getMock();
     }
 
-    /**
-     * Tests a directive with no expression
-     */
     public function testDirectiveWithNoExpression(): void
     {
         $expectedOutput = [
@@ -68,9 +62,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests that an exception is thrown with an unclosed comment tag
-     */
     public function testExceptionThrownWithUnclosedCommentTag(): void
     {
         $this->expectException(RuntimeException::class);
@@ -78,9 +69,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->lexer->lex($this->view);
     }
 
-    /**
-     * Tests that an exception is thrown with an unclosed directive
-     */
     public function testExceptionThrownWithUnclosedDirective(): void
     {
         $this->expectException(RuntimeException::class);
@@ -88,9 +76,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->lexer->lex($this->view);
     }
 
-    /**
-     * Tests that an exception is thrown an unclosed parenthesis in a directive
-     */
     public function testExceptionThrownWithUnclosedParenthesisInDirective(): void
     {
         $this->expectException(RuntimeException::class);
@@ -98,9 +83,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->lexer->lex($this->view);
     }
 
-    /**
-     * Tests that an exception is thrown with an unclosed sanitized tag
-     */
     public function testExceptionThrownWithUnclosedSanitizedTag(): void
     {
         $this->expectException(RuntimeException::class);
@@ -108,9 +90,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->lexer->lex($this->view);
     }
 
-    /**
-     * Tests that an exception is thrown with an unclosed unsanitized tag
-     */
     public function testExceptionThrownWithUnclosedUnsanitizedTag(): void
     {
         $this->expectException(RuntimeException::class);
@@ -118,9 +97,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->lexer->lex($this->view);
     }
 
-    /**
-     * Tests that an exception is thrown an unopened parenthesis in a directive
-     */
     public function testExceptionThrownWithUnopenedParenthesisInDirective(): void
     {
         $this->expectException(RuntimeException::class);
@@ -128,9 +104,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->lexer->lex($this->view);
     }
 
-    /**
-     * Tests lexing a backslash inside PHP
-     */
     public function testLexingBackslashInPhp(): void
     {
         $expectedOutput = [
@@ -142,9 +115,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests a comment
-     */
     public function testLexingComment(): void
     {
         $expectedOutput = [
@@ -158,9 +128,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests a directive with an expression
-     */
     public function testLexingDirective(): void
     {
         $expectedOutput = [
@@ -177,9 +144,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests a directive inside PHP
-     */
     public function testLexingDirectiveInsidePhp(): void
     {
         $expectedOutput = [
@@ -191,9 +155,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests a directive surrounded by PHP
-     */
     public function testLexingDirectiveSurroundedByPhp(): void
     {
         $expectedOutput = [
@@ -212,9 +173,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests lexing an escaped statement with a preceding backslash
-     */
     public function testLexingEscapedStatementWithPrecedingBackslash(): void
     {
         $expectedOutput = [
@@ -224,9 +182,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests lexing escaped statements
-     */
     public function testLexingEscapedStatements(): void
     {
         $texts = ['\<%foo%>', '\{{foo}}', '\{{!foo!}}', '\{#foo#}'];
@@ -241,9 +196,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * Tests lexing statements that span multiple lines
-     */
     public function testLexingMultiLineStatements(): void
     {
         $text = '%s' . PHP_EOL . 'foo' . PHP_EOL . '%s';
@@ -277,9 +229,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests multiple lines of PHP
-     */
     public function testLexingMultipleLinesOfPhp(): void
     {
         $expectedOutput = [
@@ -291,9 +240,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests that native PHP functions are lexed inside statements
-     */
     public function testLexingNativePhpFunctionsInsideStatements(): void
     {
         $text = '%s date("Y") %s';
@@ -313,9 +259,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests lexing neighboring escaped statements
-     */
     public function testLexingNeighboringEscapedStatements(): void
     {
         $expectedOutput = [
@@ -325,9 +268,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests lexing neighboring statements
-     */
     public function testLexingNeighboringStatements(): void
     {
         $expectedOutput = [
@@ -370,9 +310,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests lexing nested functions
-     */
     public function testLexingNestedFunctions(): void
     {
         $expectedExpression = '$__opulenceFortuneTranspiler->callViewFunction("foo", $__opulenceFortuneTranspiler->callViewFunction("bar", "baz"))';
@@ -408,9 +345,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests lexing PHP
-     */
     public function testLexingPhp(): void
     {
         $expectedOutput = [
@@ -426,9 +360,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests lexing PHP without close tag
-     */
     public function testLexingPhpWithoutCloseTag(): void
     {
         $expectedOutput = [
@@ -440,9 +371,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests a sanitized tag
-     */
     public function testLexingSanitizedTag(): void
     {
         $expectedOutput = [
@@ -456,9 +384,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests lexing statements whose delimiters are substrings of others
-     */
     public function testLexingStatementsWhoseDelimitersAreSubstringsOfOthers(): void
     {
         $this->view->setDelimiters(View::DELIMITER_TYPE_DIRECTIVE, ['{{{', '}}}']);
@@ -499,9 +424,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests lexing a string that looks like a function call
-     */
     public function testLexingStringThatLooksLikeFunctionCall(): void
     {
         $expectedOutput = [
@@ -513,9 +435,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests that a text token is created
-     */
     public function testLexingText(): void
     {
         $expectedOutput = [
@@ -525,9 +444,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests that a text token is created from the buffer
-     */
     public function testLexingTextTokenIsCreatedFromBuffer(): void
     {
         $expectedOutput = [
@@ -542,9 +458,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests an unsanitized tag
-     */
     public function testLexingUnsanitizedTag(): void
     {
         $expectedOutput = [
@@ -558,9 +471,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests that line numbers are respected
-     */
     public function testLineNumbersAreRespected(): void
     {
         $text = 'a' . PHP_EOL .
@@ -596,9 +506,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
-    /**
-     * Tests that view functions are converted
-     */
     public function testViewFunctionsAreConverted(): void
     {
         $expression = '$foo->bar() $foo::baz() date("Y") foo() foo("bar") foo(bar()) date(foo())';

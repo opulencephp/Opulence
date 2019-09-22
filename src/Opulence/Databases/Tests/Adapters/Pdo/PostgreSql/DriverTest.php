@@ -20,9 +20,6 @@ use Opulence\Databases\Tests\Mocks\Server;
  */
 class DriverTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests creating the DSN with an SSL mode specified
-     */
     public function testCreatingDSNWithSSLMode(): void
     {
         $server = new Server();
@@ -34,9 +31,6 @@ class DriverTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedResult, $this->getDSN($driver, $server, ['sslmode' => $sslMode]));
     }
 
-    /**
-     * Tests creating the DSN without an SSL mode specified
-     */
     public function testCreatingDSNWithoutSSLMode(): void
     {
         $server = new Server();

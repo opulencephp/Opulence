@@ -23,25 +23,16 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
 {
     private TypeMapper $typeMapper;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->typeMapper = new TypeMapper();
     }
 
-    /**
-     * Tests converting from a false Memcached boolean
-     */
     public function testConvertingFromFalseMemcachedBoolean(): void
     {
         $this->assertFalse($this->typeMapper->fromMemcachedBoolean(0));
     }
 
-    /**
-     * Tests converting from a Memcached timestamp
-     */
     public function testConvertingFromMemcachedTimestamp(): void
     {
         $time = new DateTime('now');
@@ -51,51 +42,33 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests converting from a true Memcached boolean
-     */
     public function testConvertingFromTrueMemcachedBoolean(): void
     {
         $this->assertTrue($this->typeMapper->fromMemcachedBoolean(1));
     }
 
-    /**
-     * Tests converting to a false Memcached boolean
-     */
     public function testConvertingToFalseMemcachedBoolean(): void
     {
         $this->assertSame(0, $this->typeMapper->toMemcachedBoolean(false));
     }
 
-    /**
-     * Tests converting to a Memcached timestamp
-     */
     public function testConvertingToMemcachedTimestamp(): void
     {
         $time = new DateTime('now');
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toMemcachedTimestamp($time));
     }
 
-    /**
-     * Tests converting to a Memcached timestamp from an immutable date time
-     */
     public function testConvertingToMemcachedTimestampFromImmutable(): void
     {
         $time = new DateTimeImmutable('now');
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toMemcachedTimestamp($time));
     }
 
-    /**
-     * Tests converting to a true Memcached boolean
-     */
     public function testConvertingToTrueMemcachedBoolean(): void
     {
         $this->assertSame(1, $this->typeMapper->toMemcachedBoolean(true));
     }
 
-    /**
-     * Tests that the timezone is set
-     */
     public function testTimezoneSet(): void
     {
         $currTimezone = date_default_timezone_get();

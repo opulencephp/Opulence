@@ -19,9 +19,6 @@ use Opulence\QueryBuilders\ConditionalQueryBuilder;
  */
 class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests adding a condition to an empty clause
-     */
     public function testAddingConditionToEmptyClause(): void
     {
         $conditions = [];
@@ -57,9 +54,6 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests getting the SQL for a conditional clause
-     */
     public function testGettingSql(): void
     {
         $queryBuilder = new ConditionalQueryBuilder();

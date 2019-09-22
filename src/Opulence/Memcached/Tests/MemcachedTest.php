@@ -21,9 +21,6 @@ use Opulence\Memcached\Memcached;
  */
 class MemcachedTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests that commands go to the default client
-     */
     public function testCommandsGoToDefaultClient(): void
     {
         $default = $this->getMockBuilder(Client::class)
@@ -50,18 +47,12 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo', $memcached->get('baz'));
     }
 
-    /**
-     * Tests not passing a default
-     */
     public function testNotPassingDefault(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new Memcached(['foo' => 'bar']);
     }
 
-    /**
-     * Tests passing an array of clients
-     */
     public function testPassingArrayOfClients(): void
     {
         $default = $this->createMock(Client::class);
@@ -77,9 +68,6 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($foo, $memcached->getClient('foo'));
     }
 
-    /**
-     * Tests passing a single client
-     */
     public function testPassingSingleClient(): void
     {
         $default = $this->createMock(Client::class);

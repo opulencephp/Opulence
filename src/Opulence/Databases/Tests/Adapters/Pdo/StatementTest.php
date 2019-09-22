@@ -20,9 +20,6 @@ use PDO;
  */
 class StatementTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests binding an invalid associative array
-     */
     public function testBindingInvalidAssociativeArray(): void
     {
         $statement = new Statement();
@@ -30,9 +27,6 @@ class StatementTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($statement->bindValues($values));
     }
 
-    /**
-     * Tests binding an invalid indexed array
-     */
     public function testBindingInvalidIndexedArray(): void
     {
         $statement = new Statement();
@@ -40,9 +34,6 @@ class StatementTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($statement->bindValues($values));
     }
 
-    /**
-     * Tests binding a valid associative array
-     */
     public function testBindingValidAssociativeArray(): void
     {
         $statement = new Statement();
@@ -50,9 +41,6 @@ class StatementTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($statement->bindValues($values));
     }
 
-    /**
-     * Tests binding a valid indexed array
-     */
     public function testBindingValidIndexedArray(): void
     {
         $statement = new Statement();

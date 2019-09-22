@@ -41,9 +41,6 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /** @var Kernel The kernel to use in tests */
     private $kernel;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->compiler = new CommandCompiler();
@@ -60,9 +57,6 @@ class KernelTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests handling an exception
-     */
     public function testHandlingException(): void
     {
         ob_start();
@@ -71,9 +65,6 @@ class KernelTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(StatusCodes::FATAL, $status);
     }
 
-    /**
-     * Tests handling a help command
-     */
     public function testHandlingHelpCommand(): void
     {
         // Try with command name
@@ -112,9 +103,6 @@ class KernelTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(StatusCodes::ERROR, $status);
     }
 
-    /**
-     * Tests handling command with arguments and options
-     */
     public function testHandlingHolidayCommand(): void
     {
         // Test with short option
@@ -130,9 +118,6 @@ class KernelTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(StatusCodes::OK, $status);
     }
 
-    /**
-     * Tests handling in a missing command
-     */
     public function testHandlingMissingCommand(): void
     {
         ob_start();
@@ -141,9 +126,6 @@ class KernelTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(StatusCodes::OK, $status);
     }
 
-    /**
-     * Tests handling in a simple command
-     */
     public function testHandlingSimpleCommand(): void
     {
         ob_start();
@@ -152,9 +134,6 @@ class KernelTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(StatusCodes::OK, $status);
     }
 
-    /**
-     * Tests handling a version command
-     */
     public function testHandlingVersionCommand(): void
     {
         // Try with short name

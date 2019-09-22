@@ -24,9 +24,6 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /** @var ICondition The condition to use in tests */
     private $condition;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->condition = $this->createMock(ICondition::class);
@@ -77,9 +74,6 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
     }
 
-    /**
-     * Tests the most basic query we can run
-     */
     public function testBasicQuery(): void
     {
         $query = new DeleteQuery('users');
@@ -127,9 +121,6 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
     }
 
-    /**
-     * Tests using an alias on the table name
-     */
     public function testTableAlias(): void
     {
         $query = new DeleteQuery('users', 'u');
@@ -150,9 +141,6 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests adding a simple where clause
-     */
     public function testWhere(): void
     {
         $query = new DeleteQuery('users');
@@ -160,9 +148,6 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('DELETE FROM users WHERE (id = 1)', $query->getSql());
     }
 
-    /**
-     * Tests adding a simple where clause with a condition object
-     */
     public function testWhereConditionObject(): void
     {
         $query = new DeleteQuery('users');

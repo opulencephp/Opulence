@@ -22,26 +22,17 @@ class ArgvTokenizerTest extends \PHPUnit\Framework\TestCase
     /** @var ArgvTokenizer The tokenizer to use in tests */
     private $tokenizer;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->tokenizer = new ArgvTokenizer();
     }
 
-    /**
-     * Tests tokenizing an escaped double quote
-     */
     public function testTokenizingEscapedDoubleQuote(): void
     {
         $tokens = $this->tokenizer->tokenize(['foo', 'Dave\"s']);
         $this->assertEquals(['Dave"s'], $tokens);
     }
 
-    /**
-     * Tests tokenizing an escaped single quote
-     */
     public function testTokenizingEscapedSingleQuote(): void
     {
         $tokens = $this->tokenizer->tokenize(['foo', "Dave\'s"]);

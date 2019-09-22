@@ -24,9 +24,6 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class RulesFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests that rules are created
-     */
     public function testRulesCreated(): void
     {
         /** @var RuleExtensionRegistry|MockObject $ruleExtensionRegistry */

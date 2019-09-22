@@ -20,9 +20,6 @@ use Opulence\Cryptography\Encryption\Keys\SecretTypes;
  */
 class PasswordTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests getting the value
-     */
     public function testGettingValue(): void
     {
         $key = new Password('foo');

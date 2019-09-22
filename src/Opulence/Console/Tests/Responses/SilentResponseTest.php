@@ -22,17 +22,11 @@ class SilentResponseTest extends \PHPUnit\Framework\TestCase
     /** @var SilentResponse The response to use in tests */
     private $response;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->response = new SilentResponse();
     }
 
-    /**
-     * Tests writing without a new line
-     */
     public function testWrite(): void
     {
         ob_start();
@@ -40,9 +34,6 @@ class SilentResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty(ob_get_clean());
     }
 
-    /**
-     * Tests writing with a new line
-     */
     public function testWriteln(): void
     {
         ob_start();

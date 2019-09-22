@@ -26,9 +26,6 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     private TypeMapper $typeMapperWithProvider;
     private Provider $provider;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->typeMapperWithNoProvider = new TypeMapper();
@@ -36,18 +33,12 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         $this->typeMapperWithProvider = new TypeMapper($this->provider);
     }
 
-    /**
-     * Tests converting from a null date returns null
-     */
     public function testConvertingDateFromNullReturnsNull(): void
     {
         $this->assertNull($this->typeMapperWithNoProvider->fromSqlDate(null, $this->provider));
         $this->assertNull($this->typeMapperWithProvider->fromSqlDate(null));
     }
 
-    /**
-     * Tests converting from a false SQL boolean
-     */
     public function testConvertingFromFalseSqlBoolean(): void
     {
         $sqlBoolean = 0;
@@ -55,9 +46,6 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->typeMapperWithProvider->fromSqlBoolean($sqlBoolean));
     }
 
-    /**
-     * Tests converting from an invalid SQL timestamp without time zone
-     */
     public function testConvertingFromInvalidSqlTimestampWithoutTimeZone(): void
     {
         $exceptionsThrown = false;
@@ -77,9 +65,6 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($exceptionsThrown);
     }
 
-    /**
-     * Tests converting from an SQL date
-     */
     public function testConvertingFromSqlDate(): void
     {
         $phpDate = new DateTime('now');
@@ -102,9 +87,6 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('000000', $this->typeMapperWithProvider->fromSqlDate($sqlDate)->format('His'));
     }
 
-    /**
-     * Tests converting from an SQL time with time zone
-     */
     public function testConvertingFromSqlTimeWithTimeZone(): void
     {
         $phpTimeWithMicroseconds = new DateTime('now');
@@ -125,9 +107,6 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests converting from an SQL time without time zone
-     */
     public function testConvertingFromSqlTimeWithoutTimeZone(): void
     {
         $phpTimeWithMicroseconds = new DateTime('now');
@@ -152,9 +131,6 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests converting from an SQL timestamp with time zone
-     */
     public function testConvertingFromSqlTimestampWithTimeZone(): void
     {
         $phpTimestampWithMicroseconds = new DateTime('now');
@@ -179,9 +155,6 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests converting from an SQL timestamp without time zone
-     */
     public function testConvertingFromSqlTimestampWithoutTimeZone(): void
     {
         $phpTimestampWithMicroseconds = new DateTime('now');
@@ -205,9 +178,6 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests converting from a true SQL boolean
-     */
     public function testConvertingFromTrueSqlBoolean(): void
     {
         $sqlBoolean = 1;
@@ -215,18 +185,12 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->typeMapperWithProvider->fromSqlBoolean($sqlBoolean));
     }
 
-    /**
-     * Tests converting JSON from null
-     */
     public function testConvertingJsonFromNull(): void
     {
         $this->assertEquals([], $this->typeMapperWithNoProvider->fromSqlJson(null, $this->provider));
         $this->assertEquals([], $this->typeMapperWithProvider->fromSqlJson(null));
     }
 
-    /**
-     * Tests converting from SQL JSON
-     */
     public function testConvertingJsonFromSql(): void
     {
         $jsonArray = [
@@ -240,54 +204,36 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($jsonArray, $this->typeMapperWithProvider->fromSqlJson($jsonString));
     }
 
-    /**
-     * Tests converting from a null time with time zone returns null
-     */
     public function testConvertingTimeWithTimeZoneFromNullReturnsNull(): void
     {
         $this->assertNull($this->typeMapperWithNoProvider->fromSqlTimeWithTimeZone(null, $this->provider));
         $this->assertNull($this->typeMapperWithProvider->fromSqlTimeWithTimeZone(null));
     }
 
-    /**
-     * Tests converting from a null time without time zone returns null
-     */
     public function testConvertingTimeWithoutTimeZoneFromNullReturnsNull(): void
     {
         $this->assertNull($this->typeMapperWithNoProvider->fromSqlTimeWithoutTimeZone(null, $this->provider));
         $this->assertNull($this->typeMapperWithProvider->fromSqlTimeWithoutTimeZone(null));
     }
 
-    /**
-     * Tests converting from a null timestamp with timezone returns null
-     */
     public function testConvertingTimestampWithTimeZoneFromNullReturnsNull(): void
     {
         $this->assertNull($this->typeMapperWithNoProvider->fromSqlTimestampWithTimeZone(null, $this->provider));
         $this->assertNull($this->typeMapperWithProvider->fromSqlTimestampWithTimeZone(null));
     }
 
-    /**
-     * Tests converting from a null timestamp without time zone returns null
-     */
     public function testConvertingTimestampWithoutTimeZoneFromNullReturnsNull(): void
     {
         $this->assertNull($this->typeMapperWithNoProvider->fromSqlTimestampWithoutTimeZone(null, $this->provider));
         $this->assertNull($this->typeMapperWithProvider->fromSqlTimestampWithoutTimeZone(null));
     }
 
-    /**
-     * Tests converting to a false SQL boolean
-     */
     public function testConvertingToFalseSqlBoolean(): void
     {
         $this->assertEquals(0, $this->typeMapperWithNoProvider->toSqlBoolean(false, $this->provider));
         $this->assertEquals(0, $this->typeMapperWithProvider->toSqlBoolean(false));
     }
 
-    /**
-     * Tests converting to an SQL date
-     */
     public function testConvertingToSqlDate(): void
     {
         $date = new DateTime('now');
@@ -301,9 +247,6 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests converting to SQL JSON
-     */
     public function testConvertingToSqlJson(): void
     {
         $jsonArray = [
@@ -317,9 +260,6 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($jsonString, $this->typeMapperWithProvider->toSqlJson($jsonArray));
     }
 
-    /**
-     * Tests converting to an SQL time with time zone
-     */
     public function testConvertingToSqlTimeWithTimeZone(): void
     {
         $time = new DateTime('now');
@@ -333,9 +273,6 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests converting to an SQL time without time zone
-     */
     public function testConvertingToSqlTimeWithoutTimeZone(): void
     {
         $time = new DateTime('now');
@@ -349,9 +286,6 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests converting to an SQL timestamp with time zone
-     */
     public function testConvertingToSqlTimestampWithTimeZone(): void
     {
         $timestamp = new DateTime('now');
@@ -365,9 +299,6 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests converting to an SQL timestamp without time zone
-     */
     public function testConvertingToSqlTimestampWithoutTimeZone(): void
     {
         $timestamp = new DateTime('now');
@@ -381,18 +312,12 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests converting to a true SQL boolean
-     */
     public function testConvertingToTrueSqlBoolean(): void
     {
         $this->assertEquals(1, $this->typeMapperWithNoProvider->toSqlBoolean(true, $this->provider));
         $this->assertEquals(1, $this->typeMapperWithProvider->toSqlBoolean(true));
     }
 
-    /**
-     * Tests not setting any providers
-     */
     public function testNotSettingAnyProviders(): void
     {
         $this->expectException(RuntimeException::class);

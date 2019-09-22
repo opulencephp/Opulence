@@ -53,9 +53,6 @@ class IntegrationTestCase extends BaseIntegrationTestCase
         return $this->assertResponse;
     }
 
-    /**
-     * Sets up the application and container
-     */
     protected function setUp(): void
     {
         Config::setCategory('paths', [

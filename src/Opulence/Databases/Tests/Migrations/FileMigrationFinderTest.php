@@ -30,9 +30,6 @@ class FileMigrationFinderTest extends \PHPUnit\Framework\TestCase
     /** @var string The name of the namespace the top-level migrations belong to */
     private string $topLevelMigrationNamespace = '';
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->migrationFinder = new FileMigrationFinder();
@@ -43,9 +40,6 @@ class FileMigrationFinderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests that migrations are found in a childless directory
-     */
     public function testMigrationsAreFoundInChildlessDirectory(): void
     {
         $expectedMigrations = [MigrationC::class];
@@ -55,9 +49,6 @@ class FileMigrationFinderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests that migrations are found in subdirectories
-     */
     public function testMigrationsAreFoundInSubdirectories(): void
     {
         $expectedMigrations = [

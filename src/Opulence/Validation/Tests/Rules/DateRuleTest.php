@@ -21,9 +21,6 @@ use Opulence\Validation\Rules\DateRule;
  */
 class DateRuleTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests that equal values pass
-     */
     public function testEqualValuesPass(): void
     {
         $rule = new DateRule();
@@ -35,18 +32,12 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($rule->passes((new DateTime)->format($format2)));
     }
 
-    /**
-     * Tests getting the slug
-     */
     public function testGettingSlug(): void
     {
         $rule = new DateRule();
         $this->assertEquals('date', $rule->getSlug());
     }
 
-    /**
-     * Tests passing an invalid arg type
-     */
     public function testInvalidArgType(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -54,9 +45,6 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
         $rule->setArgs([1]);
     }
 
-    /**
-     * Tests passing an empty arg array
-     */
     public function testPassingEmptyArgArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -64,9 +52,6 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
         $rule->setArgs([]);
     }
 
-    /**
-     * Tests that unequal values fail
-     */
     public function testUnequalValuesFail(): void
     {
         $rule = new DateRule();

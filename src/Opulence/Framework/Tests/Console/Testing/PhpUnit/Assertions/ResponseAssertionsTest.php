@@ -26,9 +26,6 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /** @var StreamResponse|MockObject The response to use in tests */
     private StreamResponse $mockResponse;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->assertions = new ResponseAssertions();
@@ -37,45 +34,30 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
             ->getMock();
     }
 
-    /**
-     * Tests asserting that the status code is an error
-     */
     public function testAssertStatusCodeIsError(): void
     {
         $this->assertions->setResponse($this->mockResponse, StatusCodes::ERROR);
         $this->assertSame($this->assertions, $this->assertions->isError());
     }
 
-    /**
-     * Tests asserting that the status code is fatal
-     */
     public function testAssertStatusCodeIsFatal(): void
     {
         $this->assertions->setResponse($this->mockResponse, StatusCodes::FATAL);
         $this->assertSame($this->assertions, $this->assertions->isFatal());
     }
 
-    /**
-     * Tests asserting that the status code is OK
-     */
     public function testAssertStatusCodeIsOK(): void
     {
         $this->assertions->setResponse($this->mockResponse, StatusCodes::OK);
         $this->assertSame($this->assertions, $this->assertions->isOK());
     }
 
-    /**
-     * Tests asserting that the status code is a warning
-     */
     public function testAssertStatusCodeIsWarning(): void
     {
         $this->assertions->setResponse($this->mockResponse, StatusCodes::WARNING);
         $this->assertSame($this->assertions, $this->assertions->isWarning());
     }
 
-    /**
-     * Tests asserting that the status code equals the right value
-     */
     public function testAssertingStatusCodeEquals(): void
     {
         $this->assertions->setResponse($this->mockResponse, StatusCodes::OK);

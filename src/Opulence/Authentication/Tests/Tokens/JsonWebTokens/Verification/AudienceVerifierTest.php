@@ -28,9 +28,6 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     /** @var JwtPayload|MockObject The payload to use in tests */
     private JwtPayload $jwtPayload;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->jwt = $this->getMockBuilder(SignedJwt::class)
@@ -42,9 +39,6 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
             ->willReturn($this->jwtPayload);
     }
 
-    /**
-     * Tests a mismatched audience
-     */
     public function testMismatchedAudience(): void
     {
         $verifier = new AudienceVerifier('foo');
@@ -55,9 +49,6 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(JwtErrorTypes::AUDIENCE_INVALID, $error);
     }
 
-    /**
-     * Tests a mismatched array audience
-     */
     public function testMismatchedAudienceArray(): void
     {
         $verifier = new AudienceVerifier('foo');
@@ -68,9 +59,6 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(JwtErrorTypes::AUDIENCE_INVALID, $error);
     }
 
-    /**
-     * Tests verifying against an empty audience is successful
-     */
     public function testVerifyingEmptyAudienceIsSuccessful(): void
     {
         $verifier = new AudienceVerifier([]);
@@ -81,9 +69,6 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($error);
     }
 
-    /**
-     * Tests verifying valid array audience
-     */
     public function testVerifyingValidArrayAudience(): void
     {
         $verifier = new AudienceVerifier(['foo', 'bar']);
@@ -94,9 +79,6 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($error);
     }
 
-    /**
-     * Tests verifying valid string audience
-     */
     public function testVerifyingValidStringAudience(): void
     {
         $verifier = new AudienceVerifier('foo');

@@ -20,9 +20,6 @@ use PDO;
  */
 class NotInConditionTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests getting SQL for NOT IN condition with parameters
-     */
     public function testGettingSqlForNotInConditionWithParameters(): void
     {
         $condition = new NotInCondition('foo', [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);

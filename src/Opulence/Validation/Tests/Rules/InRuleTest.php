@@ -21,18 +21,12 @@ use Opulence\Validation\Rules\InRule;
  */
 class InRuleTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests getting the slug
-     */
     public function testGettingSlug(): void
     {
         $rule = new InRule();
         $this->assertEquals('in', $rule->getSlug());
     }
 
-    /**
-     * Tests that matching values pass
-     */
     public function testMatchingValuesPass(): void
     {
         $rule = new InRule();
@@ -50,9 +44,6 @@ class InRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($rule->passes('baz'));
     }
 
-    /**
-     * Tests not setting the args before passes
-     */
     public function testNotSettingArgBeforePasses(): void
     {
         $this->expectException(LogicException::class);
@@ -60,9 +51,6 @@ class InRuleTest extends \PHPUnit\Framework\TestCase
         $rule->passes('foo');
     }
 
-    /**
-     * Tests passing an empty arg array
-     */
     public function testPassingEmptyArgArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -70,9 +58,6 @@ class InRuleTest extends \PHPUnit\Framework\TestCase
         $rule->setArgs([]);
     }
 
-    /**
-     * Tests passing invalid args
-     */
     public function testPassingInvalidArgs(): void
     {
         $this->expectException(InvalidArgumentException::class);

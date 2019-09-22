@@ -21,17 +21,11 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
 {
     private IdGenerator $generator;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->generator = new IdGenerator();
     }
 
-    /**
-     * Tests generating an Id with a length specified
-     */
     public function testGeneratingWithLength(): void
     {
         $id = $this->generator->generate(28);
@@ -39,9 +33,6 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(28, strlen($id));
     }
 
-    /**
-     * Tests generating an Id without a length specified
-     */
     public function testGeneratingWithoutLength(): void
     {
         $id = $this->generator->generate();
@@ -49,9 +40,6 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(IdGenerator::DEFAULT_LENGTH, strlen($id));
     }
 
-    /**
-     * Tests validating an invalid Id
-     */
     public function testValidatingInvalidId(): void
     {
         // Invalid characters
@@ -68,9 +56,6 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->generator->idIsValid($id));
     }
 
-    /**
-     * Tests validating a valid Id
-     */
     public function testValidatingValidId(): void
     {
         // Default length

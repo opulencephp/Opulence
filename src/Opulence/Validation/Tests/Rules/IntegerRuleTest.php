@@ -19,9 +19,6 @@ use Opulence\Validation\Rules\IntegerRule;
  */
 class IntegerRuleTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests that a failing value
-     */
     public function testFailingValue(): void
     {
         $rule = new IntegerRule();
@@ -31,18 +28,12 @@ class IntegerRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($rule->passes('1.5'));
     }
 
-    /**
-     * Tests getting the slug
-     */
     public function testGettingSlug(): void
     {
         $rule = new IntegerRule();
         $this->assertEquals('integer', $rule->getSlug());
     }
 
-    /**
-     * Tests a passing value
-     */
     public function testPassingValue(): void
     {
         $rule = new IntegerRule();

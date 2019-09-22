@@ -19,9 +19,6 @@ use Opulence\QueryBuilders\InsertQuery;
  */
 class InsertQueryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests adding more columns to the query
-     */
     public function testAddingMoreColumns(): void
     {
         $query = new InsertQuery('users', ['name' => 'dave']);
@@ -33,9 +30,6 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
         ], $query->getParameters());
     }
 
-    /**
-     * Tests a basic query
-     */
     public function testBasicQuery(): void
     {
         $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);

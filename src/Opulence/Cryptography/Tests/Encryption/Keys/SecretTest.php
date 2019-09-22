@@ -22,33 +22,21 @@ class SecretTest extends \PHPUnit\Framework\TestCase
 {
     private Secret $secret;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->secret = new Secret(SecretTypes::PASSWORD, 'foo');
     }
 
-    /**
-     * Tests getting the type
-     */
     public function testGettingType(): void
     {
         $this->assertEquals(SecretTypes::PASSWORD, $this->secret->getType());
     }
 
-    /**
-     * Tests getting the value
-     */
     public function testGettingValue(): void
     {
         $this->assertEquals('foo', $this->secret->getValue());
     }
 
-    /**
-     * Tests setting a valid key
-     */
     public function testValidKey(): void
     {
         $key = str_repeat('a', 32);

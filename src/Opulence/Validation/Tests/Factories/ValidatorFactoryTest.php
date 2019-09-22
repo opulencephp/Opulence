@@ -26,9 +26,6 @@ class ValidatorFactoryTest extends \PHPUnit\Framework\TestCase
     /** @var RulesFactory|MockObject The rules factory */
     private RulesFactory $rulesFactory;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->rulesFactory = $this->getMockBuilder(RulesFactory::class)
@@ -37,9 +34,6 @@ class ValidatorFactoryTest extends \PHPUnit\Framework\TestCase
         $this->validatorFactory = new ValidatorFactory($this->rulesFactory);
     }
 
-    /**
-     * Tests that the validator is set up correctly
-     */
     public function testValidatorIsSetUpCorrectly(): void
     {
         $this->assertEquals(

@@ -24,26 +24,17 @@ class KeyHasherTest extends \PHPUnit\Framework\TestCase
     /** @var KeyHasher The hasher to use in tests */
     private $keyHasher;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->keyHasher = new KeyHasher();
     }
 
-    /**
-     * Tests that arrays are hashed to the correct key
-     */
     public function testArraysAreHashedToCorrectKey(): void
     {
         $array = ['foo'];
         $this->assertEquals('__opulence:a:' . md5(serialize($array)), $this->keyHasher->getHashKey($array));
     }
 
-    /**
-     * Tests that scalars are hashed to the correct key
-     */
     public function testScalarsAreHashedToCorrectKey(): void
     {
         $this->assertEquals('__opulence:s:1', $this->keyHasher->getHashKey('1'));
@@ -51,27 +42,18 @@ class KeyHasherTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('__opulence:f:1.1', $this->keyHasher->getHashKey(1.1));
     }
 
-    /**
-     * Tests that a resource is hashes using its string value
-     */
     public function testResourceIsHashedUsingItsStringValue(): void
     {
         $resource = fopen('php://temp', 'r+b');
         $this->assertEquals("__opulence:r:$resource", $this->keyHasher->getHashKey($resource));
     }
 
-    /**
-     * Tests that a serializable object is hashed with its __toString() method
-     */
     public function testSerializableObjectIsHashedWithToStringMethod(): void
     {
         $object = new SerializableObject('foo');
         $this->assertEquals('__opulence:so:foo', $this->keyHasher->getHashKey($object));
     }
 
-    /**
-     * Tests that an unserializable object is hashed with object hash
-     */
     public function testUnserializableObjectIsHashedWithObjectHash(): void
     {
         $object = new UnserializableObject();

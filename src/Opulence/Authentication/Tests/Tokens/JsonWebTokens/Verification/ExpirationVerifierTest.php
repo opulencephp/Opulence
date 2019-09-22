@@ -30,9 +30,6 @@ class ExpirationVerifierTest extends \PHPUnit\Framework\TestCase
     /** @var JwtPayload|MockObject The payload to use in tests */
     private JwtPayload $jwtPayload;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->verifier = new ExpirationVerifier();
@@ -45,9 +42,6 @@ class ExpirationVerifierTest extends \PHPUnit\Framework\TestCase
             ->willReturn($this->jwtPayload);
     }
 
-    /**
-     * Tests an expired token
-     */
     public function testExpiredToken(): void
     {
         $date = new DateTimeImmutable('-30 second');
@@ -58,9 +52,6 @@ class ExpirationVerifierTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(JwtErrorTypes::EXPIRED, $error);
     }
 
-    /**
-     * Tests verifying valid token
-     */
     public function testVerifyingValidToken(): void
     {
         $date = new DateTimeImmutable('+30 second');

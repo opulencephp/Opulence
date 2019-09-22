@@ -20,9 +20,6 @@ use Opulence\Collections\Tests\Mocks\MockObject;
  */
 class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests that adding an array value is acceptable
-     */
     public function testAddingArrayValueIsAcceptable(): void
     {
         $array = ['foo'];
@@ -31,9 +28,6 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$array], $set->toArray());
     }
 
-    /**
-     * Tests that adding primitive values is acceptable
-     */
     public function testAddingPrimitiveValuesIsAcceptable(): void
     {
         $int = 1;
@@ -44,9 +38,6 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$int, $string], $set->toArray());
     }
 
-    /**
-     * Tests that adding resource values is acceptable
-     */
     public function testAddingResourceValuesIsAcceptable(): void
     {
         $resource = fopen('php://temp', 'r+');
@@ -55,9 +46,6 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$resource], $set->toArray());
     }
 
-    /**
-     * Tests adding a value
-     */
     public function testAddingValue(): void
     {
         $object = new MockObject('foo');
@@ -65,9 +53,6 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$object], $set->toArray());
     }
 
-    /**
-     * Tests that checking the existence of a value returns whether or not that value exists
-     */
     public function testCheckingExistenceOfValueReturnsWhetherOrNotThatValueExists(): void
     {
         $setWithNoValues = new ImmutableHashSet([]);
@@ -79,9 +64,6 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($setWithObjectValue->containsValue($object));
     }
 
-    /**
-     * Tests that counting returns the number of unique values in a set
-     */
     public function testCountReturnsNumberOfUniqueValuesInSet(): void
     {
         $object1 = new MockObject('foo');

@@ -23,9 +23,6 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
 {
     private JwtHeader $header;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->header = new JwtHeader(Algorithms::SHA512);
@@ -40,17 +37,11 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('HS256', $header->getAlgorithm());
     }
 
-    /**
-     * Tests getting the algorithm
-     */
     public function testGettingAlgorithm(): void
     {
         $this->assertEquals('HS512', $this->header->getAlgorithm());
     }
 
-    /**
-     * Tests getting all values
-     */
     public function testGettingAllValues(): void
     {
         $expected = [
@@ -63,18 +54,12 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->header->getAll());
     }
 
-    /**
-     * Tests getting the content type
-     */
     public function testGettingContentType(): void
     {
         $this->header->add('cty', 'JWT');
         $this->assertEquals('JWT', $this->header->getContentType());
     }
 
-    /**
-     * Tests getting the encoded string
-     */
     public function testGettingEncodedString(): void
     {
         $headers = [
@@ -93,17 +78,11 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests getting the token type
-     */
     public function testGettingTokenType(): void
     {
         $this->assertEquals('JWT', $this->header->getTokenType());
     }
 
-    /**
-     * Tests getting the value for an extra header
-     */
     public function testGettingValue(): void
     {
         $this->assertNull($this->header->get('foo'));
@@ -113,9 +92,6 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('baz', $this->header->get('foo'));
     }
 
-    /**
-     * Tests that an invalid algorithm in the constructor throws an exception
-     */
     public function testInvalidAlgorithmInConstructorThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);

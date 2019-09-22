@@ -30,9 +30,6 @@ class NotBeforeVerifierTest extends \PHPUnit\Framework\TestCase
     /** @var JwtPayload|MockObject The payload to use in tests */
     private JwtPayload $jwtPayload;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->verifier = new NotBeforeVerifier();
@@ -45,9 +42,6 @@ class NotBeforeVerifierTest extends \PHPUnit\Framework\TestCase
             ->willReturn($this->jwtPayload);
     }
 
-    /**
-     * Tests that a not activated token
-     */
     public function testNotActivatedToken(): void
     {
         $date = new DateTimeImmutable('+30 second');
@@ -58,9 +52,6 @@ class NotBeforeVerifierTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(JwtErrorTypes::NOT_ACTIVATED, $error);
     }
 
-    /**
-     * Tests verifying valid token
-     */
     public function testVerifyingValidToken(): void
     {
         $date = new DateTimeImmutable('-30 second');

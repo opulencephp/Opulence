@@ -37,9 +37,6 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     private SqlDataMapper $dataMapper;
     private Repository $repo;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $idAccessorRegistry = new IdAccessorRegistry();
@@ -77,9 +74,6 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         $this->repo = new Repository(get_class($this->entity1), $this->dataMapper, $this->unitOfWork);
     }
 
-    /**
-     * Tests adding an entity
-     */
     public function testAddingEntity(): void
     {
         $this->repo->add($this->entity1);
@@ -87,9 +81,6 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($this->entity1, $this->repo->getById($this->entity1->getId()));
     }
 
-    /**
-     * Tests deleting an entity
-     */
     public function testDeletingEntity(): void
     {
         $this->repo->add($this->entity1);
@@ -100,9 +91,6 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         $this->repo->getById($this->entity1->getId());
     }
 
-    /**
-     * Tests getting all the entities
-     */
     public function testGettingAll(): void
     {
         $this->repo->add($this->entity1);
@@ -111,9 +99,6 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$this->entity1, $this->entity2], $this->repo->getAll());
     }
 
-    /**
-     * Tests getting all the entities after adding them in different transactions
-     */
     public function testGettingAllAfterAddingEntitiesInDifferentTransactions(): void
     {
         $this->repo->add($this->entity1);
@@ -123,9 +108,6 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$this->entity1, $this->entity2], $this->repo->getAll());
     }
 
-    /**
-     * Tests getting an entity by Id
-     */
     public function testGettingById(): void
     {
         $this->repo->add($this->entity1);
@@ -169,18 +151,12 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * Tests getting an entity that doesn't exist by Id
-     */
     public function testGettingEntityThatDoesNotExistById(): void
     {
         $this->expectException(OrmException::class);
         $this->repo->getById(123);
     }
 
-    /**
-     * Tests getting an entity that's in the data mapper but not the repo
-     */
     public function testGettingEntityThatExistsInDataMapperButNotRepo(): void
     {
         $this->dataMapper->add($this->entity1);

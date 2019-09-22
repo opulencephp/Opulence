@@ -25,17 +25,11 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     /** @var Response The response to use in tests */
     private $response;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->response = new Response(new Compiler(new Lexer(), new Parser()));
     }
 
-    /**
-     * Tests clearing the response
-     */
     public function testClearingResponse(): void
     {
         ob_start();
@@ -43,9 +37,6 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(chr(27) . '[2J' . chr(27) . '[;H', ob_get_clean());
     }
 
-    /**
-     * Tests writing multiple messages with new lines
-     */
     public function testWritingMultipleMessagesWithNewLines(): void
     {
         ob_start();
@@ -53,9 +44,6 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo' . PHP_EOL . 'bar' . PHP_EOL, ob_get_clean());
     }
 
-    /**
-     * Tests writing multiple messages with no new lines
-     */
     public function testWritingMultipleMessagesWithNoNewLines(): void
     {
         ob_start();
@@ -63,9 +51,6 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foobar', ob_get_clean());
     }
 
-    /**
-     * Tests writing a single message with a new line
-     */
     public function testWritingSingleMessageWithNewLine(): void
     {
         ob_start();
@@ -73,9 +58,6 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo' . PHP_EOL, ob_get_clean());
     }
 
-    /**
-     * Tests writing a single message with no new line
-     */
     public function testWritingSingleMessageWithNoNewLine(): void
     {
         ob_start();
@@ -83,9 +65,6 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo', ob_get_clean());
     }
 
-    /**
-     * Tests writing a styled message with styling disabled
-     */
     public function testWritingStyledMessageWithStylingDisabled(): void
     {
         ob_start();

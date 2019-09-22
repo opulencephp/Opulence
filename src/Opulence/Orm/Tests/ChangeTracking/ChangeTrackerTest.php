@@ -25,9 +25,6 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
     private User $entity1;
     private User $entity2;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->changeTracker = new ChangeTracker();
@@ -41,9 +38,6 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
         $this->entity2 = new User(1987, 'bar');
     }
 
-    /**
-     * Tests seeing if a change is detected with a comparison function
-     */
     public function testCheckingForChangeWithComparisonFunction(): void
     {
         $className = get_class($this->entity1);
@@ -58,9 +52,6 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->changeTracker->hasChanged($this->entity1));
     }
 
-    /**
-     * Tests seeing if a change is detected without a comparison function
-     */
     public function testCheckingForChangeWithoutComparisonFunction(): void
     {
         $this->changeTracker->startTracking($this->entity1);
@@ -68,18 +59,12 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->changeTracker->hasChanged($this->entity1));
     }
 
-    /**
-     * Tests checking for changes on an unregistered entity
-     */
     public function testCheckingForChangesOnUnregisteredEntity(): void
     {
         $this->expectException(OrmException::class);
         $this->changeTracker->hasChanged($this->entity1);
     }
 
-    /**
-     * Tests checking that nothing has changed with a comparison function
-     */
     public function testCheckingForNoChangeWithComparisonFunction(): void
     {
         $className = get_class($this->entity1);
@@ -90,9 +75,6 @@ class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->changeTracker->hasChanged($this->entity1));
     }
 
-    /**
-     * Tests checking that nothing has changed without a comparison function
-     */
     public function testCheckingForNoChangeWithoutComparisonFunction(): void
     {
         $this->changeTracker->startTracking($this->entity1);

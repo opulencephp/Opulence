@@ -34,9 +34,6 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /** @var ICredential|MockObject The credential to use in tests */
     private ICredential $credential;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->userRepository = $this->createMock(IUserRepository::class);
@@ -45,9 +42,6 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $this->credential = $this->createMock(ICredential::class);
     }
 
-    /**
-     * Tests that a correct password returns true
-     */
     public function testCorrectPasswordReturnsTrue(): void
     {
         $this->roleRepository->expects($this->once())
@@ -81,9 +75,6 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$this->credential], $subject->getCredentials());
     }
 
-    /**
-     * Tests that an incorrect password returns false
-     */
     public function testIncorrectPasswordReturnsFalse(): void
     {
         $this->credential->expects($this->at(0))
@@ -131,9 +122,6 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(AuthenticatorErrorTypes::NO_SUBJECT, $error);
     }
 
-    /**
-     * Tests that an unset password credential returns false
-     */
     public function testUnsetPasswordCredentialReturnsFalse(): void
     {
         $this->credential->expects($this->at(0))
@@ -150,9 +138,6 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(AuthenticatorErrorTypes::CREDENTIAL_MISSING, $error);
     }
 
-    /**
-     * Tests that an unset username credential returns false
-     */
     public function testUnsetUsernameCredentialReturnsFalse(): void
     {
         $this->credential->expects($this->at(0))

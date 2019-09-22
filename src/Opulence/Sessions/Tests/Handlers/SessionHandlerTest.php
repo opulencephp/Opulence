@@ -28,18 +28,12 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var ISessionEncrypter|MockObject The encrypter to use in tests */
     private ISessionEncrypter $encrypter;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->handler = $this->getMockForAbstractClass(SessionHandler::class);
         $this->encrypter = $this->createMock(ISessionEncrypter::class);
     }
 
-    /**
-     * Tests that an empty string is written when the encrypter fails
-     */
     public function testEmptyStringIsWrittenWhenEncrypterFails(): void
     {
         $this->handler->useEncryption(true);
@@ -52,9 +46,6 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * Tests that an exception is thrown when reading and the encrypter is not set
-     */
     public function testExceptionIsThrownWhenReadingWithEncrypterNotSet(): void
     {
         $this->expectException(LogicException::class);
@@ -63,9 +54,6 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->handler->read('baz');
     }
 
-    /**
-     * Tests that an exception is thrown when writing and the encrypter is not set
-     */
     public function testExceptionIsThrownWhenWritingWithEncrypterNotSet(): void
     {
         $this->expectException(LogicException::class);
@@ -74,18 +62,12 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->handler->read('baz');
     }
 
-    /**
-     * Tests that data being read is not decrypted when not using an encrypter
-     */
     public function testReadDataIsNotDecryptedWhenNotUsingEncrypter(): void
     {
         $this->handler->expects($this->any())->method('doRead')->will($this->returnValue('bar'));
         $this->assertEquals('bar', $this->handler->read('foo'));
     }
 
-    /**
-     * Tests reading encrypted data
-     */
     public function testReadingEncryptedData(): void
     {
         $this->handler->useEncryption(true);
@@ -95,9 +77,6 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $this->handler->read('baz'));
     }
 
-    /**
-     * Tests that a serialized empty array is returned when the encrypter fails to read the data
-     */
     public function testSerializedEmptyArrayReturnedWhenEncrypterFailsToReadData(): void
     {
         $this->handler->useEncryption(true);
@@ -108,9 +87,6 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(serialize([]), $this->handler->read('bar'));
     }
 
-    /**
-     * Tests writing encrypted data
-     */
     public function testWritingEncryptedData(): void
     {
         $this->handler->useEncryption(true);
@@ -122,9 +98,6 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * Tests that data being written is not encrypted when not using an encrypter
-     */
     public function testWrittenDataIsNotEncryptedWhenNotUsingEncrypter(): void
     {
         $this->handler->expects($this->any())->method('doWrite')->with('theId', 'foo');

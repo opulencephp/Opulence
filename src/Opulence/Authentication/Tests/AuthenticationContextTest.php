@@ -23,17 +23,11 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
 {
     private AuthenticationContext $context;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->context = new AuthenticationContext();
     }
 
-    /**
-     * Tests checking if the user is authenticated
-     */
     public function testCheckingIfAuthenticated(): void
     {
         $this->context->setStatus(AuthenticationStatusTypes::AUTHENTICATED);
@@ -42,27 +36,18 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->context->isAuthenticated());
     }
 
-    /**
-     * Tests setting the status in the constructor
-     */
     public function testSettingStatusInConstructor(): void
     {
         $context = new AuthenticationContext(null, 'foo');
         $this->assertEquals('foo', $context->getStatus());
     }
 
-    /**
-     * Tests setting the status in the setter
-     */
     public function testSettingStatusInSetter(): void
     {
         $this->context->setStatus('foo');
         $this->assertEquals('foo', $this->context->getStatus());
     }
 
-    /**
-     * Tests setting the subject in the constructor
-     */
     public function testSettingSubjectInConstructor(): void
     {
         /** @var ISubject $subject */
@@ -71,9 +56,6 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($subject, $context->getSubject());
     }
 
-    /**
-     * Tests setting the subject in the setter
-     */
     public function testSettingSubjectInSetter(): void
     {
         /** @var ISubject $subject */

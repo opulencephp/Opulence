@@ -25,9 +25,6 @@ class FileSessionHandlerTest extends \PHPUnit\Framework\TestCase
     private FileSessionHandler $handler;
     private FileSystem $fileSystem;
 
-    /**
-     * Does some setup before any tests
-     */
     public static function setUpBeforeClass(): void
     {
         if (!is_dir(__DIR__ . '/tmp')) {
@@ -35,9 +32,6 @@ class FileSessionHandlerTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * Performs some garbage collection
-     */
     public static function tearDownAfterClass(): void
     {
         $files = glob(__DIR__ . '/' . self::$path . '/*');
@@ -49,35 +43,23 @@ class FileSessionHandlerTest extends \PHPUnit\Framework\TestCase
         rmdir(__DIR__ . '/' . self::$path);
     }
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->fileSystem = new FileSystem();
         $this->handler = new FileSessionHandler(__DIR__ . '/' . self::$path);
     }
 
-    /**
-     * Does some housekeeping before ending the tests
-     */
     protected function tearDown(): void
     {
         @unlink(__DIR__ . '/' . self::$path . '/foo');
         @unlink(__DIR__ . '/' . self::$path . '/bar');
     }
 
-    /**
-     * Tests the close function
-     */
     public function testClose(): void
     {
         $this->assertTrue($this->handler->close());
     }
 
-    /**
-     * Tests garbage collection
-     */
     public function testGarbageCollection(): void
     {
         $this->handler->write('foo', 'bar');
@@ -86,9 +68,6 @@ class FileSessionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $this->fileSystem->glob(__DIR__ . '/' . self::$path . '/*'));
     }
 
-    /**
-     * Tests the open function
-     */
     public function testOpen(): void
     {
         $this->assertTrue($this->handler->open(__DIR__ . '/' . self::$path . '/foo', '123'));
@@ -102,18 +81,12 @@ class FileSessionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($this->handler->read('non-existent'));
     }
 
-    /**
-     * Tests reading a session
-     */
     public function testReadingSession(): void
     {
         $this->fileSystem->write(__DIR__ . '/' . self::$path . '/foo', 'bar');
         $this->assertEquals('bar', $this->handler->read('foo'));
     }
 
-    /**
-     * Tests writing a session
-     */
     public function testWritingSession(): void
     {
         $this->handler->write('foo', 'bar');

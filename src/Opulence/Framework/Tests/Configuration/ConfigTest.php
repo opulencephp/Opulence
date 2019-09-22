@@ -29,9 +29,6 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(Config::has('foo', 'bar'));
     }
 
-    /**
-     * Tests setting many settings by category
-     */
     public function testSettingCategory(): void
     {
         Config::setCategory('foo', ['bar' => 'baz']);
@@ -42,9 +39,6 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(Config::has('foo', 'dave'));
     }
 
-    /**
-     * Tests setting a single setting
-     */
     public function testSettingSingleSetting(): void
     {
         Config::set('foo', 'bar', 'baz');

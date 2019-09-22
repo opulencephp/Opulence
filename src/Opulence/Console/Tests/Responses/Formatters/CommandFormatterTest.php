@@ -31,18 +31,12 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     /** @var CommandCollection The list of registered commands */
     private $commandCollection;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->formatter = new CommandFormatter();
         $this->commandCollection = new CommandCollection(new Compiler());
     }
 
-    /**
-     * Tests formatting a command with mix of arguments
-     */
     public function testFormattingCommandWithMixOfArguments(): void
     {
         $command = new SimpleCommand('foo', 'Foo command');
@@ -64,9 +58,6 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo [--help|-h] bar [baz] blah1...blahN', $this->formatter->format($command));
     }
 
-    /**
-     * Tests formatting a command with multiple arguments
-     */
     public function testFormattingCommandWithMultipleArguments(): void
     {
         $command = new SimpleCommand('foo', 'Foo command');
@@ -83,18 +74,12 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo [--help|-h] bar baz', $this->formatter->format($command));
     }
 
-    /**
-     * Tests formatting a command with no arguments or options
-     */
     public function testFormattingCommandWithNoArgumentsOrOptions(): void
     {
         $command = new SimpleCommand('foo', 'Foo command');
         $this->assertEquals('foo [--help|-h]', $this->formatter->format($command));
     }
 
-    /**
-     * Tests formatting a command with one argument
-     */
     public function testFormattingCommandWithOneArgument(): void
     {
         $command = new SimpleCommand('foo', 'Foo command');
@@ -106,9 +91,6 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo [--help|-h] bar', $this->formatter->format($command));
     }
 
-    /**
-     * Tests formatting a command with one option with a default value
-     */
     public function testFormattingCommandWithOneOptionWithDefaultValue(): void
     {
         $command = new SimpleCommand('foo', 'Foo command');
@@ -122,9 +104,6 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo [--help|-h] [--bar=yes|-b]', $this->formatter->format($command));
     }
 
-    /**
-     * Tests formatting a command with one option with default value but no short name
-     */
     public function testFormattingCommandWithOneOptionWithDefaultValueButNoShortName(): void
     {
         $command = new SimpleCommand('foo', 'Foo command');
@@ -138,9 +117,6 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo [--help|-h] [--bar=yes]', $this->formatter->format($command));
     }
 
-    /**
-     * Tests formatting a command with one option with no short name
-     */
     public function testFormattingCommandWithOneOptionWithoutShortName(): void
     {
         $command = new SimpleCommand('foo', 'Foo command');
@@ -153,9 +129,6 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo [--help|-h] [--bar]', $this->formatter->format($command));
     }
 
-    /**
-     * Tests formatting a command with one optional argument
-     */
     public function testFormattingCommandWithOneOptionalArgument(): void
     {
         $command = new SimpleCommand('foo', 'Foo command');
@@ -167,9 +140,6 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo [--help|-h] [bar]', $this->formatter->format($command));
     }
 
-    /**
-     * Tests formatting a command with an optional array argument
-     */
     public function testFormattingCommandWithOptionalArrayArgument(): void
     {
         $command = new SimpleCommand('foo', 'Foo command');

@@ -29,9 +29,6 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     /** @var IView|MockObject The view to use in tests */
     private IView $view;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->bridge = $this->createMock(ICacheBridge::class);
@@ -39,9 +36,6 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
         $this->view = $this->createMock(IView::class);
     }
 
-    /**
-     * Tests checking for an existing view
-     */
     public function testCheckingForExistingView(): void
     {
         $this->bridge->expects($this->once())
@@ -73,9 +67,6 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->cache->has($this->view));
     }
 
-    /**
-     * Tests flushing cache
-     */
     public function testFlushingCache(): void
     {
         $this->bridge->expects($this->once())
@@ -83,9 +74,6 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
         $this->cache->flush();
     }
 
-    /**
-     * Tests getting the view
-     */
     public function testGettingView(): void
     {
         $this->bridge->expects($this->once())
@@ -95,9 +83,6 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('compiled', $this->cache->get($this->view));
     }
 
-    /**
-     * Tests setting the view
-     */
     public function testSettingView(): void
     {
         $this->bridge->expects($this->once())

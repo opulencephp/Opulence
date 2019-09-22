@@ -24,17 +24,11 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
 {
     private AbstractSyntaxTree $tree;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->tree = new AbstractSyntaxTree();
     }
 
-    /**
-     * Tests clearing the nodes
-     */
     public function testClearingNodes(): void
     {
         /** @var Node|MockObject $childNode */
@@ -45,25 +39,16 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $this->tree->getRootNode()->getChildren());
     }
 
-    /**
-     * Tests getting the current node when none is set
-     */
     public function testGettingCurrentNodeWhenNoneIsSet(): void
     {
         $this->assertEquals(new RootNode(), $this->tree->getCurrentNode());
     }
 
-    /**
-     * Tests getting the root node
-     */
     public function testGettingRootNode(): void
     {
         $this->assertEquals(new RootNode(), $this->tree->getRootNode());
     }
 
-    /**
-     * Tests setting the current node
-     */
     public function testSettingCurrentNode(): void
     {
         /** @var Node $currentNode */

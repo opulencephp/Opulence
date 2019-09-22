@@ -37,9 +37,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     /** @var ICompiler|MockObject The error template compiler */
     private ICompiler $errorTemplateCompiler;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);
@@ -62,9 +59,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->rules->pass('a 1'));
     }
 
-    /**
-     * Tests the alpha rule
-     */
     public function testAlphaRule(): void
     {
         $this->assertSame($this->rules, $this->rules->alpha());
@@ -72,9 +66,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->rules->pass('a1'));
     }
 
-    /**
-     * Tests the between rule
-     */
     public function testBetweenRule(): void
     {
         $this->assertSame($this->rules, $this->rules->between(1, 2, false));
@@ -83,9 +74,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->rules->pass(1.5));
     }
 
-    /**
-     * Tests calling an extension
-     */
     public function testCallingExtension(): void
     {
         $this->ruleExtensionRegistry->expects($this->once())
@@ -104,9 +92,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->rules->pass('bar'));
     }
 
-    /**
-     * Tests calling an extension with args
-     */
     public function testCallingExtensionWithArgs(): void
     {
         $this->ruleExtensionRegistry->expects($this->once())
@@ -141,9 +126,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->rules->foo('bar');
     }
 
-    /**
-     * Tests that checking rules twice does not append errors
-     */
     public function testCheckingRulesTwiceDoesNotAppendErrors(): void
     {
         $this->errorTemplateRegistry->expects($this->exactly(2))
@@ -161,9 +143,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['The error'], $this->rules->getErrors('the-field'));
     }
 
-    /**
-     * Test that a conditional rule's rules' errors are added
-     */
     public function testConditionalRulesErrorsAreAdded(): void
     {
         $this->errorTemplateRegistry->expects($this->at(0))
@@ -206,18 +185,12 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->rules->pass((new DateTime)->format($format2)));
     }
 
-    /**
-     * Tests the email rule
-     */
     public function testEmailRule(): void
     {
         $this->assertSame($this->rules, $this->rules->email());
         $this->assertTrue($this->rules->pass('foo@bar.com'));
     }
 
-    /**
-     * Tests the equals field rule
-     */
     public function testEqualsFieldRule(): void
     {
         $this->assertSame($this->rules, $this->rules->equalsField('bar'));
@@ -233,9 +206,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->rules->pass('bar'));
     }
 
-    /**
-     * Tests that an exception is thrown when nesting conditions
-     */
     public function testExceptionThrownWhenNestingConditions(): void
     {
         $this->expectException(LogicException::class);
@@ -245,9 +215,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         });
     }
 
-    /**
-     * Tests getting the errors when there are none
-     */
     public function testGettingErrorsWhenThereAreNone(): void
     {
         $this->assertEquals([], $this->rules->getErrors('foo'));
@@ -256,9 +223,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $this->rules->getErrors('foo'));
     }
 
-    /**
-     * Tests halting the field validation does nothing on passing rules
-     */
     public function testHaltingFieldValidationDoesNothingOnPassingRules(): void
     {
         /** @var IRule|MockObject $rule1 */
@@ -292,9 +256,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->rules->pass('blah', [], true));
     }
 
-    /**
-     * Tests halting the field validation on failure
-     */
     public function testHaltingFieldValidationOnFailure(): void
     {
         /** @var IRule|MockObject $rule1 */
@@ -327,36 +288,24 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->rules->pass('blah', [], true));
     }
 
-    /**
-     * Tests the IP address rule
-     */
     public function testIPAddressRule(): void
     {
         $this->assertSame($this->rules, $this->rules->ipAddress());
         $this->assertTrue($this->rules->pass('127.0.0.1'));
     }
 
-    /**
-     * Tests the in rule
-     */
     public function testInRule(): void
     {
         $this->assertSame($this->rules, $this->rules->in(['foo', 'bar']));
         $this->assertTrue($this->rules->pass('bar'));
     }
 
-    /**
-     * Tests the integer rule
-     */
     public function testIntegerRule(): void
     {
         $this->assertSame($this->rules, $this->rules->integer());
         $this->assertTrue($this->rules->pass(1));
     }
 
-    /**
-     * Tests the maximum rule
-     */
     public function testMaxRule(): void
     {
         $this->assertSame($this->rules, $this->rules->max(2, false));
@@ -364,9 +313,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->rules->pass(1.9));
     }
 
-    /**
-     * Tests the minimum rule
-     */
     public function testMinRule(): void
     {
         $this->assertSame($this->rules, $this->rules->min(2, false));
@@ -400,36 +346,24 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->rules->pass('baz'));
     }
 
-    /**
-     * Tests the numeric rule
-     */
     public function testNumericRule(): void
     {
         $this->assertSame($this->rules, $this->rules->numeric());
         $this->assertTrue($this->rules->pass(1.5));
     }
 
-    /**
-     * Tests the regex rule
-     */
     public function testRegexRule(): void
     {
         $this->assertSame($this->rules, $this->rules->regex('/^[a-z]{3}$/'));
         $this->assertTrue($this->rules->pass('baz'));
     }
 
-    /**
-     * Tests the required rule
-     */
     public function testRequiredRule(): void
     {
         $this->assertSame($this->rules, $this->rules->required());
         $this->assertTrue($this->rules->pass('bar'));
     }
 
-    /**
-     * Tests that rule extensions in a condition are respected
-     */
     public function testRuleExtensionsInConditionAreRespected(): void
     {
         $this->ruleExtensionRegistry->expects($this->once())
@@ -450,9 +384,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->rules->pass('bar'));
     }
 
-    /**
-     * Tests that rules added after conditions are always respected
-     */
     public function testRulesAddedAfterConditionAreAlwaysRespected(): void
     {
         $this->rules->required()
@@ -465,9 +396,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->rules->pass('bar'));
     }
 
-    /**
-     * Tests that rules added before conditions are always respected
-     */
     public function testRulesAddedBeforeConditionAreAlwaysRespected(): void
     {
         $this->rules->required()
@@ -478,9 +406,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->rules->pass('bar'));
     }
 
-    /**
-     * Tests that rules in condition are respected
-     */
     public function testRulesInConditionAreRespected(): void
     {
         $this->rules->condition(function () {
@@ -491,9 +416,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->rules->pass('bar'));
     }
 
-    /**
-     * Tests that it passes with no rules
-     */
     public function testsPassesWithNoRules(): void
     {
         $this->assertTrue($this->rules->pass('bar'));

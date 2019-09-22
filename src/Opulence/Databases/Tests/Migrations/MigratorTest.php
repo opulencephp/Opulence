@@ -31,9 +31,6 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     /** @var IExecutedMigrationRepository|MockObject The executed migration repository */
     private IExecutedMigrationRepository $executedMigrations;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->connection = $this->createMock(IConnection::class);
@@ -41,9 +38,6 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
         $this->executedMigrations = $this->createMock(IExecutedMigrationRepository::class);
     }
 
-    /**
-     * Tests that rolling back all migrations calls down on all migrations
-     */
     public function testRollingBackAllMigrationsCallsDownOnAllMigrations(): void
     {
         $migrator = new Migrator(
@@ -76,9 +70,6 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo', 'bar'], $migrator->rollBackAllMigrations());
     }
 
-    /**
-     * Tests that rolling back a specific number of migrations calls down on those migrations
-     */
     public function testRollingBackSpecificNumberOfMigrationsCallsDownOnThoseMigrations(): void
     {
         $migrator = new Migrator(
@@ -108,9 +99,6 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['bar'], $migrator->rollBackMigrations(1));
     }
 
-    /**
-     * Tests that rolling back a specific number of migrations only grabs that number of migrations
-     */
     public function testRollingBackSpecificNumberOfMigrationsOnlyGetsThatNumberOfMigrations(): void
     {
         $migrator = new Migrator(
@@ -126,9 +114,6 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
         $migrator->rollBackMigrations(2);
     }
 
-    /**
-     * Tests that running migrations when none have been executed calls up on all
-     */
     public function testRunningMigrationsWhenNoneHaveBeenExecutedCallsUpOnAll(): void
     {
         $migrator = new Migrator(

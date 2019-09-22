@@ -20,18 +20,12 @@ use stdClass;
  */
 class InstanceContainerBindingTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests that the binding is always resolved as a singleton
-     */
     public function testAlwaysResolvedAsSingleton(): void
     {
         $binding = new InstanceContainerBinding(new stdClass());
         $this->assertTrue($binding->resolveAsSingleton());
     }
 
-    /**
-     * Tests that the correct instance is returned
-     */
     public function testCorrectInstanceIsReturned(): void
     {
         $instance = new stdClass();

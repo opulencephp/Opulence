@@ -21,9 +21,6 @@ use Opulence\Databases\Providers\Types\TypeMapper;
  */
 class TypeMapperFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests that a type mapper is created
-     */
     public function testTypeMapperIsCreated(): void
     {
         /** @var Provider|\PHPUnit\Framework\TestCase $provider */

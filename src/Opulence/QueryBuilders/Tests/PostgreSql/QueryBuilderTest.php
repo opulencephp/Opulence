@@ -23,9 +23,6 @@ use Opulence\QueryBuilders\PostgreSql\UpdateQuery;
  */
 class QueryBuilderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests that the query builder returns a DeleteQuery when we call delete()
-     */
     public function testThatDeleteReturnsDeleteQueryBuilder(): void
     {
         $queryBuilder = new QueryBuilder();
@@ -35,9 +32,6 @@ class QueryBuilderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests that the query builder returns a InsertQuery when we call insert()
-     */
     public function testThatInsertReturnsInsertQueryBuilder(): void
     {
         $queryBuilder = new QueryBuilder();
@@ -47,9 +41,6 @@ class QueryBuilderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests that the query builder returns a SelectQuery when we call select()
-     */
     public function testThatSelectReturnsSelectQueryBuilder(): void
     {
         $queryBuilder = new QueryBuilder();
@@ -59,9 +50,6 @@ class QueryBuilderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests that the query builder returns a UpdateQuery when we call update()
-     */
     public function testThatUpdateReturnsUpdateQueryBuilder(): void
     {
         $queryBuilder = new QueryBuilder();

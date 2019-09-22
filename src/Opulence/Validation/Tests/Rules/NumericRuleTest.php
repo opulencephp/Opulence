@@ -19,9 +19,6 @@ use Opulence\Validation\Rules\NumericRule;
  */
 class NumericRuleTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests that a failing value
-     */
     public function testFailingValue(): void
     {
         $rule = new NumericRule();
@@ -29,18 +26,12 @@ class NumericRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($rule->passes('foo'));
     }
 
-    /**
-     * Tests getting the slug
-     */
     public function testGettingSlug(): void
     {
         $rule = new NumericRule();
         $this->assertEquals('numeric', $rule->getSlug());
     }
 
-    /**
-     * Tests a passing value
-     */
     public function testPassingValue(): void
     {
         $rule = new NumericRule();

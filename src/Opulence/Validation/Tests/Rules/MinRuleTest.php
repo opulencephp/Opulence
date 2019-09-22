@@ -21,9 +21,6 @@ use Opulence\Validation\Rules\MinRule;
  */
 class MinRuleTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests a failing rule
-     */
     public function testFailingRule(): void
     {
         $rule = new MinRule();
@@ -32,9 +29,6 @@ class MinRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($rule->passes(1.4));
     }
 
-    /**
-     * Tests getting error placeholders
-     */
     public function testGettingErrorPlaceholders(): void
     {
         $rule = new MinRule();
@@ -42,18 +36,12 @@ class MinRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['min' => 2], $rule->getErrorPlaceholders());
     }
 
-    /**
-     * Tests getting the slug
-     */
     public function testGettingSlug(): void
     {
         $rule = new MinRule();
         $this->assertEquals('min', $rule->getSlug());
     }
 
-    /**
-     * Tests not setting the args before passes
-     */
     public function testNotSettingArgBeforePasses(): void
     {
         $this->expectException(LogicException::class);
@@ -61,9 +49,6 @@ class MinRuleTest extends \PHPUnit\Framework\TestCase
         $rule->passes(2);
     }
 
-    /**
-     * Tests passing an empty arg array
-     */
     public function testPassingEmptyArgArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -71,9 +56,6 @@ class MinRuleTest extends \PHPUnit\Framework\TestCase
         $rule->setArgs([]);
     }
 
-    /**
-     * Tests passing an invalid arg
-     */
     public function testPassingInvalidArg(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -84,9 +66,6 @@ class MinRuleTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    /**
-     * Tests a passing value
-     */
     public function testPassingValue(): void
     {
         $rule = new MinRule();
@@ -96,9 +75,6 @@ class MinRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($rule->passes(2));
     }
 
-    /**
-     * Tests a value that is not inclusive
-     */
     public function testValueThatIsNotInclusive(): void
     {
         $rule = new MinRule();

@@ -31,9 +31,6 @@ class JwtVerifierTest extends \PHPUnit\Framework\TestCase
     /** @var VerificationContext The verification context to use in tests */
     private VerificationContext $context;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->verifier = new JwtVerifier();
@@ -47,9 +44,6 @@ class JwtVerifierTest extends \PHPUnit\Framework\TestCase
         $this->context = new VerificationContext($this->signer);
     }
 
-    /**
-     * Tests verifying a valid token
-     */
     public function testVerifyingValidToken(): void
     {
         $jwt = new SignedJwt(new JwtHeader(), new JwtPayload(), 'signature');

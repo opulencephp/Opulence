@@ -23,42 +23,27 @@ class RoleMembershipTest extends \PHPUnit\Framework\TestCase
     private RoleMembership $membership;
     private Role $role;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->role = new Role(1, 'foo');
         $this->membership = new RoleMembership(1, 2, $this->role);
     }
 
-    /**
-     * Tests getting the Id
-     */
     public function testGettingId(): void
     {
         $this->assertEquals(1, $this->membership->getId());
     }
 
-    /**
-     * Tests getting the role
-     */
     public function testGettingRole(): void
     {
         $this->assertSame($this->role, $this->membership->getRole());
     }
 
-    /**
-     * Tests getting the user Id
-     */
     public function testGettingUserId(): void
     {
         $this->assertEquals(2, $this->membership->getSubjectId());
     }
 
-    /**
-     * Tests setting the Id
-     */
     public function testSettingId(): void
     {
         $this->membership->setId(23);

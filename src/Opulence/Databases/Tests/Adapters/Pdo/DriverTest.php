@@ -21,9 +21,6 @@ use Opulence\Databases\Tests\Mocks\Server;
  */
 class DriverTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests connecting to a server
-     */
     public function testConnectingToServer(): void
     {
         $server = new Server();

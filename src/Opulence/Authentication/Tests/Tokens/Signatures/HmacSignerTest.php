@@ -28,9 +28,6 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
     /** @var ISignedToken|MockObject The signed token to use in tests */
     private ISignedToken $signedToken;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->unsignedToken = $this->createMock(IUnsignedToken::class);
@@ -43,18 +40,12 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
             ->willReturn('unsignedValue');
     }
 
-    /**
-     * Tests getting the algorithm
-     */
     public function testGettingAlgorithm(): void
     {
         $signer = new HmacSigner(Algorithms::RSA_SHA512, 'public', 'private');
         $this->assertEquals(Algorithms::RSA_SHA512, $signer->getAlgorithm());
     }
 
-    /**
-     * Tests signing with symmetric algorithms
-     */
     public function testSigningWithSymmetricAlgorithms(): void
     {
         $algorithms = [
@@ -72,18 +63,12 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * Tests that verifying an empty signature returns false
-     */
     public function testVerifyingEmptySignatureReturnsFalse(): void
     {
         $jws = new HmacSigner(Algorithms::SHA256, 'public');
         $this->assertFalse($jws->verify($this->signedToken->getUnsignedValue(), ''));
     }
 
-    /**
-     * Tests verifying symmetric algorithms
-     */
     public function testVerifyingSymmetricAlgorithms(): void
     {
         $algorithms = [

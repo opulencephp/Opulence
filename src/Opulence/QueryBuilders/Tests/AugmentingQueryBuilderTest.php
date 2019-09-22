@@ -19,9 +19,6 @@ use Opulence\QueryBuilders\AugmentingQueryBuilder;
  */
 class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests adding multiple columns
-     */
     public function testAddingMultipleColumns(): void
     {
         $queryBuilder = new AugmentingQueryBuilder();
@@ -30,9 +27,6 @@ class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['name' => 'dave', 'email' => 'foo@bar.com'], $queryBuilder->getColumnNamesToValues());
     }
 
-    /**
-     * Tests adding a single column
-     */
     public function testAddingSingleColumn(): void
     {
         $queryBuilder = new AugmentingQueryBuilder();

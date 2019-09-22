@@ -21,9 +21,6 @@ use Opulence\Validation\Rules\CallbackRule;
  */
 class CallbackRuleTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests that the callback is executed
-     */
     public function testCallbackIsExecuted(): void
     {
         $correctInputWasPassed = false;
@@ -38,9 +35,6 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($correctInputWasPassed);
     }
 
-    /**
-     * Tests that the callback's return value is respected
-     */
     public function testCallbackReturnValueIsRespected(): void
     {
         $trueCallback = function () {
@@ -57,18 +51,12 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($failRule->passes('bar'));
     }
 
-    /**
-     * Tests getting the slug
-     */
     public function testGettingSlug(): void
     {
         $rule = new CallbackRule();
         $this->assertEquals('callback', $rule->getSlug());
     }
 
-    /**
-     * Tests not setting the args before passes
-     */
     public function testNotSettingArgBeforePasses(): void
     {
         $this->expectException(LogicException::class);
@@ -76,9 +64,6 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
         $rule->passes('foo');
     }
 
-    /**
-     * Tests passing an empty arg array
-     */
     public function testPassingEmptyArgArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -86,9 +71,6 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
         $rule->setArgs([]);
     }
 
-    /**
-     * Tests passing an invalid arg
-     */
     public function testPassingInvalidArg(): void
     {
         $this->expectException(InvalidArgumentException::class);

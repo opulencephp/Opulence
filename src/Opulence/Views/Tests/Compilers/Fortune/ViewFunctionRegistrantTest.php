@@ -27,9 +27,6 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     /** @var Transpiler The transpiler to use in tests */
     private Transpiler $transpiler;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $xssFilter = new XssFilter();
@@ -41,9 +38,6 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
         $this->transpiler = new Transpiler(new Lexer(), new Parser(), $cache, $xssFilter);
     }
 
-    /**
-     * Tests the CSS function
-     */
     public function testCSSFunction(): void
     {
         // Test a single value
@@ -61,9 +55,6 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests the charset function
-     */
     public function testCharsetFunction(): void
     {
         $charset = 'utf-8';
@@ -73,9 +64,6 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests the favicon function
-     */
     public function testFaviconFunction(): void
     {
         $path = 'foo';
@@ -98,9 +86,6 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests the HTTP method input
-     */
     public function testHttpMethodInput(): void
     {
         $httpMethod = 'PUT';
@@ -110,9 +95,6 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests the meta description function
-     */
     public function testMetaDescriptionFunction(): void
     {
         $metaDescription = 'A&W is a root beer';
@@ -122,9 +104,6 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests the meta keywords function
-     */
     public function testMetaKeywordsFunction(): void
     {
         $metaKeywords = ['A&W', 'root beer'];
@@ -134,9 +113,6 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests the script function
-     */
     public function testScriptFunction(): void
     {
         // Test a single value
@@ -168,9 +144,6 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests the HTML title function
-     */
     public function testTitleFunction(): void
     {
         $title = 'A&W';

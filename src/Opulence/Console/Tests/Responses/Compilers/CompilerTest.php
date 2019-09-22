@@ -26,17 +26,11 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /** @var Compiler The compiler to use in tests */
     private $compiler;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->compiler = new Compiler(new Lexer(), new Parser());
     }
 
-    /**
-     * Tests compiling adjacent elements
-     */
     public function testCompilingAdjacentElements(): void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
@@ -48,9 +42,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling an element with no children
-     */
     public function testCompilingElementWithNoChildren(): void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
@@ -62,9 +53,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling an element without applying styles
-     */
     public function testCompilingElementWithoutApplyingStyles(): void
     {
         $this->compiler->setStyled(false);
@@ -73,9 +61,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bazblah', $this->compiler->compile('<foo>baz</foo><bar>blah</bar>'));
     }
 
-    /**
-     * Tests compiling an escaped tag at the beginning of the string
-     */
     public function testCompilingEscapedTagAtBeginning(): void
     {
         $this->compiler->registerElement('foo', new Style('green'));
@@ -83,9 +68,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->compiler->compile('\\<bar>'));
     }
 
-    /**
-     * Tests compiling an escaped tag in between tags
-     */
     public function testCompilingEscapedTagInBetweenTags(): void
     {
         $this->compiler->registerElement('foo', new Style('green'));
@@ -93,9 +75,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->compiler->compile('<foo>\\<bar></foo>'));
     }
 
-    /**
-     * Tests compiling nested elements
-     */
     public function testCompilingNestedElements(): void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
@@ -107,9 +86,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling nested elements with no children
-     */
     public function testCompilingNestedElementsWithNoChildren(): void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
@@ -121,9 +97,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling nested elements with words in between
-     */
     public function testCompilingNestedElementsWithWordsInBetween(): void
     {
         $this->compiler->registerElement('foo', new Style('green', 'white'));
@@ -135,9 +108,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling plain text
-     */
     public function testCompilingPlainText(): void
     {
         $expectedOutput = 'foobar';
@@ -147,9 +117,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Tests compiling a single element
-     */
     public function testCompilingSingleElement(): void
     {
         $this->compiler->registerElement('foo', new Style('green'));
@@ -157,27 +124,18 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutput, $this->compiler->compile('<foo>bar</foo>'));
     }
 
-    /**
-     * Tests compiling unclosed element
-     */
     public function testCompilingUnclosedElement(): void
     {
         $this->expectException(RuntimeException::class);
         $this->compiler->compile('<foo>bar');
     }
 
-    /**
-     * Tests compiling unregistered element
-     */
     public function testCompilingUnregisteredElement(): void
     {
         $this->expectException(RuntimeException::class);
         $this->compiler->compile('<foo>bar</foo>');
     }
 
-    /**
-     * Tests incorrectly nested elements
-     */
     public function testIncorrectlyNestedElements(): void
     {
         $this->expectException(RuntimeException::class);

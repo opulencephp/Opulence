@@ -22,9 +22,6 @@ use Opulence\Console\Responses\Compilers\Elements\TextStyles;
  */
 class StyleTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests adding an invalid text style
-     */
     public function testAddingInvalidTextStyle(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -32,9 +29,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $style->addTextStyle('foo');
     }
 
-    /**
-     * Tests adding invalid text styles
-     */
     public function testAddingInvalidTextStyles(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -54,36 +48,24 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([TextStyles::BOLD, TextStyles::UNDERLINE], $style->getTextStyles());
     }
 
-    /**
-     * Tests formatting an empty string
-     */
     public function testFormattingEmptyString(): void
     {
         $styles = new Style(Colors::RED, Colors::GREEN, [TextStyles::BOLD, TextStyles::UNDERLINE, TextStyles::BLINK]);
         $this->assertEquals('', $styles->format(''));
     }
 
-    /**
-     * Tests formatting a string with all styles
-     */
     public function testFormattingStringWithAllStyles(): void
     {
         $styles = new Style(Colors::RED, Colors::GREEN, [TextStyles::BOLD, TextStyles::UNDERLINE, TextStyles::BLINK]);
         $this->assertEquals("\033[31;42;1;4;5mfoo\033[39;49;22;24;25m", $styles->format('foo'));
     }
 
-    /**
-     * Tests formatting a string without styles
-     */
     public function testFormattingStringWithoutStyles(): void
     {
         $styles = new Style();
         $this->assertEquals('foo', $styles->format('foo'));
     }
 
-    /**
-     * Tests not passing anything in the constructor
-     */
     public function testNotPassingAnythingInConstructor(): void
     {
         $style = new Style();
@@ -91,9 +73,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($style->getBackgroundColor());
     }
 
-    /**
-     * Tests not passing colors in the constructor
-     */
     public function testPassingColorsInConstructor(): void
     {
         $style = new Style(Colors::BLUE, Colors::GREEN);
@@ -101,9 +80,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Colors::GREEN, $style->getBackgroundColor());
     }
 
-    /**
-     * Tests removing an invalid text style
-     */
     public function testRemovingInvalidTextStyle(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -112,9 +88,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $style->removeTextStyle('foo');
     }
 
-    /**
-     * Tests removing a text style
-     */
     public function testRemovingTextStyle(): void
     {
         $style = new Style(null, null, [TextStyles::BOLD]);
@@ -122,9 +95,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $style->getTextStyles());
     }
 
-    /**
-     * Tests setting the background color
-     */
     public function testSettingBackgroundColor(): void
     {
         $style = new Style();
@@ -132,9 +102,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Colors::GREEN, $style->getBackgroundColor());
     }
 
-    /**
-     * Tests setting the foreground color
-     */
     public function testSettingForegroundColor(): void
     {
         $style = new Style();
@@ -142,9 +109,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Colors::BLUE, $style->getForegroundColor());
     }
 
-    /**
-     * Tests setting the background color to an invalid value
-     */
     public function testSettingInvalidBackgroundColor(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -152,18 +116,12 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $style->setBackgroundColor('foo');
     }
 
-    /**
-     * Tests setting the background color to an invalid value in the constructor
-     */
     public function testSettingInvalidBackgroundColorInConstructor(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new Style(null, 'foo');
     }
 
-    /**
-     * Tests setting the foreground color to an invalid value
-     */
     public function testSettingInvalidForegroundColor(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -171,27 +129,18 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $style->setForegroundColor('foo');
     }
 
-    /**
-     * Tests setting the foreground color to an invalid value in the constructor
-     */
     public function testSettingInvalidForegroundColorInConstructor(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new Style('foo');
     }
 
-    /**
-     * Tests setting the text styles to an invalid value in the constructor
-     */
     public function testSettingInvalidTextStylesInConstructor(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new Style(null, null, ['foo']);
     }
 
-    /**
-     * Tests setting the background color to null
-     */
     public function testSettingNullBackgroundColor(): void
     {
         $style = new Style();
@@ -199,9 +148,6 @@ class StyleTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($style->getBackgroundColor());
     }
 
-    /**
-     * Tests setting the foreground color to null
-     */
     public function testSettingNullForegroundColor(): void
     {
         $style = new Style();

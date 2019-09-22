@@ -21,17 +21,11 @@ use Opulence\Databases\Tests\Mocks\Server as MockServer;
  */
 class ConnectionPoolTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests getting the list of driver names
-     */
     public function testGettingDriverNames(): void
     {
         $this->assertEquals(['pdo_mysql', 'pdo_pgsql'], ConnectionPool::getDriverNames());
     }
 
-    /**
-     * Tests setting the master
-     */
     public function testSettingMaster(): void
     {
         $connectionPool = new ConnectionPool(new Driver(), new MockServer());

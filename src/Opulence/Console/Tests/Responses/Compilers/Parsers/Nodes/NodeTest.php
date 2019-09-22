@@ -19,9 +19,6 @@ use Opulence\Console\Tests\Responses\Compilers\Parsers\Nodes\Mocks\Node;
  */
 class NodeTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests adding a child
-     */
     public function testAddingChild(): void
     {
         $parent = new Node('foo');
@@ -31,9 +28,6 @@ class NodeTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($parent, $child->getParent());
     }
 
-    /**
-     * Tests checking if nodes are leaves
-     */
     public function testCheckingIfLeaves(): void
     {
         $parent = new Node('foo');
@@ -43,9 +37,6 @@ class NodeTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($child->isLeaf());
     }
 
-    /**
-     * Tests checking if nodes are roots
-     */
     public function testCheckingIfRoots(): void
     {
         $parent = new Node('foo');
@@ -55,9 +46,6 @@ class NodeTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($child->isRoot());
     }
 
-    /**
-     * Tests getting the value
-     */
     public function testGettingValue(): void
     {
         $node = new Node('foo');

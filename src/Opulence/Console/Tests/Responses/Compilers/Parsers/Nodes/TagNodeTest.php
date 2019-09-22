@@ -19,9 +19,6 @@ use Opulence\Console\Responses\Compilers\Parsers\Nodes\TagNode;
  */
 class TagNodeTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Tests checking if a root node is a tag
-     */
     public function testIsTag(): void
     {
         $node = new TagNode('foo');

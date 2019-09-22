@@ -27,18 +27,12 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
     /** @var IEncrypter|MockObject The Opulence encrypter the session encrypter uses */
     private IEncrypter $opulenceEncrypter;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->opulenceEncrypter = $this->createMock(IEncrypter::class);
         $this->sessionEncrypter = new SessionEncrypter($this->opulenceEncrypter);
     }
 
-    /**
-     * Tests that the Opulence encrypter's exceptions are converted when decrypting
-     */
     public function testOpulenceEncrypterExceptionIsConvertedWhenDecrypting(): void
     {
         $this->expectException(SessionEncryptionException::class);
@@ -49,9 +43,6 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
         $this->sessionEncrypter->decrypt('foo');
     }
 
-    /**
-     * Tests that the Opulence encrypter's exceptions are converted when encrypting
-     */
     public function testOpulenceEncrypterExceptionIsConvertedWhenEncrypting(): void
     {
         $this->expectException(SessionEncryptionException::class);
@@ -62,9 +53,6 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
         $this->sessionEncrypter->encrypt('foo');
     }
 
-    /**
-     * Tests that the Opulence encrypter is used to decrypt data
-     */
     public function testOpulenceEncrypterUsedToDecryptData(): void
     {
         $this->opulenceEncrypter->expects($this->once())
@@ -74,9 +62,6 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $this->sessionEncrypter->decrypt('foo'));
     }
 
-    /**
-     * Tests that the Opulence encrypter is used to encrypt data
-     */
     public function testOpulenceEncrypterUsedToEncryptData(): void
     {
         $this->opulenceEncrypter->expects($this->once())

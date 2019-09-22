@@ -40,9 +40,6 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     private User $entity2;
     private User $entity3;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $idAccessorRegistry = new IdAccessorRegistry();
@@ -86,9 +83,6 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->entity3 = new User(345, 'baz');
     }
 
-    /**
-     * Tests seeing if the unit of work picks up on an update made outside of it
-     */
     public function testCheckingIfEntityUpdateIsDetected(): void
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
@@ -104,9 +98,6 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->assertContains($this->entity1, $scheduledFoUpdate);
     }
 
-    /**
-     * Tests checking if an entity update is detected after copying its pointer to another variable
-     */
     public function testCheckingIfEntityUpdateIsDetectedAfterCopyingPointer(): void
     {
         $foo = $this->getInsertedEntity();
@@ -116,9 +107,6 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($bar, $this->dataMapper->getById($foo->getId()));
     }
 
-    /**
-     * Tests checking if an entity update is detected after it is returned by a function
-     */
     public function testCheckingIfEntityUpdateIsDetectedAfterReturningFromFunction(): void
     {
         $foo = $this->getInsertedEntity();
@@ -144,9 +132,6 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(in_array($this->entity1, $this->unitOfWork->getScheduledEntityUpdates()));
     }
 
-    /**
-     * Tests disposing of the unit of work
-     */
     public function testDisposing(): void
     {
         $this->entityRegistry->registerEntity($this->entity1);
@@ -158,17 +143,11 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $this->unitOfWork->getScheduledEntityUpdates());
     }
 
-    /**
-     * Tests getting the entity registry
-     */
     public function testGettingEntityRegistry(): void
     {
         $this->assertSame($this->entityRegistry, $this->unitOfWork->getEntityRegistry());
     }
 
-    /**
-     * Tests that the Id is not generated and set when no generator is registered
-     */
     public function testIdNotGeneratedNorSetWhenGeneratorNotRegistered(): void
     {
         $idAccessorRegistry = new IdAccessorRegistry();
@@ -211,9 +190,6 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(123, $this->entity1->getId());
     }
 
-    /**
-     * Tests that the Id is not generated and set when no generator is registered
-     */
     public function testIdNotResetOnRollbackWhenGeneratorNotRegistered(): void
     {
         $idAccessorRegistry = new IdAccessorRegistry();
@@ -259,9 +235,6 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(123, $this->entity1->getId());
     }
 
-    /**
-     * Tests inserting and deleting an entity in a single transaction
-     */
     public function testInsertingAndDeletingEntity(): void
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
@@ -276,9 +249,6 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->dataMapper->getById($this->entity1->getId());
     }
 
-    /**
-     * Tests making sure an unchanged registered entity isn't scheduled for update
-     */
     public function testMakingSureUnchangedEntityIsNotScheduledForUpdate(): void
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
@@ -307,9 +277,6 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($this->entity1, $dataMapper->getCacheDataMapper()->getById($this->entity1->getId()));
     }
 
-    /**
-     * Tests scheduling a deletion for an entity
-     */
     public function testSchedulingDeletionEntity(): void
     {
         $this->unitOfWork->registerDataMapper($this->entityRegistry->getClassName($this->entity1), $this->dataMapper);
@@ -327,9 +294,6 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->dataMapper->getById($this->entity1->getId());
     }
 
-    /**
-     * Tests scheduling an insertion for an entity
-     */
     public function testSchedulingInsertionEntity(): void
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
@@ -350,9 +314,6 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedId, $this->entity1->getId());
     }
 
-    /**
-     * Tests scheduling an update for an entity
-     */
     public function testSchedulingUpdate(): void
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
@@ -371,9 +332,6 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));
     }
 
-    /**
-     * Tests setting the aggregate root on inserted entities
-     */
     public function testSettingAggregateRootOnInsertedEntities(): void
     {
         $originalAggregateRootId = $this->entity1->getId();
@@ -395,9 +353,6 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($this->entity1->getId(), $this->entity2->getAggregateRootId());
     }
 
-    /**
-     * Tests setting the aggregate root on updated entities
-     */
     public function testSettingAggregateRootOnUpdatedEntities(): void
     {
         $originalAggregateRootId = $this->entity1->getId();
@@ -419,18 +374,12 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($this->entity1->getId(), $this->entity2->getAggregateRootId());
     }
 
-    /**
-     * Tests to make sure that an entity's Id is being set after it's committed
-     */
     public function testThatEntityIdIsBeingSetAfterCommit(): void
     {
         $foo = $this->getInsertedEntity();
         $this->assertEquals(1, $foo->getId());
     }
 
-    /**
-     * Tests an unsuccessful commit
-     */
     public function testUnsuccessfulCommit(): void
     {
         $exceptionThrown = false;

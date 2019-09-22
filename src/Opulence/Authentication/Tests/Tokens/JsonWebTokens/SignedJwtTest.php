@@ -29,18 +29,12 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     private JwtHeader $header;
     private JwtPayload $payload;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->header = new JwtHeader();
         $this->payload = new JwtPayload();
     }
 
-    /**
-     * Tests creating a signed JWT from an unsigned JWT
-     */
     public function testCreatingFromUnsignedToken(): void
     {
         $signedJwt = SignedJwt::createFromUnsignedJwt(new UnsignedJwt($this->header, $this->payload), 'foo');
@@ -61,9 +55,6 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('', $signedJwt->getSignature());
     }
 
-    /**
-     * Tests creating token from string
-     */
     public function testDecodingEncodedToken(): void
     {
         $signer = new HmacSigner(Algorithms::SHA256, 'public');
@@ -74,9 +65,6 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
         $this->assertTokensEqual($signedJwt, SignedJwt::createFromString($token), false);
     }
 
-    /**
-     * Tests encoding and decoding RSA algorithms
-     */
     public function testEncodingDecodingRsaAlgorithms(): void
     {
         $algorithms = [
@@ -104,27 +92,18 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * Tests that an exception is thrown with an invalid number of segments
-     */
     public function testExceptionThrownWithInvalidNumberSegments(): void
     {
         $this->expectException(InvalidArgumentException::class);
         SignedJwt::createFromString('foo.bar');
     }
 
-    /**
-     * Tests that an exception is thrown with no algorithm set
-     */
     public function testExceptionThrownWithNoAlgorithmSet(): void
     {
         $this->expectException(InvalidArgumentException::class);
         SignedJwt::createFromString(base64_encode('foo') . '.' . base64_encode('bar') . '.' . base64_encode('baz'));
     }
 
-    /**
-     * Tests getting the signature
-     */
     public function testGettingSignature(): void
     {
         $jwt = new SignedJwt($this->header, $this->payload, 'signature');

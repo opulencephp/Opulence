@@ -24,9 +24,6 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /** @var ICondition The condition to use in tests */
     private $condition;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->condition = $this->createMock(ICondition::class);
@@ -38,9 +35,6 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
             ->willReturn([[1, PDO::PARAM_INT]]);
     }
 
-    /**
-     * Tests adding more columns
-     */
     public function testAddingMoreColumns(): void
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
@@ -52,9 +46,6 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
         ], $query->getParameters());
     }
 
-    /**
-     * Tests a basic query
-     */
     public function testBasicQuery(): void
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);

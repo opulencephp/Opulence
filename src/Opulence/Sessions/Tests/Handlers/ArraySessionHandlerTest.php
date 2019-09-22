@@ -21,33 +21,21 @@ class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
     private ArraySessionHandler $handler;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->handler = new ArraySessionHandler();
     }
 
-    /**
-     * Tests the close function
-     */
     public function testClose(): void
     {
         $this->assertTrue($this->handler->close());
     }
 
-    /**
-     * Tests garbage collection
-     */
     public function testGarbageCollection(): void
     {
         $this->assertTrue($this->handler->gc(-1));
     }
 
-    /**
-     * Tests the open function
-     */
     public function testOpen(): void
     {
         $this->assertTrue($this->handler->open('foo', '123'));
@@ -61,9 +49,6 @@ class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($this->handler->read('non-existent'));
     }
 
-    /**
-     * Tests writing a session
-     */
     public function testWritingSession(): void
     {
         $this->handler->write('foo', 'bar');

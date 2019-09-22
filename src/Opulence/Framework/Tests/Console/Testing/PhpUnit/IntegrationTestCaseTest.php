@@ -31,9 +31,6 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
 {
     private MockIntegrationTestCase $testCase;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->testCase = new MockIntegrationTestCase();
@@ -47,17 +44,11 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
         $this->testCase->getCommandCollection()->add(new MultiplePromptsCommand($prompt));
     }
 
-    /**
-     * Tests that call returns this
-     */
     public function testCallReturnsThis(): void
     {
         $this->assertSame($this->testCase, $this->testCase->execute('simple'));
     }
 
-    /**
-     * Tests calling a command with multiple prompts
-     */
     public function testCallingCommandWithMultiplePrompts(): void
     {
         $this->testCase->execute('multipleprompts', [], [], ['foo', 'bar'])
@@ -68,9 +59,6 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
             ->outputEquals('Default1Default2');
     }
 
-    /**
-     * Tests calling a command with a single prompt
-     */
     public function testCallingCommandWithSinglePrompt(): void
     {
         $this->testCase->execute('singleprompt', [], [], 'A duck')
@@ -92,25 +80,16 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
             ->isOK();
     }
 
-    /**
-     * Tests that a command builder is created
-     */
     public function testCommandBuilderCreated(): void
     {
         $this->assertInstanceOf(CommandBuilder::class, $this->testCase->command('foo'));
     }
 
-    /**
-     * Tests getting the commands
-     */
     public function testGettingCommands(): void
     {
         $this->assertInstanceOf(CommandCollection::class, $this->testCase->getCommandCollection());
     }
 
-    /**
-     * Tests getting the output of a command without an option
-     */
     public function testGettingOutputOfOptionlessCommand(): void
     {
         $this->testCase->execute('simple')
@@ -119,9 +98,6 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
             ->outputEquals('foo');
     }
 
-    /**
-     * Tests getting the output of a command with an option
-     */
     public function testGettingOutputWithOption(): void
     {
         $this->testCase->execute('holiday', ['birthday'], ['--yell'])
@@ -130,9 +106,6 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
             ->outputEquals('Happy birthday!');
     }
 
-    /**
-     * Tests that the response assertions work
-     */
     public function testResponseAssertionsWork(): void
     {
         $this->testCase->execute('simple')
@@ -140,9 +113,6 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
             ->isOK();
     }
 
-    /**
-     * Tests styling and unstyling a response
-     */
     public function testStylingAndUnstylingResponse(): void
     {
         $this->testCase->execute('stylish')
@@ -153,9 +123,6 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
             ->outputEquals("I've got style");
     }
 
-    /**
-     * Tests that the response is cleared before each command is run
-     */
     public function testThatResponseIsClearedBeforeEachCommand(): void
     {
         $this->testCase->execute('stylish', [], [], [], false)

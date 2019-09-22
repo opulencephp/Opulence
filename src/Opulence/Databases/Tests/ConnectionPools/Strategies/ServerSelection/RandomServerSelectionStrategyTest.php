@@ -24,26 +24,17 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
 {
     private RandomServerSelectionStrategy $strategy;
 
-    /**
-     * Sets up the tests
-     */
     protected function setUp(): void
     {
         $this->strategy = new RandomServerSelectionStrategy();
     }
 
-    /**
-     * Tests that an exception is thrown when passing an empty list of servers
-     */
     public function testExceptionThrownWithEmptyListOfServers(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->strategy->select([]);
     }
 
-    /**
-     * Tests selecting from a list of a servers
-     */
     public function testSelectingFromListOfServers(): void
     {
         $server1 = $this->getServerMock();
@@ -51,18 +42,12 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(in_array($this->strategy->select([$server1, $server2]), [$server1, $server2]));
     }
 
-    /**
-     * Tests selecting from a list of a single server
-     */
     public function testSelectingFromListOfSingleServer(): void
     {
         $server = $this->getServerMock();
         $this->assertSame($server, $this->strategy->select([$server]));
     }
 
-    /**
-     * Tests selecting from a single server
-     */
     public function testSelectingFromSingleServer(): void
     {
         $server = $this->getServerMock();
