@@ -20,7 +20,7 @@ use LogicException;
 class ConditionalRule extends CallbackRule
 {
     /** @var IRule[] The list of rules to evaluate if the condition is true */
-    protected $rules = [];
+    protected array $rules = [];
 
     /**
      * Adds a rule to evaluate if the condition is true

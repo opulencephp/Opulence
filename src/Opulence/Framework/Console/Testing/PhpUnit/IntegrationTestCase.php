@@ -36,25 +36,25 @@ use PHPUnit\Framework\TestCase;
 abstract class IntegrationTestCase extends TestCase
 {
     /** @var IContainer The IoC container */
-    protected $container;
+    protected IContainer $container;
     /** @var CommandCollection The list of registered commands */
-    protected $commandCollection;
+    protected CommandCollection $commandCollection;
     /** @var ICompiler The command compiler */
-    protected $commandCompiler;
+    protected ICompiler $commandCompiler;
     /** @var IResponseCompiler The response compiler */
-    protected $responseCompiler;
+    protected IResponseCompiler $responseCompiler;
     /** @var Kernel The console kernel */
-    protected $kernel;
+    protected Kernel $kernel;
     /** @var IRequestParser The request parser */
-    protected $requestParser;
+    protected IRequestParser $requestParser;
     /** @var ResponseAssertions The response assertions */
-    protected $assertResponse;
+    protected ResponseAssertions $assertResponse;
     /** @var Response The last response */
-    protected $response;
+    protected Response $response;
     /** @var int The last status code */
-    protected $statusCode = -1;
-    /** @var MockObject The prompt to use in tests */
-    protected $prompt;
+    protected int $statusCode = -1;
+    /** @var Prompt|MockObject The prompt to use in tests */
+    protected Prompt $prompt;
 
     /**
      * Creates a command builder

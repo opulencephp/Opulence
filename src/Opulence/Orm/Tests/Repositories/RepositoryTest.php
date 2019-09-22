@@ -31,16 +31,11 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class RepositoryTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var User An entity to use in the tests */
-    private $entity1;
-    /** @var User An entity to use in the tests */
-    private $entity2;
-    /** @var UnitOfWork The unit of work to use in the tests */
-    private $unitOfWork;
-    /** @var SQLDataMapper The data mapper to use in tests */
-    private $dataMapper;
-    /** @var Repository The repository to test */
-    private $repo;
+    private User $entity1;
+    private User $entity2;
+    private UnitOfWork $unitOfWork;
+    private SqlDataMapper $dataMapper;
+    private Repository $repo;
 
     /**
      * Sets up the tests

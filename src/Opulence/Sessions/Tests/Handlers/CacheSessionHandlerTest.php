@@ -21,10 +21,9 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var CacheSessionHandler The handler to use in tests */
-    private $handler;
+    private CacheSessionHandler $handler;
     /** @var ICacheBridge|MockObject The bridge to use in tests */
-    private $bridge;
+    private ICacheBridge $bridge;
 
     /**
      * Sets up the tests

@@ -20,8 +20,8 @@ use LogicException;
  */
 class InRule implements IRuleWithArgs
 {
-    /** @var array The value to compare against */
-    protected $array;
+    /** @var array|null The value to compare against */
+    protected ?array $array = null;
 
     /**
      * @inheritdoc

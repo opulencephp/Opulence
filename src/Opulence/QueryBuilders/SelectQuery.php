@@ -21,21 +21,21 @@ use Opulence\QueryBuilders\Conditions\ICondition;
 class SelectQuery extends Query
 {
     /** @var ConditionalQueryBuilder Handles functionality common to conditional queries */
-    protected $conditionalQueryBuilder;
+    protected ConditionalQueryBuilder $conditionalQueryBuilder;
     /** @var array The list of select expressions */
-    protected $selectExpressions = [];
+    protected array $selectExpressions = [];
     /** @var array The list of join statements */
-    protected $joins = ['inner' => [], 'left' => [], 'right' => []];
+    protected array $joins = ['inner' => [], 'left' => [], 'right' => []];
     /** @var array The list of group by clauses */
-    protected $groupByClauses = [];
+    protected array $groupByClauses = [];
     /** @var array The list of having conditions */
-    protected $havingConditions = [];
+    protected array $havingConditions = [];
     /** @var int|string $limit The number of rows to limit to */
     protected $limit = -1;
     /** @var int|string $offset The number of rows to offset by */
     protected $offset = -1;
     /** @var array The list of expressions to order by */
-    protected $orderBy = [];
+    protected array $orderBy = [];
 
     /**
      * @param string[] $expression,... A variable list of select expressions

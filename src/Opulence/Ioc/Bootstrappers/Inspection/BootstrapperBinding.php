@@ -20,9 +20,9 @@ use Opulence\Ioc\Bootstrappers\Bootstrapper;
 abstract class BootstrapperBinding
 {
     /** @var string The interface that was bound */
-    protected $interface;
+    protected string $interface;
     /** @var Bootstrapper The bootstrapper that registered the binding */
-    protected $bootstrapper;
+    protected Bootstrapper $bootstrapper;
 
     /**
      * @param string $interface The interface that was bound

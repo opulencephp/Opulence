@@ -22,11 +22,11 @@ use Opulence\Validation\Rules\Errors\ErrorCollection;
 abstract class ModelState
 {
     /** @var IValidatorFactory The validator factory */
-    protected $validatorFactory;
+    protected IValidatorFactory $validatorFactory;
     /** @var bool Whether or not the model state is valid */
-    protected $isValid = false;
+    protected bool $isValid = false;
     /** @var ErrorCollection The list of errors */
-    protected $errors;
+    protected ErrorCollection $errors;
 
     /**
      * @param object $model The model being validated

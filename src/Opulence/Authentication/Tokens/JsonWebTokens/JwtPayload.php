@@ -21,7 +21,7 @@ use InvalidArgumentException;
 class JwtPayload
 {
     /** @var array The extra claims */
-    private $claims = [
+    private array $claims = [
         'iss' => null,
         'sub' => null,
         'aud' => null,
@@ -31,7 +31,7 @@ class JwtPayload
         'jti' => null
     ];
     /** @var string The salt used to make the JTI random */
-    private $jtiSalt;
+    private string $jtiSalt;
 
     public function __construct()
     {

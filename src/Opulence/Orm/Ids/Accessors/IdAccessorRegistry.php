@@ -23,7 +23,7 @@ use ReflectionException;
 class IdAccessorRegistry implements IIdAccessorRegistry
 {
     /** @var callable[] The mapping of class names to their getter and setter functions */
-    protected $idAccessorFunctions = [];
+    protected array $idAccessorFunctions = [];
 
     public function __construct()
     {

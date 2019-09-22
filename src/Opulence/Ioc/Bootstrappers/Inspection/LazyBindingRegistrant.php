@@ -20,9 +20,9 @@ use Opulence\Ioc\IContainer;
 final class LazyBindingRegistrant
 {
     /** @var IContainer The container to bind our resolvers to */
-    private $container;
+    private IContainer $container;
     /** @var array The list of already-dispatched bootstrapper classes */
-    private $alreadyDispatchedBootstrapperClasses = [];
+    private array $alreadyDispatchedBootstrapperClasses = [];
 
     /**
      * @param IContainer $container The container to bind our resolvers to

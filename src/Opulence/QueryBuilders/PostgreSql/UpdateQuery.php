@@ -19,9 +19,6 @@ use Opulence\QueryBuilders\UpdateQuery as BaseUpdateQuery;
  */
 class UpdateQuery extends BaseUpdateQuery
 {
-    /** @var AugmentingQueryBuilder Handles functionality common to augmenting queries */
-    protected $augmentingQueryBuilder;
-
     /**
      * @param string $tableName The name of the table we're querying
      * @param string $tableAlias The alias of the table we're querying

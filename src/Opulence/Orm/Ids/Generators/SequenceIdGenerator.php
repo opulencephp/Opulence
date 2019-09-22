@@ -19,10 +19,10 @@ use Opulence\Databases\IConnection;
  */
 abstract class SequenceIdGenerator implements IIdGenerator
 {
-    /** @var IConnection The connection to use */
-    protected $connection;
+    /** @var IConnection|null The connection to use */
+    protected ?IConnection $connection = null;
     /** @var string The name of the sequence */
-    protected $sequenceName;
+    protected string $sequenceName;
 
     /**
      * @param string $sequenceName The name of the sequence

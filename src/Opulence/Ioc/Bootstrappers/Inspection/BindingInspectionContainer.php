@@ -22,9 +22,9 @@ use Opulence\Ioc\Container;
 final class BindingInspectionContainer extends Container
 {
     /** @var BootstrapperBinding[] The bootstrapper bindings that were found */
-    private $bootstrapperBindings = [];
+    private array $bootstrapperBindings = [];
     /** @var Bootstrapper The current bootstrapper class */
-    private $currBootstrapper;
+    private Bootstrapper $currBootstrapper;
 
     /**
      * @inheritdoc

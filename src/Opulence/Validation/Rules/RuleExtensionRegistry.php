@@ -20,7 +20,7 @@ use InvalidArgumentException;
 class RuleExtensionRegistry
 {
     /** @var IRule[] The list of rule extensions */
-    protected $extensions = [];
+    protected array $extensions = [];
 
     /**
      * Gets the rule extension with the input name

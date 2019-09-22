@@ -21,9 +21,9 @@ use SessionHandlerInterface;
 abstract class SessionHandler implements IEncryptableSessionHandler, SessionHandlerInterface
 {
     /** @var bool Whether or not this handler encrypts the session when storing it */
-    protected $usesEncryption = false;
-    /** @var ISessionEncrypter The encrypter to use for encrypted sessions */
-    protected $encrypter;
+    protected bool $usesEncryption = false;
+    /** @var ISessionEncrypter|null The encrypter to use for encrypted sessions */
+    protected ?ISessionEncrypter $encrypter = null;
 
     /**
      * @inheritdoc

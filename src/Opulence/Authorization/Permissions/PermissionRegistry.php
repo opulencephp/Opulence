@@ -18,11 +18,11 @@ namespace Opulence\Authorization\Permissions;
 class PermissionRegistry implements IPermissionRegistry
 {
     /** @var callable[] The list of override callbacks */
-    protected $overrideCallbacks = [];
+    protected array $overrideCallbacks = [];
     /** @var callable[] The mapping of permissions to callbacks */
-    protected $permissionCallbacks = [];
+    protected array $permissionCallbacks = [];
     /** @var array The mapping of permissions to subject roles */
-    protected $permissionsToRoles = [];
+    protected array $permissionsToRoles = [];
 
     /**
      * @inheritdoc

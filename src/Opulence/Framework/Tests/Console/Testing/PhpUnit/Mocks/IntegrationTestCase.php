@@ -30,7 +30,7 @@ use Opulence\Views\Caching\ICache as ViewCache;
 class IntegrationTestCase extends BaseIntegrationTestCase
 {
     /** @var array The list of bootstrapper classes to include */
-    private static $bootstrappers = [
+    private static array $bootstrappers = [
         CommandsBootstrapper::class,
         ComposerBootstrapper::class
     ];

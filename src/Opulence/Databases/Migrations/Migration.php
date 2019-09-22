@@ -20,7 +20,7 @@ use Opulence\Databases\IConnection;
 abstract class Migration implements IMigration
 {
     /** @var IConnection The connection to use in the migration */
-    protected $connection;
+    protected IConnection $connection;
 
     /**
      * @param IConnection $connection The connection to use in the migration

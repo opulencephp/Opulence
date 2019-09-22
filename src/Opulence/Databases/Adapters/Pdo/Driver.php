@@ -23,7 +23,7 @@ use Opulence\Databases\Server;
 abstract class Driver implements IDriver
 {
     /** @var Provider The provider this driver uses */
-    protected $provider;
+    protected Provider $provider;
 
     public function __construct()
     {

@@ -20,11 +20,11 @@ use PDO;
 abstract class Query
 {
     /** @var string The name of the table we're querying */
-    protected $tableName = '';
+    protected string $tableName = '';
     /** @var string The alias of the table we're querying */
-    protected $tableAlias = '';
+    protected string $tableAlias = '';
     /** @var array The list of bound parameters */
-    protected $parameters = [];
+    protected array $parameters = [];
     /**
      * True if we're using unnamed placeholders instead of named placeholders
      * False if we're using named placeholders instead of unnamed placeholders
@@ -32,7 +32,7 @@ abstract class Query
      *
      * @var bool|null
      */
-    protected $usingUnnamedPlaceholders;
+    protected ?bool $usingUnnamedPlaceholders = null;
 
     /**
      * Gets the SQL statement as a string

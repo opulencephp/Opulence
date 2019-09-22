@@ -45,7 +45,7 @@ use RuntimeException;
 class CommandsBootstrapper extends Bootstrapper
 {
     /** @var array The list of built-in command classes */
-    private static $commandClasses = [
+    private static array $commandClasses = [
         AppDownCommand::class,
         AppEnvironmentCommand::class,
         AppUpCommand::class,

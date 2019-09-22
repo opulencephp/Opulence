@@ -21,7 +21,7 @@ use Opulence\Views\IView;
 class CompilerRegistry implements ICompilerRegistry
 {
     /** @var ICompiler[] The mapping of extensions to compiler instances */
-    protected $compilers = [];
+    protected array $compilers = [];
 
     /**
      * @inheritdoc

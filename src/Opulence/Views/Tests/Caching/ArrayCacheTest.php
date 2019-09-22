@@ -21,10 +21,9 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ArrayCacheTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ArrayCache The cache to use in tests */
-    private $cache;
+    private ArrayCache $cache;
     /** @var IView|MockObject The view to use in tests */
-    private $view;
+    private IView $view;
 
     /**
      * Sets up the tests

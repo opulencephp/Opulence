@@ -23,10 +23,9 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class CompilerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Compiler The compiler to use in tests */
-    private $compiler;
+    private Compiler $compiler;
     /** @var ICompilerRegistry|MockObject The compiler registry to use in tests */
-    private $registry;
+    private ICompilerRegistry $registry;
 
     /**
      * Sets up the tests

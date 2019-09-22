@@ -28,9 +28,9 @@ abstract class SqlDataMapper implements IDataMapper
     public const VALUE_TYPE_ARRAY = 1;
 
     /** @var IConnection The read connection */
-    protected $readConnection;
+    protected IConnection $readConnection;
     /** @var IConnection The write connection */
-    protected $writeConnection;
+    protected IConnection $writeConnection;
 
     /**
      * @param IConnection $readConnection The read connection

@@ -35,21 +35,21 @@ class UnitOfWork implements IUnitOfWork
      *
      * @var array
      */
-    protected $scheduledActions = [];
+    protected array $scheduledActions = [];
     /** @var int The count of all scheduled actions (even unset ones), which is used for performance */
-    private $scheduledActionCount = 0;
+    private int $scheduledActionCount = 0;
     /** @var IConnection The connection to use in our unit of work */
-    private $connection;
+    private IConnection $connection;
     /** @var IEntityRegistry What manages/tracks entities for our unit of work */
-    private $entityRegistry;
+    private IEntityRegistry $entityRegistry;
     /** @var IIdAccessorRegistry The Id accessor registry */
-    private $idAccessorRegistry;
+    private IIdAccessorRegistry $idAccessorRegistry;
     /** @var IIdGeneratorRegistry The Id generator registry */
-    private $idGeneratorRegistry;
+    private IIdGeneratorRegistry $idGeneratorRegistry;
     /** @var IChangeTracker The change tracker */
-    private $changeTracker;
+    private IChangeTracker $changeTracker;
     /** @var array The mapping of class names to their data mappers */
-    private $dataMappers = [];
+    private array $dataMappers = [];
     /**
      * The mapping of object hash Ids to the index of the action array element that holds the entity
      * We use this to index entities that are scheduled for insertion, which makes detaching them faster

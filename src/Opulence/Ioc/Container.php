@@ -26,13 +26,13 @@ class Container implements IContainer
     /** The value for an empty target */
     private static $emptyTarget;
     /** @var null|string The current target */
-    protected $currentTarget;
+    protected ?string $currentTarget = null;
     /** @var array The stack of targets */
-    protected $targetStack = [];
+    protected array $targetStack = [];
     /** @var IContainerBinding[][] The list of bindings */
-    protected $bindings = [];
+    protected array $bindings = [];
     /** @var array The cache of reflection constructors and their parameters */
-    protected $constructorReflectionCache = [];
+    protected array $constructorReflectionCache = [];
 
     /**
      * Prepares the container for serialization

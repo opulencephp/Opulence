@@ -35,13 +35,13 @@ class View implements IView
     public const DEFAULT_CLOSE_COMMENT_DELIMITER = '#}';
 
     /** @var string The uncompiled contents of the view */
-    protected $contents = '';
+    protected string $contents = '';
     /** @var string The path to the raw view */
-    protected $path = '';
+    protected string $path = '';
     /** @var array The mapping of PHP variable names to their values */
-    protected $vars = [];
+    protected array $vars = [];
     /** @var array The stack of parent delimiter types to values */
-    private $delimiters = [
+    private array $delimiters = [
         self::DELIMITER_TYPE_UNSANITIZED_TAG => [
             self::DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER,
             self::DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER

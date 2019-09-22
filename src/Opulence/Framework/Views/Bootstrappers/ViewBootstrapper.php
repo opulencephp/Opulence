@@ -39,9 +39,9 @@ use Opulence\Views\Filters\XssFilter;
 abstract class ViewBootstrapper extends Bootstrapper
 {
     /** @var ICache The view cache */
-    protected $viewCache;
+    protected ICache $viewCache;
     /** @var IViewFactory The view factory */
-    protected $viewFactory;
+    protected IViewFactory $viewFactory;
 
     /**
      * @inheritdoc

@@ -36,12 +36,13 @@
 
 <h3>General</h3>
 
-* Requires >= PHP 7.3
+* Requires >= PHP 7.4
 * Requires >= PHPUnit 8.0
 * Deleted the Application, Debug, Environments, Events, File, HTTP, Pipeline, and Routing libraries
 * Removed all methods that were deprecated in v1.1.0
 * Added `void` return type to all void methods
 * Added nullable  type to all nullable method return types and parameters
+* Added property types wherever possible
 
 <h3>Cryptography</h3>
 

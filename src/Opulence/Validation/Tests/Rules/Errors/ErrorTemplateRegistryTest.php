@@ -20,8 +20,7 @@ use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
  */
 class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ErrorTemplateRegistry The error template registry to use in tests */
-    private $registry;
+    private ErrorTemplateRegistry $registry;
 
     /**
      * Sets up the tests

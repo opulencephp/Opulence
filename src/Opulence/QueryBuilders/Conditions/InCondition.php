@@ -20,11 +20,11 @@ use InvalidArgumentException;
 class InCondition extends Condition
 {
     /** @var string The sub-expression */
-    protected $expression = '';
+    protected string $expression = '';
     /** @var array The list of parameters bound to the query */
-    protected $parameters = [];
+    protected array $parameters = [];
     /** @var bool True if we're using parameters, otherwise we're using a sub-expression */
-    protected $usingParameters = true;
+    protected bool $usingParameters = true;
 
     /**
      * @inheritdoc

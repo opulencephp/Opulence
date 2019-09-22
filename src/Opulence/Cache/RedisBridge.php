@@ -20,11 +20,11 @@ use Opulence\Redis\Redis;
 class RedisBridge implements ICacheBridge
 {
     /** @var Redis The Redis driver */
-    protected $redis;
+    protected Redis $redis;
     /** @var string The name of the client to connect to */
-    protected $clientName = 'default';
+    protected string $clientName = 'default';
     /** @var string The prefix to use on all keys */
-    protected $keyPrefix = '';
+    protected string $keyPrefix;
 
     /**
      * @param Redis $redis The Redis driver

@@ -20,13 +20,13 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 class VerificationContext
 {
     /** @var array The audience */
-    private $audience = [];
+    private array $audience = [];
     /** @var string|null The issuer */
-    private $issuer;
+    private ?string $issuer = null;
     /** @var ISigner The signer */
-    private $signer;
+    private ISigner $signer;
     /** @var string|null The subject */
-    private $subject;
+    private ?string $subject = null;
 
     /**
      * @param ISigner $signer The signer

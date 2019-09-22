@@ -19,8 +19,7 @@ use Opulence\Ioc\ClassContainerBinding;
  */
 class ClassContainerBindingTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ClassContainerBinding The binding to use in tests */
-    private $binding;
+    private ClassContainerBinding $binding;
 
     /**
      * Sets up the tests

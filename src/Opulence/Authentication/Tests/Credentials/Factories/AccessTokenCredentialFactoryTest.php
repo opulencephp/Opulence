@@ -29,16 +29,15 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class AccessTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var AccessTokenCredentialFactory The factory to use in tests */
-    private $factory;
+    private AccessTokenCredentialFactory $factory;
     /** @var IUserRepository|MockObject The user repository to use in tests */
-    private $userRepository;
+    private IUserRepository $userRepository;
     /** @var IRoleRepository|MockObject The role repository to use in tests */
-    private $roleRepository;
+    private IRoleRepository $roleRepository;
     /** @var ISigner|MockObject The signer to use in tests */
-    private $signer;
+    private ISigner $signer;
     /** @var ISubject|MockObject The subject to use in tests */
-    private $subject;
+    private ISubject $subject;
 
     /**
      * Sets up the tests

@@ -19,7 +19,7 @@ namespace Opulence\Ioc;
 class InstanceContainerBinding implements IContainerBinding
 {
     /** @var object The instance */
-    private $instance;
+    private object $instance;
 
     /**
      * @param object $instance The instance

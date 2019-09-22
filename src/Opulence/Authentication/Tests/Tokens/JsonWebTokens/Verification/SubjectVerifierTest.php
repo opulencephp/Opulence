@@ -23,12 +23,11 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class SubjectVerifierTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var SubjectVerifier The verifier to use in tests */
-    private $verifier;
+    private SubjectVerifier $verifier;
     /** @var SignedJwt|MockObject The token to use in tests */
-    private $jwt;
+    private SignedJwt $jwt;
     /** @var JwtPayload|MockObject The payload to use in tests */
-    private $jwtPayload;
+    private JwtPayload $jwtPayload;
 
     /**
      * Sets up the tests

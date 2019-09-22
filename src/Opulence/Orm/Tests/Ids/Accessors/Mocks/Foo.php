@@ -18,7 +18,7 @@ namespace Opulence\Orm\Tests\Ids\Accessors\Mocks;
 class Foo
 {
     /** @var int The Id */
-    protected $id = -1;
+    protected int $id = -1;
 
     /**
      * @return int

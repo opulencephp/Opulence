@@ -20,7 +20,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 class SubjectVerifier implements IVerifier
 {
     /** @var string|null The subject */
-    private $subject;
+    private ?string $subject;
 
     /**
      * @param string|null $subject The subject

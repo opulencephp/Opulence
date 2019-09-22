@@ -1,7 +1,7 @@
 language: php
 
 php:
-  - 7.3
+  - 7.4snapshot
 
 # Shallow clones can cause issues with subtree splits
 git:
@@ -14,7 +14,7 @@ before_script:
 
 script:
   - vendor/bin/phpunit --verbose
-  - composer run-script lint-check
+  #- composer run-script lint-check
 
 deploy:
   - provider: script

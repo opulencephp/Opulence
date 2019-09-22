@@ -18,7 +18,7 @@ namespace Opulence\Ioc\Bootstrappers\Inspection\Caching;
 final class FileBootstrapperBindingCache implements IBootstrapperBindingCache
 {
     /** @var string The cache file path */
-    private $filePath;
+    private string $filePath;
 
     /**
      * @param string $filePath The cache file path

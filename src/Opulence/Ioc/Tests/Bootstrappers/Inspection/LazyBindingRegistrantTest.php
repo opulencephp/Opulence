@@ -28,10 +28,9 @@ use PHPUnit\Framework\TestCase;
  */
 class LazyBindingRegistrantTest extends TestCase
 {
-    /** @var LazyBindingRegistrant */
-    private $registrant;
+    private LazyBindingRegistrant $registrant;
     /** @var IContainer|MockObject */
-    private $container;
+    private IContainer $container;
 
     protected function setUp(): void
     {

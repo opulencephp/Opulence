@@ -22,11 +22,11 @@ use Opulence\Ioc\IContainer;
 final class BindingInspectorBootstrapperDispatcher implements IBootstrapperDispatcher
 {
     /** @var IBootstrapperBindingCache|null The cache to save bootstrapper bindings with, or null if not caching */
-    private $bootstrapperBindingCache;
+    private ?IBootstrapperBindingCache $bootstrapperBindingCache;
     /** @var LazyBindingRegistrant The registrant for our lazy bindings */
-    private $lazyBindingRegistrant;
+    private LazyBindingRegistrant $lazyBindingRegistrant;
     /** @var BindingInspector The binding inspector to use */
-    private $bindingInspector;
+    private BindingInspector $bindingInspector;
 
     /**
      * @param IContainer $container The container to use when dispatching bootstrappers

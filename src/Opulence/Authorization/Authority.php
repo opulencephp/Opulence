@@ -22,9 +22,9 @@ class Authority implements IAuthority
     /** @var int|string The primary identity of the current subject */
     protected $subjectId;
     /** @var array The list of roles the subject has */
-    protected $subjectRoles;
+    protected array $subjectRoles;
     /** @var IPermissionRegistry The permission registry */
-    protected $permissionRegistry;
+    protected IPermissionRegistry $permissionRegistry;
 
     /**
      * @param int|string $subjectId The primary identity of the current subject

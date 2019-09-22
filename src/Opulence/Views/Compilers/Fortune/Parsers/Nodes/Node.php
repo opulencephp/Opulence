@@ -20,9 +20,9 @@ abstract class Node
     /** @var mixed|null The value of the node */
     protected $value;
     /** @var Node|null The parent node */
-    protected $parent;
+    protected ?Node $parent = null;
     /** @var Node[] The child nodes */
-    protected $children = [];
+    protected array $children = [];
 
     /**
      * @param mixed $value The value of the node

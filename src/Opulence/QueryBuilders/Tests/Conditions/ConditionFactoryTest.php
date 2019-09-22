@@ -23,8 +23,7 @@ use Opulence\QueryBuilders\Conditions\NotInCondition;
  */
 class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ConditionFactory The condition factory to use in tests */
-    private $conditionFactory;
+    private ConditionFactory $conditionFactory;
 
     /**
      * Sets up the tests

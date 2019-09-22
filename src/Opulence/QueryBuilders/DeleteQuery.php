@@ -21,9 +21,9 @@ use Opulence\QueryBuilders\Conditions\ICondition;
 class DeleteQuery extends Query
 {
     /** @var array The list of table expressions, allowing columns from other table to appear in the WHERE condition */
-    protected $usingExpressions = [];
+    protected array $usingExpressions = [];
     /** @var ConditionalQueryBuilder Handles functionality common to conditional queries */
-    protected $conditionalQueryBuilder;
+    protected ConditionalQueryBuilder $conditionalQueryBuilder;
 
     /**
      * @param string $tableName The name of the table we're querying

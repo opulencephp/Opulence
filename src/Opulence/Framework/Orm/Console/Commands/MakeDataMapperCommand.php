@@ -23,7 +23,7 @@ use Opulence\Framework\Console\Commands\MakeCommand;
 class MakeDataMapperCommand extends MakeCommand
 {
     /** @var array The list of data mappers that can be made */
-    private static $dataMapperTypes = [
+    private static array $dataMapperTypes = [
         'Memcached-backed cached SQL data mapper' => 'MemcachedCachedSqlDataMapper',
         'PHPRedis data mapper' => 'PhpRedisDataMapper',
         'Predis data mapper' => 'PredisDataMapper',
@@ -31,11 +31,11 @@ class MakeDataMapperCommand extends MakeCommand
         'SQL data mapper' => 'SqlDataMapper'
     ];
     /** @var string The type of data mapper to generate */
-    private $dataMapperType = '';
+    private string $dataMapperType = '';
     /** @var string The name of the entity class */
-    private $entityClassName = '';
+    private string $entityClassName = '';
     /** @var string The name of the entity variable */
-    private $entityVariableName = '';
+    private string $entityVariableName = '';
 
     /**
      * @inheritdoc

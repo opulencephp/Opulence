@@ -21,14 +21,14 @@ use Opulence\Authentication\ISubject;
 class Authenticator implements IAuthenticator
 {
     /** @var IAuthenticatorRegistry The authenticator registry */
-    protected $authenticatorRegistry;
+    protected IAuthenticatorRegistry $authenticators;
 
     /**
      * @param IAuthenticatorRegistry $authenticatorRegistry The authenticator registry
      */
     public function __construct(IAuthenticatorRegistry $authenticatorRegistry)
     {
-        $this->authenticatorRegistry = $authenticatorRegistry;
+        $this->authenticators = $authenticatorRegistry;
     }
 
     /**
@@ -36,7 +36,7 @@ class Authenticator implements IAuthenticator
      */
     public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null): bool
     {
-        $authenticators = $this->authenticatorRegistry->getAuthenticators($credential->getType());
+        $authenticators = $this->authenticators->getAuthenticators($credential->getType());
         $allAuthenticated = true;
 
         foreach ($authenticators as $authenticator) {

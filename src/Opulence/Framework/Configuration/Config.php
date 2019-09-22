@@ -18,7 +18,7 @@ namespace Opulence\Framework\Configuration;
 class Config
 {
     /** @var array The list of settings by category */
-    private static $settings = [];
+    private static array $settings = [];
 
     /**
      * Gets a setting

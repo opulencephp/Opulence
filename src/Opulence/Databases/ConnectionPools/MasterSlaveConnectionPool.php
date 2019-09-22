@@ -23,13 +23,13 @@ use Opulence\Databases\Server;
 class MasterSlaveConnectionPool extends ConnectionPool
 {
     /** @inheritdoc */
-    protected $servers = [
+    protected array $servers = [
         'master' => null,
         'slaves' => [],
         'custom' => []
     ];
     /** @var IServerSelectionStrategy The slave selection strategy */
-    protected $slaveSelectionStrategy;
+    protected IServerSelectionStrategy $slaveSelectionStrategy;
 
     /**
      * @inheritdoc

@@ -24,15 +24,15 @@ use PDO;
 class Connection implements IConnection
 {
     /** @var Provider The provider used by this connection */
-    private $provider;
+    private Provider $provider;
     /** @var RealServer The server to connect to */
-    private $server;
+    private RealServer $server;
     /** @var bool Whether or not we're in a transaction */
-    private $inTransaction = false;
+    private bool $inTransaction = false;
     /** @var array The mapping of sequence names to last insert Ids */
-    private $lastInsertIds = [];
+    private array $lastInsertIds = [];
     /** @var bool Whether or not this connection should fail on purpose */
-    private $shouldFailOnPurpose = false;
+    private bool $shouldFailOnPurpose = false;
 
     /**
      * @param RealServer $server The server to connect to

@@ -18,7 +18,7 @@ namespace Opulence\Sessions\Handlers;
 class ArraySessionHandler extends SessionHandler
 {
     /** @var array The local storage */
-    private $storage = [];
+    private array $storage = [];
 
     /**
      * @inheritdoc

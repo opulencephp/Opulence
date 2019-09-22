@@ -20,7 +20,7 @@ use Opulence\Views\IView;
 class ArrayCache implements ICache
 {
     /** @var array The storage for our views */
-    private $storage = [];
+    private array $storage = [];
 
     /**
      * @inheritdoc

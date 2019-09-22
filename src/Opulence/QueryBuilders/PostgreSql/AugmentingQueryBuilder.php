@@ -20,7 +20,7 @@ use Opulence\QueryBuilders\AugmentingQueryBuilder as BaseAugmentingQueryBuilder;
 class AugmentingQueryBuilder extends BaseAugmentingQueryBuilder
 {
     /** @var array The list of columns whose value we want to return */
-    protected $returningExpressions = [];
+    protected array $returningExpressions = [];
 
     /**
      * Adds to a "RETURNING" clause

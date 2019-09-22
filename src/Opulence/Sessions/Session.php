@@ -29,13 +29,13 @@ class Session implements ISession
     /** @var int|string The session Id */
     private $id = '';
     /** @var string The session name */
-    private $name = '';
+    private string $name = '';
     /** @var IIdGenerator The Id generator to use */
-    private $idGenerator;
+    private IIdGenerator $idGenerator;
     /** @var array The mapping of variable names to values */
-    private $vars = [];
+    private array $vars = [];
     /** @var bool Whether or not the session has started */
-    private $hasStarted = false;
+    private bool $hasStarted = false;
 
     /**
      * @param int|string|null $id The Id of the session

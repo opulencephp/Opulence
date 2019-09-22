@@ -20,9 +20,9 @@ use InvalidArgumentException;
 class ErrorTemplateRegistry
 {
     /** @var array The mapping of rule slugs to templates */
-    protected $globalTemplates = [];
+    protected array $globalTemplates = [];
     /** @var array The mapping of field names to rule slugs and templates */
-    protected $fieldTemplates = [];
+    protected array $fieldTemplates = [];
 
     /**
      * Gets the error template for a field and rule

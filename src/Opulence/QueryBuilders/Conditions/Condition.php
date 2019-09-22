@@ -18,7 +18,7 @@ namespace Opulence\QueryBuilders\Conditions;
 abstract class Condition implements ICondition
 {
     /** @var string The column */
-    protected $column = '';
+    protected string $column = '';
 
     /**
      * @param string $column The column

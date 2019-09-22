@@ -21,8 +21,7 @@ use Opulence\IO\FileSystemException;
  */
 class FileSystemTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FileSystem The file system to use in tests */
-    private $fileSystem;
+    private FileSystem $fileSystem;
 
     /**
      * Sets up the tests

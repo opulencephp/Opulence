@@ -20,7 +20,7 @@ use Opulence\Framework\Composer\Composer;
 class ComposerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var array A fully-loaded Composer config */
-    private static $fullyLoadedConfig = [
+    private static array $fullyLoadedConfig = [
         'name' => '__name__',
         'description' => '__description__',
         'keywords' => ['__keyword1__', '__keyword2__'],
@@ -41,12 +41,9 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
             ]
         ]
     ];
-    /** @var Composer The Composer with a fully-loaded config */
-    private $composer;
-    /** @var string The path to the root directory */
-    private $rootPath = '';
-    /** @var string The path to the PSR-4 source directory */
-    private $psr4RootPath = '';
+    private Composer $composer;
+    private string $rootPath = '';
+    private string $psr4RootPath = '';
 
     /**
      * Sets up the tests

@@ -20,7 +20,7 @@ use Opulence\Authentication\Credentials\Credential;
 class CredentialTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Credential The credential to use in tests */
-    private $credential;
+    private Credential $credential;
 
     /**
      * Sets up the tests

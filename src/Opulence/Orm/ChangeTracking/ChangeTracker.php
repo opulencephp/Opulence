@@ -21,14 +21,14 @@ use ReflectionClass;
 class ChangeTracker implements IChangeTracker
 {
     /** @var object[] The mapping of object Ids to their original data */
-    protected $objectHashIdsToOriginalData = [];
+    protected array $objectHashIdsToOriginalData = [];
     /**
      * The mapping of class names to comparison functions
      * Each function should return true if the entities are the same, otherwise false
      *
      * @var callable[]
      */
-    protected $comparators = [];
+    protected array $comparators = [];
 
     /**
      * @inheritdoc

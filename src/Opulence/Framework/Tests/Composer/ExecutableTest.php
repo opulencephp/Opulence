@@ -19,10 +19,8 @@ use Opulence\Framework\Tests\Composer\Mocks\Executable;
  */
 class ExecutableTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Executable The executable without a composer.phar to use in tests */
-    private $executableWithoutPHAR;
-    /** @var Executable The executable with a composer.phar to use in tests */
-    private $executableWithPHAR;
+    private Executable $executableWithoutPHAR;
+    private Executable $executableWithPHAR;
 
     /**
      * Sets up the tests

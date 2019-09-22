@@ -18,7 +18,7 @@ namespace Opulence\Orm\Ids\Generators;
 class IdGeneratorRegistry implements IIdGeneratorRegistry
 {
     /** @var IIdGenerator[] The mapping of class names to their Id generators */
-    private $generators = [];
+    private array $generators = [];
 
     /**
      * @inheritdoc

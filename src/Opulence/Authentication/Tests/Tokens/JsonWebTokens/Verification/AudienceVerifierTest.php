@@ -24,9 +24,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SignedJwt|MockObject The token to use in tests */
-    private $jwt;
+    private SignedJwt $jwt;
     /** @var JwtPayload|MockObject The payload to use in tests */
-    private $jwtPayload;
+    private JwtPayload $jwtPayload;
 
     /**
      * Sets up the tests

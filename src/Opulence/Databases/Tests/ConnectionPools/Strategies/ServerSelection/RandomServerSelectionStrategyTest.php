@@ -22,8 +22,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var RandomServerSelectionStrategy The strategy to use in tests */
-    private $strategy;
+    private RandomServerSelectionStrategy $strategy;
 
     /**
      * Sets up the tests

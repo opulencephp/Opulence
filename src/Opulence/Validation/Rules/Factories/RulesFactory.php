@@ -23,11 +23,11 @@ use Opulence\Validation\Rules\Rules;
 class RulesFactory
 {
     /** @var RuleExtensionRegistry The rule extension registry */
-    protected $ruleExtensionRegistry;
+    protected RuleExtensionRegistry $ruleExtensionRegistry;
     /** @var ErrorTemplateRegistry The error template registry */
-    protected $errorTemplateRegistry;
+    protected ErrorTemplateRegistry $errorTemplateRegistry;
     /** @var ICompiler The error template compiler */
-    protected $errorTemplateCompiler;
+    protected ICompiler $errorTemplateCompiler;
 
     /**
      * @param RuleExtensionRegistry $ruleExtensionRegistry The rule extension registry

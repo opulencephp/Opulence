@@ -18,7 +18,7 @@ namespace Opulence\QueryBuilders;
 class InsertQuery extends Query
 {
     /** @var AugmentingQueryBuilder Handles functionality common to augmenting queries */
-    protected $augmentingQueryBuilder;
+    protected AugmentingQueryBuilder $augmentingQueryBuilder;
 
     /**
      * @param string $tableName The name of the table we're inserting into

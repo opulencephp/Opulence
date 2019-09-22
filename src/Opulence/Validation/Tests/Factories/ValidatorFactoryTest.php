@@ -22,10 +22,9 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ValidatorFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ValidatorFactory The factory to use in tests */
-    private $validatorFactory;
+    private ValidatorFactory $validatorFactory;
     /** @var RulesFactory|MockObject The rules factory */
-    private $rulesFactory;
+    private RulesFactory $rulesFactory;
 
     /**
      * Sets up the tests

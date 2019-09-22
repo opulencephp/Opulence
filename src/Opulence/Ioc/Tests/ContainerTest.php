@@ -40,34 +40,20 @@ use Opulence\Ioc\Tests\Mocks\StaticSetters;
  */
 class ContainerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Container The container to use in tests */
-    private $container;
-    /** @var string The name of the simple interface to use in tests */
-    private $fooInterface = IFoo::class;
-    /** @var string The name of the simple interface to use in tests */
-    private $personInterface = IPerson::class;
-    /** @var string The name of a class that implements IPerson */
-    private $concretePerson = Dave::class;
-    /** @var string The name of the base class to use in tests */
-    private $baseClass = BaseClass::class;
-    /** @var string The name of the class that implements IFoo to use in tests */
-    private $concreteFoo = Bar::class;
-    /** @var string The name of a second class that implements the IFoo to use in tests */
-    private $secondConcreteIFoo = Blah::class;
-    /** @var string The name of a another class that implements the IFoo to use in tests */
-    private $concreteFooWithIPersonDependency = Foo::class;
-    /** @var string The name of the class that accepts the IFoo in its constructor */
-    private $constructorWithIFoo = ConstructorWithInterface::class;
-    /** @var string The name of the class that accepts the concrete class in its constructor */
-    private $constructorWithConcreteClass = ConstructorWithConcreteClass::class;
-    /** @var string The name of the class that accepts a mix of interfaces and primitives in its constructor */
-    private $constructorWithInterfacesAndPrimitives = ConstructorWithMixOfInterfacesAndPrimitives::class;
-    /** @var string The name of the class that accepts a mix of class names and primitives in its constructor */
-    private $constructorWithConcreteClassesAndPrimitives = ConstructorWithMixOfConcreteClassesAndPrimitives::class;
-    /** @var string The name of the class that accepts the primitives in its constructor */
-    private $constructorWithPrimitives = ConstructorWithPrimitives::class;
-    /** @var string The name of the class that accepts primitives with default values in its constructor */
-    private $constructorWithDefaultValuePrimitives = ConstructorWithDefaultValuePrimitives::class;
+    private Container $container;
+    private string $fooInterface = IFoo::class;
+    private string $personInterface = IPerson::class;
+    private string $concretePerson = Dave::class;
+    private string $baseClass = BaseClass::class;
+    private string $concreteFoo = Bar::class;
+    private string $secondConcreteIFoo = Blah::class;
+    private string $concreteFooWithIPersonDependency = Foo::class;
+    private string $constructorWithIFoo = ConstructorWithInterface::class;
+    private string $constructorWithConcreteClass = ConstructorWithConcreteClass::class;
+    private string $constructorWithInterfacesAndPrimitives = ConstructorWithMixOfInterfacesAndPrimitives::class;
+    private string $constructorWithConcreteClassesAndPrimitives = ConstructorWithMixOfConcreteClassesAndPrimitives::class;
+    private string $constructorWithPrimitives = ConstructorWithPrimitives::class;
+    private string $constructorWithDefaultValuePrimitives = ConstructorWithDefaultValuePrimitives::class;
 
     /**
      * Sets up the tests

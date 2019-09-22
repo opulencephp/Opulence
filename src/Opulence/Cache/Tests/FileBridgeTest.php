@@ -19,8 +19,7 @@ use Opulence\Cache\FileBridge;
  */
 class FileBridgeTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FileBridge The bridge to use in tests */
-    private $bridge;
+    private FileBridge $bridge;
 
     /**
      * Does some setup before any tests

@@ -20,8 +20,7 @@ use Opulence\Cryptography\Encryption\Keys\SecretTypes;
  */
 class SecretTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Secret The secret to use in tests */
-    private $secret;
+    private Secret $secret;
 
     /**
      * Sets up the tests

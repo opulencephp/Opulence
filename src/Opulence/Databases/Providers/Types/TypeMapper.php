@@ -24,8 +24,8 @@ use RuntimeException;
  */
 class TypeMapper
 {
-    /** @var Provider The default provider to use in the case that one isn't specified in a method call */
-    protected $provider;
+    /** @var Provider|null The default provider to use in the case that one isn't specified in a method call */
+    protected ?Provider $provider = null;
 
     /**
      * @param Provider $provider The default provider to use in the case that one isn't specified in a method call

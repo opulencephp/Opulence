@@ -21,9 +21,9 @@ use Opulence\Views\Compilers\Fortune\Parsers\Nodes\RootNode;
 class AbstractSyntaxTree
 {
     /** @var RootNode The root node */
-    private $rootNode;
+    private RootNode $rootNode;
     /** @var Node The current node */
-    private $currentNode;
+    private Node $currentNode;
 
     public function __construct()
     {

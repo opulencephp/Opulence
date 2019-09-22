@@ -25,19 +25,19 @@ use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
 class Rules
 {
     /** @var RuleExtensionRegistry The rule extension registry */
-    protected $ruleExtensionRegistry;
+    protected RuleExtensionRegistry $ruleExtensionRegistry;
     /** @var ErrorTemplateRegistry The error template registry */
-    protected $errorTemplateRegistry;
+    protected ErrorTemplateRegistry $errorTemplateRegistry;
     /** @var ICompiler The error template compiler */
-    protected $errorTemplateCompiler;
+    protected ICompiler $errorTemplateCompiler;
     /** @var array The data used to compile error templates */
-    protected $errorSlugsAndPlaceholders = [];
+    protected array $errorSlugsAndPlaceholders = [];
     /** @var IRule[] The list of rules */
-    protected $rules = [];
+    protected array $rules = [];
     /** @var bool Whether or not a value is required */
-    protected $isRequired = false;
+    protected bool $isRequired = false;
     /** @var bool Whether or not we're building a conditional rule */
-    protected $inCondition = false;
+    protected bool $inCondition = false;
 
     /**
      * @param RuleExtensionRegistry $ruleExtensionRegistry The rule extension registry

@@ -20,7 +20,7 @@ use Opulence\Orm\DataMappers\ICacheDataMapper;
 class CacheDataMapper implements ICacheDataMapper
 {
     /** @var object[] The list of entities added */
-    protected $entities = [];
+    protected array $entities = [];
 
     public function __construct()
     {

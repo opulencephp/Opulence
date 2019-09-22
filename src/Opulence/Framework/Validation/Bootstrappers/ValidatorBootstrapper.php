@@ -28,15 +28,15 @@ use Opulence\Validation\Rules\RuleExtensionRegistry;
 abstract class ValidatorBootstrapper extends Bootstrapper
 {
     /** @var RuleExtensionRegistry The rule extension registry */
-    protected $ruleExtensionRegistry;
+    protected RuleExtensionRegistry $ruleExtensionRegistry;
     /** @var ErrorTemplateRegistry The error template registry */
-    protected $errorTemplateRegistry;
+    protected ErrorTemplateRegistry $errorTemplateRegistry;
     /** @var ICompiler The error template compiler */
-    protected $errorTemplateCompiler;
+    protected ICompiler $errorTemplateCompiler;
     /** @var RulesFactory The rules factory */
-    protected $rulesFactory;
+    protected RulesFactory $rulesFactory;
     /** @var IValidatorFactory The validator factory */
-    protected $validatorFactory;
+    protected IValidatorFactory $validatorFactory;
 
     /**
      * @inheritdoc

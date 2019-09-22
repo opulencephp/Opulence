@@ -21,13 +21,13 @@ use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
 class EntityRegistry implements IEntityRegistry
 {
     /** @var IIdAccessorRegistry The Id accessory registry */
-    protected $idAccessorRegistry;
+    protected IIdAccessorRegistry $idAccessorRegistry;
     /** @var IChangeTracker The change tracker */
-    protected $changeTracker;
+    protected IChangeTracker $changeTracker;
     /** @var array The mapping of entities' object hash Ids to their various states */
-    private $entityStates = [];
+    private array $entityStates = [];
     /** @var array The mapping of class names to a list of entities of that class */
-    private $entities = [];
+    private array $entities = [];
     /**
      * Maps aggregate root children to their roots as well as functions that can set the child's aggregate root Id
      * Each entry is an array of arrays with the following keys:
@@ -38,7 +38,7 @@ class EntityRegistry implements IEntityRegistry
      *
      * @var array
      */
-    private $aggregateRootChildren = [];
+    private array $aggregateRootChildren = [];
 
     /**
      * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry

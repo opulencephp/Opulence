@@ -33,18 +33,12 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var MockUnitOfWork The unit of work to use in the tests */
-    private $unitOfWork;
-    /** @var EntityRegistry The entity registry to use in tests */
-    private $entityRegistry;
-    /** @var SQLDataMapper The data mapper to use in tests */
-    private $dataMapper;
-    /** @var User An entity to use in the tests */
-    private $entity1;
-    /** @var User An entity to use in the tests */
-    private $entity2;
-    /** @var User An entity to use in the tests */
-    private $entity3;
+    private MockUnitOfWork $unitOfWork;
+    private EntityRegistry $entityRegistry;
+    private IDataMapper $dataMapper;
+    private User $entity1;
+    private User $entity2;
+    private User $entity3;
 
     /**
      * Sets up the tests

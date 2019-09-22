@@ -20,8 +20,8 @@ use LogicException;
  */
 class RegexRule implements IRuleWithArgs
 {
-    /** @var string The regular expression to run */
-    protected $regex;
+    /** @var string|null The regular expression to run */
+    protected ?string $regex = null;
 
     /**
      * @inheritdoc

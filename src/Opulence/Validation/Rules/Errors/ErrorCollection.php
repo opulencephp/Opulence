@@ -21,7 +21,7 @@ use Countable;
 class ErrorCollection implements ArrayAccess, Countable
 {
     /** @var array Defines the errors by field */
-    protected $errorsByField = [];
+    protected array $errorsByField = [];
 
     /**
      * @param array $values The list of values

@@ -29,9 +29,9 @@ abstract class Session implements IMiddleware
     private const PREVIOUS_URL_KEY = '__opulence_previous_url';
 
     /** @var ISession The session used by the application */
-    protected $session;
+    protected ISession $session;
     /** @var SessionHandlerInterface The session handler used by the application */
-    protected $sessionHandler;
+    protected SessionHandlerInterface $sessionHandler;
 
     /**
      * @param ISession $session The session used by the application

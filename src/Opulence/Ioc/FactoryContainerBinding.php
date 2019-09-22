@@ -21,7 +21,7 @@ class FactoryContainerBinding implements IContainerBinding
     /** @var callable The factory */
     private $factory;
     /** @var bool Whether or not the factory should be resolved as a singleton */
-    private $resolveAsSingleton;
+    private bool $resolveAsSingleton;
 
     /**
      * @param callable $factory The factory

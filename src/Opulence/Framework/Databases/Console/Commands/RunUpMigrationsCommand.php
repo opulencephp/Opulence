@@ -22,7 +22,7 @@ use Opulence\Databases\Migrations\IMigrator;
 class RunUpMigrationsCommand extends Command
 {
     /** @var IMigrator The migrator to use */
-    private $migrator;
+    private IMigrator $migrator;
 
     /**
      * @param IMigrator $migrator The migrator to use

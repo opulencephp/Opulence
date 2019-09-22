@@ -20,9 +20,9 @@ class Client implements IClient
     /** @var int|string The client Id */
     private $id;
     /** @var string The client name */
-    private $name;
+    private string $name;
     /** @var string The client secret */
-    private $secret;
+    private string $secret;
 
     /**
      * @param int|string $id The client Id

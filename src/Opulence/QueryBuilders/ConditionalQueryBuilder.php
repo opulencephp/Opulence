@@ -18,7 +18,7 @@ namespace Opulence\QueryBuilders;
 class ConditionalQueryBuilder
 {
     /** @var array The list of WHERE expressions */
-    protected $whereConditions = [];
+    protected array $whereConditions = [];
 
     /**
      * Adds a condition to a clause

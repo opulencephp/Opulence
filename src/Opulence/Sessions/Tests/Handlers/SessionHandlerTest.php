@@ -24,9 +24,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 class SessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SessionHandler|MockObject The session handler to use in tests */
-    private $handler;
+    private SessionHandler $handler;
     /** @var ISessionEncrypter|MockObject The encrypter to use in tests */
-    private $encrypter;
+    private ISessionEncrypter $encrypter;
 
     /**
      * Sets up the tests

@@ -19,8 +19,7 @@ use Opulence\Databases\Providers\Provider;
  */
 class ProviderTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Provider The provider to use for tests */
-    private $provider;
+    private Provider $provider;
 
     /**
      * Sets up the tests

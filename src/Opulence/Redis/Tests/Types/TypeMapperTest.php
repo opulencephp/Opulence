@@ -22,7 +22,7 @@ use Opulence\Redis\Types\TypeMapper;
 class TypeMapperTest extends \PHPUnit\Framework\TestCase
 {
     /** @var TypeMapper The type mapper to use for tests */
-    private $typeMapper;
+    private TypeMapper $typeMapper;
 
     /**
      * Sets up the tests

@@ -23,9 +23,9 @@ use PHPUnit\Framework\TestCase;
 class ResponseAssertions extends TestCase
 {
     /** @var StreamResponse The response stream */
-    protected $response;
+    protected StreamResponse $response;
     /** @var int The status code */
-    protected $statusCode = -1;
+    protected int $statusCode = -1;
 
     /**
      * Asserts that the status code is an error

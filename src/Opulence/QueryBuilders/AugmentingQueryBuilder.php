@@ -18,7 +18,7 @@ namespace Opulence\QueryBuilders;
 class AugmentingQueryBuilder
 {
     /** @var array The mapping of column names to their respective values */
-    protected $columnNamesToValues = [];
+    protected array $columnNamesToValues = [];
 
     /**
      * Adds column values to the query

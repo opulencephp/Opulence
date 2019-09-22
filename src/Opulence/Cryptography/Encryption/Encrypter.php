@@ -25,7 +25,7 @@ use Opulence\Cryptography\Encryption\Keys\SecretTypes;
 class Encrypter implements IEncrypter
 {
     /** @var array The list of approved ciphers */
-    protected static $approvedCiphers = [
+    protected static array $approvedCiphers = [
         Ciphers::AES_128_CBC,
         Ciphers::AES_192_CBC,
         Ciphers::AES_256_CBC,
@@ -34,17 +34,17 @@ class Encrypter implements IEncrypter
         Ciphers::AES_256_CTR
     ];
     /** @var string The current version of this encrypter */
-    private static $version = '1.0.0';
+    private static string $version = '1.0.0';
     /** @var string The HMAC algorithm */
-    private static $hmacAlgorithm = 'sha512';
-    /** @var string The byte length of generated HMACs */
-    private static $hmacByteLength = 128;
+    private static string $hmacAlgorithm = 'sha512';
+    /** @var int The byte length of generated HMACs */
+    private static int $hmacByteLength = 128;
     /** @var Secret The encryption secret that will be used to derive keys */
-    private $secret;
+    private Secret $secret;
     /** @var string The encryption cipher */
-    private $cipher = Ciphers::AES_256_CTR;
+    private string $cipher = Ciphers::AES_256_CTR;
     /** @var IKeyDeriver The key deriver to use */
-    private $keyDeriver;
+    private IKeyDeriver $kerDeriver;
 
     /**
      * @param Secret $secret The encryption secret that will be used to derive keys

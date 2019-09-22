@@ -28,22 +28,22 @@ class Connection extends PDO implements IConnection
     private const PDO_STATEMENT_CLASS = 'Statement';
 
     /** @var Provider The database provider this connection uses */
-    private $provider;
+    private Provider $provider;
     /** @var Server The server we're connecting to */
-    private $server;
+    private Server $server;
     /** @var string The Data Name Source to connect with */
-    private $dsn;
+    private string $dsn;
     /** @var array The list of driver options to use */
-    private $driverOptions;
+    private array $driverOptions;
     /** @var bool Whether or not we're connected */
-    private $isConnected = false;
+    private bool $isConnected = false;
     /**
      * The number of transactions we're currently in
      * Useful for nested transactions
      *
      * @var int
      */
-    private $transactionCounter = 0;
+    private int $transactionCounter = 0;
 
     /**
      * @param Provider $provider The database provider this connection uses

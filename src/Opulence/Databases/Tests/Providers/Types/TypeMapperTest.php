@@ -22,12 +22,9 @@ use RuntimeException;
  */
 class TypeMapperTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var TypeMapper The type mapper without a provider to use for tests */
-    private $typeMapperWithNoProvider;
-    /** @var TypeMapper The type mapper with a provider to use for tests */
-    private $typeMapperWithProvider;
-    /** @var Provider The provider to use for tests */
-    private $provider;
+    private TypeMapper $typeMapperWithNoProvider;
+    private TypeMapper $typeMapperWithProvider;
+    private Provider $provider;
 
     /**
      * Sets up the tests

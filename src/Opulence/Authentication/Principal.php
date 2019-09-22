@@ -18,11 +18,11 @@ namespace Opulence\Authentication;
 class Principal implements IPrincipal
 {
     /** @var string The type of principal this is */
-    protected $type;
+    protected string $type;
     /** @var mixed|null The identity of the principal */
     protected $id;
     /** @var array The list of roles this principal has */
-    protected $roles;
+    protected array $roles;
 
     /**
      * @param string $type The type of principal this is

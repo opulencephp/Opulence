@@ -20,10 +20,8 @@ use Opulence\Authorization\Roles\RoleMembership;
  */
 class RoleMembershipTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var RoleMembership The role membership to use in tests */
-    private $membership;
-    /** @var Role The role to use in tests */
-    private $role;
+    private RoleMembership $membership;
+    private Role $role;
 
     /**
      * Sets up the tests

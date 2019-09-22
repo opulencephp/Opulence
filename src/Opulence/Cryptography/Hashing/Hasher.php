@@ -19,7 +19,7 @@ use RuntimeException;
  */
 abstract class Hasher implements IHasher
 {
-    /** @var int The hash algorithm constant used by this hasher */
+    /** @var int|string The hash algorithm constant used by this hasher */
     protected $hashAlgorithm = -1;
 
     public function __construct()

@@ -26,25 +26,25 @@ use RuntimeException;
 abstract class ConnectionPool
 {
     /** @var array Maps driver names to their fully-qualified class names */
-    public static $drivers = [
+    public static array $drivers = [
         'pdo_mysql' => MySqlDriver::class,
         'pdo_pgsql' => PostgreSqlDriver::class,
     ];
     /** @var array The servers in this pool */
-    protected $servers = [
+    protected array $servers = [
         'master' => null,
         'custom' => []
     ];
     /** @var IDriver The driver to use for connections made by this pool */
-    protected $driver;
+    protected IDriver $driver;
     /** @var array The list of connection options */
-    protected $connectionOptions = [];
+    protected array $connectionOptions = [];
     /** @var array The list of driver options */
-    protected $driverOptions = [];
+    protected array $driverOptions = [];
     /** @var IConnection|null The connection to use for read queries */
-    protected $readConnection;
+    protected ?IConnection $readConnection = null;
     /** @var IConnection|null The connection to use for write queries */
-    protected $writeConnection;
+    protected ?IConnection $writeConnection = null;
 
     /**
      * @param IDriver $driver The driver to use

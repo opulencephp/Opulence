@@ -18,9 +18,9 @@ namespace Opulence\Cryptography\Encryption\Keys;
 class DerivedKeys
 {
     /** @var string The encryption key */
-    private $encryptionKey;
+    private string $encryptionKey;
     /** @var string The authentication key */
-    private $authenticationKey;
+    private string $authenticationKey;
 
     /**
      * @param string $encryptionKey The encryption key

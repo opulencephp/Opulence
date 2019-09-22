@@ -19,8 +19,7 @@ use Opulence\Validation\Rules\Errors\ErrorCollection;
  */
 class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ErrorCollection The parameters to use in tests */
-    private $collection;
+    private ErrorCollection $collection;
 
     /**
      * Sets up the tests

@@ -23,7 +23,7 @@ class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /** @var int|float The minimum */
     protected $min = null;
     /** @var bool Whether or not the maximum is inclusive */
-    protected $isInclusive = true;
+    protected bool $isInclusive = true;
 
     /**
      * @inheritdoc

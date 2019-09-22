@@ -26,9 +26,9 @@ use Opulence\Authentication\Users\Orm\IUserRepository;
 class AccessTokenCredentialFactory extends JwtCredentialFactory
 {
     /** @var IUserRepository The user repository */
-    protected $userRepository;
+    protected IUserRepository $userRepository;
     /** @var IRoleRepository The role repository */
-    protected $roleRepository;
+    protected IRoleRepository $roleRepository;
 
     /**
      * @inheritdoc

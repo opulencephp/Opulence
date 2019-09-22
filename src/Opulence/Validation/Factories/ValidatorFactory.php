@@ -22,7 +22,7 @@ use Opulence\Validation\Validator;
 class ValidatorFactory implements IValidatorFactory
 {
     /** @var RulesFactory The rules factory */
-    protected $rulesFactory;
+    protected RulesFactory $rulesFactory;
 
     /**
      * @param RulesFactory $rulesFactory The rules factory

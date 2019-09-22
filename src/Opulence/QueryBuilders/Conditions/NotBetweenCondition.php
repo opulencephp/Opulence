@@ -24,7 +24,7 @@ class NotBetweenCondition extends Condition
     /** @var mixed The min value */
     protected $max = '';
     /** @var int The data type of the min/max */
-    protected $dataType = PDO::PARAM_STR;
+    protected int $dataType = PDO::PARAM_STR;
 
     /**
      * @inheritdoc

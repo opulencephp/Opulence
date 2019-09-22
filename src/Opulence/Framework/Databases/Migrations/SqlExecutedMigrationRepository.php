@@ -30,13 +30,13 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
     /** @var string The name of the default table */
     public const DEFAULT_TABLE_NAME = 'executedmigrations';
     /** @var string The name of the table to read and write to */
-    protected $tableName = '';
+    protected string $tableName = '';
     /** @var IConnection The database connection */
-    protected $connection;
+    protected IConnection $connection;
     /** @var BaseQueryBuilder The query builder */
-    protected $queryBuilder;
+    protected BaseQueryBuilder $queryBuilder;
     /** @var TypeMapperFactory The type mapper factory */
-    protected $typeMapperFactory;
+    protected TypeMapperFactory $typeMapperFactory;
 
     /**
      * @param string $tableName The name of the table to read and write to

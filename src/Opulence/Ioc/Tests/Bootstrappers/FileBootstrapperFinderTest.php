@@ -24,12 +24,9 @@ use PHPUnit\Framework\TestCase;
  */
 class FileBootstrapperFinderTest extends TestCase
 {
-    /** @var string */
     private const BOOTSTRAPPER_DIRECTORY = __DIR__ . '/Mocks/Finder';
-    /** @var FileBootstrapperFinder */
-    private $bootstrapperFinder;
-    /** @var string */
-    private $topLevelBootstrapperNamespace = '';
+    private FileBootstrapperFinder $bootstrapperFinder;
+    private string $topLevelBootstrapperNamespace = '';
 
     /**
      * Sets up the tests

@@ -21,8 +21,7 @@ use Opulence\Authentication\Tokens\Signatures\Algorithms;
  */
 class JwtHeaderTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var JwtHeader The header to use in tests */
-    private $header;
+    private JwtHeader $header;
 
     /**
      * Sets up the tests

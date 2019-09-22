@@ -22,11 +22,11 @@ use Opulence\Orm\OrmException;
 class Repository implements IRepository
 {
     /** @var string The name of the class whose objects this repo is getting */
-    protected $className = '';
+    protected string $className = '';
     /** @var IDataMapper The data mapper to use in this repo */
-    protected $dataMapper;
+    protected IDataMapper $dataMapper;
     /** @var IUnitOfWork The unit of work to use in this repo */
-    protected $unitOfWork;
+    protected IUnitOfWork $unitOfWork;
 
     /**
      * @param string $className The name of the class whose objects this repo is getting

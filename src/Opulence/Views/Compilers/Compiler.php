@@ -20,7 +20,7 @@ use Opulence\Views\IView;
 class Compiler implements ICompiler
 {
     /** @var ICompilerRegistry The compiler registry */
-    protected $registry;
+    protected ICompilerRegistry $registry;
 
     /**
      * @param ICompilerRegistry $registry The compiler registry

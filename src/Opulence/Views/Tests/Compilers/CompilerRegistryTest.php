@@ -23,8 +23,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var CompilerRegistry The registry to use in tests */
-    private $registry;
+    private CompilerRegistry $registry;
 
     /**
      * Sets up the tests

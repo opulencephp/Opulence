@@ -19,11 +19,11 @@ namespace Opulence\Ioc;
 class ClassContainerBinding implements IContainerBinding
 {
     /** @var string The name of the concrete class */
-    private $concreteClass;
+    private string $concreteClass;
     /** @var array The list of constructor primitives */
-    private $constructorPrimitives;
+    private array $constructorPrimitives;
     /** @var bool Whether or not the class should be resolved as a singleton */
-    private $resolveAsSingleton;
+    private bool $resolveAsSingleton;
 
     /**
      * @param string $concreteClass The name of the concrete class

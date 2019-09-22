@@ -22,7 +22,7 @@ class RoleMembership
     /** @var int|string The subject Id */
     protected $subjectId;
     /** @var Role The role */
-    protected $role;
+    protected Role $role;
 
     /**
      * @param int|string $id The database Id

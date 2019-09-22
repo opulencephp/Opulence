@@ -25,7 +25,7 @@ class FileBootstrapperBindingCacheTest extends TestCase
     /** string The path to the cache */
     private const FILE_PATH = __DIR__ . '/tmp/cache.txt';
     /** @var FileBootstrapperBindingCache */
-    private $cache;
+    private FileBootstrapperBindingCache $cache;
 
     protected function setUp(): void
     {

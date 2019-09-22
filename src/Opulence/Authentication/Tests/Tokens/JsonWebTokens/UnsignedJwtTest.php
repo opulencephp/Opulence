@@ -21,12 +21,9 @@ use Opulence\Authentication\Tokens\JsonWebTokens\UnsignedJwt;
  */
 class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var UnsignedJwt The JWT to use in tests */
-    private $jwt;
-    /** @var JwtHeader The header to use in tests */
-    private $header;
-    /** @var JwtPayload The payload to use in tests */
-    private $payload;
+    private UnsignedJwt $jwt;
+    private JwtHeader $header;
+    private JwtPayload $payload;
 
     /**
      * Sets up the tests

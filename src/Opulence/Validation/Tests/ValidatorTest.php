@@ -27,16 +27,15 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ValidatorTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Validator The validator to use in tests */
-    private $validator;
+    private Validator $validator;
     /** @var RulesFactory|MockObject The rules factory */
-    private $rulesFactory;
+    private RulesFactory $rulesFactory;
     /** @var RuleExtensionRegistry|MockObject The registry to use in tests */
-    private $ruleExtensionRegistry;
+    private RuleExtensionRegistry $ruleExtensionRegistry;
     /** @var ErrorTemplateRegistry|MockObject */
-    private $errorTemplateRegistry;
+    private ErrorTemplateRegistry $errorTemplateRegistry;
     /** @var ICompiler|MockObject */
-    private $errorTemplateCompiler;
+    private ICompiler $errorTemplateCompiler;
 
     /**
      * Sets up the tests

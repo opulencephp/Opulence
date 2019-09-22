@@ -20,8 +20,8 @@ use LogicException;
  */
 class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
 {
-    /** @var string The name of the field to compare to */
-    protected $fieldName;
+    /** @var string|null The name of the field to compare to */
+    protected ?string $fieldName = null;
 
     /**
      * @inheritdoc

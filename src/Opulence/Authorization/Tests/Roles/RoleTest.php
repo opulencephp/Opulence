@@ -20,7 +20,7 @@ use Opulence\Authorization\Roles\Role;
 class RoleTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Role The role to use in tests */
-    private $role;
+    private Role $role;
 
     /**
      * Sets up the tests

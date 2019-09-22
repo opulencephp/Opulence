@@ -23,8 +23,7 @@ use Opulence\Authentication\Tokens\Signatures\RsaSsaPkcsSigner;
  */
 class SignerFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var SignerFactory The factory to use in tests */
-    private $factory;
+    private SignerFactory $factory;
 
     /**
      * Sets up the tests

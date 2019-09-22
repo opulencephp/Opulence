@@ -20,8 +20,7 @@ use Opulence\Views\Factories\IO\FileViewReader;
  */
 class FileViewReaderTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FileViewReader The reader to use in tests */
-    private $reader;
+    private FileViewReader $reader;
 
     /**
      * Sets up the tests

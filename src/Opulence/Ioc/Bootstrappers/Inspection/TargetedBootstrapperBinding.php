@@ -20,7 +20,7 @@ use Opulence\Ioc\Bootstrappers\Bootstrapper;
 final class TargetedBootstrapperBinding extends BootstrapperBinding
 {
     /** @var string The targeted class */
-    private $targetClass;
+    private string $targetClass;
 
     /**
      * @param string $targetClass The targeted class

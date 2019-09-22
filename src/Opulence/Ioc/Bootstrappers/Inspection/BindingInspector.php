@@ -21,7 +21,7 @@ use Opulence\Ioc\ResolutionException;
 final class BindingInspector
 {
     /** @var BindingInspectionContainer The container that can determine bindings */
-    private $container;
+    private BindingInspectionContainer $container;
 
     /**
      * @param BindingInspectionContainer|null $inspectionContainer The container that can determine bindings

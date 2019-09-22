@@ -26,11 +26,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ModelStateTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IValidatorFactory|MockObject The validator factory */
-    private $validatorFactory;
+    private IValidatorFactory $validatorFactory;
     /** @var IValidator|MockObject The validator */
-    private $validator;
+    private IValidator $validator;
     /** @var Rules|MockObject The rules to use in tests */
-    private $rules;
+    private Rules $rules;
 
     /**
      * Sets up the tests

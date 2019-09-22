@@ -24,9 +24,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 class HmacSignerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IUnsignedToken|MockObject The unsigned token to use in tests */
-    private $unsignedToken;
+    private IUnsignedToken $unsignedToken;
     /** @var ISignedToken|MockObject The signed token to use in tests */
-    private $signedToken;
+    private ISignedToken $signedToken;
 
     /**
      * Sets up the tests

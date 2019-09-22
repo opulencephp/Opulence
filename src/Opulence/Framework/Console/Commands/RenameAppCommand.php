@@ -27,9 +27,9 @@ use Opulence\IO\FileSystem;
 class RenameAppCommand extends Command
 {
     /** @var FileSystem The filesystem to use to write to files */
-    protected $fileSystem;
+    protected FileSystem $fileSystem;
     /** @var Prompt The prompt to confirm things with the user */
-    protected $prompt;
+    protected Prompt $prompt;
 
     /**
      * @param FileSystem $fileSystem The filesystem to use to write to files

@@ -20,9 +20,9 @@ use InvalidArgumentException;
 class FileViewNameResolver implements IViewNameResolver
 {
     /** @var array The mapping of paths to their priorities */
-    protected $paths = [];
+    protected array $paths = [];
     /** @var array The mapping of extensions to their priorities */
-    protected $extensions = [];
+    protected array $extensions = [];
 
     /**
      * @inheritdoc

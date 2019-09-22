@@ -22,9 +22,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 class CommandBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IntegrationTestCase|MockObject The integration test to use in tests */
-    private $integrationTest;
-    /** @var CommandBuilder The command builder to use in tests */
-    private $commandBuilder;
+    private IntegrationTestCase $integrationTest;
+    private CommandBuilder $commandBuilder;
 
     /**
      * Sets up the tests

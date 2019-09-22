@@ -20,7 +20,7 @@ use InvalidArgumentException;
 class HmacSigner implements ISigner
 {
     /** @var string The algorithm to use */
-    private $algorithm;
+    private string $algorithm;
     /** @var string|resource The public key */
     private $publicKey;
 

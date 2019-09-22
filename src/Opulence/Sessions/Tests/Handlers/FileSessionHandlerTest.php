@@ -21,11 +21,9 @@ use Opulence\Sessions\Handlers\FileSessionHandler;
 class FileSessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var string The path to the temporary session files */
-    private static $path = 'tmp';
-    /** @var FileSessionHandler The handler to test */
-    private $handler;
-    /** @var FileSystem The file system to use in tests */
-    private $fileSystem;
+    private static string $path = 'tmp';
+    private FileSessionHandler $handler;
+    private FileSystem $fileSystem;
 
     /**
      * Does some setup before any tests

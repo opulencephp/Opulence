@@ -22,7 +22,7 @@ use Opulence\Views\Caching\ICache;
 class FlushViewCacheCommand extends Command
 {
     /** @var ICache The view cache */
-    private $viewCache;
+    private ICache $viewCache;
 
     /**
      * @param ICache $viewCache The view cache

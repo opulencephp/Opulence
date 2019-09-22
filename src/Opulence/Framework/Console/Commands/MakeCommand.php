@@ -27,11 +27,11 @@ use Opulence\IO\FileSystem;
 abstract class MakeCommand extends Command
 {
     /** @var Prompt The console prompt */
-    protected $prompt;
+    protected Prompt $prompt;
     /** @var FileSystem The file system */
-    protected $fileSystem;
+    protected FileSystem $fileSystem;
     /** @var Composer The Composer wrapper */
-    protected $composer;
+    protected Composer $composer;
 
     /**
      * @param Prompt $prompt The console prompt

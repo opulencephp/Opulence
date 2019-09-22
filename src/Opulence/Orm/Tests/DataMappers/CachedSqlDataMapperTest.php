@@ -24,16 +24,11 @@ use Opulence\Orm\Tests\DataMappers\Mocks\User;
  */
 class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var CachedSQLDataMapper The data mapper to use for tests */
-    private $dataMapper;
-    /** @var User An entity to use for tests */
-    private $entity1;
-    /** @var User An entity to use for tests */
-    private $entity2;
-    /** @var User An entity to use for tests */
-    private $entity3;
-    /** @var User An entity to use for tests */
-    private $entity4;
+    private CachedSqlDataMapper $dataMapper;
+    private User $entity1;
+    private User $entity2;
+    private User $entity3;
+    private User $entity4;
 
     /**
      * Sets up the tests

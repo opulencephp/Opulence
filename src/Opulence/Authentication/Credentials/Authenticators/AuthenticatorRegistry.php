@@ -20,7 +20,7 @@ use InvalidArgumentException;
 class AuthenticatorRegistry implements IAuthenticatorRegistry
 {
     /** @var array The mapping of credential types to authenticators */
-    private $credentialTypesToAuthenticators = [];
+    private array $credentialTypesToAuthenticators = [];
 
     /**
      * @inheritdoc

@@ -19,8 +19,7 @@ use Opulence\Cache\ArrayBridge;
  */
 class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ArrayBridge The bridge to use in tests */
-    private $bridge;
+    private ArrayBridge $bridge;
 
     /**
      * Sets up the tests

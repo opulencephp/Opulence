@@ -17,10 +17,10 @@ namespace Opulence\Databases\Providers;
  */
 class MySqlProvider extends Provider
 {
-    /** @inheritdoc */
-    protected $trueBooleanFormat = 1;
-    /** @inheritdoc */
-    protected $falseBooleanFormat = 0;
+    /** @var int The format for a true boolean value */
+    protected int $trueBooleanFormat = 1;
+    /** @var int The format for a false boolean value */
+    protected int $falseBooleanFormat = 0;
     /** @var string The format for time with time zone strings */
-    protected $timeWithTimeZoneFormat = 'H:i:s';
+    protected string $timeWithTimeZoneFormat = 'H:i:s';
 }

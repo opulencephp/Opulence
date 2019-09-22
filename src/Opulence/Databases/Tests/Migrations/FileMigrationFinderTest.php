@@ -26,9 +26,9 @@ class FileMigrationFinderTest extends \PHPUnit\Framework\TestCase
     /** @var string The directory that holds our migrations */
     private const MIGRATION_DIRECTORY = __DIR__ . '/Mocks';
     /** @var FileMigrationFinder The finder to use in tests */
-    private $migrationFinder;
+    private FileMigrationFinder $migrationFinder;
     /** @var string The name of the namespace the top-level migrations belong to */
-    private $topLevelMigrationNamespace = '';
+    private string $topLevelMigrationNamespace = '';
 
     /**
      * Sets up the tests

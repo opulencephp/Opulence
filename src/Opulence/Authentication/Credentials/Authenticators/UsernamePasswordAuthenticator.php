@@ -27,11 +27,11 @@ use Opulence\Authentication\Users\Orm\IUserRepository;
 class UsernamePasswordAuthenticator implements IAuthenticator
 {
     /** @var IUserRepository The user repository */
-    protected $userRepository;
+    protected IUserRepository $userRepository;
     /** @var IRoleRepository The role repository */
-    protected $roleRepository;
+    protected IRoleRepository $roleRepository;
     /** @var string The pepper used for hashing */
-    protected $pepper;
+    protected string $pepper;
 
     /**
      * @param IUserRepository $userRepository The user repository

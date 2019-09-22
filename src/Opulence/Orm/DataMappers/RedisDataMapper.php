@@ -27,7 +27,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
     public const VALUE_TYPE_SORTED_SET = 2;
 
     /** @var Redis The Redis cache to use for queries */
-    protected $redis;
+    protected Redis $redis;
 
     /**
      * @param Redis $redis The Redis cache to use for queries

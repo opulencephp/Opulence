@@ -19,8 +19,7 @@ use Opulence\Cryptography\Encryption\Keys\DerivedKeys;
  */
 class DerivedKeysTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var DerivedKeys The derived keys to use in tests */
-    private $derivedKeys;
+    private DerivedKeys $derivedKeys;
 
     /**
      * Sets up the tests

@@ -26,10 +26,8 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     /** The path to the test view with PHP code */
     private const VIEW_PATH_WITH_INVALID_PHP_CODE = '/files/TestWithInvalidPhp.html';
 
-    /** @var View The view to use in the tests */
-    private $view;
-    /** @var FileSystem The file system used to read views */
-    private $fileSystem;
+    private View $view;
+    private FileSystem $fileSystem;
 
     /**
      * Sets up the tests

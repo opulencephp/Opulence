@@ -18,9 +18,9 @@ namespace Opulence\Cryptography\Encryption\Keys;
 class Secret
 {
     /** @var string The type of secret this is */
-    private $type;
+    private string $type;
     /** @var string The secret value */
-    private $value;
+    private string $value;
 
     /**
      * @param string $type The type of secret this is

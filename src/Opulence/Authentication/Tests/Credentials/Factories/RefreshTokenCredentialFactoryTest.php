@@ -26,12 +26,11 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var RefreshTokenCredentialFactory The factory to use in tests */
-    private $factory;
+    private RefreshTokenCredentialFactory $factory;
     /** @var ISigner|MockObject The signer to use in tests */
-    private $signer;
+    private ISigner $signer;
     /** @var ISubject|MockObject The subject to use in tests */
-    private $subject;
+    private ISubject $subject;
 
     /**
      * Sets up the tests

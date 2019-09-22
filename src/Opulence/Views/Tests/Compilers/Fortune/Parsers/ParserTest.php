@@ -29,10 +29,8 @@ use RuntimeException;
  */
 class ParserTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Parser The parser to use in tests */
-    private $parser;
-    /** @var AbstractSyntaxTree The syntax tree to use in tests */
-    private $ast;
+    private Parser $parser;
+    private AbstractSyntaxTree $ast;
 
     /**
      * Sets up the tests

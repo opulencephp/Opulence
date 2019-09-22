@@ -18,7 +18,7 @@ namespace Opulence\Cache;
 class ArrayBridge implements ICacheBridge
 {
     /** @var array The storage */
-    private $storage = [];
+    private array $storage = [];
 
     /**
      * @inheritdoc

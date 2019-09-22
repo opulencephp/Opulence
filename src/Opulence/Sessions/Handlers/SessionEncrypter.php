@@ -21,7 +21,7 @@ use Opulence\Cryptography\Encryption\IEncrypter;
 class SessionEncrypter implements ISessionEncrypter
 {
     /** @var IEncrypter The Opulence encrypter */
-    private $encrypter;
+    private IEncrypter $encrypter;
 
     /**
      * @param IEncrypter $encrypter The Opulence encrypter

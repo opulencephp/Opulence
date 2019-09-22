@@ -18,7 +18,7 @@ namespace Opulence\Framework\Composer;
 class Executable
 {
     /** @var string The executable */
-    private $executable = '';
+    private string $executable = '';
 
     /**
      * @param string $rootPath The path to the project's root directory

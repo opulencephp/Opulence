@@ -27,12 +27,11 @@ use PHPUnit\Framework\TestCase;
  */
 class BindingInspectorBootstrapperDispatcherTest extends TestCase
 {
-    /** @var BindingInspectorBootstrapperDispatcher */
-    private $dispatcher;
+    private BindingInspectorBootstrapperDispatcher $dispatcher;
     /** @var IContainer|MockObject */
-    private $container;
+    private IContainer $container;
     /** @var IBootstrapperBindingCache|MockObject */
-    private $cache;
+    private IBootstrapperBindingCache $cache;
 
     protected function setUp(): void
     {

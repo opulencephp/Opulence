@@ -18,9 +18,9 @@ namespace Opulence\Databases\Providers;
 class PostgreSqlProvider extends Provider
 {
     /** @inheritdoc */
-    protected $timestampWithTimeZoneFormat = 'Y-m-d H:i:s O';
+    protected string $timestampWithTimeZoneFormat = 'Y-m-d H:i:s O';
     /** @var array The list of acceptable "true" values in PostgreSQL */
-    private $trueBooleanValues = [
+    private array $trueBooleanValues = [
         't',
         'true',
         '1',
@@ -29,7 +29,7 @@ class PostgreSqlProvider extends Provider
         'on'
     ];
     /** @var array The list of acceptable "false" values in PostgreSQL */
-    private $falseBooleanValues = [
+    private array $falseBooleanValues = [
         'f',
         'false',
         '0',
@@ -46,7 +46,9 @@ class PostgreSqlProvider extends Provider
         if (\is_string($value)) {
             if (in_array(strtolower($value), $this->falseBooleanValues, true)) {
                 return false;
-            } elseif (in_array(strtolower($value), $this->trueBooleanValues, true)) {
+            }
+
+            if (in_array(strtolower($value), $this->trueBooleanValues, true)) {
                 return true;
             }
         }
@@ -62,9 +64,9 @@ class PostgreSqlProvider extends Provider
         if (is_bool($value)) {
             if ($value) {
                 return $this->trueBooleanValues[0];
-            } else {
-                return $this->falseBooleanValues[0];
             }
+
+            return $this->falseBooleanValues[0];
         }
 
         return $value;

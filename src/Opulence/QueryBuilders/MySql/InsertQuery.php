@@ -20,7 +20,7 @@ use Opulence\QueryBuilders\InsertQuery as BaseInsertQuery;
 class InsertQuery extends BaseInsertQuery
 {
     /** @var array The list of column names to values in case of a "ON DUPLICATE KEY UPDATE" clause */
-    private $duplicateKeyUpdateColumnNamesToValues = [];
+    private array $duplicateKeyUpdateColumnNamesToValues = [];
 
     /**
      * Adds columns to update in the case a row already exists in the table

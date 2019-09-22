@@ -18,9 +18,9 @@ namespace Opulence\Authentication;
 class AuthenticationContext implements IAuthenticationContext
 {
     /** @var ISubject|null The current subject */
-    private $subject;
+    private ?ISubject $subject;
     /** @var string The current authentication status */
-    private $status;
+    private string $status;
 
     /**
      * @param ISubject|null $subject The current subject

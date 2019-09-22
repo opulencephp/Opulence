@@ -18,7 +18,7 @@ namespace Opulence\Sessions\Handlers;
 class FileSessionHandler extends SessionHandler
 {
     /** @var string The path to the session files */
-    private $path = '';
+    private string $path;
 
     /**
      * @param string $path The path to the session files

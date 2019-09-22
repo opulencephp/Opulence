@@ -30,14 +30,12 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FortuneCompiler The compiler to use in tests */
-    private $fortuneCompiler;
-    /** @var Transpiler The transpiler to use in tests */
-    private $transpiler;
+    private FortuneCompiler $fortuneCompiler;
+    private Transpiler $transpiler;
     /** @var IViewFactory|MockObject The view factory to use in tests */
-    private $viewFactory;
+    private IViewFactory $viewFactory;
     /** @var View The view to use in tests */
-    private $view;
+    private View $view;
 
     /**
      * Sets up the tests

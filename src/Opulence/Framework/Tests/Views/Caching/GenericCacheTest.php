@@ -23,11 +23,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 class GenericCacheTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ICacheBridge|MockObject The caching bridge to use in tests */
-    private $bridge;
+    private ICacheBridge $bridge;
     /** @var GenericCache The cache to use in tests */
-    private $cache;
+    private GenericCache $cache;
     /** @var IView|MockObject The view to use in tests */
-    private $view;
+    private IView $view;
 
     /**
      * Sets up the tests

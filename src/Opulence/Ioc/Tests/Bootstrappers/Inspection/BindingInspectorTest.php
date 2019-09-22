@@ -29,10 +29,8 @@ use PHPUnit\Framework\TestCase;
  */
 class BindingInspectorTest extends TestCase
 {
-    /** @var BindingInspector */
-    private $inspector;
-    /** @var BindingInspectionContainer */
-    private $container;
+    private BindingInspector $inspector;
+    private BindingInspectionContainer $container;
 
     protected function setUp(): void
     {

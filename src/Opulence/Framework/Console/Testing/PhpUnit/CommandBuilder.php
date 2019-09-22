@@ -18,17 +18,17 @@ namespace Opulence\Framework\Console\Testing\PhpUnit;
 class CommandBuilder
 {
     /** @var IntegrationTestCase The integration test that created this */
-    protected $integrationTest;
+    protected IntegrationTestCase $integrationTest;
     /** @var string The command name */
-    protected $commandName;
+    protected string $commandName;
     /** @var array The list of arguments */
-    protected $arguments = [];
+    protected array $arguments = [];
     /** @var array The list of options */
-    protected $options = [];
+    protected array $options = [];
     /** @var array The list of prompt answers */
-    protected $promptAnswers = [];
+    protected array $promptAnswers = [];
     /** @var bool Whether or not the response is styled */
-    protected $isStyled = true;
+    protected bool $isStyled = true;
 
     /**
      * @param IntegrationTestCase $integrationTest The integration test that created this builder

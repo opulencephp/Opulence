@@ -20,9 +20,9 @@ use Opulence\Authentication\Credentials\ICredential;
 class Subject implements ISubject
 {
     /** @var IPrincipal[] The list of principals */
-    protected $principals = [];
+    protected array $principals = [];
     /** @var ICredential[] The list of credentials */
-    protected $credentials = [];
+    protected array $credentials = [];
 
     /**
      * @param array $principals The list of principals

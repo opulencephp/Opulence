@@ -21,7 +21,7 @@ use Opulence\Authentication\Tokens\ISignedToken;
 class SignedJwt extends UnsignedJwt implements ISignedToken
 {
     /** @var string The signature */
-    protected $signature = '';
+    protected string $signature = '';
 
     /**
      * @inheritdoc

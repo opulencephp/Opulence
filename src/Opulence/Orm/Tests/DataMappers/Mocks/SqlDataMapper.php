@@ -21,9 +21,9 @@ use Opulence\Orm\OrmException;
 class SqlDataMapper extends BaseSqlDataMapper
 {
     /** @var object[] The list of entities added */
-    protected $entities = [];
+    protected array $entities = [];
     /** @var int The current Id */
-    private $currId = 0;
+    private int $currId = 0;
 
     public function __construct()
     {

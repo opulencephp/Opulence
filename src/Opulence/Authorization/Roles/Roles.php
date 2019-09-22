@@ -22,9 +22,9 @@ use Opulence\Authorization\Roles\Orm\IRoleRepository;
 class Roles implements IRoles
 {
     /** @var IRoleRepository The role repository */
-    protected $roleRepository;
+    protected IRoleRepository $roleRepository;
     /** @var IRoleMembershipRepository The role membership repository */
-    protected $roleMembershipRepository;
+    protected IRoleMembershipRepository $roleMembershipRepository;
 
     /**
      * @param IRoleRepository $roleRepository The role repository

@@ -20,7 +20,7 @@ use InvalidArgumentException;
 class JwtHeader
 {
     /** @var array The list of valid algorithms */
-    private static $validAlgorithms = [
+    private static array $validAlgorithms = [
         'none',
         'HS256',
         'HS348',
@@ -30,7 +30,7 @@ class JwtHeader
         'RS512'
     ];
     /** @var array The extra headers */
-    private $headers = [
+    private array $headers = [
         'typ' => 'JWT',
         'alg' => 'HS256'
     ];

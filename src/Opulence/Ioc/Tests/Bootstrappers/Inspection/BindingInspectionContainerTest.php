@@ -26,8 +26,7 @@ use PHPUnit\Framework\TestCase;
  */
 class BindingInspectionContainerTest extends TestCase
 {
-    /** @var BindingInspectionContainer */
-    private $container;
+    private BindingInspectionContainer $container;
 
     protected function setUp(): void
     {

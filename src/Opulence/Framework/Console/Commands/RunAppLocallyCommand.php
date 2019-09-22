@@ -23,16 +23,15 @@ use Opulence\Console\Responses\IResponse;
 class RunAppLocallyCommand extends Command
 {
     /** @var string The path to the default router file */
-    private $defaultRouterPath = '';
+    private string $defaultRouterPath;
 
     /**
      * @param string $defaultRouterPath The path to the default router file
      */
     public function __construct(string $defaultRouterPath)
     {
-        parent::__construct();
-
         $this->defaultRouterPath = $defaultRouterPath;
+        parent::__construct();
     }
 
     /**

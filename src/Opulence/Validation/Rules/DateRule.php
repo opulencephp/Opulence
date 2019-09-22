@@ -21,7 +21,7 @@ use InvalidArgumentException;
 class DateRule implements IRuleWithArgs
 {
     /** @var array The expected date formats */
-    protected $formats = [];
+    protected array $formats = [];
 
     /**
      * @inheritdoc

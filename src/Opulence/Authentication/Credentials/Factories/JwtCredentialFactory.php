@@ -29,15 +29,15 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 abstract class JwtCredentialFactory
 {
     /** @var ISigner The token signer */
-    protected $signer;
+    protected ISigner $signer;
     /** @var string The issuer of the JWT */
-    protected $issuer = '';
+    protected string $issuer = '';
     /** @var array|string The issuer of the JWT */
     protected $audience = '';
     /** @var DateInterval The interval from the moment of creation that the JWT is valid from */
-    protected $validFromInterval;
+    protected DateInterval $validFromInterval;
     /** @var DateInterval The interval from the moment of creation that the JWT is valid to */
-    protected $validToInterval;
+    protected DateInterval $validToInterval;
 
     /**
      * @param ISigner $signer The token signer

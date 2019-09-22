@@ -20,7 +20,7 @@ use InvalidArgumentException;
 class Memcached
 {
     /** @var array The list mapping of client names to instances */
-    private $clients = [];
+    private array $clients = [];
 
     /**
      * @param array|mixed $clients The client or list of clients

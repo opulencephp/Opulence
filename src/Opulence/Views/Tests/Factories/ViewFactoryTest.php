@@ -27,11 +27,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ViewFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IViewNameResolver|MockObject The view name resolver to use in tests */
-    private $viewNameResolver;
+    private IViewNameResolver $viewNameResolver;
     /** @var IViewReader|MockObject The view reader to use in tests */
-    private $viewReader;
-    /** @var ViewFactory The view factory to use in tests */
-    private $viewFactory;
+    private IViewReader $viewReader;
+    private ViewFactory $viewFactory;
 
     /**
      * Sets up the tests

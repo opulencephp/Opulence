@@ -21,10 +21,9 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class VerificationContextTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var VerificationContext The context to use in tests */
-    private $context;
+    private VerificationContext $context;
     /** @var ISigner|MockObject The signer to use in tests */
-    private $signer;
+    private ISigner $signer;
 
     /**
      * Sets up the tests

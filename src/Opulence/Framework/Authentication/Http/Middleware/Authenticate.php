@@ -29,13 +29,13 @@ use Opulence\Routing\Middleware\IMiddleware;
 class Authenticate implements IMiddleware
 {
     /** @var IAuthenticator The authenticator */
-    protected $authenticator;
+    protected IAuthenticator $authenticator;
     /** @var IAuthenticationContext The authentication context */
-    protected $authenticationContext;
+    protected IAuthenticationContext $authenticationContext;
     /** @var IAuthority The authority */
-    protected $authority;
+    protected IAuthority $authority;
     /** @var IHttpCredentialIO The credential IO */
-    protected $credentialIO;
+    protected IHttpCredentialIO $credentialIO;
 
     /**
      * @param IAuthenticator $authenticator The authenticator

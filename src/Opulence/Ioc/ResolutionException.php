@@ -20,9 +20,9 @@ use Throwable;
 final class ResolutionException extends IocException
 {
     /** @var string The name of the interface that could not be resolved */
-    private $interface;
+    private string $interface;
     /** @var string|null The target class of the interface, or null if there is no target */
-    private $targetClass;
+    private ?string $targetClass;
 
     /**
      * @inheritdoc
