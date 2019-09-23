@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Opulence\Cache;
 
-use Opulence\Redis\Redis;
+use Redis;
 
 /**
  * Defines the Redis cache bridge
@@ -21,20 +21,16 @@ class RedisBridge implements ICacheBridge
 {
     /** @var Redis The Redis driver */
     protected Redis $redis;
-    /** @var string The name of the client to connect to */
-    protected string $clientName = 'default';
     /** @var string The prefix to use on all keys */
     protected string $keyPrefix;
 
     /**
      * @param Redis $redis The Redis driver
-     * @param string $clientName The name of the client to connect to
      * @param string $keyPrefix The prefix to use on all keys
      */
-    public function __construct(Redis $redis, string $clientName = 'default', string $keyPrefix = '')
+    public function __construct(Redis $redis, string $keyPrefix = '')
     {
         $this->redis = $redis;
-        $this->clientName = $clientName;
         $this->keyPrefix = $keyPrefix;
     }
 
@@ -43,7 +39,7 @@ class RedisBridge implements ICacheBridge
      */
     public function decrement(string $key, int $by = 1): int
     {
-        return $this->getClient()->decrBy($this->getPrefixedKey($key), $by);
+        return $this->redis->decrBy($this->getPrefixedKey($key), $by);
     }
 
     /**
@@ -51,7 +47,7 @@ class RedisBridge implements ICacheBridge
      */
     public function delete(string $key): void
     {
-        $this->getClient()->del($this->getPrefixedKey($key));
+        $this->redis->del($this->getPrefixedKey($key));
     }
 
     /**
@@ -59,7 +55,7 @@ class RedisBridge implements ICacheBridge
      */
     public function flush(): void
     {
-        $this->getClient()->flushAll();
+        $this->redis->flushAll();
     }
 
     /**
@@ -67,7 +63,7 @@ class RedisBridge implements ICacheBridge
      */
     public function get(string $key)
     {
-        $value = $this->getClient()->get($this->getPrefixedKey($key));
+        $value = $this->redis->get($this->getPrefixedKey($key));
 
         return $value === false ? null : $value;
     }
@@ -87,7 +83,7 @@ class RedisBridge implements ICacheBridge
      */
     public function has(string $key): bool
     {
-        return $this->getClient()->get($this->getPrefixedKey($key)) !== false;
+        return $this->redis->get($this->getPrefixedKey($key)) !== false;
     }
 
     /**
@@ -95,7 +91,7 @@ class RedisBridge implements ICacheBridge
      */
     public function increment(string $key, int $by = 1): int
     {
-        return $this->getClient()->incrBy($this->getPrefixedKey($key), $by);
+        return $this->redis->incrBy($this->getPrefixedKey($key), $by);
     }
 
     /**
@@ -103,7 +99,7 @@ class RedisBridge implements ICacheBridge
      */
     public function set(string $key, $value, int $lifetime): void
     {
-        $this->getClient()->setEx($this->getPrefixedKey($key), $lifetime, $value);
+        $this->redis->setEx($this->getPrefixedKey($key), $lifetime, $value);
     }
 
     /**
@@ -115,15 +111,5 @@ class RedisBridge implements ICacheBridge
     protected function getPrefixedKey(string $key): string
     {
         return $this->keyPrefix . $key;
-    }
-
-    /**
-     * Gets the selected client
-     *
-     * @return mixed The client
-     */
-    private function getClient()
-    {
-        return $this->redis->getClient($this->clientName);
     }
 }

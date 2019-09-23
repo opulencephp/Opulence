@@ -32,7 +32,7 @@ class Statement extends PDOStatement implements IStatement
     /**
      * @inheritdoc
      */
-    public function bindParam($parameter, &$variable, $dataType = PDO::PARAM_STR, $length = null, $driverOptions = null)
+    public function bindParam($parameter, &$variable, $dataType = PDO::PARAM_STR, $length = null, $driverOptions = null): bool
     {
         return parent::bindParam($parameter, $variable, $dataType, $length, $driverOptions);
     }
@@ -40,7 +40,7 @@ class Statement extends PDOStatement implements IStatement
     /**
      * @inheritdoc
      */
-    public function bindValue($parameter, $value, $dataType = PDO::PARAM_STR)
+    public function bindValue($parameter, $value, $dataType = PDO::PARAM_STR): bool
     {
         return parent::bindValue($parameter, $value, $dataType);
     }
@@ -77,7 +77,7 @@ class Statement extends PDOStatement implements IStatement
     /**
      * @inheritdoc
      */
-    public function execute($parameters = null)
+    public function execute($parameters = null): bool
     {
         return parent::execute($parameters);
     }
@@ -105,7 +105,7 @@ class Statement extends PDOStatement implements IStatement
     /**
      * @inheritdoc
      */
-    public function fetchAll($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE, $fetchArgument = null, $ctorArgs = null)
+    public function fetchAll($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE, $fetchArgument = null, $ctorArgs = null): array
     {
         if ($fetchStyle === null && $fetchArgument === null && $ctorArgs === null) {
             return parent::fetchAll();
@@ -125,15 +125,7 @@ class Statement extends PDOStatement implements IStatement
     /**
      * @inheritdoc
      */
-    public function fetchColumn($columnNumber = 0)
-    {
-        return parent::fetchColumn($columnNumber);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setFetchMode($fetchMode, $arg2 = null, $arg3 = null)
+    public function setFetchMode($fetchMode, $arg2 = null, $arg3 = null): bool
     {
         if ($arg2 === null && $arg3 === null) {
             return parent::setFetchMode($fetchMode);

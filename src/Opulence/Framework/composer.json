@@ -1,53 +1,53 @@
 {
-  "name": "opulence/framework",
-  "description": "The Opulence main framework library",
-  "keywords": [
-    "PHP",
-    "application",
-    "framework"
-  ],
-  "authors": [
-    {
-      "name": "David Young",
-      "email": "dave@opulencephp.com",
-      "role": "Architect"
-    }
-  ],
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "Opulence\\Framework\\": ""
+    "name": "opulence/framework",
+    "description": "The Opulence main framework library",
+    "keywords": [
+        "PHP",
+        "application",
+        "framework"
+    ],
+    "authors": [
+        {
+            "name": "David Young",
+            "email": "dave@opulencephp.com",
+            "role": "Architect"
+        }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Opulence\\Framework\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
-    "exclude-from-classmap": [
-        "/Tests/"
-    ]
-  },
-  "require": {
-    "ext-json": "*",
-    "php": "^7.3",
-    "opulence/applications": "1.1.*",
-    "opulence/authentication": "1.1.*",
-    "opulence/authorization": "1.1.*",
-    "opulence/console": "1.1.*",
-    "opulence/cryptography": "1.1.*",
-    "opulence/debug": "1.1.*",
-    "opulence/environments": "1.1.*",
-    "opulence/events": "1.1.*",
-    "opulence/http": "1.1.*",
-    "opulence/io": "1.1.*",
-    "opulence/ioc": "1.1.*",
-    "opulence/routing": "1.1.*",
-    "opulence/sessions": "1.1.*",
-    "opulence/validation": "1.1.*",
-    "opulence/views": "1.1.*"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "~6.2"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "2.0.x-dev"
-    }
-  },
-  "minimum-stability": "dev"
+    "require": {
+        "ext-json": "*",
+        "php": "^7.4",
+        "opulence/applications": "1.1.*",
+        "opulence/authentication": "1.1.*",
+        "opulence/authorization": "1.1.*",
+        "opulence/console": "1.1.*",
+        "opulence/cryptography": "1.1.*",
+        "opulence/debug": "1.1.*",
+        "opulence/environments": "1.1.*",
+        "opulence/events": "1.1.*",
+        "opulence/http": "1.1.*",
+        "opulence/io": "1.1.*",
+        "opulence/ioc": "1.1.*",
+        "opulence/routing": "1.1.*",
+        "opulence/sessions": "1.1.*",
+        "opulence/validation": "1.1.*",
+        "opulence/views": "1.1.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~6.2"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }

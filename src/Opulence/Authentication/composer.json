@@ -1,36 +1,36 @@
 {
-  "name": "opulence/authentication",
-  "description": "The Opulence authentication library",
-  "keywords": [
-    "PHP",
-    "authentication",
-    "passwords",
-    "jwt",
-    "json web tokens"
-  ],
-  "authors": [
-    {
-      "name": "David Young",
-      "email": "dave@opulencephp.com",
-      "role": "Architect"
-    }
-  ],
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "Opulence\\Authentication\\": ""
+    "name": "opulence/authentication",
+    "description": "The Opulence authentication library",
+    "keywords": [
+        "PHP",
+        "authentication",
+        "passwords",
+        "jwt",
+        "json web tokens"
+    ],
+    "authors": [
+        {
+            "name": "David Young",
+            "email": "dave@opulencephp.com",
+            "role": "Architect"
+        }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Opulence\\Authentication\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
-    "exclude-from-classmap": [
-        "/Tests/"
-    ]
-  },
-  "require": {
-    "php": "^7.3"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "2.0.x-dev"
-    }
-  },
-  "minimum-stability": "dev"
+    "require": {
+        "php": "^7.4"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }

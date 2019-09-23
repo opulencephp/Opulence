@@ -1,41 +1,46 @@
 {
-  "name": "opulence/orm",
-  "description": "The Opulence Orm library",
-  "keywords": [
-    "PHP",
-    "orm",
-    "repository",
-    "unit of work",
-    "data mapper"
-  ],
-  "authors": [
-    {
-      "name": "David Young",
-      "email": "dave@opulencephp.com",
-      "role": "Architect"
-    }
-  ],
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "Opulence\\Orm\\": ""
+    "name": "opulence/orm",
+    "description": "The Opulence Orm library",
+    "keywords": [
+        "PHP",
+        "orm",
+        "repository",
+        "unit of work",
+        "data mapper"
+    ],
+    "authors": [
+        {
+            "name": "David Young",
+            "email": "dave@opulencephp.com",
+            "role": "Architect"
+        }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Opulence\\Orm\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
-    "exclude-from-classmap": [
-        "/Tests/"
-    ]
-  },
-  "require": {
-    "php": "^7.3",
-    "opulence/databases": "1.1.*"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "2.0.x-dev"
-    }
-  },
-  "suggest": {
-    "opulence/memcached": "For Memcached data mappers",
-    "opulence/redis": "For Redis data mappers"
-  },
-  "minimum-stability": "dev"
+    "require": {
+        "php": "^7.4",
+        "opulence/databases": "1.1.*"
+    },
+    "require-dev": {
+        "ext-memcached": "*",
+        "ext-redis": "*"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    },
+    "suggest": {
+        "ext-memcached": "For Memcached data mappers",
+        "ext-redis": "For Redis data mappers",
+        "opulence/memcached": "For Memcached data mappers"
+    },
+    "minimum-stability": "dev"
 }

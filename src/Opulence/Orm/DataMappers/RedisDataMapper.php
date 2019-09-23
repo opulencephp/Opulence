@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Opulence\Orm\DataMappers;
 
-use Opulence\Redis\Redis;
+use Redis;
 
 /**
  * Defines a data mapper that maps domain data to and from Redis
@@ -60,33 +60,6 @@ abstract class RedisDataMapper implements ICacheDataMapper
     abstract protected function getEntityHashById($id): ?array;
 
     /**
-     * Gets the list of members of the set at the given key
-     * We need this to know how to get the set members from the concrete Redis cache object this mapper uses
-     *
-     * @param string $key The key whose members we want
-     * @return array|bool The list of members if successful, otherwise false
-     */
-    abstract protected function getSetMembersFromRedis(string $key);
-
-    /**
-     * Gets the list of members of the sorted set at the given key
-     * We need this to know how to get the sorted set members from the concrete Redis cache object this mapper uses
-     *
-     * @param string $key The key whose members we want
-     * @return array|bool The list of members if successful, otherwise false
-     */
-    abstract protected function getSortedSetMembersFromRedis(string $key);
-
-    /**
-     * Gets the item at the given key
-     * We need this to know how to get the value from the concrete Redis cache object this mapper uses
-     *
-     * @param string $key The key whose value we want
-     * @return mixed|bool The value of the key
-     */
-    abstract protected function getValueFromRedis(string $key);
-
-    /**
      * Creates an entity from a hash of data
      *
      * @param array $hash The hash of data to load the entity from
@@ -120,6 +93,42 @@ abstract class RedisDataMapper implements ICacheDataMapper
         }
 
         return $entities;
+    }
+
+    /**
+     * Gets the list of members of the set at the given key
+     * We need this to know how to get the set members from the concrete Redis cache object this mapper uses
+     *
+     * @param string $key The key whose members we want
+     * @return array|bool The list of members if successful, otherwise false
+     */
+    protected function getSetMembersFromRedis(string $key)
+    {
+        return $this->redis->sMembers($key);
+    }
+
+    /**
+     * Gets the list of members of the sorted set at the given key
+     * We need this to know how to get the sorted set members from the concrete Redis cache object this mapper uses
+     *
+     * @param string $key The key whose members we want
+     * @return array|bool The list of members if successful, otherwise false
+     */
+    protected function getSortedSetMembersFromRedis(string $key)
+    {
+        return $this->redis->zRange($key, 0, -1);
+    }
+
+    /**
+     * Gets the item at the given key
+     * We need this to know how to get the value from the concrete Redis cache object this mapper uses
+     *
+     * @param string $key The key whose value we want
+     * @return mixed|bool The value of the key
+     */
+    protected function getValueFromRedis(string $key)
+    {
+        return $this->redis->get($key);
     }
 
     /**

@@ -1,39 +1,39 @@
 {
-  "name": "opulence/databases",
-  "description": "The Opulence database library",
-  "keywords": [
-    "PHP",
-    "database",
-    "pdo",
-    "mysql",
-    "postgresql",
-    "connection pools"
-  ],
-  "authors": [
-    {
-      "name": "David Young",
-      "email": "dave@opulencephp.com",
-      "role": "Architect"
-    }
-  ],
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "Opulence\\Databases\\": ""
+    "name": "opulence/databases",
+    "description": "The Opulence database library",
+    "keywords": [
+        "PHP",
+        "database",
+        "pdo",
+        "mysql",
+        "postgresql",
+        "connection pools"
+    ],
+    "authors": [
+        {
+            "name": "David Young",
+            "email": "dave@opulencephp.com",
+            "role": "Architect"
+        }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Opulence\\Databases\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
-    "exclude-from-classmap": [
-        "/Tests/"
-    ]
-  },
-  "require": {
-    "php": "^7.3",
-    "ext-json": "*",
-    "ext-pdo": "*"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "2.0.x-dev"
-    }
-  },
-  "minimum-stability": "dev"
+    "require": {
+        "php": "^7.4",
+        "ext-json": "*",
+        "ext-pdo": "*"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }

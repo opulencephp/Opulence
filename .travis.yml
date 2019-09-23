@@ -7,6 +7,14 @@ php:
 git:
     depth: false
 
+services:
+  - memcached
+  - redis-server
+
+before_install:
+  - echo "extension=memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - printf "\n" | pecl install -f redis
+
 before_script:
   - composer self-update
   - composer install

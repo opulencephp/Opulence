@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Opulence\Orm\DataMappers;
 
+use Memcached;
 use Opulence\Databases\IConnection;
-use Opulence\Memcached\Memcached;
 use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
 
 /**

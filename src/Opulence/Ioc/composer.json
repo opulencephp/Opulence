@@ -1,36 +1,36 @@
 {
-  "name": "opulence/ioc",
-  "description": "The Opulence Ioc library",
-  "keywords": [
-    "PHP",
-    "ioc",
-    "container",
-    "dependency injection",
-    "bootstrappers"
-  ],
-  "authors": [
-    {
-      "name": "David Young",
-      "email": "dave@opulencephp.com",
-      "role": "Architect"
-    }
-  ],
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "Opulence\\Ioc\\": ""
+    "name": "opulence/ioc",
+    "description": "The Opulence Ioc library",
+    "keywords": [
+        "PHP",
+        "ioc",
+        "container",
+        "dependency injection",
+        "bootstrappers"
+    ],
+    "authors": [
+        {
+            "name": "David Young",
+            "email": "dave@opulencephp.com",
+            "role": "Architect"
+        }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Opulence\\Ioc\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
-    "exclude-from-classmap": [
-        "/Tests/"
-    ]
-  },
-  "require": {
-    "php": "^7.3"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "2.0.x-dev"
-    }
-  },
-  "minimum-stability": "dev"
+    "require": {
+        "php": "^7.4"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }

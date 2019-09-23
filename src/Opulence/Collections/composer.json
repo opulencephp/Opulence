@@ -1,38 +1,38 @@
 {
-  "name": "opulence/collections",
-  "description": "The Opulence collection library",
-  "keywords": [
-    "PHP",
-    "collections",
-    "hash tables",
-    "lists",
-    "stacks",
-    "queues",
-    "sets"
-  ],
-  "authors": [
-    {
-      "name": "David Young",
-      "email": "dave@opulencephp.com",
-      "role": "Architect"
-    }
-  ],
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "Opulence\\Collections\\": ""
+    "name": "opulence/collections",
+    "description": "The Opulence collection library",
+    "keywords": [
+        "PHP",
+        "collections",
+        "hash tables",
+        "lists",
+        "stacks",
+        "queues",
+        "sets"
+    ],
+    "authors": [
+        {
+            "name": "David Young",
+            "email": "dave@opulencephp.com",
+            "role": "Architect"
+        }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Opulence\\Collections\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
-    "exclude-from-classmap": [
-        "/Tests/"
-    ]
-  },
-  "require": {
-    "php": "^7.3"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "2.0.x-dev"
-    }
-  },
-  "minimum-stability": "dev"
+    "require": {
+        "php": "^7.4"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }

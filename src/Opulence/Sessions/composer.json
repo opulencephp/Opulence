@@ -1,37 +1,37 @@
 {
-  "name": "opulence/sessions",
-  "description": "The Opulence session library",
-  "keywords": [
-    "PHP",
-    "session"
-  ],
-  "authors": [
-    {
-      "name": "David Young",
-      "email": "dave@opulencephp.com",
-      "role": "Architect"
-    }
-  ],
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "Opulence\\Sessions\\": ""
+    "name": "opulence/sessions",
+    "description": "The Opulence session library",
+    "keywords": [
+        "PHP",
+        "session"
+    ],
+    "authors": [
+        {
+            "name": "David Young",
+            "email": "dave@opulencephp.com",
+            "role": "Architect"
+        }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Opulence\\Sessions\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
-    "exclude-from-classmap": [
-        "/Tests/"
-    ]
-  },
-  "require": {
-    "php": "^7.3"
-  },
-  "suggest": {
-    "opulence/cache": "Required for CacheSessionHandler",
-    "opulence/cryptography": "Required for SessionEncrypter"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "2.0.x-dev"
-    }
-  },
-  "minimum-stability": "dev"
+    "require": {
+        "php": "^7.4"
+    },
+    "suggest": {
+        "opulence/cache": "Required for CacheSessionHandler",
+        "opulence/cryptography": "Required for SessionEncrypter"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }

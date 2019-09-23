@@ -1,37 +1,37 @@
 {
-  "name": "opulence/cryptography",
-  "description": "The Opulence cryptography library",
-  "keywords": [
-    "PHP",
-    "cryptography",
-    "hashing",
-    "encryption",
-    "bcrypt"
-  ],
-  "authors": [
-    {
-      "name": "David Young",
-      "email": "dave@opulencephp.com",
-      "role": "Architect"
-    }
-  ],
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "Opulence\\Cryptography\\": ""
+    "name": "opulence/cryptography",
+    "description": "The Opulence cryptography library",
+    "keywords": [
+        "PHP",
+        "cryptography",
+        "hashing",
+        "encryption",
+        "bcrypt"
+    ],
+    "authors": [
+        {
+            "name": "David Young",
+            "email": "dave@opulencephp.com",
+            "role": "Architect"
+        }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Opulence\\Cryptography\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
-    "exclude-from-classmap": [
-        "/Tests/"
-    ]
-  },
-  "require": {
-    "php": "^7.3",
-    "ext-openssl": "*"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "2.0.x-dev"
-    }
-  },
-  "minimum-stability": "dev"
+    "require": {
+        "php": "^7.4",
+        "ext-openssl": "*"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }

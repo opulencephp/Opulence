@@ -38,7 +38,7 @@
 
 * Requires >= PHP 7.4
 * Requires >= PHPUnit 8.0
-* Deleted the Application, Debug, Environments, Events, File, HTTP, Pipeline, and Routing libraries
+* Deleted the Application, Debug, Environments, Events, File, HTTP, Memcached, Pipeline, Redis, and Routing libraries
 * Removed all methods that were deprecated in v1.1.0
 * Added `void` return type to all void methods
 * Added nullable  type to all nullable method return types and parameters
@@ -48,6 +48,11 @@
 <h3>Authentication</h3>
 
 * Refactored `JwtVerifier` to implement `IContextVerifier`, and updated `JwtAuthenticator` and `RefreshTokenAuthenticator` to use the interface
+
+<h3>Cache</h3>
+
+* Rewrote `MemcachedBridge` to use `Memcached` rather than `Opulence\Memcached`
+* Rewrote `RedisBridge` to use `Redis` rather than `Opulence\Redis`
 
 <h3>Cryptography</h3>
 
@@ -75,6 +80,9 @@
 
 <h3>ORM</h3>
 
+* Removed `PredisDataMapper` and `PhpRedisDataMapper` (the latter's functionality is now just rolled up into `RedisDataMapper`)
+* Rewrote `MemcachedCachedSqlDataMapper` to use `Memcached` directly
+* Rewrote `RedisDataMapper` to use `Redis` directly
 * `IEntityRegistry::getEntity()`, `RedisDataMaper::loadEntity()`, `SqlDataMapper::loadEntity()`, `IRepository::getById()`, and `Repository::getById()` must return type `object
 * `IDataMapper::getById()`, `CachedSqlDataMapper::getById()`, and `ICacheDataMapper::getById()`  now must all return type `?object`
 * `IDataMapper::add()`, `IDataMapper::delete()`, and `IDataMapper::update()` now require the entity to be of type `object`

@@ -14,7 +14,7 @@ namespace Opulence\Orm\DataMappers;
 
 use Opulence\Databases\IConnection;
 use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
-use Opulence\Redis\Redis;
+use Redis;
 
 /**
  * Defines the Redis-cached SQL data mapper

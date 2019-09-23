@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Opulence\Cache;
 
-use Opulence\Memcached\Memcached;
+use Memcached;
 
 /**
  * Defines the Memcached bridge
@@ -21,20 +21,16 @@ class MemcachedBridge implements ICacheBridge
 {
     /** @var Memcached The Memcached driver */
     protected Memcached $memcached;
-    /** @var string The name of the client to connect to */
-    protected string $clientName = 'default';
     /** @var string The prefix to use on all keys */
     protected string $keyPrefix;
 
     /**
      * @param Memcached $memcached The Memcached driver
-     * @param string $clientName The name of the client to connect to
      * @param string $keyPrefix The prefix to use on all keys
      */
-    public function __construct(Memcached $memcached, string $clientName = 'default', string $keyPrefix = '')
+    public function __construct(Memcached $memcached, string $keyPrefix = '')
     {
         $this->memcached = $memcached;
-        $this->clientName = $clientName;
         $this->keyPrefix = $keyPrefix;
     }
 
@@ -43,7 +39,7 @@ class MemcachedBridge implements ICacheBridge
      */
     public function decrement(string $key, int $by = 1): int
     {
-        return $this->getClient()->decrement($this->getPrefixedKey($key), $by);
+        return $this->memcached->decrement($this->getPrefixedKey($key), $by);
     }
 
     /**
@@ -51,7 +47,7 @@ class MemcachedBridge implements ICacheBridge
      */
     public function delete(string $key): void
     {
-        $this->getClient()->delete($this->getPrefixedKey($key));
+        $this->memcached->delete($this->getPrefixedKey($key));
     }
 
     /**
@@ -59,7 +55,7 @@ class MemcachedBridge implements ICacheBridge
      */
     public function flush(): void
     {
-        $this->getClient()->flush();
+        $this->memcached->flush();
     }
 
     /**
@@ -67,9 +63,9 @@ class MemcachedBridge implements ICacheBridge
      */
     public function get(string $key)
     {
-        $value = $this->getClient()->get($this->getPrefixedKey($key));
+        $value = $this->memcached->get($this->getPrefixedKey($key));
 
-        return $this->getClient()->getResultCode() === 0 ? $value : null;
+        return $this->memcached->getResultCode() === 0 ? $value : null;
     }
 
     /**
@@ -87,7 +83,7 @@ class MemcachedBridge implements ICacheBridge
      */
     public function has(string $key): bool
     {
-        return $this->getClient()->get($this->getPrefixedKey($key)) !== false;
+        return $this->memcached->get($this->getPrefixedKey($key)) !== false;
     }
 
     /**
@@ -95,7 +91,7 @@ class MemcachedBridge implements ICacheBridge
      */
     public function increment(string $key, int $by = 1): int
     {
-        return $this->getClient()->increment($this->getPrefixedKey($key), $by);
+        return $this->memcached->increment($this->getPrefixedKey($key), $by);
     }
 
     /**
@@ -103,7 +99,7 @@ class MemcachedBridge implements ICacheBridge
      */
     public function set(string $key, $value, int $lifetime): void
     {
-        $this->getClient()->set($this->getPrefixedKey($key), $value, $lifetime);
+        $this->memcached->set($this->getPrefixedKey($key), $value, $lifetime);
     }
 
     /**
@@ -115,15 +111,5 @@ class MemcachedBridge implements ICacheBridge
     protected function getPrefixedKey(string $key): string
     {
         return $this->keyPrefix . $key;
-    }
-
-    /**
-     * Gets the selected client
-     *
-     * @return mixed The client
-     */
-    private function getClient()
-    {
-        return $this->memcached->getClient($this->clientName);
     }
 }

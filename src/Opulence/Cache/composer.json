@@ -1,40 +1,40 @@
 {
-  "name": "opulence/cache",
-  "description": "The Opulence cache library",
-  "keywords": [
-    "PHP",
-    "cache",
-    "Redis",
-    "Memcached"
-  ],
-  "authors": [
-    {
-      "name": "David Young",
-      "email": "dave@opulencephp.com",
-      "role": "Architect"
-    }
-  ],
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "Opulence\\Cache\\": ""
+    "name": "opulence/cache",
+    "description": "The Opulence cache library",
+    "keywords": [
+        "PHP",
+        "cache",
+        "Redis",
+        "Memcached"
+    ],
+    "authors": [
+        {
+            "name": "David Young",
+            "email": "dave@opulencephp.com",
+            "role": "Architect"
+        }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Opulence\\Cache\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
-    "exclude-from-classmap": [
-        "/Tests/"
-    ]
-  },
-  "require": {
-    "php": "^7.3",
-    "ext-memcached": "*"
-  },
-  "suggest": {
-    "opulence/memcached": "Required for Memcached cache",
-    "opulence/redis": "Required for Redis cache"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "2.0.x-dev"
-    }
-  },
-  "minimum-stability": "dev"
+    "require": {
+        "php": "^7.4",
+        "ext-redis": "*",
+        "ext-memcached": "*"
+    },
+    "suggest": {
+        "ext-redis": "Required for PHPRedis support"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }

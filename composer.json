@@ -1,90 +1,73 @@
 {
-  "name": "opulence/opulence",
-  "description": "The Opulence PHP framework",
-  "keywords": [
-    "PHP",
-    "full stack",
-    "template",
-    "mvc",
-    "database",
-    "orm",
-    "console",
-    "apex",
-    "framework"
-  ],
-  "authors": [
-    {
-      "name": "David Young",
-      "email": "dave@opulencephp.com",
-      "role": "Architect"
-    }
-  ],
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "Opulence\\": "src/Opulence"
-    },
-    "exclude-from-classmap": [
-        "**/Tests/"
-    ]
-  },
-  "require": {
-    "ext-fileinfo": "*",
-    "ext-json": "*",
-    "ext-mbstring": "*",
-    "ext-openssl": "*",
-    "ext-pdo": "*",
-    "jeremeamia/superclosure": "~2.2",
-    "php": "^7.4",
-    "psr/log": "~1.0"
-  },
-  "require-dev": {
-    "ext-pdo": "*",
-    "friendsofphp/php-cs-fixer": "~2.14",
-    "phpredis/phpredis": "3.0.*",
-    "predis/predis": "1.1.*@dev",
-    "phpunit/phpunit": "~8.0"
-  },
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "phpredis/phpredis",
-        "version": "3.0.0",
-        "source": {
-          "url": "https://github.com/phpredis/phpredis.git",
-          "type": "git",
-          "reference": "3.0.0"
+    "name": "opulence/opulence",
+    "description": "The Opulence PHP framework",
+    "keywords": [
+        "PHP",
+        "full stack",
+        "template",
+        "mvc",
+        "database",
+        "orm",
+        "console",
+        "apex",
+        "framework"
+    ],
+    "authors": [
+        {
+            "name": "David Young",
+            "email": "dave@opulencephp.com",
+            "role": "Architect"
         }
-      }
-    }
-  ],
-  "replace": {
-    "opulence/authentication": "self.version",
-    "opulence/authorization": "self.version",
-    "opulence/cache": "self.version",
-    "opulence/collections": "self.version",
-    "opulence/console": "self.version",
-    "opulence/cryptography": "self.version",
-    "opulence/framework": "self.version",
-    "opulence/io": "self.version",
-    "opulence/ioc": "self.version",
-    "opulence/memcached": "self.version",
-    "opulence/orm": "self.version",
-    "opulence/querybuilders": "self.version",
-    "opulence/redis": "self.version",
-    "opulence/sessions": "self.version",
-    "opulence/validation": "self.version",
-    "opulence/views": "self.version"
-  },
-  "scripts": {
-    "lint-check": "php-cs-fixer fix --config=.php_cs -v --diff --dry-run",
-    "lint-fix": "php-cs-fixer fix --config=.php_cs -v --diff"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-2.0": "2.0.x-dev"
-    }
-  },
-  "minimum-stability": "dev"
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Opulence\\": "src/Opulence"
+        },
+        "exclude-from-classmap": [
+            "**/Tests/"
+        ]
+    },
+    "require": {
+        "ext-fileinfo": "*",
+        "ext-json": "*",
+        "ext-memcached": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-pdo": "*",
+        "ext-redis": "*",
+        "jeremeamia/superclosure": "~2.2",
+        "php": "^7.4",
+        "psr/log": "~1.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.14",
+        "phpunit/phpunit": "~8.0"
+    },
+    "replace": {
+        "opulence/authentication": "self.version",
+        "opulence/authorization": "self.version",
+        "opulence/cache": "self.version",
+        "opulence/collections": "self.version",
+        "opulence/console": "self.version",
+        "opulence/cryptography": "self.version",
+        "opulence/framework": "self.version",
+        "opulence/io": "self.version",
+        "opulence/ioc": "self.version",
+        "opulence/orm": "self.version",
+        "opulence/querybuilders": "self.version",
+        "opulence/sessions": "self.version",
+        "opulence/validation": "self.version",
+        "opulence/views": "self.version"
+    },
+    "scripts": {
+        "lint-check": "php-cs-fixer fix --config=.php_cs -v --diff --dry-run",
+        "lint-fix": "php-cs-fixer fix --config=.php_cs -v --diff"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-2.0": "2.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }

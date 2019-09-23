@@ -13,9 +13,8 @@ declare(strict_types=1);
 namespace Opulence\Cache\Tests;
 
 use Opulence\Cache\RedisBridge;
-use Opulence\Redis\Redis;
 use PHPUnit\Framework\MockObject\MockObject;
-use Predis\Client;
+use Redis;
 
 /**
  * Tests the Redis bridge
@@ -25,32 +24,19 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     private RedisBridge $bridge;
     /** @var Redis|MockObject The Redis driver */
     private Redis $redis;
-    /** @var Client|MockObject The Redis client */
-    private Client $client;
 
     protected function setUp(): void
     {
-        $methods = ['get', 'decrBy', 'del', 'flushAll', 'incrBy', 'setEx'];
-        $this->client = $this->getMockBuilder(Client::class)
-            ->setMethods($methods)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->redis = $this->getMockBuilder(Redis::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->redis->expects($this->any())
-            ->method('getClient')
-            ->with('default')
-            ->willReturn($this->client);
-        $this->bridge = new RedisBridge($this->redis, 'default', 'dave:');
+        $this->redis = $this->createMock(Redis::class);
+        $this->bridge = new RedisBridge($this->redis, 'dave:');
     }
 
     public function testCheckingIfKeyExists(): void
     {
-        $this->client->expects($this->at(0))
+        $this->redis->expects($this->at(0))
             ->method('get')
             ->willReturn(false);
-        $this->client->expects($this->at(1))
+        $this->redis->expects($this->at(1))
             ->method('get')
             ->willReturn('bar');
         $this->assertFalse($this->bridge->has('foo'));
@@ -59,11 +45,11 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
 
     public function testDecrementingReturnsCorrectValues(): void
     {
-        $this->client->expects($this->at(0))
+        $this->redis->expects($this->at(0))
             ->method('decrBy')
             ->with('dave:foo', 1)
             ->willReturn(10);
-        $this->client->expects($this->at(1))
+        $this->redis->expects($this->at(1))
             ->method('decrBy')
             ->with('dave:foo', 5)
             ->willReturn(5);
@@ -75,7 +61,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
 
     public function testDeletingKey(): void
     {
-        $this->client->expects($this->once())
+        $this->redis->expects($this->once())
             ->method('del')
             ->with('dave:foo');
         $this->bridge->delete('foo');
@@ -88,14 +74,14 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
 
     public function testFlushing(): void
     {
-        $this->client->expects($this->once())
+        $this->redis->expects($this->once())
             ->method('flushAll');
         $this->bridge->flush();
     }
 
     public function testGetWorks(): void
     {
-        $this->client->expects($this->once())
+        $this->redis->expects($this->once())
             ->method('get')
             ->willReturn('bar');
         $this->assertEquals('bar', $this->bridge->get('foo'));
@@ -103,11 +89,11 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
 
     public function testIncrementingReturnsCorrectValues(): void
     {
-        $this->client->expects($this->at(0))
+        $this->redis->expects($this->at(0))
             ->method('incrBy')
             ->with('dave:foo', 1)
             ->willReturn(2);
-        $this->client->expects($this->at(1))
+        $this->redis->expects($this->at(1))
             ->method('incrBy')
             ->with('dave:foo', 5)
             ->willReturn(7);
@@ -119,7 +105,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
 
     public function testNullIsReturnedOnMiss(): void
     {
-        $this->client->expects($this->once())
+        $this->redis->expects($this->once())
             ->method('get')
             ->willReturn(false);
         $this->assertNull($this->bridge->get('foo'));
@@ -127,7 +113,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
 
     public function testSettingValue(): void
     {
-        $this->client->expects($this->once())
+        $this->redis->expects($this->once())
             ->method('setEx')
             ->with('dave:foo', 60, 'bar');
         $this->bridge->set('foo', 'bar', 60);
@@ -141,27 +127,5 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
             ->getMock();
         $bridge = new RedisBridge($redis);
         $this->assertSame($redis, $bridge->getRedis());
-    }
-
-    public function testUsingClientBesidesDefaultOne(): void
-    {
-        $client = $this->getMockBuilder(Client::class)
-            ->setMethods(['get'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $client->expects($this->any())
-            ->method('get')
-            ->with('bar')
-            ->willReturn('baz');
-        /** @var Redis|MockObject $redis */
-        $redis = $this->getMockBuilder(Redis::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $redis->expects($this->any())
-            ->method('getClient')
-            ->with('foo')
-            ->willReturn($client);
-        $bridge = new RedisBridge($redis, 'foo');
-        $this->assertEquals('baz', $bridge->get('bar'));
     }
 }
