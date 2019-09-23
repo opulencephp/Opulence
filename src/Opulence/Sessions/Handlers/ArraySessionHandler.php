@@ -15,7 +15,7 @@ namespace Opulence\Sessions\Handlers;
 /**
  * Defines the array session handler, which is useful for testing
  */
-class ArraySessionHandler extends SessionHandler
+final class ArraySessionHandler extends SessionHandler
 {
     /** @var array The local storage */
     private array $storage = [];

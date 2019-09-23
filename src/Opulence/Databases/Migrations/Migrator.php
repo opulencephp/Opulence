@@ -17,7 +17,7 @@ use Opulence\Databases\IConnection;
 /**
  * Defines the database migrator
  */
-class Migrator implements IMigrator
+final class Migrator implements IMigrator
 {
     /** @var string[] The list of migration classes */
     private array $allMigrationClasses;

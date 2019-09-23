@@ -19,7 +19,7 @@ use Opulence\Framework\Configuration\Config;
 /**
  * Defines the application-down command
  */
-class AppDownCommand extends Command
+final class AppDownCommand extends Command
 {
     /**
      * @inheritdoc

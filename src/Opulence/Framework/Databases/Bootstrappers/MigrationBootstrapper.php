@@ -33,7 +33,7 @@ use RuntimeException;
 /**
  * Defines the database migration bootstrapper
  */
-class MigrationBootstrapper extends Bootstrapper
+final class MigrationBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc

@@ -15,7 +15,7 @@ namespace Opulence\Sessions\Ids\Generators;
 /**
  * Defines the session Id generator
  */
-class IdGenerator implements IIdGenerator
+final class IdGenerator implements IIdGenerator
 {
     /** The default length of an Id */
     public const DEFAULT_LENGTH = 40;

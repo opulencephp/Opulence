@@ -16,7 +16,7 @@ namespace Opulence\Ioc;
  * Defines a class container binding
  * @internal
  */
-class ClassContainerBinding implements IContainerBinding
+final class ClassContainerBinding implements IContainerBinding
 {
     /** @var string The name of the concrete class */
     private string $concreteClass;

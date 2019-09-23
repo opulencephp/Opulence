@@ -18,7 +18,7 @@ use Opulence\Framework\Console\Commands\MakeCommand;
 /**
  * Makes a migration class
  */
-class MakeMigrationCommand extends MakeCommand
+final class MakeMigrationCommand extends MakeCommand
 {
     /**
      * @inheritdoc

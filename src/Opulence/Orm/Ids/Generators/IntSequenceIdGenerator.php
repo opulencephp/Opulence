@@ -17,7 +17,7 @@ use Opulence\Orm\OrmException;
 /**
  * Defines an Id generator that uses an integer sequence to generate Ids
  */
-class IntSequenceIdGenerator extends SequenceIdGenerator
+final class IntSequenceIdGenerator extends SequenceIdGenerator
 {
     /**
      * @inheritdoc

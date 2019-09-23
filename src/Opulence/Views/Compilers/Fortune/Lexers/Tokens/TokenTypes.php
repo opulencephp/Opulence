@@ -15,7 +15,7 @@ namespace Opulence\Views\Compilers\Fortune\Lexers\Tokens;
 /**
  * Defines the different token types
  */
-class TokenTypes
+final class TokenTypes
 {
     /** Defines an expression token type */
     public const T_EXPRESSION = 'T_EXPRESSION';

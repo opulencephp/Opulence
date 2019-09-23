@@ -12,11 +12,13 @@ declare(strict_types=1);
 
 namespace Opulence\Validation\Tests;
 
+use LogicException;
 use Opulence\Validation\Rules\BetweenRule;
 use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
 use Opulence\Validation\Rules\Errors\ErrorCollection;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
 use Opulence\Validation\Rules\Factories\RulesFactory;
+use Opulence\Validation\Rules\IRule;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Rules\Rules;
 use Opulence\Validation\Validator;
@@ -129,7 +131,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
      *
      * @return Rules|MockObject The rules
      */
-    private function getRules()
+    private function getRules(): Rules
     {
         return $this->getMockBuilder(Rules::class)
             ->setConstructorArgs([
@@ -138,29 +140,5 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
                 $this->errorTemplateCompiler
             ])
             ->getMock();
-    }
-
-    public function testUsingCustomRulesTwiceDoesNotChangeThem()
-    {
-        $customRule = new class extends BetweenRule {
-            public function getSlug(): string
-            {
-                return 'customRule';
-            }
-        };
-
-        $ruleExtensionRegistry = new RuleExtensionRegistry();
-        $ruleExtensionRegistry->registerRuleExtension($customRule, 'customRule');
-        $rulesFactory = new RulesFactory(
-            $ruleExtensionRegistry,
-            $this->errorTemplateRegistry,
-            $this->errorTemplateCompiler
-        );
-
-        $validator = new Validator($rulesFactory);
-        $validator->field('field1')->customRule(0, 5);
-        $validator->field('field2')->customRule(0, 20);
-
-        $this->assertFalse($validator->isValid(['field1' => 6, 'field2' => 15]));
     }
 }

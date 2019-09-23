@@ -18,7 +18,7 @@ use LogicException;
 /**
  * Defines the in-array rule
  */
-class InRule implements IRuleWithArgs
+final class InRule implements IRuleWithArgs
 {
     /** @var array|null The value to compare against */
     protected ?array $array = null;

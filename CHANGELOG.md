@@ -43,6 +43,11 @@
 * Added `void` return type to all void methods
 * Added nullable  type to all nullable method return types and parameters
 * Added property types wherever possible
+* Updated classes that were not meant to be overriden to be `final` to encourage composition
+
+<h3>Authentication</h3>
+
+* Refactored `JwtVerifier` to implement `IContextVerifier`, and updated `JwtAuthenticator` and `RefreshTokenAuthenticator` to use the interface
 
 <h3>Cryptography</h3>
 

@@ -23,7 +23,7 @@ use Opulence\Views\Compilers\Fortune\ITranspiler;
 /**
  * Defines the view functions bootstrapper
  */
-class ViewFunctionsBootstrapper extends Bootstrapper
+final class ViewFunctionsBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc

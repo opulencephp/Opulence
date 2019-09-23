@@ -15,7 +15,7 @@ namespace Opulence\Authentication;
 /**
  * Defines the different principal types
  */
-class PrincipalTypes
+final class PrincipalTypes
 {
     /** The primary principal, which is required for all subjects */
     public const PRIMARY = 'PRIMARY';

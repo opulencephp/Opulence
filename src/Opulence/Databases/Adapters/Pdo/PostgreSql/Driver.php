@@ -19,7 +19,7 @@ use Opulence\Databases\Server;
 /**
  * Defines the PDO driver for a PostgreSQL database
  */
-class Driver extends BaseDriver
+final class Driver extends BaseDriver
 {
     /**
      * @inheritdoc

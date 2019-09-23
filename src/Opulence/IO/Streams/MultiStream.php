@@ -18,7 +18,7 @@ use RuntimeException;
 /**
  * Defines a stream that contains multiple sub-streams
  */
-class MultiStream implements IStream
+final class MultiStream implements IStream
 {
     /** @var IStream[] The list of sub-streams */
     private array $streams = [];

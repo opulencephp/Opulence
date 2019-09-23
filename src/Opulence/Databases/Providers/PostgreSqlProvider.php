@@ -15,7 +15,7 @@ namespace Opulence\Databases\Providers;
 /**
  * Defines settings for the PostgreSQL provider
  */
-class PostgreSqlProvider extends Provider
+final class PostgreSqlProvider extends Provider
 {
     /** @inheritdoc */
     protected string $timestampWithTimeZoneFormat = 'Y-m-d H:i:s O';

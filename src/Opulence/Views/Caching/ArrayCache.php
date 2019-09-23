@@ -17,7 +17,7 @@ use Opulence\Views\IView;
 /**
  * Defines the view array cache, which is useful for testing
  */
-class ArrayCache implements ICache
+final class ArrayCache implements ICache
 {
     /** @var array The storage for our views */
     private array $storage = [];

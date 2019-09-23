@@ -15,7 +15,7 @@ namespace Opulence\Views\Compilers\Fortune;
 /**
  * Defines the Fortune directive transpiler registrant
  */
-class DirectiveTranspilerRegistrant
+final class DirectiveTranspilerRegistrant
 {
     /**
      * Registers the Fortune directive transpilers

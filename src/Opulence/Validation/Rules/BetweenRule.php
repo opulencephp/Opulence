@@ -18,7 +18,7 @@ use LogicException;
 /**
  * Defines the between rule
  */
-class BetweenRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
+final class BetweenRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
 {
     /** @var int|float The minimum */
     protected $min;

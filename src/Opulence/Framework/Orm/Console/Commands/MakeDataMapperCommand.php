@@ -20,7 +20,7 @@ use Opulence\Framework\Console\Commands\MakeCommand;
 /**
  * Makes a data mapper class
  */
-class MakeDataMapperCommand extends MakeCommand
+final class MakeDataMapperCommand extends MakeCommand
 {
     /** @var array The list of data mappers that can be made */
     private static array $dataMapperTypes = [

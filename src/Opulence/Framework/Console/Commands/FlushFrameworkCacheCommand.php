@@ -19,7 +19,7 @@ use Opulence\Views\Caching\ICache as ViewCache;
 /**
  * Defines the command that flushes the framework's cache
  */
-class FlushFrameworkCacheCommand extends Command
+final class FlushFrameworkCacheCommand extends Command
 {
     /** @var ViewCache The view cache */
     private ViewCache $viewCache;

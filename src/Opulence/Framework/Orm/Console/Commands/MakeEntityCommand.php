@@ -17,7 +17,7 @@ use Opulence\Framework\Console\Commands\MakeCommand;
 /**
  * Makes an entity class
  */
-class MakeEntityCommand extends MakeCommand
+final class MakeEntityCommand extends MakeCommand
 {
     /**
      * @inheritdoc

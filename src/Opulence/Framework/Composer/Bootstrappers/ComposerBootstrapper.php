@@ -22,7 +22,7 @@ use RuntimeException;
 /**
  * Defines the Composer bootstrapper
  */
-class ComposerBootstrapper extends Bootstrapper
+final class ComposerBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc

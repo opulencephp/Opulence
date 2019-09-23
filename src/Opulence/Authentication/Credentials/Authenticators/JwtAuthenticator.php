@@ -18,6 +18,7 @@ use Opulence\Authentication\Principal;
 use Opulence\Authentication\PrincipalTypes;
 use Opulence\Authentication\Subject;
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
+use Opulence\Authentication\Tokens\JsonWebTokens\Verification\IContextVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtErrorTypes;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContext;
@@ -27,18 +28,18 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContex
  */
 class JwtAuthenticator implements IAuthenticator
 {
-    /** @var JwtVerifier The JWT verifier */
-    protected JwtVerifier $jwtVerifier;
+    /** @var IContextVerifier The JWT verifier */
+    protected IContextVerifier $jwtVerifier;
     /** @var VerificationContext The verification context to use */
     protected VerificationContext $verificationContext;
     /** @var SignedJwt|null The signed JWT generated from authentication */
     protected ?SignedJwt $signedJwt = null;
 
     /**
-     * @param JwtVerifier $jwtVerifier The JWT verifier
+     * @param IContextVerifier $jwtVerifier The JWT verifier
      * @param VerificationContext $verificationContext The verification context to use
      */
-    public function __construct(JwtVerifier $jwtVerifier, VerificationContext $verificationContext)
+    public function __construct(IContextVerifier $jwtVerifier, VerificationContext $verificationContext)
     {
         $this->jwtVerifier = $jwtVerifier;
         $this->verificationContext = $verificationContext;
@@ -59,11 +60,11 @@ class JwtAuthenticator implements IAuthenticator
             return false;
         }
 
-        $this->signedJwt = SignedJwt::createFromString($tokenString);
+        $this->signedJwt = SignedJwt::createFromString((string)$tokenString);
         $jwtErrors = [];
 
         if (!$this->jwtVerifier->verify($this->signedJwt, $this->verificationContext, $jwtErrors)) {
-            if (in_array(JwtErrorTypes::EXPIRED, $jwtErrors)) {
+            if (in_array(JwtErrorTypes::EXPIRED, $jwtErrors, true)) {
                 $error = AuthenticatorErrorTypes::CREDENTIAL_EXPIRED;
             } else {
                 $error = AuthenticatorErrorTypes::CREDENTIAL_INCORRECT;

@@ -22,7 +22,7 @@ use PDOException;
  * Defines an extension of the PDO library with lazy-connection
  * In other words, a database connection is only made if we absolutely need to, which gives us a performance gain
  */
-class Connection extends PDO implements IConnection
+final class Connection extends PDO implements IConnection
 {
     /** The name of the PDOStatement class to use */
     private const PDO_STATEMENT_CLASS = 'Statement';

@@ -15,7 +15,7 @@ namespace Opulence\Cryptography\Encryption\Keys;
 /**
  * Defines the list of cryptographic secret types
  */
-class SecretTypes
+final class SecretTypes
 {
     /** A cryptographic key */
     public const KEY = 'key';

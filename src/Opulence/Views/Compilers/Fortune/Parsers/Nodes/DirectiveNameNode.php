@@ -15,7 +15,7 @@ namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 /**
  * Defines a directive name node
  */
-class DirectiveNameNode extends Node
+final class DirectiveNameNode extends Node
 {
     /**
      * @inheritdoc

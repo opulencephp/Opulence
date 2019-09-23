@@ -17,7 +17,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 /**
  * Defines the issuer verifier
  */
-class IssuerVerifier implements IVerifier
+final class IssuerVerifier implements IVerifier
 {
     /** @var string|null The issuer */
     private ?string $issuer;

@@ -15,7 +15,7 @@ namespace Opulence\Databases\Providers;
 /**
  * Defines settings for the MySQL provider
  */
-class MySqlProvider extends Provider
+final class MySqlProvider extends Provider
 {
     /** @var int The format for a true boolean value */
     protected int $trueBooleanFormat = 1;

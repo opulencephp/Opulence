@@ -15,7 +15,7 @@ namespace Opulence\Validation\Rules;
 /**
  * Defines the alphabetic rule
  */
-class AlphaRule implements IRule
+final class AlphaRule implements IRule
 {
     /**
      * @inheritdoc

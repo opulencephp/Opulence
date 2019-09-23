@@ -18,7 +18,7 @@ use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
 /**
  * Defines an entity registry
  */
-class EntityRegistry implements IEntityRegistry
+final class EntityRegistry implements IEntityRegistry
 {
     /** @var IIdAccessorRegistry The Id accessory registry */
     protected IIdAccessorRegistry $idAccessorRegistry;

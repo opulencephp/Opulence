@@ -15,7 +15,7 @@ namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 /**
  * Defines the root node
  */
-class RootNode extends Node
+final class RootNode extends Node
 {
     public function __construct()
     {

@@ -21,7 +21,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
 use Opulence\Authentication\Tokens\JsonWebTokens\Orm\IJwtRepository;
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\UnsignedJwt;
-use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtVerifier;
+use Opulence\Authentication\Tokens\JsonWebTokens\Verification\IContextVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContext;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
 use Opulence\Authentication\Tokens\Signatures\HmacSigner;
@@ -34,8 +34,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     private RefreshTokenAuthenticator $authenticator;
-    /** @var JwtVerifier|MockObject The JWT verifier to use in tests */
-    private JwtVerifier $jwtVerifier;
+    /** @var IContextVerifier|MockObject The JWT verifier to use in tests */
+    private IContextVerifier $jwtVerifier;
     /** @var ICredential|MockObject The credential to use in tests */
     private ICredential $credential;
     /** @var IJwtRepository|MockObject The refresh token repository */
@@ -47,7 +47,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
         /** @var ISigner $signer */
         $signer = $this->createMock(ISigner::class);
         $verificationContext = new VerificationContext($signer);
-        $this->jwtVerifier = $this->getMockBuilder(JwtVerifier::class)
+        $this->jwtVerifier = $this->getMockBuilder(IContextVerifier::class)
             ->setMethods(['verify'])
             ->getMock();
         $this->authenticator = new RefreshTokenAuthenticator(

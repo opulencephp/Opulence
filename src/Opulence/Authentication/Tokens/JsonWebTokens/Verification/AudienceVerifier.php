@@ -17,7 +17,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 /**
  * Defines the audience verifier
  */
-class AudienceVerifier implements IVerifier
+final class AudienceVerifier implements IVerifier
 {
     /** @var array The audience */
     private array $audience;

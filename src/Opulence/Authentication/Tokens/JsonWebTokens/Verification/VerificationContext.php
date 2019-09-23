@@ -17,7 +17,7 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 /**
  * Defines the verification context
  */
-class VerificationContext
+final class VerificationContext
 {
     /** @var array The audience */
     private array $audience = [];

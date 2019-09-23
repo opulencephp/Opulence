@@ -20,7 +20,7 @@ use Opulence\Ioc\IContainer;
 /**
  * Defines the request bootstrapper
  */
-class RequestBootstrapper extends Bootstrapper
+final class RequestBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc

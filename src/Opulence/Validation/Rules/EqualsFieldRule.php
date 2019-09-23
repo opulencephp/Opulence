@@ -18,7 +18,7 @@ use LogicException;
 /**
  * Defines the equals field rule
  */
-class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
+final class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
 {
     /** @var string|null The name of the field to compare to */
     protected ?string $fieldName = null;

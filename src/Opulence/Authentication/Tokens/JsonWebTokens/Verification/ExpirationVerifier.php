@@ -18,7 +18,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 /**
  * Defines the expiration verifier
  */
-class ExpirationVerifier implements IVerifier
+final class ExpirationVerifier implements IVerifier
 {
     /**
      * @inheritdoc

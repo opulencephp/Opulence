@@ -15,7 +15,7 @@ namespace Opulence\Cryptography\Encryption;
 /**
  * Defines the various ciphers that can be used in encryption
  */
-class Ciphers
+final class Ciphers
 {
     /** The AES 128 bit cipher in CBC mode */
     public const AES_128_CBC = 'AES-128-CBC';

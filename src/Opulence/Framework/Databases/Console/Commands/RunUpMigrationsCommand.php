@@ -19,7 +19,7 @@ use Opulence\Databases\Migrations\IMigrator;
 /**
  * Defines the command that runs the "up" migrations
  */
-class RunUpMigrationsCommand extends Command
+final class RunUpMigrationsCommand extends Command
 {
     /** @var IMigrator The migrator to use */
     private IMigrator $migrator;

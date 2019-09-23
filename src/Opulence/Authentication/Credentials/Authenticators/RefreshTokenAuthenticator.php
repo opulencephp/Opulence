@@ -15,6 +15,7 @@ namespace Opulence\Authentication\Credentials\Authenticators;
 use Opulence\Authentication\Credentials\ICredential;
 use Opulence\Authentication\ISubject;
 use Opulence\Authentication\Tokens\JsonWebTokens\Orm\IJwtRepository;
+use Opulence\Authentication\Tokens\JsonWebTokens\Verification\IContextVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContext;
 
@@ -32,7 +33,7 @@ class RefreshTokenAuthenticator extends JwtAuthenticator
      */
     public function __construct(
         IJwtRepository $refreshTokenRepository,
-        JwtVerifier $jwtVerifier,
+        IContextVerifier $jwtVerifier,
         VerificationContext $verificationContext
     ) {
         parent::__construct($jwtVerifier, $verificationContext);

@@ -21,7 +21,7 @@ use Opulence\Framework\Configuration\Config;
 /**
  * Defines the encryption key generator command
  */
-class EncryptionKeyGenerationCommand extends Command
+final class EncryptionKeyGenerationCommand extends Command
 {
     /**
      * @inheritdoc

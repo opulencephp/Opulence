@@ -15,7 +15,7 @@ namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 /**
  * Defines a comment node
  */
-class CommentNode extends Node
+final class CommentNode extends Node
 {
     /**
      * @inheritdoc

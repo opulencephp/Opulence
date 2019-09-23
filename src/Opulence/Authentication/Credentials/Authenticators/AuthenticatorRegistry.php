@@ -17,7 +17,7 @@ use InvalidArgumentException;
 /**
  * Defines the authenticator registry
  */
-class AuthenticatorRegistry implements IAuthenticatorRegistry
+final class AuthenticatorRegistry implements IAuthenticatorRegistry
 {
     /** @var array The mapping of credential types to authenticators */
     private array $credentialTypesToAuthenticators = [];

@@ -24,7 +24,7 @@ use RuntimeException;
 /**
  * Defines the cryptography bootstrapper
  */
-class CryptographyBootstrapper extends Bootstrapper
+final class CryptographyBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc

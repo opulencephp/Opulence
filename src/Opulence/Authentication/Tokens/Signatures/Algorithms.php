@@ -17,7 +17,7 @@ use InvalidArgumentException;
 /**
  * Defines the various algorithms that can be used to sign tokens
  */
-class Algorithms
+final class Algorithms
 {
     /** The RSA SHA256 algorithm */
     public const RSA_SHA256 = 'RS256';

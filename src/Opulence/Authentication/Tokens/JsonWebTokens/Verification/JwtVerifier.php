@@ -17,15 +17,10 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 /**
  * Defines the JWT verifier
  */
-class JwtVerifier
+final class JwtVerifier implements IContextVerifier
 {
     /**
-     * Verifies a token
-     *
-     * @param SignedJwt $jwt The token to verify
-     * @param VerificationContext $verificationContext The context to verify against
-     * @param array $errors The list of errors, if there are any
-     * @return bool True if the token is valid
+     * @inheritdoc
      */
     public function verify(SignedJwt $jwt, VerificationContext $verificationContext, array &$errors): bool
     {

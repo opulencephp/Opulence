@@ -17,7 +17,7 @@ use Exception;
 /**
  * Defines a migration resolution exception
  */
-class MigrationResolutionException extends Exception
+final class MigrationResolutionException extends Exception
 {
     // Don't do anything
 }

@@ -20,7 +20,7 @@ use Opulence\Console\Responses\IResponse;
 /**
  * Defines the command that lets you run your application locally
  */
-class RunAppLocallyCommand extends Command
+final class RunAppLocallyCommand extends Command
 {
     /** @var string The path to the default router file */
     private string $defaultRouterPath;

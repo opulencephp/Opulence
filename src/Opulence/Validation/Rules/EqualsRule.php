@@ -17,7 +17,7 @@ use InvalidArgumentException;
 /**
  * Defines the equals rule
  */
-class EqualsRule implements IRuleWithArgs
+final class EqualsRule implements IRuleWithArgs
 {
     /** @var mixed The value to compare against */
     protected $value;

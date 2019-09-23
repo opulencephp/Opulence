@@ -15,7 +15,7 @@ namespace Opulence\Console;
 /**
  * Defines different console status codes
  */
-class StatusCodes
+final class StatusCodes
 {
     /** Everything executed successfully */
     public const OK = 0;

@@ -17,7 +17,7 @@ use Opulence\Cache\ICacheBridge;
 /**
  * Defines the cache session handler
  */
-class CacheSessionHandler extends SessionHandler
+final class CacheSessionHandler extends SessionHandler
 {
     /** @var ICacheBridge The cache to use */
     private ICacheBridge $cache;

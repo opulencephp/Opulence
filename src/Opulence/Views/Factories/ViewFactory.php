@@ -21,7 +21,7 @@ use Opulence\Views\View;
 /**
  * Defines the view factory
  */
-class ViewFactory implements IViewFactory
+final class ViewFactory implements IViewFactory
 {
     /** @var IViewNameResolver The view name resolver used to get paths to views */
     protected IViewNameResolver $viewNameResolver;

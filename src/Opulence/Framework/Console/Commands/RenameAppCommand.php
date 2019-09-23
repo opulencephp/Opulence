@@ -24,7 +24,7 @@ use Opulence\IO\FileSystem;
 /**
  * Defines the command that renames an application
  */
-class RenameAppCommand extends Command
+final class RenameAppCommand extends Command
 {
     /** @var FileSystem The filesystem to use to write to files */
     protected FileSystem $fileSystem;

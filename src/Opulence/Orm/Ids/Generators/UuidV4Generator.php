@@ -15,7 +15,7 @@ namespace Opulence\Orm\Ids\Generators;
 /**
  * Defines a UUID V4 generator
  */
-class UuidV4Generator implements IIdGenerator
+final class UuidV4Generator implements IIdGenerator
 {
     /**
      * @inheritdoc

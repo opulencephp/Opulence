@@ -18,7 +18,7 @@ use RuntimeException;
 /**
  * Defines a basic stream
  */
-class Stream implements IStream
+final class Stream implements IStream
 {
     /** @var array The list of readable stream modes */
     private static array $readStreamModes = [

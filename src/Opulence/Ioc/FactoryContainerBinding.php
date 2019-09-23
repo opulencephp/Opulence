@@ -16,7 +16,7 @@ namespace Opulence\Ioc;
  * Defines a factory container binding
  * @internal
  */
-class FactoryContainerBinding implements IContainerBinding
+final class FactoryContainerBinding implements IContainerBinding
 {
     /** @var callable The factory */
     private $factory;

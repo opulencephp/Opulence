@@ -15,7 +15,7 @@ namespace Opulence\Orm;
 /**
  * Defines different states of entities
  */
-class EntityStates
+final class EntityStates
 {
     /** A new entity that will be registered */
     public const QUEUED = 1;

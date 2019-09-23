@@ -15,7 +15,7 @@ namespace Opulence\Authentication;
 /**
  * Defines the different authentication status types
  */
-class AuthenticationStatusTypes
+final class AuthenticationStatusTypes
 {
     /** The subject is not authenticated */
     public const UNAUTHENTICATED = 'UNAUTHENTICATED';

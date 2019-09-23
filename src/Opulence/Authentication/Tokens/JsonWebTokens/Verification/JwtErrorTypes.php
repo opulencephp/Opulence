@@ -15,7 +15,7 @@ namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 /**
  * Defines the different JWT error types
  */
-class JwtErrorTypes
+final class JwtErrorTypes
 {
     /** Defines the error that occurs when the audience is invalid */
     public const AUDIENCE_INVALID = 'AUDIENCE_INVALID';

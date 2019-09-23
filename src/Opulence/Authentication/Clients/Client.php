@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Opulence\Authentication\Clients;
 
 /**
- * Defines the interface for clients to implement
+ * Defines an authentication client
  */
 class Client implements IClient
 {

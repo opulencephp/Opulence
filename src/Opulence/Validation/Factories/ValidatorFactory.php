@@ -19,7 +19,7 @@ use Opulence\Validation\Validator;
 /**
  * Defines the validator factory
  */
-class ValidatorFactory implements IValidatorFactory
+final class ValidatorFactory implements IValidatorFactory
 {
     /** @var RulesFactory The rules factory */
     protected RulesFactory $rulesFactory;

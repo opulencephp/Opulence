@@ -17,7 +17,7 @@ use LogicException;
 /**
  * Defines the conditional rule
  */
-class ConditionalRule extends CallbackRule
+final class ConditionalRule extends CallbackRule
 {
     /** @var IRule[] The list of rules to evaluate if the condition is true */
     protected array $rules = [];

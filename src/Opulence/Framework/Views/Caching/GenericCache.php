@@ -19,7 +19,7 @@ use Opulence\Views\IView;
 /**
  * Defines an cache bridge implementation of a compiled view cache as a storage back-end
  */
-class GenericCache implements ICache
+final class GenericCache implements ICache
 {
     /** @var ICacheBridge A caching implementation */
     private ICacheBridge $bridge;

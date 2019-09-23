@@ -17,7 +17,7 @@ use InvalidArgumentException;
 /**
  * Defines the view name resolver that uses file system files to store views
  */
-class FileViewNameResolver implements IViewNameResolver
+final class FileViewNameResolver implements IViewNameResolver
 {
     /** @var array The mapping of paths to their priorities */
     protected array $paths = [];

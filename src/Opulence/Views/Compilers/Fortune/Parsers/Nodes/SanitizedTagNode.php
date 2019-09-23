@@ -15,7 +15,7 @@ namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 /**
  * Defines a sanitized tag node
  */
-class SanitizedTagNode extends Node
+final class SanitizedTagNode extends Node
 {
     /**
      * @inheritdoc

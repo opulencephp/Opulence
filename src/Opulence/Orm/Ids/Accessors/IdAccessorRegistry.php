@@ -20,7 +20,7 @@ use ReflectionException;
 /**
  * Defines the Id accessor registry
  */
-class IdAccessorRegistry implements IIdAccessorRegistry
+final class IdAccessorRegistry implements IIdAccessorRegistry
 {
     /** @var callable[] The mapping of class names to their getter and setter functions */
     protected array $idAccessorFunctions = [];

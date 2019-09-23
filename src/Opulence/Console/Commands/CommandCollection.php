@@ -20,7 +20,7 @@ use Opulence\Console\Responses\IResponse;
 /**
  * Defines the console commands container
  */
-class CommandCollection
+final class CommandCollection
 {
     /** @var ICommand[] The list of commands */
     private $commands = [];

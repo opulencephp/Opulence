@@ -20,7 +20,7 @@ use RecursiveIteratorIterator;
 /**
  * Defines the file cache for compiled views
  */
-class FileCache implements ICache
+final class FileCache implements ICache
 {
     /** @var string The path to store the cached views at */
     private string $path;

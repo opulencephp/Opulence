@@ -15,7 +15,7 @@ namespace Opulence\Views\Compilers\Fortune;
 /**
  * Defines the registrant that creates the built-in functions
  */
-class ViewFunctionRegistrant
+final class ViewFunctionRegistrant
 {
     /**
      * Registers the built-in view functions

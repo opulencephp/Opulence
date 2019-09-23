@@ -21,7 +21,7 @@ use Opulence\Ioc\IocException;
 /**
  * Defines the container migration resolver
  */
-class ContainerMigrationResolver implements IMigrationResolver
+final class ContainerMigrationResolver implements IMigrationResolver
 {
     /** @var IContainer The DI container */
     private IContainer $container;

@@ -19,7 +19,7 @@ use Opulence\Framework\Composer\Executable;
 /**
  * Defines the Composer dump autoload command
  */
-class ComposerDumpAutoloadCommand extends Command
+final class ComposerDumpAutoloadCommand extends Command
 {
     /** @var Executable The executable wrapper */
     private Executable $executable;

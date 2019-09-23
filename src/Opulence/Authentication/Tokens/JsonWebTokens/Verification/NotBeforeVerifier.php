@@ -18,7 +18,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 /**
  * Defines the not-before verifier
  */
-class NotBeforeVerifier implements IVerifier
+final class NotBeforeVerifier implements IVerifier
 {
     /**
      * @inheritdoc

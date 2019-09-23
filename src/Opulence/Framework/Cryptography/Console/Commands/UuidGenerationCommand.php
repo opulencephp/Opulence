@@ -18,7 +18,7 @@ use Opulence\Console\Responses\IResponse;
 /**
  * Defines the UUID generator command
  */
-class UuidGenerationCommand extends Command
+final class UuidGenerationCommand extends Command
 {
     /**
      * @inheritdoc

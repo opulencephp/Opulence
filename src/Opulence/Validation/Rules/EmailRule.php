@@ -15,7 +15,7 @@ namespace Opulence\Validation\Rules;
 /**
  * Defines the email rule
  */
-class EmailRule implements IRule
+final class EmailRule implements IRule
 {
     /**
      * @inheritdoc

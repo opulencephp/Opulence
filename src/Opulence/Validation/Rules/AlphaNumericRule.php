@@ -15,7 +15,7 @@ namespace Opulence\Validation\Rules;
 /**
  * Defines the alpha-numeric rule
  */
-class AlphaNumericRule implements IRule
+final class AlphaNumericRule implements IRule
 {
     /**
      * @inheritdoc

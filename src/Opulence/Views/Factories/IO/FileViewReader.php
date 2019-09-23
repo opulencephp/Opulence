@@ -17,7 +17,7 @@ use InvalidArgumentException;
 /**
  * Defines the file view reader
  */
-class FileViewReader implements IViewReader
+final class FileViewReader implements IViewReader
 {
     /**
      * @inheritdoc

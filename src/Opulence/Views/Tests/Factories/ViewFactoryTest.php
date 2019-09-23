@@ -39,10 +39,7 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
         $this->viewReader->expects($this->any())
             ->method('read')
             ->willReturn('foo');
-        $this->viewFactory = $this->getMockBuilder(ViewFactory::class)
-            ->setMethods(null)
-            ->setConstructorArgs([$this->viewNameResolver, $this->viewReader])
-            ->getMock();
+        $this->viewFactory = new ViewFactory($this->viewNameResolver, $this->viewReader);
     }
 
     public function testCheckingIfViewExists(): void

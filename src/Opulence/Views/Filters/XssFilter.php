@@ -15,7 +15,7 @@ namespace Opulence\Views\Filters;
 /**
  * Defines a filter meant to prevent cross-site scripting
  */
-class XssFilter implements IFilter
+final class XssFilter implements IFilter
 {
     /**
      * Filters the input parameter for XSS attacks

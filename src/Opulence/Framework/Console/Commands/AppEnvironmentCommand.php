@@ -18,7 +18,7 @@ use Opulence\Console\Responses\IResponse;
 /**
  * Defines the application environment command
  */
-class AppEnvironmentCommand extends Command
+final class AppEnvironmentCommand extends Command
 {
     /**
      * @inheritdoc

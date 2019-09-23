@@ -18,7 +18,7 @@ use InvalidArgumentException;
 /**
  * Defines the date rule
  */
-class DateRule implements IRuleWithArgs
+final class DateRule implements IRuleWithArgs
 {
     /** @var array The expected date formats */
     protected array $formats = [];

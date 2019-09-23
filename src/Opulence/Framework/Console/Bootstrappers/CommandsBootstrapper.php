@@ -42,7 +42,7 @@ use RuntimeException;
 /**
  * Defines the command bootstrapper
  */
-class CommandsBootstrapper extends Bootstrapper
+final class CommandsBootstrapper extends Bootstrapper
 {
     /** @var array The list of built-in command classes */
     private static array $commandClasses = [

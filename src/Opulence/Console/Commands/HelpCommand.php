@@ -22,7 +22,7 @@ use Opulence\Console\Responses\IResponse;
 /**
  * Defines the help command
  */
-class HelpCommand extends Command
+final class HelpCommand extends Command
 {
     /** @var string The template for the output */
     private static $template = <<<EOF

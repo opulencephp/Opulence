@@ -15,7 +15,7 @@ namespace Opulence\Authentication\Credentials;
 /**
  * Defines the different credential types
  */
-class CredentialTypes
+final class CredentialTypes
 {
     /** A username/password credential */
     public const USERNAME_PASSWORD = 'USERNAME_PASSWORD';

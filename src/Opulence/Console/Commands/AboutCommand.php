@@ -18,7 +18,7 @@ use Opulence\Console\Responses\IResponse;
 /**
  * Defines the about command
  */
-class AboutCommand extends Command
+final class AboutCommand extends Command
 {
     /** @var string The template for the output */
     private static $template = <<<EOF

@@ -15,7 +15,7 @@ namespace Opulence\Framework\Console\Commands;
 /**
  * Makes a command class
  */
-class MakeCommandCommand extends MakeCommand
+final class MakeCommandCommand extends MakeCommand
 {
     /**
      * @inheritdoc

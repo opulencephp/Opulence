@@ -15,7 +15,7 @@ namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 /**
  * Defines an expression node
  */
-class ExpressionNode extends Node
+final class ExpressionNode extends Node
 {
     /**
      * @inheritdoc

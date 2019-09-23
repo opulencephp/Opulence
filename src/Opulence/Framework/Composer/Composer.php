@@ -15,7 +15,7 @@ namespace Opulence\Framework\Composer;
 /**
  * Defines a wrapper around Composer
  */
-class Composer
+final class Composer
 {
     /** @var array The raw config */
     private array $rawConfig;

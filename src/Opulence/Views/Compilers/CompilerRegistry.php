@@ -18,7 +18,7 @@ use Opulence\Views\IView;
 /**
  * Defines the compiler dispatcher
  */
-class CompilerRegistry implements ICompilerRegistry
+final class CompilerRegistry implements ICompilerRegistry
 {
     /** @var ICompiler[] The mapping of extensions to compiler instances */
     protected array $compilers = [];

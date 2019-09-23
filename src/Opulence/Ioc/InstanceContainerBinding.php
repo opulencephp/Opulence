@@ -16,7 +16,7 @@ namespace Opulence\Ioc;
  * Defines an instance container binding
  * @internal
  */
-class InstanceContainerBinding implements IContainerBinding
+final class InstanceContainerBinding implements IContainerBinding
 {
     /** @var object The instance */
     private object $instance;

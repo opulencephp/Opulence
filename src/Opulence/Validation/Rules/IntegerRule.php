@@ -15,7 +15,7 @@ namespace Opulence\Validation\Rules;
 /**
  * Defines the integer rule
  */
-class IntegerRule implements IRule
+final class IntegerRule implements IRule
 {
     /**
      * @inheritdoc

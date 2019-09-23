@@ -18,7 +18,7 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 /**
  * Defines the signature verifier
  */
-class SignatureVerifier implements IVerifier
+final class SignatureVerifier implements IVerifier
 {
     /** @var ISigner The signer to use to verify the signatures */
     private ISigner $signer;

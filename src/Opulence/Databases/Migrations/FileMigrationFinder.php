@@ -20,7 +20,7 @@ use ReflectionClass;
 /**
  * Defines the migration file finder
  */
-class FileMigrationFinder
+final class FileMigrationFinder
 {
     /**
      * Recursively finds all migration classes in the order they're to be run

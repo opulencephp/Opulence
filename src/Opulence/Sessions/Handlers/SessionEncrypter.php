@@ -18,7 +18,7 @@ use Opulence\Cryptography\Encryption\IEncrypter;
 /**
  * Defines a session encrypter that uses Opulence's cryptography library
  */
-class SessionEncrypter implements ISessionEncrypter
+final class SessionEncrypter implements ISessionEncrypter
 {
     /** @var IEncrypter The Opulence encrypter */
     private IEncrypter $encrypter;

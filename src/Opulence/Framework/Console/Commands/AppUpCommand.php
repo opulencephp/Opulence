@@ -19,7 +19,7 @@ use Opulence\Framework\Configuration\Config;
 /**
  * Defines the application-up command
  */
-class AppUpCommand extends Command
+final class AppUpCommand extends Command
 {
     /**
      * @inheritdoc
