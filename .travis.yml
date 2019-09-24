@@ -5,11 +5,7 @@ php:
 
 # Shallow clones can cause issues with subtree splits
 git:
-    depth: false
-
-services:
-  - memcached
-  - redis-server
+  depth: false
 
 before_install:
   - echo "extension=memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
