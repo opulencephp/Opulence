@@ -33,14 +33,8 @@ final class IdAccessorRegistry implements IIdAccessorRegistry
          */
         $this->registerIdAccessors(
             IEntity::class,
-            function ($entity) {
-                /** @var IEntity $entity */
-                return $entity->getId();
-            },
-            function ($entity, $id) {
-                /** @var IEntity $entity */
-                $entity->setId($id);
-            }
+            fn (IEntity $entity) => $entity->getId(),
+            fn (IEntity $entity, $id) => $entity->setId($id)
         );
     }
 
@@ -93,12 +87,8 @@ final class IdAccessorRegistry implements IIdAccessorRegistry
                 throw new OrmException("Reflection failed for Id accessors in class \"$className\"");
             }
 
-            $getter = function ($entity) use ($property) {
-                return $property->getValue($entity);
-            };
-            $setter = function ($entity, $id) use ($property) {
-                $property->setValue($entity, $id);
-            };
+            $getter = fn ($entity) => $property->getValue($entity);
+            $setter = fn ($entity, $id) => $property->setValue($entity, $id);
             $this->registerIdAccessors($className, $getter, $setter);
         }
     }

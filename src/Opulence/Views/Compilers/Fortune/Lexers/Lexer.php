@@ -106,13 +106,7 @@ class Lexer implements ILexer
          * In case one delimiter is a substring of the other ("{{" and "{{!"), we want to sort the delimiters
          * so that the longest delimiters come first
          */
-        usort($statements, function ($a, $b) {
-            if (strlen($a[0]) > strlen($b[0])) {
-                return -1;
-            }
-
-            return 1;
-        });
+        usort($statements, fn ($a, $b) => strlen($a[0]) > strlen($b[0]) ? -1 : 1);
 
         return $statements;
     }
@@ -581,10 +575,10 @@ class Lexer implements ILexer
             if ($matches[2] === ')') {
                 // There were no parameters
                 return $matches[1] . ')';
-            } else {
-                // There were parameters
-                return $matches[1] . ', ' . $matches[2];
             }
+
+            // There were parameters
+            return $matches[1] . ', ' . $matches[2];
         };
 
         /**

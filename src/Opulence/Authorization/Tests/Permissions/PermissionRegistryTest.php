@@ -49,18 +49,14 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
 
     public function testRegisteringCallback(): void
     {
-        $callback = function () {
-            return false;
-        };
+        $callback = fn () => false;
         $this->registry->registerCallback('foo', $callback);
         $this->assertSame($callback, $this->registry->getCallback('foo'));
     }
 
     public function testRegisteringOverride(): void
     {
-        $override = function () {
-            return true;
-        };
+        $override = fn () => true;
         $this->registry->registerOverrideCallback($override);
         $this->assertSame([$override], $this->registry->getOverrideCallbacks());
     }

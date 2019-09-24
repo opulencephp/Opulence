@@ -73,9 +73,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
 
     public function testCompilingCustomViewFunction(): void
     {
-        $this->transpiler->registerViewFunction('foo', function ($input) {
-            return "foo: $input";
-        });
+        $this->transpiler->registerViewFunction('foo', fn ($input) => "foo: $input");
         $this->view->setContents('{{!foo("bar")!}}');
         $this->assertEquals('foo: bar', $this->fortuneCompiler->compile($this->view));
     }

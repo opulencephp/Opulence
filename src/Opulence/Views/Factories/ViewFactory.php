@@ -104,9 +104,9 @@ final class ViewFactory implements IViewFactory
              * If there's a builder registered without the extension and it resolves to the correct view file path
              * Else if there's a builder registered with the extension and it resolves to the correct view file path
              */
-            if (isset($this->builders[$filename]) && $this->viewNameResolver->resolve($filename) == $resolvedPath) {
+            if (isset($this->builders[$filename]) && $this->viewNameResolver->resolve($filename) === $resolvedPath) {
                 $builders = $this->builders[$filename];
-            } elseif (isset($this->builders[$basename]) && $this->viewNameResolver->resolve($basename) == $resolvedPath) {
+            } elseif (isset($this->builders[$basename]) && $this->viewNameResolver->resolve($basename) === $resolvedPath) {
                 $builders = $this->builders[$basename];
             }
         }

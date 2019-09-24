@@ -25,21 +25,15 @@ final class ViewFunctionRegistrant
     public function registerViewFunctions(ITranspiler $transpiler): void
     {
         // Register the charset function
-        $transpiler->registerViewFunction('charset', function ($charset) {
-            return '<meta charset="' . $charset . '">';
-        });
+        $transpiler->registerViewFunction('charset', fn ($charset) => '<meta charset="' . $charset . '">');
         // Register the CSS function
         $transpiler->registerViewFunction('css', function ($paths) {
-            $callback = function ($path) {
-                return '<link href="' . $path . '" rel="stylesheet">';
-            };
+            $callback = fn ($path) => '<link href="' . $path . '" rel="stylesheet">';
 
             return implode("\n", array_map($callback, (array)$paths));
         });
         // Register the favicon function
-        $transpiler->registerViewFunction('favicon', function ($path) {
-            return '<link href="' . $path . '" rel="shortcut icon">';
-        });
+        $transpiler->registerViewFunction('favicon', fn ($path) => '<link href="' . $path . '" rel="shortcut icon">');
         // Register the HTTP-equiv function
         $transpiler->registerViewFunction('httpEquiv', function ($name, $value) {
             return '<meta http-equiv="' . htmlentities($name) . '" content="' . htmlentities((string)$value) . '">';
@@ -60,9 +54,7 @@ final class ViewFunctionRegistrant
             return '<meta name="keywords" content="' . implode(',', array_map('htmlentities', $metaKeywords)) . '">';
         });
         // Register the page title function
-        $transpiler->registerViewFunction('pageTitle', function ($title) {
-            return '<title>' . htmlentities($title) . '</title>';
-        });
+        $transpiler->registerViewFunction('pageTitle', fn ($title) => '<title>' . htmlentities($title) . '</title>');
         // Register the script function
         $transpiler->registerViewFunction('script', function ($paths, $type = 'text/javascript') {
             $callback = function ($path) use ($type) {

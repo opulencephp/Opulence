@@ -34,9 +34,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
 
     public function testFalseCallback(): void
     {
-        $this->permissionRegistry->registerCallback('foo', function () {
-            return false;
-        });
+        $this->permissionRegistry->registerCallback('foo', fn () => false);
         $this->assertFalse($this->authority->can('foo'));
         $this->assertTrue($this->authority->cannot('foo'));
     }
@@ -64,18 +62,14 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
 
             return true;
         });
-        $this->permissionRegistry->registerCallback('foo', function () {
-            return false;
-        });
+        $this->permissionRegistry->registerCallback('foo', fn () => false);
         $this->assertTrue($this->authority->can('foo', 'bar'));
         $this->assertFalse($this->authority->cannot('foo', 'bar'));
     }
 
     public function testTrueCallback(): void
     {
-        $this->permissionRegistry->registerCallback('foo', function () {
-            return true;
-        });
+        $this->permissionRegistry->registerCallback('foo', fn () => true);
         $this->assertTrue($this->authority->can('foo'));
         $this->assertFalse($this->authority->cannot('foo'));
     }

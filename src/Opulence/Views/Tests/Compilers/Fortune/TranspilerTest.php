@@ -95,17 +95,13 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
 
     public function testCallingViewFunctionThatTakesNoParameters(): void
     {
-        $this->transpiler->registerViewFunction('foo', function () {
-            return 'foobar';
-        });
+        $this->transpiler->registerViewFunction('foo', fn () => 'foobar');
         $this->assertEquals('foobar', $this->transpiler->callViewFunction('foo'));
     }
 
     public function testCallingViewFunctionThatTakesParameters(): void
     {
-        $this->transpiler->registerViewFunction('foo', function ($input) {
-            return 'foo' . $input;
-        });
+        $this->transpiler->registerViewFunction('foo', fn ($input) => 'foo' . $input);
         $this->assertEquals('foobar', $this->transpiler->callViewFunction('foo', 'bar'));
     }
 
@@ -200,9 +196,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
 
     public function testRegisteringDirectiveTranspiler(): void
     {
-        $this->transpiler->registerDirectiveTranspiler('foo', function ($expression) {
-            return "<?php foo $expression ?>";
-        });
+        $this->transpiler->registerDirectiveTranspiler('foo', fn ($expression) => "<?php foo $expression ?>");
         $directiveNode = new DirectiveNode();
         $directiveNode->addChild(new DirectiveNameNode('foo'));
         $directiveNode->addChild(new ExpressionNode('bar'));

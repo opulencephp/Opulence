@@ -68,9 +68,7 @@ final class FileMigrationFinder
         });
 
         // Sort the migration classes by their creation dates
-        usort($migrationClassNames, function (string $a, string $b) {
-            return $a::getCreationDate() <=> $b::getCreationDate();
-        });
+        usort($migrationClassNames, fn (string $a, string $b) => $a::getCreationDate() <=> $b::getCreationDate());
 
         return $migrationClassNames;
     }

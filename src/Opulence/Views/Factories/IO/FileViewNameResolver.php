@@ -103,7 +103,7 @@ final class FileViewNameResolver implements IViewNameResolver
         $priorityItems = [];
 
         foreach ($list as $key => $priority) {
-            if ($priority == -1) {
+            if ($priority === -1) {
                 $nonPriorityItems[] = $key;
             } else {
                 $priorityItems[$key] = $priority;
