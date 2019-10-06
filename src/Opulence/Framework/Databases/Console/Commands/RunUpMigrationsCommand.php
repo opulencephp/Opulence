@@ -10,6 +10,7 @@
 
 namespace Opulence\Framework\Databases\Console\Commands;
 
+use Exception;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
 use Opulence\Databases\Migrations\IMigrator;
@@ -47,7 +48,14 @@ class RunUpMigrationsCommand extends Command
     protected function doExecute(IResponse $response)
     {
         $response->writeln('Running "up" migrations...');
-        $migrationsRun = $this->migrator->runMigrations();
+
+        try {
+            $migrationsRun = $this->migrator->runMigrations();
+        } catch (Exception $e) {
+            $this->writeException($response, $e);
+
+            return;
+        }
 
         if (count($migrationsRun) === 0) {
             $response->writeln('<info>No migrations to run</info>');
@@ -58,5 +66,14 @@ class RunUpMigrationsCommand extends Command
                 $response->writeln("<info>$migrationRun</info>");
             }
         }
+    }
+
+    /**
+     * @param IResponse $response
+     * @param Exception $exc
+     */
+    protected function writeException(IResponse $response, Exception $exc)
+    {
+        $response->writeln(sprintf('<fatal>%s</fatal>', $exc->getMessage()));
     }
 }

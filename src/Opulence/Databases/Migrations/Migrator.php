@@ -10,6 +10,7 @@
 
 namespace Opulence\Databases\Migrations;
 
+use Exception;
 use Opulence\Databases\IConnection;
 
 /**
@@ -46,32 +47,47 @@ class Migrator implements IMigrator
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function rollBackAllMigrations() : array
     {
         // These classes are returned in chronologically descending order
         $migrationClasses = $this->executedMigrations->getAll();
         $migrations = $this->resolveManyMigrations($migrationClasses);
-        $this->executeRollBacks($migrations);
+        try {
+            $this->executeRollBacks($migrations);
+        } catch (Exception $e) {
+            $this->connection->rollBack();
+
+            throw $e;
+        }
 
         return $migrationClasses;
     }
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function rollBackMigrations(int $number = 1) : array
     {
         // These classes are returned in chronologically descending order
         $migrationClasses = $this->executedMigrations->getLast($number);
         $migrations = $this->resolveManyMigrations($migrationClasses);
-        $this->executeRollBacks($migrations);
+        try {
+            $this->executeRollBacks($migrations);
+        } catch (Exception $e) {
+            $this->connection->rollBack();
+
+            throw $e;
+        }
 
         return $migrationClasses;
     }
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function runMigrations() : array
     {
@@ -82,7 +98,14 @@ class Migrator implements IMigrator
         $this->connection->beginTransaction();
 
         foreach ($migrations as $migration) {
-            $migration->up();
+            try {
+                $migration->up();
+            } catch (Exception $e) {
+                $this->connection->rollBack();
+
+                throw $e;
+            }
+
             $this->executedMigrations->add(get_class($migration));
         }
 
@@ -102,6 +125,7 @@ class Migrator implements IMigrator
 
         foreach ($migrations as $migration) {
             $migration->down();
+
             $this->executedMigrations->delete(get_class($migration));
         }
 

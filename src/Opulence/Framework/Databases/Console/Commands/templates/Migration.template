@@ -7,28 +7,26 @@ use Opulence\Databases\Migrations\Migration;
 class {{class}} extends Migration
 {
     /**
-     * Gets the creation date, which is used for ordering
-     * 
-     * @return DateTime The date this migration was created
+     * @inheritdoc
      */
     public static function getCreationDate() : DateTime
     {
         return DateTime::createFromFormat(DateTime::ATOM, '{{creationDate}}');
     }
-    
+
     /**
-     * Executes the query that rolls back the migration
+     * @inheritdoc
      */
     public function down() : void
     {
-        // 
+        //
     }
 
     /**
-     * Executes the query that commits the migration
+     * @inheritdoc
      */
     public function up() : void
     {
-        // 
+        //
     }
 }
