@@ -100,7 +100,7 @@ class Migrator implements IMigrator
         foreach ($migrations as $migration) {
             try {
                 $migration->up();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->connection->rollBack();
 
                 throw $e;

@@ -10,8 +10,6 @@
 
 namespace Opulence\Databases\Tests\Migrations;
 
-use Opulence\Collections\Tests\Mocks\MockObject;
-use Opulence\Databases\StatementException;
 use Opulence\Databases\IConnection;
 use Opulence\Databases\Migrations\IExecutedMigrationRepository;
 use Opulence\Databases\Migrations\IMigration;
@@ -198,13 +196,9 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testRunningMigrationsReturnsEarlyOnError() : void
     {
-        /** @var StatementException|MockObject $exceptionStub */
-        $exceptionStub = $this->getMockBuilder(StatementException::class)
-            ->disableOriginalConstructor()
-            ->setMethods([])
-            ->getMock();
+        $exceptionStub = new \Exception();
 
-        $this->expectException(StatementException::class);
+        $this->expectExceptionObject($exceptionStub);
 
         $migrator = new Migrator(
             ['foo', 'bar'],
@@ -245,13 +239,9 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testRollingBackAllMigrationsReturnsEarlyOnError() : void
     {
-        /** @var StatementException|MockObject $exceptionStub */
-        $exceptionStub = $this->getMockBuilder(StatementException::class)
-            ->disableOriginalConstructor()
-            ->setMethods([])
-            ->getMock();
+        $exceptionStub = new \Exception();
 
-        $this->expectException(StatementException::class);
+        $this->expectExceptionObject($exceptionStub);
 
         $migrator = new Migrator(
             ['foo', 'bar'],
