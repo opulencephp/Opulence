@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Opulence\Databases\Migrations;
 
+use Exception;
+
 /**
  * Defines the interface for database migrators to implement
  */
@@ -21,6 +23,7 @@ interface IMigrator
      * Rolls back all migrations
      *
      * @return string[] The list of rolled back migration classes
+     * @throws Exception Thrown if there was any error rolling back
      */
     public function rollBackAllMigrations(): array;
 
@@ -29,6 +32,7 @@ interface IMigrator
      *
      * @param int $number The number of migrations from the end (1 is last migration)
      * @return string[] The list of rolled back migration classes
+     * @throws Exception Thrown if there was any error rolling back
      */
     public function rollBackMigrations(int $number = 1): array;
 
@@ -36,6 +40,7 @@ interface IMigrator
      * Runs the migrations
      *
      * @return string[] The list of run migration classes
+     * @throws Exception Thrown if there was any error running the migration
      */
     public function runMigrations(): array;
 }

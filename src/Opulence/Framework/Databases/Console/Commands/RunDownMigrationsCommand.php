@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Databases\Console\Commands;
 
+use Exception;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Requests\Option;
 use Opulence\Console\Requests\OptionTypes;
@@ -57,21 +58,84 @@ final class RunDownMigrationsCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        if ($this->optionIsSet('number')) {
-            $numMigrations = (int)$this->getOptionValue('number');
+        $migrationsRolledBack = [];
 
-            if ($numMigrations === 1) {
-                $response->writeln('Rolling back last migration...');
+        try {
+            if ($this->optionIsSet('number')) {
+                $numMigrations = (int)$this->getOptionValue('number');
+                $migrationsRolledBack = $this->doExecuteSome($response, $numMigrations);
             } else {
-                $response->writeln("Rolling back last $numMigrations migrations...");
+                $migrationsRolledBack = $this->doExecuteAll($response);
             }
 
-            $migrationsRolledBack = $this->migrator->rollBackMigrations($numMigrations);
-        } else {
-            $response->writeln('Rolling back all migrations...');
-            $migrationsRolledBack = $this->migrator->rollBackAllMigrations();
+            $this->writeResults($response, $migrationsRolledBack);
+        } catch (Exception $ex) {
+            $this->writeException($response, $ex);
         }
 
+        if (count($migrationsRolledBack) === 0) {
+            $response->writeln('<info>No migrations to roll back</info>');
+        } else {
+            $response->writeln('<success>Successfully rolled back the following migrations:</success>');
+
+            foreach ($migrationsRolledBack as $migration) {
+                $response->writeln("<info>$migration</info>");
+            }
+        }
+    }
+
+    /**
+     * Executes all migrations
+     *
+     * @param IResponse $response The response to write to
+     * @return array The list of migrations rolled back
+     * @throws Exception Thrown if there was an error rolling back migrations
+     */
+    protected function doExecuteAll(IResponse $response): array
+    {
+        $response->writeln('Rolling back all migrations...');
+
+        return $this->migrator->rollBackAllMigrations();
+    }
+
+    /**
+     * Executes some number of migrations
+     *
+     * @param IResponse $response The response to write to
+     * @param int $numMigrations The number of migrations to run
+     * @return array The list of migrations rolled back
+     * @throws Exception Thrown if there was an error rolling back migrations
+     */
+    protected function doExecuteSome(IResponse $response, int $numMigrations): array
+    {
+        if ($numMigrations === 1) {
+            $response->writeln('Rolling back last migration...');
+        } else {
+            $response->writeln("Rolling back last $numMigrations migrations...");
+        }
+
+        return $this->migrator->rollBackMigrations($numMigrations);
+    }
+
+    /**
+     * Writes the exception to the response
+     *
+     * @param IResponse $response
+     * @param Exception $ex
+     */
+    protected function writeException(IResponse $response, Exception $ex): void
+    {
+        $response->writeln(sprintf('<fatal>%s</fatal>', $ex->getMessage()));
+    }
+
+    /**
+     * Writes the results of the migration back to the output
+     *
+     * @param IResponse $response The response to write to
+     * @param array $migrationsRolledBack The list of migrations rolled back
+     */
+    protected function writeResults(IResponse $response, array $migrationsRolledBack): void
+    {
         if (count($migrationsRolledBack) === 0) {
             $response->writeln('<info>No migrations to roll back</info>');
         } else {

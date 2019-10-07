@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Opulence\Databases\Migrations;
 
+use Exception;
 use Opulence\Databases\IConnection;
 
 /**
@@ -54,7 +55,14 @@ final class Migrator implements IMigrator
         // These classes are returned in chronologically descending order
         $migrationClasses = $this->executedMigrations->getAll();
         $migrations = $this->resolveManyMigrations($migrationClasses);
-        $this->executeRollBacks($migrations);
+
+        try {
+            $this->executeRollBacks($migrations);
+        } catch (Exception $ex) {
+            $this->connection->rollBack();
+
+            throw $ex;
+        }
 
         return $migrationClasses;
     }
@@ -67,7 +75,14 @@ final class Migrator implements IMigrator
         // These classes are returned in chronologically descending order
         $migrationClasses = $this->executedMigrations->getLast($number);
         $migrations = $this->resolveManyMigrations($migrationClasses);
-        $this->executeRollBacks($migrations);
+
+        try {
+            $this->executeRollBacks($migrations);
+        } catch (Exception $ex) {
+            $this->connection->rollBack();
+
+            throw $ex;
+        }
 
         return $migrationClasses;
     }
@@ -84,7 +99,14 @@ final class Migrator implements IMigrator
         $this->connection->beginTransaction();
 
         foreach ($migrations as $migration) {
-            $migration->up();
+            try {
+                $migration->up();
+            } catch (Exception $ex) {
+                $this->connection->rollBack();
+
+                throw $ex;
+            }
+
             $this->executedMigrations->add(get_class($migration));
         }
 
