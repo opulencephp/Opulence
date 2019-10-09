@@ -220,7 +220,7 @@ class Encrypter implements IEncrypter
         }
 
         if (!in_array($pieces['cipher'], self::$approvedCiphers)) {
-            throw new EncryptionException("Cipher \"{$pieces['ciper']}\" is not supported");
+            throw new EncryptionException("Cipher \"{$pieces['cipher']}\" is not supported");
         }
 
         if (\mb_strlen(\base64_decode($pieces['iv']), '8bit') !== \openssl_cipher_iv_length($pieces['cipher'])) {
