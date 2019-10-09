@@ -44,12 +44,13 @@ class Encrypter implements IEncrypter
     /** @var string The encryption cipher */
     private string $cipher = Ciphers::AES_256_CTR;
     /** @var IKeyDeriver The key deriver to use */
-    private IKeyDeriver $kerDeriver;
+    private IKeyDeriver $keyDeriver;
 
     /**
      * @param Secret $secret The encryption secret that will be used to derive keys
      * @param string $cipher The encryption cipher
      * @param IKeyDeriver $keyDeriver The key deriver
+     * @throws EncryptionException Thrown if the cipher is invalid
      */
     public function __construct(Secret $secret, string $cipher = Ciphers::AES_256_CTR, IKeyDeriver $keyDeriver = null)
     {
@@ -142,7 +143,7 @@ class Encrypter implements IEncrypter
             'hmac' => $hmac
         ];
 
-        return \base64_encode(\json_encode($pieces));
+        return \base64_encode(\json_encode($pieces, JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -188,9 +189,9 @@ class Encrypter implements IEncrypter
 
         if ($this->secret->getType() === SecretTypes::KEY) {
             return $this->keyDeriver->deriveKeysFromKey($this->secret->getValue(), $keySalt, $keyByteLength);
-        } else {
-            return $this->keyDeriver->deriveKeysFromPassword($this->secret->getValue(), $keySalt, $keyByteLength);
         }
+
+        return $this->keyDeriver->deriveKeysFromPassword($this->secret->getValue(), $keySalt, $keyByteLength);
     }
 
     /**
@@ -213,7 +214,7 @@ class Encrypter implements IEncrypter
      */
     private function getPieces(string $data): array
     {
-        $pieces = \json_decode(\base64_decode($data), true);
+        $pieces = \json_decode(\base64_decode($data), true, 512, JSON_THROW_ON_ERROR);
 
         if ($pieces === false ||
             !isset($pieces['version'], $pieces['hmac'], $pieces['value'], $pieces['iv'], $pieces['keySalt'], $pieces['cipher'])
@@ -221,8 +222,8 @@ class Encrypter implements IEncrypter
             throw new EncryptionException('Data is not in correct format');
         }
 
-        if (!in_array($pieces['cipher'], self::$approvedCiphers)) {
-            throw new EncryptionException("Cipher \"{$pieces['ciper']}\" is not supported");
+        if (!in_array($pieces['cipher'], self::$approvedCiphers, true)) {
+            throw new EncryptionException("Cipher \"{$pieces['cipher']}\" is not supported");
         }
 
         if (\mb_strlen(\base64_decode($pieces['iv']), '8bit') !== \openssl_cipher_iv_length($pieces['cipher'])) {
@@ -241,13 +242,16 @@ class Encrypter implements IEncrypter
     }
 
     /**
-     * @inheritdoc
+     * Sets the cipher to use
+     *
+     * @param string $cipher The cipher to use
+     * @throws EncryptionException Thrown if the cipher was invalid
      */
     private function setCipher(string $cipher): void
     {
         $cipher = \mb_strtoupper($cipher, '8bit');
 
-        if (!in_array($cipher, self::$approvedCiphers)) {
+        if (!in_array($cipher, self::$approvedCiphers, true)) {
             throw new EncryptionException("Invalid cipher \"$cipher\"");
         }
 
@@ -266,7 +270,7 @@ class Encrypter implements IEncrypter
             if (\mb_strlen($this->secret->getValue(), '8bit') < $this->getKeyByteLengthForCipher($cipher)) {
                 throw new EncryptionException("Key must be at least {$this->getKeyByteLengthForCipher($cipher)} bytes long");
             }
-        } elseif (\mb_strlen($this->secret->getValue(), '8bit') === 0) {
+        } elseif ($this->secret->getValue() === '') {
             throw new EncryptionException('Password cannot be empty');
         }
     }
