@@ -214,7 +214,7 @@ class Encrypter implements IEncrypter
      */
     private function getPieces(string $data): array
     {
-        $pieces = \json_decode(\base64_decode($data), true, 512, JSON_THROW_ON_ERROR);
+        $pieces = \json_decode(\base64_decode($data), true);
 
         if ($pieces === false ||
             !isset($pieces['version'], $pieces['hmac'], $pieces['value'], $pieces['iv'], $pieces['keySalt'], $pieces['cipher'])
