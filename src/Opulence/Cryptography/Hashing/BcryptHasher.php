@@ -18,37 +18,17 @@ namespace Opulence\Cryptography\Hashing;
 class BcryptHasher extends Hasher
 {
     /** The default cost used by this hasher */
-    public const DEFAULT_COST = 10;
+    private const DEFAULT_COST = 10;
 
     /**
-     * @inheritdoc
+     * @param array $options The options to use (same as the ones in password_hash())
      */
-    public function hash(string $unhashedValue, array $options = [], string $pepper = ''): string
+    public function __construct(array $options = [])
     {
         if (!isset($options['cost'])) {
             $options['cost'] = self::DEFAULT_COST;
         }
 
-        return parent::hash($unhashedValue, $options, $pepper);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function needsRehash(string $hashedValue, array $options = []): bool
-    {
-        if (!isset($options['cost'])) {
-            $options['cost'] = self::DEFAULT_COST;
-        }
-
-        return parent::needsRehash($hashedValue, $options);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function setHashAlgorithm(): void
-    {
-        $this->hashAlgorithm = PASSWORD_BCRYPT;
+        parent::__construct(\PASSWORD_BCRYPT, $options);
     }
 }

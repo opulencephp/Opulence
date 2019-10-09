@@ -147,15 +147,6 @@ class Encrypter implements IEncrypter
     }
 
     /**
-     * @inheritdoc
-     */
-    public function setSecret(Secret $secret): void
-    {
-        $this->secret = $secret;
-        $this->validateSecret($this->cipher);
-    }
-
-    /**
      * Creates an HMAC
      *
      * @param string $iv The initialization vector
@@ -256,6 +247,18 @@ class Encrypter implements IEncrypter
         }
 
         $this->cipher = $cipher;
+    }
+
+    /**
+     * Sets the secret
+     *
+     * @param Secret $secret The secret to set
+     * @throws EncryptionException Thrown if the secret is not valid
+     */
+    private function setSecret(Secret $secret): void
+    {
+        $this->secret = $secret;
+        $this->validateSecret($this->cipher);
     }
 
     /**

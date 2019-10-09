@@ -36,11 +36,4 @@ interface IEncrypter
      * @throws EncryptionException Thrown if there was an error encrypting the data
      */
     public function encrypt(string $data): string;
-
-    /**
-     * Sets the encryption secret that will be used to derive keys
-     *
-     * @param Secret $secret The secret to use
-     */
-    public function setSecret(Secret $secret): void;
 }

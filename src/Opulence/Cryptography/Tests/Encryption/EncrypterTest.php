@@ -50,7 +50,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
         $this->expectException(EncryptionException::class);
         $data = [
             'version' => '1',
-            'ciper' => Ciphers::AES_256_CTR,
+            'cipher' => Ciphers::AES_256_CTR,
             'iv' => 'foo',
             'keySalt' => 'bar',
             'value' => 'baz'
@@ -63,7 +63,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
         $this->expectException(EncryptionException::class);
         $data = [
             'version' => '1',
-            'ciper' => Ciphers::AES_256_CTR,
+            'cipher' => Ciphers::AES_256_CTR,
             'keySalt' => 'bar',
             'value' => 'baz',
             'hmac' => 'foo'
@@ -76,7 +76,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
         $this->expectException(EncryptionException::class);
         $data = [
             'version' => '1',
-            'ciper' => Ciphers::AES_256_CTR,
+            'cipher' => Ciphers::AES_256_CTR,
             'iv' => 'bar',
             'value' => 'baz',
             'hmac' => 'foo'
@@ -89,7 +89,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
         $this->expectException(EncryptionException::class);
         $data = [
             'version' => '1',
-            'ciper' => Ciphers::AES_256_CTR,
+            'cipher' => Ciphers::AES_256_CTR,
             'iv' => 'bar',
             'keySalt' => 'baz',
             'hmac' => 'foo'

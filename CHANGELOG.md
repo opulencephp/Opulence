@@ -57,6 +57,9 @@
 <h3>Cryptography</h3>
 
 * Made `IHasher::verify()` and instance method (helps with unit testing)
+* Removed `IEncrypter::setSecret()`
+* Removed `$options` parameters from `IHasher::hash()` and `IHasher::needsRehash()`
+* Updated `BcryptHasher::__construct()` to accept an array of options
 
 <h3>Events</h3>
 

@@ -19,51 +19,45 @@ use Opulence\Cryptography\Hashing\BcryptHasher;
  */
 class BcryptHasherTest extends \PHPUnit\Framework\TestCase
 {
-    private BcryptHasher $hasher;
-
-    protected function setUp(): void
-    {
-        $this->hasher = new BcryptHasher();
-    }
-
-    public function testGettingDefaultCost(): void
-    {
-        $this->assertEquals(10, BcryptHasher::DEFAULT_COST);
-    }
-
     public function testHashThatDoesNotNeedToBeRehashed(): void
     {
-        $hashedValue = $this->hasher->hash('foo', ['cost' => 5]);
-        $this->assertFalse($this->hasher->needsRehash($hashedValue, ['cost' => 5]));
+        $hasher = new BcryptHasher(['cost' => 5]);
+        $hashedValue = $hasher->hash('foo');
+        $this->assertFalse($hasher->needsRehash($hashedValue));
     }
 
     public function testHashThatNeedsToBeRehashed(): void
     {
-        $hashedValue = $this->hasher->hash('foo', ['cost' => 5]);
-        $this->assertTrue($this->hasher->needsRehash($hashedValue, ['cost' => 6]));
+        $hasher = new BcryptHasher(['cost' => 5]);
+        $hashedValue = $hasher->hash('foo');
+        $this->assertTrue($hasher->needsRehash($hashedValue));
     }
 
     public function testVerifyingCorrectHash(): void
     {
-        $hashedValue = $this->hasher->hash('foo', ['cost' => 4]);
-        $this->assertTrue($this->hasher->verify($hashedValue, 'foo'));
+        $hasher = new BcryptHasher(['cost' => 4]);
+        $hashedValue = $hasher->hash('foo');
+        $this->assertTrue($hasher->verify($hashedValue, 'foo'));
     }
 
     public function testVerifyingCorrectHashWithPepper(): void
     {
-        $hashedValue = $this->hasher->hash('foo', ['cost' => 4], 'pepper');
-        $this->assertTrue($this->hasher->verify($hashedValue, 'foo', 'pepper'));
+        $hasher = new BcryptHasher(['cost' => 4]);
+        $hashedValue = $hasher->hash('foo', 'pepper');
+        $this->assertTrue($hasher->verify($hashedValue, 'foo', 'pepper'));
     }
 
     public function testVerifyingIncorrectHash(): void
     {
-        $hashedValue = $this->hasher->hash('foo', ['cost' => 4]);
-        $this->assertFalse($this->hasher->verify($hashedValue, 'bar'));
+        $hasher = new BcryptHasher(['cost' => 4]);
+        $hashedValue = $hasher->hash('foo');
+        $this->assertFalse($hasher->verify($hashedValue, 'bar'));
     }
 
     public function testVerifyingIncorrectHashWithPepper(): void
     {
-        $hashedValue = $this->hasher->hash('foo', ['cost' => 4], 'pepper');
-        $this->assertFalse($this->hasher->verify($hashedValue, 'bar'));
+        $hasher = new BcryptHasher(['cost' => 4]);
+        $hashedValue = $hasher->hash('foo', 'pepper');
+        $this->assertFalse($hasher->verify($hashedValue, 'bar'));
     }
 }

@@ -19,20 +19,27 @@ use RuntimeException;
  */
 abstract class Hasher implements IHasher
 {
-    /** @var int|string The hash algorithm constant used by this hasher */
-    protected $hashAlgorithm = -1;
+    /** @var int The hash algorithm constant used by this hasher */
+    private $hashAlgorithm = -1;
+    /** @var array The options to use (same as the ones in password_hash()) */
+    private array $options;
 
-    public function __construct()
+    /**
+     * @param int $hashAlgorithm The hashing algorithm to use
+     * @param array $options The options to use (same as the ones in password_hash())
+     */
+    protected function __construct(int $hashAlgorithm, array $options)
     {
-        $this->setHashAlgorithm();
+        $this->hashAlgorithm = $hashAlgorithm;
+        $this->options = $options;
     }
 
     /**
      * @inheritdoc
      */
-    public function hash(string $unhashedValue, array $options = [], string $pepper = ''): string
+    public function hash(string $unhashedValue, string $pepper = ''): string
     {
-        $hashedValue = \password_hash($unhashedValue . $pepper, $this->hashAlgorithm, $options);
+        $hashedValue = \password_hash($unhashedValue . $pepper, $this->hashAlgorithm, $this->options);
 
         if ($hashedValue === false) {
             throw new RuntimeException("Failed to generate hash for algorithm {$this->hashAlgorithm}");
@@ -44,9 +51,9 @@ abstract class Hasher implements IHasher
     /**
      * @inheritdoc
      */
-    public function needsRehash(string $hashedValue, array $options = []): bool
+    public function needsRehash(string $hashedValue): bool
     {
-        return \password_needs_rehash($hashedValue, $this->hashAlgorithm, $options);
+        return \password_needs_rehash($hashedValue, $this->hashAlgorithm, $this->options);
     }
 
     /**
@@ -56,9 +63,4 @@ abstract class Hasher implements IHasher
     {
         return \password_verify($unhashedValue . $pepper, $hashedValue);
     }
-
-    /**
-     * Should set the hash algorithm property to the algorithm used by the concrete class
-     */
-    abstract protected function setHashAlgorithm(): void;
 }
