@@ -28,9 +28,10 @@ class BcryptHasherTest extends \PHPUnit\Framework\TestCase
 
     public function testHashThatNeedsToBeRehashed(): void
     {
-        $hasher = new BcryptHasher(['cost' => 5]);
-        $hashedValue = $hasher->hash('foo');
-        $this->assertTrue($hasher->needsRehash($hashedValue));
+        $hasherWithCostFive = new BcryptHasher(['cost' => 5]);
+        $hasherWithCostSix = new BcryptHasher(['cost' => 6]);
+        $hashedValue = $hasherWithCostFive->hash('foo');
+        $this->assertTrue($hasherWithCostSix->needsRehash($hashedValue));
     }
 
     public function testVerifyingCorrectHash(): void
