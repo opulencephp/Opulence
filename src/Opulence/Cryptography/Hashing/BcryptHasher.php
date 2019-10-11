@@ -15,7 +15,7 @@ namespace Opulence\Cryptography\Hashing;
 /**
  * Defines the Bcrypt cryptographic hasher
  */
-class BcryptHasher extends Hasher
+class BcryptHasher extends PasswordHasher
 {
     /** The default cost used by this hasher */
     private const DEFAULT_COST = 10;

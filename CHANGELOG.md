@@ -60,6 +60,7 @@
 * Removed `IEncrypter::setSecret()`
 * Removed `$options` parameters from `IHasher::hash()` and `IHasher::needsRehash()`
 * Updated `BcryptHasher::__construct()` to accept an array of options
+* Renamed `Hasher` to `PasswordHasher`, made it non-abstract, and changed the constructor to accept the password algorithm and array of options
 
 <h3>Events</h3>
 

@@ -15,20 +15,20 @@ namespace Opulence\Cryptography\Hashing;
 use RuntimeException;
 
 /**
- * Defines a base cryptographic hasher
+ * Defines a base cryptographic password hasher
  */
-abstract class Hasher implements IHasher
+class PasswordHasher implements IHasher
 {
-    /** @var int The hash algorithm constant used by this hasher */
-    private $hashAlgorithm = -1;
+    /** @var int|string The hash algorithm constant used by this hasher */
+    private $hashAlgorithm;
     /** @var array The options to use (same as the ones in password_hash()) */
     private array $options;
 
     /**
-     * @param int $hashAlgorithm The hashing algorithm to use
+     * @param int|string $hashAlgorithm The hashing algorithm to use
      * @param array $options The options to use (same as the ones in password_hash())
      */
-    protected function __construct(int $hashAlgorithm, array $options)
+    protected function __construct($hashAlgorithm, array $options = [])
     {
         $this->hashAlgorithm = $hashAlgorithm;
         $this->options = $options;
