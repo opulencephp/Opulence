@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Cryptography\Bootstrappers;
 
+use Aphiria\DependencyInjection\Bootstrappers\Bootstrapper;
+use Aphiria\DependencyInjection\IContainer;
 use Opulence\Cryptography\Encryption\Encrypter;
 use Opulence\Cryptography\Encryption\IEncrypter;
 use Opulence\Cryptography\Encryption\Keys\Key;
 use Opulence\Cryptography\Hashing\BcryptHasher;
 use Opulence\Cryptography\Hashing\IHasher;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\IContainer;
 use RuntimeException;
 
 /**

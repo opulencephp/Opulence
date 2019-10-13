@@ -1,140 +1,38 @@
 <?php
 
 /**
- * Opulence
+ * Aphiria
  *
- * @link      https://www.opulencephp.com
+ * @link      https://www.aphiria.com
  * @copyright Copyright (C) 2019 David Young
- * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ * @license   https://github.com/aphiria/Opulence/blob/master/LICENSE.md
  */
 
 declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Commands;
 
-use Opulence\Console\Commands\Command;
-use Opulence\Console\Prompts\Prompt;
-use Opulence\Console\Requests\Argument;
-use Opulence\Console\Requests\ArgumentTypes;
-use Opulence\Console\Responses\IResponse;
-use Opulence\Console\StatusCodes;
-use Opulence\Framework\Composer\Composer;
-use Opulence\IO\FileSystem;
+use Aphiria\Console\Commands\Command;
+use Aphiria\Console\Input\Argument;
+use Aphiria\Console\Input\ArgumentTypes;
 
 /**
- * Defines the base class for "make:" commands to extend
+ * Defines the command that makes files from templates
  */
 abstract class MakeCommand extends Command
 {
-    /** @var Prompt The console prompt */
-    protected Prompt $prompt;
-    /** @var FileSystem The file system */
-    protected FileSystem $fileSystem;
-    /** @var Composer The Composer wrapper */
-    protected Composer $composer;
-
-    /**
-     * @param Prompt $prompt The console prompt
-     * @param FileSystem $fileSystem The file system
-     * @param Composer $composer The Composer wrapper
-     */
-    public function __construct(Prompt $prompt, FileSystem $fileSystem, Composer $composer)
+    protected function __construct(string $name, array $arguments, array $options, string $description, string $helpText = null)
     {
-        parent::__construct();
-
-        $this->prompt = $prompt;
-        $this->fileSystem = $fileSystem;
-        $this->composer = $composer;
-    }
-
-    /**
-     * Gets the path to the template
-     *
-     * @return string The template path
-     */
-    abstract protected function getFileTemplatePath(): string;
-
-    /**
-     * Compiles a template
-     *
-     * @param string $templateContents The template to compile
-     * @param string $fullyQualifiedClassName The fully-qualified class name
-     * @return string the compiled template
-     */
-    protected function compile(string $templateContents, string $fullyQualifiedClassName): string
-    {
-        $explodedClass = explode('\\', $fullyQualifiedClassName);
-        $namespace = implode('\\', array_slice($explodedClass, 0, -1));
-        $className = end($explodedClass);
-        $compiledTemplate = str_replace('{{namespace}}', $namespace, $templateContents);
-        $compiledTemplate = str_replace('{{class}}', $className, $compiledTemplate);
-
-        return $compiledTemplate;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function define(): void
-    {
-        $this->addArgument(new Argument(
-            'class',
-            ArgumentTypes::REQUIRED,
-            'The name of the class to create'
-        ));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function doExecute(IResponse $response)
-    {
-        $fullyQualifiedClassName = $this->composer->getFullyQualifiedClassName(
-            $this->getArgumentValue('class'),
-            $this->getDefaultNamespace($this->composer->getRootNamespace())
+        // Prepend an arg that specifies the name of the class to create
+        \array_unshift(
+            $arguments,
+            new Argument(
+                'class',
+                ArgumentTypes::REQUIRED,
+                'The name of the class to create'
+            )
         );
-        $path = $this->composer->getClassPath($fullyQualifiedClassName);
 
-        if ($this->fileSystem->exists($path)) {
-            $response->writeln('<error>File already exists</error>');
-
-            return StatusCodes::ERROR;
-        }
-
-        $this->makeDirectories($path);
-        $compiledTemplate = $this->compile(
-            $this->fileSystem->read($this->getFileTemplatePath()),
-            $fullyQualifiedClassName
-        );
-        $this->fileSystem->write($path, $compiledTemplate);
-        $response->writeln("<success>File was created at $path</success>");
-
-        return StatusCodes::OK;
-    }
-
-    /**
-     * Gets the default namespace for a class
-     * Let extending classes override this if they need to
-     *
-     * @param string $rootNamespace The root namespace
-     * @return string The default namespace
-     */
-    protected function getDefaultNamespace(string $rootNamespace): string
-    {
-        return $rootNamespace;
-    }
-
-    /**
-     * Makes the necessary directories for a class
-     *
-     * @param string $path The fully-qualified class name
-     */
-    protected function makeDirectories(string $path): void
-    {
-        $directoryName = dirname($path);
-
-        if (!$this->fileSystem->isDirectory($directoryName)) {
-            $this->fileSystem->makeDirectory($directoryName, 0777, true);
-        }
+        parent::__construct($name, $arguments, $options, $description, $helpText);
     }
 }

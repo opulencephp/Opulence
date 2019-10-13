@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Validation\Bootstrappers;
 
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\IContainer;
+use Aphiria\DependencyInjection\Bootstrappers\Bootstrapper;
+use Aphiria\DependencyInjection\IContainer;
 use Opulence\Validation\Factories\IValidatorFactory;
 use Opulence\Validation\Factories\ValidatorFactory;
 use Opulence\Validation\Rules\Errors\Compilers\Compiler;

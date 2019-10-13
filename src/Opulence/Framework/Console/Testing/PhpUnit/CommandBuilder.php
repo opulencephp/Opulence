@@ -27,7 +27,7 @@ class CommandBuilder
     protected array $options = [];
     /** @var array The list of prompt answers */
     protected array $promptAnswers = [];
-    /** @var bool Whether or not the response is styled */
+    /** @var bool Whether or not the output is styled */
     protected bool $isStyled = true;
 
     /**
@@ -102,9 +102,9 @@ class CommandBuilder
     }
 
     /**
-     * Sets whether or not the response is styled
+     * Sets whether or not the output is styled
      *
-     * @param bool $isStyled Whether or not the response is styled
+     * @param bool $isStyled Whether or not the output is styled
      * @return self For method chaining
      */
     public function withStyle(bool $isStyled): self

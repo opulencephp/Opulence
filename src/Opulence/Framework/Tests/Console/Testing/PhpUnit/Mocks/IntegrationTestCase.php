@@ -12,16 +12,16 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Console\Testing\PhpUnit\Mocks;
 
-use Opulence\Console\Commands\CommandCollection;
+use Aphiria\Console\Commands\CommandRegistry;
+use Aphiria\DependencyInjection\Bootstrappers\Bootstrapper;
+use Aphiria\DependencyInjection\Container;
+use Aphiria\DependencyInjection\IContainer;
 use Opulence\Databases\Migrations\IMigrator;
 use Opulence\Framework\Composer\Bootstrappers\ComposerBootstrapper;
 use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Console\Bootstrappers\CommandsBootstrapper;
-use Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions;
+use Opulence\Framework\Console\Testing\PhpUnit\Assertions\OutputAssertions;
 use Opulence\Framework\Console\Testing\PhpUnit\IntegrationTestCase as BaseIntegrationTestCase;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\Container;
-use Opulence\Ioc\IContainer;
 use Opulence\Views\Caching\ICache as ViewCache;
 
 /**
@@ -36,21 +36,29 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     ];
 
     /**
-     * @return CommandCollection
+     * @return CommandRegistry
      */
-    public function getCommandCollection(): CommandCollection
+    public function getCommands(): CommandRegistry
     {
-        return $this->commandCollection;
+        return $this->commands;
     }
 
     /**
-     * Gets the response assertions for use in testing
-     *
-     * @return ResponseAssertions The response assertions
+     * @return IContainer
      */
-    public function getResponseAssertions(): ResponseAssertions
+    public function getContainer(): IContainer
     {
-        return $this->assertResponse;
+        return $this->container;
+    }
+
+    /**
+     * Gets the output assertions for use in testing
+     *
+     * @return OutputAssertions The output assertions
+     */
+    public function getOutputAssertions(): OutputAssertions
+    {
+        return $this->assertOutput;
     }
 
     protected function setUp(): void

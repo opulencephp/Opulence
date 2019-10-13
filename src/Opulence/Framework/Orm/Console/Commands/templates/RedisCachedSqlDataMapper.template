@@ -5,7 +5,7 @@ namespace {{namespace}};
 
 use Opulence\Databases\IConnection;
 use Opulence\Orm\DataMappers\RedisCachedSqlDataMapper;
-use Opulence\Redis\Redis;
+use Redis;
 
 class {{class}} extends RedisCachedSqlDataMapper
 {

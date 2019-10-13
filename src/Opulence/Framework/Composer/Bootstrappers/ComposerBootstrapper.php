@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Composer\Bootstrappers;
 
+use Aphiria\DependencyInjection\Bootstrappers\Bootstrapper;
+use Aphiria\DependencyInjection\IContainer;
 use Opulence\Framework\Composer\Composer;
 use Opulence\Framework\Composer\Executable;
 use Opulence\Framework\Configuration\Config;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\IContainer;
 use RuntimeException;
 
 /**

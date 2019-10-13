@@ -114,7 +114,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testBuildingCommandWithUnstyledResponse(): void
+    public function testBuildingCommandWithUnstyledOutput(): void
     {
         $this->integrationTest->expects($this->once())
             ->method('execute')

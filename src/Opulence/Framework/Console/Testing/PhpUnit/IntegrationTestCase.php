@@ -12,21 +12,18 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Testing\PhpUnit;
 
-use Opulence\Console\Commands\CommandCollection;
-use Opulence\Console\Commands\Compilers\ICompiler;
-use Opulence\Console\Kernel;
-use Opulence\Console\Prompts\Prompt;
-use Opulence\Console\Requests\Parsers\ArrayListParser;
-use Opulence\Console\Requests\Parsers\IParser as IRequestParser;
-use Opulence\Console\Responses\Compilers\Compiler as ResponseCompiler;
-use Opulence\Console\Responses\Compilers\ICompiler as IResponseCompiler;
-use Opulence\Console\Responses\Compilers\Lexers\Lexer as ResponseLexer;
-use Opulence\Console\Responses\Compilers\Parsers\Parser as ResponseParser;
-use Opulence\Console\Responses\Formatters\PaddingFormatter;
-use Opulence\Console\Responses\Response;
-use Opulence\Console\Responses\StreamResponse;
-use Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions;
-use Opulence\Ioc\IContainer;
+use Aphiria\Console\App;
+use Aphiria\Console\Commands\CommandRegistry;
+use Aphiria\Console\Commands\ICommandBus;
+use Aphiria\Console\Input\Compilers\IInputCompiler;
+use Aphiria\Console\Input\Compilers\InputCompiler;
+use Aphiria\Console\Output\Compilers\IOutputCompiler;
+use Aphiria\Console\Output\Compilers\OutputCompiler;
+use Aphiria\Console\Output\IOutput;
+use Aphiria\Console\Output\Prompts\Prompt;
+use Aphiria\Console\Output\StreamOutput;
+use Aphiria\DependencyInjection\IContainer;
+use Opulence\Framework\Console\Testing\PhpUnit\Assertions\OutputAssertions;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -37,20 +34,18 @@ abstract class IntegrationTestCase extends TestCase
 {
     /** @var IContainer The IoC container */
     protected IContainer $container;
-    /** @var CommandCollection The list of registered commands */
-    protected CommandCollection $commandCollection;
-    /** @var ICompiler The command compiler */
-    protected ICompiler $commandCompiler;
-    /** @var IResponseCompiler The response compiler */
-    protected IResponseCompiler $responseCompiler;
-    /** @var Kernel The console kernel */
-    protected Kernel $kernel;
-    /** @var IRequestParser The request parser */
-    protected IRequestParser $requestParser;
-    /** @var ResponseAssertions The response assertions */
-    protected ResponseAssertions $assertResponse;
-    /** @var Response The last response */
-    protected Response $response;
+    /** @var CommandRegistry The list of registered commands */
+    protected CommandRegistry $commands;
+    /** @var IInputCompiler|null The input compiler */
+    protected ?IInputCompiler $inputCompiler = null;
+    /** @var IOutputCompiler The output compiler */
+    protected IOutputCompiler $outputCompiler;
+    /** @var ICommandBus The console application */
+    protected ICommandBus $app;
+    /** @var OutputAssertions The output assertions */
+    protected OutputAssertions $assertOutput;
+    /** @var IOutput The output */
+    protected IOutput $output;
     /** @var int The last status code */
     protected int $statusCode = -1;
     /** @var Prompt|MockObject The prompt to use in tests */
@@ -87,57 +82,47 @@ abstract class IntegrationTestCase extends TestCase
         $promptAnswers = (array)$promptAnswers;
 
         if (count($promptAnswers) > 0) {
-            $this->setPromptAnswers($commandName, $promptAnswers);
+            $this->setPromptAnswers($promptAnswers);
         }
 
-        // We instantiate the response every time so that it's fresh whenever a new command is called
-        $this->response = new StreamResponse(fopen('php://memory', 'wb'), $this->responseCompiler);
-        $this->response->setStyled($isStyled);
+        // We instantiate the output every time so that it's fresh whenever a new command is called
+        $this->output = new StreamOutput(\fopen('php://memory', 'wb'), fopen('php://stdin', 'rb'), $this->outputCompiler);
+        $this->output->includeStyles($isStyled);
         $input = ['name' => $commandName, 'arguments' => $arguments, 'options' => $options];
-        $this->statusCode = $this->kernel->handle($input, $this->response);
-        $this->assertResponse->setResponse($this->response, $this->statusCode);
+        $this->statusCode = $this->app->handle($input, $this->output);
+        $this->assertOutput->setOutput($this->output, $this->statusCode);
 
         return $this;
     }
 
     protected function setUp(): void
     {
-        $this->requestParser = new ArrayListParser();
-        $this->commandCollection = $this->container->resolve(CommandCollection::class);
-        $this->commandCompiler = $this->container->resolve(ICompiler::class);
-        $this->responseCompiler = new ResponseCompiler(new ResponseLexer(), new ResponseParser());
-        $this->kernel = new Kernel(
-            $this->requestParser,
-            $this->commandCompiler,
-            $this->commandCollection
-        );
-        $this->assertResponse = new ResponseAssertions();
+        $this->commands = $this->container->resolve(CommandRegistry::class);
+
+        if (!$this->container->tryResolve(IInputCompiler::class, $this->inputCompiler)) {
+            $this->inputCompiler = new InputCompiler($this->commands);
+        }
+
+        $this->outputCompiler = new OutputCompiler();
+        $this->app = new App($this->commands, $this->inputCompiler);
+        $this->assertOutput = new OutputAssertions();
 
         // Bind a mock prompt that can output pre-determined answers
-        $this->prompt = $this->getMockBuilder(Prompt::class)
-            ->setMethods(['ask'])
-            ->setConstructorArgs([new PaddingFormatter()])
-            ->getMock();
+        $this->prompt = $this->createMock(Prompt::class);
         $this->container->bindInstance(Prompt::class, $this->prompt);
     }
 
     /**
      * Sets up the prompt to output pre-determined answers when asked
      *
-     * @param string $commandName The name of the command
      * @param array $answers The list of answers to return for each question
      */
-    private function setPromptAnswers(string $commandName, array $answers): void
+    private function setPromptAnswers(array $answers): void
     {
-        $commandClassName = get_class($this->commandCollection->get($commandName));
-
         foreach ($answers as $index => $answer) {
             $this->prompt->expects($this->at($index))
                 ->method('ask')
                 ->willReturn($answer);
         }
-
-        // Remake the command to have this latest binding
-        $this->commandCollection->add($this->container->resolve($commandClassName), true);
     }
 }

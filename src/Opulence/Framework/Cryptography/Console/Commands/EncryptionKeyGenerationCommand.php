@@ -1,62 +1,33 @@
 <?php
 
 /**
- * Opulence
+ * Aphiria
  *
- * @link      https://www.opulencephp.com
+ * @link      https://www.aphiria.com
  * @copyright Copyright (C) 2019 David Young
- * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ * @license   https://github.com/aphiria/Opulence/blob/master/LICENSE.md
  */
 
 declare(strict_types=1);
 
 namespace Opulence\Framework\Cryptography\Console\Commands;
 
-use Opulence\Console\Commands\Command;
-use Opulence\Console\Requests\Option;
-use Opulence\Console\Requests\OptionTypes;
-use Opulence\Console\Responses\IResponse;
-use Opulence\Framework\Configuration\Config;
+use Aphiria\Console\Commands\Command;
+use Aphiria\Console\Input\Option;
+use Aphiria\Console\Input\OptionTypes;
 
 /**
- * Defines the encryption key generator command
+ * Defines the encryption key generation command
  */
 final class EncryptionKeyGenerationCommand extends Command
 {
-    /**
-     * @inheritdoc
-     */
-    protected function define(): void
+    public function __construct()
     {
-        $this->setName('encryption:generatekey')
-            ->setDescription('Creates an encryption key')
-            ->addOption(new Option(
-                'show',
-                's',
-                OptionTypes::NO_VALUE,
-                'Whether to just show the new key or replace it in the environment config'
-            ));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function doExecute(IResponse $response)
-    {
-        // Create a suitably-long key that can be used with sha512
-        $key = \bin2hex(\random_bytes(32));
-        $environmentConfigPath = Config::get('paths', 'config') . '/environment/.env.app.php';
-
-        if (!$this->optionIsSet('show') && file_exists($environmentConfigPath)) {
-            $contents = file_get_contents($environmentConfigPath);
-            $newContents = preg_replace(
-                "/\"ENCRYPTION_KEY\",\s*\"[^\"]*\"/U",
-                '"ENCRYPTION_KEY", "' . $key . '"',
-                $contents
-            );
-            file_put_contents($environmentConfigPath, $newContents);
-        }
-
-        $response->writeln("Generated key: <info>$key</info>");
+        parent::__construct(
+            'encryption:generatekey',
+            [],
+            [new Option('show', 's', OptionTypes::NO_VALUE, 'Whether to just show the new key or replace it in the environment config')],
+            'Updates any Composer dependencies'
+        );
     }
 }

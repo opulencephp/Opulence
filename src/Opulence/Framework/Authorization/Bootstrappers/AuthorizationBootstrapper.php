@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Authorization\Bootstrappers;
 
+use Aphiria\DependencyInjection\Bootstrappers\Bootstrapper;
+use Aphiria\DependencyInjection\IContainer;
 use Opulence\Authorization\Authority;
 use Opulence\Authorization\IAuthority;
 use Opulence\Authorization\Permissions\IPermissionRegistry;
@@ -20,8 +22,6 @@ use Opulence\Authorization\Roles\IRoles;
 use Opulence\Authorization\Roles\Orm\IRoleMembershipRepository;
 use Opulence\Authorization\Roles\Orm\IRoleRepository;
 use Opulence\Authorization\Roles\Roles;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\IContainer;
 
 /**
  * Defines the authorization bootstrapper

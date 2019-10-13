@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Views\Bootstrappers;
 
+use Aphiria\DependencyInjection\Bootstrappers\Bootstrapper;
+use Aphiria\DependencyInjection\IContainer;
 use Opulence\Framework\Http\CsrfTokenChecker;
 use Opulence\Http\Requests\Request;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\IContainer;
 use Opulence\Routing\Urls\UrlGenerator;
 use Opulence\Sessions\ISession;
 use Opulence\Views\Compilers\Fortune\ITranspiler;

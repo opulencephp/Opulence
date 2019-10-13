@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Databases\Migrations;
 
+use Aphiria\DependencyInjection\DependencyInjectionException;
+use Aphiria\DependencyInjection\IContainer;
 use Opulence\Databases\Migrations\IMigration;
 use Opulence\Databases\Migrations\IMigrationResolver;
 use Opulence\Databases\Migrations\MigrationResolutionException;
-use Opulence\Ioc\IContainer;
-use Opulence\Ioc\IocException;
 
 /**
  * Defines the container migration resolver
@@ -41,7 +41,7 @@ final class ContainerMigrationResolver implements IMigrationResolver
     {
         try {
             return $this->container->resolve($migrationClassName);
-        } catch (IocException $ex) {
+        } catch (DependencyInjectionException $ex) {
             throw new MigrationResolutionException("Failed to resolve migration $migrationClassName", 0, $ex);
         }
     }

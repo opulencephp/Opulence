@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Opulence\Views\Tests;
 
-use Opulence\IO\FileSystem;
+use Aphiria\IO\FileSystem;
 use Opulence\Views\View;
 use RuntimeException;
 
@@ -21,8 +21,6 @@ use RuntimeException;
  */
 class ViewTest extends \PHPUnit\Framework\TestCase
 {
-    /** The path to the test view with default tags */
-    private const VIEW_PATH_WITH_DEFAULT_TAGS = '/files/TestWithDefaultTagDelimiters.html';
     /** The path to the test view with PHP code */
     private const VIEW_PATH_WITH_INVALID_PHP_CODE = '/files/TestWithInvalidPhp.html';
 

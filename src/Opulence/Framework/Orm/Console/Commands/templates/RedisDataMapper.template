@@ -1,0 +1,97 @@
+<?php
+declare(strict_types=1);
+
+namespace {{namespace}};
+
+use Opulence\Orm\DataMappers\RedisDataMapper;
+use Opulence\Orm\OrmException;
+
+class {{class}} extends RedisDataMapper
+{
+    /**
+     * Adds an entity to the database
+     *
+     * @param {{entityType}} ${{entityVarName}} The entity to add
+     * @throws OrmException Thrown if the entity couldn't be added
+     */
+    public function add(${{entityVarName}}) : void
+    {
+
+    }
+
+    /**
+     * Deletes an entity
+     *
+     * @param {{entityType}} ${{entityVarName}} The entity to delete
+     * @throws OrmException Thrown if the entity couldn't be deleted
+     */
+    public function delete(${{entityVarName}}) : void
+    {
+
+    }
+
+    /**
+     * Flushes entities stored by this data mapper from cache
+     *
+     * @throws OrmException Thrown if the cache couldn't be flushed
+     */
+    public function flush() : void
+    {
+
+    }
+
+    /**
+     * Gets all the entities
+     *
+     * @return {{entityType}}[] The list of all the entities
+     */
+    public function getAll() : array
+    {
+
+    }
+
+    /**
+     * Gets the entity with the input Id
+     *
+     * @param int|string $id The Id of the entity we're searching for
+     * @return {{entityType}} The entity with the input Id
+     * @throws OrmException Thrown if there was no entity with the input Id
+     */
+    public function getById($id)
+    {
+
+    }
+
+    /**
+     * Saves any changes made to an entity
+     *
+     * @param {{entityType}} ${{entityVarName}} The entity to save
+     * @throws OrmException Thrown if the entity couldn't be saved
+     */
+    public function update(${{entityVarName}}) : void
+    {
+
+    }
+
+    /**
+     * Gets the hash representation of an entity
+     *
+     * @param int|string $id The Id of the entity whose hash we're searching for
+     * @return array|null The entity's hash if successful, otherwise null
+     */
+    protected function getEntityHashById($id) : ?array
+    {
+
+    }
+
+    /**
+     * Loads an entity from a hash of data
+     *
+     * @param array $hash The hash of data to load the entity from
+     * @return {{entityType}} The entity
+     */
+    protected function loadEntity(array $hash)
+    {
+
+    }
+}

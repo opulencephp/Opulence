@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace {{namespace}};
 
+use Memcached;
 use Opulence\Databases\IConnection;
-use Opulence\Memcached\Memcached;
 use Opulence\Orm\DataMappers\MemcachedCachedSqlDataMapper;
 
 class {{class}} extends MemcachedCachedSqlDataMapper

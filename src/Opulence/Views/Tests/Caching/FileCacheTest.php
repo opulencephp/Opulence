@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Caching;
 
-use Opulence\IO\FileSystem;
+use Aphiria\IO\FileSystem;
 use Opulence\Views\Caching\FileCache;
 use Opulence\Views\IView;
 use PHPUnit\Framework\MockObject\MockObject;

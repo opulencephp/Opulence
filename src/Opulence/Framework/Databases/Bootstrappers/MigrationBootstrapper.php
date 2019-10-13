@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Databases\Bootstrappers;
 
+use Aphiria\DependencyInjection\Bootstrappers\Bootstrapper;
+use Aphiria\DependencyInjection\IContainer;
 use Opulence\Databases\Adapters\Pdo\MySql\Driver as MySqlDriver;
 use Opulence\Databases\Adapters\Pdo\PostgreSql\Driver as PostgreSqlDriver;
 use Opulence\Databases\IConnection;
@@ -23,8 +25,6 @@ use Opulence\Databases\Providers\Types\Factories\TypeMapperFactory;
 use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Databases\Migrations\ContainerMigrationResolver;
 use Opulence\Framework\Databases\Migrations\SqlExecutedMigrationRepository;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\IContainer;
 use Opulence\QueryBuilders\MySql\QueryBuilder as MySqlQueryBuilder;
 use Opulence\QueryBuilders\PostgreSql\QueryBuilder as PostgreSqlQueryBuilder;
 use Opulence\QueryBuilders\QueryBuilder as BaseQueryBuilder;

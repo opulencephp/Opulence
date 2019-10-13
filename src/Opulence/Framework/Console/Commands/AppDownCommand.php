@@ -1,44 +1,26 @@
 <?php
 
 /**
- * Opulence
+ * Aphiria
  *
- * @link      https://www.opulencephp.com
+ * @link      https://www.aphiria.com
  * @copyright Copyright (C) 2019 David Young
- * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ * @license   https://github.com/aphiria/Opulence/blob/master/LICENSE.md
  */
 
 declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Commands;
 
-use Opulence\Console\Commands\Command;
-use Opulence\Console\Responses\IResponse;
-use Opulence\Framework\Configuration\Config;
+use Aphiria\Console\Commands\Command;
 
 /**
- * Defines the application-down command
+ * Defines the command that brings the application down for maintenance
  */
 final class AppDownCommand extends Command
 {
-    /**
-     * @inheritdoc
-     */
-    protected function define(): void
+    public function __construct()
     {
-        $this->setName('app:down')
-            ->setDescription('Puts the application into maintenance mode');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function doExecute(IResponse $response)
-    {
-        if (file_put_contents(Config::get('paths', 'tmp.framework.http') . '/down', 'down') === false) {
-            $response->writeln('<error>Failed to put application into maintenance mode</error>');
-        } else {
-            $response->writeln('<success>Application in maintenance mode</success>');
-        }
+        parent::__construct('app:down', [], [], 'Puts the application into maintenance mode');
     }
 }

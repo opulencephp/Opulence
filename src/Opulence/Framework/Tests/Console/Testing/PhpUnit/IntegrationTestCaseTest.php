@@ -12,16 +12,15 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Console\Testing\PhpUnit\Mocks;
 
-use Opulence\Console\Commands\CommandCollection;
-use Opulence\Console\Prompts\Prompt;
-use Opulence\Console\Responses\Formatters\PaddingFormatter;
-use Opulence\Console\Tests\Commands\Mocks\HappyHolidayCommand;
-use Opulence\Console\Tests\Commands\Mocks\MultiplePromptsCommand;
-use Opulence\Console\Tests\Commands\Mocks\SimpleCommand;
-use Opulence\Console\Tests\Commands\Mocks\SinglePromptCommand;
-use Opulence\Console\Tests\Commands\Mocks\StatusCodeCommand;
-use Opulence\Console\Tests\Commands\Mocks\StyledCommand;
-use Opulence\Framework\Console\Testing\PhpUnit\CommandBuilder;
+use Aphiria\Console\Commands\ClosureCommandHandler;
+use Aphiria\Console\Commands\Command;
+use Aphiria\Console\Commands\ICommandHandler;
+use Aphiria\Console\Input\Input;
+use Aphiria\Console\Input\Option;
+use Aphiria\Console\Input\OptionTypes;
+use Aphiria\Console\Output\IOutput;
+use Aphiria\Console\Output\Prompts\Prompt;
+use Aphiria\Console\Output\Prompts\Question;
 use Opulence\Framework\Tests\Console\Testing\PhpUnit\Mocks\IntegrationTestCase as MockIntegrationTestCase;
 
 /**
@@ -35,13 +34,6 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     {
         $this->testCase = new MockIntegrationTestCase();
         $this->testCase->setUp();
-        $prompt = new Prompt(new PaddingFormatter());
-        $this->testCase->getCommandCollection()->add(new SimpleCommand('simple', 'Simple command'));
-        $this->testCase->getCommandCollection()->add(new StyledCommand());
-        $this->testCase->getCommandCollection()->add(new HappyHolidayCommand());
-        $this->testCase->getCommandCollection()->add(new StatusCodeCommand());
-        $this->testCase->getCommandCollection()->add(new SinglePromptCommand($prompt));
-        $this->testCase->getCommandCollection()->add(new MultiplePromptsCommand($prompt));
     }
 
     public function testCallReturnsThis(): void
@@ -51,85 +43,148 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
 
     public function testCallingCommandWithMultiplePrompts(): void
     {
+        $this->testCase->getCommands()->registerCommand(
+            new Command('multipleprompts', [], [], ''),
+            fn () => new class ($this->testCase->getContainer()->resolve(Prompt::class)) implements ICommandHandler {
+                private Prompt $prompt;
+
+                public function __construct(Prompt $prompt)
+                {
+                    $this->prompt = $prompt;
+                }
+
+                public function handle(Input $input, IOutput $output)
+                {
+                    $question1 = new Question('Q1', 'default1');
+                    $question2 = new Question('Q2', 'default2');
+                    $answer1 = $this->prompt->ask($question1, $output);
+                    $answer2 = $this->prompt->ask($question2, $output);
+
+                    if ($answer1 === 'default1') {
+                        $output->write('Default1');
+                    } else {
+                        $output->write('Custom1');
+                    }
+
+                    if ($answer2 === 'default2') {
+                        $output->write('Default2');
+                    } else {
+                        $output->write('Custom2');
+                    }
+                }
+            }
+        );
         $this->testCase->execute('multipleprompts', [], [], ['foo', 'bar'])
-            ->getResponseAssertions()
+            ->getOutputAssertions()
             ->outputEquals('Custom1Custom2');
         $this->testCase->execute('multipleprompts', [], [], ['default1', 'default2'])
-            ->getResponseAssertions()
+            ->getOutputAssertions()
             ->outputEquals('Default1Default2');
     }
 
     public function testCallingCommandWithSinglePrompt(): void
     {
+        $this->testCase->getCommands()->registerCommand(
+            new Command('singleprompt', [], [], ''),
+            fn () => new class ($this->testCase->getContainer()->resolve(Prompt::class)) implements ICommandHandler {
+                private Prompt $prompt;
+
+                public function __construct(Prompt $prompt)
+                {
+                    $this->prompt = $prompt;
+                }
+
+                public function handle(Input $input, IOutput $output)
+                {
+                    $question = new Question('What else floats', 'Very small rocks');
+                    $answer = $this->prompt->ask($question, $output);
+
+                    if ($answer === 'A duck') {
+                        $output->write('Very good');
+                    } else {
+                        $output->write('Wrong');
+                    }
+                }
+            }
+        );
         $this->testCase->execute('singleprompt', [], [], 'A duck')
-            ->getResponseAssertions()
+            ->getOutputAssertions()
             ->outputEquals('Very good');
         $this->testCase->execute('singleprompt', [], [], 'Bread')
-            ->getResponseAssertions()
+            ->getOutputAssertions()
             ->outputEquals('Wrong');
-    }
-
-    /**
-     * Tests calling a non-existent command
-     */
-    public function testCallingNonExistentCommand(): void
-    {
-        // The About command should be run in this case
-        $this->testCase->execute('doesnotexist')
-            ->getResponseAssertions()
-            ->isOK();
-    }
-
-    public function testCommandBuilderCreated(): void
-    {
-        $this->assertInstanceOf(CommandBuilder::class, $this->testCase->command('foo'));
-    }
-
-    public function testGettingCommands(): void
-    {
-        $this->assertInstanceOf(CommandCollection::class, $this->testCase->getCommandCollection());
     }
 
     public function testGettingOutputOfOptionlessCommand(): void
     {
+        $this->testCase->getCommands()->registerCommand(
+            new Command('simple', [], [], ''),
+            fn () => new ClosureCommandHandler(fn (Input $input, IOutput $output) => $output->write('foo'))
+        );
         $this->testCase->execute('simple')
-            ->getResponseAssertions()
-            ->isOK()
+            ->getOutputAssertions()
+            ->isOk()
             ->outputEquals('foo');
     }
 
     public function testGettingOutputWithOption(): void
     {
-        $this->testCase->execute('holiday', ['birthday'], ['--yell'])
-            ->getResponseAssertions()
-            ->isOK()
-            ->outputEquals('Happy birthday!');
+        $this->testCase->getCommands()->registerCommand(
+            new Command(
+                'hi',
+                [],
+                [
+                    new Option(
+                        'yell',
+                        'y',
+                        OptionTypes::OPTIONAL_VALUE,
+                        'Whether or not we yell',
+                        'yes'
+                    )
+                ],
+                ''
+            ),
+            fn () => new ClosureCommandHandler(function (Input $input, IOutput $output) {
+                $message = 'Hi';
+
+                if ($input->options['yell'] === 'yes') {
+                    $message .= '!';
+                }
+
+                $output->write($message);
+            })
+        );
+        $this->testCase->execute('hi', [], ['--yell'])
+            ->getOutputAssertions()
+            ->isOk()
+            ->outputEquals('Hi!');
     }
 
-    public function testResponseAssertionsWork(): void
+    public function testStylingAndUnstylingOutput(): void
     {
-        $this->testCase->execute('simple')
-            ->getResponseAssertions()
-            ->isOK();
+        $this->testCase->getCommands()->registerCommand(
+            new Command('foo', [], [], ''),
+            fn () => new ClosureCommandHandler(fn (Input $input, IOutput $output) => $output->write('<b>bar</b>'))
+        );
+        $this->testCase->execute('foo')
+            ->getOutputAssertions()
+            ->outputEquals("\033[1mbar\033[22m");
+        $this->testCase->execute('foo', [], [], [], false)
+            ->getOutputAssertions()
+            ->outputEquals('bar');
     }
 
-    public function testStylingAndUnstylingResponse(): void
+    public function testThatOutputIsClearedBeforeEachCommand(): void
     {
-        $this->testCase->execute('stylish')
-            ->getResponseAssertions()
-            ->outputEquals("\033[1mI've got style\033[22m");
-        $this->testCase->execute('stylish', [], [], [], false)
-            ->getResponseAssertions()
-            ->outputEquals("I've got style");
-    }
-
-    public function testThatResponseIsClearedBeforeEachCommand(): void
-    {
-        $this->testCase->execute('stylish', [], [], [], false)
-            ->getResponseAssertions()
-            ->outputEquals("I've got style");
-        $this->testCase->execute('stylish', [], [], [], false)
-            ->getResponseAssertions()
-            ->outputEquals("I've got style");
+        $this->testCase->getCommands()->registerCommand(
+            new Command('foo', [], [], ''),
+            fn () => new ClosureCommandHandler(fn (Input $input, IOutput $output) => $output->write('<b>bar</b>'))
+        );
+        $this->testCase->execute('foo', [], [], [], false)
+            ->getOutputAssertions()
+            ->outputEquals('bar');
+        $this->testCase->execute('foo', [], [], [], false)
+            ->getOutputAssertions()
+            ->outputEquals('bar');
     }
 }

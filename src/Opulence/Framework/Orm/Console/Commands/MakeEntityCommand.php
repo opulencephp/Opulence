@@ -1,40 +1,26 @@
 <?php
 
 /**
- * Opulence
+ * Aphiria
  *
- * @link      https://www.opulencephp.com
+ * @link      https://www.aphiria.com
  * @copyright Copyright (C) 2019 David Young
- * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ * @license   https://github.com/aphiria/Opulence/blob/master/LICENSE.md
  */
 
 declare(strict_types=1);
 
 namespace Opulence\Framework\Orm\Console\Commands;
 
-use Opulence\Framework\Console\Commands\MakeCommand;
+use Aphiria\Console\Commands\Command;
 
 /**
- * Makes an entity class
+ * Defines the command that makes an entity
  */
-final class MakeEntityCommand extends MakeCommand
+final class MakeEntityCommand extends Command
 {
-    /**
-     * @inheritdoc
-     */
-    protected function define(): void
+    public function __construct()
     {
-        parent::define();
-
-        $this->setName('make:entity')
-            ->setDescription('Creates an entity class');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getFileTemplatePath(): string
-    {
-        return __DIR__ . '/templates/Entity.template';
+        parent::__construct('make:entity', [], [], 'Creates an entity class');
     }
 }

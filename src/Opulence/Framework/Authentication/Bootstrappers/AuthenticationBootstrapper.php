@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Authentication\Bootstrappers;
 
+use Aphiria\DependencyInjection\Bootstrappers\Bootstrapper;
+use Aphiria\DependencyInjection\IContainer;
 use Opulence\Authentication\AuthenticationContext;
 use Opulence\Authentication\Credentials\Authenticators\Authenticator;
 use Opulence\Authentication\Credentials\Authenticators\AuthenticatorRegistry;
@@ -19,8 +21,6 @@ use Opulence\Authentication\Credentials\Authenticators\IAuthenticator;
 use Opulence\Authentication\Credentials\Authenticators\IAuthenticatorRegistry;
 use Opulence\Authentication\IAuthenticationContext;
 use Opulence\Authentication\Users\Orm\IUserRepository;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\IContainer;
 
 /**
  * Defines the authentication bootstrapper

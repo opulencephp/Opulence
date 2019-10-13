@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Views\Bootstrappers;
 
+use Aphiria\DependencyInjection\Bootstrappers\Bootstrapper;
+use Aphiria\DependencyInjection\IContainer;
 use Opulence\Framework\Configuration\Config;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\IContainer;
 use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Compiler;
 use Opulence\Views\Compilers\CompilerRegistry;

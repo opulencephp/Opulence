@@ -1,92 +1,65 @@
 <?php
 
 /**
- * Opulence
+ * Aphiria
  *
- * @link      https://www.opulencephp.com
+ * @link      https://www.aphiria.com
  * @copyright Copyright (C) 2019 David Young
- * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ * @license   https://github.com/aphiria/Opulence/blob/master/LICENSE.md
  */
 
 declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Commands;
 
-use Opulence\Console\Commands\Command;
-use Opulence\Console\Requests\Option;
-use Opulence\Console\Requests\OptionTypes;
-use Opulence\Console\Responses\IResponse;
+use Aphiria\Console\Commands\Command;
+use Aphiria\Console\Input\Option;
+use Aphiria\Console\Input\OptionTypes;
 
 /**
- * Defines the command that lets you run your application locally
+ * Defines the command that runs the application locally
  */
 final class RunAppLocallyCommand extends Command
 {
-    /** @var string The path to the default router file */
-    private string $defaultRouterPath;
-
     /**
      * @param string $defaultRouterPath The path to the default router file
      */
     public function __construct(string $defaultRouterPath)
     {
-        $this->defaultRouterPath = $defaultRouterPath;
-        parent::__construct();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function define(): void
-    {
-        $this->setName('app:runlocally')
-            ->setDescription('Runs your application locally')
-            ->addOption(new Option(
-                'domain',
-                null,
-                OptionTypes::REQUIRED_VALUE,
-                'The domain to run your application at',
-                'localhost'
-            ))
-            ->addOption(new Option(
-                'port',
-                null,
-                OptionTypes::REQUIRED_VALUE,
-                'The port to run your application at',
-                80
-            ))
-            ->addOption(new Option(
-                'docroot',
-                null,
-                OptionTypes::REQUIRED_VALUE,
-                'The document root of your application, eg the "public" directory',
-                'public'
-            ))
-            ->addOption(new Option(
-                'router',
-                null,
-                OptionTypes::REQUIRED_VALUE,
-                'The router file in your application',
-                $this->defaultRouterPath
-            ));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function doExecute(IResponse $response)
-    {
-        $domain = $this->getOptionValue('domain');
-        $port = (int)$this->getOptionValue('port');
-        $response->writeln("Running at http://$domain:$port");
-        $command = sprintf(
-            '%s -S %s:%d -t %s %s',
-            PHP_BINARY,
-            $domain,
-            $port,
-            $this->getOptionValue('docroot'),
-            $this->getOptionValue('router')
+        parent::__construct(
+            'app:runlocally',
+            [],
+            [
+                new Option(
+                    'domain',
+                    null,
+                    OptionTypes::REQUIRED_VALUE,
+                    'The domain to run your application at',
+                    'localhost'
+                ),
+                new Option(
+                    'port',
+                    null,
+                    OptionTypes::REQUIRED_VALUE,
+                    'The port to run your application at',
+                    80
+                ),
+                new Option(
+                    'docroot',
+                    null,
+                    OptionTypes::REQUIRED_VALUE,
+                    'The document root of your application, eg the "public" directory',
+                    'public'
+                ),
+                new Option(
+                    'router',
+                    null,
+                    OptionTypes::REQUIRED_VALUE,
+                    'The router file in your application',
+                    $defaultRouterPath
+                )
+            ],
+            'Runs your application locally'
         );
-        passthru($command);
     }
 }

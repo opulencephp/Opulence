@@ -12,32 +12,41 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Console\Bootstrappers;
 
-use Opulence\Console\Commands\CommandCollection;
-use Opulence\Console\Commands\Compilers\Compiler;
-use Opulence\Console\Commands\Compilers\ICompiler;
+use Aphiria\Console\Commands\CommandRegistry;
+use Aphiria\DependencyInjection\Bootstrappers\Bootstrapper;
+use Aphiria\DependencyInjection\IContainer;
+use Aphiria\DependencyInjection\ResolutionException;
 use Opulence\Framework\Composer\Console\Commands\ComposerDumpAutoloadCommand;
+use Opulence\Framework\Composer\Console\Commands\ComposerDumpAutoloadCommandHandler;
 use Opulence\Framework\Composer\Console\Commands\ComposerUpdateCommand;
+use Opulence\Framework\Composer\Console\Commands\ComposerUpdateCommandHandler;
 use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Console\Commands\AppDownCommand;
+use Opulence\Framework\Console\Commands\AppDownCommandHandler;
 use Opulence\Framework\Console\Commands\AppEnvironmentCommand;
+use Opulence\Framework\Console\Commands\AppEnvironmentCommandHandler;
 use Opulence\Framework\Console\Commands\AppUpCommand;
+use Opulence\Framework\Console\Commands\AppUpCommandHandler;
 use Opulence\Framework\Console\Commands\FlushFrameworkCacheCommand;
-use Opulence\Framework\Console\Commands\MakeCommandCommand;
-use Opulence\Framework\Console\Commands\RenameAppCommand;
+use Opulence\Framework\Console\Commands\FlushFrameworkCacheCommandHandler;
 use Opulence\Framework\Console\Commands\RunAppLocallyCommand;
+use Opulence\Framework\Console\Commands\RunAppLocallyCommandHandler;
 use Opulence\Framework\Cryptography\Console\Commands\EncryptionKeyGenerationCommand;
+use Opulence\Framework\Cryptography\Console\Commands\EncryptionKeyGenerationCommandHandler;
 use Opulence\Framework\Cryptography\Console\Commands\UuidGenerationCommand;
+use Opulence\Framework\Cryptography\Console\Commands\UuidGenerationCommandHandler;
 use Opulence\Framework\Databases\Console\Commands\MakeMigrationCommand;
+use Opulence\Framework\Databases\Console\Commands\MakeMigrationCommandHandler;
 use Opulence\Framework\Databases\Console\Commands\RunDownMigrationsCommand;
+use Opulence\Framework\Databases\Console\Commands\RunDownMigrationsCommandHandler;
 use Opulence\Framework\Databases\Console\Commands\RunUpMigrationsCommand;
+use Opulence\Framework\Databases\Console\Commands\RunUpMigrationsCommandHandler;
 use Opulence\Framework\Orm\Console\Commands\MakeDataMapperCommand;
+use Opulence\Framework\Orm\Console\Commands\MakeDataMapperCommandHandler;
 use Opulence\Framework\Orm\Console\Commands\MakeEntityCommand;
+use Opulence\Framework\Orm\Console\Commands\MakeEntityCommandHandler;
 use Opulence\Framework\Views\Console\Commands\FlushViewCacheCommand;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\IContainer;
-use Opulence\Ioc\IocException;
-use Opulence\Views\Caching\ICache as ViewCache;
-use RuntimeException;
+use Opulence\Framework\Views\Console\Commands\FlushViewCacheCommandHandler;
 
 /**
  * Defines the command bootstrapper
@@ -46,21 +55,20 @@ final class CommandsBootstrapper extends Bootstrapper
 {
     /** @var array The list of built-in command classes */
     private static array $commandClasses = [
-        AppDownCommand::class,
-        AppEnvironmentCommand::class,
-        AppUpCommand::class,
-        ComposerDumpAutoloadCommand::class,
-        ComposerUpdateCommand::class,
-        EncryptionKeyGenerationCommand::class,
-        FlushViewCacheCommand::class,
-        MakeCommandCommand::class,
-        MakeMigrationCommand::class,
-        MakeDataMapperCommand::class,
-        MakeEntityCommand::class,
-        RenameAppCommand::class,
-        RunDownMigrationsCommand::class,
-        RunUpMigrationsCommand::class,
-        UuidGenerationCommand::class
+        AppDownCommand::class => AppDownCommandHandler::class,
+        AppEnvironmentCommand::class => AppEnvironmentCommandHandler::class,
+        AppUpCommand::class => AppUpCommandHandler::class,
+        ComposerDumpAutoloadCommand::class => ComposerDumpAutoloadCommandHandler::class,
+        ComposerUpdateCommand::class => ComposerUpdateCommandHandler::class,
+        EncryptionKeyGenerationCommand::class => EncryptionKeyGenerationCommandHandler::class,
+        FlushFrameworkCacheCommand::class => FlushFrameworkCacheCommandHandler::class,
+        FlushViewCacheCommand::class => FlushViewCacheCommandHandler::class,
+        MakeMigrationCommand::class => MakeMigrationCommandHandler::class,
+        MakeDataMapperCommand::class => MakeDataMapperCommandHandler::class,
+        MakeEntityCommand::class => MakeEntityCommandHandler::class,
+        RunDownMigrationsCommand::class => RunDownMigrationsCommandHandler::class,
+        RunUpMigrationsCommand::class => RunUpMigrationsCommandHandler::class,
+        UuidGenerationCommand::class => UuidGenerationCommandHandler::class
     ];
 
     /**
@@ -68,59 +76,29 @@ final class CommandsBootstrapper extends Bootstrapper
      */
     public function registerBindings(IContainer $container): void
     {
-        // Use a factory to defer the resolution of the commands
-        // The commands may have dependencies set in other bootstrappers
-        $container->bindFactory(
-            CommandCollection::class,
-            function () use ($container) {
-                $compiler = $this->getCommandCompiler($container);
-                $container->bindInstance(ICompiler::class, $compiler);
-                $commands = new CommandCollection($compiler);
-                $this->bindCommands($commands, $container);
-
-                return $commands;
-            },
-            true
-        );
+        $container->bindInstance(CommandRegistry::class, $commands = new CommandRegistry());
+        $this->registerCommands($commands, $container);
     }
 
     /**
-     * Binds commands to the collection
+     * Registers commands with the application
      *
-     * @param CommandCollection $commands The collection to add commands to
+     * @param CommandRegistry $commands The commands to register to
      * @param IContainer $container The dependency injection container to use
+     * @throws ResolutionException Thrown if any handlers could not be resolved
      */
-    protected function bindCommands(CommandCollection $commands, IContainer $container): void
+    protected function registerCommands(CommandRegistry $commands, IContainer $container): void
     {
         // Resolve and add each command class
-        foreach (self::$commandClasses as $commandClass) {
-            $commands->add($container->resolve($commandClass));
+        foreach (self::$commandClasses as $commandClass => $commandHandlerClass) {
+            // We are presuming that the commands' constructors are parameterless
+            $commands->registerCommand(new $commandClass(), fn () => $container->resolve($commandHandlerClass));
         }
 
-        // The command to run Opulence locally requires a path to the router file
-        $commands->add(new RunAppLocallyCommand(Config::get('paths', 'root') . '/localhost_router.php'));
-
-        // The flush-cache command requires some special configuration
-        try {
-            // Todo: Need this to work with new way of caching bootstrappers in 2.0
-            $flushCacheCommand = new FlushFrameworkCacheCommand(
-                $container->resolve(ViewCache::class)
-            );
-            $commands->add($flushCacheCommand);
-        } catch (IocException $ex) {
-            throw new RuntimeException('Failed to resolve ' . FlushFrameworkCacheCommand::class, 0, $ex);
-        }
-    }
-
-    /**
-     * Gets the command compiler
-     * To use a different command compiler than the one returned here, extend this class and override this method
-     *
-     * @param IContainer $container The dependency injection container
-     * @return ICompiler The command compiler
-     */
-    protected function getCommandCompiler(IContainer $container): ICompiler
-    {
-        return new Compiler();
+        // The command to run the app locally requires a path to the router file
+        $commands->registerCommand(
+            new RunAppLocallyCommand(Config::get('paths', 'root') . '/localhost_router.php'),
+            fn () => $container->resolve(RunAppLocallyCommandHandler::class)
+        );
     }
 }

@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Databases\Migrations;
 
+use Aphiria\DependencyInjection\DependencyInjectionException;
+use Aphiria\DependencyInjection\IContainer;
 use Opulence\Databases\Migrations\IMigration;
 use Opulence\Databases\Migrations\MigrationResolutionException;
 use Opulence\Framework\Databases\Migrations\ContainerMigrationResolver;
-use Opulence\Ioc\IContainer;
-use Opulence\Ioc\IocException;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -44,13 +44,13 @@ class ContainerMigrationResolverTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($migration, $this->migrationResolver->resolve('foo'));
     }
 
-    public function testIocExceptionsAreConverted(): void
+    public function testDependencyInjectionExceptionsAreConverted(): void
     {
         $this->expectException(MigrationResolutionException::class);
         $this->container->expects($this->once())
             ->method('resolve')
             ->with('foo')
-            ->willThrowException(new IocException('blah'));
+            ->willThrowException(new DependencyInjectionException('blah'));
         $this->migrationResolver->resolve('foo');
     }
 }
