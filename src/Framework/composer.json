@@ -25,6 +25,10 @@
         }
     },
     "require": {
+        "aphiria/console": "1.0.*@dev",
+        "aphiria/dependency-injection": "1.0.*@dev",
+        "aphiria/middleware": "1.0.*@dev",
+        "aphiria/net": "1.0.*@dev",
         "ext-json": "*",
         "opulence/authentication": "1.1.*",
         "opulence/authorization": "1.1.*",

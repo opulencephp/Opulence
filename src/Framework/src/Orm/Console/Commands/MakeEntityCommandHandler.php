@@ -31,7 +31,7 @@ final class MakeEntityCommandHandler extends MakeCommandHandler
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function getTemplateFilePath(Input $input, IOutput $output): string
     {

@@ -23,7 +23,7 @@ use RuntimeException;
  */
 class ClassFileCompilerTest extends TestCase
 {
-    private static string $composerConfigPath = __DIR__ . '/../../../../composer.json';
+    private static string $composerConfigPath = __DIR__ . '/../../composer.json';
     private static string $templateFilePath = __DIR__ . '/files/Class.template';
     private ClassFileCompiler $compiler;
 
@@ -41,7 +41,7 @@ class ClassFileCompilerTest extends TestCase
 
     public function testCompilingClassInValidDirectoryCreatesCorrectPath(): void
     {
-        $expectedPath = __DIR__ . '/../../../../src/Framework/src/Console/Foo.php';
+        $expectedPath = __DIR__ . '/../../src/Console/Foo.php';
         /** @var FileSystem|MockObject $fileSystem */
         $fileSystem = $this->getMockBuilder(FileSystem::class)
             ->onlyMethods(['read', 'write'])

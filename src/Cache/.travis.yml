@@ -3,6 +3,10 @@ language: php
 php:
   - 7.4snapshot
 
+before_install:
+  - echo "extension=memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - printf "\n" | pecl install -f redis
+
 before_script:
   - composer self-update
   - composer install

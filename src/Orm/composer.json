@@ -27,8 +27,8 @@
         }
     },
     "require": {
-        "php": "^7.4",
-        "opulence/databases": "1.1.*"
+        "opulence/databases": "1.1.*",
+        "php": "^7.4"
     },
     "require-dev": {
         "ext-memcached": "*",

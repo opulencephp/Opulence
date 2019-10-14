@@ -20,7 +20,7 @@ use Opulence\Orm\UnitOfWork as BaseUnitOfWork;
 class UnitOfWork extends BaseUnitOfWork
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getScheduledEntityDeletions(): array
     {
@@ -36,7 +36,7 @@ class UnitOfWork extends BaseUnitOfWork
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getScheduledEntityInsertions(): array
     {
@@ -52,7 +52,7 @@ class UnitOfWork extends BaseUnitOfWork
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getScheduledEntityUpdates(): array
     {
