@@ -22,6 +22,10 @@ For complete documentation, <a href="https://www.opulencephp.com" target="_blank
 * OpenSSL
 * mbstring
 
+## Unit Tests
+
+Extensive unit tests are located in each library under `{library}/tests`.
+
 ## License
 This software is licensed under the MIT license.  Please read the LICENSE for more information.
 
