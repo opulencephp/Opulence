@@ -66,6 +66,11 @@
 
 * `IEventDispatcher::dispatch()` now requires the event to be of type `object`
 
+<h3>Framework</h3>
+
+* Removed `Opulence\Framework\Composer`
+* Added `Opulence\Framework\Console\ClassFileCompiler` and refactored all `Make*CommandHandler` classes to compose it
+
 <h3>IoC</h3>
 
 * `IContainer::resolve()` now throws a `ResolutionException` when something could not be resolved (it extends `IocException`)
