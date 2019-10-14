@@ -27,7 +27,7 @@
         }
     },
     "require": {
-        "opulence/databases": "2.0.*@dev",
+        "opulence/databases": "dev-master",
         "php": "^7.4"
     },
     "require-dev": {
