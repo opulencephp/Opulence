@@ -12,16 +12,17 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Authentication\Http\Middleware;
 
-use Closure;
+use Aphiria\Middleware\IMiddleware;
+use Aphiria\Net\Http\Handlers\IRequestHandler;
+use Aphiria\Net\Http\HttpException;
+use Aphiria\Net\Http\HttpStatusCodes;
+use Aphiria\Net\Http\IHttpRequestMessage;
+use Aphiria\Net\Http\IHttpResponseMessage;
 use Opulence\Authentication\Credentials\Authenticators\IAuthenticator;
 use Opulence\Authentication\IAuthenticationContext;
 use Opulence\Authentication\ISubject;
 use Opulence\Authorization\IAuthority;
 use Opulence\Framework\Authentication\Credentials\IHttpCredentialIO;
-use Opulence\Http\HttpException;
-use Opulence\Http\Requests\Request;
-use Opulence\Http\Responses\Response;
-use Opulence\Routing\Middleware\IMiddleware;
 
 /**
  * Defines the authentication and authorization middleware
@@ -58,18 +59,18 @@ class Authenticate implements IMiddleware
     /**
      * @inheritdoc
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(IHttpRequestMessage $request, IRequestHandler $next): IHttpResponseMessage
     {
         $credential = $this->credentialIO->read($request);
 
         if (!$this->authenticator->authenticate($credential, $subject)) {
-            throw new HttpException(403);
+            throw new HttpException(HttpStatusCodes::HTTP_FORBIDDEN);
         }
 
         /** @var ISubject $subject */
         $this->authenticationContext->setSubject($subject);
         $this->authority->setSubject($subject->getPrimaryPrincipal()->getId(), $subject->getRoles());
 
-        return $next($request);
+        return $next->handle($request);
     }
 }

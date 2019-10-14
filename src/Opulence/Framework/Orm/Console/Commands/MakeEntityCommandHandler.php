@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Orm\Console\Commands;
 
+use Aphiria\Console\Input\Input;
+use Aphiria\Console\Output\IOutput;
+use Opulence\Framework\Console\ClassFileCompiler;
 use Opulence\Framework\Console\Commands\MakeCommandHandler;
 
 /**
@@ -22,7 +25,15 @@ final class MakeEntityCommandHandler extends MakeCommandHandler
     /**
      * @inheritdoc
      */
-    protected function getFileTemplatePath(): string
+    public function __construct(ClassFileCompiler $classFileCompiler)
+    {
+        parent::__construct($classFileCompiler);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getTemplateFilePath(Input $input, IOutput $output): string
     {
         return __DIR__ . '/templates/Entity.template';
     }

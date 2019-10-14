@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Authentication\Credentials;
 
+use Aphiria\Net\Http\IHttpRequestMessage;
+use Aphiria\Net\Http\IHttpResponseMessage;
 use Opulence\Authentication\Credentials\ICredential;
-use Opulence\Http\Requests\Request;
-use Opulence\Http\Responses\Response;
 
 /**
  * Defines an interface for HTTP credential IO to implement
@@ -24,23 +24,23 @@ interface IHttpCredentialIO
     /**
      * Gets the credential from a request
      *
-     * @param Request $request The request to read from
+     * @param IHttpRequestMessage $request The request to read from
      * @return ICredential The credential from the request
      */
-    public function read(Request $request): ICredential;
+    public function read(IHttpRequestMessage $request): ICredential;
 
     /**
      * Removes a credential from the response
      *
-     * @param Response $response The response to remove from
+     * @param IHttpResponseMessage $response The response to remove from
      */
-    public function remove(Response $response): void;
+    public function remove(IHttpResponseMessage $response): void;
 
     /**
      * Writes a credential to the response
      *
      * @param ICredential $credential The credential to write
-     * @param Response $response The response to write to
+     * @param IHttpResponseMessage $response The response to write to
      */
-    public function write(ICredential $credential, Response $response): void;
+    public function write(ICredential $credential, IHttpResponseMessage $response): void;
 }

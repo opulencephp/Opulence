@@ -17,7 +17,6 @@ use Aphiria\DependencyInjection\Bootstrappers\Bootstrapper;
 use Aphiria\DependencyInjection\Container;
 use Aphiria\DependencyInjection\IContainer;
 use Opulence\Databases\Migrations\IMigrator;
-use Opulence\Framework\Composer\Bootstrappers\ComposerBootstrapper;
 use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Console\Bootstrappers\CommandsBootstrapper;
 use Opulence\Framework\Console\Testing\PhpUnit\Assertions\OutputAssertions;
@@ -31,8 +30,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
 {
     /** @var array The list of bootstrapper classes to include */
     private static array $bootstrappers = [
-        CommandsBootstrapper::class,
-        ComposerBootstrapper::class
+        CommandsBootstrapper::class
     ];
 
     /**

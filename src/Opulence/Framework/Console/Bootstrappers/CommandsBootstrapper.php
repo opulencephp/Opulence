@@ -15,12 +15,8 @@ namespace Opulence\Framework\Console\Bootstrappers;
 use Aphiria\Console\Commands\CommandRegistry;
 use Aphiria\DependencyInjection\Bootstrappers\Bootstrapper;
 use Aphiria\DependencyInjection\IContainer;
-use Aphiria\DependencyInjection\ResolutionException;
-use Opulence\Framework\Composer\Console\Commands\ComposerDumpAutoloadCommand;
-use Opulence\Framework\Composer\Console\Commands\ComposerDumpAutoloadCommandHandler;
-use Opulence\Framework\Composer\Console\Commands\ComposerUpdateCommand;
-use Opulence\Framework\Composer\Console\Commands\ComposerUpdateCommandHandler;
 use Opulence\Framework\Configuration\Config;
+use Opulence\Framework\Console\ClassFileCompiler;
 use Opulence\Framework\Console\Commands\AppDownCommand;
 use Opulence\Framework\Console\Commands\AppDownCommandHandler;
 use Opulence\Framework\Console\Commands\AppEnvironmentCommand;
@@ -58,8 +54,6 @@ final class CommandsBootstrapper extends Bootstrapper
         AppDownCommand::class => AppDownCommandHandler::class,
         AppEnvironmentCommand::class => AppEnvironmentCommandHandler::class,
         AppUpCommand::class => AppUpCommandHandler::class,
-        ComposerDumpAutoloadCommand::class => ComposerDumpAutoloadCommandHandler::class,
-        ComposerUpdateCommand::class => ComposerUpdateCommandHandler::class,
         EncryptionKeyGenerationCommand::class => EncryptionKeyGenerationCommandHandler::class,
         FlushFrameworkCacheCommand::class => FlushFrameworkCacheCommandHandler::class,
         FlushViewCacheCommand::class => FlushViewCacheCommandHandler::class,
@@ -77,6 +71,7 @@ final class CommandsBootstrapper extends Bootstrapper
     public function registerBindings(IContainer $container): void
     {
         $container->bindInstance(CommandRegistry::class, $commands = new CommandRegistry());
+        $container->bindInstance(ClassFileCompiler::class, new ClassFileCompiler(Config::get('paths', 'root') . '/composer.json'));
         $this->registerCommands($commands, $container);
     }
 
@@ -85,7 +80,6 @@ final class CommandsBootstrapper extends Bootstrapper
      *
      * @param CommandRegistry $commands The commands to register to
      * @param IContainer $container The dependency injection container to use
-     * @throws ResolutionException Thrown if any handlers could not be resolved
      */
     protected function registerCommands(CommandRegistry $commands, IContainer $container): void
     {

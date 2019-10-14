@@ -33,6 +33,8 @@
         "aphiria/console": "1.0.*@dev",
         "aphiria/dependency-injection": "1.0.*@dev",
         "aphiria/io": "1.0.*@dev",
+        "aphiria/middleware": "1.0.*@dev",
+        "aphiria/net": "1.0.*@dev",
         "ext-fileinfo": "*",
         "ext-json": "*",
         "ext-mbstring": "*",

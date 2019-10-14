@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Aphiria
+ * Opulence
  *
- * @link      https://www.aphiria.com
+ * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2019 David Young
- * @license   https://github.com/aphiria/Opulence/blob/master/LICENSE.md
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 
 declare(strict_types=1);

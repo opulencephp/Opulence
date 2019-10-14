@@ -15,7 +15,10 @@ namespace Opulence\Framework\Orm\Console\Commands;
 use Aphiria\Console\Input\Input;
 use Aphiria\Console\Output\IOutput;
 use Aphiria\Console\Output\Prompts\MultipleChoice;
+use Aphiria\Console\Output\Prompts\Prompt;
 use Aphiria\Console\Output\Prompts\Question;
+use Closure;
+use Opulence\Framework\Console\ClassFileCompiler;
 use Opulence\Framework\Console\Commands\MakeCommandHandler;
 
 /**
@@ -30,6 +33,8 @@ final class MakeDataMapperCommandHandler extends MakeCommandHandler
         'Redis-backed cached SQL data mapper' => 'RedisCachedSqlDataMapper',
         'SQL data mapper' => 'SqlDataMapper'
     ];
+    /** @var Prompt The console prompt */
+    private Prompt $prompt;
     /** @var string The type of data mapper to generate */
     private string $dataMapperType = '';
     /** @var string The name of the entity class */
@@ -39,16 +44,21 @@ final class MakeDataMapperCommandHandler extends MakeCommandHandler
 
     /**
      * @inheritdoc
+     * @param Prompt $prompt The console prompt
+     */
+    public function __construct(ClassFileCompiler $classFileCompiler, Prompt $prompt)
+    {
+        // Todo: Needs to refactor template file to be set at handle time
+        parent::__construct($classFileCompiler);
+
+        $this->prompt = $prompt;
+    }
+
+    /**
+     * @inheritdoc
      */
     public function handle(Input $input, IOutput $output)
     {
-        $this->dataMapperType = self::$dataMapperTypes[$this->prompt->ask(
-            new MultipleChoice(
-                'Which type of data mapper are you making?',
-                array_keys(self::$dataMapperTypes)
-            ),
-            $output
-        )];
         $this->entityClassName = $this->prompt->ask(
             new Question(
                 'What is the fully-qualified class name for the types of entities this data mapper is handling?'
@@ -65,11 +75,9 @@ final class MakeDataMapperCommandHandler extends MakeCommandHandler
     /**
      * @inheritdoc
      */
-    protected function compile(string $templateContents, string $fullyQualifiedClassName): string
+    protected function getCustomTagCompiler(): ?Closure
     {
-        $compiledContents = parent::compile($templateContents, $fullyQualifiedClassName);
-
-        return str_replace(
+        return fn (string $compiledContents) => str_replace(
             ['{{entityType}}', '{{entityVarName}}'],
             [$this->entityClassName, $this->entityVariableName],
             $compiledContents
@@ -79,17 +87,16 @@ final class MakeDataMapperCommandHandler extends MakeCommandHandler
     /**
      * @inheritdoc
      */
-    protected function getDefaultNamespace(string $rootNamespace): string
+    protected function getTemplateFilePath(Input $input, IOutput $output): string
     {
-        // Todo: Needs to be updated to use latest directory structure
-        return $rootNamespace . '\\Infrastructure\\Orm';
-    }
+        $dataMapperType = self::$dataMapperTypes[$this->prompt->ask(
+            new MultipleChoice(
+                'Which type of data mapper are you making?',
+                array_keys(self::$dataMapperTypes)
+            ),
+            $output
+        )];
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFileTemplatePath(): string
-    {
-        return __DIR__ . "/templates/{$this->dataMapperType}.template";
+        return __DIR__ . "/templates/$dataMapperType";
     }
 }
