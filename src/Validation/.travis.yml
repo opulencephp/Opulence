@@ -1,0 +1,22 @@
+language: php
+
+php:
+  - 7.4snapshot
+
+before_script:
+  - composer self-update
+  - composer install
+  - composer dump-autoload -o
+
+script:
+  - vendor/bin/phpunit --verbose
+  #- composer run-script lint-check
+
+notifications:
+  email:
+    - dave@opulencephp.com
+
+sudo: false
+
+matrix:
+  fast_finish: true

@@ -1,9 +1,9 @@
 <?php
 $copyrightYear = date('Y');
 $header = <<<EOT
-Aphiria
+Opulence
 
-@link      https://www.aphiria.com
+@link      https://www.opulencephp.com
 @copyright Copyright (C) {$copyrightYear} David Young
 @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
 EOT;
