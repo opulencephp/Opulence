@@ -30,11 +30,12 @@
         "aphiria/middleware": "1.0.*@dev",
         "aphiria/net": "1.0.*@dev",
         "ext-json": "*",
-        "opulence/authentication": "1.1.*",
-        "opulence/authorization": "1.1.*",
-        "opulence/cryptography": "1.1.*",
-        "opulence/validation": "1.1.*",
-        "opulence/views": "1.1.*",
+        "opulence/authentication": "2.0.*@dev",
+        "opulence/authorization": "2.0.*@dev",
+        "opulence/cryptography": "2.0.*@dev",
+        "opulence/databases": "2.0.*@dev",
+        "opulence/validation": "2.0.*@dev",
+        "opulence/views": "2.0.*@dev",
         "php": "^7.4"
     },
     "require-dev": {
