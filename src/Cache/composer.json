@@ -30,6 +30,10 @@
         "ext-redis": "*",
         "ext-memcached": "*"
     },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.14",
+        "phpunit/phpunit": "~8.0"
+    },
     "suggest": {
         "ext-redis": "Required for PHPRedis support"
     },

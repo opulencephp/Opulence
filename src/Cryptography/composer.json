@@ -30,6 +30,10 @@
         "php": "^7.4",
         "ext-openssl": "*"
     },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.14",
+        "phpunit/phpunit": "~8.0"
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "2.0.x-dev"

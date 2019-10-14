@@ -32,7 +32,9 @@
     },
     "require-dev": {
         "ext-memcached": "*",
-        "ext-redis": "*"
+        "ext-redis": "*",
+        "friendsofphp/php-cs-fixer": "~2.14",
+        "phpunit/phpunit": "~8.0"
     },
     "extra": {
         "branch-alias": {
