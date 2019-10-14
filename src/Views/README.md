@@ -1,9 +1,9 @@
 <h1>Views</h1>
 
 [![Build Status](https://travis-ci.com/opulencephp/views.svg)](https://travis-ci.com/opulencephp/views)
-[![Latest Stable Version](https://poser.pugx.org/opulencephp/views/v/stable.svg)](https://packagist.org/packages/opulencephp/views)
-[![Latest Unstable Version](https://poser.pugx.org/opulencephp/views/v/unstable.svg)](https://packagist.org/packages/opulencephp/views)
-[![License](https://poser.pugx.org/opulencephp/views/license.svg)](https://packagist.org/packages/opulencephp/views)
+[![Latest Stable Version](https://poser.pugx.org/opulence/views/v/stable.svg)](https://packagist.org/packages/opulence/views)
+[![Latest Unstable Version](https://poser.pugx.org/opulence/views/v/unstable.svg)](https://packagist.org/packages/opulence/views)
+[![License](https://poser.pugx.org/opulence/views/license.svg)](https://packagist.org/packages/opulence/views)
 
 <h1>Documentation</h1>
 

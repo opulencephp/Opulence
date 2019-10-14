@@ -1,9 +1,9 @@
 <h1>Authorization</h1>
 
 [![Build Status](https://travis-ci.com/opulencephp/authorization.svg)](https://travis-ci.com/opulencephp/authorization)
-[![Latest Stable Version](https://poser.pugx.org/opulencephp/authorization/v/stable.svg)](https://packagist.org/packages/opulencephp/authorization)
-[![Latest Unstable Version](https://poser.pugx.org/opulencephp/authorization/v/unstable.svg)](https://packagist.org/packages/opulencephp/authorization)
-[![License](https://poser.pugx.org/opulencephp/authorization/license.svg)](https://packagist.org/packages/opulencephp/authorization)
+[![Latest Stable Version](https://poser.pugx.org/opulence/authorization/v/stable.svg)](https://packagist.org/packages/opulence/authorization)
+[![Latest Unstable Version](https://poser.pugx.org/opulence/authorization/v/unstable.svg)](https://packagist.org/packages/opulence/authorization)
+[![License](https://poser.pugx.org/opulence/authorization/license.svg)](https://packagist.org/packages/opulence/authorization)
 
 <h1>Documentation</h1>
 
