@@ -62,8 +62,8 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     protected function setUp(): void
     {
         Config::setCategory('paths', [
-            'root' => realpath(__DIR__ . '/../../../../../../../'),
-            'src' => realpath(__DIR__ . '/../../../../../../../src')
+            'root' => realpath(__DIR__ . '/../../../../..'),
+            'src' => realpath(__DIR__ . '/../../../../../src')
         ]);
         // Purposely set this to a weird value so we can test that it gets overwritten with the "test" environment
         $this->container = new Container();

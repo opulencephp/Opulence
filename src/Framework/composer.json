@@ -32,6 +32,7 @@
         "ext-json": "*",
         "opulence/authentication": "dev-master",
         "opulence/authorization": "dev-master",
+        "opulence/cache": "dev-master",
         "opulence/cryptography": "dev-master",
         "opulence/databases": "dev-master",
         "opulence/validation": "dev-master",
