@@ -5,6 +5,6 @@
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true">
     <testsuite name="Cache Tests">
-        <directory>Tests</directory>
+        <directory>tests</directory>
     </testsuite>
 </phpunit>

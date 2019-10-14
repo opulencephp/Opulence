@@ -16,11 +16,13 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Opulence\\QueryBuilders\\": ""
-        },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+            "Opulence\\QueryBuilders\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Opulence\\QueryBuilders\\Tests\\": "tests"
+        }
     },
     "require": {
         "ext-pdo": "*",

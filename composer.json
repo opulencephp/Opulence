@@ -22,11 +22,31 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Opulence\\": "src"
-        },
-        "exclude-from-classmap": [
-            "**/TestsTemp/"
-        ]
+            "Opulence\\Authentication\\": "src/Authentication/src",
+            "Opulence\\Authorization\\": "src/Authorization/src",
+            "Opulence\\Cache\\": "src/Cache/src",
+            "Opulence\\Cryptography\\": "src/Cryptography/src",
+            "Opulence\\Databases\\": "src/Databases/src",
+            "Opulence\\Framework\\": "src/Framework/src",
+            "Opulence\\Orm\\": "src/Orm/src",
+            "Opulence\\QueryBuilders\\": "src/QueryBuilders/src",
+            "Opulence\\Validation\\": "src/Validation/src",
+            "Opulence\\Views\\": "src/Views/src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Opulence\\Authentication\\Tests\\": "src/Authentication/tests",
+            "Opulence\\Authorization\\Tests\\": "src/Authorization/tests",
+            "Opulence\\Cache\\Tests\\": "src/Cache/tests",
+            "Opulence\\Cryptography\\Tests\\": "src/Cryptography/tests",
+            "Opulence\\Databases\\Tests\\": "src/Databases/tests",
+            "Opulence\\Framework\\Tests\\": "src/Framework/tests",
+            "Opulence\\Orm\\Tests\\": "src/Orm/tests",
+            "Opulence\\QueryBuilders\\Tests\\": "src/QueryBuilders/tests",
+            "Opulence\\Validation\\Tests\\": "src/Validation/tests",
+            "Opulence\\Views\\Tests\\": "src/Views/tests"
+        }
     },
     "require": {
         "aphiria/collections": "1.0.*@dev",

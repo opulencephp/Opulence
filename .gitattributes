@@ -12,4 +12,4 @@ CHANGELOG.md export-ignore
 CONTRIBUTING.md export-ignore
 phpunit.xml export-ignore
 /build export-ignore
-/src/Opulence/*/Tests export-ignore
+/src/*/tests export-ignore

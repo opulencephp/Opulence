@@ -17,11 +17,13 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Opulence\\Views\\": ""
-        },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+            "Opulence\\Views\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Opulence\\Views\\Tests\\": "tests"
+        }
     },
     "require": {
         "php": "^7.4"

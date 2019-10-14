@@ -18,11 +18,13 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Opulence\\Cryptography\\": ""
-        },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+            "Opulence\\Cryptography\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Opulence\\Cryptography\\Tests\\": "tests"
+        }
     },
     "require": {
         "php": "^7.4",

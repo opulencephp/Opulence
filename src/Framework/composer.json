@@ -16,11 +16,13 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Opulence\\Framework\\": ""
-        },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+            "Opulence\\Framework\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Opulence\\Framework\\Tests\\": "tests"
+        }
     },
     "require": {
         "ext-json": "*",
