@@ -5,15 +5,15 @@
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true">
     <testsuite name="Opulence Tests">
-        <directory>src/Opulence/Authentication/Tests</directory>
-        <directory>src/Opulence/Authorization/Tests</directory>
-        <directory>src/Opulence/Cache/Tests</directory>
-        <directory>src/Opulence/Cryptography/Tests</directory>
-        <directory>src/Opulence/Databases/Tests</directory>
-        <directory>src/Opulence/Framework/Tests</directory>
-        <directory>src/Opulence/Orm/Tests</directory>
-        <directory>src/Opulence/QueryBuilders/Tests</directory>
-        <directory>src/Opulence/Validation/Tests</directory>
-        <directory>src/Opulence/Views/Tests</directory>
+        <directory>src/Authentication/TestsTemp</directory>
+        <directory>src/Authorization/TestsTemp</directory>
+        <directory>src/Cache/TestsTemp</directory>
+        <directory>src/Cryptography/TestsTemp</directory>
+        <directory>src/Databases/TestsTemp</directory>
+        <directory>src/Framework/TestsTemp</directory>
+        <directory>src/Orm/TestsTemp</directory>
+        <directory>src/QueryBuilders/TestsTemp</directory>
+        <directory>src/Validation/TestsTemp</directory>
+        <directory>src/Views/TestsTemp</directory>
     </testsuite>
 </phpunit>

@@ -22,10 +22,10 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Opulence\\": "src/Opulence"
+            "Opulence\\": "src"
         },
         "exclude-from-classmap": [
-            "**/Tests/"
+            "**/TestsTemp/"
         ]
     },
     "require": {
