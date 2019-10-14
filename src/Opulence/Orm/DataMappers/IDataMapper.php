@@ -36,13 +36,6 @@ interface IDataMapper
     public function delete(object $entity): void;
 
     /**
-     * Gets all the entities
-     *
-     * @return array The list of all the entities
-     */
-    public function getAll(): array;
-
-    /**
      * Gets the entity with the input Id
      *
      * @param int|string $id The Id of the entity we're searching for

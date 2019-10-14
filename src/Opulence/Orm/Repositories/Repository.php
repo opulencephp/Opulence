@@ -60,14 +60,6 @@ class Repository implements IRepository
     /**
      * @inheritdoc
      */
-    public function getAll(): array
-    {
-        return $this->getFromDataMapper('getAll');
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getById($id): object
     {
         $entity = $this->unitOfWork->getEntityRegistry()->getEntity($this->className, $id);

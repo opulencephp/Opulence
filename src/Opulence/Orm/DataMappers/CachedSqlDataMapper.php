@@ -98,14 +98,6 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getAll(): array
-    {
-        return $this->read('getAll');
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getById($id): ?object
     {
         return $this->read('getById', [$id]);
@@ -130,22 +122,6 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getUnsyncedEntities(): array
-    {
-        return $this->compareCacheAndSqlEntities(false);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function refreshCache(): array
-    {
-        return $this->compareCacheAndSqlEntities(true);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function refreshEntity($id): void
     {
         /**
@@ -161,7 +137,10 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
         }
 
         $entityFromSql = $this->sqlDataMapper->getById($id);
-        $this->cacheDataMapper->add($entityFromSql);
+
+        if ($entityFromSql !== null) {
+            $this->cacheDataMapper->add($entityFromSql);
+        }
     }
 
     /**
@@ -195,6 +174,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      * @param array $getFuncArgs The array of function arguments to pass in to our entity retrieval functions
      * @param bool $addDataToCacheOnMiss True if we want to add the entity from the database to cache in case of a cache miss
      * @return object|array|null The entity(ies) if it was found, otherwise null
+     * @throws OrmException Thrown if there was any error reading an entity from storage
      */
     protected function read(
         string $funcName,
@@ -259,93 +239,5 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     protected function scheduleForCacheUpdate(object $entity): void
     {
         $this->scheduledActions[] = ['update', $entity];
-    }
-
-    /**
-     * Does the comparison of entities in cache to entities in the SQL database
-     * Also performs refresh if the user chooses to do so
-     *
-     * @param bool $doRefresh Whether or not to refresh any unsynced entities
-     * @return object[] The list of entities that were not already synced
-     *      The "missing" list contains the entities that were not in cache
-     *      The "differing" list contains the entities in cache that were not the same as SQL
-     *      The "additional" list contains entities in cache that were not at all in SQL
-     * @throws OrmException Thrown if there was an error getting the unsynced entities
-     */
-    private function compareCacheAndSqlEntities(bool $doRefresh): array
-    {
-        // If there was an issue grabbing all entities in cache, null will be returned
-        $unkeyedCacheEntities = $this->cacheDataMapper->getAll();
-
-        if ($unkeyedCacheEntities === null) {
-            $unkeyedCacheEntities = [];
-        }
-
-        $cacheEntities = $this->keyEntityArray($unkeyedCacheEntities);
-        $sqlEntities = $this->keyEntityArray($this->sqlDataMapper->getAll());
-        $unsyncedEntities = [
-            'missing' => [],
-            'differing' => [],
-            'additional' => []
-        ];
-
-        // Compare the entities in the SQL database to those in cache
-        foreach ($sqlEntities as $sqlId => $sqlEntity) {
-            if (isset($cacheEntities[$sqlId])) {
-                // The entity appears in cache
-                $cacheEntity = $cacheEntities[$sqlId];
-
-                if ($sqlEntity != $cacheEntity) {
-                    $unsyncedEntities['differing'][] = $sqlEntity;
-
-                    if ($doRefresh) {
-                        // Sync the entity in cache with the one in SQL
-                        $this->cacheDataMapper->delete($cacheEntity);
-                        $this->cacheDataMapper->add($sqlEntity);
-                    }
-                }
-            } else {
-                // The entity was not in cache
-                $unsyncedEntities['missing'][] = $sqlEntity;
-
-                if ($doRefresh) {
-                    // Add the entity to cache
-                    $this->cacheDataMapper->add($sqlEntity);
-                }
-            }
-        }
-
-        // Find entities that only appear in cache
-        $cacheOnlyIds = array_diff(array_keys($cacheEntities), array_keys($sqlEntities));
-
-        foreach ($cacheOnlyIds as $entityId) {
-            $cacheEntity = $cacheEntities[$entityId];
-            $unsyncedEntities['additional'][] = $cacheEntity;
-
-            if ($doRefresh) {
-                // Remove the entity that only appears in cache
-                $this->cacheDataMapper->delete($cacheEntity);
-            }
-        }
-
-        return $unsyncedEntities;
-    }
-
-    /**
-     * Converts a list of entities to a keyed array of those entities
-     * The keys are the entity Ids
-     *
-     * @param object[] $entities The list of entities
-     * @return object[] The keyed array
-     */
-    private function keyEntityArray(array $entities): array
-    {
-        $keyedArray = [];
-
-        foreach ($entities as $entity) {
-            $keyedArray[$this->idAccessorRegistry->getEntityId($entity)] = $entity;
-        }
-
-        return $keyedArray;
     }
 }

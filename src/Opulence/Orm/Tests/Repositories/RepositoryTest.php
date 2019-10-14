@@ -91,23 +91,6 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         $this->repo->getById($this->entity1->getId());
     }
 
-    public function testGettingAll(): void
-    {
-        $this->repo->add($this->entity1);
-        $this->repo->add($this->entity2);
-        $this->unitOfWork->commit();
-        $this->assertEquals([$this->entity1, $this->entity2], $this->repo->getAll());
-    }
-
-    public function testGettingAllAfterAddingEntitiesInDifferentTransactions(): void
-    {
-        $this->repo->add($this->entity1);
-        $this->unitOfWork->commit();
-        $this->repo->add($this->entity2);
-        $this->unitOfWork->commit();
-        $this->assertEquals([$this->entity1, $this->entity2], $this->repo->getAll());
-    }
-
     public function testGettingById(): void
     {
         $this->repo->add($this->entity1);
@@ -119,36 +102,6 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(OrmException::class);
         $this->repo->getById($this->entity1->getId());
-    }
-
-    /**
-     * Tests the repo and unit of work to make sure the same instance of an already-managed entity is returned by getAll
-     */
-    public function testGettingEntityByIdAndThenAllEntities(): void
-    {
-        $this->repo->add($this->entity1);
-        $this->unitOfWork->commit();
-        /** @var User $entityFromGetById */
-        $entityFromGetById = $this->repo->getById($this->entity1->getId());
-        /** @var User[] $allEntities */
-        $allEntities = $this->repo->getAll();
-        /** @var User $entityFromGetAll */
-        $entityFromGetAll = null;
-
-        foreach ($allEntities as $entity) {
-            $entity->setUsername('newUsername');
-
-            if ($entity->getId() == $entityFromGetById->getId()) {
-                $entityFromGetAll = $entity;
-            }
-        }
-
-        foreach ($allEntities as $entity) {
-            if ($entity->getId() == $entityFromGetById->getId()) {
-                $this->assertSame($entityFromGetById, $entity);
-                $this->assertEquals($entityFromGetAll->getUsername(), $entityFromGetById->getUsername());
-            }
-        }
     }
 
     public function testGettingEntityThatDoesNotExistById(): void

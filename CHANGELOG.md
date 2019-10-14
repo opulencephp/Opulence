@@ -92,6 +92,8 @@
 * Removed `PredisDataMapper` and `PhpRedisDataMapper` (the latter's functionality is now just rolled up into `RedisDataMapper`)
 * Rewrote `MemcachedCachedSqlDataMapper` to use `Memcached` directly
 * Rewrote `RedisDataMapper` to use `Redis` directly
+* Removed `IRepository::getAll()`, `Repository::getAll()`, and `IDataMapper::getAll()`
+* Removed `ICachedSqlDataMapper::getUnsyncedEntities()` and `ICachedSqlDataMapper::refreshCache()`
 * `IEntityRegistry::getEntity()`, `RedisDataMaper::loadEntity()`, `SqlDataMapper::loadEntity()`, `IRepository::getById()`, and `Repository::getById()` must return type `object
 * `IDataMapper::getById()`, `CachedSqlDataMapper::getById()`, and `ICacheDataMapper::getById()`  now must all return type `?object`
 * `IDataMapper::add()`, `IDataMapper::delete()`, and `IDataMapper::update()` now require the entity to be of type `object`

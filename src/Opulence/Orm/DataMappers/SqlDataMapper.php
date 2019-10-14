@@ -67,7 +67,7 @@ abstract class SqlDataMapper implements IDataMapper
             $statement->bindValues($sqlParameters);
             $statement->execute();
 
-            if ($expectSingleResult && $statement->rowCount() != 1) {
+            if ($expectSingleResult && $statement->rowCount() !== 1) {
                 throw new OrmException('Failed to find entity');
             }
 
@@ -78,8 +78,8 @@ abstract class SqlDataMapper implements IDataMapper
                 $entities[] = $this->createEntity($row);
             }
 
-            if ($valueType == self::VALUE_TYPE_ENTITY) {
-                if (count($entities) == 0) {
+            if ($valueType === self::VALUE_TYPE_ENTITY) {
+                if (count($entities) === 0) {
                     return null;
                 }
 

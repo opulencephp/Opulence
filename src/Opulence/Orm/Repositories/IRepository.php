@@ -36,14 +36,6 @@ interface IRepository
     public function delete(object $entity): void;
 
     /**
-     * Gets all the entities
-     *
-     * @return object[] The list of all the entities of this type
-     * @throws OrmException Thrown if there was an error getting the entities
-     */
-    public function getAll(): array;
-
-    /**
      * Gets the entity with the input Id
      *
      * @param int|string $id The Id of the entity we're searching for
