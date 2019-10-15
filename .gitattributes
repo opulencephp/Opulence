@@ -1,5 +1,5 @@
 # Auto detect text files and perform LF normalization
-* text=auto
+* text=lf
 
 # Ignore select directories on export
 .gitattributes export-ignore
