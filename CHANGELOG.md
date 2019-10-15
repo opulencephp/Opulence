@@ -1,44 +1,10 @@
-<h2>v1.1.7 (2019-03-03)</h2>
-
-<h3>IOC</h3>
-
-* Added `IBootstrapperRegistry::registerBootstrapper()`
-* Deprecated `IBootstrapperRegistry::registerEagerBootstrapper()` and `IBootstrapperRegistry::registerLazyBootstrapper()`
-
-<h2>v1.1.6 (2019-02-16)</h2>
-
-<h3>HTTP</h3>
-
-* Fixed bug that prevented CSRF checks from working when using `_method` to manually set the request method
-
-<h2>v1.1.5 (2018-03-13)</h2>
-
-<h3>Databases</h3>
-
-* Fixed migrations, which were running in reverse order
-
-<h3>ORM</h3>
-
-* Added support for IDs that are objects
-
-<h3>Validation</h3>
-
-* Fixed bug that prevented you from using custom rules twice
-
-<h2>v1.1.4 (2017-22-23)</h2>
-
-<h3>Databases</h3>
-
-* Fixed bugs that caused DB migrations to not work with MySQL
-* Migration bootstrapper now reads from an environment var to determine the database driver to use
-
-<h2>v2.0.0 (2018-?-?)</h2>
+<h2>v2.0.0 (?-?-?)</h2>
 
 <h3>General</h3>
 
 * Requires >= PHP 7.4
 * Requires >= PHPUnit 8.0
-* Deleted the Application, Debug, Environments, Events, File, HTTP, Memcached, Pipeline, Redis, and Routing libraries
+* Deleted the Application, Collections, Console, Debug, Environments, Events, File, HTTP, IO, IoC, Memcached, Pipeline, Redis, and Routing libraries
 * Removed all methods that were deprecated in v1.1.0
 * Added `void` return type to all void methods
 * Added nullable  type to all nullable method return types and parameters
@@ -115,6 +81,40 @@
 <h3>Views</h3>
 
 * Removed support for PHP short tags in Fortune templates
+
+<h2>v1.1.7 (2019-03-03)</h2>
+
+<h3>IOC</h3>
+
+* Added `IBootstrapperRegistry::registerBootstrapper()`
+* Deprecated `IBootstrapperRegistry::registerEagerBootstrapper()` and `IBootstrapperRegistry::registerLazyBootstrapper()`
+
+<h2>v1.1.6 (2019-02-16)</h2>
+
+<h3>HTTP</h3>
+
+* Fixed bug that prevented CSRF checks from working when using `_method` to manually set the request method
+
+<h2>v1.1.5 (2018-03-13)</h2>
+
+<h3>Databases</h3>
+
+* Fixed migrations, which were running in reverse order
+
+<h3>ORM</h3>
+
+* Added support for IDs that are objects
+
+<h3>Validation</h3>
+
+* Fixed bug that prevented you from using custom rules twice
+
+<h2>v1.1.4 (2017-22-23)</h2>
+
+<h3>Databases</h3>
+
+* Fixed bugs that caused DB migrations to not work with MySQL
+* Migration bootstrapper now reads from an environment var to determine the database driver to use
 
 <h2>v1.1.3 (2017-12-22)</h2>
 
