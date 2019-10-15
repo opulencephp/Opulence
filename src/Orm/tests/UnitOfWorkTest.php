@@ -27,11 +27,12 @@ use Opulence\Orm\Tests\DataMappers\Mocks\SqlDataMapper;
 use Opulence\Orm\Tests\Mocks\UnitOfWork as MockUnitOfWork;
 use Opulence\Orm\Tests\Mocks\User;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the unit of work
  */
-class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
+class UnitOfWorkTest extends TestCase
 {
     private MockUnitOfWork $unitOfWork;
     private EntityRegistry $entityRegistry;

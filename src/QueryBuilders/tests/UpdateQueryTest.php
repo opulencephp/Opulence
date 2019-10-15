@@ -11,6 +11,8 @@
 declare(strict_types=1);
 
 namespace Opulence\QueryBuilders\tests;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 use Opulence\QueryBuilders\Conditions\ICondition;
 use Opulence\QueryBuilders\UpdateQuery;
@@ -19,10 +21,10 @@ use PDO;
 /**
  * Tests the update query
  */
-class UpdateQueryTest extends \PHPUnit\Framework\TestCase
+class UpdateQueryTest extends TestCase
 {
-    /** @var ICondition The condition to use in tests */
-    private $condition;
+    /** @var ICondition|MockObject The condition to use in tests */
+    private ICondition $condition;
 
     protected function setUp(): void
     {

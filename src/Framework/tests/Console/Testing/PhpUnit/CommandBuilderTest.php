@@ -15,11 +15,12 @@ namespace Opulence\Framework\Tests\Console\Testing\PhpUnit\Mocks;
 use Opulence\Framework\Console\Testing\PhpUnit\CommandBuilder;
 use Opulence\Framework\Console\Testing\PhpUnit\IntegrationTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the command builder
  */
-class CommandBuilderTest extends \PHPUnit\Framework\TestCase
+class CommandBuilderTest extends TestCase
 {
     /** @var IntegrationTestCase|MockObject The integration test to use in tests */
     private IntegrationTestCase $integrationTest;

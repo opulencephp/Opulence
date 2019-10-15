@@ -16,11 +16,12 @@ use DateTime;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Providers\Types\TypeMapper;
 use RuntimeException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the type mapper class
  */
-class TypeMapperTest extends \PHPUnit\Framework\TestCase
+class TypeMapperTest extends TestCase
 {
     private TypeMapper $typeMapperWithNoProvider;
     private TypeMapper $typeMapperWithProvider;

@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Views\Tests\Compilers\Fortune\Parsers\Nodes;
 
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\CommentNode;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the comment node
  */
-class CommentNodeTest extends \PHPUnit\Framework\TestCase
+class CommentNodeTest extends TestCase
 {
     /**
      * Tests the "is a" methods

@@ -17,11 +17,12 @@ use Opulence\Cryptography\Encryption\Encrypter;
 use Opulence\Cryptography\Encryption\EncryptionException;
 use Opulence\Cryptography\Encryption\Keys\Key;
 use Opulence\Cryptography\Encryption\Keys\Password;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the encrypter
  */
-class EncrypterTest extends \PHPUnit\Framework\TestCase
+class EncrypterTest extends TestCase
 {
     private Encrypter $encrypterWithPassword;
     private Encrypter $encrypterWithKey;

@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Cache\tests;
 
 use Opulence\Cache\ArrayBridge;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests that array bridge
  */
-class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
+class ArrayBridgeTest extends TestCase
 {
     private ArrayBridge $bridge;
 

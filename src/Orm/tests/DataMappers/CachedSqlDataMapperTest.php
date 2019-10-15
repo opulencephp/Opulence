@@ -18,11 +18,12 @@ use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 use Opulence\Orm\OrmException;
 use Opulence\Orm\Tests\DataMappers\Mocks\CachedSqlDataMapper;
 use Opulence\Orm\Tests\DataMappers\Mocks\User;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the cached SQL data mapper
  */
-class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
+class CachedSqlDataMapperTest extends TestCase
 {
     private CachedSqlDataMapper $dataMapper;
     private User $entity1;

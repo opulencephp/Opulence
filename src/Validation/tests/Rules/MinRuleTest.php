@@ -15,11 +15,12 @@ namespace Opulence\Validation\Tests\Rules;
 use InvalidArgumentException;
 use LogicException;
 use Opulence\Validation\Rules\MinRule;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the min rule
  */
-class MinRuleTest extends \PHPUnit\Framework\TestCase
+class MinRuleTest extends TestCase
 {
     public function testFailingRule(): void
     {

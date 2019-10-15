@@ -15,11 +15,12 @@ namespace Opulence\Databases\Tests\ConnectionPools;
 use Opulence\Databases\Tests\ConnectionPools\Mocks\ConnectionPool;
 use Opulence\Databases\Tests\Mocks\Driver;
 use Opulence\Databases\Tests\Mocks\Server as MockServer;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the connection pool
  */
-class ConnectionPoolTest extends \PHPUnit\Framework\TestCase
+class ConnectionPoolTest extends TestCase
 {
     public function testGettingDriverNames(): void
     {

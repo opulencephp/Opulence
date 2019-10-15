@@ -16,11 +16,12 @@ use Opulence\Databases\ConnectionPools\SingleServerConnectionPool;
 use Opulence\Databases\Tests\Mocks\Connection;
 use Opulence\Databases\Tests\Mocks\Driver;
 use Opulence\Databases\Tests\Mocks\Server;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the single server connection pool
  */
-class SingleServerConnectionPoolTest extends \PHPUnit\Framework\TestCase
+class SingleServerConnectionPoolTest extends TestCase
 {
     public function testGettingReadConnection(): void
     {

@@ -24,11 +24,12 @@ use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\IView;
 use Opulence\Views\View;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Fortune compiler
  */
-class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
+class FortuneCompilerTest extends TestCase
 {
     private FortuneCompiler $fortuneCompiler;
     private Transpiler $transpiler;

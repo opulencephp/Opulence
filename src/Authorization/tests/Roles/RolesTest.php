@@ -19,11 +19,12 @@ use Opulence\Authorization\Roles\Role;
 use Opulence\Authorization\Roles\RoleMembership;
 use Opulence\Authorization\Roles\Roles;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the roles
  */
-class RolesTest extends \PHPUnit\Framework\TestCase
+class RolesTest extends TestCase
 {
     private Roles $roles;
     /** @var IRoleRepository|MockObject The role repository to use in tests */

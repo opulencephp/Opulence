@@ -14,11 +14,12 @@ namespace Opulence\Views\Tests\Factories\IO;
 
 use InvalidArgumentException;
 use Opulence\Views\Factories\IO\FileViewNameResolver;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the file view name resolver
  */
-class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
+class FileViewNameResolverTest extends TestCase
 {
     private FileViewNameResolver $resolver;
 

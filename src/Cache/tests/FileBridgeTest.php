@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Cache\tests;
 
 use Opulence\Cache\FileBridge;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the file bridge
  */
-class FileBridgeTest extends \PHPUnit\Framework\TestCase
+class FileBridgeTest extends TestCase
 {
     private FileBridge $bridge;
 

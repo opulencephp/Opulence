@@ -17,11 +17,12 @@ use Opulence\Validation\Rules\CallbackRule;
 use Opulence\Validation\Rules\IRule;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the rule extension registry
  */
-class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
+class RuleExtensionRegistryTest extends TestCase
 {
     /** @var RuleExtensionRegistry The registry to use in tests */
     private RuleExtensionRegistry $registry;

@@ -18,11 +18,12 @@ use Opulence\Orm\OrmException;
 use Opulence\Orm\Tests\Ids\Accessors\Mocks\Bar;
 use Opulence\Orm\Tests\Ids\Accessors\Mocks\Foo;
 use Opulence\Orm\Tests\Ids\Accessors\Mocks\User;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Id accessor registry
  */
-class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
+class IdAccessorRegistryTest extends TestCase
 {
     private IdAccessorRegistry $registry;
     private User $entity1;

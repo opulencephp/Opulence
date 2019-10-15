@@ -17,11 +17,12 @@ use Opulence\Authentication\Tokens\IUnsignedToken;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
 use Opulence\Authentication\Tokens\Signatures\HmacSigner;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the HMAC signer
  */
-class HmacSignerTest extends \PHPUnit\Framework\TestCase
+class HmacSignerTest extends TestCase
 {
     /** @var IUnsignedToken|MockObject The unsigned token to use in tests */
     private IUnsignedToken $unsignedToken;

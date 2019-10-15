@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Framework\Tests\Configuration;
 
 use Opulence\Framework\Configuration\Config;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the config reader
  */
-class ConfigTest extends \PHPUnit\Framework\TestCase
+class ConfigTest extends TestCase
 {
     /**
      * Tests getting a non-existent value

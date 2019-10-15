@@ -14,11 +14,12 @@ namespace Opulence\Validation\Tests\Rules;
 
 use InvalidArgumentException;
 use Opulence\Validation\Rules\EqualsRule;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the equals rule
  */
-class EqualsRuleTest extends \PHPUnit\Framework\TestCase
+class EqualsRuleTest extends TestCase
 {
     public function testEqualValuesPass(): void
     {

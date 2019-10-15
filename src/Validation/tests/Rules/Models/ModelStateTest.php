@@ -19,11 +19,12 @@ use Opulence\Validation\Rules\Rules;
 use Opulence\Validation\Tests\Rules\Models\Mocks\User;
 use Opulence\Validation\Tests\Rules\Models\Mocks\UserModelState;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the model state
  */
-class ModelStateTest extends \PHPUnit\Framework\TestCase
+class ModelStateTest extends TestCase
 {
     /** @var IValidatorFactory|MockObject The validator factory */
     private IValidatorFactory $validatorFactory;

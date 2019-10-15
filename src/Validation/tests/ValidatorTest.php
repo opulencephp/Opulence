@@ -23,11 +23,12 @@ use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Rules\Rules;
 use Opulence\Validation\Validator;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the validator
  */
-class ValidatorTest extends \PHPUnit\Framework\TestCase
+class ValidatorTest extends TestCase
 {
     private Validator $validator;
     /** @var RulesFactory|MockObject The rules factory */

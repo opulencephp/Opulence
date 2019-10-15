@@ -20,11 +20,12 @@ use Opulence\Authentication\Roles\Orm\IRoleRepository;
 use Opulence\Authentication\Users\IUser;
 use Opulence\Authentication\Users\Orm\IUserRepository;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the username/password authenticator
  */
-class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
+class UsernamePasswordAuthenticatorTest extends TestCase
 {
     private UsernamePasswordAuthenticator $authenticator;
     /** @var IUserRepository|MockObject The user repository to use in tests */

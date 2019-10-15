@@ -18,11 +18,12 @@ use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Rules\Rules;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the rules factory
  */
-class RulesFactoryTest extends \PHPUnit\Framework\TestCase
+class RulesFactoryTest extends TestCase
 {
     public function testRulesCreated(): void
     {

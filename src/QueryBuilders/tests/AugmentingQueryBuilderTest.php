@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\QueryBuilders\tests;
 
 use Opulence\QueryBuilders\AugmentingQueryBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the augmenting query builder
  */
-class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
+class AugmentingQueryBuilderTest extends TestCase
 {
     public function testAddingMultipleColumns(): void
     {

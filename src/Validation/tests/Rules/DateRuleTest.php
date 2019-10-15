@@ -15,11 +15,12 @@ namespace Opulence\Validation\Tests\Rules;
 use DateTime;
 use InvalidArgumentException;
 use Opulence\Validation\Rules\DateRule;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the date rule
  */
-class DateRuleTest extends \PHPUnit\Framework\TestCase
+class DateRuleTest extends TestCase
 {
     public function testEqualValuesPass(): void
     {

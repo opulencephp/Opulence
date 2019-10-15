@@ -17,11 +17,12 @@ use Opulence\QueryBuilders\Conditions\ConditionFactory;
 use Opulence\QueryBuilders\Conditions\InCondition;
 use Opulence\QueryBuilders\Conditions\NotBetweenCondition;
 use Opulence\QueryBuilders\Conditions\NotInCondition;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the condition factory
  */
-class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
+class ConditionFactoryTest extends TestCase
 {
     private ConditionFactory $conditionFactory;
 

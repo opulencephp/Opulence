@@ -17,11 +17,12 @@ use Opulence\Authentication\Tokens\Signatures\Algorithms;
 use Opulence\Authentication\Tokens\Signatures\Factories\SignerFactory;
 use Opulence\Authentication\Tokens\Signatures\HmacSigner;
 use Opulence\Authentication\Tokens\Signatures\RsaSsaPkcsSigner;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the signer factory
  */
-class SignerFactoryTest extends \PHPUnit\Framework\TestCase
+class SignerFactoryTest extends TestCase
 {
     private SignerFactory $factory;
 

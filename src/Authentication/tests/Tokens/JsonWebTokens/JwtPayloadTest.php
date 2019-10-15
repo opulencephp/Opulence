@@ -15,11 +15,12 @@ namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the JWT payload
  */
-class JwtPayloadTest extends \PHPUnit\Framework\TestCase
+class JwtPayloadTest extends TestCase
 {
     private JwtPayload $payload;
 

@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Validation\Tests\Rules\Errors;
 
 use Opulence\Validation\Rules\Errors\ErrorCollection;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the error collection
  */
-class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
+class ErrorCollectionTest extends TestCase
 {
     private ErrorCollection $collection;
 

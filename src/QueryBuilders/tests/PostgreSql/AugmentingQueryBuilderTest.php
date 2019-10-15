@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\QueryBuilders\Tests\PostgreSql;
 
 use Opulence\QueryBuilders\PostgreSql\AugmentingQueryBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the augmenting query builder
  */
-class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
+class AugmentingQueryBuilderTest extends TestCase
 {
     /**
      * Tests adding to a "RETURNING" clause

@@ -16,11 +16,12 @@ use Opulence\Authorization\Authority;
 use Opulence\Authorization\IAuthority;
 use Opulence\Authorization\Permissions\PermissionRegistry;
 use Opulence\Authorization\Roles\IRoles;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the authority
  */
-class AuthorityTest extends \PHPUnit\Framework\TestCase
+class AuthorityTest extends TestCase
 {
     private Authority $authority;
     private PermissionRegistry $permissionRegistry;

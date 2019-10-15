@@ -15,11 +15,12 @@ namespace Opulence\QueryBuilders\Tests\Conditions;
 use InvalidArgumentException;
 use Opulence\QueryBuilders\Conditions\InCondition;
 use PDO;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the IN condition
  */
-class InConditionTest extends \PHPUnit\Framework\TestCase
+class InConditionTest extends TestCase
 {
     public function testGettingParametersForInConditionWithParameters(): void
     {

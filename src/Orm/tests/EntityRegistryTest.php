@@ -19,11 +19,12 @@ use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 use Opulence\Orm\OrmException;
 use Opulence\Orm\Tests\Mocks\User;
 use RuntimeException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the entity registry
  */
-class EntityRegistryTest extends \PHPUnit\Framework\TestCase
+class EntityRegistryTest extends TestCase
 {
     private EntityRegistry $entityRegistry;
     private User $entity1;

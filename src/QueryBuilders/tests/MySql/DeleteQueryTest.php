@@ -14,11 +14,12 @@ namespace Opulence\QueryBuilders\Tests\MySql;
 
 use Opulence\QueryBuilders\MySql\DeleteQuery;
 use PDO;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the delete query
  */
-class DeleteQueryTest extends \PHPUnit\Framework\TestCase
+class DeleteQueryTest extends TestCase
 {
     /**
      * Tests all the methods in a single, complicated query

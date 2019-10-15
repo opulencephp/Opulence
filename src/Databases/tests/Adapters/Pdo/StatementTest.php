@@ -14,11 +14,12 @@ namespace Opulence\Databases\Tests\Adapters\Pdo;
 
 use Opulence\Databases\Tests\Adapters\Pdo\Mocks\Statement;
 use PDO;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the PDO statement
  */
-class StatementTest extends \PHPUnit\Framework\TestCase
+class StatementTest extends TestCase
 {
     public function testBindingInvalidAssociativeArray(): void
     {

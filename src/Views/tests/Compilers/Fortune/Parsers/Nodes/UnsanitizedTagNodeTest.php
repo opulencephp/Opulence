@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Views\Tests\Compilers\Fortune\Parsers\Nodes;
 
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\UnsanitizedTagNode;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the unsanitized tag node
  */
-class UnsanitizedTagNodeTest extends \PHPUnit\Framework\TestCase
+class UnsanitizedTagNodeTest extends TestCase
 {
     /**
      * Tests the "is a" methods

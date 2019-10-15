@@ -17,11 +17,12 @@ use Opulence\Views\Compilers\CompilerRegistry;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\IView;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the compiler dispatcher
  */
-class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
+class CompilerRegistryTest extends TestCase
 {
     private CompilerRegistry $registry;
 

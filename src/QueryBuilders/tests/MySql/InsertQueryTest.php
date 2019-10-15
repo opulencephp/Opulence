@@ -14,11 +14,12 @@ namespace Opulence\QueryBuilders\Tests\MySql;
 
 use Opulence\QueryBuilders\MySql\InsertQuery;
 use PDO;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the insert query
  */
-class InsertQueryTest extends \PHPUnit\Framework\TestCase
+class InsertQueryTest extends TestCase
 {
     /**
      * Tests adding columns to the update portion of an INSERT/UPDATE

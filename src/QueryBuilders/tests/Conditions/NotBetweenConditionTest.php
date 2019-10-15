@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\QueryBuilders\Tests\Conditions;
 
 use Opulence\QueryBuilders\Conditions\NotBetweenCondition;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the NOT BETWEEN condition
  */
-class NotBetweenConditionTest extends \PHPUnit\Framework\TestCase
+class NotBetweenConditionTest extends TestCase
 {
     public function testGettingSql(): void
     {

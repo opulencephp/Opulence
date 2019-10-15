@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Validation\Tests\Rules;
 
 use Opulence\Validation\Rules\NumericRule;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the numeric rule
  */
-class NumericRuleTest extends \PHPUnit\Framework\TestCase
+class NumericRuleTest extends TestCase
 {
     public function testFailingValue(): void
     {

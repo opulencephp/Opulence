@@ -23,11 +23,12 @@ use Opulence\Views\Compilers\Fortune\Parsers\Nodes\SanitizedTagNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\UnsanitizedTagNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use RuntimeException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the view parser
  */
-class ParserTest extends \PHPUnit\Framework\TestCase
+class ParserTest extends TestCase
 {
     private Parser $parser;
     private AbstractSyntaxTree $ast;

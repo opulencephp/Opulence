@@ -15,11 +15,12 @@ namespace Opulence\Validation\Tests\Rules;
 use InvalidArgumentException;
 use LogicException;
 use Opulence\Validation\Rules\BetweenRule;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the between rule
  */
-class BetweenRuleTest extends \PHPUnit\Framework\TestCase
+class BetweenRuleTest extends TestCase
 {
     public function testFailingRule(): void
     {

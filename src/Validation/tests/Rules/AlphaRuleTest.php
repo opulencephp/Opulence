@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Validation\Tests\Rules;
 
 use Opulence\Validation\Rules\AlphaRule;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the alphabetic rule
  */
-class AlphaRuleTest extends \PHPUnit\Framework\TestCase
+class AlphaRuleTest extends TestCase
 {
     public function testFailingValue(): void
     {

@@ -16,11 +16,12 @@ use Aphiria\IO\FileSystem;
 use Opulence\Views\Caching\FileCache;
 use Opulence\Views\IView;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the view cache
  */
-class FileCacheTest extends \PHPUnit\Framework\TestCase
+class FileCacheTest extends TestCase
 {
     private FileSystem $fileSystem;
     private FileCache $cache;

@@ -15,11 +15,12 @@ namespace Opulence\Orm\Tests\Ids\Generators;
 use Opulence\Orm\Ids\Generators\IdGeneratorRegistry;
 use Opulence\Orm\Ids\Generators\IIdGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Id generator registry
  */
-class IdGeneratorRegistryTest extends \PHPUnit\Framework\TestCase
+class IdGeneratorRegistryTest extends TestCase
 {
     private IdGeneratorRegistry $registry;
 

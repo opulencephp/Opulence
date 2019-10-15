@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Authentication\Tests\Clients;
 
 use Opulence\Authentication\Clients\Client;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the client
  */
-class ClientTest extends \PHPUnit\Framework\TestCase
+class ClientTest extends TestCase
 {
     private Client $client;
 

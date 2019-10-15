@@ -14,11 +14,12 @@ namespace Opulence\QueryBuilders\Tests\Conditions;
 
 use Opulence\QueryBuilders\Conditions\NotInCondition;
 use PDO;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the NOT In condition
  */
-class NotInConditionTest extends \PHPUnit\Framework\TestCase
+class NotInConditionTest extends TestCase
 {
     public function testGettingSqlForNotInConditionWithParameters(): void
     {

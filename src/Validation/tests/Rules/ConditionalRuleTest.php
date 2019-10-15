@@ -17,11 +17,12 @@ use LogicException;
 use Opulence\Validation\Rules\ConditionalRule;
 use Opulence\Validation\Rules\IRule;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the conditional rule
  */
-class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
+class ConditionalRuleTest extends TestCase
 {
     /**
      * Tests that it fails when the condition is true and an extra rule fails

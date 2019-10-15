@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Views\Tests\Compilers\Fortune\Parsers\Nodes;
 
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\DirectiveNode;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the directive node
  */
-class DirectiveNodeTest extends \PHPUnit\Framework\TestCase
+class DirectiveNodeTest extends TestCase
 {
     /**
      * Tests the "is a" methods

@@ -23,11 +23,12 @@ use Opulence\Validation\Rules\IRuleWithArgs;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Rules\Rules;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the rules
  */
-class RulesTest extends \PHPUnit\Framework\TestCase
+class RulesTest extends TestCase
 {
     private Rules $rules;
     /** @var RuleExtensionRegistry|MockObject The rule extension registry */

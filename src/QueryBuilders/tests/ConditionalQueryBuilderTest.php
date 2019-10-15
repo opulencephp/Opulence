@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\QueryBuilders\tests;
 
 use Opulence\QueryBuilders\ConditionalQueryBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the conditional query builder
  */
-class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
+class ConditionalQueryBuilderTest extends TestCase
 {
     public function testAddingConditionToEmptyClause(): void
     {

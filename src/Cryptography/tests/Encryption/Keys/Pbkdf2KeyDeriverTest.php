@@ -15,11 +15,12 @@ namespace Opulence\Cryptography\Tests\Encryption\Keys;
 use InvalidArgumentException;
 use Opulence\Cryptography\Encryption\Keys\IKeyDeriver;
 use Opulence\Cryptography\Encryption\Keys\Pbkdf2KeyDeriver;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the PBKDF2 key deriver
  */
-class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
+class Pbkdf2KeyDeriverTest extends TestCase
 {
     private Pbkdf2KeyDeriver $keyDeriver;
 

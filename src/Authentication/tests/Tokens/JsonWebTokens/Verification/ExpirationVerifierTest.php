@@ -18,11 +18,12 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\ExpirationVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtErrorTypes;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the expiration verifier
  */
-class ExpirationVerifierTest extends \PHPUnit\Framework\TestCase
+class ExpirationVerifierTest extends TestCase
 {
     private ExpirationVerifier $verifier;
     /** @var SignedJwt|MockObject The token to use in tests */

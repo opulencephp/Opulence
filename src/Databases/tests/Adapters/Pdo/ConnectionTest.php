@@ -15,11 +15,12 @@ namespace Opulence\Databases\Tests\Adapters\Pdo;
 use Opulence\Databases\Adapters\Pdo\Connection;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Tests\Mocks\Server;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Connection class
  */
-class ConnectionTest extends \PHPUnit\Framework\TestCase
+class ConnectionTest extends TestCase
 {
     private Provider $provider;
     private Server $server;

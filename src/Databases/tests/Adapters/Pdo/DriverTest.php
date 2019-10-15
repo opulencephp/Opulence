@@ -15,11 +15,12 @@ namespace Opulence\Databases\Tests\Adapters\Pdo;
 use Opulence\Databases\Tests\Mocks\Connection;
 use Opulence\Databases\Tests\Mocks\Driver;
 use Opulence\Databases\Tests\Mocks\Server;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the PDO driver
  */
-class DriverTest extends \PHPUnit\Framework\TestCase
+class DriverTest extends TestCase
 {
     public function testConnectingToServer(): void
     {

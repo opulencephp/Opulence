@@ -14,11 +14,12 @@ namespace Opulence\Views\Tests\Compilers\Fortune\Lexers\Tokens;
 
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\TokenTypes;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the view token
  */
-class TokenTest extends \PHPUnit\Framework\TestCase
+class TokenTest extends TestCase
 {
     private Token $token;
 

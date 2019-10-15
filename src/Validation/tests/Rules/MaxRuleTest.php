@@ -15,11 +15,12 @@ namespace Opulence\Validation\Tests\Rules;
 use InvalidArgumentException;
 use LogicException;
 use Opulence\Validation\Rules\MaxRule;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the max rule
  */
-class MaxRuleTest extends \PHPUnit\Framework\TestCase
+class MaxRuleTest extends TestCase
 {
     public function testFailingRule(): void
     {

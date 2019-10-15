@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Validation\Tests\Rules;
 
 use Opulence\Validation\Rules\EmailRule;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the email rule
  */
-class EmailRuleTest extends \PHPUnit\Framework\TestCase
+class EmailRuleTest extends TestCase
 {
     public function testGettingSlug(): void
     {

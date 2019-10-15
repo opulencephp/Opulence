@@ -15,11 +15,12 @@ namespace Opulence\Authentication\tests;
 use Opulence\Authentication\AuthenticationContext;
 use Opulence\Authentication\AuthenticationStatusTypes;
 use Opulence\Authentication\ISubject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the authentication context
  */
-class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
+class AuthenticationContextTest extends TestCase
 {
     private AuthenticationContext $context;
 

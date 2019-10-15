@@ -20,11 +20,12 @@ use Opulence\Authentication\ISubject;
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the refresh credential factory
  */
-class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
+class RefreshTokenCredentialFactoryTest extends TestCase
 {
     private RefreshTokenCredentialFactory $factory;
     /** @var ISigner|MockObject The signer to use in tests */

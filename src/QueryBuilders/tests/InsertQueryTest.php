@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\QueryBuilders\tests;
 
 use Opulence\QueryBuilders\InsertQuery;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the insert query
  */
-class InsertQueryTest extends \PHPUnit\Framework\TestCase
+class InsertQueryTest extends TestCase
 {
     public function testAddingMoreColumns(): void
     {

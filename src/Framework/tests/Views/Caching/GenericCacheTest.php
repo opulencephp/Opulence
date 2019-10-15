@@ -16,11 +16,12 @@ use Opulence\Cache\ICacheBridge;
 use Opulence\Framework\Views\Caching\GenericCache;
 use Opulence\Views\IView;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the generic view cache
  */
-class GenericCacheTest extends \PHPUnit\Framework\TestCase
+class GenericCacheTest extends TestCase
 {
     /** @var ICacheBridge|MockObject The caching bridge to use in tests */
     private ICacheBridge $bridge;

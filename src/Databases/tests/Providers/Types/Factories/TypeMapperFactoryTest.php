@@ -15,15 +15,16 @@ namespace Opulence\Databases\Tests\Providers\Types\Factories;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Providers\Types\Factories\TypeMapperFactory;
 use Opulence\Databases\Providers\Types\TypeMapper;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the type mapper factory
  */
-class TypeMapperFactoryTest extends \PHPUnit\Framework\TestCase
+class TypeMapperFactoryTest extends TestCase
 {
     public function testTypeMapperIsCreated(): void
     {
-        /** @var Provider|\PHPUnit\Framework\TestCase $provider */
+        /** @var Provider|TestCase $provider */
         $provider = $this->getMockForAbstractClass(Provider::class);
         $this->assertInstanceOf(TypeMapper::class, (new TypeMapperFactory)->createTypeMapper($provider));
     }

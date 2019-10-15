@@ -17,11 +17,12 @@ use Opulence\Views\Compilers\Php\PhpCompiler;
 use Opulence\Views\Compilers\ViewCompilerException;
 use Opulence\Views\IView;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the PHP compiler
  */
-class PhpCompilerTest extends \PHPUnit\Framework\TestCase
+class PhpCompilerTest extends TestCase
 {
     private PhpCompiler $compiler;
 

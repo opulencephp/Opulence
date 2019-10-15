@@ -14,11 +14,12 @@ namespace Opulence\Databases\Tests\Adapters\Pdo\PostgreSql;
 
 use Opulence\Databases\Adapters\Pdo\PostgreSql\Driver;
 use Opulence\Databases\Tests\Mocks\Server;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the pgsql PDO driver
  */
-class DriverTest extends \PHPUnit\Framework\TestCase
+class DriverTest extends TestCase
 {
     public function testCreatingDSNWithSSLMode(): void
     {

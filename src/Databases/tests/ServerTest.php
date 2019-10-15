@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Databases\tests;
 
 use Opulence\Databases\Tests\Mocks\Server;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the relational database server
  */
-class ServerTest extends \PHPUnit\Framework\TestCase
+class ServerTest extends TestCase
 {
     public function testSettingCharset(): void
     {

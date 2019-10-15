@@ -16,11 +16,12 @@ use Aphiria\Console\Output\StreamOutput;
 use Aphiria\Console\StatusCodes;
 use Opulence\Framework\Console\Testing\PhpUnit\Assertions\OutputAssertions;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the output assertions
  */
-class OutputAssertionsTest extends \PHPUnit\Framework\TestCase
+class OutputAssertionsTest extends TestCase
 {
     private OutputAssertions $assertions;
     /** @var StreamOutput|MockObject The output to use in tests */

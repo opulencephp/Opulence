@@ -15,11 +15,12 @@ namespace Opulence\Validation\Tests\Rules;
 use InvalidArgumentException;
 use LogicException;
 use Opulence\Validation\Rules\EqualsFieldRule;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the equals field rule
  */
-class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
+class EqualsFieldRuleTest extends TestCase
 {
     public function testEqualValuesPass(): void
     {

@@ -14,11 +14,12 @@ namespace Opulence\QueryBuilders\Tests\PostgreSql;
 
 use Opulence\QueryBuilders\PostgreSql\UpdateQuery;
 use PDO;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the update query
  */
-class UpdateQueryTest extends \PHPUnit\Framework\TestCase
+class UpdateQueryTest extends TestCase
 {
     /**
      * Tests adding to a "RETURNING" clause

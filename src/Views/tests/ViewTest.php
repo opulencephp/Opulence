@@ -15,11 +15,12 @@ namespace Opulence\Views\tests;
 use Aphiria\IO\FileSystem;
 use Opulence\Views\View;
 use RuntimeException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the view
  */
-class ViewTest extends \PHPUnit\Framework\TestCase
+class ViewTest extends TestCase
 {
     /** The path to the test view with PHP code */
     private const VIEW_PATH_WITH_INVALID_PHP_CODE = '/files/TestWithInvalidPhp.html';

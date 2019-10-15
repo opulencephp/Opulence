@@ -15,11 +15,12 @@ namespace Opulence\Cache\tests;
 use Opulence\Cache\RedisBridge;
 use PHPUnit\Framework\MockObject\MockObject;
 use Redis;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Redis bridge
  */
-class RedisBridgeTest extends \PHPUnit\Framework\TestCase
+class RedisBridgeTest extends TestCase
 {
     private RedisBridge $bridge;
     /** @var Redis|MockObject The Redis driver */

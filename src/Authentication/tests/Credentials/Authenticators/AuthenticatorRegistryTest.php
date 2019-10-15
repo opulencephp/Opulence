@@ -15,11 +15,12 @@ namespace Opulence\Authentication\Tests\Credentials\Authenticators;
 use InvalidArgumentException;
 use Opulence\Authentication\Credentials\Authenticators\AuthenticatorRegistry;
 use Opulence\Authentication\Credentials\Authenticators\IAuthenticator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the authenticator registry
  */
-class AuthenticatorRegistryTest extends \PHPUnit\Framework\TestCase
+class AuthenticatorRegistryTest extends TestCase
 {
     private AuthenticatorRegistry $registry;
 

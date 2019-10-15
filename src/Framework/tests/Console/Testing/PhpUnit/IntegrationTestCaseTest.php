@@ -22,11 +22,12 @@ use Aphiria\Console\Output\IOutput;
 use Aphiria\Console\Output\Prompts\Prompt;
 use Aphiria\Console\Output\Prompts\Question;
 use Opulence\Framework\Tests\Console\Testing\PhpUnit\Mocks\IntegrationTestCase as MockIntegrationTestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the console integration test
  */
-class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
+class IntegrationTestCaseTest extends TestCase
 {
     private MockIntegrationTestCase $testCase;
 

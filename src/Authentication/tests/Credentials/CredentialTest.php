@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Authentication\Tests\Credentials;
 
 use Opulence\Authentication\Credentials\Credential;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the credentials
  */
-class CredentialTest extends \PHPUnit\Framework\TestCase
+class CredentialTest extends TestCase
 {
     /** @var Credential The credential to use in tests */
     private Credential $credential;

@@ -16,11 +16,12 @@ use InvalidArgumentException;
 use Opulence\Databases\ConnectionPools\Strategies\ServerSelection\RandomServerSelectionStrategy;
 use Opulence\Databases\Server;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the random server selection strategy
  */
-class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
+class RandomServerSelectionStrategyTest extends TestCase
 {
     private RandomServerSelectionStrategy $strategy;
 

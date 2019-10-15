@@ -30,11 +30,12 @@ use Opulence\Views\IView;
 use Opulence\Views\View;
 use PHPUnit\Framework\MockObject\MockObject;
 use RuntimeException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Fortune transpiler
  */
-class TranspilerTest extends \PHPUnit\Framework\TestCase
+class TranspilerTest extends TestCase
 {
     private Transpiler $transpiler;
     /** @var ILexer|MockObject The lexer to use in tests */

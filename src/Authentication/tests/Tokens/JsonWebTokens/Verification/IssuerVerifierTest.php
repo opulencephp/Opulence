@@ -17,11 +17,12 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\IssuerVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtErrorTypes;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the issuer verifier
  */
-class IssuerVerifierTest extends \PHPUnit\Framework\TestCase
+class IssuerVerifierTest extends TestCase
 {
     private IssuerVerifier $verifier;
     /** @var SignedJwt|MockObject The token to use in tests */

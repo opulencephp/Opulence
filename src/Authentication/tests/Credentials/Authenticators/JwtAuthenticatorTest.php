@@ -26,11 +26,12 @@ use Opulence\Authentication\Tokens\Signatures\Algorithms;
 use Opulence\Authentication\Tokens\Signatures\HmacSigner;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the JWT authenticator
  */
-class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
+class JwtAuthenticatorTest extends TestCase
 {
     private JwtAuthenticator $authenticator;
     /** @var IContextVerifier|MockObject The JWT verifier to use in tests */

@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Authentication\tests;
 
 use Opulence\Authentication\Principal;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the principal
  */
-class PrincipalTest extends \PHPUnit\Framework\TestCase
+class PrincipalTest extends TestCase
 {
     private Principal $principal;
 

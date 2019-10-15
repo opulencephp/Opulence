@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Cryptography\Tests\Hashing;
 
 use Opulence\Cryptography\Hashing\BcryptHasher;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Bcrypt hasher
  */
-class BcryptHasherTest extends \PHPUnit\Framework\TestCase
+class BcryptHasherTest extends TestCase
 {
     public function testHashThatDoesNotNeedToBeRehashed(): void
     {

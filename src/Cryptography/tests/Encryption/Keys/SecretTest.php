@@ -14,11 +14,12 @@ namespace Opulence\Cryptography\Tests\Encryption\Keys;
 
 use Opulence\Cryptography\Encryption\Keys\Secret;
 use Opulence\Cryptography\Encryption\Keys\SecretTypes;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the secret
  */
-class SecretTest extends \PHPUnit\Framework\TestCase
+class SecretTest extends TestCase
 {
     private Secret $secret;
 

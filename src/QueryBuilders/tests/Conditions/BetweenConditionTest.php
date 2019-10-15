@@ -14,11 +14,12 @@ namespace Opulence\QueryBuilders\Tests\Conditions;
 
 use Opulence\QueryBuilders\Conditions\BetweenCondition;
 use PDO;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the BETWEEN condition
  */
-class BetweenConditionTest extends \PHPUnit\Framework\TestCase
+class BetweenConditionTest extends TestCase
 {
     public function testGettingParametersWithDataType(): void
     {

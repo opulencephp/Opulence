@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Validation\Tests\Rules;
 
 use Opulence\Validation\Rules\IntegerRule;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the integer rule
  */
-class IntegerRuleTest extends \PHPUnit\Framework\TestCase
+class IntegerRuleTest extends TestCase
 {
     public function testFailingValue(): void
     {

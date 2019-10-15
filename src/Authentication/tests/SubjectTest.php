@@ -17,11 +17,12 @@ use Opulence\Authentication\IPrincipal;
 use Opulence\Authentication\PrincipalTypes;
 use Opulence\Authentication\Subject;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests a subject
  */
-class SubjectTest extends \PHPUnit\Framework\TestCase
+class SubjectTest extends TestCase
 {
     private Subject $subject;
 

@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Authorization\Tests\Roles;
 
 use Opulence\Authorization\Roles\Role;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the role
  */
-class RoleTest extends \PHPUnit\Framework\TestCase
+class RoleTest extends TestCase
 {
     /** @var Role The role to use in tests */
     private Role $role;

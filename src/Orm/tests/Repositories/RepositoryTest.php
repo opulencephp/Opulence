@@ -25,11 +25,12 @@ use Opulence\Orm\Tests\DataMappers\Mocks\SqlDataMapper;
 use Opulence\Orm\Tests\Repositories\Mocks\User;
 use Opulence\Orm\UnitOfWork;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the repository class
  */
-class RepositoryTest extends \PHPUnit\Framework\TestCase
+class RepositoryTest extends TestCase
 {
     private User $entity1;
     private User $entity2;

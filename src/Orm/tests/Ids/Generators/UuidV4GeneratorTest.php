@@ -14,11 +14,12 @@ namespace Opulence\Orm\Tests\Ids\Generators;
 
 use Opulence\Orm\Ids\Generators\UuidV4Generator;
 use stdClass;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the UUID V4 generator
  */
-class UuidV4GeneratorTest extends \PHPUnit\Framework\TestCase
+class UuidV4GeneratorTest extends TestCase
 {
     /**
      * Test checking if this generator is post-insert

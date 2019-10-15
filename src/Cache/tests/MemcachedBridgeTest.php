@@ -15,11 +15,12 @@ namespace Opulence\Cache\tests;
 use Memcached;
 use Opulence\Cache\MemcachedBridge;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Memcached bridge
  */
-class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
+class MemcachedBridgeTest extends TestCase
 {
     private MemcachedBridge $bridge;
     /** @var Memcached|MockObject The Memcached driver */

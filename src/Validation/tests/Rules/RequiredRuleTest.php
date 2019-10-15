@@ -14,11 +14,12 @@ namespace Opulence\Validation\Tests\Rules;
 
 use Countable;
 use Opulence\Validation\Rules\RequiredRule;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the required rule
  */
-class RequiredRuleTest extends \PHPUnit\Framework\TestCase
+class RequiredRuleTest extends TestCase
 {
     public function testEmptyArrayFails(): void
     {

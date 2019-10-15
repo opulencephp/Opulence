@@ -16,12 +16,13 @@ use Opulence\Databases\Tests\Mocks\Connection;
 use Opulence\Databases\Tests\Mocks\Server;
 use Opulence\Orm\Ids\Generators\BigIntSequenceIdGenerator;
 use Opulence\Orm\OrmException;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 
 /**
  * Tests the big integer sequence Id generator
  */
-class BigIntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
+class BigIntSequenceIdGeneratorTest extends TestCase
 {
     /**
      * Test checking if this generator is post-insert

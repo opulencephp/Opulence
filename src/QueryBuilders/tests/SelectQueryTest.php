@@ -15,14 +15,16 @@ namespace Opulence\QueryBuilders\tests;
 use Opulence\QueryBuilders\Conditions\ICondition;
 use Opulence\QueryBuilders\SelectQuery;
 use PDO;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the select query
  */
-class SelectQueryTest extends \PHPUnit\Framework\TestCase
+class SelectQueryTest extends TestCase
 {
-    /** @var ICondition The condition to use in tests */
-    private $condition;
+    /** @var ICondition|MockObject The condition to use in tests */
+    private ICondition $condition;
 
     protected function setUp(): void
     {

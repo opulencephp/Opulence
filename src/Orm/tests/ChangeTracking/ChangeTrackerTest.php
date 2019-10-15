@@ -15,11 +15,12 @@ namespace Opulence\Orm\Tests\ChangeTracking;
 use Opulence\Orm\ChangeTracking\ChangeTracker;
 use Opulence\Orm\OrmException;
 use Opulence\Orm\Tests\ChangeTracking\Mocks\User;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the change tracker
  */
-class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
+class ChangeTrackerTest extends TestCase
 {
     private ChangeTracker $changeTracker;
     private User $entity1;

@@ -20,11 +20,12 @@ use Opulence\Views\IView;
 use Opulence\Views\Tests\Factories\Mocks\BarBuilder;
 use Opulence\Views\Tests\Factories\Mocks\FooBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the view factory
  */
-class ViewFactoryTest extends \PHPUnit\Framework\TestCase
+class ViewFactoryTest extends TestCase
 {
     /** @var IViewNameResolver|MockObject The view name resolver to use in tests */
     private IViewNameResolver $viewNameResolver;

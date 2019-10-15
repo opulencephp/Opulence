@@ -18,11 +18,12 @@ use Opulence\Databases\Migrations\IMigration;
 use Opulence\Databases\Migrations\MigrationResolutionException;
 use Opulence\Framework\Databases\Migrations\ContainerMigrationResolver;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the container migration resolver
  */
-class ContainerMigrationResolverTest extends \PHPUnit\Framework\TestCase
+class ContainerMigrationResolverTest extends TestCase
 {
     private ContainerMigrationResolver $migrationResolver;
     /** @var IContainer|MockObject The IoC container to use in tests */

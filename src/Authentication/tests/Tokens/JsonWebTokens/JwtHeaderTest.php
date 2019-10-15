@@ -15,11 +15,12 @@ namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens;
 use InvalidArgumentException;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtHeader;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the JWT header
  */
-class JwtHeaderTest extends \PHPUnit\Framework\TestCase
+class JwtHeaderTest extends TestCase
 {
     private JwtHeader $header;
 

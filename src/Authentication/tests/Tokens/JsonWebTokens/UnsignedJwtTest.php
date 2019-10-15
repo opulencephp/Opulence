@@ -15,11 +15,12 @@ namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtHeader;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
 use Opulence\Authentication\Tokens\JsonWebTokens\UnsignedJwt;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the unsigned JWT
  */
-class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
+class UnsignedJwtTest extends TestCase
 {
     private UnsignedJwt $jwt;
     private JwtHeader $header;

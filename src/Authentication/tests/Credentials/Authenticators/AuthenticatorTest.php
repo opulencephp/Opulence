@@ -18,11 +18,12 @@ use Opulence\Authentication\Credentials\Authenticators\IAuthenticator;
 use Opulence\Authentication\Credentials\Authenticators\IAuthenticatorRegistry;
 use Opulence\Authentication\Credentials\ICredential;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the authenticator
  */
-class AuthenticatorTest extends \PHPUnit\Framework\TestCase
+class AuthenticatorTest extends TestCase
 {
     private Authenticator $authenticator;
     /** @var IAuthenticatorRegistry|MockObject The authenticator registry to use in tests */

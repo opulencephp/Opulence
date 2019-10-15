@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Databases\Tests\Providers;
 
 use Opulence\Databases\Providers\PostgreSqlProvider;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the PostgreSQL provider class
  */
-class PostgreSqlProviderTest extends \PHPUnit\Framework\TestCase
+class PostgreSqlProviderTest extends TestCase
 {
     private PostgreSqlProvider $provider;
 

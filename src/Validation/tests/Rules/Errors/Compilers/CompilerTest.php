@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Validation\Tests\Rules\Errors\Compilers;
 
 use Opulence\Validation\Rules\Errors\Compilers\Compiler;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the error template compiler
  */
-class CompilerTest extends \PHPUnit\Framework\TestCase
+class CompilerTest extends TestCase
 {
     private Compiler $compiler;
 

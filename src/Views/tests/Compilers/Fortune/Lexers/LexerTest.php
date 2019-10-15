@@ -18,11 +18,12 @@ use Opulence\Views\Compilers\Fortune\Lexers\Tokens\TokenTypes;
 use Opulence\Views\View;
 use PHPUnit\Framework\MockObject\MockObject;
 use RuntimeException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the view lexer
  */
-class LexerTest extends \PHPUnit\Framework\TestCase
+class LexerTest extends TestCase
 {
     private Lexer $lexer;
     /** @var View|MockObject The view to use in tests */

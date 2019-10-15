@@ -14,11 +14,12 @@ namespace Opulence\QueryBuilders\Tests\PostgreSql;
 
 use Opulence\QueryBuilders\PostgreSql\InsertQuery;
 use PDO;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the insert query
  */
-class InsertQueryTest extends \PHPUnit\Framework\TestCase
+class InsertQueryTest extends TestCase
 {
     public function testAddReturning(): void
     {

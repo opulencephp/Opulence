@@ -17,11 +17,12 @@ use Opulence\Databases\ConnectionPools\Strategies\ServerSelection\IServerSelecti
 use Opulence\Databases\Tests\Mocks\Connection;
 use Opulence\Databases\Tests\Mocks\Driver;
 use Opulence\Databases\Tests\Mocks\Server;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the master/slave connection pool
  */
-class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
+class MasterSlaveConnectionPoolTest extends TestCase
 {
     public function testAddingSlave(): void
     {

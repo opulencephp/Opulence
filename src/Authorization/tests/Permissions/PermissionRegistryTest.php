@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Authorization\Tests\Permissions;
 
 use Opulence\Authorization\Permissions\PermissionRegistry;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the permission registry
  */
-class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
+class PermissionRegistryTest extends TestCase
 {
     private PermissionRegistry $registry;
 

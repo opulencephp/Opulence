@@ -17,11 +17,12 @@ use Opulence\Databases\Tests\Mocks\Server;
 use Opulence\Orm\Ids\Generators\IntSequenceIdGenerator;
 use Opulence\Orm\OrmException;
 use stdClass;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the integer sequence Id generator
  */
-class IntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
+class IntSequenceIdGeneratorTest extends TestCase
 {
     /**
      * Test checking if this generator is post-insert

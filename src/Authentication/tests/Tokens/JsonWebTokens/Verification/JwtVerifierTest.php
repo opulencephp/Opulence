@@ -19,11 +19,12 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContext;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the JWT verifier
  */
-class JwtVerifierTest extends \PHPUnit\Framework\TestCase
+class JwtVerifierTest extends TestCase
 {
     private JwtVerifier $verifier;
     /** @var ISigner The signer to use in tests */

@@ -23,11 +23,12 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 use Opulence\Authentication\Users\IUser;
 use Opulence\Authentication\Users\Orm\IUserRepository;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the access credential factory
  */
-class AccessTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
+class AccessTokenCredentialFactoryTest extends TestCase
 {
     private AccessTokenCredentialFactory $factory;
     /** @var IUserRepository|MockObject The user repository to use in tests */

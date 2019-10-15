@@ -18,11 +18,12 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtErrorTypes;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\NotBeforeVerifier;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the not-before verifier
  */
-class NotBeforeVerifierTest extends \PHPUnit\Framework\TestCase
+class NotBeforeVerifierTest extends TestCase
 {
     private NotBeforeVerifier $verifier;
     /** @var SignedJwt|MockObject The token to use in tests */

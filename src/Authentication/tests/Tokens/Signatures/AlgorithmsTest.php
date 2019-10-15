@@ -14,11 +14,12 @@ namespace Opulence\Authentication\Tests\Tokens\Signatures;
 
 use InvalidArgumentException;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the algorithms
  */
-class AlgorithmsTest extends \PHPUnit\Framework\TestCase
+class AlgorithmsTest extends TestCase
 {
     public function testCheckingForSupportedAlgorithm(): void
     {

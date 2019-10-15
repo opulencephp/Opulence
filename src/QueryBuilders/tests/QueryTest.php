@@ -15,11 +15,12 @@ namespace Opulence\QueryBuilders\tests;
 use Opulence\QueryBuilders\InvalidQueryException;
 use Opulence\QueryBuilders\Query;
 use PDO;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the query class
  */
-class QueryTest extends \PHPUnit\Framework\TestCase
+class QueryTest extends TestCase
 {
     /** @var Query The query object stub */
     private $query;

@@ -18,11 +18,12 @@ use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\Compilers\Fortune\Transpiler;
 use Opulence\Views\Filters\XssFilter;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Fortune view function registrant
  */
-class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
+class ViewFunctionRegistrantTest extends TestCase
 {
     /** @var Transpiler The transpiler to use in tests */
     private Transpiler $transpiler;

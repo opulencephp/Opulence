@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Views\Tests\Compilers\Fortune\Parsers\Nodes;
 
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\ExpressionNode;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the expression node
  */
-class ExpressionNodeTest extends \PHPUnit\Framework\TestCase
+class ExpressionNodeTest extends TestCase
 {
     /**
      * Tests the "is a" methods

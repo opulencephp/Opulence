@@ -16,11 +16,12 @@ use Opulence\Views\Compilers\Fortune\Parsers\AbstractSyntaxTree;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\Node;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\RootNode;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the view abstract syntax tree
  */
-class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
+class AbstractSyntaxTreeTest extends TestCase
 {
     private AbstractSyntaxTree $tree;
 

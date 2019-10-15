@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Databases\Tests\Providers;
 
 use Opulence\Databases\Providers\Provider;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the provider class
  */
-class ProviderTest extends \PHPUnit\Framework\TestCase
+class ProviderTest extends TestCase
 {
     private Provider $provider;
 

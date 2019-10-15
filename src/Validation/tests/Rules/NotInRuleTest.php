@@ -15,11 +15,12 @@ namespace Opulence\Validation\Tests\Rules;
 use InvalidArgumentException;
 use LogicException;
 use Opulence\Validation\Rules\NotInRule;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the not-in-array rule
  */
-class NotInRuleTest extends \PHPUnit\Framework\TestCase
+class NotInRuleTest extends TestCase
 {
     public function testGettingSlug(): void
     {

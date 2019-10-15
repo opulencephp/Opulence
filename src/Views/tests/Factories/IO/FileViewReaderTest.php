@@ -14,11 +14,12 @@ namespace Opulence\Views\Tests\Factories\IO;
 
 use InvalidArgumentException;
 use Opulence\Views\Factories\IO\FileViewReader;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the file view reader
  */
-class FileViewReaderTest extends \PHPUnit\Framework\TestCase
+class FileViewReaderTest extends TestCase
 {
     private FileViewReader $reader;
 

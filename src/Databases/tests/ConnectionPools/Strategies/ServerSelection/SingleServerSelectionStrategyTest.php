@@ -16,11 +16,12 @@ use InvalidArgumentException;
 use Opulence\Databases\ConnectionPools\Strategies\ServerSelection\SingleServerSelectionStrategy;
 use Opulence\Databases\Server;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the single server selection strategy
  */
-class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
+class SingleServerSelectionStrategyTest extends TestCase
 {
     private SingleServerSelectionStrategy $strategy;
 

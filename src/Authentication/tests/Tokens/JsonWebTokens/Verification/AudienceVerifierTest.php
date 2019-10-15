@@ -17,11 +17,12 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\AudienceVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtErrorTypes;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the audience verifier
  */
-class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
+class AudienceVerifierTest extends TestCase
 {
     /** @var SignedJwt|MockObject The token to use in tests */
     private SignedJwt $jwt;

@@ -15,11 +15,12 @@ namespace Opulence\Authentication\Tests\Tokens\JsonWebTokens\Verification;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContext;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the verification context
  */
-class VerificationContextTest extends \PHPUnit\Framework\TestCase
+class VerificationContextTest extends TestCase
 {
     private VerificationContext $context;
     /** @var ISigner|MockObject The signer to use in tests */

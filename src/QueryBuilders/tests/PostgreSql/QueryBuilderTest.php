@@ -17,11 +17,12 @@ use Opulence\QueryBuilders\PostgreSql\InsertQuery;
 use Opulence\QueryBuilders\PostgreSql\QueryBuilder;
 use Opulence\QueryBuilders\PostgreSql\SelectQuery;
 use Opulence\QueryBuilders\PostgreSql\UpdateQuery;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the query builder
  */
-class QueryBuilderTest extends \PHPUnit\Framework\TestCase
+class QueryBuilderTest extends TestCase
 {
     public function testThatDeleteReturnsDeleteQueryBuilder(): void
     {

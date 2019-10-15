@@ -16,11 +16,12 @@ use Opulence\Validation\Factories\ValidatorFactory;
 use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Validator;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the validator factory
  */
-class ValidatorFactoryTest extends \PHPUnit\Framework\TestCase
+class ValidatorFactoryTest extends TestCase
 {
     private ValidatorFactory $validatorFactory;
     /** @var RulesFactory|MockObject The rules factory */

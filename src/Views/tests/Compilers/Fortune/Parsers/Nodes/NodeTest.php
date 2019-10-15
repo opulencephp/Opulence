@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Views\Tests\Compilers\Fortune\Parsers\Nodes;
 
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\Node;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the view node
  */
-class NodeTest extends \PHPUnit\Framework\TestCase
+class NodeTest extends TestCase
 {
     public function testAddingChild(): void
     {

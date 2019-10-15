@@ -19,11 +19,12 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\SignatureVerifier;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the signature verifier
  */
-class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
+class SignatureVerifierTest extends TestCase
 {
     private SignatureVerifier $verifier;
     /** @var ISigner|MockObject The signer to use in tests */

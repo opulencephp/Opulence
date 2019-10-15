@@ -14,11 +14,12 @@ namespace Opulence\Validation\Tests\Rules\Errors;
 
 use InvalidArgumentException;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the error template registry
  */
-class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
+class ErrorTemplateRegistryTest extends TestCase
 {
     private ErrorTemplateRegistry $registry;
 

@@ -17,11 +17,12 @@ use Opulence\Databases\Migrations\FileMigrationFinder;
 use Opulence\Databases\Tests\Migrations\Mocks\MigrationA;
 use Opulence\Databases\Tests\Migrations\Mocks\MigrationB;
 use Opulence\Databases\Tests\Migrations\Mocks\Subdirectory\MigrationC;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the migration finder
  */
-class FileMigrationFinderTest extends \PHPUnit\Framework\TestCase
+class FileMigrationFinderTest extends TestCase
 {
     /** @var string The directory that holds our migrations */
     private const MIGRATION_DIRECTORY = __DIR__ . '/Mocks';

@@ -20,11 +20,12 @@ use Opulence\Views\Compilers\Fortune\Transpiler;
 use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\View;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test the Fortune directive transpiler registrant
  */
-class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
+class DirectiveTranspilerRegistrantTest extends TestCase
 {
     private DirectiveTranspilerRegistrant $registrant;
     private Transpiler $transpiler;

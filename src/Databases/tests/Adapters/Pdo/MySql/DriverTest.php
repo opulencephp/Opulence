@@ -14,11 +14,12 @@ namespace Opulence\Databases\Tests\Adapters\Pdo\MySql;
 
 use Opulence\Databases\Adapters\Pdo\MySql\Driver;
 use Opulence\Databases\Tests\Mocks\Server;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the MySQL PDO driver
  */
-class DriverTest extends \PHPUnit\Framework\TestCase
+class DriverTest extends TestCase
 {
     public function testCreatingDSNWithUnixSocket(): void
     {

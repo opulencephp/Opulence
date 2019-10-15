@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Cryptography\Tests\Encryption\Keys;
 
 use Opulence\Cryptography\Encryption\Keys\DerivedKeys;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the derived keys
  */
-class DerivedKeysTest extends \PHPUnit\Framework\TestCase
+class DerivedKeysTest extends TestCase
 {
     private DerivedKeys $derivedKeys;
 

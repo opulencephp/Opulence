@@ -14,11 +14,12 @@ namespace Opulence\Authorization\Tests\Roles;
 
 use Opulence\Authorization\Roles\Role;
 use Opulence\Authorization\Roles\RoleMembership;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the role membership
  */
-class RoleMembershipTest extends \PHPUnit\Framework\TestCase
+class RoleMembershipTest extends TestCase
 {
     private RoleMembership $membership;
     private Role $role;

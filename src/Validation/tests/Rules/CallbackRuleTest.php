@@ -15,11 +15,12 @@ namespace Opulence\Validation\Tests\Rules;
 use InvalidArgumentException;
 use LogicException;
 use Opulence\Validation\Rules\CallbackRule;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the callback rule
  */
-class CallbackRuleTest extends \PHPUnit\Framework\TestCase
+class CallbackRuleTest extends TestCase
 {
     public function testCallbackIsExecuted(): void
     {

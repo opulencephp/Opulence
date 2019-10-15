@@ -14,11 +14,12 @@ namespace Opulence\Cryptography\Tests\Encryption\Keys;
 
 use Opulence\Cryptography\Encryption\Keys\Key;
 use Opulence\Cryptography\Encryption\Keys\SecretTypes;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the key
  */
-class KeyTest extends \PHPUnit\Framework\TestCase
+class KeyTest extends TestCase
 {
     public function testValidKey(): void
     {

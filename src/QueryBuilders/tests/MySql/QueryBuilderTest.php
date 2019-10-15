@@ -17,11 +17,12 @@ use Opulence\QueryBuilders\MySql\InsertQuery;
 use Opulence\QueryBuilders\MySql\QueryBuilder;
 use Opulence\QueryBuilders\MySql\SelectQuery;
 use Opulence\QueryBuilders\MySql\UpdateQuery;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the query builder
  */
-class QueryBuilderTest extends \PHPUnit\Framework\TestCase
+class QueryBuilderTest extends TestCase
 {
     public function testThatDeleteReturnsDeleteQueryBuilder(): void
     {

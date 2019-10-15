@@ -13,11 +13,12 @@ declare(strict_types=1);
 namespace Opulence\Validation\Tests\Rules;
 
 use Opulence\Validation\Rules\IPAddressRule;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the IP address rule
  */
-class IPAddressRuleTest extends \PHPUnit\Framework\TestCase
+class IPAddressRuleTest extends TestCase
 {
     public function testFailingValue(): void
     {

@@ -19,11 +19,12 @@ use Opulence\Databases\Migrations\IMigration;
 use Opulence\Databases\Migrations\IMigrationResolver;
 use Opulence\Databases\Migrations\Migrator;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the database migrator
  */
-class MigratorTest extends \PHPUnit\Framework\TestCase
+class MigratorTest extends TestCase
 {
     /** @var IConnection|MockObject The database connection the migrator uses */
     private IConnection $connection;
