@@ -27,8 +27,8 @@
         }
     },
     "require": {
-        "php": "^7.4",
-        "ext-openssl": "*"
+        "ext-openssl": "*",
+        "php": "^7.4"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2.14",

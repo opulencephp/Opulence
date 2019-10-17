@@ -9,7 +9,6 @@
         "database",
         "orm",
         "console",
-        "apex",
         "framework"
     ],
     "authors": [
@@ -62,7 +61,6 @@
         "ext-openssl": "*",
         "ext-pdo": "*",
         "ext-redis": "*",
-        "jeremeamia/superclosure": "~2.2",
         "php": "^7.4",
         "psr/log": "~1.0"
     },
@@ -75,6 +73,7 @@
         "opulence/authorization": "self.version",
         "opulence/cache": "self.version",
         "opulence/cryptography": "self.version",
+        "opulence/databases": "self.version",
         "opulence/framework": "self.version",
         "opulence/orm": "self.version",
         "opulence/querybuilders": "self.version",
