@@ -18,8 +18,8 @@ use Opulence\Orm\EntityStates;
 use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 use Opulence\Orm\OrmException;
 use Opulence\Orm\Tests\Mocks\User;
-use RuntimeException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * Tests the entity registry

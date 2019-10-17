@@ -22,8 +22,8 @@ use Opulence\Views\Compilers\Fortune\Parsers\Nodes\ExpressionNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\SanitizedTagNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\UnsanitizedTagNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;
-use RuntimeException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * Tests the view parser

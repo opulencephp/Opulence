@@ -15,8 +15,8 @@ namespace Opulence\Databases\Tests\Providers\Types;
 use DateTime;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Providers\Types\TypeMapper;
-use RuntimeException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * Tests the type mapper class

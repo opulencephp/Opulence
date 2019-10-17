@@ -16,8 +16,8 @@ use Opulence\Databases\Tests\Mocks\Connection;
 use Opulence\Databases\Tests\Mocks\Server;
 use Opulence\Orm\Ids\Generators\IntSequenceIdGenerator;
 use Opulence\Orm\OrmException;
-use stdClass;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 /**
  * Tests the integer sequence Id generator

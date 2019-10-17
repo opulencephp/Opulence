@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Opulence\Orm\Tests\Ids\Generators;
 
 use Opulence\Orm\Ids\Generators\UuidV4Generator;
-use stdClass;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 /**
  * Tests the UUID V4 generator

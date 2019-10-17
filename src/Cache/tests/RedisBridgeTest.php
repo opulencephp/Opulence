@@ -14,8 +14,8 @@ namespace Opulence\Cache\tests;
 
 use Opulence\Cache\RedisBridge;
 use PHPUnit\Framework\MockObject\MockObject;
-use Redis;
 use PHPUnit\Framework\TestCase;
+use Redis;
 
 /**
  * Tests the Redis bridge

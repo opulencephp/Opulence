@@ -17,8 +17,8 @@ use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\TokenTypes;
 use Opulence\Views\View;
 use PHPUnit\Framework\MockObject\MockObject;
-use RuntimeException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * Tests the view lexer

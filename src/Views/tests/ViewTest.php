@@ -14,8 +14,8 @@ namespace Opulence\Views\tests;
 
 use Aphiria\IO\FileSystem;
 use Opulence\Views\View;
-use RuntimeException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * Tests the view

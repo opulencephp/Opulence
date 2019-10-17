@@ -29,8 +29,8 @@ use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\IView;
 use Opulence\Views\View;
 use PHPUnit\Framework\MockObject\MockObject;
-use RuntimeException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * Tests the Fortune transpiler
