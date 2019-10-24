@@ -1,3 +1,9 @@
+<h2>v1.1.8 (2019-10-24)</h2>
+
+<h3>Databases</h3>
+
+* Updated migrations to roll back transactions on failure
+
 <h2>v1.1.7 (2019-03-03)</h2>
 
 <h3>IOC</h3>
@@ -327,7 +333,7 @@ If Opulence ever moves to a standard HTTP request/response implementation, the `
   * Now, a key derivation function is run on it to generate encryption and authentication keys from the secret
 * Increased encryption key length stored in `ENCRYPTION_KEY` environment variable from 16 bytes to 32 bytes
   * To fix this, rerun `php apex encryption:generatekey` to create a new, suitably-long encryption key
-  
+
 <h3>Deprecated</h3>
 Deprecated names of various dispatcher classes in favor of more descriptive `{Model}Dispatcher` class names:
 
