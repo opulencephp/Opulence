@@ -31,7 +31,7 @@ class Application
 
     /**
      * @param ITaskDispatcher $taskDispatcher The task dispatcher
-     * @param string $version The version of the application
+     * @param ?string $version The version of the application
      * @deprecated 1.1.0 The $version parameter will soon not be accepted
      */
     public function __construct(ITaskDispatcher $taskDispatcher, string $version = null)
@@ -61,7 +61,7 @@ class Application
     /**
      * Shuts down this application
      *
-     * @param callable $shutdownTask The task to perform on shutdown
+     * @param ?callable $shutdownTask The task to perform on shutdown
      * @return mixed|null The return value of the task if there was one, otherwise null
      * @throws Exception Thrown if there was an error shutting down the application
      * @deprecated 1.1.0 This method will be removed
@@ -94,7 +94,7 @@ class Application
     /**
      * Starts this application
      *
-     * @param callable $startTask The task to perform on startup
+     * @param ?callable $startTask The task to perform on startup
      * @return mixed|null The return value of the task if there was one, otherwise null
      * @throws Exception Thrown if there was a problem starting the application
      * @deprecated 1.1.0 This method will be removed

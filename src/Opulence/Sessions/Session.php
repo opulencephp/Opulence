@@ -37,7 +37,7 @@ class Session implements ISession
 
     /**
      * @param int|string|null $id The Id of the session
-     * @param IIdGenerator $idGenerator The Id generator to use
+     * @param ?IIdGenerator $idGenerator The Id generator to use
      */
     public function __construct($id = null, IIdGenerator $idGenerator = null)
     {

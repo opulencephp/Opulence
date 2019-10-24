@@ -47,7 +47,7 @@ class Encrypter implements IEncrypter
     /**
      * @param Secret $secret The encryption secret that will be used to derive keys
      * @param string $cipher The encryption cipher
-     * @param IKeyDeriver $keyDeriver The key deriver
+     * @param ?IKeyDeriver $keyDeriver The key deriver
      */
     public function __construct(Secret $secret, string $cipher = Ciphers::AES_256_CTR, IKeyDeriver $keyDeriver = null)
     {
