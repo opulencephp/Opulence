@@ -21,9 +21,9 @@ use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
 class CachedSqlDataMapper extends BaseCachedSqlDataMapper
 {
     /**
-     * @param SqlDataMapper $sqlDataMapper The SQL data mapper to use
-     * @param ICacheDataMapper $cacheDataMapper The cache data mapper to use
-     * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry to use
+     * @param ?SqlDataMapper $sqlDataMapper The SQL data mapper to use
+     * @param ?ICacheDataMapper $cacheDataMapper The cache data mapper to use
+     * @param ?IIdAccessorRegistry $idAccessorRegistry The Id accessor registry to use
      */
     public function __construct(
         SqlDataMapper $sqlDataMapper = null,

@@ -75,7 +75,7 @@ class UnitOfWork implements IUnitOfWork
      * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry to use
      * @param IIdGeneratorRegistry $idGeneratorRegistry The Id generator registry to use
      * @param IChangeTracker $changeTracker The change tracker to use
-     * @param IConnection $connection The connection to use in our unit of work
+     * @param ?IConnection $connection The connection to use in our unit of work
      */
     public function __construct(
         IEntityRegistry $entityRegistry,

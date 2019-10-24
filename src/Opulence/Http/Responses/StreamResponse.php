@@ -23,8 +23,11 @@ class StreamResponse extends Response
     protected $hasSentStream = false;
 
     /**
-     * @inheritdoc
-     * @param callable $streamCallback The callback that streams/outputs the content
+     * StreamResponse constructor.
+     *
+     * @param ?callable $streamCallback The callback that streams/outputs the content
+     * @param int $status CodeThe HTTP status code
+     * @param array $headers The headers to set
      */
     public function __construct(
         callable $streamCallback = null,

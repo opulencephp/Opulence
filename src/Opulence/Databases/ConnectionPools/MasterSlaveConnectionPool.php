@@ -32,7 +32,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     /**
      * @inheritdoc
      * @param Server[] $slaves The list of slave servers to use
-     * @param IServerSelectionStrategy $slaveSelectionStrategy The selection strategy to use to select slave servers
+     * @param ?IServerSelectionStrategy $slaveSelectionStrategy The selection strategy to use to select slave servers
      */
     public function __construct(
         IDriver $driver,

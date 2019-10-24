@@ -66,7 +66,7 @@ class Kernel
      * Handles a console command
      *
      * @param mixed $input The raw input to parse
-     * @param IResponse $response The response to write to
+     * @param ?IResponse $response The response to write to
      * @return int The status code
      */
     public function handle($input, IResponse $response = null) : int
