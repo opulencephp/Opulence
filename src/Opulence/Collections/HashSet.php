@@ -11,6 +11,7 @@
 namespace Opulence\Collections;
 
 use ArrayIterator;
+use RuntimeException;
 use Traversable;
 
 /**

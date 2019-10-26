@@ -12,6 +12,7 @@ namespace Opulence\Collections;
 
 use Countable;
 use IteratorAggregate;
+use RuntimeException;
 
 /**
  * Defines the interface for sets to implement
