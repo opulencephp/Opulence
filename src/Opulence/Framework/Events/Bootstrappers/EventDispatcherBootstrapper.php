@@ -31,7 +31,7 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
     }
 
     /**
-     * Gets the list of event names to the list of listeners, which can be callables or "className@method" strings
+     * Gets the list of event names to the list of listeners, which can be callables or "className@methodName" strings
      *
      * @return array The event listener config
      */
