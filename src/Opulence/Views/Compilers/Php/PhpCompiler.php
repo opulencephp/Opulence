@@ -49,7 +49,7 @@ class PhpCompiler implements ICompiler
      *
      * @param Exception|Throwable $ex The exception to handle
      * @param int $obStartLevel The starting output buffer level
-     * @throws $ex Always rethrown
+     * @throws Exception|Throwable Always rethrown
      */
     protected function handleException($ex, int $obStartLevel)
     {
