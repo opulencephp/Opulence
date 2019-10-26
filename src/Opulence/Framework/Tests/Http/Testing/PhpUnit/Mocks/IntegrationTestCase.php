@@ -79,7 +79,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
         ]);
         // Create and bind all of the components of our application
         // Purposely set this to a weird value so we can test that it gets overwritten with the "test" environment
-        $this->environment = new Environment('foo');
+        $this->environment = new Environment();
         $this->container = new Container();
         $this->container->bindInstance(Environment::class, $this->environment);
         $this->container->bindInstance(IContainer::class, $this->container);

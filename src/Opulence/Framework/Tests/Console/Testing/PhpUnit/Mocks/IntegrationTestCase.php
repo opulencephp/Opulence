@@ -67,7 +67,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
             'src' => realpath(__DIR__ . '/../../../../../../src')
         ]);
         // Purposely set this to a weird value so we can test that it gets overwritten with the "test" environment
-        $this->environment = new Environment('foo');
+        $this->environment = new Environment();
         $this->container = new Container();
         $this->container->bindInstance(Environment::class, $this->environment);
         $this->container->bindInstance(BootstrapperCache::class, $this->createMock(BootstrapperCache::class));
