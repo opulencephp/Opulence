@@ -38,7 +38,7 @@ interface ITranspiler
      * Pass in any arguments as the 2nd, 3rd, 4th, etc parameters
      *
      * @param string $functionName The name of the function to call
-     * @param array $args,... The list of args
+     * @param mixed ...$args The list of args
      * @return mixed The output of the view function
      * @throws InvalidArgumentException Thrown if the function name is invalid
      */

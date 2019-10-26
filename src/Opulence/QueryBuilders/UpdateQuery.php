@@ -71,7 +71,7 @@ class UpdateQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "AND"ed with other conditions
      *
-     * @param array $conditions,... A variable list of conditions to be met
+     * @param mixed ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
     public function andWhere(...$conditions) : self
@@ -105,7 +105,7 @@ class UpdateQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "OR"ed with other conditions
      *
-     * @param array $conditions,... A variable list of conditions to be met
+     * @param mixed ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
     public function orWhere(...$conditions) : self
@@ -121,7 +121,7 @@ class UpdateQuery extends Query
      * Starts a "WHERE" condition
      * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions
      *
-     * @param array $conditions,... A variable list of conditions to be met
+     * @param mixed ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
     public function where(...$conditions) : self
