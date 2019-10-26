@@ -37,7 +37,7 @@ class DeleteQuery extends Query
     /**
      * Adds to a "USING" expression
      *
-     * @param string[] $expression,... A variable list of other tables' names to use in the WHERE condition
+     * @param string ...$expression A variable list of other tables' names to use in the WHERE condition
      * @return self For method chaining
      */
     public function addUsing(string ...$expression) : self
@@ -50,7 +50,7 @@ class DeleteQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "AND"ed with other conditions
      *
-     * @param array $conditions,... A variable list of conditions to be met
+     * @param string ...$expression A variable list of conditions to be met
      * @return self For method chaining
      */
     public function andWhere(...$conditions) : self
@@ -83,7 +83,7 @@ class DeleteQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "OR"ed with other conditions
      *
-     * @param array $conditions,... A variable list of conditions to be met
+     * @param string ...$expression A variable list of conditions to be met
      * @return self For method chaining
      */
     public function orWhere(...$conditions) : self
@@ -99,7 +99,7 @@ class DeleteQuery extends Query
      * Starts a "USING" expression
      * Only call this method once per query because it will overwrite any previously-set "USING" expressions
      *
-     * @param string[] $expression,... A variable list of other tables' names to use in the WHERE condition
+     * @param string ...$expression A variable list of other tables' names to use in the WHERE condition
      * @return self For method chaining
      */
     public function using(string ...$expression) : self
@@ -113,7 +113,7 @@ class DeleteQuery extends Query
      * Starts a "WHERE" condition
      * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions
      *
-     * @param array $conditions,... A variable list of conditions to be met
+     * @param string ...$expression A variable list of conditions to be met
      * @return self For method chaining
      */
     public function where(...$conditions) : self
