@@ -11,6 +11,7 @@
 namespace Opulence\Databases\Adapters\Pdo;
 
 use Opulence\Databases\IConnection;
+use Opulence\Databases\IStatement;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Server;
 use PDO;
@@ -182,6 +183,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
+     * @suppress PhanParamSignatureMismatchInternal,PhanParamSignatureRealMismatchTooManyRequiredParametersInternal
      * @inheritdoc
      * @throws PDOException Thrown if there was an error connecting to the database
      */
