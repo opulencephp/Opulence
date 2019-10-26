@@ -1,14 +1,19 @@
 language: php
 
 php:
-  - 7.1
+  - "7.1"
+  - "7.2"
+  - "7.3"
 
 before_script:
   - composer self-update
   - composer install
   - composer dump-autoload -o
 
-script: vendor/bin/phpunit --verbose
+script:
+  - pecl install ast
+  - vendor/bin/phpunit --verbose
+  - vendor/bin/phan
 
 notifications:
   email:
