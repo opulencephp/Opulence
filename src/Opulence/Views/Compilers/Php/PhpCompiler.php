@@ -28,7 +28,8 @@ class PhpCompiler implements ICompiler
     {
         $obStartLevel = ob_get_level();
         ob_start();
-        extract($view->getVars());
+        $vars = $view->getVars();
+        extract($vars);
 
         try {
             if (eval('?>' . $view->getContents()) === false) {
