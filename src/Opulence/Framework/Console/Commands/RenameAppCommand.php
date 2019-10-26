@@ -57,8 +57,11 @@ class RenameAppCommand extends Command
                 'newName',
                 ArgumentTypes::REQUIRED,
                 'The new application name'
-            ))
-            ->setHelpText('Be sure to use the correct capitalization for your app names.');
+            ));
+
+        if ($this instanceof Command) {
+            $this->setHelpText('Be sure to use the correct capitalization for your app names.');
+        }
     }
 
     /**
