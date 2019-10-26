@@ -81,6 +81,7 @@ class Statement extends PDOStatement implements IStatement
     }
 
     /**
+     * @suppress PhanTypeMismatchArgumentNullableInternal
      * @inheritdoc
      */
     public function fetch($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE, $cursorOrientation = null, $cursorOffset = null)
@@ -101,6 +102,7 @@ class Statement extends PDOStatement implements IStatement
     }
 
     /**
+     * @suppress PhanTypeMismatchArgumentNullableInternal
      * @inheritdoc
      */
     public function fetchAll($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE, $fetchArgument = null, $ctorArgs = null)

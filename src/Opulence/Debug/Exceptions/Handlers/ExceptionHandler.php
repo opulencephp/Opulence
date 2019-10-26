@@ -43,6 +43,7 @@ class ExceptionHandler implements IExceptionHandler
     }
 
     /**
+     * @suppress PhanTypeMismatchArgument \Psr\Log\LoggerInterface::error suggests it only handles strings...
      * @inheritdoc
      */
     public function handle($ex)

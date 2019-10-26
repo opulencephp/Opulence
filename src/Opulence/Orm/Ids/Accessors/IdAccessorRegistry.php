@@ -65,6 +65,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     }
 
     /**
+     * @suppress PhanTypeMismatchProperty
      * @inheritdoc
      */
     public function registerIdAccessors($classNames, callable $getter, callable $setter = null)

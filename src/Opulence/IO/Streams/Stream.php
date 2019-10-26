@@ -57,7 +57,7 @@ class Stream implements IStream
         'x+b',
         'x+t'
     ];
-    /** @var resource The underlying stream handle */
+    /** @var resource|null The underlying stream handle */
     private $handle = null;
     /** @var int|null The length of the stream, if known */
     private $length = null;

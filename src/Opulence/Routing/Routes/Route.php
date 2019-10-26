@@ -18,7 +18,7 @@ use RuntimeException;
  */
 class Route
 {
-    /** @var string The HTTP method for this route */
+    /** @var string[] The HTTP method for this route */
     protected $methods = [];
     /** @var string The raw path passed into the route */
     protected $rawPath = '';
