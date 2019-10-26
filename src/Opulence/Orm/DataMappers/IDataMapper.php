@@ -44,7 +44,7 @@ interface IDataMapper
      * Gets the entity with the input Id
      *
      * @param int|string $id The Id of the entity we're searching for
-     * @return object The entity with the input Id
+     * @return object|null The entity with the input Id
      * @throws OrmException Thrown if there was no entity with the input Id
      */
     public function getById($id);
