@@ -20,6 +20,9 @@ use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
  */
 class CachedSqlDataMapper extends BaseCachedSqlDataMapper
 {
+    /** @var IIdAccessorRegistry|null The Id accessor registry */
+    protected $idAccessorRegistry = null;
+
     /**
      * @param ?SqlDataMapper $sqlDataMapper The SQL data mapper to use
      * @param ?ICacheDataMapper $cacheDataMapper The cache data mapper to use

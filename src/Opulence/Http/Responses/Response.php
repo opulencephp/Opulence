@@ -186,7 +186,7 @@ class Response
         if ($statusText === null && isset(ResponseHeaders::$statusTexts[$statusCode])) {
             $this->statusText = ResponseHeaders::$statusTexts[$statusCode];
         } else {
-            $this->statusText = $statusText;
+            $this->statusText = (string)$statusText;
         }
     }
 }
