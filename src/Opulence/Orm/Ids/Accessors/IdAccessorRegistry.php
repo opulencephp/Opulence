@@ -43,6 +43,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     }
 
     /**
+     * @suppress PhanTypeArraySuspicious
      * @inheritdoc
      */
     public function getEntityId($entity)
@@ -102,6 +103,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     }
 
     /**
+     * @suppress PhanTypeArraySuspicious
      * @inheritdoc
      */
     public function setEntityId($entity, $id)

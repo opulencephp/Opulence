@@ -166,6 +166,13 @@ class Composer
             return null;
         }
 
-        return (array)$this->get('autoload.psr-4')[$rootNamespace . '\\'];
+        $rn = $rootNamespace . '\\';
+        $ns = $this->get('autoload.psr-4');
+
+        if (empty($ns[$rn])) {
+            return [];
+        }
+
+        return (array)$ns[$rn];
     }
 }
