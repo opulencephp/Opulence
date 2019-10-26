@@ -67,6 +67,7 @@ class RouteDispatcher implements IRouteDispatcher
     /**
      * Calls the method on the input controller
      *
+     * @suppress PhanTypeSuspiciousStringExpression
      * @param Controller|Closure|mixed $controller The instance of the controller to call
      * @param CompiledRoute $route The route being dispatched
      * @return Response Returns the value from the controller method

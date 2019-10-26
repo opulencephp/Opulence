@@ -42,7 +42,7 @@ class KeyHasher
 
         if (is_object($value)) {
             if (method_exists($value, '__toString')) {
-                return "__opulence:so:$value";
+                return '__opulence:so:' . (string)$value;
             }
 
             return '__opulence:o:' . spl_object_hash($value);
@@ -53,7 +53,7 @@ class KeyHasher
         }
 
         if (is_resource($value)) {
-            return '__opulence:r:' . "$value";
+            return '__opulence:r:' . (string)$value;
         }
 
         // As a last-ditch effort, try to convert the value to a string
