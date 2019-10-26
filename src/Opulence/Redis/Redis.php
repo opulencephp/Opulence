@@ -53,7 +53,7 @@ class Redis
      * Deletes all the keys that match the input patterns
      * If you know the specific key(s) to delete, call Redis' delete command instead because this is relatively slow
      *
-     * @param array|string The key pattern or list of key patterns to delete
+     * @param array|string $keyPatterns The key pattern or list of key patterns to delete
      * @return bool True if successful, otherwise false
      */
     public function deleteKeyPatterns($keyPatterns) : bool

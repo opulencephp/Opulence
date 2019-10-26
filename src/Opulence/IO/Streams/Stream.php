@@ -70,7 +70,7 @@ class Stream implements IStream
 
     /**
      * @param resource $handle The underlying stream handle
-     * @param int|null The length of the stream, if known
+     * @param int|null $length The length of the stream, if known
      */
     public function __construct($handle, ?int $length = null)
     {

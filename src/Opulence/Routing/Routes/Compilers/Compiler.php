@@ -26,7 +26,7 @@ class Compiler implements ICompiler
     private $routeMatchers = [];
 
     /**
-     * @param IRouteMatcher[] The list of route matchers to use
+     * @param IRouteMatcher[] $routeMatchers The list of route matchers to use
      */
     public function __construct(array $routeMatchers)
     {
