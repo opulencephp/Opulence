@@ -1,3 +1,9 @@
+<h2>v1.1.9 (?)</h2>
+
+<h3>Authorization</h3>
+
+* Fixed bug that caused `Roles::getRolesForSubject()` to return `RoleMembership`s instead of `Role`s.
+
 <h2>v1.1.8 (2019-10-24)</h2>
 
 <h3>Databases</h3>

@@ -265,6 +265,6 @@ class RolesTest extends \PHPUnit\Framework\TestCase
             ->method('getBySubjectId')
             ->with(2)
             ->willReturn([$membership]);
-        $this->assertEquals([$membership], $this->roles->getRolesForSubject(2));
+        $this->assertEquals([$membership->getRole()], $this->roles->getRolesForSubject(2));
     }
 }

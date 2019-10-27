@@ -75,7 +75,13 @@ class Roles implements IRoles
      */
     public function getRolesForSubject($subjectId) : array
     {
-        return $this->roleMembershipRepository->getBySubjectId($subjectId);
+        $roles = [];
+
+        foreach ($this->roleMembershipRepository->getBySubjectId($subjectId) as $roleMembership) {
+            $roles[] = $roleMembership->getRole();
+        }
+
+        return $roles;
     }
 
     /**
