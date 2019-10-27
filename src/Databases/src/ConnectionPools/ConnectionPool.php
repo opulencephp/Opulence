@@ -32,7 +32,10 @@ abstract class ConnectionPool
     ];
     /** @var array The servers in this pool */
     protected array $servers = [
-        'master' => null,
+        'master' => [
+            'server' => null,
+            'connection' => null,
+        ],
         'custom' => []
     ];
     /** @var IDriver The driver to use for connections made by this pool */
@@ -203,16 +206,18 @@ abstract class ConnectionPool
                     throw new RuntimeException('No master specified');
                 }
 
-                if ($this->servers['master']['connection'] === null) {
-                    $this->servers['master']['connection'] = $this->connectToServer($server);
+                if ($this->servers['master']['connection'] instanceof IConnection) {
+                    return $this->servers['master']['connection'];
                 }
+
+                $this->servers['master']['connection'] = $this->connectToServer($server);
 
                 return $this->servers['master']['connection'];
             default:
                 $serverHashId = spl_object_hash($server);
 
                 if (!isset($this->servers[$type][$serverHashId])
-                    || $this->servers[$type][$serverHashId]['server'] === null
+                    || empty($this->servers[$type][$serverHashId]['server'])
                 ) {
                     throw new RuntimeException("Server of type '" . $type . "' not added to connection pool");
                 }

@@ -24,7 +24,10 @@ class MasterSlaveConnectionPool extends ConnectionPool
 {
     /** @inheritdoc */
     protected array $servers = [
-        'master' => null,
+        'master' => [
+            'server' => null,
+            'connection' => null,
+        ],
         'slaves' => [],
         'custom' => []
     ];

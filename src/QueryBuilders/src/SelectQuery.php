@@ -38,7 +38,7 @@ class SelectQuery extends Query
     protected array $orderBy = [];
 
     /**
-     * @param string[] $expression,... A variable list of select expressions
+     * @param string ...$expression A variable list of select expressions
      */
     public function __construct(string ...$expression)
     {
@@ -49,7 +49,7 @@ class SelectQuery extends Query
     /**
      * Adds to a "GROUP BY" clause
      *
-     * @param string[] $expression,... A variable list of expressions of what to group by
+     * @param string ...$expression A variable list of expressions of what to group by
      * @return self For method chaining
      */
     public function addGroupBy(string ...$expression): self
@@ -62,7 +62,7 @@ class SelectQuery extends Query
     /**
      * Adds to a "ORDER BY" clause
      *
-     * @param string[] $expression,... A variable list of expressions to order by
+     * @param string ...$expression A variable list of expressions to order by
      * @return self For method chaining
      */
     public function addOrderBy(string ...$expression): self
@@ -75,7 +75,7 @@ class SelectQuery extends Query
     /**
      * Adds more select expressions
      *
-     * @param string[] $expression,... A variable list of select expressions
+     * @param string ...$expression A variable list of select expressions
      * @return self For method chaining
      */
     public function addSelectExpression(string ...$expression): self
@@ -185,7 +185,7 @@ class SelectQuery extends Query
      * Starts a "GROUP BY" clause
      * Only call this method once per query because it will overwrite any previously-set "GROUP BY" expressions
      *
-     * @param string[] $expression,... A variable list of expressions of what to group by
+     * @param string ...$expression A variable list of expressions of what to group by
      * @return self For method chaining
      */
     public function groupBy(string ...$expression): self
@@ -323,7 +323,7 @@ class SelectQuery extends Query
      * Starts an "ORDER BY" clause
      * Only call this method once per query because it will overwrite any previously-set "ORDER BY" expressions
      *
-     * @param string[] $expression,... A variable list of expressions to order by
+     * @param string ...$expression A variable list of expressions to order by
      * @return self For method chaining
      */
     public function orderBy(string ...$expression): self

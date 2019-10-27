@@ -47,7 +47,7 @@ class Provider
      * Converts a PHP boolean to an SQL boolean
      *
      * @param bool $value The boolean value to convert
-     * @return int The boolean in an SQL boolean format
+     * @return int|string The boolean in an SQL boolean format
      */
     public function convertToSqlBoolean(bool $value)
     {

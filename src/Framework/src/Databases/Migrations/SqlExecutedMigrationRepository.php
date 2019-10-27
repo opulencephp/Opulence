@@ -101,7 +101,7 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
         $statement = $this->connection->prepare($query->getSql());
         $statement->execute();
 
-        return $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+        return $statement->fetchAll(PDO::FETCH_COLUMN);
     }
 
     /**
@@ -119,7 +119,7 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
         $statement->bindValues($query->getParameters());
         $statement->execute();
 
-        return $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+        return $statement->fetchAll(PDO::FETCH_COLUMN);
     }
 
     /**
