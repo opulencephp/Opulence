@@ -34,13 +34,13 @@ class Authenticator implements IAuthenticator
     /**
      * @inheritdoc
      */
-    public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null): bool
+    public function tryAuthenticate(ICredential $credential, ISubject &$subject = null, string &$error = null): bool
     {
         $authenticators = $this->authenticators->getAuthenticators($credential->getType());
         $allAuthenticated = true;
 
         foreach ($authenticators as $authenticator) {
-            if (!$authenticator->authenticate($credential, $subject, $error)) {
+            if (!$authenticator->tryAuthenticate($credential, $subject, $error)) {
                 $allAuthenticated = false;
                 break;
             }

@@ -48,7 +48,7 @@ class JwtAuthenticator implements IAuthenticator
     /**
      * @inheritdoc
      */
-    public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null): bool
+    public function tryAuthenticate(ICredential $credential, ISubject &$subject = null, string &$error = null): bool
     {
         // Reset the JWT
         $this->signedJwt = null;

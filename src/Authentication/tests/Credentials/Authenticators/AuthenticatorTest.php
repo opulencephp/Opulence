@@ -52,7 +52,7 @@ class AuthenticatorTest extends TestCase
             ->method('getAuthenticators')
             ->with('foo')
             ->willReturn([$actualAuthenticator]);
-        $this->assertTrue($this->authenticator->authenticate($credential, $subject));
+        $this->assertTrue($this->authenticator->tryAuthenticate($credential, $subject));
     }
 
     public function testAuthenticatorThatUnsuccessfullyAuthenticatesCredential(): void
@@ -72,7 +72,7 @@ class AuthenticatorTest extends TestCase
             ->method('getAuthenticators')
             ->with('foo')
             ->willReturn([$actualAuthenticator]);
-        $this->assertFalse($this->authenticator->authenticate($credential, $subject));
+        $this->assertFalse($this->authenticator->tryAuthenticate($credential, $subject));
     }
 
     public function testExceptionThrownWithNoAuthenticatorForCredential(): void
@@ -88,6 +88,6 @@ class AuthenticatorTest extends TestCase
             ->method('getAuthenticators')
             ->with('foo')
             ->willThrowException(new InvalidArgumentException);
-        $this->authenticator->authenticate($credential, $subject);
+        $this->authenticator->tryAuthenticate($credential, $subject);
     }
 }

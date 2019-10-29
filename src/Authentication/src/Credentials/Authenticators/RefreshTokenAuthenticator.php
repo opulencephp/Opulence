@@ -44,9 +44,9 @@ class RefreshTokenAuthenticator extends JwtAuthenticator
     /**
      * @inheritdoc
      */
-    public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null): bool
+    public function tryAuthenticate(ICredential $credential, ISubject &$subject = null, string &$error = null): bool
     {
-        if (!parent::authenticate($credential, $subject, $error)) {
+        if (!parent::tryAuthenticate($credential, $subject, $error)) {
             return false;
         }
 

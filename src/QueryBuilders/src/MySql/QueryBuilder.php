@@ -40,7 +40,7 @@ class QueryBuilder extends BaseQueryBuilder
      * @inheritdoc
      * @return SelectQuery
      */
-    public function select(...$expression): SelectQuery
+    public function select(string ...$expression): SelectQuery
     {
         // This code allows us to pass a variable list of parameters to a class constructor
         $queryClass = new ReflectionClass(SelectQuery::class);

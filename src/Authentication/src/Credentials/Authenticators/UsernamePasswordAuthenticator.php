@@ -48,7 +48,7 @@ class UsernamePasswordAuthenticator implements IAuthenticator
     /**
      * @inheritdoc
      */
-    public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null): bool
+    public function tryAuthenticate(ICredential $credential, ISubject &$subject = null, string &$error = null): bool
     {
         $username = $credential->getValue('username');
         $password = $credential->getValue('password');

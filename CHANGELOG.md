@@ -14,6 +14,7 @@
 <h3>Authentication</h3>
 
 * Refactored `JwtVerifier` to implement `IContextVerifier`, and updated `JwtAuthenticator` and `RefreshTokenAuthenticator` to use the interface
+* Renamed `IAuthenticator::authenticate()` to `tryAuthenticate()`
 
 <h3>Cache</h3>
 

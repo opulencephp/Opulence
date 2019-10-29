@@ -73,10 +73,10 @@ class UpdateQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "AND"ed with other conditions
      *
-     * @param array $conditions,... A variable list of conditions to be met
+     * @param string ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function andWhere(...$conditions): self
+    public function andWhere(string ...$conditions): self
     {
         $this->conditionalQueryBuilder->andWhere(
             ...$this->createConditionExpressions($conditions)
@@ -107,10 +107,10 @@ class UpdateQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "OR"ed with other conditions
      *
-     * @param array $conditions,... A variable list of conditions to be met
+     * @param string ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function orWhere(...$conditions): self
+    public function orWhere(string ...$conditions): self
     {
         $this->conditionalQueryBuilder->orWhere(
             ...$this->createConditionExpressions($conditions)
@@ -123,10 +123,10 @@ class UpdateQuery extends Query
      * Starts a "WHERE" condition
      * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions
      *
-     * @param array $conditions,... A variable list of conditions to be met
+     * @param string ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function where(...$conditions): self
+    public function where(string ...$conditions): self
     {
         $this->conditionalQueryBuilder->where(
             ...$this->createConditionExpressions($conditions)

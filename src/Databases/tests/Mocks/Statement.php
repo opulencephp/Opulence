@@ -49,7 +49,7 @@ class Statement implements IStatement
      */
     public function closeCursor()
     {
-        // Do nothing
+        return true;
     }
 
     /**

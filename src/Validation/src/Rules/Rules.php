@@ -409,13 +409,18 @@ class Rules
      * Adds a rule to the list
      *
      * @param IRule $rule The rule to add
+     * @throws LogicException Thrown if the last rule is not a conditional rule
      */
     protected function addRule(IRule $rule): void
     {
         if ($this->inCondition) {
-            /** @var ConditionalRule $lastRule */
             $lastRule = $this->rules[count($this->rules) - 1];
-            $lastRule->addRule($rule);
+
+            if ($lastRule instanceof ConditionalRule) {
+                $lastRule->addRule($rule);
+            } else {
+                throw new \LogicException('Last rule can not be used in condition.');
+            }
         } else {
             $this->rules[] = $rule;
         }

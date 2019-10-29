@@ -70,8 +70,10 @@ final class Connection extends PDO implements IConnection
         $this->connect();
 
         if (!$this->transactionCounter++) {
-            parent::beginTransaction();
+            return parent::beginTransaction();
         }
+
+        return true;
     }
 
     /**
@@ -83,8 +85,10 @@ final class Connection extends PDO implements IConnection
     public function commit()
     {
         if (!--$this->transactionCounter) {
-            parent::commit();
+            return parent::commit();
         }
+
+        return true;
     }
 
     /**
@@ -210,10 +214,12 @@ final class Connection extends PDO implements IConnection
     public function rollBack()
     {
         if ($this->transactionCounter >= 0) {
-            parent::rollBack();
+            return parent::rollBack();
         }
 
         $this->transactionCounter = 0;
+
+        return true;
     }
 
     /**

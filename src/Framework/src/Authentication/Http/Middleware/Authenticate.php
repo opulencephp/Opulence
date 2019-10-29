@@ -63,7 +63,7 @@ class Authenticate implements IMiddleware
     {
         $credential = $this->credentialIO->read($request);
 
-        if (!$this->authenticator->authenticate($credential, $subject)) {
+        if (!$this->authenticator->tryAuthenticate($credential, $subject) || $subject === null) {
             throw new HttpException(HttpStatusCodes::HTTP_FORBIDDEN);
         }
 
