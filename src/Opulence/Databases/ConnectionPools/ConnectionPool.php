@@ -204,11 +204,9 @@ abstract class ConnectionPool
                     throw new RuntimeException('No master specified');
                 }
 
-                if ($this->servers['master']['connection'] instanceof  IConnection) {
-                    return $this->servers['master']['connection'];
+                if ($this->servers['master']['connection'] == null) {
+                    $this->servers['master']['connection'] = $this->connectToServer($server);
                 }
-
-                $this->servers['master']['connection'] = $this->connectToServer($server);
 
                 return $this->servers['master']['connection'];
             default:
