@@ -20,7 +20,7 @@ use Traversable;
  */
 class Stack implements Countable, IteratorAggregate
 {
-    /** @var The values of the stack */
+    /** @var array The values of the stack */
     protected $values = [];
 
     /**
