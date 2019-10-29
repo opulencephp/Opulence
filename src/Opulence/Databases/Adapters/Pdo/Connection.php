@@ -183,9 +183,6 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * @suppress PhanParamSignatureMismatchInternal
-     * @suppress PhanParamSignatureRealMismatchTooManyRequiredParametersInternal
-     * @suppress PhanTypeMismatchReturn
      * @inheritdoc
      * @throws PDOException Thrown if there was an error connecting to the database
      */

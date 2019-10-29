@@ -263,7 +263,6 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      * Does the comparison of entities in cache to entities in the SQL database
      * Also performs refresh if the user chooses to do so
      *
-     * @suppress PhanTypeMismatchReturn
      * @param bool $doRefresh Whether or not to refresh any unsynced entities
      * @return object[] The list of entities that were not already synced
      *      The "missing" list contains the entities that were not in cache

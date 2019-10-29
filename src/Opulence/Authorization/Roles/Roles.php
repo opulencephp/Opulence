@@ -71,7 +71,6 @@ class Roles implements IRoles
     }
 
     /**
-     * @suppress PhanTypeMismatchReturn
      * @inheritdoc
      */
     public function getRolesForSubject($subjectId) : array

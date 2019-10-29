@@ -98,7 +98,6 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     }
 
     /**
-     * @suppress PhanTypeMismatchReturn
      * @inheritdoc
      */
     protected function getExceptionHandler() : IExceptionHandler
@@ -109,7 +108,6 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     }
 
     /**
-     * @suppress PhanTypeMismatchReturn
      * @inheritdoc
      */
     protected function getExceptionRenderer() : IExceptionRenderer

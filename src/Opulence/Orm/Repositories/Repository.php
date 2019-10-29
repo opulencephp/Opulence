@@ -80,7 +80,6 @@ class Repository implements IRepository
     /**
      * Performs a get query on the data mapper and adds any results as managed entities to the unit of work
      *
-     * @suppress PhanTypeMismatchReturn
      * @param string $functionName The name of the function to call in the data mapper
      * @param array $args The list of arguments to pass into the data mapper
      * @return object|object[] The entity or list of entities
