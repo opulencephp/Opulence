@@ -82,7 +82,11 @@ final class FileMigrationFinder
      */
     private function getClassNamesFromTokens(array $tokens): array
     {
-        for ($i = 0;$i < count($tokens);$i++) {
+        $classNames = [];
+        $numTokens = count($tokens);
+        $namespace = '';
+
+        for ($i = 0;$i < $numTokens;$i++) {
             // Skip literals
             if (is_string($tokens[$i])) {
                 continue;
@@ -103,8 +107,6 @@ final class FileMigrationFinder
 
                     break;
                 case T_CLASS:
-                    $isClassConstant = false;
-
                     // Scan previous tokens to see if they're double colons, which would mean this is a class constant
                     for ($j = $i - 1;$j >= 0;$j--) {
                         if (!isset($tokens[$j][1])) {
@@ -112,7 +114,6 @@ final class FileMigrationFinder
                         }
 
                         if ($tokens[$j][0] === T_DOUBLE_COLON) {
-                            $isClassConstant = true;
                             break 2;
                         }
 
