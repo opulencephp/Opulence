@@ -88,10 +88,10 @@ class SelectQuery extends Query
     /**
      * Adds to a "HAVING" condition that will be "AND"ed with other conditions
      *
-     * @param string ...$conditions A variable list of conditions to be met
+     * @param string|ICondition ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function andHaving(string ...$conditions): self
+    public function andHaving(...$conditions): self
     {
         $this->havingConditions = $this->conditionalQueryBuilder->addConditionToClause(
             $this->havingConditions,
@@ -105,10 +105,10 @@ class SelectQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "AND"ed with other conditions
      *
-     * @param string ...$conditions A variable list of conditions to be met
+     * @param string|ICondition ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function andWhere(string ...$conditions): self
+    public function andWhere(...$conditions): self
     {
         $this->conditionalQueryBuilder->andWhere(
             ...$this->createConditionExpressions($conditions)
@@ -199,10 +199,10 @@ class SelectQuery extends Query
      * Starts a "HAVING" condition
      * Only call this method once per query because it will overwrite any previously-set "HAVING" expressions
      *
-     * @param string ...$conditions A variable list of conditions to be met
+     * @param string|ICondition ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function having(string ...$conditions): self
+    public function having(...$conditions): self
     {
         // We want to wipe out anything already in the condition list
         $this->havingConditions = [];
@@ -290,10 +290,10 @@ class SelectQuery extends Query
     /**
      * Adds to a "HAVING" condition that will be "OR"ed with other conditions
      *
-     * @param string ...$conditions A variable list of conditions to be met
+     * @param string|ICondition ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function orHaving(string ...$conditions): self
+    public function orHaving(...$conditions): self
     {
         $this->havingConditions = $this->conditionalQueryBuilder->addConditionToClause(
             $this->havingConditions,
@@ -307,10 +307,10 @@ class SelectQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "OR"ed with other conditions
      *
-     * @param string ...$conditions A variable list of conditions to be met
+     * @param string|ICondition ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function orWhere(string ...$conditions): self
+    public function orWhere(...$conditions): self
     {
         $this->conditionalQueryBuilder->orWhere(
             ...$this->createConditionExpressions($conditions)
@@ -352,10 +352,10 @@ class SelectQuery extends Query
      * Starts a "WHERE" condition
      * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions
      *
-     * @param string ...$conditions A variable list of conditions to be met
+     * @param string|ICondition ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function where(string ...$conditions): self
+    public function where(...$conditions): self
     {
         $this->conditionalQueryBuilder->where(
             ...$this->createConditionExpressions($conditions)
@@ -367,7 +367,7 @@ class SelectQuery extends Query
     /**
      * Converts a list of condition strings or objects to their string representations
      *
-     * @param array $conditions The list of strings of condition objects to convert
+     * @param string[]|ICondition[] $conditions The list of strings of condition objects to convert
      * @return array The list of condition expressions
      */
     private function createConditionExpressions(array $conditions): array

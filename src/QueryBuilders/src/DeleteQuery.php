@@ -52,10 +52,10 @@ class DeleteQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "AND"ed with other conditions
      *
-     * @param string ...$conditions A variable list of conditions to be met
+     * @param string|ICondition ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function andWhere(string ...$conditions): self
+    public function andWhere(...$conditions): self
     {
         $this->conditionalQueryBuilder->andWhere(
             ...$this->createConditionExpressions($conditions)
@@ -87,10 +87,10 @@ class DeleteQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "OR"ed with other conditions
      *
-     * @param string ...$conditions A variable list of conditions to be met
+     * @param string|ICondition ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function orWhere(string ...$conditions): self
+    public function orWhere(...$conditions): self
     {
         $this->conditionalQueryBuilder->orWhere(
             ...$this->createConditionExpressions($conditions)
@@ -117,10 +117,10 @@ class DeleteQuery extends Query
      * Starts a "WHERE" condition
      * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions
      *
-     * @param string ...$conditions A variable list of conditions to be met
+     * @param string|ICondition ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function where(string ...$conditions): self
+    public function where(...$conditions): self
     {
         $this->conditionalQueryBuilder->where(
             ...$this->createConditionExpressions($conditions)
@@ -132,7 +132,7 @@ class DeleteQuery extends Query
     /**
      * Converts a list of condition strings or objects to their string representations
      *
-     * @param array $conditions The list of strings of condition objects to convert
+     * @param string[]|ICondition[] $conditions The list of strings of condition objects to convert
      * @return array The list of condition expressions
      */
     private function createConditionExpressions(array $conditions): array

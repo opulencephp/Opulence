@@ -45,7 +45,7 @@ class AuthenticatorTest extends TestCase
         $subject = null;
         $actualAuthenticator = $this->createMock(IAuthenticator::class);
         $actualAuthenticator->expects($this->once())
-            ->method('authenticate')
+            ->method('tryAuthenticate')
             ->with($credential, $subject)
             ->willReturn(true);
         $this->authenticatorRegistry->expects($this->once())
@@ -65,7 +65,7 @@ class AuthenticatorTest extends TestCase
         $subject = null;
         $actualAuthenticator = $this->createMock(IAuthenticator::class);
         $actualAuthenticator->expects($this->once())
-            ->method('authenticate')
+            ->method('tryAuthenticate')
             ->with($credential, $subject)
             ->willReturn(false);
         $this->authenticatorRegistry->expects($this->once())
