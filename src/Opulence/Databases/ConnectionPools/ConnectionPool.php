@@ -30,10 +30,7 @@ abstract class ConnectionPool
     ];
     /** @var array The servers in this pool */
     protected $servers = [
-        'master' => [
-            'server' => null,
-            'connection' => null,
-        ],
+        'master' => null,
         'custom' => []
     ];
     /** @var IDriver The driver to use for connections made by this pool */
@@ -215,12 +212,12 @@ abstract class ConnectionPool
                 $serverHashId = spl_object_hash($server);
 
                 if (!isset($this->servers[$type][$serverHashId])
-                    || empty($this->servers[$type][$serverHashId]['server'])
+                    || $this->servers[$type][$serverHashId]['server'] == null
                 ) {
                     throw new RuntimeException("Server of type '" . $type . "' not added to connection pool");
                 }
 
-                if (empty($this->servers[$type][$serverHashId]['connection'])) {
+                if ($this->servers[$type][$serverHashId]['connection'] == null) {
                     $this->servers[$type][$serverHashId]['connection'] = $this->connectToServer($server);
                 }
 

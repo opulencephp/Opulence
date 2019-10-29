@@ -123,9 +123,7 @@ class FileBridge implements ICacheBridge
     {
         if (file_exists($this->getPath($key))) {
             $rawData = json_decode(file_get_contents($this->getPath($key)), true);
-            $d = isset($rawData['d']) ? unserialize($rawData['d']) : null;
-            $t = isset($rawData['t']) ? $rawData['t'] : 0;
-            $parsedData = ['d' => $d, 't' => $t];
+            $parsedData = ['d' => unserialize($rawData['d']), 't' => $rawData['t']];
         } else {
             $parsedData = ['d' => null, 't' => 0];
         }
@@ -162,7 +160,7 @@ class FileBridge implements ICacheBridge
     protected function unserialize(string $data)
     {
         $unserializedData = json_decode($data, true);
-        $unserializedData['d'] = isset($unserializedData['d']) ? unserialize($unserializedData['d']) : null;
+        $unserializedData['d'] = unserialize($unserializedData['d']);
 
         return $unserializedData;
     }

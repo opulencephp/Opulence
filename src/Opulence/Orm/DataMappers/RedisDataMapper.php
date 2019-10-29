@@ -164,7 +164,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
 
         $entities = $this->loadEntities($entityIds);
 
-        if ($valueType === self::VALUE_TYPE_STRING && isset($entities[0])) {
+        if ($valueType === self::VALUE_TYPE_STRING) {
             return $entities[0];
         }
 
