@@ -49,7 +49,7 @@ interface ISubject
     /**
      * Gets the primary principal
      *
-     * @return IPrincipal The primary principal
+     * @return IPrincipal|null The primary principal
      */
     public function getPrimaryPrincipal();
 

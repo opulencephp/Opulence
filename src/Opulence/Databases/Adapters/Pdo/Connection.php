@@ -11,6 +11,7 @@
 namespace Opulence\Databases\Adapters\Pdo;
 
 use Opulence\Databases\IConnection;
+use Opulence\Databases\IStatement;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Server;
 use PDO;

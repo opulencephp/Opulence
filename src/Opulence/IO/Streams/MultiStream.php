@@ -28,7 +28,7 @@ class MultiStream implements IStream
     private $position = 0;
 
     /**
-     * @param IStream $streams The list of streams to add
+     * @param IStream[] $streams The list of streams to add
      */
     public function __construct(array $streams = [])
     {

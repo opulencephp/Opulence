@@ -31,7 +31,6 @@ interface IImmutableList extends ArrayAccess, Countable, IteratorAggregate
      * Gets the value at an index
      *
      * @param int $index The index to get
-     * @param mixed $default The default value
      * @return mixed The value if it was found, otherwise the default value
      * @throws OutOfRangeException Thrown if the index is < 0 or >= than the length of the list
      */

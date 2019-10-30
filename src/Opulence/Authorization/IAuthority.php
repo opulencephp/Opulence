@@ -37,7 +37,7 @@ interface IAuthority
      * Creates an instance of this class for a given subject
      *
      * @param mixed $subjectId The primary identity of the subject to check
-     * @param array|null $subjectRoles The list of role names the subject has
+     * @param array $subjectRoles The list of role names the subject has
      * @return IAuthority The instance for the input subject
      */
     public function forSubject($subjectId, array $subjectRoles) : IAuthority;

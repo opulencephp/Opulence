@@ -26,7 +26,7 @@ class StreamResponse extends Response
      * StreamResponse constructor.
      *
      * @param ?callable $streamCallback The callback that streams/outputs the content
-     * @param int $status CodeThe HTTP status code
+     * @param int $statusCode CodeThe HTTP status code
      * @param array $headers The headers to set
      */
     public function __construct(
