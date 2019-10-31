@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Framework\Authentication\Http\Middleware;
+namespace Opulence\Framework\Authentication\Api\Middleware;
 
 use Aphiria\Middleware\IMiddleware;
 use Aphiria\Net\Http\Handlers\IRequestHandler;
