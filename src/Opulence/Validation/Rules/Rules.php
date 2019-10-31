@@ -411,9 +411,12 @@ class Rules
     protected function addRule(IRule $rule)
     {
         if ($this->inCondition) {
-            /** @var ConditionalRule $lastRule */
             $lastRule = $this->rules[count($this->rules) - 1];
-            $lastRule->addRule($rule);
+            if ($lastRule instanceof ConditionalRule) {
+                $lastRule->addRule($rule);
+            } else {
+                throw new \LogicException('Last rule can not be used in condition.');
+            }
         } else {
             $this->rules[] = $rule;
         }

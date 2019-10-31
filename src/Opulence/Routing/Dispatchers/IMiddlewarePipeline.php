@@ -27,7 +27,6 @@ interface IMiddlewarePipeline
      * @param IMiddleware[] $middleware The list of middleware to send the request through
      * @param callable $controller The controller to call
      * @return Response The resulting response
-     * @return mixed The result of the pipeline
      * @throws RouteException Thrown if there was a problem sending the request through the pipeline
      */
     public function send(Request $request, array $middleware, callable $controller) : Response;

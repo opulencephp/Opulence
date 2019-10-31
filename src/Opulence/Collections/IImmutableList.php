@@ -13,6 +13,7 @@ namespace Opulence\Collections;
 use ArrayAccess;
 use Countable;
 use IteratorAggregate;
+use OutOfRangeException;
 
 /**
  * Defines the interface for immutable lists to implement

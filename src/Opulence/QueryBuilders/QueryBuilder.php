@@ -36,7 +36,7 @@ abstract class QueryBuilder
     /**
      * Starts a new select query
      *
-     * @param array $expression,... A variable list of select expressions
+     * @param mixed ...$expression A variable list of select expressions
      * @return SelectQuery The select query builder
      */
     abstract public function select(...$expression);

@@ -50,7 +50,7 @@ class DeleteQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "AND"ed with other conditions
      *
-     * @param string ...$expression A variable list of conditions to be met
+     * @param string ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
     public function andWhere(...$conditions) : self
@@ -83,7 +83,7 @@ class DeleteQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "OR"ed with other conditions
      *
-     * @param string ...$expression A variable list of conditions to be met
+     * @param string ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
     public function orWhere(...$conditions) : self
@@ -113,7 +113,7 @@ class DeleteQuery extends Query
      * Starts a "WHERE" condition
      * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions
      *
-     * @param string ...$expression A variable list of conditions to be met
+     * @param string ...$conditions A variable list of conditions to be met
      * @return self For method chaining
      */
     public function where(...$conditions) : self

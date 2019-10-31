@@ -11,6 +11,7 @@
 namespace Opulence\Console\Commands\Compilers;
 
 use Opulence\Console\Commands\ICommand;
+use Opulence\Console\Requests\Argument;
 use Opulence\Console\Requests\IRequest;
 use RuntimeException;
 
@@ -123,7 +124,7 @@ class Compiler implements ICompiler
      * Gets whether or not there are too many argument values
      *
      * @param array $argumentValues The list of argument values
-     * @param ICommand[] $commandArguments The list of command arguments
+     * @param Argument[] $commandArguments The list of command arguments
      * @return bool True if there are too many arguments, otherwise false
      */
     private function hasTooManyArguments(array $argumentValues, array $commandArguments) : bool

@@ -57,7 +57,7 @@ class Stream implements IStream
         'x+b',
         'x+t'
     ];
-    /** @var resource The underlying stream handle */
+    /** @var resource|null The underlying stream handle */
     private $handle = null;
     /** @var int|null The length of the stream, if known */
     private $length = null;
@@ -70,7 +70,7 @@ class Stream implements IStream
 
     /**
      * @param resource $handle The underlying stream handle
-     * @param int|null The length of the stream, if known
+     * @param int|null $length The length of the stream, if known
      */
     public function __construct($handle, ?int $length = null)
     {

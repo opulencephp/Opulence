@@ -28,7 +28,8 @@ class PhpCompiler implements ICompiler
     {
         $obStartLevel = ob_get_level();
         ob_start();
-        extract($view->getVars());
+        $vars = $view->getVars();
+        extract($vars);
 
         try {
             if (eval('?>' . $view->getContents()) === false) {
@@ -48,7 +49,7 @@ class PhpCompiler implements ICompiler
      *
      * @param Exception|Throwable $ex The exception to handle
      * @param int $obStartLevel The starting output buffer level
-     * @throws $ex Always rethrown
+     * @throws Exception|Throwable Always rethrown
      */
     protected function handleException($ex, int $obStartLevel)
     {
