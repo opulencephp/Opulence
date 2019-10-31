@@ -1,5 +1,9 @@
 <h2>v1.1.9 (?)</h2>
 
+<h3>General</h3>
+
+* Fixed various PHPDoc typos and CS
+
 <h3>Authorization</h3>
 
 * Fixed bug that caused `Roles::getRolesForSubject()` to return `RoleMembership`s instead of `Role`s.
