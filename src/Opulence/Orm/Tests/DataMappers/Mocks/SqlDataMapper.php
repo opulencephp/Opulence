@@ -94,6 +94,6 @@ class SqlDataMapper extends BaseSqlDataMapper
      */
     protected function loadEntity(array $hash)
     {
-        return null;
+        return new \stdClass();
     }
 }

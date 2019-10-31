@@ -44,7 +44,7 @@ abstract class SqlDataMapper implements IDataMapper
      * Loads an entity from a hash of data
      *
      * @param array $hash The hash of data to load the entity from
-     * @return object|null The entity
+     * @return object The entity
      */
     abstract protected function loadEntity(array $hash);
 

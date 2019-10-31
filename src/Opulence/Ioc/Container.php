@@ -85,7 +85,6 @@ class Container implements IContainer
     }
 
     /**
-     * @suppress PhanTypeMismatchArgumentInternal
      * @inheritdoc
      */
     public function callClosure(callable $closure, array $primitives = [])
