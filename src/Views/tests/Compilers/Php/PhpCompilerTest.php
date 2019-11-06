@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Opulence\Views\Tests\Compilers\Php;
 
-use Exception;
 use Opulence\Views\Compilers\Php\PhpCompiler;
 use Opulence\Views\Compilers\ViewCompilerException;
 use Opulence\Views\IView;
@@ -31,17 +30,18 @@ class PhpCompilerTest extends TestCase
         $this->compiler = new PhpCompiler();
     }
 
-    public function testExceptionsThrownAsThemselves(): void
+    public function testExceptionsRethrownAsViewCompilerException(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(ViewCompilerException::class);
+        $this->expectExceptionMessage('Exception thrown by view foo.php');
         /** @var IView|MockObject $view */
         $view = $this->createMock(IView::class);
-        $view->expects($this->any())
-            ->method('getContents')
+        $view->method('getContents')
             ->willReturn('<?php ob_start();throw new \Exception("foo"); ?>');
-        $view->expects($this->any())
-            ->method('getVars')
+        $view->method('getVars')
             ->willReturn([]);
+        $view->method('getPath')
+            ->willReturn('foo.php');
         $this->compiler->compile($view);
     }
 
@@ -49,11 +49,9 @@ class PhpCompilerTest extends TestCase
     {
         /** @var IView|MockObject $view */
         $view = $this->createMock(IView::class);
-        $view->expects($this->any())
-            ->method('getContents')
+        $view->method('getContents')
             ->willReturn('<?php ob_start();throw new ' . ViewCompilerException::class . '("foo"); ?>');
-        $view->expects($this->any())
-            ->method('getVars')
+        $view->method('getVars')
             ->willReturn([]);
         $obStartLevel = ob_get_level();
 
@@ -70,11 +68,9 @@ class PhpCompilerTest extends TestCase
     {
         /** @var IView|MockObject $view */
         $view = $this->createMock(IView::class);
-        $view->expects($this->any())
-            ->method('getContents')
+        $view->method('getContents')
             ->willReturn('<?php echo "$foo, $bar"; ?>');
-        $view->expects($this->any())
-            ->method('getVars')
+        $view->method('getVars')
             ->willReturn(['foo' => 'Hello', 'bar' => 'world']);
         $this->assertEquals('Hello, world', $this->compiler->compile($view));
     }

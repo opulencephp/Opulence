@@ -81,6 +81,8 @@
 
 <h3>Views</h3>
 
+* Updated `ICompiler::compile()` to always throw a `ViewCompilerException` on error
+* Added a view parameter to `ViewCompilerException::construct()` so that the view path is included in the error message
 * Removed support for PHP short tags in Fortune templates
 
 <h2>v1.1.7 (2019-03-03)</h2>

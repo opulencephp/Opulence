@@ -35,12 +35,12 @@ class PhpCompiler implements ICompiler
 
         try {
             if (eval('?>' . $view->getContents()) === false) {
-                throw new ViewCompilerException('Invalid PHP in view');
+                throw new ViewCompilerException($view);
             }
         } catch (Exception $ex) {
-            $this->handleException($ex, $obStartLevel);
+            $this->rethrowException($ex, $view, $obStartLevel);
         } catch (Throwable $ex) {
-            $this->handleException($ex, $obStartLevel);
+            $this->rethrowException($ex, $view, $obStartLevel);
         }
 
         return ob_get_clean();
@@ -50,16 +50,17 @@ class PhpCompiler implements ICompiler
      * Handles any exception thrown during compilation
      *
      * @param Exception|Throwable $ex The exception to handle
+     * @param IView $view The view that caused the exception
      * @param int $obStartLevel The starting output buffer level
-     * @throws Throwable|Exception Always rethrown
+     * @throws ViewCompilerException The rethrown exception
      */
-    protected function handleException($ex, int $obStartLevel): void
+    protected function rethrowException($ex, IView $view, int $obStartLevel): void
     {
         // Clean the output buffer
         while (ob_get_level() > $obStartLevel) {
             ob_end_clean();
         }
 
-        throw $ex;
+        throw new ViewCompilerException($view, 0, $ex);
     }
 }
