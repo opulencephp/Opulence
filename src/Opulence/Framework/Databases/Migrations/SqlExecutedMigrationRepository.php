@@ -95,7 +95,7 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
         $this->createTableIfDoesNotExist();
         $query = $this->queryBuilder->select('migration')
             ->from($this->tableName)
-            ->orderBy('dateran DESC');
+            ->orderBy('id DESC');
         $statement = $this->connection->prepare($query->getSql());
         $statement->execute();
 
@@ -110,7 +110,7 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
         $this->createTableIfDoesNotExist();
         $query = $this->queryBuilder->select('migration')
             ->from($this->tableName)
-            ->orderBy('dateran DESC')
+            ->orderBy('id DESC')
             ->limit(':number')
             ->addNamedPlaceholderValue('number', $number, PDO::PARAM_INT);
         $statement = $this->connection->prepare($query->getSql());
@@ -136,12 +136,13 @@ class SqlExecutedMigrationRepository implements IExecutedMigrationRepository
             case MySqlQueryBuilder::class:
                 $sql = 'CREATE TABLE IF NOT EXISTS ' .
                     $this->tableName .
-                    ' (migration varchar(255), dateran timestamp NOT NULL, PRIMARY KEY (migration));';
+                    ' (id int not null auto_increment primary key,' .
+                    ' migration varchar(255), dateran timestamp NOT NULL);';
                 break;
             case PostgreSqlQueryBuilder::class:
                 $sql = 'CREATE TABLE IF NOT EXISTS ' .
                     $this->tableName .
-                    ' (migration text primary key, dateran timestamp with time zone NOT NULL);';
+                    ' (id serial primary key, migration text, dateran timestamp with time zone NOT NULL);';
                 break;
             default:
                 throw new RuntimeException('Unexpected query builder type ' . get_class($this->queryBuilder));

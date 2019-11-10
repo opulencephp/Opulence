@@ -18,6 +18,7 @@ use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Console\Bootstrappers\CommandsBootstrapper;
 use Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions;
 use Opulence\Framework\Console\Testing\PhpUnit\IntegrationTestCase as BaseIntegrationTestCase;
+use Opulence\Framework\Databases\Console\Commands\FixMigrationsCommand;
 use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
 use Opulence\Ioc\Bootstrappers\BootstrapperResolver;
 use Opulence\Ioc\Bootstrappers\Caching\ICache as BootstrapperCache;
@@ -74,6 +75,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
         $this->container->bindInstance(RouteCache::class, $this->createMock(RouteCache::class));
         $this->container->bindInstance(ViewCache::class, $this->createMock(ViewCache::class));
         $this->container->bindInstance(IMigrator::class, $this->createMock(IMigrator::class));
+        $this->container->bindInstance(FixMigrationsCommand::class, $this->createMock(FixMigrationsCommand::class));
         $this->container->bindInstance(IContainer::class, $this->container);
 
         // Setup the bootstrappers
