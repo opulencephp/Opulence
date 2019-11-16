@@ -14,7 +14,6 @@ use Opulence\Databases\Adapters\Pdo\MySql\Driver as MySqlDriver;
 use Opulence\Databases\Adapters\Pdo\PostgreSql\Driver as PostgreSqlDriver;
 use Opulence\Databases\IConnection;
 use Opulence\Databases\Migrations\FileMigrationFinder;
-use Opulence\Databases\Migrations\IExecutedMigrationRepository;
 use Opulence\Databases\Migrations\IMigrator;
 use Opulence\Databases\Migrations\Migrator;
 use Opulence\Databases\Providers\Types\Factories\TypeMapperFactory;
@@ -35,16 +34,10 @@ use RuntimeException;
  */
 class MigrationBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
-    /** @var BaseQueryBuilder|null */
-    protected $queryBuilder;
-
-    /** @var array|null */
-    protected $allMigrationClasses;
-
     /**
      * @inheritdoc
      */
-    public function getBindings() : array
+    public function getBindings(): array
     {
         return [
             IMigrator::class,
@@ -57,52 +50,64 @@ class MigrationBootstrapper extends Bootstrapper implements ILazyBootstrapper
      */
     public function registerBindings(IContainer $container)
     {
-        $this->registerMigrator($container);
-        $this->registerFixMigrationsCommand($container);
+        $allMigrationClasses = (new FileMigrationFinder())->findAll(Config::get('paths', 'database.migrations'));
+        $queryBuilder = $this->registerQueryBuilder($container);
+
+        $this->registerMigrator($container, $queryBuilder, $allMigrationClasses);
+        $this->registerFixMigrationsCommand($container, $queryBuilder, $allMigrationClasses);
     }
 
     /**
      * @param IContainer $container
+     * @param BaseQueryBuilder $queryBuilder
+     * @param array $allMigrationClasses
      */
-    protected function registerMigrator(IContainer $container)
-    {
-        $container->bindFactory(IMigrator::class, function () use ($container) {
-            return new Migrator(
-                $this->getAllMigrationClasses(),
-                $container->resolve(IConnection::class),
-                new ContainerMigrationResolver($container),
-                $this->getExecutedMigrationRepository($container)
-            );
-        });
+    protected function registerMigrator(
+        IContainer $container,
+        BaseQueryBuilder $queryBuilder,
+        array $allMigrationClasses
+    ) {
+        $executeMigrationRepo = new SqlExecutedMigrationRepository(
+            SqlExecutedMigrationRepository::DEFAULT_TABLE_NAME,
+            $container->resolve(IConnection::class),
+            $queryBuilder,
+            new TypeMapperFactory()
+        );
+
+        $container->bindFactory(
+            IMigrator::class,
+            function () use ($container, $queryBuilder, $executeMigrationRepo, $allMigrationClasses) {
+                return new Migrator(
+                    $allMigrationClasses,
+                    $container->resolve(IConnection::class),
+                    new ContainerMigrationResolver($container),
+                    $executeMigrationRepo
+                );
+            }
+        );
     }
 
     /**
      * @param IContainer $container
+     * @param BaseQueryBuilder $queryBuilder
+     * @param array $allMigrationClasses
      */
-    protected function registerFixMigrationsCommand(IContainer $container)
-    {
-        $container->bindFactory(FixMigrationsCommand::class, function () use ($container) {
-            return new FixMigrationsCommand(
-                SqlExecutedMigrationRepository::DEFAULT_TABLE_NAME,
-                $this->getAllMigrationClasses(),
-                $container->resolve(IConnection::class),
-                $this->bindQueryBuilder($container)
-            );
-        });
-    }
-
-    /**
-     * @return array
-     */
-    protected function getAllMigrationClasses(): array
-    {
-        if (null !== $this->allMigrationClasses) {
-            return $this->allMigrationClasses;
-        }
-
-        $this->allMigrationClasses = (new FileMigrationFinder)->findAll(Config::get('paths', 'database.migrations'));
-
-        return $this->allMigrationClasses;
+    protected function registerFixMigrationsCommand(
+        IContainer $container,
+        BaseQueryBuilder $queryBuilder,
+        array $allMigrationClasses
+    ) {
+        $container->bindFactory(
+            FixMigrationsCommand::class,
+            function () use ($container, $queryBuilder, $allMigrationClasses) {
+                return new FixMigrationsCommand(
+                    SqlExecutedMigrationRepository::DEFAULT_TABLE_NAME,
+                    $allMigrationClasses,
+                    $container->resolve(IConnection::class),
+                    $queryBuilder
+                );
+            }
+        );
     }
 
     /**
@@ -110,22 +115,18 @@ class MigrationBootstrapper extends Bootstrapper implements ILazyBootstrapper
      *
      * @return BaseQueryBuilder
      */
-    protected function bindQueryBuilder(IContainer $container) : BaseQueryBuilder
+    protected function registerQueryBuilder(IContainer $container): BaseQueryBuilder
     {
-        if (null !== $this->queryBuilder) {
-            return $this->queryBuilder;
-        }
-
         $driverClass = getenv('DB_DRIVER') ?: PostgreSqlDriver::class;
 
         switch ($driverClass) {
             case MySqlDriver::class:
-                $this->queryBuilder = new MySqlQueryBuilder();
-                $container->bindInstance(MySqlQueryBuilder::class, $this->queryBuilder);
+                $queryBuilder = new MySqlQueryBuilder();
+                $container->bindInstance(MySqlQueryBuilder::class, $queryBuilder);
                 break;
             case PostgreSqlDriver::class:
-                $this->queryBuilder = new PostgreSqlQueryBuilder();
-                $container->bindInstance(PostgreSqlQueryBuilder::class, $this->queryBuilder);
+                $queryBuilder = new PostgreSqlQueryBuilder();
+                $container->bindInstance(PostgreSqlQueryBuilder::class, $queryBuilder);
                 break;
             default:
                 throw new RuntimeException(
@@ -133,27 +134,8 @@ class MigrationBootstrapper extends Bootstrapper implements ILazyBootstrapper
                 );
         }
 
-        $container->bindInstance(BaseQueryBuilder::class, $this->queryBuilder);
+        $container->bindInstance(BaseQueryBuilder::class, $queryBuilder);
 
-        return $this->queryBuilder;
-    }
-
-    /**
-     * Gets the executed migration repository to use in the migrator
-     *
-     * @param IContainer $container The IoC container
-     * @return IExecutedMigrationRepository The executed migration repository
-     * @throws RuntimeException Thrown if there was an error resolving the query builder
-     */
-    protected function getExecutedMigrationRepository(IContainer $container) : IExecutedMigrationRepository
-    {
-        $queryBuilder = $this->bindQueryBuilder($container);
-
-        return new SqlExecutedMigrationRepository(
-            SqlExecutedMigrationRepository::DEFAULT_TABLE_NAME,
-            $container->resolve(IConnection::class),
-            $queryBuilder,
-            new TypeMapperFactory()
-        );
+        return $queryBuilder;
     }
 }
