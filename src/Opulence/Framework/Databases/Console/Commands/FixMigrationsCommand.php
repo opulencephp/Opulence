@@ -127,7 +127,7 @@ class FixMigrationsCommand extends Command
      */
     protected function addPrimaryKeyPostgreSql(): void
     {
-        $sql = sprintf('ALTER TABLE %s ADD COLUMN id int not null', $this->tableName);
+        $sql = sprintf('ALTER TABLE %s ADD COLUMN id int', $this->tableName);
         $statement = $this->connection->prepare($sql);
         if (!$statement->execute()) {
             throw new RuntimeException(sprintf('Failed to add the ID column: %s',
@@ -136,24 +136,38 @@ class FixMigrationsCommand extends Command
 
         $this->updatePrimaryKey();
 
-        $sql = sprintf('ALTER TABLE %s DROP CONSTRAINT %s_pkey', $this->tableName, $this->tableName);
+        $sql = sprintf('ALTER TABLE %1$s DROP CONSTRAINT %1$s_pkey', $this->tableName);
         $statement = $this->connection->prepare($sql);
         if (!$statement->execute()) {
             throw new RuntimeException(sprintf('Failed to drop primary key constraint: %s',
                 json_encode($statement->errorInfo())));
         }
 
-        $sql = sprintf('ALTER TABLE %s MODIFY id serial primary key', $this->tableName);
+        $sql = sprintf('CREATE SEQUENCE %1$s_id_seq OWNED BY %1$s.id;', $this->tableName);
         $statement = $this->connection->prepare($sql);
         if (!$statement->execute()) {
-            throw new RuntimeException(sprintf('Failed to set the ID to serial: %s',
+            throw new RuntimeException(sprintf('Failed to create sequence: %s',
                 json_encode($statement->errorInfo())));
         }
 
-        $sql = sprintf('ALTER TABLE %s ADD PRIMARY KEY (id)', $this->tableName);
+        $sql = sprintf('SELECT setval(\'%1$s_id_seq\', coalesce(max(id), 0) + 1, false) FROM %1$s;', $this->tableName);
         $statement = $this->connection->prepare($sql);
         if (!$statement->execute()) {
-            throw new RuntimeException(sprintf('Failed to add the primary key: %s',
+            throw new RuntimeException(sprintf('Failed to set the initial value of the sequence: %s',
+                json_encode($statement->errorInfo())));
+        }
+
+        $sql = sprintf('ALTER TABLE %1$s ALTER COLUMN id SET DEFAULT nextval(\'%1$s_id_seq\'); ', $this->tableName);
+        $statement = $this->connection->prepare($sql);
+        if (!$statement->execute()) {
+            throw new RuntimeException(sprintf('Failed to add the new column: %s',
+                json_encode($statement->errorInfo())));
+        }
+
+        $sql = sprintf('ALTER TABLE %1$s ADD PRIMARY KEY (id)', $this->tableName);
+        $statement = $this->connection->prepare($sql);
+        if (!$statement->execute()) {
+            throw new RuntimeException(sprintf('Failed to make the new column the primary key: %s',
                 json_encode($statement->errorInfo())));
         }
     }
