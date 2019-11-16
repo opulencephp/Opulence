@@ -105,7 +105,7 @@ class FixMigrationsCommand extends Command
         $sql       = sprintf('ALTER TABLE %s ADD COLUMN id int not null FIRST', $this->tableName);
         $statement = $this->connection->prepare($sql);
         if (!$statement->execute()) {
-            throw new RuntimeException(sprintf('statement error: %s', json_encode($statement->errorInfo())));
+            throw new RuntimeException(sprintf('Failed to add the ID column: %s', json_encode($statement->errorInfo())));
         }
 
         $this->updatePrimaryKey();
@@ -116,7 +116,7 @@ class FixMigrationsCommand extends Command
         );
         $statement = $this->connection->prepare($sql);
         if (!$statement->execute()) {
-            throw new RuntimeException(sprintf('statement error: %s', json_encode($statement->errorInfo())));
+            throw new RuntimeException(sprintf('Failed to set the primary key: %s', json_encode($statement->errorInfo())));
         }
     }
 
@@ -128,7 +128,7 @@ class FixMigrationsCommand extends Command
         $sql       = sprintf('ALTER TABLE %s ADD COLUMN id int not null', $this->tableName);
         $statement = $this->connection->prepare($sql);
         if (!$statement->execute()) {
-            throw new RuntimeException(sprintf('statement error: %s', json_encode($statement->errorInfo())));
+            throw new RuntimeException(sprintf('Failed to add the ID column: %s', json_encode($statement->errorInfo())));
         }
 
         $this->updatePrimaryKey();
@@ -136,19 +136,19 @@ class FixMigrationsCommand extends Command
         $sql       = sprintf('ALTER TABLE %s DROP CONSTRAINT %s_pkey', $this->tableName, $this->tableName);
         $statement = $this->connection->prepare($sql);
         if (!$statement->execute()) {
-            throw new RuntimeException(sprintf('statement error: %s', json_encode($statement->errorInfo())));
+            throw new RuntimeException(sprintf('Failed to drop primary key constraint: %s', json_encode($statement->errorInfo())));
         }
 
         $sql       = sprintf('ALTER TABLE %s MODIFY id serial primary key', $this->tableName);
         $statement = $this->connection->prepare($sql);
         if (!$statement->execute()) {
-            throw new RuntimeException(sprintf('statement error: %s', json_encode($statement->errorInfo())));
+            throw new RuntimeException(sprintf('Failed to set the ID to serial: %s', json_encode($statement->errorInfo())));
         }
 
         $sql       = sprintf('ALTER TABLE %s ADD PRIMARY KEY (id)', $this->tableName);
         $statement = $this->connection->prepare($sql);
         if (!$statement->execute()) {
-            throw new RuntimeException(sprintf('statement error: %s', json_encode($statement->errorInfo())));
+            throw new RuntimeException(sprintf('Failed to add the primary key: %s', json_encode($statement->errorInfo())));
         }
     }
 
@@ -167,7 +167,7 @@ class FixMigrationsCommand extends Command
             $statement = $this->connection->prepare($query->getSql());
             $statement->bindValues($query->getParameters());
             if (!$statement->execute()) {
-                throw new RuntimeException(sprintf('statement error: %s', json_encode($statement->errorInfo())));
+                throw new RuntimeException(sprintf('Failed to set ID for %s: %s', $migrationClass, json_encode($statement->errorInfo())));
             }
 
             $n = $statement->rowCount();
