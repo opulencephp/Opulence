@@ -1,4 +1,4 @@
-<h2>v1.1.9 (?)</h2>
+<h2>v1.1.9 (2019-11-18)</h2>
 
 <h3>General</h3>
 
@@ -7,6 +7,10 @@
 <h3>Authorization</h3>
 
 * Fixed bug that caused `Roles::getRolesForSubject()` to return `RoleMembership`s instead of `Role`s.
+
+<h3>Databases</h3>
+
+* Fixed #112 and added `php apex migrations:fix` command to fix the migrations DB schema
 
 <h2>v1.1.8 (2019-10-24)</h2>
 
