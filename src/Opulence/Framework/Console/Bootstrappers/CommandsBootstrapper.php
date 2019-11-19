@@ -25,6 +25,7 @@ use Opulence\Framework\Console\Commands\RenameAppCommand;
 use Opulence\Framework\Console\Commands\RunAppLocallyCommand;
 use Opulence\Framework\Cryptography\Console\Commands\EncryptionKeyGenerationCommand;
 use Opulence\Framework\Cryptography\Console\Commands\UuidGenerationCommand;
+use Opulence\Framework\Databases\Console\Commands\FixMigrationsCommand;
 use Opulence\Framework\Databases\Console\Commands\MakeMigrationCommand;
 use Opulence\Framework\Databases\Console\Commands\RunDownMigrationsCommand;
 use Opulence\Framework\Databases\Console\Commands\RunUpMigrationsCommand;
@@ -64,6 +65,7 @@ class CommandsBootstrapper extends Bootstrapper
         RenameAppCommand::class,
         RunDownMigrationsCommand::class,
         RunUpMigrationsCommand::class,
+        FixMigrationsCommand::class,
         UuidGenerationCommand::class
     ];
 
