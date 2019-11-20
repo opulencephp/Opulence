@@ -14,7 +14,7 @@ namespace Opulence\Authentication\Tests\Credentials;
 
 use DateInterval;
 use DateTimeImmutable;
-use Opulence\Authentication\Credentials\Factories\RefreshTokenCredentialFactory;
+use Opulence\Authentication\Credentials\RefreshTokenCredentialFactory;
 use Opulence\Authentication\IPrincipal;
 use Opulence\Authentication\ISubject;
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;

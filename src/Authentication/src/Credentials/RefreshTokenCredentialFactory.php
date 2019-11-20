@@ -10,10 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Authentication\Credentials\Factories;
-
-use Opulence\Authentication\Credentials\CredentialTypes;
-use Opulence\Authentication\Credentials\JwtCredentialFactory;
+namespace Opulence\Authentication\Credentials;
 
 /**
  * Defines the refresh token credential factory

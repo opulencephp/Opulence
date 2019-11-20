@@ -36,6 +36,6 @@ class FileViewReaderTest extends TestCase
 
     public function testReadingExistingFile(): void
     {
-        $this->assertEquals('Foo', $this->reader->read(__DIR__ . '/../../files/Foo.html'));
+        $this->assertEquals('Foo', $this->reader->read(__DIR__ . '/../files/Foo.html'));
     }
 }
