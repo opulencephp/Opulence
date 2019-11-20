@@ -10,10 +10,9 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Authentication\Credentials\Factories;
+namespace Opulence\Authentication\Credentials;
 
 use DateInterval;
-use Opulence\Authentication\Credentials\CredentialTypes;
 use Opulence\Authentication\ISubject;
 use Opulence\Authentication\Roles\Orm\IRoleRepository;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;

@@ -10,9 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Views\Factories;
-
-use Opulence\Views\IView;
+namespace Opulence\Views;
 
 /**
  * Defines the interface for view builders to implement

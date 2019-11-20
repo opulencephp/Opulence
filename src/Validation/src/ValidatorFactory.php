@@ -10,11 +10,9 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Validation\Factories;
+namespace Opulence\Validation;
 
-use Opulence\Validation\IValidator;
 use Opulence\Validation\Rules\Factories\RulesFactory;
-use Opulence\Validation\Validator;
 
 /**
  * Defines the validator factory

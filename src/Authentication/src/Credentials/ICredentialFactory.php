@@ -10,9 +10,8 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Authentication\Credentials\Factories;
+namespace Opulence\Authentication\Credentials;
 
-use Opulence\Authentication\Credentials\ICredential;
 use Opulence\Authentication\ISubject;
 
 /**

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Opulence\Validation\Tests\Rules\Models;
 
-use Opulence\Validation\Factories\IValidatorFactory;
+use Opulence\Validation\IValidatorFactory;
 use Opulence\Validation\IValidator;
 use Opulence\Validation\Rules\Errors\ErrorCollection;
 use Opulence\Validation\Rules\Rules;

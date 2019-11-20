@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Authentication\Tests\Credentials\Factories;
+namespace Opulence\Authentication\Tests\Credentials;
 
 use DateInterval;
 use DateTimeImmutable;

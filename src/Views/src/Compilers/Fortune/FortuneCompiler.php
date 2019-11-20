@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Opulence\Views\Compilers\Fortune;
 
 use Opulence\Views\Compilers\Php\PhpCompiler;
-use Opulence\Views\Factories\IViewFactory;
+use Opulence\Views\IViewFactory;
 use Opulence\Views\IView;
 
 /**

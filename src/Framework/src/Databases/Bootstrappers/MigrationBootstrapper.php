@@ -21,7 +21,7 @@ use Opulence\Databases\Migrations\FileMigrationFinder;
 use Opulence\Databases\Migrations\IExecutedMigrationRepository;
 use Opulence\Databases\Migrations\IMigrator;
 use Opulence\Databases\Migrations\Migrator;
-use Opulence\Databases\Providers\Types\Factories\TypeMapperFactory;
+use Opulence\Databases\Providers\Types\TypeMapperFactory;
 use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Databases\Migrations\ContainerMigrationResolver;
 use Opulence\Framework\Databases\Migrations\SqlExecutedMigrationRepository;

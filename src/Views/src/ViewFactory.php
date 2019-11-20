@@ -10,13 +10,11 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Views\Factories;
+namespace Opulence\Views;
 
 use InvalidArgumentException;
-use Opulence\Views\Factories\IO\IViewNameResolver;
-use Opulence\Views\Factories\IO\IViewReader;
-use Opulence\Views\IView;
-use Opulence\Views\View;
+use Opulence\Views\IO\IViewNameResolver;
+use Opulence\Views\IO\IViewReader;
 
 /**
  * Defines the view factory

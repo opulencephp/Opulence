@@ -10,11 +10,11 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Authentication\Tests\Credentials\Factories;
+namespace Opulence\Authentication\Tests\Credentials;
 
 use DateInterval;
 use DateTimeImmutable;
-use Opulence\Authentication\Credentials\Factories\AccessTokenCredentialFactory;
+use Opulence\Authentication\Credentials\AccessTokenCredentialFactory;
 use Opulence\Authentication\IPrincipal;
 use Opulence\Authentication\ISubject;
 use Opulence\Authentication\Roles\Orm\IRoleRepository;

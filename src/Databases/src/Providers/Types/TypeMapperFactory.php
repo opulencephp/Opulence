@@ -10,10 +10,9 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Databases\Providers\Types\Factories;
+namespace Opulence\Databases\Providers\Types;
 
 use Opulence\Databases\Providers\Provider;
-use Opulence\Databases\Providers\Types\TypeMapper;
 
 /**
  * Defines the type mapper factory

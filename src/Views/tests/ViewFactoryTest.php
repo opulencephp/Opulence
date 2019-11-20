@@ -10,15 +10,15 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Views\Tests\Factories;
+namespace Opulence\Views\Tests;
 
 use InvalidArgumentException;
-use Opulence\Views\Factories\IO\IViewNameResolver;
-use Opulence\Views\Factories\IO\IViewReader;
-use Opulence\Views\Factories\ViewFactory;
+use Opulence\Views\IO\IViewNameResolver;
+use Opulence\Views\IO\IViewReader;
+use Opulence\Views\ViewFactory;
 use Opulence\Views\IView;
-use Opulence\Views\Tests\Factories\Mocks\BarBuilder;
-use Opulence\Views\Tests\Factories\Mocks\FooBuilder;
+use Opulence\Views\Tests\Mocks\BarBuilder;
+use Opulence\Views\Tests\Mocks\FooBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

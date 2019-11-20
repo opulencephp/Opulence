@@ -10,10 +10,10 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Views\Tests\Factories\IO;
+namespace Opulence\Views\Tests\IO;
 
 use InvalidArgumentException;
-use Opulence\Views\Factories\IO\FileViewNameResolver;
+use Opulence\Views\IO\FileViewNameResolver;
 use PHPUnit\Framework\TestCase;
 
 /**

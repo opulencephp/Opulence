@@ -15,7 +15,7 @@ namespace Opulence\Framework\Databases\Migrations;
 use DateTime;
 use Opulence\Databases\IConnection;
 use Opulence\Databases\Migrations\IExecutedMigrationRepository;
-use Opulence\Databases\Providers\Types\Factories\TypeMapperFactory;
+use Opulence\Databases\Providers\Types\TypeMapperFactory;
 use Opulence\QueryBuilders\MySql\QueryBuilder as MySqlQueryBuilder;
 use Opulence\QueryBuilders\PostgreSql\QueryBuilder as PostgreSqlQueryBuilder;
 use Opulence\QueryBuilders\QueryBuilder as BaseQueryBuilder;

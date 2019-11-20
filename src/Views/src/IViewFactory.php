@@ -10,10 +10,9 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Views\Factories;
+namespace Opulence\Views;
 
 use InvalidArgumentException;
-use Opulence\Views\IView;
 
 /**
  * Defines the interface for view factories to implement

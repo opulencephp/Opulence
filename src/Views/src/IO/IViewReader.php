@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Views\Factories\IO;
+namespace Opulence\Views\IO;
 
 use InvalidArgumentException;
 

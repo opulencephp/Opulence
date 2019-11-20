@@ -14,8 +14,8 @@ namespace Opulence\Framework\Validation\Bootstrappers;
 
 use Aphiria\DependencyInjection\Bootstrappers\Bootstrapper;
 use Aphiria\DependencyInjection\IContainer;
-use Opulence\Validation\Factories\IValidatorFactory;
-use Opulence\Validation\Factories\ValidatorFactory;
+use Opulence\Validation\IValidatorFactory;
+use Opulence\Validation\ValidatorFactory;
 use Opulence\Validation\Rules\Errors\Compilers\Compiler;
 use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;

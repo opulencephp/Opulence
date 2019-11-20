@@ -19,7 +19,7 @@ use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\Compilers\Fortune\Transpiler;
 use Opulence\Views\Compilers\ICompilerRegistry;
-use Opulence\Views\Factories\IViewFactory;
+use Opulence\Views\IViewFactory;
 use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\IView;
 use Opulence\Views\View;

@@ -10,9 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Validation\Factories;
-
-use Opulence\Validation\IValidator;
+namespace Opulence\Validation;
 
 /**
  * Defines the interface for validator factories to implement

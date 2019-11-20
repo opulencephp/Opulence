@@ -10,9 +10,9 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Validation\Tests\Factories;
+namespace Opulence\Validation\Tests;
 
-use Opulence\Validation\Factories\ValidatorFactory;
+use Opulence\Validation\ValidatorFactory;
 use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Validator;
 use PHPUnit\Framework\MockObject\MockObject;

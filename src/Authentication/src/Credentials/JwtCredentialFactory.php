@@ -10,12 +10,10 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Authentication\Credentials\Factories;
+namespace Opulence\Authentication\Credentials;
 
 use DateInterval;
 use DateTimeImmutable;
-use Opulence\Authentication\Credentials\Credential;
-use Opulence\Authentication\Credentials\ICredential;
 use Opulence\Authentication\ISubject;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtHeader;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
@@ -26,7 +24,7 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 /**
  * Defines the JWT credential factory
  */
-abstract class JwtCredentialFactory
+abstract class JwtCredentialFactory implements ICredentialFactory
 {
     /** @var ISigner The token signer */
     protected ISigner $signer;

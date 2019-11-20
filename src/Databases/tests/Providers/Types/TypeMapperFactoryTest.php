@@ -10,10 +10,10 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Databases\Tests\Providers\Types\Factories;
+namespace Opulence\Databases\Tests\Providers\Types;
 
 use Opulence\Databases\Providers\Provider;
-use Opulence\Databases\Providers\Types\Factories\TypeMapperFactory;
+use Opulence\Databases\Providers\Types\TypeMapperFactory;
 use Opulence\Databases\Providers\Types\TypeMapper;
 use PHPUnit\Framework\TestCase;
 

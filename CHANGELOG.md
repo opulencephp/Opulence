@@ -15,6 +15,7 @@
 
 * Refactored `JwtVerifier` to implement `IContextVerifier`, and updated `JwtAuthenticator` and `RefreshTokenAuthenticator` to use the interface
 * Renamed `IAuthenticator::authenticate()` to `tryAuthenticate()`
+* `AccessTokenCredentialFactory`, `ICredentialFactory`, `JwtCredentialFactory`, and `RefreshTokenCredentialFactory`to `Opulence\Authentication\Credentials` namespace
 
 <h3>Cache</h3>
 
@@ -28,6 +29,10 @@
 * Removed `$options` parameters from `IHasher::hash()` and `IHasher::needsRehash()`
 * Updated `BcryptHasher::__construct()` to accept an array of options
 * Renamed `Hasher` to `PasswordHasher`, made it non-abstract, and changed the constructor to accept the password algorithm and array of options
+
+<h3>Databases</h3>
+
+* Moved `TypeMapperFactory` to `Opulence\Databases\Providers\Types` namespace
 
 <h3>Events</h3>
 
@@ -78,12 +83,15 @@
 <h3>Validation</h3>
 
 * `ModelState::__construct()` now requires the model to be of type `object`
+* Moved `IValidatorFactory` and `ValidatorRuleFactory` to `Opulence\Validation` namespace
 
 <h3>Views</h3>
 
 * Updated `ICompiler::compile()` to always throw a `ViewCompilerException` on error
 * Added a view parameter to `ViewCompilerException::construct()` so that the view path is included in the error message
 * Removed support for PHP short tags in Fortune templates
+* Moved `IViewBuilder`, `IViewFactory`, and `ViewFactory` to `Opulence\Views` namespace
+* Moved `FileViewNameResolver`, `FileViewReader`, `IViewNameResolver`, and `IViewReader` to `Opulence\Views\IO` namespace
 
 <h2>v1.1.7 (2019-03-03)</h2>
 
