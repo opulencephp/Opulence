@@ -66,11 +66,11 @@ class UnitOfWorkTest extends TestCase
         $connection = new Connection($server);
         $this->entityRegistry = new EntityRegistry($idAccessorRegistry, $changeTracker);
         $this->unitOfWork = new MockUnitOfWork(
-            $this->entityRegistry,
-            $idAccessorRegistry,
+            $connection,
             $idGeneratorRegistry,
+            $idAccessorRegistry,
             $changeTracker,
-            $connection
+            $this->entityRegistry
         );
         $this->dataMapper = new SqlDataMapper();
         /**
@@ -172,11 +172,11 @@ class UnitOfWorkTest extends TestCase
         $server = new Server();
         $connection = new Connection($server);
         $this->unitOfWork = new MockUnitOfWork(
-            $this->entityRegistry,
-            $idAccessorRegistry,
+            $connection,
             $idGeneratorRegistry,
+            $idAccessorRegistry,
             new ChangeTracker(),
-            $connection
+            $this->entityRegistry
         );
         $this->entity1 = new User(123, 'foo');
         /** @var IDataMapper|MockObject dataMapper */
@@ -214,11 +214,11 @@ class UnitOfWorkTest extends TestCase
         $connection = new Connection(new Server());
         $connection->setToFailOnPurpose(true);
         $this->unitOfWork = new MockUnitOfWork(
-            $this->entityRegistry,
-            $idAccessorRegistry,
+            $connection,
             $idGeneratorRegistry,
+            $idAccessorRegistry,
             new ChangeTracker(),
-            $connection
+            $this->entityRegistry
         );
 
         try {
@@ -408,11 +408,11 @@ class UnitOfWorkTest extends TestCase
             $connection = new Connection($server);
             $connection->setToFailOnPurpose(true);
             $this->unitOfWork = new MockUnitOfWork(
-                $this->entityRegistry,
-                $idAccessorRegistry,
+                $connection,
                 $idGeneratorRegistry,
+                $idAccessorRegistry,
                 new ChangeTracker(),
-                $connection
+                $this->entityRegistry
             );
             $this->dataMapper = new SqlDataMapper();
             $this->entity1 = new User(1, 'foo');

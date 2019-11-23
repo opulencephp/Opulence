@@ -10,13 +10,9 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Authentication\Tokens\Signatures\Factories;
+namespace Opulence\Authentication\Tokens\Signatures;
 
 use InvalidArgumentException;
-use Opulence\Authentication\Tokens\Signatures\Algorithms;
-use Opulence\Authentication\Tokens\Signatures\HmacSigner;
-use Opulence\Authentication\Tokens\Signatures\ISigner;
-use Opulence\Authentication\Tokens\Signatures\RsaSsaPkcsSigner;
 
 /**
  * Defines a signer factory
@@ -40,13 +36,13 @@ class SignerFactory
 
         if ($this->algorithmIsSymmetric($algorithm)) {
             return new HmacSigner($algorithm, $publicKey);
-        } else {
-            if (!is_string($privateKey) && !is_resource($privateKey)) {
-                throw new InvalidArgumentException('Must specify private key for asymmetric algorithms');
-            }
-
-            return new RsaSsaPkcsSigner($algorithm, $publicKey, $privateKey);
         }
+
+        if (!is_string($privateKey) && !is_resource($privateKey)) {
+            throw new InvalidArgumentException('Must specify private key for asymmetric algorithms');
+        }
+
+        return new RsaSsaPkcsSigner($algorithm, $publicKey, $privateKey);
     }
 
     /**
@@ -57,6 +53,6 @@ class SignerFactory
      */
     private function algorithmIsSymmetric(string $algorithm): bool
     {
-        return in_array($algorithm, [Algorithms::SHA256, Algorithms::SHA384, Algorithms::SHA512]);
+        return in_array($algorithm, [Algorithms::SHA256, Algorithms::SHA384, Algorithms::SHA512], true);
     }
 }

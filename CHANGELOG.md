@@ -16,6 +16,7 @@
 * Refactored `JwtVerifier` to implement `IContextVerifier`, and updated `JwtAuthenticator` and `RefreshTokenAuthenticator` to use the interface
 * Renamed `IAuthenticator::authenticate()` to `tryAuthenticate()`
 * `AccessTokenCredentialFactory`, `ICredentialFactory`, `JwtCredentialFactory`, and `RefreshTokenCredentialFactory`to `Opulence\Authentication\Credentials` namespace
+* Moved `SignerFactory` to `Opulence\Authentication\Tokens\Signatures` namespace
 
 <h3>Cache</h3>
 
@@ -66,6 +67,8 @@
 * Rewrote `RedisDataMapper` to use `Redis` directly
 * Removed `IRepository::getAll()`, `Repository::getAll()`, and `IDataMapper::getAll()`
 * Removed `ICachedSqlDataMapper::getUnsyncedEntities()` and `ICachedSqlDataMapper::refreshCache()`
+* `UnitOfWork::__construct()` now takes in an `IConnection`, `IIdGeneratorRegistry`, a nullable `IIdAccessorRegistry`, a nullable `IChangeTracker`, and a nullable `IEntityRegistry`
+* `EntityRegistry::__construct()` now takes in a nullable `IIdAccessorRegistry` and `ChangeTracker`
 * `IEntityRegistry::getEntity()`, `RedisDataMaper::loadEntity()`, `SqlDataMapper::loadEntity()`, `IRepository::getById()`, and `Repository::getById()` must return type `object
 * `IDataMapper::getById()`, `CachedSqlDataMapper::getById()`, and `ICacheDataMapper::getById()`  now must all return type `?object`
 * `IDataMapper::add()`, `IDataMapper::delete()`, and `IDataMapper::update()` now require the entity to be of type `object`
@@ -84,6 +87,8 @@
 
 * `ModelState::__construct()` now requires the model to be of type `object`
 * Moved `IValidatorFactory` and `ValidatorRuleFactory` to `Opulence\Validation` namespace
+* `ValidatorFactory::__construct()` now takes in a nullable `RulesFactory`
+* `RulesFactory::__construct()` now takes in a nullable `RuleExtensionRegistry`, `ErrorTemplateRegistry`, and `ICompiler`
 
 <h3>Views</h3>
 
@@ -92,6 +97,8 @@
 * Removed support for PHP short tags in Fortune templates
 * Moved `IViewBuilder`, `IViewFactory`, and `ViewFactory` to `Opulence\Views` namespace
 * Moved `FileViewNameResolver`, `FileViewReader`, `IViewNameResolver`, and `IViewReader` to `Opulence\Views\IO` namespace
+* `Transpiler::__construct()` now takes in a nullable `ILexer`, `IParser`, `ICache`, and `XssFilter`
+* `ViewFactory::__construct()` now takes in a nullable `IViewReader`
 
 <h2>v1.1.7 (2019-03-03)</h2>
 

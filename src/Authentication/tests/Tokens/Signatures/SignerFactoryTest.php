@@ -10,11 +10,11 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Authentication\Tests\Tokens\Signatures\Factories;
+namespace Opulence\Authentication\Tests\Tokens\Signatures;
 
 use InvalidArgumentException;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
-use Opulence\Authentication\Tokens\Signatures\Factories\SignerFactory;
+use Opulence\Authentication\Tokens\Signatures\SignerFactory;
 use Opulence\Authentication\Tokens\Signatures\HmacSigner;
 use Opulence\Authentication\Tokens\Signatures\RsaSsaPkcsSigner;
 use PHPUnit\Framework\TestCase;

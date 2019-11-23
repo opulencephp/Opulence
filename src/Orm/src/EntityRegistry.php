@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Opulence\Orm;
 
+use Opulence\Orm\ChangeTracking\ChangeTracker;
 use Opulence\Orm\ChangeTracking\IChangeTracker;
+use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
 
 /**
@@ -41,13 +43,13 @@ final class EntityRegistry implements IEntityRegistry
     private array $aggregateRootChildren = [];
 
     /**
-     * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry
-     * @param IChangeTracker $changeTracker The change tracker
+     * @param IIdAccessorRegistry|null $idAccessorRegistry The Id accessor registry
+     * @param IChangeTracker|null $changeTracker The change tracker
      */
-    public function __construct(IIdAccessorRegistry $idAccessorRegistry, IChangeTracker $changeTracker)
+    public function __construct(IIdAccessorRegistry $idAccessorRegistry = null, IChangeTracker $changeTracker = null)
     {
-        $this->idAccessorRegistry = $idAccessorRegistry;
-        $this->changeTracker = $changeTracker;
+        $this->idAccessorRegistry = $idAccessorRegistry ?? new IdAccessorRegistry();
+        $this->changeTracker = $changeTracker ?? new ChangeTracker();
     }
 
     /**

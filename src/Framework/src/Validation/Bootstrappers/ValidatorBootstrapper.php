@@ -19,7 +19,7 @@ use Opulence\Validation\ValidatorFactory;
 use Opulence\Validation\Rules\Errors\Compilers\Compiler;
 use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
-use Opulence\Validation\Rules\Factories\RulesFactory;
+use Opulence\Validation\Rules\RulesFactory;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 
 /**

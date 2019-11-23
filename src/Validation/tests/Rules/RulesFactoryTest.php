@@ -10,11 +10,11 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Validation\Tests\Rules\Factories;
+namespace Opulence\Validation\Tests\Rules;
 
 use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
-use Opulence\Validation\Rules\Factories\RulesFactory;
+use Opulence\Validation\Rules\RulesFactory;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Rules\Rules;
 use PHPUnit\Framework\MockObject\MockObject;

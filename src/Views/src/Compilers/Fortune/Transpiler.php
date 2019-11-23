@@ -15,6 +15,7 @@ namespace Opulence\Views\Compilers\Fortune;
 use InvalidArgumentException;
 use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Fortune\Lexers\ILexer;
+use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Parsers\AbstractSyntaxTree;
 use Opulence\Views\Compilers\Fortune\Parsers\IParser;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\CommentNode;
@@ -23,6 +24,7 @@ use Opulence\Views\Compilers\Fortune\Parsers\Nodes\ExpressionNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\Node;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\SanitizedTagNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\UnsanitizedTagNode;
+use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\IView;
 use RuntimeException;
@@ -37,7 +39,7 @@ class Transpiler implements ITranspiler
     /** @var IParser The view parser */
     protected IParser $parser;
     /** @var ICache The transpiled view cache */
-    protected ICache $cache;
+    protected ?ICache $cache;
     /** @var XssFilter The XSS filter to use to sanitize text */
     protected XssFilter $xssFilter;
     /** @var callable[] The mapping of directive names to their transpilers */
@@ -56,19 +58,23 @@ class Transpiler implements ITranspiler
     protected array $appendedText = [];
 
     /**
-     * @param ILexer $lexer The view lexer
-     * @param IParser $parser The view parser
-     * @param ICache $cache The view cache
-     * @param XssFilter $xssFilter The XSS filter
+     * @param ILexer|null $lexer The view lexer
+     * @param IParser|null $parser The view parser
+     * @param ICache|null $cache The view cache, or null if not using a cache
+     * @param XssFilter|null $xssFilter The XSS filter
      */
-    public function __construct(ILexer $lexer, IParser $parser, ICache $cache, XssFilter $xssFilter)
-    {
-        $this->lexer = $lexer;
-        $this->parser = $parser;
+    public function __construct(
+        ILexer $lexer = null,
+        IParser $parser = null,
+        ICache $cache = null,
+        XssFilter $xssFilter = null
+    ) {
+        $this->lexer = $lexer ?? new Lexer();
+        $this->parser = $parser ?? new Parser();
         $this->cache = $cache;
-        $this->xssFilter = $xssFilter;
+        $this->xssFilter = $xssFilter ?? new XssFilter();
         // Register built-in view functions
-        (new ViewFunctionRegistrant())->registerViewFunctions($this);
+        (new ViewFunctionRegistrant)->registerViewFunctions($this);
         // Register built-in directives' transpilers
         (new DirectiveTranspilerRegistrant)->registerDirectiveTranspilers($this);
     }
@@ -192,7 +198,7 @@ class Transpiler implements ITranspiler
         $this->appendedText = [];
         $this->prependedText = [];
 
-        if (($transpiledContent = $this->cache->get($view, false)) !== null) {
+        if ($this->cache !== null && ($transpiledContent = $this->cache->get($view, false)) !== null) {
             return $transpiledContent;
         }
 
@@ -210,7 +216,9 @@ class Transpiler implements ITranspiler
             $transpiledContent = trim($transpiledContent, PHP_EOL) . PHP_EOL . implode(PHP_EOL, $this->appendedText);
         }
 
-        $this->cache->set($view, $transpiledContent, false);
+        if ($this->cache !== null) {
+            $this->cache->set($view, $transpiledContent, false);
+        }
 
         return $transpiledContent;
     }
@@ -270,7 +278,7 @@ class Transpiler implements ITranspiler
      */
     protected function transpileExpressionNode(Node $node): string
     {
-        return $node->getValue();
+        return (string)$node->getValue();
     }
 
     /**

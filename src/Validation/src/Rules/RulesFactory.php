@@ -10,12 +10,11 @@
 
 declare(strict_types=1);
 
-namespace Opulence\Validation\Rules\Factories;
+namespace Opulence\Validation\Rules;
 
+use Opulence\Validation\Rules\Errors\Compilers\Compiler;
 use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
-use Opulence\Validation\Rules\RuleExtensionRegistry;
-use Opulence\Validation\Rules\Rules;
 
 /**
  * Defines the rules factory
@@ -30,18 +29,18 @@ class RulesFactory
     protected ICompiler $errorTemplateCompiler;
 
     /**
-     * @param RuleExtensionRegistry $ruleExtensionRegistry The rule extension registry
-     * @param ErrorTemplateRegistry $errorTemplateRegistry The error template registry
-     * @param ICompiler $errorTemplateCompiler The error template compiler
+     * @param RuleExtensionRegistry|null $ruleExtensionRegistry The rule extension registry
+     * @param ErrorTemplateRegistry|null $errorTemplateRegistry The error template registry
+     * @param ICompiler|null $errorTemplateCompiler The error template compiler
      */
     public function __construct(
-        RuleExtensionRegistry $ruleExtensionRegistry,
-        ErrorTemplateRegistry $errorTemplateRegistry,
-        ICompiler $errorTemplateCompiler
+        RuleExtensionRegistry $ruleExtensionRegistry = null,
+        ErrorTemplateRegistry $errorTemplateRegistry = null,
+        ICompiler $errorTemplateCompiler = null
     ) {
-        $this->ruleExtensionRegistry = $ruleExtensionRegistry;
-        $this->errorTemplateRegistry = $errorTemplateRegistry;
-        $this->errorTemplateCompiler = $errorTemplateCompiler;
+        $this->ruleExtensionRegistry = $ruleExtensionRegistry ?? new RuleExtensionRegistry();
+        $this->errorTemplateRegistry = $errorTemplateRegistry ?? new ErrorTemplateRegistry();
+        $this->errorTemplateCompiler = $errorTemplateCompiler ?? new Compiler();
     }
 
     /**

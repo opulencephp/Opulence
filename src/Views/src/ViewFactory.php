@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Opulence\Views;
 
 use InvalidArgumentException;
+use Opulence\Views\IO\FileViewReader;
 use Opulence\Views\IO\IViewNameResolver;
 use Opulence\Views\IO\IViewReader;
 
@@ -32,10 +33,10 @@ final class ViewFactory implements IViewFactory
      * @param IViewNameResolver $viewNameResolver The view name resolver used to get paths to views
      * @param IViewReader $viewReader The view reader
      */
-    public function __construct(IViewNameResolver $viewNameResolver, IViewReader $viewReader)
+    public function __construct(IViewNameResolver $viewNameResolver, IViewReader $viewReader = null)
     {
         $this->viewNameResolver = $viewNameResolver;
-        $this->viewReader = $viewReader;
+        $this->viewReader = $viewReader ?? new FileViewReader();
     }
 
     /**

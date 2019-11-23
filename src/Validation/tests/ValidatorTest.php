@@ -12,13 +12,10 @@ declare(strict_types=1);
 
 namespace Opulence\Validation\tests;
 
-use LogicException;
-use Opulence\Validation\Rules\BetweenRule;
 use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
 use Opulence\Validation\Rules\Errors\ErrorCollection;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
-use Opulence\Validation\Rules\Factories\RulesFactory;
-use Opulence\Validation\Rules\IRule;
+use Opulence\Validation\Rules\RulesFactory;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Rules\Rules;
 use Opulence\Validation\Validator;

@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Opulence\Validation;
 
 use Opulence\Validation\Rules\Errors\ErrorCollection;
-use Opulence\Validation\Rules\Factories\RulesFactory;
+use Opulence\Validation\Rules\RulesFactory;
 use Opulence\Validation\Rules\Rules;
 
 /**
@@ -29,12 +29,12 @@ final class Validator implements IValidator
     protected ErrorCollection $errors;
 
     /**
-     * @param RulesFactory $rulesFactory The rules factory
+     * @param RulesFactory|null $rulesFactory The rules factory
      */
-    public function __construct(RulesFactory $rulesFactory)
+    public function __construct(RulesFactory $rulesFactory = null)
     {
         $this->errors = new ErrorCollection();
-        $this->rulesFactory = $rulesFactory;
+        $this->rulesFactory = $rulesFactory ?? new RulesFactory();
     }
 
     /**

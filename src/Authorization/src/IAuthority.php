@@ -21,7 +21,7 @@ interface IAuthority
      * Checks if a subject has a permission
      *
      * @param string $permission The permission being sought
-     * @param array ...$arguments The noncompulsory list of arguments to use when considering permission
+     * @param array ...$arguments The non-compulsory list of arguments to use when considering permission
      * @return bool True if the subject has the input permission, otherwise false
      */
     public function can(string $permission, ...$arguments): bool;
@@ -30,7 +30,7 @@ interface IAuthority
      * Checks if a subject does not have a permission
      *
      * @param string $permission The permission being sought
-     * @param array ...$arguments The noncompulsory list of arguments to use when considering permission
+     * @param array ...$arguments The non-compulsory list of arguments to use when considering permission
      * @return bool True if the subject does not have the input permission, otherwise false
      */
     public function cannot(string $permission, ...$arguments): bool;

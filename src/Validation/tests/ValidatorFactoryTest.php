@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Opulence\Validation\Tests;
 
 use Opulence\Validation\ValidatorFactory;
-use Opulence\Validation\Rules\Factories\RulesFactory;
+use Opulence\Validation\Rules\RulesFactory;
 use Opulence\Validation\Validator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

@@ -63,11 +63,11 @@ class RepositoryTest extends TestCase
         $connection = new Connection($server);
         $entityRegistry = new EntityRegistry($idAccessorRegistry, $changeTracker);
         $this->unitOfWork = new UnitOfWork(
-            $entityRegistry,
-            $idAccessorRegistry,
+            $connection,
             $idGeneratorRegistry,
+            $idAccessorRegistry,
             $changeTracker,
-            $connection
+            $entityRegistry
         );
         $this->dataMapper = new SqlDataMapper();
         $this->entity1 = new User(1, 'foo');

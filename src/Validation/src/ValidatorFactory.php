@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Opulence\Validation;
 
-use Opulence\Validation\Rules\Factories\RulesFactory;
+use Opulence\Validation\Rules\RulesFactory;
 
 /**
  * Defines the validator factory
@@ -23,11 +23,11 @@ final class ValidatorFactory implements IValidatorFactory
     protected RulesFactory $rulesFactory;
 
     /**
-     * @param RulesFactory $rulesFactory The rules factory
+     * @param RulesFactory|null $rulesFactory The rules factory
      */
-    public function __construct(RulesFactory $rulesFactory)
+    public function __construct(RulesFactory $rulesFactory = null)
     {
-        $this->rulesFactory = $rulesFactory;
+        $this->rulesFactory = $rulesFactory ?? new RulesFactory();
     }
 
     /**

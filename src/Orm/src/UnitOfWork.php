@@ -14,9 +14,11 @@ namespace Opulence\Orm;
 
 use Exception;
 use Opulence\Databases\IConnection;
+use Opulence\Orm\ChangeTracking\ChangeTracker;
 use Opulence\Orm\ChangeTracking\IChangeTracker;
 use Opulence\Orm\DataMappers\ICachedSqlDataMapper;
 use Opulence\Orm\DataMappers\IDataMapper;
+use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
 use Opulence\Orm\Ids\Generators\IIdGeneratorRegistry;
 use Opulence\Orm\Ids\Generators\SequenceIdGenerator;
@@ -56,41 +58,41 @@ class UnitOfWork implements IUnitOfWork
      *
      * @var array
      */
-    private $scheduledForInsertion = [];
+    private array $scheduledForInsertion = [];
     /**
      * The mapping of object hash Ids to the index of the action array element that holds the entity
      * We use this to index entities that are scheduled for update, which makes detaching them faster
      *
      * @var array
      */
-    private $scheduledForUpdate = [];
+    private array $scheduledForUpdate = [];
     /**
      * The mapping of object hash Ids to the index of the action array element that holds the entity
      * We use this to index entities that are scheduled for deletion, which makes detaching them faster
      *
      * @var array
      */
-    private $scheduledForDeletion = [];
+    private array $scheduledForDeletion = [];
 
     /**
-     * @param IEntityRegistry $entityRegistry The entity registry to use
-     * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry to use
-     * @param IIdGeneratorRegistry $idGeneratorRegistry The Id generator registry to use
-     * @param IChangeTracker $changeTracker The change tracker to use
      * @param IConnection $connection The connection to use in our unit of work
+     * @param IIdGeneratorRegistry $idGeneratorRegistry The Id generator registry to use
+     * @param IIdAccessorRegistry|null $idAccessorRegistry The Id accessor registry to use
+     * @param IChangeTracker|null $changeTracker The change tracker to use
+     * @param IEntityRegistry|null $entityRegistry The entity registry to use
      */
     public function __construct(
-        IEntityRegistry $entityRegistry,
-        IIdAccessorRegistry $idAccessorRegistry,
+        IConnection $connection,
         IIdGeneratorRegistry $idGeneratorRegistry,
-        IChangeTracker $changeTracker,
-        IConnection $connection
+        IIdAccessorRegistry $idAccessorRegistry = null,
+        IChangeTracker $changeTracker = null,
+        IEntityRegistry $entityRegistry = null
     ) {
-        $this->entityRegistry = $entityRegistry;
-        $this->idAccessorRegistry = $idAccessorRegistry;
         $this->idGeneratorRegistry = $idGeneratorRegistry;
-        $this->changeTracker = $changeTracker;
         $this->connection = $connection;
+        $this->idAccessorRegistry = $idAccessorRegistry ?? new IdAccessorRegistry();
+        $this->changeTracker = $changeTracker ?? new ChangeTracker();
+        $this->entityRegistry = $entityRegistry ?? new EntityRegistry($this->idAccessorRegistry, $this->changeTracker);
     }
 
     /**
