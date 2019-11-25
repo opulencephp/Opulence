@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Opulence\Authentication\Tests\Credentials\Authenticators;
 
-use InvalidArgumentException;
 use Opulence\Authentication\Credentials\Authenticators\AuthenticatorRegistry;
 use Opulence\Authentication\Credentials\Authenticators\IAuthenticator;
+use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -42,7 +42,7 @@ class AuthenticatorRegistryTest extends TestCase
      */
     public function testExceptionThrownOnNonExistentAuthenticator(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(OutOfBoundsException::class);
         $this->registry->getAuthenticators('foo');
     }
 }

@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Opulence\Authorization\Roles;
 
-use InvalidArgumentException;
 use Opulence\Authorization\Roles\Orm\IRoleMembershipRepository;
 use Opulence\Authorization\Roles\Orm\IRoleRepository;
 
@@ -43,7 +42,7 @@ class Roles implements IRoles
     {
         foreach ((array)$roleNames as $roleName) {
             if (($role = $this->roleRepository->getByName($roleName)) === null) {
-                throw new InvalidArgumentException("No role with name \"$roleName\" exists");
+                throw new RoleNotFoundException("No role with name \"$roleName\" exists");
             }
 
             $membership = new RoleMembership(-1, $subjectId, $role);

@@ -146,7 +146,7 @@ class DeleteQuery extends Query
             } elseif (is_string($condition)) {
                 $conditionExpressions[] = $condition;
             } else {
-                throw new InvalidArgumentException('Condition must either be string or ICondition object');
+                throw new InvalidArgumentException('Condition must either be string or ' . ICondition::class . ' object');
             }
         }
 

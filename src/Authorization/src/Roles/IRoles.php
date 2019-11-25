@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 namespace Opulence\Authorization\Roles;
 
-use InvalidArgumentException;
-
 /**
  * Defines the interface for role managers to implement
  */
@@ -24,7 +22,7 @@ interface IRoles
      *
      * @param int|string $subjectId The subject identity to assign to
      * @param string|string[] $roleNames The name of the role or roles to assign
-     * @throws InvalidArgumentException Thrown if the input rule names do not exist
+     * @throws RoleNotFoundException Thrown if the input rule names do not exist
      */
     public function assignRoles($subjectId, $roleNames): void;
 

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Opulence\Authentication\Credentials\Authenticators;
 
-use InvalidArgumentException;
+use OutOfBoundsException;
 
 /**
  * Defines the interface for authenticator registries to implement
@@ -24,7 +24,7 @@ interface IAuthenticatorRegistry
      *
      * @param string $credentialType The credential type whose authenticator we want
      * @return IAuthenticator[] The list of authenticators for the input credential type
-     * @throws InvalidArgumentException Thrown if no authenticator was registered for the credential type
+     * @throws OutOfBoundsException Thrown if no authenticator was registered for the credential type
      */
     public function getAuthenticators(string $credentialType): array;
 

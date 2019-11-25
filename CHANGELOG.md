@@ -17,6 +17,11 @@
 * Renamed `IAuthenticator::authenticate()` to `tryAuthenticate()`
 * `AccessTokenCredentialFactory`, `ICredentialFactory`, `JwtCredentialFactory`, and `RefreshTokenCredentialFactory`to `Opulence\Authentication\Credentials` namespace
 * Moved `SignerFactory` to `Opulence\Authentication\Tokens\Signatures` namespace
+* `IAuthenticatorRegistry::getAuthenticators()` now throws an `OutOfBoundsException` instead of an `InvalidArgumentException`
+
+<h3>Authorization</h3>
+
+* `IRoles::assignRoles()` now throws a `RuleNotFoundException` instead of an `InvalidArgumentException`
 
 <h3>Cache</h3>
 

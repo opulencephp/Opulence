@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Opulence\Authentication\Credentials\Authenticators;
 
-use InvalidArgumentException;
+use OutOfBoundsException;
 
 /**
  * Defines the authenticator registry
@@ -28,7 +28,7 @@ final class AuthenticatorRegistry implements IAuthenticatorRegistry
     public function getAuthenticators(string $credentialType): array
     {
         if (!isset($this->credentialTypesToAuthenticators[$credentialType])) {
-            throw new InvalidArgumentException("No authenticator registered for credential type $credentialType");
+            throw new OutOfBoundsException("No authenticator registered for credential type $credentialType");
         }
 
         return $this->credentialTypesToAuthenticators[$credentialType];

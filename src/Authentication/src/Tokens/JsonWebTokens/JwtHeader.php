@@ -143,7 +143,7 @@ class JwtHeader
      */
     private function setAlgorithm(string $algorithm): void
     {
-        if (!in_array($algorithm, self::$validAlgorithms)) {
+        if (!in_array($algorithm, self::$validAlgorithms, true)) {
             throw new InvalidArgumentException("Algorithm \"$algorithm\" is not supported");
         }
 

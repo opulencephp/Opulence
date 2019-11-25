@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Opulence\Authorization\Tests\Roles;
 
-use InvalidArgumentException;
 use Opulence\Authorization\Roles\Orm\IRoleMembershipRepository;
 use Opulence\Authorization\Roles\Orm\IRoleRepository;
 use Opulence\Authorization\Roles\Role;
 use Opulence\Authorization\Roles\RoleMembership;
+use Opulence\Authorization\Roles\RoleNotFoundException;
 use Opulence\Authorization\Roles\Roles;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -44,7 +44,7 @@ class RolesTest extends TestCase
      */
     public function testAssigningNonExistentRoleThrowsException(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(RoleNotFoundException::class);
         $this->roleRepository->expects($this->once())
             ->method('getByName')
             ->with('foo')
