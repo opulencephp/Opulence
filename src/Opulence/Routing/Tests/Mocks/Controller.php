@@ -20,6 +20,16 @@ use Opulence\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     /**
+     * Mocks an invokable controller
+     *
+     * @return Response The response
+     */
+    public function __invoke()
+    {
+        return new Response('invoke');
+    }
+
+    /**
      * Mocks a method that takes in multiple parameters with some default values
      *
      * @param mixed $foo The first parameter
