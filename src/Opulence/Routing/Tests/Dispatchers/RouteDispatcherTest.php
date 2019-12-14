@@ -121,6 +121,21 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests calling __invoke to make sure it returns a response
+     */
+    public function testCallingInvokeReturnsResponse()
+    {
+        $route = $this->getCompiledRoute(
+            new Route(['GET'], '/foo', MockController::class . '@__invoke')
+        );
+        $controller = null;
+        $response = $this->dispatcher->dispatch($route, $this->request, $controller);
+        $this->assertInstanceOf(MockController::class, $controller);
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals('invoke', $response->getContent());
+    }
+
+    /**
      * Tests calling a method that throws an HTTP exception
      */
     public function testCallingMethodThatThrowsHttpException()
@@ -129,7 +144,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
         $route = $this->getCompiledRoute(
             new Route(['GET'], '/foo', MockController::class . '@throwsHttpException')
         );
-        $this->dispatcher->dispatch($route, $this->request);
+        $this->dispatcher->dispatch($route, $this->request, $controller);
     }
 
     /**

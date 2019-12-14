@@ -74,7 +74,7 @@ class RouteDispatcher implements IRouteDispatcher
      */
     private function callController($controller, CompiledRoute $route) : Response
     {
-        if (is_callable($controller)) {
+        if ($controller instanceof Closure) {
             try {
                 $reflection = new ReflectionFunction($controller);
             } catch (\ReflectionException $e) {
