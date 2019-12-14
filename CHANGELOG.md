@@ -1,3 +1,9 @@
+<h2>v1.1.10 (2019-12-14)</h2>
+
+<h3>General</h3>
+
+* Fixed #13 by adding support for PHP 7.4
+
 <h2>v1.1.9 (2019-11-18)</h2>
 
 <h3>General</h3>
