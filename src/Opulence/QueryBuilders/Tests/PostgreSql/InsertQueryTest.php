@@ -10,6 +10,7 @@
 
 namespace Opulence\QueryBuilders\Tests\PostgreSql;
 
+use Opulence\QueryBuilders\Expression;
 use Opulence\QueryBuilders\PostgreSql\InsertQuery;
 use PDO;
 
@@ -37,14 +38,19 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testEverything()
     {
+        $expr = new Expression("(val + ?) % ?", ['1', \PDO::PARAM_INT]);
         $query = new InsertQuery('users', ['name' => 'dave']);
-        $query->addColumnValues(['email' => 'foo@bar.com'])
+        $query->addColumnValues(['email' => 'foo@bar.com', 'is_val_even' => $expr])
             ->returning('id')
-            ->addReturning('name');
-        $this->assertEquals('INSERT INTO users (name, email) VALUES (?, ?) RETURNING id, name', $query->getSql());
-        $this->assertEquals([
+            ->addReturning('name')
+            ->addUnnamedPlaceholderValues([[2, \PDO::PARAM_INT]]);
+        $this->assertEquals('INSERT INTO users (name, email, is_val_even) VALUES (?, ?, (val + ?) % ?) RETURNING id, name',
+            $query->getSql());
+        $this->assertSame([
             ['dave', PDO::PARAM_STR],
-            ['foo@bar.com', PDO::PARAM_STR]
+            ['foo@bar.com', PDO::PARAM_STR],
+            ['1', \PDO::PARAM_INT],
+            [2, \PDO::PARAM_INT],
         ], $query->getParameters());
     }
 

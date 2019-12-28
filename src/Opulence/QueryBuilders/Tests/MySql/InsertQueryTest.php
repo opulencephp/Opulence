@@ -10,6 +10,7 @@
 
 namespace Opulence\QueryBuilders\Tests\MySql;
 
+use Opulence\QueryBuilders\Expression;
 use Opulence\QueryBuilders\MySql\InsertQuery;
 use PDO;
 
@@ -52,14 +53,21 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testEverything()
     {
-        $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);
+        $query = new InsertQuery('users',
+            [
+                'name' => 'dave',
+                'email' => 'foo@bar.com',
+                'is_val_even' => new Expression('(val + ?) % ?', ['1', \PDO::PARAM_INT], [2, \PDO::PARAM_INT])
+            ]);
         $query->update(['name' => 'dave'])
             ->addUpdateColumnValues(['email' => 'foo@bar.com']);
-        $this->assertEquals('INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?',
+        $this->assertEquals('INSERT INTO users (name, email, is_val_even) VALUES (?, ?, (val + ?) % ?) ON DUPLICATE KEY UPDATE name = ?, email = ?',
             $query->getSql());
-        $this->assertEquals([
+        $this->assertSame([
             ['dave', PDO::PARAM_STR],
-            ['foo@bar.com', PDO::PARAM_STR]
+            ['foo@bar.com', PDO::PARAM_STR],
+            ['1', \PDO::PARAM_INT],
+            [2, \PDO::PARAM_INT],
         ], $query->getParameters());
     }
 

@@ -11,6 +11,7 @@
 namespace Opulence\QueryBuilders\Tests;
 
 use Opulence\QueryBuilders\Conditions\ICondition;
+use Opulence\QueryBuilders\Expression;
 use Opulence\QueryBuilders\UpdateQuery;
 use PDO;
 
@@ -63,21 +64,48 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests a query with a simple UpsertExpression
+     */
+    public function testSimpleExpression()
+    {
+        $query = new UpdateQuery('users', '', ['valid_until' => new Expression('NOW()')]);
+        $this->assertEquals('UPDATE users SET valid_until = NOW()', $query->getSql());
+        $this->assertEquals([], $query->getParameters());
+    }
+
+    /**
+     * Tests a query with a complex UpsertExpression
+     */
+    public function testComplexExpression()
+    {
+        $query = new UpdateQuery('users', '',
+            ['is_val_even' => new Expression('(val + ?) % ?', ['1', PDO::PARAM_INT], [2, PDO::PARAM_INT])]);
+        $this->assertEquals('UPDATE users SET is_val_even = (val + ?) % ?', $query->getSql());
+        $this->assertEquals([
+            ['1', PDO::PARAM_INT],
+            [2, PDO::PARAM_INT],
+        ], $query->getParameters());
+    }
+
+    /**
      * Tests all the methods in a single, complicated query
      */
     public function testEverything()
     {
+        $expr = new Expression("(val + ?) % ?", ['1', PDO::PARAM_INT]);
         $query = new UpdateQuery('users', 'u', ['name' => 'david']);
-        $query->addColumnValues(['email' => 'bar@foo.com'])
+        $query->addColumnValues(['email' => 'bar@foo.com', 'is_val_even' => $expr])
             ->where('u.id = ?', 'emails.userid = u.id', 'emails.email = ?')
             ->orWhere('u.name = ?')
             ->andWhere('subscriptions.userid = u.id', "subscriptions.type = 'customer'")
-            ->addUnnamedPlaceholderValues([[18175, PDO::PARAM_INT], 'foo@bar.com', 'dave']);
-        $this->assertEquals("UPDATE users AS u SET name = ?, email = ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer')",
+            ->addUnnamedPlaceholderValues([[2, PDO::PARAM_INT], [18175, PDO::PARAM_INT], 'foo@bar.com', 'dave']);
+        $this->assertEquals("UPDATE users AS u SET name = ?, email = ?, is_val_even = (val + ?) % ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer')",
             $query->getSql());
-        $this->assertEquals([
+        $this->assertSame([
             ['david', PDO::PARAM_STR],
             ['bar@foo.com', PDO::PARAM_STR],
+            ['1', PDO::PARAM_INT],
+            [2, PDO::PARAM_INT],
             [18175, PDO::PARAM_INT],
             ['foo@bar.com', PDO::PARAM_STR],
             ['dave', PDO::PARAM_STR]

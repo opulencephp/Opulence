@@ -161,7 +161,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testEverything()
     {
-        $query = new SelectQuery('u.id', 'u.name', 'e.email');
+        $query = new SelectQuery('u.id', 'u.name', 'e.email', 'CHARACTER_LENGTH(e.email) AS email_length');
         $query->addSelectExpression('p.password')
             ->from('users', 'u')
             ->innerJoin('log', 'l', 'l.userid = u.id')
@@ -181,7 +181,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
             ->addOrderBy('u.name ASC')
             ->limit(2)
             ->offset(1);
-        $this->assertEquals('SELECT u.id, u.name, e.email, p.password FROM users AS u INNER JOIN log AS l ON l.userid = u.id LEFT JOIN emails AS e ON e.userid = u.id RIGHT JOIN password AS p ON p.userid = u.id WHERE (u.id <> 10) AND (u.name <> :notAllowedName) AND (u.id <> 9) OR (u.name = :allowedName) GROUP BY u.id, u.name, e.email, p.password HAVING (count(*) > :minCount) AND (count(*) < 5) OR (count(*) = 2) ORDER BY u.id DESC, u.name ASC LIMIT 2 OFFSET 1',
+        $this->assertEquals('SELECT u.id, u.name, e.email, CHARACTER_LENGTH(e.email) AS email_length, p.password FROM users AS u INNER JOIN log AS l ON l.userid = u.id LEFT JOIN emails AS e ON e.userid = u.id RIGHT JOIN password AS p ON p.userid = u.id WHERE (u.id <> 10) AND (u.name <> :notAllowedName) AND (u.id <> 9) OR (u.name = :allowedName) GROUP BY u.id, u.name, e.email, p.password HAVING (count(*) > :minCount) AND (count(*) < 5) OR (count(*) = 2) ORDER BY u.id DESC, u.name ASC LIMIT 2 OFFSET 1',
             $query->getSql());
         $this->assertEquals([
             'notAllowedName' => ['dave', PDO::PARAM_STR],
