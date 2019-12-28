@@ -64,11 +64,19 @@ class InsertQuery extends Query
      */
     public function getSql() : string
     {
-        $sql = "INSERT INTO {$this->tableName}"
-            . ' (' . implode(', ', array_keys($this->augmentingQueryBuilder->getColumnNamesToValues())) . ') VALUES ('
-            . implode(', ',
-                array_fill(0, count(array_values($this->augmentingQueryBuilder->getColumnNamesToValues())), '?'))
-            . ')';
+        $namesToValues = $this->augmentingQueryBuilder->getColumnNamesToValues();
+
+        $sql = 'INSERT INTO ' . $this->tableName . ' (' . implode(', ', array_keys($namesToValues)) . ') VALUES (';
+
+        $values = [];
+        foreach ($namesToValues as $value) {
+            if ($value instanceof Expression) {
+                $values[] = $value->getSql();
+            } else {
+                $values[] = '?';
+            }
+        }
+        $sql .= implode(', ', $values) . ')';
 
         return $sql;
     }

@@ -91,10 +91,14 @@ class UpdateQuery extends Query
         $sql = 'UPDATE ' . $this->tableName . (empty($this->tableAlias) ? '' : ' AS ' . $this->tableAlias) . ' SET';
 
         foreach ($this->augmentingQueryBuilder->getColumnNamesToValues() as $columnName => $value) {
-            $sql .= ' ' . $columnName . ' = ?,';
+            if ($value instanceof Expression) {
+                $sql .= ' ' . $columnName . ' = ' . $value->getSql() . ',';
+            } else {
+                $sql .= ' ' . $columnName . ' = ?,';
+            }
         }
 
-        $sql = trim($sql, ',');
+        $sql = rtrim($sql, ',');
         // Add any conditions
         $sql .= $this->conditionalQueryBuilder
             ->getClauseConditionSql('WHERE', $this->conditionalQueryBuilder->getWhereConditions());
