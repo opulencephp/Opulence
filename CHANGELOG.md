@@ -1,3 +1,9 @@
+<h2>v1.1.11 (2019-12-29)</h2>
+
+<h3>Query Builders</h3>
+
+* Added `Expression` to support SQL expressions in INSERT and UPDATE values
+
 <h2>v1.1.10 (2019-12-14)</h2>
 
 <h3>General</h3>
