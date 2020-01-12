@@ -383,6 +383,18 @@ class Rules
     }
 
     /**
+     * Marks a field as to be validated even if empty
+     *
+     * @return self For method chaining
+     */
+    public function validateEmpty() : self
+    {
+        $this->isRequired = true;
+
+        return $this;
+    }
+
+    /**
      * Adds an error
      *
      * @param IRule $rule The rule that failed
