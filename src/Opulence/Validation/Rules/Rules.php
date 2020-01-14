@@ -34,6 +34,8 @@ class Rules
     protected $rules = [];
     /** @var bool Whether or not a value is required */
     protected $isRequired = false;
+    /** @var bool Whether or not validating a value should be forced, even if it is empty and not required */
+    protected $validateEmptyFields = false;
     /** @var bool Whether or not we're building a conditional rule */
     protected $inCondition = false;
 
@@ -327,8 +329,8 @@ class Rules
         $passes = true;
 
         foreach ($this->rules as $rule) {
-            // Non-required fields do not need to evaluate all rules when empty
-            if (!$this->isRequired) {
+            // Non-required fields do not need to evaluate all rules when empty, unless it's explicitly required
+            if (!$this->isRequired && !$this->validateEmptyFields) {
                 if (
                     $value === null ||
                     (is_string($value) && $value === '') ||
@@ -389,7 +391,7 @@ class Rules
      */
     public function validateEmpty() : self
     {
-        $this->isRequired = true;
+        $this->validateEmptyFields = true;
 
         return $this;
     }
