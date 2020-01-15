@@ -1,3 +1,9 @@
+<h2>v1.1.12 (2020-1-15)</h2>
+
+<h3>Validation</h3>
+
+* Can now indicate that fields with an empty value should still be validated by calling `Rules::validateEmpty()`
+
 <h2>v1.1.11 (2019-12-29)</h2>
 
 <h3>Query Builders</h3>
