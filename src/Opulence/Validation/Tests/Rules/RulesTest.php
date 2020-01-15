@@ -426,6 +426,24 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests the numeric rule is ignored in case the value is empty
+     */
+    public function testNumericRuleIsSkippedIfValueIsEmpty()
+    {
+        $this->assertSame($this->rules, $this->rules->numeric());
+        $this->assertTrue($this->rules->pass(''));
+    }
+
+    /**
+     * Tests the numeric rule is enforced in case the value is empty if the validateEmpty is called on rules
+     */
+    public function testValidateEmptyAllowsValidatingFieldsWithEmptyValue()
+    {
+        $this->assertSame($this->rules, $this->rules->validateEmpty()->numeric());
+        $this->assertFalse($this->rules->pass(''));
+    }
+
+    /**
      * Tests that rule extensions in a condition are respected
      */
     public function testRuleExtensionsInConditionAreRespected()
