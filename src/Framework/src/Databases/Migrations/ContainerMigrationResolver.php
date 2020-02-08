@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Databases\Migrations;
 
-use Aphiria\DependencyInjection\DependencyInjectionException;
 use Aphiria\DependencyInjection\IContainer;
+use Aphiria\DependencyInjection\ResolutionException;
 use Opulence\Databases\Migrations\IMigration;
 use Opulence\Databases\Migrations\IMigrationResolver;
 use Opulence\Databases\Migrations\MigrationResolutionException;
@@ -41,7 +41,7 @@ final class ContainerMigrationResolver implements IMigrationResolver
     {
         try {
             return $this->container->resolve($migrationClassName);
-        } catch (DependencyInjectionException $ex) {
+        } catch (ResolutionException $ex) {
             throw new MigrationResolutionException("Failed to resolve migration $migrationClassName", 0, $ex);
         }
     }

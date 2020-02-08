@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Opulence\Framework\Tests\Databases\Migrations;
 
-use Aphiria\DependencyInjection\DependencyInjectionException;
 use Aphiria\DependencyInjection\IContainer;
+use Aphiria\DependencyInjection\ResolutionException;
 use Opulence\Databases\Migrations\IMigration;
 use Opulence\Databases\Migrations\MigrationResolutionException;
 use Opulence\Framework\Databases\Migrations\ContainerMigrationResolver;
@@ -51,7 +51,7 @@ class ContainerMigrationResolverTest extends TestCase
         $this->container->expects($this->once())
             ->method('resolve')
             ->with('foo')
-            ->willThrowException(new DependencyInjectionException('blah'));
+            ->willThrowException(new ResolutionException('blah', null));
         $this->migrationResolver->resolve('foo');
     }
 }

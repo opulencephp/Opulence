@@ -126,6 +126,11 @@ abstract class Query
     public function addUnnamedPlaceholderValues(array $placeholderValues): self
     {
         foreach ($placeholderValues as $value) {
+            if ($value instanceof Expression) {
+                $this->addUnnamedPlaceholderValues($value->getParameters());
+                continue;
+            }
+
             if (is_array($value)) {
                 if (count($value) !== 2) {
                     throw new InvalidQueryException('Incorrect number of items in value array');
