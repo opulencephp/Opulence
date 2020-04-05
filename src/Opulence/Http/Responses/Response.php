@@ -133,15 +133,19 @@ class Response
             // Send the cookies
             /** @var Cookie $cookie */
             foreach ($this->headers->getCookies(true) as $cookie) {
-                setcookie(
-                    $cookie->getName(),
-                    $cookie->getValue(),
-                    $cookie->getExpiration(),
-                    $cookie->getPath(),
-                    $cookie->getDomain(),
-                    $cookie->isSecure(),
-                    $cookie->isHttpOnly()
-                );
+                $options = [
+                    'expires' => $cookie->getExpiration(),
+                    'path' => $cookie->getPath(),
+                    'domain' => $cookie->getDomain(),
+                    'secure' => $cookie->isSecure(),
+                    'httponly' => $cookie->isHttpOnly(),
+                ];
+
+                if (($sameSite = $cookie->getSameSite()) !== null) {
+                    $options['samesite'] = $sameSite;
+                }
+
+                setcookie($cookie->getName(), $cookie->getValue(), $options);
             }
         }
     }

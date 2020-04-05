@@ -31,6 +31,8 @@ class Cookie
     private $isSecure = false;
     /** @var bool Whether or not this cookie is HTTP only */
     private $isHttpOnly = true;
+    /** @var string|null The same-site setting to use if set, otherwise null */
+    private $sameSite;
 
     /**
      * @param string $name The name of the cookie
@@ -40,6 +42,7 @@ class Cookie
      * @param string $domain The domain the cookie is valid on
      * @param bool $isSecure Whether or not this cookie is on HTTPS
      * @param bool $isHttpOnly Whether or not this cookie is HTTP only
+     * @param string|null $sameSite The same-site setting to use if set, otherwise null
      */
     public function __construct(
         string $name,
@@ -48,7 +51,8 @@ class Cookie
         string $path = '/',
         string $domain = '',
         bool $isSecure = false,
-        bool $isHttpOnly = true
+        bool $isHttpOnly = true,
+        string $sameSite = null
     ) {
         $this->name = $name;
         $this->value = $value;
@@ -57,6 +61,7 @@ class Cookie
         $this->domain = $domain;
         $this->isSecure = $isSecure;
         $this->isHttpOnly = $isHttpOnly;
+        $this->sameSite = $sameSite;
     }
 
     /**
@@ -89,6 +94,14 @@ class Cookie
     public function getPath() : string
     {
         return $this->path;
+    }
+
+    /**
+     * @return string|null The same-site setting if set, otherwise null
+     */
+    public function getSameSite()
+    {
+        return $this->sameSite;
     }
 
     /**
@@ -157,6 +170,14 @@ class Cookie
     public function setPath(string $path)
     {
         $this->path = $path;
+    }
+
+    /**
+     * @param string|null $sameSite The same-site setting to use
+     */
+    public function setSameSite($sameSite)
+    {
+        $this->sameSite = $sameSite;
     }
 
     /**

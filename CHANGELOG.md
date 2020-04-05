@@ -1,3 +1,9 @@
+<h2>v1.1.13 (2020-4-5)</h2>
+
+<h3>HTTP</h3>
+
+* Added same-site support to cookies
+
 <h2>v1.1.12 (2020-1-15)</h2>
 
 <h3>Validation</h3>

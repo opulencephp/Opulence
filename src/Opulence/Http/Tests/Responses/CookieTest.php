@@ -118,6 +118,23 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests that the same-site defaults to null
+     */
+    public function testSameSiteDefaultsToNull()
+    {
+        $this->assertNull($this->cookie->getSameSite());
+    }
+
+    /**
+     * Tests that the same-site setting set in the constructor is respected
+     */
+    public function testSameSiteReturnsWhatIsSetInConstructor()
+    {
+        $cookie = new Cookie($this->name, $this->value, time() + 3600, '/', '', false, false, 'lax');
+        $this->assertEquals('lax', $cookie->getSameSite());
+    }
+
+    /**
      * Tests setting the domain
      */
     public function testSettingDomain()
@@ -170,6 +187,15 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     {
         $this->cookie->setPath('blah');
         $this->assertEquals('blah', $this->cookie->getPath());
+    }
+
+    /**
+     * Tests setting the same-site
+     */
+    public function testSettingSameSite()
+    {
+        $this->cookie->setSameSite('strict');
+        $this->assertEquals('strict', $this->cookie->getSameSite());
     }
 
     /**
