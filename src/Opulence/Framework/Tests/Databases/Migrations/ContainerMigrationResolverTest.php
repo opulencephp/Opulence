@@ -28,7 +28,7 @@ class ContainerMigrationResolverTest
     /**
      * Sets up tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->container = $this->createMock(IContainer::class);
         $this->migrationResolver = new ContainerMigrationResolver($this->container);

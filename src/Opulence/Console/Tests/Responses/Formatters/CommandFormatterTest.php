@@ -32,7 +32,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->formatter = new CommandFormatter();
         $this->commandCollection = new CommandCollection(new Compiler());

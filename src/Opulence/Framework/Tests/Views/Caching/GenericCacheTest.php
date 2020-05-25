@@ -29,7 +29,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->bridge = $this->createMock(ICacheBridge::class);
         $this->cache = new GenericCache($this->bridge, 3600);

@@ -25,7 +25,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->context = new AuthenticationContext();
     }

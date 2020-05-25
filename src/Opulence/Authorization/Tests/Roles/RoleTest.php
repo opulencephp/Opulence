@@ -23,7 +23,7 @@ class RoleTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->role = new Role(1, 'foo');
     }

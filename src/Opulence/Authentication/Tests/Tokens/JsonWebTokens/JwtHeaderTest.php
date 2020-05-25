@@ -25,7 +25,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->header = new JwtHeader(Algorithms::SHA512);
     }

@@ -36,7 +36,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->viewFactory = $this->createMock(IViewFactory::class);
         $this->viewCompiler = $this->createMock(ICompiler::class);
@@ -49,7 +49,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown()
+    protected function tearDown()
     {
         ob_end_clean();
     }

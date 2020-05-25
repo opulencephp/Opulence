@@ -27,7 +27,7 @@ class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->middlewarePipeline = new MiddlewarePipeline();
     }

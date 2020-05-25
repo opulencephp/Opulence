@@ -39,7 +39,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         /** @var ICompilerRegistry|\PHPUnit_Framework_MockObject_MockObject $registry */
         $registry = $this->createMock(ICompilerRegistry::class);

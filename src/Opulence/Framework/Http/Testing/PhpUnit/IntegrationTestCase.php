@@ -141,7 +141,7 @@ abstract class IntegrationTestCase extends TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->container->bindInstance(IExceptionHandler::class, $this->getExceptionHandler());
         $this->container->bindInstance(IExceptionRenderer::class, $this->getExceptionRenderer());

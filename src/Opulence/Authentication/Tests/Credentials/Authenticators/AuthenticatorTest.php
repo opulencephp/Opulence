@@ -29,7 +29,7 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->authenticatorRegistry = $this->createMock(IAuthenticatorRegistry::class);
         $this->authenticator = new Authenticator($this->authenticatorRegistry);

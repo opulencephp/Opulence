@@ -54,7 +54,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->fileSystem = new FileSystem();
         $this->cache = new FileCache(__DIR__ . '/tmp', 3600);

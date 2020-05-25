@@ -23,7 +23,7 @@ class DerivedKeysTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->derivedKeys = new DerivedKeys(str_repeat('1', 32), str_repeat('2', 32));
     }

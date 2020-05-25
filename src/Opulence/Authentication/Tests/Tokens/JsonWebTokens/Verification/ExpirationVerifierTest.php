@@ -31,7 +31,7 @@ class ExpirationVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->verifier = new ExpirationVerifier();
         $this->jwt = $this->getMockBuilder(SignedJwt::class)

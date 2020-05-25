@@ -31,7 +31,7 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->connection = $this->createMock(IConnection::class);
         $this->migrationResolver = $this->createMock(IMigrationResolver::class);

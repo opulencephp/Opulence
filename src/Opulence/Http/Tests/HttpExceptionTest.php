@@ -26,7 +26,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->previousException = new Exception();
         $this->exception = new HttpException(

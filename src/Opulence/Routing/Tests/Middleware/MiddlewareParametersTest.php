@@ -23,7 +23,7 @@ class MiddlewareParametersTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->parameters = new MiddlewareParameters('foo', ['bar' => 'baz']);
     }

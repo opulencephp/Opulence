@@ -26,7 +26,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->cache = new ArrayCache();
         $this->view = $this->createMock(IView::class);

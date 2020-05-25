@@ -29,7 +29,7 @@ class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->assertions = new ViewAssertions();
         $this->mockView = $this->createMock(IView::class);

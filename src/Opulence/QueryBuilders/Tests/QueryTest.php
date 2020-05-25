@@ -25,7 +25,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the test
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->query = $this->getMockForAbstractClass(Query::class);
     }

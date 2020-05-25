@@ -32,7 +32,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->view = new View();
         $this->fileSystem = new FileSystem();

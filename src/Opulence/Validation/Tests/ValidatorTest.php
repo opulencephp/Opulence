@@ -38,7 +38,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);
         /** @var ErrorTemplateRegistry|\PHPUnit_Framework_MockObject_MockObject $errorTemplateRegistry */

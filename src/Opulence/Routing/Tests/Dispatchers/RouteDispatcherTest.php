@@ -46,7 +46,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->dependencyResolver = $this->createMock(IDependencyResolver::class);
         $this->dependencyResolver->expects($this->any())

@@ -24,7 +24,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->request = new Request();
     }

@@ -40,7 +40,7 @@ class AccessTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->signer->expects($this->any())

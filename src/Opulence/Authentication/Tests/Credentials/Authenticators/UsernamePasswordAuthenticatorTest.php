@@ -35,7 +35,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->userRepository = $this->createMock(IUserRepository::class);
         $this->roleRepository = $this->createMock(IRoleRepository::class);

@@ -28,7 +28,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->registry = $this->createMock(ICompilerRegistry::class);
         $this->compiler = new Compiler($this->registry);

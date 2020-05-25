@@ -25,7 +25,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->keyDeriver = new Pbkdf2KeyDeriver();
     }

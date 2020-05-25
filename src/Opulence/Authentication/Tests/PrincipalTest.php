@@ -23,7 +23,7 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->principal = new Principal('foo', 'bar', ['baz']);
     }

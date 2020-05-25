@@ -38,7 +38,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);
         $this->errorTemplateRegistry = $this->createMock(ErrorTemplateRegistry::class);

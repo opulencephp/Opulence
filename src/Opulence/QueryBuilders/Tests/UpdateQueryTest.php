@@ -26,7 +26,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->condition = $this->createMock(ICondition::class);
         $this->condition->expects($this->any())

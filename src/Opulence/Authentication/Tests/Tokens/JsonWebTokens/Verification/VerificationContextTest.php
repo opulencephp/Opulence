@@ -26,7 +26,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->context = new VerificationContext($this->signer);

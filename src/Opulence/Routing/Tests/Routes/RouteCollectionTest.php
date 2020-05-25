@@ -28,7 +28,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->collection = new RouteCollection();
     }

@@ -24,7 +24,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->token = new Token(TokenTypes::T_EXPRESSION, 'foo', 1);
     }

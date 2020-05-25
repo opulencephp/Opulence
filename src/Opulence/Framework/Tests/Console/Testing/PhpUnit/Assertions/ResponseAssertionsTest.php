@@ -27,7 +27,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->assertions = new ResponseAssertions();
         $this->mockResponse = $this->getMockBuilder(StreamResponse::class)

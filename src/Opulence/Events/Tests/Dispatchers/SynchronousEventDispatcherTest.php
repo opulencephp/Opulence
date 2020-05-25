@@ -32,7 +32,7 @@ class SynchronousEventDispatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->eventRegistry = $this->createMock(IEventRegistry::class);
         $this->dispatcher = new SynchronousEventDispatcher($this->eventRegistry);

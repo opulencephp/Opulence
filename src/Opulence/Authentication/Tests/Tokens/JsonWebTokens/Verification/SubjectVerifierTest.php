@@ -30,7 +30,7 @@ class SubjectVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->verifier = new SubjectVerifier('foo');
         $this->jwt = $this->getMockBuilder(SignedJwt::class)

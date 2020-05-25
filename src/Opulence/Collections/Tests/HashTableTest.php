@@ -27,7 +27,7 @@ class HashTableTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->hashTable = new HashTable();
     }

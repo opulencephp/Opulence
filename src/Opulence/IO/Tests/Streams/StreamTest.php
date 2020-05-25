@@ -22,7 +22,7 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     /**
      * Cleans up the tests
      */
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         if (file_exists(self::TEMP_FILE)) {
             @unlink(self::TEMP_FILE);

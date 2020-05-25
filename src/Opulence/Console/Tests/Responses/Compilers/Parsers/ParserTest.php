@@ -29,7 +29,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->parser = new Parser();
     }

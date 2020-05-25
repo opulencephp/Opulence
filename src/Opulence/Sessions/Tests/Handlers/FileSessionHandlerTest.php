@@ -52,7 +52,7 @@ class FileSessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->fileSystem = new FileSystem();
         $this->handler = new FileSessionHandler(__DIR__ . '/' . self::$path);
@@ -61,7 +61,7 @@ class FileSessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown()
+    protected function tearDown()
     {
         @unlink(__DIR__ . '/' . self::$path . '/foo');
         @unlink(__DIR__ . '/' . self::$path . '/bar');
