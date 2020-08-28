@@ -34,7 +34,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     public function testAddedNamesAreNormalized()
     {
         $this->headers->add('FOO', 'fooval');
-        $this->assertEquals('fooval', $this->headers->get('foo'));
+        $this->assertSame('fooval', $this->headers->get('foo'));
         $this->assertTrue($this->headers->has('foo'));
     }
 
@@ -44,7 +44,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     public function testAddingStringValue()
     {
         $this->headers->add('foo', 'bar');
-        $this->assertEquals('bar', $this->headers->get('foo'));
+        $this->assertSame('bar', $this->headers->get('foo'));
     }
 
     /**
@@ -52,7 +52,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAllValuesWhenKeyDoesNotExist()
     {
-        $this->assertEquals('foo', $this->headers->get('THIS_DOES_NOT_EXIST', 'foo', false));
+        $this->assertSame('foo', $this->headers->get('THIS_DOES_NOT_EXIST', 'foo', false));
     }
 
     /**
@@ -61,7 +61,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     public function testGettingFirstValue()
     {
         $this->headers->set('FOO', 'bar');
-        $this->assertEquals('bar', $this->headers->get('FOO', null, true));
+        $this->assertSame('bar', $this->headers->get('FOO', null, true));
     }
 
     /**
@@ -69,7 +69,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingFirstValueWhenKeyDoesNotExist()
     {
-        $this->assertEquals('foo', $this->headers->get('THIS_DOES_NOT_EXIST', 'foo', true));
+        $this->assertSame('foo', $this->headers->get('THIS_DOES_NOT_EXIST', 'foo', true));
     }
 
     /**
@@ -91,10 +91,10 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
         $headers->add('BAR', 'barval');
         $headers->add('BAZ', 'bazval');
         $headers->add('BLAH', 'blahval');
-        $this->assertEquals('fooval', $headers->get('foo'));
-        $this->assertEquals('barval', $headers->get('bar'));
-        $this->assertEquals('bazval', $headers->get('baz'));
-        $this->assertEquals('blahval', $headers->get('blah'));
+        $this->assertSame('fooval', $headers->get('foo'));
+        $this->assertSame('barval', $headers->get('bar'));
+        $this->assertSame('bazval', $headers->get('baz'));
+        $this->assertSame('blahval', $headers->get('blah'));
         $this->assertTrue($headers->has('foo'));
         $this->assertTrue($headers->has('bar'));
         $this->assertTrue($headers->has('baz'));
@@ -112,7 +112,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     public function testSetNamesAreNormalized()
     {
         $this->headers->set('FOO', 'fooval');
-        $this->assertEquals('fooval', $this->headers->get('foo'));
+        $this->assertSame('fooval', $this->headers->get('foo'));
         $this->assertTrue($this->headers->has('foo'));
     }
 }

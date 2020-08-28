@@ -43,6 +43,6 @@ class FileViewReaderTest extends \PHPUnit\Framework\TestCase
      */
     public function testReadingExistingFile()
     {
-        $this->assertEquals('Foo', $this->reader->read(__DIR__ . '/../../files/Foo.html'));
+        $this->assertSame('Foo', $this->reader->read(__DIR__ . '/../../files/Foo.html'));
     }
 }

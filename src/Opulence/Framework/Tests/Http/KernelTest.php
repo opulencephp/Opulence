@@ -135,7 +135,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
         $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals(ResponseHeaders::HTTP_OK, $response->getStatusCode());
+        $this->assertSame(ResponseHeaders::HTTP_OK, $response->getStatusCode());
     }
 
     /**
@@ -147,7 +147,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
         $kernel->addMiddleware(HeaderSetter::class);
         $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
-        $this->assertEquals('bar', $response->getHeaders()->get('foo'));
+        $this->assertSame('bar', $response->getHeaders()->get('foo'));
     }
 
     /**
@@ -159,7 +159,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
         $kernel->addMiddleware(ParameterizedMiddleware::withParameters(['foo' => 'bar']));
         $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
-        $this->assertEquals('middleware', $response->getHeaders()->get('parameterized'));
+        $this->assertSame('middleware', $response->getHeaders()->get('parameterized'));
     }
 
     /**

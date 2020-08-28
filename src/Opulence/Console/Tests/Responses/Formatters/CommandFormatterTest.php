@@ -59,7 +59,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
             ArgumentTypes::IS_ARRAY,
             'Blah argument'
         ));
-        $this->assertEquals('foo [--help|-h] bar [baz] blah1...blahN', $this->formatter->format($command));
+        $this->assertSame('foo [--help|-h] bar [baz] blah1...blahN', $this->formatter->format($command));
     }
 
     /**
@@ -78,7 +78,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
             ArgumentTypes::REQUIRED,
             'Baz argument'
         ));
-        $this->assertEquals('foo [--help|-h] bar baz', $this->formatter->format($command));
+        $this->assertSame('foo [--help|-h] bar baz', $this->formatter->format($command));
     }
 
     /**
@@ -87,7 +87,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
     public function testFormattingCommandWithNoArgumentsOrOptions()
     {
         $command = new SimpleCommand('foo', 'Foo command');
-        $this->assertEquals('foo [--help|-h]', $this->formatter->format($command));
+        $this->assertSame('foo [--help|-h]', $this->formatter->format($command));
     }
 
     /**
@@ -101,7 +101,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
             ArgumentTypes::REQUIRED,
             'Bar argument'
         ));
-        $this->assertEquals('foo [--help|-h] bar', $this->formatter->format($command));
+        $this->assertSame('foo [--help|-h] bar', $this->formatter->format($command));
     }
 
     /**
@@ -117,7 +117,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
             'Bar option',
             'yes'
         ));
-        $this->assertEquals('foo [--help|-h] [--bar=yes|-b]', $this->formatter->format($command));
+        $this->assertSame('foo [--help|-h] [--bar=yes|-b]', $this->formatter->format($command));
     }
 
     /**
@@ -133,7 +133,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
             'Bar option',
             'yes'
         ));
-        $this->assertEquals('foo [--help|-h] [--bar=yes]', $this->formatter->format($command));
+        $this->assertSame('foo [--help|-h] [--bar=yes]', $this->formatter->format($command));
     }
 
     /**
@@ -148,7 +148,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
             OptionTypes::NO_VALUE,
             'Bar option'
         ));
-        $this->assertEquals('foo [--help|-h] [--bar]', $this->formatter->format($command));
+        $this->assertSame('foo [--help|-h] [--bar]', $this->formatter->format($command));
     }
 
     /**
@@ -162,7 +162,7 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
             ArgumentTypes::OPTIONAL,
             'Bar argument'
         ));
-        $this->assertEquals('foo [--help|-h] [bar]', $this->formatter->format($command));
+        $this->assertSame('foo [--help|-h] [bar]', $this->formatter->format($command));
     }
 
     /**
@@ -176,6 +176,6 @@ class CommandFormatterTest extends \PHPUnit\Framework\TestCase
             ArgumentTypes::IS_ARRAY | ArgumentTypes::OPTIONAL,
             'Blah argument'
         ));
-        $this->assertEquals('foo [--help|-h] [blah1]...[blahN]', $this->formatter->format($command));
+        $this->assertSame('foo [--help|-h] [blah1]...[blahN]', $this->formatter->format($command));
     }
 }

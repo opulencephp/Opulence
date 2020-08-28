@@ -146,8 +146,8 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $postRoutes */
         $postRoutes = $this->router->getRouteCollection()->get(RequestMethods::POST);
-        $this->assertEquals("\d+", $getRoutes[0]->getVarRegex('id'));
-        $this->assertEquals("\d+", $postRoutes[0]->getVarRegex('id'));
+        $this->assertSame("\d+", $getRoutes[0]->getVarRegex('id'));
+        $this->assertSame("\d+", $postRoutes[0]->getVarRegex('id'));
     }
 
     /**
@@ -184,9 +184,9 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $deleteRoutes */
         $deleteRoutes = $this->router->getRouteCollection()->get(RequestMethods::DELETE);
-        $this->assertEquals('/foo/bar', $getRoutes[0]->getRawPath());
+        $this->assertSame('/foo/bar', $getRoutes[0]->getRawPath());
         $this->assertEquals(['foo1', 'foo2'], $getRoutes[0]->getMiddleware());
-        $this->assertEquals('/foo/blah', $deleteRoutes[0]->getRawPath());
+        $this->assertSame('/foo/blah', $deleteRoutes[0]->getRawPath());
         $this->assertEquals(['foo1', 'foo2'], $deleteRoutes[0]->getMiddleware());
     }
 
@@ -212,11 +212,11 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $deleteRoutes */
         $deleteRoutes = $this->router->getRouteCollection()->get(RequestMethods::DELETE);
-        $this->assertEquals('/foo/bar', $getRoutes[0]->getRawPath());
+        $this->assertSame('/foo/bar', $getRoutes[0]->getRawPath());
         $this->assertEquals(['foo1', 'foo2', 'foo3', 'foo4'], $getRoutes[0]->getMiddleware());
-        $this->assertEquals('/asdf', $getRoutes[1]->getRawPath());
+        $this->assertSame('/asdf', $getRoutes[1]->getRawPath());
         $this->assertEquals(['foo3', 'foo4'], $getRoutes[1]->getMiddleware());
-        $this->assertEquals('/foo/blah', $deleteRoutes[0]->getRawPath());
+        $this->assertSame('/foo/blah', $deleteRoutes[0]->getRawPath());
         $this->assertEquals(['foo1', 'foo2', 'foo3', 'foo4'], $deleteRoutes[0]->getMiddleware());
     }
 
@@ -301,14 +301,14 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $deleteRoutes */
         $deleteRoutes = $this->router->getRouteCollection()->get(RequestMethods::DELETE);
-        $this->assertEquals('/foo/bar', $getRoutes[0]->getRawPath());
-        $this->assertEquals(MockController::class, $getRoutes[0]->getControllerName());
+        $this->assertSame('/foo/bar', $getRoutes[0]->getRawPath());
+        $this->assertSame(MockController::class, $getRoutes[0]->getControllerName());
         $this->assertEquals(['foo1', 'foo2'], $getRoutes[0]->getMiddleware());
-        $this->assertEquals('/foo/asdf/jkl', $getRoutes[1]->getRawPath());
-        $this->assertEquals(MockController::class, $getRoutes[1]->getControllerName());
+        $this->assertSame('/foo/asdf/jkl', $getRoutes[1]->getRawPath());
+        $this->assertSame(MockController::class, $getRoutes[1]->getControllerName());
         $this->assertEquals(['foo1', 'foo2', 'foo3', 'foo4'], $getRoutes[1]->getMiddleware());
-        $this->assertEquals('/foo/blah', $deleteRoutes[0]->getRawPath());
-        $this->assertEquals(MockController::class, $deleteRoutes[0]->getControllerName());
+        $this->assertSame('/foo/blah', $deleteRoutes[0]->getRawPath());
+        $this->assertSame(MockController::class, $deleteRoutes[0]->getControllerName());
         $this->assertEquals(['foo1', 'foo2'], $deleteRoutes[0]->getMiddleware());
     }
 
@@ -328,9 +328,9 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
-        $this->assertEquals("\d*", $getRoutes[0]->getVarRegex('id'));
-        $this->assertEquals("\w+", $getRoutes[1]->getVarRegex('id'));
-        $this->assertEquals("\d+", $getRoutes[2]->getVarRegex('id'));
+        $this->assertSame("\d*", $getRoutes[0]->getVarRegex('id'));
+        $this->assertSame("\w+", $getRoutes[1]->getVarRegex('id'));
+        $this->assertSame("\d+", $getRoutes[2]->getVarRegex('id'));
     }
 
     /**
@@ -449,7 +449,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $response = $this->router->route($request);
         $this->assertInstanceOf(Response::class, $response);
         $this->assertInstanceOf(NonOpulenceController::class, $this->router->getMatchedController());
-        $this->assertEquals('Id: 123', $response->getContent());
+        $this->assertSame('Id: 123', $response->getContent());
     }
 
     /**
@@ -493,8 +493,8 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $postRoutes */
         $postRoutes = $this->router->getRouteCollection()->get(RequestMethods::POST);
-        $this->assertEquals('google.com', $getRoutes[0]->getRawHost());
-        $this->assertEquals('google.com', $postRoutes[0]->getRawHost());
+        $this->assertSame('google.com', $getRoutes[0]->getRawHost());
+        $this->assertSame('google.com', $postRoutes[0]->getRawHost());
     }
 
     /**
@@ -510,8 +510,8 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $postRoutes */
         $postRoutes = $this->router->getRouteCollection()->get(RequestMethods::POST);
-        $this->assertEquals('MyApp\\Controllers\\ControllerA', $getRoutes[0]->getControllerName());
-        $this->assertEquals('MyApp\\Controllers\\ControllerB', $postRoutes[0]->getControllerName());
+        $this->assertSame('MyApp\\Controllers\\ControllerA', $getRoutes[0]->getControllerName());
+        $this->assertSame('MyApp\\Controllers\\ControllerB', $postRoutes[0]->getControllerName());
     }
 
     /**
@@ -527,8 +527,8 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $postRoutes */
         $postRoutes = $this->router->getRouteCollection()->get(RequestMethods::POST);
-        $this->assertEquals('MyApp\\Controllers\\ControllerA', $getRoutes[0]->getControllerName());
-        $this->assertEquals('MyApp\\Controllers\\ControllerB', $postRoutes[0]->getControllerName());
+        $this->assertSame('MyApp\\Controllers\\ControllerA', $getRoutes[0]->getControllerName());
+        $this->assertSame('MyApp\\Controllers\\ControllerB', $postRoutes[0]->getControllerName());
     }
 
     /**
@@ -546,8 +546,8 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $getRoutes = $this->router->getRouteCollection()->get(RequestMethods::GET);
         /** @var Route[] $postRoutes */
         $postRoutes = $this->router->getRouteCollection()->get(RequestMethods::POST);
-        $this->assertEquals('mail.google.com', $getRoutes[0]->getRawHost());
-        $this->assertEquals('mail.google.com', $postRoutes[0]->getRawHost());
+        $this->assertSame('mail.google.com', $getRoutes[0]->getRawHost());
+        $this->assertSame('mail.google.com', $postRoutes[0]->getRawHost());
     }
 
     /**

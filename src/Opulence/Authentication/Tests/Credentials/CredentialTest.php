@@ -33,7 +33,7 @@ class CredentialTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingType()
     {
-        $this->assertEquals('foo', $this->credential->getType());
+        $this->assertSame('foo', $this->credential->getType());
     }
 
     /**
@@ -41,7 +41,7 @@ class CredentialTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingValue()
     {
-        $this->assertEquals('baz', $this->credential->getValue('bar'));
+        $this->assertSame('baz', $this->credential->getValue('bar'));
     }
 
     /**

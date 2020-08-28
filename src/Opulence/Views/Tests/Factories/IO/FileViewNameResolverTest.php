@@ -104,7 +104,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     {
         $this->resolver->registerExtension('php');
         $this->resolver->registerPath(self::getTmpFilePath() . '/');
-        $this->assertEquals(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
+        $this->assertSame(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
     }
 
     /**
@@ -125,7 +125,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     {
         $this->resolver->registerExtension('.php');
         $this->resolver->registerPath(self::getTmpFilePath());
-        $this->assertEquals(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
+        $this->assertSame(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
     }
 
     /**
@@ -135,9 +135,9 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     {
         $this->resolver->registerExtension('php');
         $this->resolver->registerPath(self::getTmpFilePath());
-        $this->assertEquals(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
+        $this->assertSame(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
         $this->resolver->registerExtension('fortune');
-        $this->assertEquals(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
+        $this->assertSame(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
     }
 
     /**
@@ -147,9 +147,9 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     {
         $this->resolver->registerExtension('php');
         $this->resolver->registerPath(self::getTmpFileSubDirPath());
-        $this->assertEquals(self::getTmpFileSubDirPath() . '/a.php', $this->resolver->resolve('a'));
+        $this->assertSame(self::getTmpFileSubDirPath() . '/a.php', $this->resolver->resolve('a'));
         $this->resolver->registerPath(self::getTmpFilePath());
-        $this->assertEquals(self::getTmpFileSubDirPath() . '/a.php', $this->resolver->resolve('a'));
+        $this->assertSame(self::getTmpFileSubDirPath() . '/a.php', $this->resolver->resolve('a'));
     }
 
     /**
@@ -159,9 +159,9 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     {
         $this->resolver->registerExtension('php', 2);
         $this->resolver->registerPath(self::getTmpFilePath());
-        $this->assertEquals(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
+        $this->assertSame(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
         $this->resolver->registerExtension('fortune', 1);
-        $this->assertEquals(self::getTmpFilePath() . '/a.fortune', $this->resolver->resolve('a'));
+        $this->assertSame(self::getTmpFilePath() . '/a.fortune', $this->resolver->resolve('a'));
     }
 
     /**
@@ -171,9 +171,9 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     {
         $this->resolver->registerExtension('php');
         $this->resolver->registerPath(self::getTmpFileSubDirPath(), 2);
-        $this->assertEquals(self::getTmpFileSubDirPath() . '/a.php', $this->resolver->resolve('a'));
+        $this->assertSame(self::getTmpFileSubDirPath() . '/a.php', $this->resolver->resolve('a'));
         $this->resolver->registerPath(self::getTmpFilePath(), 1);
-        $this->assertEquals(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
+        $this->assertSame(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
     }
 
     /**
@@ -184,7 +184,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
         $this->resolver->registerExtension('php');
         $this->resolver->registerExtension('fortune');
         $this->resolver->registerPath(self::getTmpFilePath());
-        $this->assertEquals(self::getTmpFilePath() . '/a.fortune', $this->resolver->resolve('a.fortune'));
+        $this->assertSame(self::getTmpFilePath() . '/a.fortune', $this->resolver->resolve('a.fortune'));
     }
 
     /**
@@ -195,6 +195,6 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
         $this->resolver->registerExtension('fortune.php');
         $this->resolver->registerExtension('php');
         $this->resolver->registerPath(self::getTmpFilePath());
-        $this->assertEquals(self::getTmpFilePath() . '/a.fortune.php', $this->resolver->resolve('a'));
+        $this->assertSame(self::getTmpFilePath() . '/a.fortune.php', $this->resolver->resolve('a'));
     }
 }

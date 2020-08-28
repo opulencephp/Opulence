@@ -46,7 +46,7 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
     public function testGettingAlgorithm()
     {
         $signer = new HmacSigner(Algorithms::RSA_SHA512, 'public', 'private');
-        $this->assertEquals(Algorithms::RSA_SHA512, $signer->getAlgorithm());
+        $this->assertSame(Algorithms::RSA_SHA512, $signer->getAlgorithm());
     }
 
     /**
@@ -62,7 +62,7 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
 
         foreach ($algorithms as $jwtAlgorithm => $hashAlgorithm) {
             $signer = new HmacSigner($jwtAlgorithm, 'public');
-            $this->assertEquals(
+            $this->assertSame(
                 hash_hmac($hashAlgorithm, $this->unsignedToken->getUnsignedValue(), 'public', true),
                 $signer->sign($this->unsignedToken->getUnsignedValue())
             );

@@ -34,7 +34,7 @@ class EqualsRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new EqualsRule();
-        $this->assertEquals('equals', $rule->getSlug());
+        $this->assertSame('equals', $rule->getSlug());
     }
 
     /**

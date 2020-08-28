@@ -78,7 +78,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDefaultValue()
     {
-        $this->assertEquals('bar', $this->argument->getDefaultValue());
+        $this->assertSame('bar', $this->argument->getDefaultValue());
     }
 
     /**
@@ -86,7 +86,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDescription()
     {
-        $this->assertEquals('Foo argument', $this->argument->getDescription());
+        $this->assertSame('Foo argument', $this->argument->getDescription());
     }
 
     /**
@@ -94,7 +94,7 @@ class ArgumentTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingName()
     {
-        $this->assertEquals('foo', $this->argument->getName());
+        $this->assertSame('foo', $this->argument->getName());
     }
 
     /**

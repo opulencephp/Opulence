@@ -45,7 +45,7 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new ConditionalRule();
-        $this->assertEquals('conditional', $rule->getSlug());
+        $this->assertSame('conditional', $rule->getSlug());
     }
 
     /**

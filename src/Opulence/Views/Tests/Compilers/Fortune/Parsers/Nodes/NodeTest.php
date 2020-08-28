@@ -66,6 +66,6 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     {
         /** @var Node $node */
         $node = $this->getMockForAbstractClass(Node::class, ['foo']);
-        $this->assertEquals('foo', $node->getValue());
+        $this->assertSame('foo', $node->getValue());
     }
 }

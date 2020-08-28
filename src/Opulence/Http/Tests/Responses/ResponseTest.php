@@ -36,7 +36,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     public function testGettingContent()
     {
         $response = new Response('foo');
-        $this->assertEquals('foo', $response->getContent());
+        $this->assertSame('foo', $response->getContent());
     }
 
     /**
@@ -44,7 +44,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDefaultHttpVersion()
     {
-        $this->assertEquals('1.1', $this->response->getHttpVersion());
+        $this->assertSame('1.1', $this->response->getHttpVersion());
     }
 
     /**
@@ -52,7 +52,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDefaultStatusCode()
     {
-        $this->assertEquals(ResponseHeaders::HTTP_OK, $this->response->getStatusCode());
+        $this->assertSame(ResponseHeaders::HTTP_OK, $this->response->getStatusCode());
     }
 
     /**
@@ -65,7 +65,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $this->response->setContent('foo');
         ob_start();
         $this->response->sendContent();
-        $this->assertEquals('foo', ob_get_clean());
+        $this->assertSame('foo', ob_get_clean());
     }
 
     /**
@@ -74,7 +74,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     public function testSettingContent()
     {
         $this->response->setContent('foo');
-        $this->assertEquals('foo', $this->response->getContent());
+        $this->assertSame('foo', $this->response->getContent());
     }
 
     /**
@@ -84,7 +84,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     {
         $expiration = new DateTime('now');
         $this->response->setExpiration($expiration);
-        $this->assertEquals($expiration->format('r'), $this->response->getHeaders()->get('Expires'));
+        $this->assertSame($expiration->format('r'), $this->response->getHeaders()->get('Expires'));
     }
 
     /**
@@ -93,7 +93,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     public function testSettingHttpVersion()
     {
         $this->response->setHttpVersion('2.0');
-        $this->assertEquals('2.0', $this->response->getHttpVersion());
+        $this->assertSame('2.0', $this->response->getHttpVersion());
     }
 
     /**
@@ -102,7 +102,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     public function testSettingStatusCode()
     {
         $this->response->setStatusCode(ResponseHeaders::HTTP_ACCEPTED);
-        $this->assertEquals(ResponseHeaders::HTTP_ACCEPTED, $this->response->getStatusCode());
+        $this->assertSame(ResponseHeaders::HTTP_ACCEPTED, $this->response->getStatusCode());
     }
 
     /**
@@ -112,6 +112,6 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     {
         $this->response->setStatusCode(ResponseHeaders::HTTP_ACCEPTED,
             ResponseHeaders::$statusTexts[ResponseHeaders::HTTP_ACCEPTED]);
-        $this->assertEquals(ResponseHeaders::HTTP_ACCEPTED, $this->response->getStatusCode());
+        $this->assertSame(ResponseHeaders::HTTP_ACCEPTED, $this->response->getStatusCode());
     }
 }

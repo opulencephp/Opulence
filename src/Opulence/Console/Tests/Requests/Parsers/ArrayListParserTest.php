@@ -50,10 +50,10 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
             'name' => 'foo',
             'options' => ['--name=dave', '-r']
         ]);
-        $this->assertEquals('foo', $request->getCommandName());
+        $this->assertSame('foo', $request->getCommandName());
         $this->assertEquals([], $request->getArgumentValues());
         $this->assertNull($request->getOptionValue('r'));
-        $this->assertEquals('dave', $request->getOptionValue('name'));
+        $this->assertSame('dave', $request->getOptionValue('name'));
     }
 
     /**
@@ -65,7 +65,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
             'name' => 'foo',
             'arguments' => ['bar']
         ]);
-        $this->assertEquals('foo', $request->getCommandName());
+        $this->assertSame('foo', $request->getCommandName());
         $this->assertEquals(['bar'], $request->getArgumentValues());
         $this->assertEquals([], $request->getOptionValues());
     }
@@ -80,10 +80,10 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
             'arguments' => ['bar'],
             'options' => ['--name=dave', '-r']
         ]);
-        $this->assertEquals('foo', $request->getCommandName());
+        $this->assertSame('foo', $request->getCommandName());
         $this->assertEquals(['bar'], $request->getArgumentValues());
         $this->assertNull($request->getOptionValue('r'));
-        $this->assertEquals('dave', $request->getOptionValue('name'));
+        $this->assertSame('dave', $request->getOptionValue('name'));
     }
 
     /**
@@ -94,7 +94,7 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
         $request = $this->parser->parse([
             'name' => 'mycommand'
         ]);
-        $this->assertEquals('mycommand', $request->getCommandName());
+        $this->assertSame('mycommand', $request->getCommandName());
     }
 
     /**

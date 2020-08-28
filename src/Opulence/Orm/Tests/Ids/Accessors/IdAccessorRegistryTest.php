@@ -62,9 +62,9 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
         $entity->expects($this->at(2))
             ->method('getId')
             ->willReturn(2);
-        $this->assertEquals(1, $this->registry->getEntityId($entity));
+        $this->assertSame(1, $this->registry->getEntityId($entity));
         $this->registry->setEntityId($entity, 2);
-        $this->assertEquals(2, $this->registry->getEntityId($entity));
+        $this->assertSame(2, $this->registry->getEntityId($entity));
     }
 
     /**
@@ -72,7 +72,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingEntityId()
     {
-        $this->assertEquals(724, $this->registry->getEntityId($this->entity1));
+        $this->assertSame(724, $this->registry->getEntityId($this->entity1));
     }
 
     /**
@@ -106,7 +106,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
         $this->registry->registerReflectionIdAccessors(Foo::class, 'id');
         $foo = new Foo();
         $this->registry->setEntityId($foo, 24);
-        $this->assertEquals(24, $this->registry->getEntityId($foo));
+        $this->assertSame(24, $this->registry->getEntityId($foo));
     }
 
     /**
@@ -119,8 +119,8 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
         $bar = new Bar();
         $this->registry->setEntityId($foo, 24);
         $this->registry->setEntityId($bar, 42);
-        $this->assertEquals(24, $this->registry->getEntityId($foo));
-        $this->assertEquals(42, $this->registry->getEntityId($bar));
+        $this->assertSame(24, $this->registry->getEntityId($foo));
+        $this->assertSame(42, $this->registry->getEntityId($bar));
     }
 
     /**
@@ -150,9 +150,9 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
             $entity->setId($id);
         };
         $this->registry->registerIdAccessors(['FooEntity', 'BarEntity'], $getter, $setter);
-        $this->assertEquals(123, $this->registry->getEntityId($entity1));
+        $this->assertSame(123, $this->registry->getEntityId($entity1));
         $this->registry->setEntityId($entity1, 123);
-        $this->assertEquals(123, $this->registry->getEntityId($entity2));
+        $this->assertSame(123, $this->registry->getEntityId($entity2));
         $this->registry->setEntityId($entity2, 456);
     }
 
@@ -162,7 +162,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     public function testSettingEntityId()
     {
         $this->registry->setEntityId($this->entity1, 333);
-        $this->assertEquals(333, $this->entity1->getId());
+        $this->assertSame(333, $this->entity1->getId());
     }
 
     /**

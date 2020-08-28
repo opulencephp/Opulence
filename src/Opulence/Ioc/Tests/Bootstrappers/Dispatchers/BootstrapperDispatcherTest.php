@@ -83,7 +83,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
         $this->bootstrapperRegistry->registerLazyBootstrapper([LazyFooInterface::class], LazyBootstrapper::class);
         ob_start();
         $this->dispatcher->dispatch(false);
-        $this->assertEquals(LazyConcreteFoo::class, ob_get_clean());
+        $this->assertSame(LazyConcreteFoo::class, ob_get_clean());
     }
 
     /**
@@ -99,7 +99,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
         ob_start();
         $this->dispatcher->dispatch(false);
         $this->container->resolve(EagerFooInterface::class);
-        $this->assertEquals(LazyConcreteFoo::class, ob_get_clean());
+        $this->assertSame(LazyConcreteFoo::class, ob_get_clean());
     }
 
     /**
@@ -115,7 +115,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
         ob_start();
         $this->dispatcher->dispatch(false);
         $this->container->resolve(EagerFooInterface::class);
-        $this->assertEquals(LazyConcreteFoo::class, ob_get_clean());
+        $this->assertSame(LazyConcreteFoo::class, ob_get_clean());
     }
 
     /**

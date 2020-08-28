@@ -72,7 +72,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->request->addArgumentValue('baz');
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
         $this->assertEquals(['bar', 'baz'], $compiledCommand->getArgumentValue('foo'));
-        $this->assertEquals('baz', $compiledCommand->getArgumentValue('bar'));
+        $this->assertSame('baz', $compiledCommand->getArgumentValue('bar'));
     }
 
     /**
@@ -122,7 +122,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->command->addOption($option);
         $this->request->addOptionValue('foo', 'bar');
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals('bar', $compiledCommand->getOptionValue('foo'));
+        $this->assertSame('bar', $compiledCommand->getOptionValue('foo'));
     }
 
     /**
@@ -134,7 +134,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->command->addArgument($optionalArgument);
         $this->request->addArgumentValue('bar');
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals('bar', $compiledCommand->getArgumentValue('foo'));
+        $this->assertSame('bar', $compiledCommand->getArgumentValue('foo'));
     }
 
     /**
@@ -145,7 +145,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $optionalArgument = new Argument('foo', ArgumentTypes::OPTIONAL, 'Foo command', 'baz');
         $this->command->addArgument($optionalArgument);
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals('baz', $compiledCommand->getArgumentValue('foo'));
+        $this->assertSame('baz', $compiledCommand->getArgumentValue('foo'));
     }
 
     /**
@@ -158,8 +158,8 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->command->addArgument($optionalArgument1);
         $this->command->addArgument($optionalArgument2);
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals('fooValue', $compiledCommand->getArgumentValue('foo'));
-        $this->assertEquals('barValue', $compiledCommand->getArgumentValue('bar'));
+        $this->assertSame('fooValue', $compiledCommand->getArgumentValue('foo'));
+        $this->assertSame('barValue', $compiledCommand->getArgumentValue('bar'));
     }
 
     /**
@@ -171,7 +171,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->command->addOption($option);
         $this->request->addOptionValue('foo', null);
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals('bar', $compiledCommand->getOptionValue('foo'));
+        $this->assertSame('bar', $compiledCommand->getOptionValue('foo'));
     }
 
     /**
@@ -185,8 +185,8 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->command->addArgument($optionalArgument);
         $this->request->addArgumentValue('bar');
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals('bar', $compiledCommand->getArgumentValue('foo'));
-        $this->assertEquals('baz', $compiledCommand->getArgumentValue('bar'));
+        $this->assertSame('bar', $compiledCommand->getArgumentValue('foo'));
+        $this->assertSame('baz', $compiledCommand->getArgumentValue('bar'));
     }
 
     /**
@@ -198,7 +198,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->command->addArgument($requiredArgument);
         $this->request->addArgumentValue('bar');
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals('bar', $compiledCommand->getArgumentValue('foo'));
+        $this->assertSame('bar', $compiledCommand->getArgumentValue('foo'));
     }
 
     /**
@@ -235,7 +235,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->command->addOption($option);
         $this->request->addOptionValue('foo', 'bar');
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals('bar', $compiledCommand->getOptionValue('foo'));
+        $this->assertSame('bar', $compiledCommand->getOptionValue('foo'));
     }
 
     /**
@@ -262,8 +262,8 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->command->addOption($optionalValueOption);
         $this->command->addOption($noValueOption);
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals('foo value', $compiledCommand->getOptionValue('foo'));
-        $this->assertEquals('bar value', $compiledCommand->getOptionValue('bar'));
+        $this->assertSame('foo value', $compiledCommand->getOptionValue('foo'));
+        $this->assertSame('bar value', $compiledCommand->getOptionValue('bar'));
         $this->assertNull($compiledCommand->getOptionValue('baz'));
     }
 
@@ -289,6 +289,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->command->addOption($option);
         $this->request->addOptionValue('f', null);
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
-        $this->assertEquals('bar', $compiledCommand->getOptionValue('foo'));
+        $this->assertSame('bar', $compiledCommand->getOptionValue('foo'));
     }
 }

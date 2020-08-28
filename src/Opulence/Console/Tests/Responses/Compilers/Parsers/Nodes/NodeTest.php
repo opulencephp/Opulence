@@ -59,6 +59,6 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     public function testGettingValue()
     {
         $node = new Node('foo');
-        $this->assertEquals('foo', $node->getValue());
+        $this->assertSame('foo', $node->getValue());
     }
 }

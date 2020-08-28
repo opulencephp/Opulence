@@ -95,7 +95,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
         $this->assertInstanceOf('Closure', $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals('Closure', $response->getContent());
+        $this->assertSame('Closure', $response->getContent());
     }
 
     /**
@@ -117,7 +117,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
         $this->assertInstanceOf('Closure', $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals(Request::class . ':123', $response->getContent());
+        $this->assertSame(Request::class . ':123', $response->getContent());
     }
 
     /**
@@ -132,7 +132,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
         $this->assertInstanceOf(MockController::class, $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals('invoke', $response->getContent());
+        $this->assertSame('invoke', $response->getContent());
     }
 
     /**
@@ -184,7 +184,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
         $this->assertInstanceOf(NonOpulenceController::class, $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals('Id: 123', $response->getContent());
+        $this->assertSame('Id: 123', $response->getContent());
     }
 
     /**
@@ -207,7 +207,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
         $route = $this->getCompiledRoute(
             new Route(['GET'], '/foo', MockController::class . '@protectedMethod')
         );
-        $this->assertEquals('protectedMethod', $this->dispatcher->dispatch($route, $this->request)->getContent());
+        $this->assertSame('protectedMethod', $this->dispatcher->dispatch($route, $this->request)->getContent());
     }
 
     /**
@@ -223,7 +223,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
             ]
         ];
         $route = $this->getCompiledRoute(new Route(['GET'], '/foo', $controller, $options));
-        $this->assertEquals(
+        $this->assertSame(
             'noParameters:something',
             $this->dispatcher->dispatch($route, $this->request)->getContent()
         );
@@ -241,8 +241,8 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
         );
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals('Closure', $response->getContent());
-        $this->assertEquals(ResponseHeaders::HTTP_OK, $response->getStatusCode());
+        $this->assertSame('Closure', $response->getContent());
+        $this->assertSame(ResponseHeaders::HTTP_OK, $response->getStatusCode());
     }
 
     /**
@@ -269,7 +269,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
             'middleware' => ReturnsSomethingMiddleware::class
         ];
         $route = $this->getCompiledRoute(new Route(['GET'], '/foo', $controller, $options));
-        $this->assertEquals(
+        $this->assertSame(
             'noParameters:something',
             $this->dispatcher->dispatch($route, $this->request)->getContent()
         );
@@ -304,7 +304,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
         $this->assertInstanceOf('Closure', $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals('Closure: Id: 123', $response->getContent());
+        $this->assertSame('Closure: Id: 123', $response->getContent());
     }
 
     /**
@@ -316,8 +316,8 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
             new Route(['GET'], '/foo', MockController::class . '@returnsText')
         );
         $response = $this->dispatcher->dispatch($route, $this->request);
-        $this->assertEquals('returnsText', $response->getContent());
-        $this->assertEquals(ResponseHeaders::HTTP_OK, $response->getStatusCode());
+        $this->assertSame('returnsText', $response->getContent());
+        $this->assertSame(ResponseHeaders::HTTP_OK, $response->getStatusCode());
     }
 
     /**
@@ -346,7 +346,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
         $this->assertInstanceOf('Closure', $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals('Closure: Id: 123', $response->getContent());
+        $this->assertSame('Closure: Id: 123', $response->getContent());
     }
 
     /**
@@ -373,7 +373,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
         ];
         $route = $this->getCompiledRoute(new Route(['GET'], '/foo', $controller, $options));
         $response = $this->dispatcher->dispatch($route, $this->request);
-        $this->assertEquals('bar', $response->getHeaders()->get('parameters'));
+        $this->assertSame('bar', $response->getHeaders()->get('parameters'));
     }
 
     /**

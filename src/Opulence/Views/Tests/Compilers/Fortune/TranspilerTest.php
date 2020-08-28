@@ -76,7 +76,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
             ->addChild(new ExpressionNode('<?php'))
             ->addChild(new ExpressionNode('echo "foo";'))
             ->addChild(new ExpressionNode('?>'));
-        $this->assertEquals(
+        $this->assertSame(
             '<?php echo "foo"; ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -99,7 +99,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
             ->method('get')
             ->with($view)
             ->willReturn('transpiled');
-        $this->assertEquals('transpiled', $this->transpiler->transpile($view));
+        $this->assertSame('transpiled', $this->transpiler->transpile($view));
     }
 
     /**
@@ -110,7 +110,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         $this->transpiler->registerViewFunction('foo', function () {
             return 'foobar';
         });
-        $this->assertEquals('foobar', $this->transpiler->callViewFunction('foo'));
+        $this->assertSame('foobar', $this->transpiler->callViewFunction('foo'));
     }
 
     /**
@@ -121,7 +121,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         $this->transpiler->registerViewFunction('foo', function ($input) {
             return 'foo' . $input;
         });
-        $this->assertEquals('foobar', $this->transpiler->callViewFunction('foo', 'bar'));
+        $this->assertSame('foobar', $this->transpiler->callViewFunction('foo', 'bar'));
     }
 
     /**
@@ -132,7 +132,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         $this->transpiler->startPart('foo');
         echo 'bar';
         $this->transpiler->endPart();
-        $this->assertEquals('bar', $this->transpiler->showPart('foo'));
+        $this->assertSame('bar', $this->transpiler->showPart('foo'));
     }
 
     /**
@@ -190,7 +190,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         $this->transpiler->addParent($parent1, $child);
         $this->transpiler->addParent($parent2, $child);
         $this->transpiler->transpile($child);
-        $this->assertEquals('bar', $child->getVar('foo'));
+        $this->assertSame('bar', $child->getVar('foo'));
     }
 
     /**
@@ -247,7 +247,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         $directiveNode->addChild(new ExpressionNode('bar'));
         $this->ast->getCurrentNode()
             ->addChild($directiveNode);
-        $this->assertEquals(
+        $this->assertSame(
             '<?php foo bar ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -259,7 +259,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     public function testSanitizingText()
     {
         $text = 'A&W"\'';
-        $this->assertEquals($this->xssFilter->run($text), $this->transpiler->sanitize($text));
+        $this->assertSame($this->xssFilter->run($text), $this->transpiler->sanitize($text));
     }
 
     /**
@@ -269,7 +269,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
     {
         $this->transpiler->startPart('foo');
         echo 'bar';
-        $this->assertEquals('bar', $this->transpiler->showPart());
+        $this->assertSame('bar', $this->transpiler->showPart());
     }
 
     /**
@@ -284,7 +284,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         $this->transpiler->startPart('foo');
         echo 'bar';
         $this->transpiler->endPart();
-        $this->assertEquals('barbaz', $this->transpiler->showPart('foo'));
+        $this->assertSame('barbaz', $this->transpiler->showPart('foo'));
     }
 
     /**
@@ -303,7 +303,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         $this->transpiler->startPart('foo');
         echo 'blah';
         $this->transpiler->endPart();
-        $this->assertEquals('blahbarbaz', $this->transpiler->showPart('foo'));
+        $this->assertSame('blahbarbaz', $this->transpiler->showPart('foo'));
     }
 
     /**
@@ -337,7 +337,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         $commentNode->addChild(new ExpressionNode('This is my comment'));
         $this->ast->getCurrentNode()
             ->addChild($commentNode);
-        $this->assertEquals(
+        $this->assertSame(
             '<?php /* This is my comment */ ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -351,7 +351,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         $node = new ExpressionNode('<?php echo "foo"; ?>');
         $this->ast->getCurrentNode()
             ->addChild($node);
-        $this->assertEquals(
+        $this->assertSame(
             '<?php echo "foo"; ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -366,7 +366,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         $tagNode->addChild(new ExpressionNode('$foo ? "bar" : "baz"'));
         $this->ast->getCurrentNode()
             ->addChild($tagNode);
-        $this->assertEquals(
+        $this->assertSame(
             '<?php echo $__opulenceFortuneTranspiler->sanitize($foo ? "bar" : "baz"); ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -381,7 +381,7 @@ class TranspilerTest extends \PHPUnit\Framework\TestCase
         $tagNode->addChild(new ExpressionNode('$foo ? "bar" : "baz"'));
         $this->ast->getCurrentNode()
             ->addChild($tagNode);
-        $this->assertEquals(
+        $this->assertSame(
             '<?php echo $foo ? "bar" : "baz"; ?>',
             $this->transpiler->transpile($this->view)
         );

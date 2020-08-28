@@ -44,7 +44,7 @@ class ClassBindingTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingConcreteClass()
     {
-        $this->assertEquals('foo', $this->binding->getConcreteClass());
+        $this->assertSame('foo', $this->binding->getConcreteClass());
     }
 
     /**

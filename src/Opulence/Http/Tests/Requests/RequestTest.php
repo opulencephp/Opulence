@@ -74,7 +74,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'PUT';
         $request = Request::createFromGlobals();
-        $this->assertEquals('PUT', $request->getMethod());
+        $this->assertSame('PUT', $request->getMethod());
     }
 
     /**
@@ -85,16 +85,16 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['HTTP_CONTENT_TYPE'] = 'application/json';
         $_SERVER['HTTP_CONTENT_LENGTH'] = 24;
         $request = Request::createFromGlobals();
-        $this->assertEquals('application/json', $request->getHeaders()->get('CONTENT_TYPE'));
-        $this->assertEquals(24, $request->getHeaders()->get('CONTENT_LENGTH'));
+        $this->assertSame('application/json', $request->getHeaders()->get('CONTENT_TYPE'));
+        $this->assertSame(24, $request->getHeaders()->get('CONTENT_LENGTH'));
 
         // Try again by specifying server array
         $server = [];
         $server['HTTP_CONTENT_TYPE'] = 'application/json';
         $server['HTTP_CONTENT_LENGTH'] = 24;
         $request = Request::createFromGlobals(null, null, null, $server);
-        $this->assertEquals('application/json', $request->getHeaders()->get('CONTENT_TYPE'));
-        $this->assertEquals(24, $request->getHeaders()->get('CONTENT_LENGTH'));
+        $this->assertSame('application/json', $request->getHeaders()->get('CONTENT_TYPE'));
+        $this->assertSame(24, $request->getHeaders()->get('CONTENT_LENGTH'));
     }
 
     /**
@@ -193,7 +193,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         Request::setTrustedHeaderName(RequestHeaders::CLIENT_IP, 'HTTP_CLIENT_IP');
         $_SERVER['HTTP_CLIENT_IP'] = '192.168.1.1';
         $request = Request::createFromGlobals();
-        $this->assertEquals('192.168.1.1', $request->getClientIPAddress());
+        $this->assertSame('192.168.1.1', $request->getClientIPAddress());
     }
 
     /**
@@ -206,7 +206,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         Request::setTrustedProxies('192.168.1.1');
         Request::setTrustedHeaderName(RequestHeaders::CLIENT_PORT, 'X-Forwarded-Port');
         $request = Request::createFromGlobals();
-        $this->assertEquals(8080, $request->getPort());
+        $this->assertSame(8080, $request->getPort());
     }
 
     /**
@@ -248,7 +248,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         Request::setTrustedProxies('192.168.1.1');
         Request::setTrustedHeaderName(RequestHeaders::CLIENT_PROTO, 'X-Forwarded-Proto');
         $request = Request::createFromGlobals();
-        $this->assertEquals(443, $request->getPort());
+        $this->assertSame(443, $request->getPort());
     }
 
     /**
@@ -276,11 +276,11 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testContentTypeSetForUnsupportedMethods()
     {
         $patchRequest = Request::createFromUrl('/url', 'PATCH');
-        $this->assertEquals('application/x-www-form-urlencoded', $patchRequest->getServer()->get('CONTENT_TYPE'));
+        $this->assertSame('application/x-www-form-urlencoded', $patchRequest->getServer()->get('CONTENT_TYPE'));
         $putRequest = Request::createFromUrl('/url', 'PUT');
-        $this->assertEquals('application/x-www-form-urlencoded', $putRequest->getServer()->get('CONTENT_TYPE'));
+        $this->assertSame('application/x-www-form-urlencoded', $putRequest->getServer()->get('CONTENT_TYPE'));
         $deleteRequest = Request::createFromUrl('/url', 'DELETE');
-        $this->assertEquals('application/x-www-form-urlencoded', $deleteRequest->getServer()->get('CONTENT_TYPE'));
+        $this->assertSame('application/x-www-form-urlencoded', $deleteRequest->getServer()->get('CONTENT_TYPE'));
     }
 
     /**
@@ -381,7 +381,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testCustomDefaultIsReturnedWhenNoInputFound()
     {
         $request = Request::createFromGlobals();
-        $this->assertEquals('bar', $request->getInput('foo', 'bar'));
+        $this->assertSame('bar', $request->getInput('foo', 'bar'));
     }
 
     /**
@@ -390,7 +390,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testDefaultIsReturnedWhenGettingNonExistentInputOnJsonRequest()
     {
         $request = JsonRequest::createFromGlobals();
-        $this->assertEquals('blah', $request->getInput('baz', 'blah'));
+        $this->assertSame('blah', $request->getInput('baz', 'blah'));
     }
 
     /**
@@ -450,7 +450,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
             $_SERVER['REQUEST_METHOD'] = $method;
             $_SERVER['CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
             $request = FormUrlEncodedRequest::createFromGlobals();
-            $this->assertEquals('bar', $request->getInput('foo'));
+            $this->assertSame('bar', $request->getInput('foo'));
         }
     }
 
@@ -460,7 +460,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testEmptyStringWhenNoReferrerNorPreviousUrlIsSet()
     {
         $request = Request::createFromGlobals();
-        $this->assertEquals('', $request->getPreviousUrl());
+        $this->assertSame('', $request->getPreviousUrl());
     }
 
     /**
@@ -491,7 +491,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $url = 'https://foo.com:8080/bar/baz?dave=young';
         $request = Request::createFromUrl($url, 'GET');
-        $this->assertEquals($url, $request->getFullUrl());
+        $this->assertSame($url, $request->getFullUrl());
     }
 
     /**
@@ -501,7 +501,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $testBody = "It's not Rocket Appliances Julian";
         $this->request = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV, $testBody);
-        $this->assertEquals($testBody, $this->request->getRawBody());
+        $this->assertSame($testBody, $this->request->getRawBody());
     }
 
     /**
@@ -511,7 +511,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'CONNECT';
         $this->request->getServer()->exchangeArray($_SERVER);
-        $this->assertEquals(RequestMethods::CONNECT, $this->request->getServer()->get('REQUEST_METHOD'));
+        $this->assertSame(RequestMethods::CONNECT, $this->request->getServer()->get('REQUEST_METHOD'));
     }
 
     /**
@@ -533,23 +533,23 @@ class RequestTest extends \PHPUnit\Framework\TestCase
             $_SERVER['REQUEST_METHOD'] = $method;
             $_SERVER['CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
             $request = FormUrlEncodedRequest::createFromGlobals();
-            $this->assertEquals('foo=bar', $request->getRawBody());
+            $this->assertSame('foo=bar', $request->getRawBody());
 
             switch ($method) {
                 case 'PUT':
-                    $this->assertEquals('bar', $request->getPut()->get('foo'));
+                    $this->assertSame('bar', $request->getPut()->get('foo'));
                     $this->assertNull($request->getPatch()->get('foo'));
                     $this->assertNull($request->getDelete()->get('foo'));
 
                     break;
                 case 'PATCH':
-                    $this->assertEquals('bar', $request->getPatch()->get('foo'));
+                    $this->assertSame('bar', $request->getPatch()->get('foo'));
                     $this->assertNull($request->getPut()->get('foo'));
                     $this->assertNull($request->getDelete()->get('foo'));
 
                     break;
                 case 'DELETE':
-                    $this->assertEquals('bar', $request->getDelete()->get('foo'));
+                    $this->assertSame('bar', $request->getDelete()->get('foo'));
                     $this->assertNull($request->getPut()->get('foo'));
                     $this->assertNull($request->getPatch()->get('foo'));
 
@@ -573,19 +573,19 @@ class RequestTest extends \PHPUnit\Framework\TestCase
 
             switch ($method) {
                 case 'PUT':
-                    $this->assertEquals('bar', $request->getPut()->get('foo'));
+                    $this->assertSame('bar', $request->getPut()->get('foo'));
                     $this->assertNull($request->getPatch()->get('foo'));
                     $this->assertNull($request->getDelete()->get('foo'));
 
                     break;
                 case 'PATCH':
-                    $this->assertEquals('bar', $request->getPatch()->get('foo'));
+                    $this->assertSame('bar', $request->getPatch()->get('foo'));
                     $this->assertNull($request->getPut()->get('foo'));
                     $this->assertNull($request->getDelete()->get('foo'));
 
                     break;
                 case 'DELETE':
-                    $this->assertEquals('bar', $request->getDelete()->get('foo'));
+                    $this->assertSame('bar', $request->getDelete()->get('foo'));
                     $this->assertNull($request->getPut()->get('foo'));
                     $this->assertNull($request->getPatch()->get('foo'));
 
@@ -601,7 +601,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'DELETE';
         $this->request->getServer()->exchangeArray($_SERVER);
-        $this->assertEquals(RequestMethods::DELETE, $this->request->getServer()->get('REQUEST_METHOD'));
+        $this->assertSame(RequestMethods::DELETE, $this->request->getServer()->get('REQUEST_METHOD'));
     }
 
     /**
@@ -658,7 +658,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $this->request->getServer()->exchangeArray($_SERVER);
-        $this->assertEquals(RequestMethods::GET, $this->request->getServer()->get('REQUEST_METHOD'));
+        $this->assertSame(RequestMethods::GET, $this->request->getServer()->get('REQUEST_METHOD'));
     }
 
     /**
@@ -686,7 +686,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['HTTP_X_FORWARDED_HOST'] = '172.19.131.152, 10.33.185.152';
         $_SERVER['HTTP_HOST'] = '123.456.789.101';
         $request = Request::createFromGlobals();
-        $this->assertEquals('123.456.789.101', $request->getHost());
+        $this->assertSame('123.456.789.101', $request->getHost());
     }
 
     /**
@@ -696,7 +696,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['HTTP_HOST'] = 'foo.com';
         $request = Request::createFromGlobals();
-        $this->assertEquals('foo.com', $request->getHost());
+        $this->assertSame('foo.com', $request->getHost());
     }
 
     /**
@@ -706,7 +706,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['SERVER_ADDR'] = 'foo.com';
         $request = Request::createFromGlobals();
-        $this->assertEquals('foo.com', $request->getHost());
+        $this->assertSame('foo.com', $request->getHost());
     }
 
     /**
@@ -716,7 +716,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['SERVER_NAME'] = 'foo.com';
         $request = Request::createFromGlobals();
-        $this->assertEquals('foo.com', $request->getHost());
+        $this->assertSame('foo.com', $request->getHost());
     }
 
     /**
@@ -729,7 +729,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['SERVER_NAME'] = 'foo.com';
         $_SERVER['REQUEST_URI'] = '/bar';
         $request = Request::createFromGlobals();
-        $this->assertEquals('http://foo.com/bar', $request->getFullUrl());
+        $this->assertSame('http://foo.com/bar', $request->getFullUrl());
     }
 
     /**
@@ -743,7 +743,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['SERVER_NAME'] = 'foo.com';
         $_SERVER['REQUEST_URI'] = '/bar';
         $request = Request::createFromGlobals();
-        $this->assertEquals('https://foo.com/bar', $request->getFullUrl());
+        $this->assertSame('https://foo.com/bar', $request->getFullUrl());
     }
 
     /**
@@ -773,7 +773,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = RequestMethods::GET;
         $_SERVER['X-HTTP-METHOD-OVERRIDE'] = RequestMethods::PUT;
         $request = Request::createFromGlobals();
-        $this->assertEquals(RequestMethods::GET, $request->getMethod());
+        $this->assertSame(RequestMethods::GET, $request->getMethod());
     }
 
     /**
@@ -784,7 +784,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = RequestMethods::POST;
         $_SERVER['X-HTTP-METHOD-OVERRIDE'] = RequestMethods::PUT;
         $request = Request::createFromGlobals();
-        $this->assertEquals(RequestMethods::PUT, $request->getMethod());
+        $this->assertSame(RequestMethods::PUT, $request->getMethod());
     }
 
     /**
@@ -806,7 +806,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['SERVER_NAME'] = 'foo.com';
         $_SERVER['REQUEST_URI'] = '/bar';
         $request = Request::createFromGlobals();
-        $this->assertEquals('http://foo.com:8080/bar', $request->getFullUrl());
+        $this->assertSame('http://foo.com:8080/bar', $request->getFullUrl());
     }
 
     /**
@@ -816,7 +816,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'OPTIONS';
         $this->request->getServer()->exchangeArray($_SERVER);
-        $this->assertEquals(RequestMethods::OPTIONS, $this->request->getServer()->get('REQUEST_METHOD'));
+        $this->assertSame(RequestMethods::OPTIONS, $this->request->getServer()->get('REQUEST_METHOD'));
     }
 
     /**
@@ -826,7 +826,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['PHP_AUTH_PW'] = 'myPassword';
         $request = Request::createFromGlobals();
-        $this->assertEquals('myPassword', $request->getPassword());
+        $this->assertSame('myPassword', $request->getPassword());
     }
 
     /**
@@ -836,7 +836,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'PATCH';
         $this->request->getServer()->exchangeArray($_SERVER);
-        $this->assertEquals(RequestMethods::PATCH, $this->request->getServer()->get('REQUEST_METHOD'));
+        $this->assertSame(RequestMethods::PATCH, $this->request->getServer()->get('REQUEST_METHOD'));
     }
 
     /**
@@ -846,7 +846,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_URI'] = '/foo/bar/baz';
         $request = Request::createFromGlobals();
-        $this->assertEquals('/foo/bar/baz', $request->getPath());
+        $this->assertSame('/foo/bar/baz', $request->getPath());
     }
 
     /**
@@ -856,7 +856,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_URI'] = '';
         $request = Request::createFromGlobals();
-        $this->assertEquals('/', $request->getPath());
+        $this->assertSame('/', $request->getPath());
     }
 
     /**
@@ -866,7 +866,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_URI'] = '/foo/bar/baz?a=1&b=2';
         $request = Request::createFromGlobals();
-        $this->assertEquals('/foo/bar/baz', $request->getPath());
+        $this->assertSame('/foo/bar/baz', $request->getPath());
     }
 
     /**
@@ -884,7 +884,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $this->request->getServer()->exchangeArray($_SERVER);
-        $this->assertEquals(RequestMethods::POST, $this->request->getServer()->get('REQUEST_METHOD'));
+        $this->assertSame(RequestMethods::POST, $this->request->getServer()->get('REQUEST_METHOD'));
     }
 
     /**
@@ -894,7 +894,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'PURGE';
         $this->request->getServer()->exchangeArray($_SERVER);
-        $this->assertEquals(RequestMethods::PURGE, $this->request->getServer()->get('REQUEST_METHOD'));
+        $this->assertSame(RequestMethods::PURGE, $this->request->getServer()->get('REQUEST_METHOD'));
     }
 
     /**
@@ -904,7 +904,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'PUT';
         $this->request->getServer()->exchangeArray($_SERVER);
-        $this->assertEquals(RequestMethods::PUT, $this->request->getServer()->get('REQUEST_METHOD'));
+        $this->assertSame(RequestMethods::PUT, $this->request->getServer()->get('REQUEST_METHOD'));
     }
 
     /**
@@ -923,7 +923,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $queryString = 'foo=bar&blah=asdf';
         $_SERVER['QUERY_STRING'] = $queryString;
         $this->request->getServer()->exchangeArray($_SERVER);
-        $this->assertEquals($queryString, $this->request->getServer()->get('QUERY_STRING'));
+        $this->assertSame($queryString, $this->request->getServer()->get('QUERY_STRING'));
     }
 
     /**
@@ -941,7 +941,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_URI'] = '/foo/bar';
         $this->request->getServer()->exchangeArray($_SERVER);
-        $this->assertEquals('/foo/bar', $this->request->getServer()->get('REQUEST_URI'));
+        $this->assertSame('/foo/bar', $this->request->getServer()->get('REQUEST_URI'));
     }
 
     /**
@@ -968,7 +968,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_COOKIE['foo'] = 'bar';
         $this->request->getCookies()->exchangeArray($_COOKIE);
-        $this->assertEquals('bar', $this->request->getCookies()->get('foo'));
+        $this->assertSame('bar', $this->request->getCookies()->get('foo'));
     }
 
     /**
@@ -978,7 +978,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_GET['foo'] = 'bar';
         $this->request->getQuery()->exchangeArray($_GET);
-        $this->assertEquals('bar', $this->request->getQuery()->get('foo'));
+        $this->assertSame('bar', $this->request->getQuery()->get('foo'));
     }
 
     /**
@@ -988,7 +988,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_POST['foo'] = 'bar';
         $this->request->getPost()->exchangeArray($_POST);
-        $this->assertEquals('bar', $this->request->getPost()->get('foo'));
+        $this->assertSame('bar', $this->request->getPost()->get('foo'));
     }
 
     /**
@@ -998,7 +998,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'TRACE';
         $this->request->getServer()->exchangeArray($_SERVER);
-        $this->assertEquals(RequestMethods::TRACE, $this->request->getServer()->get('REQUEST_METHOD'));
+        $this->assertSame(RequestMethods::TRACE, $this->request->getServer()->get('REQUEST_METHOD'));
     }
 
     /**
@@ -1035,7 +1035,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['SERVER_NAME'] = 'foo.com';
         $_SERVER['REQUEST_URI'] = '/bar?baz=blah';
         $request = Request::createFromGlobals();
-        $this->assertEquals('http://foo.com/bar?baz=blah', $request->getFullUrl());
+        $this->assertSame('http://foo.com/bar?baz=blah', $request->getFullUrl());
     }
 
     /**
@@ -1045,7 +1045,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['PHP_AUTH_USER'] = 'dave';
         $request = Request::createFromGlobals();
-        $this->assertEquals('dave', $request->getUser());
+        $this->assertSame('dave', $request->getUser());
     }
 
     /**
@@ -1056,8 +1056,8 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
         $_SERVER['CONTENT_LENGTH'] = 24;
         $request = Request::createFromGlobals();
-        $this->assertEquals('application/x-www-form-urlencoded', $request->getHeaders()->get('CONTENT_TYPE'));
-        $this->assertEquals(24, $request->getHeaders()->get('CONTENT_LENGTH'));
+        $this->assertSame('application/x-www-form-urlencoded', $request->getHeaders()->get('CONTENT_TYPE'));
+        $this->assertSame(24, $request->getHeaders()->get('CONTENT_LENGTH'));
     }
 
     /**
@@ -1066,13 +1066,13 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testHostIsSetFromUrl()
     {
         $request = Request::createFromUrl('http://foo.com/bar', 'GET');
-        $this->assertEquals('foo.com', $request->getHost());
+        $this->assertSame('foo.com', $request->getHost());
         $request = Request::createFromUrl('http://foo.com:80/bar', 'GET');
-        $this->assertEquals('foo.com', $request->getHost());
+        $this->assertSame('foo.com', $request->getHost());
         $request = Request::createFromUrl('https://foo.com:443/bar', 'GET');
-        $this->assertEquals('foo.com', $request->getHost());
+        $this->assertSame('foo.com', $request->getHost());
         $request = Request::createFromUrl('http://foo.com:8080/bar', 'GET');
-        $this->assertEquals('foo.com', $request->getHost());
+        $this->assertSame('foo.com', $request->getHost());
     }
 
     /**
@@ -1084,7 +1084,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['REMOTE_ADDR'] = '192.168.2.1';
         Request::setTrustedProxies('192.168.2.1');
         $request = Request::createFromGlobals();
-        $this->assertEquals('bar.com', $request->getHost());
+        $this->assertSame('bar.com', $request->getHost());
     }
 
     /**
@@ -1186,7 +1186,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testJsonIsReturnedWhenGettingInputFromJsonRequest()
     {
         $request = JsonRequest::createFromGlobals();
-        $this->assertEquals('bar', $request->getInput('foo'));
+        $this->assertSame('bar', $request->getInput('foo'));
     }
 
     /**
@@ -1205,7 +1205,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $parameters = ['name' => 'val'];
         $request = Request::createFromUrl('/foo', 'GET', $parameters);
-        $this->assertEquals('val', $request->getQuery()->get('name'));
+        $this->assertSame('val', $request->getQuery()->get('name'));
     }
 
     /**
@@ -1215,7 +1215,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $parameters = ['name' => 'val'];
         $request = Request::createFromUrl('/foo', 'POST', $parameters);
-        $this->assertEquals('val', $request->getPost()->get('name'));
+        $this->assertSame('val', $request->getPost()->get('name'));
     }
 
     /**
@@ -1226,7 +1226,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_GET['_method'] = RequestMethods::PUT;
         $_SERVER['REQUEST_METHOD'] = RequestMethods::GET;
         $request = Request::createFromGlobals();
-        $this->assertEquals(RequestMethods::GET, $request->getMethod());
+        $this->assertSame(RequestMethods::GET, $request->getMethod());
     }
 
     /**
@@ -1237,7 +1237,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_POST['_method'] = RequestMethods::PUT;
         $_SERVER['REQUEST_METHOD'] = RequestMethods::POST;
         $request = Request::createFromGlobals();
-        $this->assertEquals(RequestMethods::PUT, $request->getMethod());
+        $this->assertSame(RequestMethods::PUT, $request->getMethod());
     }
 
     /**
@@ -1246,7 +1246,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testPathSetFromUrl()
     {
         $request = Request::createFromUrl('http://foo.com/bar', 'GET');
-        $this->assertEquals('/bar', $request->getPath());
+        $this->assertSame('/bar', $request->getPath());
     }
 
     /**
@@ -1258,7 +1258,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_SERVER['CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
         $request = FormUrlEncodedRequest::createFromGlobals();
-        $this->assertEquals('blahblahblah', $request->getPost()->get('foo'));
+        $this->assertSame('blahblahblah', $request->getPost()->get('foo'));
     }
 
     /**
@@ -1269,7 +1269,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST['foo'] = 'bar';
         $request = Request::createFromGlobals();
-        $this->assertEquals('bar', $request->getInput('foo'));
+        $this->assertSame('bar', $request->getInput('foo'));
     }
 
     /**
@@ -1279,7 +1279,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['HTTP_REFERER'] = 'http://foo.com';
         $request = Request::createFromGlobals();
-        $this->assertEquals('http://foo.com', $request->getPreviousUrl());
+        $this->assertSame('http://foo.com', $request->getPreviousUrl());
         $this->assertEmpty($request->getPreviousUrl(false));
     }
 
@@ -1291,7 +1291,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['HTTP_REFERER'] = 'http://foo.com';
         $request = Request::createFromGlobals();
         $request->setPreviousUrl('http://bar.com');
-        $this->assertEquals('http://bar.com', $request->getPreviousUrl());
+        $this->assertSame('http://bar.com', $request->getPreviousUrl());
     }
 
     /**
@@ -1302,7 +1302,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_GET['foo'] = 'bar';
         $_POST['foo'] = 'baz';
         $request = Request::createFromGlobals();
-        $this->assertEquals('bar', $request->getInput('foo'));
+        $this->assertSame('bar', $request->getInput('foo'));
     }
 
     /**
@@ -1312,7 +1312,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_GET['foo'] = 'bar';
         $request = Request::createFromGlobals();
-        $this->assertEquals('bar', $request->getInput('foo'));
+        $this->assertSame('bar', $request->getInput('foo'));
     }
 
     /**
@@ -1323,7 +1323,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_GET['foo'] = 'bar';
         $request = Request::createFromGlobals();
-        $this->assertEquals('bar', $request->getInput('foo'));
+        $this->assertSame('bar', $request->getInput('foo'));
     }
 
     /**
@@ -1337,8 +1337,8 @@ class RequestTest extends \PHPUnit\Framework\TestCase
             'dave' => 'young'
         ];
         $this->assertEquals($expectedQuery, $request->getQuery()->getAll());
-        $this->assertEquals('/bar/?baz=blah&dave=young', $request->getServer()->get('REQUEST_URI'));
-        $this->assertEquals('baz=blah&dave=young', $request->getServer()->get('QUERY_STRING'));
+        $this->assertSame('/bar/?baz=blah&dave=young', $request->getServer()->get('REQUEST_URI'));
+        $this->assertSame('baz=blah&dave=young', $request->getServer()->get('QUERY_STRING'));
     }
 
     /**
@@ -1352,8 +1352,8 @@ class RequestTest extends \PHPUnit\Framework\TestCase
             'dave' => 'young'
         ];
         $this->assertEquals($expectedQuery, $request->getQuery()->getAll());
-        $this->assertEquals('/bar/?baz=yay&dave=young', $request->getServer()->get('REQUEST_URI'));
-        $this->assertEquals('baz=yay&dave=young', $request->getServer()->get('QUERY_STRING'));
+        $this->assertSame('/bar/?baz=yay&dave=young', $request->getServer()->get('REQUEST_URI'));
+        $this->assertSame('baz=yay&dave=young', $request->getServer()->get('QUERY_STRING'));
     }
 
     /**
@@ -1362,7 +1362,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testRawBodySetFromUrl()
     {
         $request = Request::createFromUrl('/foo', 'GET', [], [], [], [], [], 'foo-bar-baz');
-        $this->assertEquals('foo-bar-baz', $request->getRawBody());
+        $this->assertSame('foo-bar-baz', $request->getRawBody());
     }
 
     /**
@@ -1373,7 +1373,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $_SERVER['REMOTE_ADDR'] = '192.168.1.1';
         Request::setTrustedProxies('192.168.1.1');
         $request = Request::createFromGlobals();
-        $this->assertEquals('192.168.1.1', $request->getClientIPAddress());
+        $this->assertSame('192.168.1.1', $request->getClientIPAddress());
     }
 
     /**
@@ -1382,11 +1382,11 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testSchemeAndPortSetFromUrl()
     {
         $httpsRequest = Request::createFromUrl('https://foo.com/bar', 'GET');
-        $this->assertEquals('on', $httpsRequest->getServer()->get('HTTPS'));
-        $this->assertEquals(443, $httpsRequest->getServer()->get('SERVER_PORT'));
+        $this->assertSame('on', $httpsRequest->getServer()->get('HTTPS'));
+        $this->assertSame(443, $httpsRequest->getServer()->get('SERVER_PORT'));
         $httpRequest = Request::createFromUrl('http://foo.com/bar', 'GET');
         $this->assertFalse($httpRequest->getServer()->has('HTTPS'));
-        $this->assertEquals(80, $httpRequest->getServer()->get('SERVER_PORT'));
+        $this->assertSame(80, $httpRequest->getServer()->get('SERVER_PORT'));
     }
 
     /**
@@ -1443,7 +1443,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testSettingMethod()
     {
         $this->request->setMethod('put');
-        $this->assertEquals('PUT', $this->request->getMethod());
+        $this->assertSame('PUT', $this->request->getMethod());
     }
 
     /**
@@ -1452,7 +1452,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testSettingPath()
     {
         $this->request->setPath('/foo');
-        $this->assertEquals('/foo', $this->request->getPath());
+        $this->assertSame('/foo', $this->request->getPath());
     }
 
     /**
@@ -1462,6 +1462,6 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['HTTP_HOST'] = 'foo.com:8080';
         $request = Request::createFromGlobals();
-        $this->assertEquals('foo.com', $request->getHost());
+        $this->assertSame('foo.com', $request->getHost());
     }
 }

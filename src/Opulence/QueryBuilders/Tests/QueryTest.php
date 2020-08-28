@@ -121,7 +121,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
         $this->query = $this->getMockForAbstractClass(Query::class);
         $this->query->addNamedPlaceholderValue($key, 'bar');
         $this->query->removeNamedPlaceHolder($key);
-        $this->assertFalse(array_key_exists($key, $this->query->getParameters()));
+        $this->assertArrayNotHasKey($key, $this->query->getParameters());
     }
 
     /**

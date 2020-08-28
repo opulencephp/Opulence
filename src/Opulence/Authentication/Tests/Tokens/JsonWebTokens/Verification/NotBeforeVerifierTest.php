@@ -53,7 +53,7 @@ class NotBeforeVerifierTest extends \PHPUnit\Framework\TestCase
             ->method('getValidFrom')
             ->willReturn($date);
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
-        $this->assertEquals(JwtErrorTypes::NOT_ACTIVATED, $error);
+        $this->assertSame(JwtErrorTypes::NOT_ACTIVATED, $error);
     }
 
     /**

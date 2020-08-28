@@ -79,11 +79,11 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
             $handler->handle(1, 'foo', 'bar', 2, ['baz']);
         } catch (ErrorException $ex) {
             $exceptionCaught = true;
-            $this->assertEquals(1, $ex->getSeverity());
-            $this->assertEquals('foo', $ex->getMessage());
-            $this->assertEquals('bar', $ex->getFile());
-            $this->assertEquals(2, $ex->getLine());
-            $this->assertEquals(0, $ex->getCode());
+            $this->assertSame(1, $ex->getSeverity());
+            $this->assertSame('foo', $ex->getMessage());
+            $this->assertSame('bar', $ex->getFile());
+            $this->assertSame(2, $ex->getLine());
+            $this->assertSame(0, $ex->getCode());
         }
 
         $this->assertTrue($exceptionCaught);

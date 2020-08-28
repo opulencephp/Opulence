@@ -44,7 +44,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     public function testConvertingFromRedisTimestamp()
     {
         $time = new DateTime('now');
-        $this->assertEquals($time->getTimestamp(),
+        $this->assertSame($time->getTimestamp(),
             $this->typeMapper->fromRedisTimestamp($time->getTimestamp())->getTimestamp());
     }
 
@@ -70,7 +70,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     public function testConvertingToRedisTimestamp()
     {
         $time = new DateTime('now');
-        $this->assertEquals($time->getTimestamp(), $this->typeMapper->toRedisTimestamp($time));
+        $this->assertSame($time->getTimestamp(), $this->typeMapper->toRedisTimestamp($time));
     }
 
     /**
@@ -79,7 +79,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     public function testConvertingToRedisTimestampFromImmutable()
     {
         $time = new DateTimeImmutable('now');
-        $this->assertEquals($time->getTimestamp(), $this->typeMapper->toRedisTimestamp($time));
+        $this->assertSame($time->getTimestamp(), $this->typeMapper->toRedisTimestamp($time));
     }
 
     /**
@@ -100,7 +100,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         date_default_timezone_set($newTimezone);
         $time = new DateTime('now');
         $redisTime = $this->typeMapper->fromRedisTimestamp($time->getTimestamp());
-        $this->assertEquals($newTimezone, $redisTime->getTimezone()->getName());
+        $this->assertSame($newTimezone, $redisTime->getTimezone()->getName());
         // Reset the timezone
         date_default_timezone_set($currTimezone);
     }

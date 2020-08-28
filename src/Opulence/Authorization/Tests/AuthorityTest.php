@@ -73,9 +73,9 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     public function testOverrideUsed()
     {
         $this->permissionRegistry->registerOverrideCallback(function ($userId, string $permission, $argument) {
-            $this->assertEquals(23, $userId);
-            $this->assertEquals('foo', $permission);
-            $this->assertEquals('bar', $argument);
+            $this->assertSame(23, $userId);
+            $this->assertSame('foo', $permission);
+            $this->assertSame('bar', $argument);
 
             return true;
         });

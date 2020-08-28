@@ -49,7 +49,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
             ->method('has')
             ->with($this->getKey($this->view))
             ->willReturn(true);
-        $this->assertEquals('compiled', $this->cache->get($this->view));
+        $this->assertSame('compiled', $this->cache->get($this->view));
         $this->assertTrue($this->cache->has($this->view));
     }
 
@@ -89,7 +89,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
             ->method('get')
             ->with($this->getKey($this->view))
             ->willReturn('compiled');
-        $this->assertEquals('compiled', $this->cache->get($this->view));
+        $this->assertSame('compiled', $this->cache->get($this->view));
     }
 
     /**

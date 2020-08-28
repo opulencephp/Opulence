@@ -74,7 +74,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->authenticator->authenticate($this->credential, $subject));
         /** @var ISubject $subject */
         $this->assertInstanceOf(ISubject::class, $subject);
-        $this->assertEquals('userId', $subject->getPrimaryPrincipal()->getId());
+        $this->assertSame('userId', $subject->getPrimaryPrincipal()->getId());
         $this->assertEquals(['role'], $subject->getPrimaryPrincipal()->getRoles());
         $this->assertEquals([$this->credential], $subject->getCredentials());
     }
@@ -103,7 +103,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $subject = null;
         $error = null;
         $this->assertFalse($this->authenticator->authenticate($this->credential, $subject, $error));
-        $this->assertEquals(AuthenticatorErrorTypes::CREDENTIAL_INCORRECT, $error);
+        $this->assertSame(AuthenticatorErrorTypes::CREDENTIAL_INCORRECT, $error);
     }
 
     /**
@@ -126,7 +126,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $subject = null;
         $error = null;
         $this->assertFalse($this->authenticator->authenticate($this->credential, $subject, $error));
-        $this->assertEquals(AuthenticatorErrorTypes::NO_SUBJECT, $error);
+        $this->assertSame(AuthenticatorErrorTypes::NO_SUBJECT, $error);
     }
 
     /**
@@ -145,7 +145,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $subject = null;
         $error = null;
         $this->assertFalse($this->authenticator->authenticate($this->credential, $subject, $error));
-        $this->assertEquals(AuthenticatorErrorTypes::CREDENTIAL_MISSING, $error);
+        $this->assertSame(AuthenticatorErrorTypes::CREDENTIAL_MISSING, $error);
     }
 
     /**
@@ -164,6 +164,6 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $subject = null;
         $error = null;
         $this->assertFalse($this->authenticator->authenticate($this->credential, $subject, $error));
-        $this->assertEquals(AuthenticatorErrorTypes::CREDENTIAL_MISSING, $error);
+        $this->assertSame(AuthenticatorErrorTypes::CREDENTIAL_MISSING, $error);
     }
 }

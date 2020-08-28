@@ -42,7 +42,7 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingId()
     {
-        $this->assertEquals('bar', $this->principal->getId());
+        $this->assertSame('bar', $this->principal->getId());
     }
 
     /**
@@ -58,6 +58,6 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingType()
     {
-        $this->assertEquals('foo', $this->principal->getType());
+        $this->assertSame('foo', $this->principal->getType());
     }
 }

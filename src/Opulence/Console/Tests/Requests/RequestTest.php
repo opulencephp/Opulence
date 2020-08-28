@@ -35,7 +35,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testAddingMultipleValuesForOption()
     {
         $this->request->addOptionValue('foo', 'bar');
-        $this->assertEquals('bar', $this->request->getOptionValue('foo'));
+        $this->assertSame('bar', $this->request->getOptionValue('foo'));
         $this->request->addOptionValue('foo', 'baz');
         $this->assertEquals(['bar', 'baz'], $this->request->getOptionValue('foo'));
     }
@@ -84,7 +84,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testGettingCommandName()
     {
         $this->request->setCommandName('foo');
-        $this->assertEquals('foo', $this->request->getCommandName());
+        $this->assertSame('foo', $this->request->getCommandName());
     }
 
     /**
@@ -102,6 +102,6 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testGettingOption()
     {
         $this->request->addOptionValue('foo', 'bar');
-        $this->assertEquals('bar', $this->request->getOptionValue('foo'));
+        $this->assertSame('bar', $this->request->getOptionValue('foo'));
     }
 }

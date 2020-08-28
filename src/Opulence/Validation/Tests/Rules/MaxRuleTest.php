@@ -46,7 +46,7 @@ class MaxRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new MaxRule();
-        $this->assertEquals('max', $rule->getSlug());
+        $this->assertSame('max', $rule->getSlug());
     }
 
     /**

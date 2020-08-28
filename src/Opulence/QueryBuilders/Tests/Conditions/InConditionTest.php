@@ -46,7 +46,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
     public function testGettingSqlForInConditionWithParameters()
     {
         $condition = new InCondition('foo', [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);
-        $this->assertEquals('foo IN (?,?,?)', $condition->getSql());
+        $this->assertSame('foo IN (?,?,?)', $condition->getSql());
     }
 
     /**
@@ -55,7 +55,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
     public function testGettingSqlForInConditionWithSubExpression()
     {
         $condition = new InCondition('foo', 'SELECT bar FROM baz');
-        $this->assertEquals('foo IN (SELECT bar FROM baz)', $condition->getSql());
+        $this->assertSame('foo IN (SELECT bar FROM baz)', $condition->getSql());
     }
 
     /**

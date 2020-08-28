@@ -45,7 +45,7 @@ class MemcachedTest extends \PHPUnit\Framework\TestCase
                 'foo' => $foo
             ]
         );
-        $this->assertEquals('foo', $memcached->get('baz'));
+        $this->assertSame('foo', $memcached->get('baz'));
     }
 
     /**

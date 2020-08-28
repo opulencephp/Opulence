@@ -49,7 +49,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
             ->method('getAudience')
             ->willReturn('bar');
         $this->assertFalse($verifier->verify($this->jwt, $error));
-        $this->assertEquals(JwtErrorTypes::AUDIENCE_INVALID, $error);
+        $this->assertSame(JwtErrorTypes::AUDIENCE_INVALID, $error);
     }
 
     /**
@@ -62,7 +62,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
             ->method('getAudience')
             ->willReturn('bar');
         $this->assertFalse($verifier->verify($this->jwt, $error));
-        $this->assertEquals(JwtErrorTypes::AUDIENCE_INVALID, $error);
+        $this->assertSame(JwtErrorTypes::AUDIENCE_INVALID, $error);
     }
 
     /**

@@ -70,7 +70,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
             ->with('Foo')
             ->willReturn($parentView);
         $this->view->setContents('<% extends("Foo") %>{{$foo}}');
-        $this->assertEquals(
+        $this->assertSame(
             'bar',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -85,7 +85,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
             return "foo: $input";
         });
         $this->view->setContents('{{!foo("bar")!}}');
-        $this->assertEquals('foo: bar', $this->fortuneCompiler->compile($this->view));
+        $this->assertSame('foo: bar', $this->fortuneCompiler->compile($this->view));
     }
 
     /**
@@ -94,12 +94,12 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingElseIfStatement()
     {
         $this->view->setContents('<% if(false) %>foo<% elseif(false) %>bar<% endif %>');
-        $this->assertEquals(
+        $this->assertSame(
             '',
             $this->fortuneCompiler->compile($this->view)
         );
         $this->view->setContents('<% if(false) %>foo<% elseif(true) %>bar<% endif %>');
-        $this->assertEquals(
+        $this->assertSame(
             'bar',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -111,7 +111,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingElseStatement()
     {
         $this->view->setContents('<% if(false) %>foo<% else %>bar<% endif %>');
-        $this->assertEquals(
+        $this->assertSame(
             'bar',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -123,7 +123,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingEscapedStructures()
     {
         $this->view->setContents('\{{foo}}\{{!bar!}}\<% baz %>');
-        $this->assertEquals(
+        $this->assertSame(
             '{{foo}}{{!bar!}}<% baz %>',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -135,12 +135,12 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingForIfLoop()
     {
         $this->view->setContents('<% forif([0, 1] as $item) %>{{$item}}<% forelse %>empty<% endif %>');
-        $this->assertEquals(
+        $this->assertSame(
             '01',
             $this->fortuneCompiler->compile($this->view)
         );
         $this->view->setContents('<% forif([] as $item) %>{{$item}}<% forelse %>empty<% endif %>');
-        $this->assertEquals(
+        $this->assertSame(
             'empty',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -152,7 +152,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingForLoop()
     {
         $this->view->setContents('<% for($i=0;$i<2;$i++) %><?php echo $i; ?><% endfor %>');
-        $this->assertEquals(
+        $this->assertSame(
             '01',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -164,7 +164,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingForeachLoop()
     {
         $this->view->setContents('<% foreach([0, 1] as $item) %><?php echo $item; ?><% endforeach %>');
-        $this->assertEquals(
+        $this->assertSame(
             '01',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -176,12 +176,12 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingIfStatement()
     {
         $this->view->setContents('<% if(false) %>foo<% endif %>');
-        $this->assertEquals(
+        $this->assertSame(
             '',
             $this->fortuneCompiler->compile($this->view)
         );
         $this->view->setContents('<% if(true) %>foo<% endif %>');
-        $this->assertEquals(
+        $this->assertSame(
             'foo',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -197,7 +197,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
             ->method('createView')
             ->willReturn($includedView);
         $this->view->setContents('<% include("Foo") %>bar');
-        $this->assertEquals(
+        $this->assertSame(
             'foobar',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -209,17 +209,17 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingNestedForIfLoops()
     {
         $this->view->setContents('<% forif([0, 1] as $x) %><% forif([2, 3] as $y) %>{{$x}}{{$y}}<% forelse %>empty2<% endif %><% forelse %>empty1<% endif %>');
-        $this->assertEquals(
+        $this->assertSame(
             '02031213',
             $this->fortuneCompiler->compile($this->view)
         );
         $this->view->setContents('<% forif([] as $x) %><% forif([] as $y) %>{{$x}}{{$y}}<% forelse %>empty2<% endif %><% forelse %>empty1<% endif %>');
-        $this->assertEquals(
+        $this->assertSame(
             'empty1',
             $this->fortuneCompiler->compile($this->view)
         );
         $this->view->setContents('<% forif([0, 1] as $x) %><% forif([] as $y) %>{{$x}}{{$y}}<% forelse %>empty2<% endif %><% forelse %>empty1<% endif %>');
-        $this->assertEquals(
+        $this->assertSame(
             'empty2empty2',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -239,7 +239,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
             ->method('createView')
             ->willReturn($includedView2);
         $this->view->setContents('<% include("Foo") %>baz');
-        $this->assertEquals(
+        $this->assertSame(
             'foobarbaz',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -261,7 +261,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
             ->with('Foo')
             ->willReturn($parent1);
         $this->view->setContents('<% extends("Bar") %><% part("foo") %><% parent %>blah<% endpart %>');
-        $this->assertEquals(
+        $this->assertSame(
             'barbazblah',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -278,7 +278,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
             ->with('Foo')
             ->willReturn($parentView);
         $this->view->setContents('<% extends("Foo") %><% part("foo") %><% parent %>baz<% endpart %>');
-        $this->assertEquals(
+        $this->assertSame(
             'barbaz',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -290,17 +290,17 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingPartAndShowStatements()
     {
         $this->view->setContents('<% part("a") %>foo<% endpart %>');
-        $this->assertEquals(
+        $this->assertSame(
             '',
             $this->fortuneCompiler->compile($this->view)
         );
         $this->view->setContents('<% part("a") %>foo<% endpart %><% show("a") %>');
-        $this->assertEquals(
+        $this->assertSame(
             'foo',
             $this->fortuneCompiler->compile($this->view)
         );
         $this->view->setContents('<% part("a") %>foo<% show %>');
-        $this->assertEquals(
+        $this->assertSame(
             'foo',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -329,7 +329,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingWhileLoop()
     {
         $this->view->setContents('<?php $i = 0; ?><% while($i < 2) %>{{$i}}<?php $i++; ?><% endwhile %>');
-        $this->assertEquals(
+        $this->assertSame(
             '01',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -346,7 +346,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
             ->method('createView')
             ->willReturn($includedView);
         $this->view->setContents('<% include("Foo") %><?php echo isset($foo) ? "set" : "not set"; ?>');
-        $this->assertEquals(
+        $this->assertSame(
             'foonot set',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -363,7 +363,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
             ->willReturn($includedView);
         $this->view->setContents('<% include("Foo") %>');
         $this->view->setVar('foo', 'bar');
-        $this->assertEquals(
+        $this->assertSame(
             'not set',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -375,7 +375,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     public function testLineBreaksAreTrimmedAfterCompiling()
     {
         $this->view->setContents(PHP_EOL . PHP_EOL . "\r\nfoo\r\n" . PHP_EOL . PHP_EOL);
-        $this->assertEquals('foo', $this->fortuneCompiler->compile($this->view));
+        $this->assertSame('foo', $this->fortuneCompiler->compile($this->view));
     }
 
     /**
@@ -394,7 +394,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
             ->with('Grandparent')
             ->willReturn($grandparentView);
         $this->view->setContents('<% extends("Parent") %><% part("foo") %>blah<% endpart %>');
-        $this->assertEquals(
+        $this->assertSame(
             'blah',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -418,7 +418,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
             ->willReturn($grandparentView);
         $this->view->setContents('<% extends("Parent") %>');
         $this->view->setVar('foo', 'baz');
-        $this->assertEquals(
+        $this->assertSame(
             'baz',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -437,7 +437,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
             ->willReturn($parentView);
         $this->view->setContents('<% extends("Foo") %>');
         $this->view->setVar('foo', 'baz');
-        $this->assertEquals(
+        $this->assertSame(
             'baz',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -454,7 +454,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
             ->with('Foo')
             ->willReturn($includedView);
         $this->view->setContents('<% extends("Foo") %><% part("foo") %>baz<% endpart %>');
-        $this->assertEquals(
+        $this->assertSame(
             'baz',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -467,7 +467,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     {
         $this->view->setContents('<?php echo $foo; ?>');
         $this->view->setVar('foo', '<?php exit; ?>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php exit; ?>',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -484,7 +484,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
             ->method('createView')
             ->willReturn($includedView);
         $this->view->setContents('<% include("Foo", ["foo" => "baz"]) %>bar');
-        $this->assertEquals(
+        $this->assertSame(
             'bazbar',
             $this->fortuneCompiler->compile($this->view)
         );
@@ -505,7 +505,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         $viewFactory = $this->createMock(IViewFactory::class);
         $this->view->setContents('foo');
         $compiler = new FortuneCompiler($transpiler, $viewFactory);
-        $this->assertEquals('bar', $compiler->compile($this->view));
+        $this->assertSame('bar', $compiler->compile($this->view));
         $this->assertSame($viewFactory, $this->view->getVar('__opulenceViewFactory'));
         $this->assertSame($transpiler, $this->view->getVar('__opulenceFortuneTranspiler'));
     }
@@ -516,7 +516,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     public function testViewCommentsAreNotDisplayed()
     {
         $this->view->setContents('{# Testing #}');
-        $this->assertEquals('', $this->fortuneCompiler->compile($this->view));
+        $this->assertSame('', $this->fortuneCompiler->compile($this->view));
     }
 
     /**

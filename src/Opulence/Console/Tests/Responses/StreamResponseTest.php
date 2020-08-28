@@ -40,7 +40,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingStream()
     {
-        $this->assertTrue(is_resource($this->response->getStream()));
+        $this->assertIsResource($this->response->getStream());
     }
 
     /**
@@ -59,7 +59,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     {
         $this->response->write(['foo', 'bar']);
         rewind($this->response->getStream());
-        $this->assertEquals('foobar', stream_get_contents($this->response->getStream()));
+        $this->assertSame('foobar', stream_get_contents($this->response->getStream()));
     }
 
     /**
@@ -69,7 +69,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     {
         $this->response->write('foo');
         rewind($this->response->getStream());
-        $this->assertEquals('foo', stream_get_contents($this->response->getStream()));
+        $this->assertSame('foo', stream_get_contents($this->response->getStream()));
     }
 
     /**
@@ -79,7 +79,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     {
         $this->response->writeln(['foo', 'bar']);
         rewind($this->response->getStream());
-        $this->assertEquals('foo' . PHP_EOL . 'bar' . PHP_EOL, stream_get_contents($this->response->getStream()));
+        $this->assertSame('foo' . PHP_EOL . 'bar' . PHP_EOL, stream_get_contents($this->response->getStream()));
     }
 
     /**
@@ -89,6 +89,6 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
     {
         $this->response->writeln('foo');
         rewind($this->response->getStream());
-        $this->assertEquals('foo' . PHP_EOL, stream_get_contents($this->response->getStream()));
+        $this->assertSame('foo' . PHP_EOL, stream_get_contents($this->response->getStream()));
     }
 }

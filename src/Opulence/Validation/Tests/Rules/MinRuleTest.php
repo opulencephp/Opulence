@@ -46,7 +46,7 @@ class MinRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new MinRule();
-        $this->assertEquals('min', $rule->getSlug());
+        $this->assertSame('min', $rule->getSlug());
     }
 
     /**

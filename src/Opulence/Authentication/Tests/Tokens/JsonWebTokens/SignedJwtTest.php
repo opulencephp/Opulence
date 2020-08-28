@@ -46,7 +46,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
         $signedJwt = SignedJwt::createFromUnsignedJwt(new UnsignedJwt($this->header, $this->payload), 'foo');
         $this->assertSame($this->header, $signedJwt->getHeader());
         $this->assertSame($this->payload, $signedJwt->getPayload());
-        $this->assertEquals('foo', $signedJwt->getSignature());
+        $this->assertSame('foo', $signedJwt->getSignature());
     }
 
     /**
@@ -57,8 +57,8 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
         $header = new JwtHeader('none');
         $unsignedJwt = new UnsignedJwt($header, new JwtPayload());
         $signedJwt = SignedJwt::createFromString($unsignedJwt->getUnsignedValue());
-        $this->assertEquals('none', $signedJwt->getHeader()->getAlgorithm());
-        $this->assertEquals('', $signedJwt->getSignature());
+        $this->assertSame('none', $signedJwt->getHeader()->getAlgorithm());
+        $this->assertSame('', $signedJwt->getSignature());
     }
 
     /**
@@ -128,7 +128,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
     public function testGettingSignature()
     {
         $jwt = new SignedJwt($this->header, $this->payload, 'signature');
-        $this->assertEquals('signature', $jwt->getSignature());
+        $this->assertSame('signature', $jwt->getSignature());
     }
 
     /**
@@ -148,7 +148,7 @@ class SignedJwtTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($payloadA, $payloadB);
 
         if ($checkSignature) {
-            $this->assertEquals($a->getSignature(), $b->getSignature());
+            $this->assertSame($a->getSignature(), $b->getSignature());
         }
     }
 }

@@ -38,7 +38,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new RequiredRule();
-        $this->assertEquals('required', $rule->getSlug());
+        $this->assertSame('required', $rule->getSlug());
     }
 
     /**

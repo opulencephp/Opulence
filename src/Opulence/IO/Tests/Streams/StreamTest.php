@@ -38,7 +38,7 @@ class StreamTest extends \PHPUnit\Framework\TestCase
         $stream = new Stream($handle);
         $stream->write('foo');
         $stream->close();
-        $this->assertEquals('', (string)$stream);
+        $this->assertSame('', (string)$stream);
     }
 
     /**
@@ -50,7 +50,7 @@ class StreamTest extends \PHPUnit\Framework\TestCase
         $stream = new Stream($handle);
         $stream->write('foo');
         $stream->read(1);
-        $this->assertEquals('foo', (string)$stream);
+        $this->assertSame('foo', (string)$stream);
     }
 
     /**
@@ -89,7 +89,7 @@ class StreamTest extends \PHPUnit\Framework\TestCase
         $destinationStream = new Stream(fopen('php://temp', 'r+'));
         $sourceStream->copyToStream($destinationStream, 1);
         $destinationStream->rewind();
-        $this->assertEquals('foo', $destinationStream->readToEnd());
+        $this->assertSame('foo', $destinationStream->readToEnd());
     }
 
     /**
@@ -207,7 +207,7 @@ class StreamTest extends \PHPUnit\Framework\TestCase
     {
         $handle = fopen('php://temp', 'r');
         $stream = new Stream($handle, 724);
-        $this->assertEquals(724, $stream->getLength());
+        $this->assertSame(724, $stream->getLength());
     }
 
     /**
@@ -227,7 +227,7 @@ class StreamTest extends \PHPUnit\Framework\TestCase
         $handle = fopen('php://temp', 'w+');
         $stream = new Stream($handle);
         $stream->write('foo');
-        $this->assertEquals(3, $stream->getPosition());
+        $this->assertSame(3, $stream->getPosition());
     }
 
     /**
@@ -288,7 +288,7 @@ class StreamTest extends \PHPUnit\Framework\TestCase
         $handle = fopen('php://temp', 'r');
         $expectedLength = fstat($handle)['size'];
         $stream = new Stream($handle);
-        $this->assertEquals($expectedLength, $stream->getLength());
+        $this->assertSame($expectedLength, $stream->getLength());
     }
 
     /**
@@ -299,9 +299,9 @@ class StreamTest extends \PHPUnit\Framework\TestCase
         $handle = fopen('php://temp', 'w+');
         $stream = new Stream($handle);
         $stream->write('foo');
-        $this->assertEquals('', $stream->readToEnd());
+        $this->assertSame('', $stream->readToEnd());
         $stream->rewind();
-        $this->assertEquals('foo', $stream->readToEnd());
+        $this->assertSame('foo', $stream->readToEnd());
     }
 
     /**
@@ -314,10 +314,10 @@ class StreamTest extends \PHPUnit\Framework\TestCase
         $stream->write('foo');
         $stream->rewind();
         $stream->seek(1);
-        $this->assertEquals('oo', $stream->readToEnd());
+        $this->assertSame('oo', $stream->readToEnd());
         $stream->rewind();
         $stream->seek(2);
-        $this->assertEquals('o', $stream->readToEnd());
+        $this->assertSame('o', $stream->readToEnd());
     }
 
     /**
@@ -340,6 +340,6 @@ class StreamTest extends \PHPUnit\Framework\TestCase
         $stream = new Stream($handle);
         $stream->write('foo');
         $stream->rewind();
-        $this->assertEquals('foo', $stream->readToEnd());
+        $this->assertSame('foo', $stream->readToEnd());
     }
 }

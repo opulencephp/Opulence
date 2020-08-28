@@ -25,7 +25,7 @@ class InRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new InRule();
-        $this->assertEquals('in', $rule->getSlug());
+        $this->assertSame('in', $rule->getSlug());
     }
 
     /**

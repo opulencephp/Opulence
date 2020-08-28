@@ -90,13 +90,13 @@ class AccessTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
         /** @var SignedJwt $signedJwt */
         $signedJwt = SignedJwt::createFromString($tokenString);
         $payload = $signedJwt->getPayload();
-        $this->assertEquals('foo', $payload->getIssuer());
+        $this->assertSame('foo', $payload->getIssuer());
         $this->assertEquals(['bar', 'baz'], $payload->getAudience());
-        $this->assertEquals('principalId', $payload->getSubject());
-        $this->assertEquals((new DateTimeImmutable)->format('Y'), $payload->getValidFrom()->format('Y'));
-        $this->assertEquals((new DateTimeImmutable('+1 year'))->format('Y'), $payload->getValidTo()->format('Y'));
-        $this->assertEquals((new DateTimeImmutable)->format('Y'), $payload->getIssuedAt()->format('Y'));
+        $this->assertSame('principalId', $payload->getSubject());
+        $this->assertSame((new DateTimeImmutable)->format('Y'), $payload->getValidFrom()->format('Y'));
+        $this->assertSame((new DateTimeImmutable('+1 year'))->format('Y'), $payload->getValidTo()->format('Y'));
+        $this->assertSame((new DateTimeImmutable)->format('Y'), $payload->getIssuedAt()->format('Y'));
         $this->assertEquals(['role1', 'role2'], $payload->get('roles'));
-        $this->assertEquals('Dave', $payload->get('user')['username']);
+        $this->assertSame('Dave', $payload->get('user')['username']);
     }
 }

@@ -102,8 +102,8 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
         $this->entityRegistry->clear();
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity2));
-        $this->assertEquals(EntityStates::NEVER_REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
-        $this->assertEquals(EntityStates::NEVER_REGISTERED, $this->entityRegistry->getEntityState($this->entity2));
+        $this->assertSame(EntityStates::NEVER_REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
+        $this->assertSame(EntityStates::NEVER_REGISTERED, $this->entityRegistry->getEntityState($this->entity2));
     }
 
     /**
@@ -142,7 +142,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
         $this->entityRegistry->registerEntity($this->entity1);
         $this->entityRegistry->deregisterEntity($this->entity1);
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
-        $this->assertEquals(EntityStates::UNREGISTERED, $this->entityRegistry->getEntityState($this->entity1));
+        $this->assertSame(EntityStates::UNREGISTERED, $this->entityRegistry->getEntityState($this->entity1));
     }
 
     /**
@@ -164,7 +164,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingClassName()
     {
-        $this->assertEquals(get_class($this->entity1), $this->entityRegistry->getClassName($this->entity1));
+        $this->assertInstanceOf($this->entityRegistry->getClassName($this->entity1), $this->entity1);
     }
 
     /**
@@ -191,7 +191,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     public function testGettingEntityStateForRegisteredEntity()
     {
         $this->entityRegistry->registerEntity($this->entity1);
-        $this->assertEquals(EntityStates::REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
+        $this->assertSame(EntityStates::REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
     }
 
     /**
@@ -199,7 +199,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingEntityStateForUnregisteredEntity()
     {
-        $this->assertEquals(EntityStates::NEVER_REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
+        $this->assertSame(EntityStates::NEVER_REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
     }
 
     /**
@@ -216,7 +216,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingObjectHashId()
     {
-        $this->assertEquals(spl_object_hash($this->entity1), $this->entityRegistry->getObjectHashId($this->entity1));
+        $this->assertSame(spl_object_hash($this->entity1), $this->entityRegistry->getObjectHashId($this->entity1));
     }
 
     /**
@@ -239,7 +239,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     {
         $this->entityRegistry->registerEntity($this->entity1);
         $this->entityRegistry->setState($this->entity1, EntityStates::DEQUEUED);
-        $this->assertEquals(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
+        $this->assertSame(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
     }
 
     /**
@@ -260,7 +260,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
                 $child->setSecondAggregateRootId($aggregateRoot->getId());
             });
         $this->entityRegistry->runAggregateRootCallbacks($this->entity3);
-        $this->assertEquals($this->entity1->getId(), $this->entity3->getAggregateRootId());
-        $this->assertEquals($this->entity2->getId(), $this->entity3->getSecondAggregateRootId());
+        $this->assertSame($this->entity1->getId(), $this->entity3->getAggregateRootId());
+        $this->assertSame($this->entity2->getId(), $this->entity3->getSecondAggregateRootId());
     }
 }

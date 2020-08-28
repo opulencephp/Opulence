@@ -33,7 +33,7 @@ class QuestionTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingAnswer()
     {
-        $this->assertEquals('foo', $this->question->formatAnswer('foo'));
+        $this->assertSame('foo', $this->question->formatAnswer('foo'));
     }
 
     /**
@@ -41,7 +41,7 @@ class QuestionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDefaultResponse()
     {
-        $this->assertEquals('foo', $this->question->getDefaultAnswer());
+        $this->assertSame('foo', $this->question->getDefaultAnswer());
     }
 
     /**
@@ -49,6 +49,6 @@ class QuestionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingQuestion()
     {
-        $this->assertEquals('Dummy question', $this->question->getText());
+        $this->assertSame('Dummy question', $this->question->getText());
     }
 }

@@ -46,7 +46,7 @@ class BetweenRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new BetweenRule();
-        $this->assertEquals('between', $rule->getSlug());
+        $this->assertSame('between', $rule->getSlug());
     }
 
     /**

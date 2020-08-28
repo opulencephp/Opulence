@@ -43,7 +43,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingCode()
     {
-        $this->assertEquals(4, $this->exception->getCode());
+        $this->assertSame(4, $this->exception->getCode());
     }
 
     /**
@@ -59,7 +59,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingMessage()
     {
-        $this->assertEquals('foo', $this->exception->getMessage());
+        $this->assertSame('foo', $this->exception->getMessage());
     }
 
     /**
@@ -75,6 +75,6 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingStatusCode()
     {
-        $this->assertEquals(404, $this->exception->getStatusCode());
+        $this->assertSame(404, $this->exception->getStatusCode());
     }
 }

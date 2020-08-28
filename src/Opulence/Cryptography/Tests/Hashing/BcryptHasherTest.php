@@ -33,7 +33,7 @@ class BcryptHasherTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDefaultCost()
     {
-        $this->assertEquals(10, BcryptHasher::DEFAULT_COST);
+        $this->assertSame(10, BcryptHasher::DEFAULT_COST);
     }
 
     /**

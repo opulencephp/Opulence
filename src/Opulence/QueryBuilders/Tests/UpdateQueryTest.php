@@ -44,7 +44,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->addColumnValues(['email' => 'bar@foo.com']);
-        $this->assertEquals('UPDATE users SET name = ?, email = ?', $query->getSql());
+        $this->assertSame('UPDATE users SET name = ?, email = ?', $query->getSql());
         $this->assertEquals([
             ['david', PDO::PARAM_STR],
             ['bar@foo.com', PDO::PARAM_STR]
@@ -57,7 +57,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     public function testBasicQuery()
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
-        $this->assertEquals('UPDATE users SET name = ?', $query->getSql());
+        $this->assertSame('UPDATE users SET name = ?', $query->getSql());
         $this->assertEquals([
             ['david', PDO::PARAM_STR]
         ], $query->getParameters());
@@ -69,7 +69,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     public function testSimpleExpression()
     {
         $query = new UpdateQuery('users', '', ['valid_until' => new Expression('NOW()')]);
-        $this->assertEquals('UPDATE users SET valid_until = NOW()', $query->getSql());
+        $this->assertSame('UPDATE users SET valid_until = NOW()', $query->getSql());
         $this->assertEquals([], $query->getParameters());
     }
 
@@ -80,7 +80,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     {
         $query = new UpdateQuery('users', '',
             ['is_val_even' => new Expression('(val + ?) % ?', ['1', PDO::PARAM_INT], [2, PDO::PARAM_INT])]);
-        $this->assertEquals('UPDATE users SET is_val_even = (val + ?) % ?', $query->getSql());
+        $this->assertSame('UPDATE users SET is_val_even = (val + ?) % ?', $query->getSql());
         $this->assertEquals([
             ['1', PDO::PARAM_INT],
             [2, PDO::PARAM_INT],
@@ -99,7 +99,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
             ->orWhere('u.name = ?')
             ->andWhere('subscriptions.userid = u.id', "subscriptions.type = 'customer'")
             ->addUnnamedPlaceholderValues([[2, PDO::PARAM_INT], [18175, PDO::PARAM_INT], 'foo@bar.com', 'dave']);
-        $this->assertEquals("UPDATE users AS u SET name = ?, email = ?, is_val_even = (val + ?) % ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer')",
+        $this->assertSame("UPDATE users AS u SET name = ?, email = ?, is_val_even = (val + ?) % ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer')",
             $query->getSql());
         $this->assertSame([
             ['david', PDO::PARAM_STR],
@@ -120,7 +120,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->where('id = ?')
             ->addUnnamedPlaceholderValue(18175, PDO::PARAM_INT);
-        $this->assertEquals('UPDATE users SET name = ? WHERE (id = ?)', $query->getSql());
+        $this->assertSame('UPDATE users SET name = ? WHERE (id = ?)', $query->getSql());
         $this->assertEquals([
             ['david', PDO::PARAM_STR],
             [18175, PDO::PARAM_INT]
@@ -135,7 +135,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->where($this->condition)
             ->addUnnamedPlaceholderValue(18175, PDO::PARAM_INT);
-        $this->assertEquals('UPDATE users SET name = ? WHERE (c1 IN (?))', $query->getSql());
+        $this->assertSame('UPDATE users SET name = ? WHERE (c1 IN (?))', $query->getSql());
         $this->assertEquals([
             ['david', PDO::PARAM_STR],
             [1, PDO::PARAM_INT],

@@ -66,6 +66,6 @@ class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
     public function testWritingSession()
     {
         $this->handler->write('foo', 'bar');
-        $this->assertEquals('bar', $this->handler->read('foo'));
+        $this->assertSame('bar', $this->handler->read('foo'));
     }
 }

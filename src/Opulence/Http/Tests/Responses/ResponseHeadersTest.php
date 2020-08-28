@@ -55,8 +55,8 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
         $this->headers->deleteCookie('bar');
         $deletedCookies = $this->headers->getCookies(true);
         $this->assertCount(2, $deletedCookies);
-        $this->assertEquals('foo', $deletedCookies[0]->getName());
-        $this->assertEquals('bar', $deletedCookies[1]->getName());
+        $this->assertSame('foo', $deletedCookies[0]->getName());
+        $this->assertSame('bar', $deletedCookies[1]->getName());
     }
 
     /**

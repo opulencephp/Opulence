@@ -29,7 +29,7 @@ class DriverTest extends \PHPUnit\Framework\TestCase
         $expectedResult = 'mysql:host=' . $server->getHost() . ';dbname=' . $server->getDatabaseName() . ';'
             . 'port=' . $server->getPort() . ';charset=' . $server->getCharset() . ';'
             . 'unix_socket=' . $unixSocket . ';';
-        $this->assertEquals($expectedResult, $this->getDSN($driver, $server, ['unix_socket' => $unixSocket]));
+        $this->assertSame($expectedResult, $this->getDSN($driver, $server, ['unix_socket' => $unixSocket]));
     }
 
     /**
@@ -41,7 +41,7 @@ class DriverTest extends \PHPUnit\Framework\TestCase
         $driver = new Driver();
         $expectedResult = 'mysql:host=' . $server->getHost() . ';dbname=' . $server->getDatabaseName() . ';'
             . 'port=' . $server->getPort() . ';charset=' . $server->getCharset() . ';';
-        $this->assertEquals($expectedResult, $this->getDSN($driver, $server));
+        $this->assertSame($expectedResult, $this->getDSN($driver, $server));
     }
 
     /**

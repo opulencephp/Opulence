@@ -34,7 +34,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     public function testAdding()
     {
         $this->parameters->add('foo', 'bar');
-        $this->assertEquals('bar', $this->parameters->get('foo'));
+        $this->assertSame('bar', $this->parameters->get('foo'));
     }
 
     /**
@@ -52,9 +52,9 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     public function testCount()
     {
         $this->parameters->add('foo', 'bar');
-        $this->assertEquals(1, $this->parameters->count());
+        $this->assertSame(1, $this->parameters->count());
         $this->parameters->add('bar', 'foo');
-        $this->assertEquals(2, $this->parameters->count());
+        $this->assertSame(2, $this->parameters->count());
     }
 
     /**
@@ -73,7 +73,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     public function testGetting()
     {
         $this->parameters->add('foo', 'bar');
-        $this->assertEquals('bar', $this->parameters->get('foo'));
+        $this->assertSame('bar', $this->parameters->get('foo'));
     }
 
     /**
@@ -81,7 +81,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAbsentVariableWithDefault()
     {
-        $this->assertEquals('blah', $this->parameters->get('does not exist', 'blah'));
+        $this->assertSame('blah', $this->parameters->get('does not exist', 'blah'));
     }
 
     /**
@@ -111,7 +111,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     public function testGettingAsArray()
     {
         $this->parameters->add('foo', 'bar');
-        $this->assertEquals('bar', $this->parameters['foo']);
+        $this->assertSame('bar', $this->parameters['foo']);
     }
 
     /**
@@ -150,7 +150,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     public function testSetting()
     {
         $this->parameters->set('foo', 'bar');
-        $this->assertEquals('bar', $this->parameters->get('foo'));
+        $this->assertSame('bar', $this->parameters->get('foo'));
     }
 
     /**
@@ -159,7 +159,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     public function testSettingItem()
     {
         $this->parameters['foo'] = 'bar';
-        $this->assertEquals('bar', $this->parameters['foo']);
+        $this->assertSame('bar', $this->parameters['foo']);
     }
 
     /**

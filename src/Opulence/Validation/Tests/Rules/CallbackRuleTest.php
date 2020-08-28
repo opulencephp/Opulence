@@ -61,7 +61,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new CallbackRule();
-        $this->assertEquals('callback', $rule->getSlug());
+        $this->assertSame('callback', $rule->getSlug());
     }
 
     /**

@@ -57,8 +57,8 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
         $parsedRoute->setHostRegex("foo\.bar\.com");
         $parsedRoute->setPathRegex('baz.*');
         $compiledRoute = new CompiledRoute($parsedRoute, true, []);
-        $this->assertEquals($parsedRoute->getHostRegex(), $compiledRoute->getHostRegex());
-        $this->assertEquals($parsedRoute->getPathRegex(), $compiledRoute->getPathRegex());
+        $this->assertSame($parsedRoute->getHostRegex(), $compiledRoute->getHostRegex());
+        $this->assertSame($parsedRoute->getPathRegex(), $compiledRoute->getPathRegex());
         $this->assertEquals($parsedRoute->getDefaultValue('bar'), $compiledRoute->getDefaultValue('bar'));
     }
 
@@ -75,7 +75,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingPathVariable()
     {
-        $this->assertEquals('bar', $this->compiledRoute->getPathVar('foo'));
+        $this->assertSame('bar', $this->compiledRoute->getPathVar('foo'));
     }
 
     /**

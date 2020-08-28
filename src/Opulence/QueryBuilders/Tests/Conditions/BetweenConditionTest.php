@@ -48,6 +48,6 @@ class BetweenConditionTest extends \PHPUnit\Framework\TestCase
     public function testGettingSql()
     {
         $condition = new BetweenCondition('foo', 1, 2);
-        $this->assertEquals('foo BETWEEN ? AND ?', $condition->getSql());
+        $this->assertSame('foo BETWEEN ? AND ?', $condition->getSql());
     }
 }

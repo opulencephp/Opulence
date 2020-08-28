@@ -44,7 +44,7 @@ class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
         /** @var Response $response */
         $this->assertInstanceOf(Response::class, $response);
         $this->assertEmpty($response->getContent());
-        $this->assertEquals(ResponseHeaders::HTTP_OK, $response->getStatusCode());
+        $this->assertSame(ResponseHeaders::HTTP_OK, $response->getStatusCode());
     }
 
     /**
@@ -61,7 +61,7 @@ class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
         };
         $response = $this->middlewarePipeline->send(Request::createFromGlobals(), $middleware, $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals('foo:something:something', $response->getContent());
-        $this->assertEquals(ResponseHeaders::HTTP_OK, $response->getStatusCode());
+        $this->assertSame('foo:something:something', $response->getContent());
+        $this->assertSame(ResponseHeaders::HTTP_OK, $response->getStatusCode());
     }
 }

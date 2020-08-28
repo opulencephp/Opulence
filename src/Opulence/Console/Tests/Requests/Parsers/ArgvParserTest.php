@@ -44,10 +44,10 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     public function testParsingArgumentsAndOptions()
     {
         $request = $this->parser->parse(['apex', 'foo', 'bar', '-r', '--name=dave']);
-        $this->assertEquals('foo', $request->getCommandName());
+        $this->assertSame('foo', $request->getCommandName());
         $this->assertEquals(['bar'], $request->getArgumentValues());
         $this->assertNull($request->getOptionValue('r'));
-        $this->assertEquals('dave', $request->getOptionValue('name'));
+        $this->assertSame('dave', $request->getOptionValue('name'));
     }
 
     /**
@@ -57,10 +57,10 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['argv'] = ['apex', 'foo', 'bar', '-r', '--name=dave'];
         $request = $this->parser->parse(null);
-        $this->assertEquals('foo', $request->getCommandName());
+        $this->assertSame('foo', $request->getCommandName());
         $this->assertEquals(['bar'], $request->getArgumentValues());
         $this->assertNull($request->getOptionValue('r'));
-        $this->assertEquals('dave', $request->getOptionValue('name'));
+        $this->assertSame('dave', $request->getOptionValue('name'));
     }
 
     /**

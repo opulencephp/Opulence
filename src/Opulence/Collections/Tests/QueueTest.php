@@ -53,11 +53,11 @@ class QueueTest extends \PHPUnit\Framework\TestCase
      */
     public function testCounting() : void
     {
-        $this->assertEquals(0, $this->queue->count());
+        $this->assertSame(0, $this->queue->count());
         $this->queue->enqueue('foo');
-        $this->assertEquals(1, $this->queue->count());
+        $this->assertSame(1, $this->queue->count());
         $this->queue->enqueue('bar');
-        $this->assertEquals(2, $this->queue->count());
+        $this->assertSame(2, $this->queue->count());
     }
 
     /**
@@ -67,9 +67,9 @@ class QueueTest extends \PHPUnit\Framework\TestCase
     {
         $this->queue->enqueue('foo');
         $this->queue->enqueue('bar');
-        $this->assertEquals('foo', $this->queue->dequeue());
+        $this->assertSame('foo', $this->queue->dequeue());
         $this->assertEquals(['bar'], $this->queue->toArray());
-        $this->assertEquals('bar', $this->queue->dequeue());
+        $this->assertSame('bar', $this->queue->dequeue());
         $this->assertEquals([], $this->queue->toArray());
     }
 
@@ -88,8 +88,8 @@ class QueueTest extends \PHPUnit\Framework\TestCase
     {
         $this->queue->enqueue('foo');
         $this->queue->enqueue('bar');
-        $this->assertEquals('foo', $this->queue->dequeue());
-        $this->assertEquals('bar', $this->queue->dequeue());
+        $this->assertSame('foo', $this->queue->dequeue());
+        $this->assertSame('bar', $this->queue->dequeue());
     }
 
     /**
@@ -122,9 +122,9 @@ class QueueTest extends \PHPUnit\Framework\TestCase
     public function testPeekReturnsValueAtBeginning() : void
     {
         $this->queue->enqueue('foo');
-        $this->assertEquals('foo', $this->queue->peek());
+        $this->assertSame('foo', $this->queue->peek());
         $this->queue->enqueue('bar');
-        $this->assertEquals('foo', $this->queue->peek());
+        $this->assertSame('foo', $this->queue->peek());
     }
 
     /**

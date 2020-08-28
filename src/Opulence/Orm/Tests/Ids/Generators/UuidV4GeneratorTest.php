@@ -37,8 +37,8 @@ class UuidV4GeneratorTest extends \PHPUnit\Framework\TestCase
         $id1 = $idGenerator->generate($entity);
         $id2 = $idGenerator->generate($entity);
         $this->assertNotSame($id1, $id2);
-        $this->assertEquals(36, strlen($id1));
-        $this->assertEquals(36, strlen($id2));
+        $this->assertSame(36, strlen($id1));
+        $this->assertSame(36, strlen($id2));
     }
 
     /**

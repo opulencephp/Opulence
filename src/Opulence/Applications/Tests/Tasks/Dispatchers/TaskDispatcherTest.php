@@ -36,7 +36,7 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
             $value = 'foo';
         });
         $this->dispatcher->dispatch('foo');
-        $this->assertEquals('foo', $value);
+        $this->assertSame('foo', $value);
     }
 
     /**
@@ -49,7 +49,7 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
             $value = 'foo';
         });
         $this->dispatcher->dispatch(TaskTypes::POST_SHUTDOWN);
-        $this->assertEquals('foo', $value);
+        $this->assertSame('foo', $value);
     }
 
     /**
@@ -62,7 +62,7 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
             $value = 'foo';
         });
         $this->dispatcher->dispatch(TaskTypes::POST_START);
-        $this->assertEquals('foo', $value);
+        $this->assertSame('foo', $value);
     }
 
     /**
@@ -75,7 +75,7 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
             $value = 'foo';
         });
         $this->dispatcher->dispatch(TaskTypes::PRE_SHUTDOWN);
-        $this->assertEquals('foo', $value);
+        $this->assertSame('foo', $value);
     }
 
     /**
@@ -88,6 +88,6 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
             $value = 'foo';
         });
         $this->dispatcher->dispatch(TaskTypes::PRE_START);
-        $this->assertEquals('foo', $value);
+        $this->assertSame('foo', $value);
     }
 }

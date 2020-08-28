@@ -26,7 +26,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     public function testGettingContentType()
     {
         $response = new JsonResponse();
-        $this->assertEquals(ResponseHeaders::CONTENT_TYPE_JSON, $response->getHeaders()->get('Content-Type'));
+        $this->assertSame(ResponseHeaders::CONTENT_TYPE_JSON, $response->getHeaders()->get('Content-Type'));
     }
 
     /**
@@ -35,7 +35,7 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     public function testGettingStatusCodeAfterSettingInConstructor()
     {
         $response = new JsonResponse([], ResponseHeaders::HTTP_ACCEPTED);
-        $this->assertEquals(ResponseHeaders::HTTP_ACCEPTED, $response->getStatusCode());
+        $this->assertSame(ResponseHeaders::HTTP_ACCEPTED, $response->getStatusCode());
     }
 
     /**
@@ -105,6 +105,6 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
     public function testSettingHeadersInConstructor()
     {
         $response = new JsonResponse([], ResponseHeaders::HTTP_OK, ['FOO' => 'bar']);
-        $this->assertEquals('bar', $response->getHeaders()->get('FOO'));
+        $this->assertSame('bar', $response->getHeaders()->get('FOO'));
     }
 }

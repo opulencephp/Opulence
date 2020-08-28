@@ -104,7 +104,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $method->invoke($this->unitOfWork);
         $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
         $this->unitOfWork->commit();
-        $this->assertTrue(in_array($this->entity1, $scheduledFoUpdate));
+        $this->assertContains($this->entity1, $scheduledFoUpdate);
     }
 
     /**
@@ -141,10 +141,10 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->unitOfWork->scheduleForUpdate($this->entity1);
         $this->unitOfWork->detach($this->entity1);
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
-        $this->assertEquals(EntityStates::UNREGISTERED, $this->entityRegistry->getEntityState($this->entity1));
-        $this->assertFalse(in_array($this->entity1, $this->unitOfWork->getScheduledEntityDeletions()));
-        $this->assertFalse(in_array($this->entity1, $this->unitOfWork->getScheduledEntityInsertions()));
-        $this->assertFalse(in_array($this->entity1, $this->unitOfWork->getScheduledEntityUpdates()));
+        $this->assertSame(EntityStates::UNREGISTERED, $this->entityRegistry->getEntityState($this->entity1));
+        $this->assertNotContains($this->entity1, $this->unitOfWork->getScheduledEntityDeletions());
+        $this->assertNotContains($this->entity1, $this->unitOfWork->getScheduledEntityInsertions());
+        $this->assertNotContains($this->entity1, $this->unitOfWork->getScheduledEntityUpdates());
     }
 
     /**
@@ -155,7 +155,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->entityRegistry->registerEntity($this->entity1);
         $this->unitOfWork->dispose();
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
-        $this->assertEquals(EntityStates::NEVER_REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
+        $this->assertSame(EntityStates::NEVER_REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
         $this->assertEquals([], $this->unitOfWork->getScheduledEntityDeletions());
         $this->assertEquals([], $this->unitOfWork->getScheduledEntityInsertions());
         $this->assertEquals([], $this->unitOfWork->getScheduledEntityUpdates());
@@ -274,7 +274,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->unitOfWork->scheduleForDeletion($this->entity1);
         $this->unitOfWork->commit();
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
-        $this->assertEquals(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
+        $this->assertSame(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
         $this->expectException(OrmException::class);
         $this->dataMapper->getById($this->entity1->getId());
     }
@@ -292,7 +292,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $method->setAccessible(true);
         $method->invoke($this->unitOfWork);
         $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
-        $this->assertFalse(in_array($this->entity1, $scheduledFoUpdate));
+        $this->assertNotContains($this->entity1, $scheduledFoUpdate);
     }
 
     /**
@@ -344,9 +344,9 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $method->invoke($this->unitOfWork);
         $scheduledFoDeletion = $this->unitOfWork->getScheduledEntityDeletions();
         $this->unitOfWork->commit();
-        $this->assertTrue(in_array($this->entity1, $scheduledFoDeletion));
+        $this->assertContains($this->entity1, $scheduledFoDeletion);
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
-        $this->assertEquals(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
+        $this->assertSame(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
         $this->expectException(OrmException::class);
         $this->dataMapper->getById($this->entity1->getId());
     }
@@ -359,7 +359,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
-        $this->assertEquals(EntityStates::QUEUED, $this->entityRegistry->getEntityState($this->entity1));
+        $this->assertSame(EntityStates::QUEUED, $this->entityRegistry->getEntityState($this->entity1));
         $reflectionClass = new \ReflectionClass($this->unitOfWork);
         $method = $reflectionClass->getMethod('checkForUpdates');
         $method->setAccessible(true);
@@ -367,11 +367,11 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $scheduledFoInsertion = $this->unitOfWork->getScheduledEntityInsertions();
         $expectedId = $this->dataMapper->getCurrId() + 1;
         $this->unitOfWork->commit();
-        $this->assertTrue(in_array($this->entity1, $scheduledFoInsertion));
+        $this->assertContains($this->entity1, $scheduledFoInsertion);
         $this->assertEquals($this->entity1, $this->entityRegistry->getEntity($className, $this->entity1->getId()));
-        $this->assertEquals(EntityStates::REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
+        $this->assertSame(EntityStates::REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
         $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));
-        $this->assertEquals($expectedId, $this->entity1->getId());
+        $this->assertSame($expectedId, $this->entity1->getId());
     }
 
     /**
@@ -389,9 +389,9 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $method->invoke($this->unitOfWork);
         $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
         $this->unitOfWork->commit();
-        $this->assertTrue(in_array($this->entity1, $scheduledFoUpdate));
+        $this->assertContains($this->entity1, $scheduledFoUpdate);
         $this->assertEquals($this->entity1, $this->entityRegistry->getEntity($className, $this->entity1->getId()));
-        $this->assertEquals(EntityStates::REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
+        $this->assertSame(EntityStates::REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
         $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));
     }
 
@@ -413,7 +413,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
             });
         $this->unitOfWork->commit();
         $this->assertNotEquals($originalAggregateRootId, $this->entity2->getAggregateRootId());
-        $this->assertEquals($this->entity1->getId(), $this->entity2->getAggregateRootId());
+        $this->assertSame($this->entity1->getId(), $this->entity2->getAggregateRootId());
     }
 
     /**
@@ -434,7 +434,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
             });
         $this->unitOfWork->commit();
         $this->assertNotEquals($originalAggregateRootId, $this->entity2->getAggregateRootId());
-        $this->assertEquals($this->entity1->getId(), $this->entity2->getAggregateRootId());
+        $this->assertSame($this->entity1->getId(), $this->entity2->getAggregateRootId());
     }
 
     /**
@@ -443,7 +443,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     public function testThatEntityIdIsBeingSetAfterCommit()
     {
         $foo = $this->getInsertedEntity();
-        $this->assertEquals(1, $foo->getId());
+        $this->assertSame(1, $foo->getId());
     }
 
     /**

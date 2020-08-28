@@ -173,7 +173,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
         $unserializedCollection = unserialize($serializedCollection);
         /** @var ParsedRoute $unserializedRoute */
         $unserializedRoute = $unserializedCollection->get('get')[0];
-        $this->assertEquals('foo@bar', $unserializedRoute->getController());
+        $this->assertSame('foo@bar', $unserializedRoute->getController());
     }
 
     /**
@@ -191,6 +191,6 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
         /** @var ParsedRoute $unserializedRoute */
         $unserializedRoute = $unserializedCollection->get('get')[0];
         $this->assertInstanceOf(Closure::class, $unserializedRoute->getController());
-        $this->assertEquals('foo', call_user_func($unserializedRoute->getController()));
+        $this->assertSame('foo', call_user_func($unserializedRoute->getController()));
     }
 }

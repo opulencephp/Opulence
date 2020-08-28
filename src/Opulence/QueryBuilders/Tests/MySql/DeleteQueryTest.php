@@ -30,7 +30,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
             ->addNamedPlaceholderValues(['userId' => [18175, PDO::PARAM_INT]])
             ->addNamedPlaceholderValue('name', 'dave')
             ->limit(1);
-        $this->assertEquals('DELETE FROM users AS u WHERE (u.id = :userId) AND (u.name = :name) OR (u.id = 10) LIMIT 1',
+        $this->assertSame('DELETE FROM users AS u WHERE (u.id = :userId) AND (u.name = :name) OR (u.id = 10) LIMIT 1',
             $query->getSql());
         $this->assertEquals([
             'userId' => [18175, PDO::PARAM_INT],
@@ -45,7 +45,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     {
         $query = new DeleteQuery('users');
         $query->limit(1);
-        $this->assertEquals('DELETE FROM users LIMIT 1', $query->getSql());
+        $this->assertSame('DELETE FROM users LIMIT 1', $query->getSql());
     }
 
     /**
@@ -55,6 +55,6 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     {
         $query = new DeleteQuery('users');
         $query->limit(':limit');
-        $this->assertEquals('DELETE FROM users LIMIT :limit', $query->getSql());
+        $this->assertSame('DELETE FROM users LIMIT :limit', $query->getSql());
     }
 }

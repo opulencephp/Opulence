@@ -25,7 +25,7 @@ class KeyTest extends \PHPUnit\Framework\TestCase
     {
         $value = str_repeat('a', 32);
         $key = new Key($value);
-        $this->assertEquals(SecretTypes::KEY, $key->getType());
-        $this->assertEquals($value, $key->getValue());
+        $this->assertSame(SecretTypes::KEY, $key->getType());
+        $this->assertSame($value, $key->getValue());
     }
 }

@@ -33,7 +33,7 @@ class RoleTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingId()
     {
-        $this->assertEquals(1, $this->role->getId());
+        $this->assertSame(1, $this->role->getId());
     }
 
     /**
@@ -41,7 +41,7 @@ class RoleTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingName()
     {
-        $this->assertEquals('foo', $this->role->getName());
+        $this->assertSame('foo', $this->role->getName());
     }
 
     /**
@@ -50,6 +50,6 @@ class RoleTest extends \PHPUnit\Framework\TestCase
     public function testSettingId()
     {
         $this->role->setId(23);
-        $this->assertEquals(23, $this->role->getId());
+        $this->assertSame(23, $this->role->getId());
     }
 }

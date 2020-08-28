@@ -149,7 +149,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
         $encrypter1 = new Encrypter(new Key($key), Ciphers::AES_128_CBC);
         $encryptedValue = $encrypter1->encrypt('foo');
         $encrypter2 = new Encrypter(new Key($key), Ciphers::AES_128_CTR);
-        $this->assertEquals('foo', $encrypter2->decrypt($encryptedValue));
+        $this->assertSame('foo', $encrypter2->decrypt($encryptedValue));
     }
 
     /**
@@ -172,8 +172,8 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEquals($decryptedValue, $encryptedValueWithPassword);
         $this->assertNotEquals($decryptedValue, $encryptedValueWithKey);
         $this->assertNotEquals($encryptedValueWithPassword, $encryptedValueWithKey);
-        $this->assertEquals($decryptedValue, $this->encrypterWithPassword->decrypt($encryptedValueWithPassword));
-        $this->assertEquals($decryptedValue, $this->encrypterWithKey->decrypt($encryptedValueWithKey));
+        $this->assertSame($decryptedValue, $this->encrypterWithPassword->decrypt($encryptedValueWithPassword));
+        $this->assertSame($decryptedValue, $this->encrypterWithKey->decrypt($encryptedValueWithKey));
     }
 
     /**
@@ -205,7 +205,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
             $decryptedValue = 'foobar';
             $encryptedValue = $encrypter->encrypt($decryptedValue);
             $this->assertNotEquals($decryptedValue, $encryptedValue);
-            $this->assertEquals($decryptedValue, $encrypter->decrypt($encryptedValue));
+            $this->assertSame($decryptedValue, $encrypter->decrypt($encryptedValue));
         }
 
         // Test using keys
@@ -214,7 +214,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
             $decryptedValue = 'foobar';
             $encryptedValue = $encrypter->encrypt($decryptedValue);
             $this->assertNotEquals($decryptedValue, $encryptedValue);
-            $this->assertEquals($decryptedValue, $encrypter->decrypt($encryptedValue));
+            $this->assertSame($decryptedValue, $encrypter->decrypt($encryptedValue));
         }
     }
 

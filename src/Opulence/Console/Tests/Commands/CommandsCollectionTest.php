@@ -66,7 +66,7 @@ class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
         $response = new Response(new Compiler(new Lexer(), new Parser()));
         ob_start();
         $this->collection->call('holiday', $response, ['Easter'], ['-y']);
-        $this->assertEquals('Happy Easter!', ob_get_clean());
+        $this->assertSame('Happy Easter!', ob_get_clean());
     }
 
     /**

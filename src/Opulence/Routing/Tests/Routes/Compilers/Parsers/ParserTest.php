@@ -38,7 +38,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     {
         $route = new Route(['get'], '/foo', 'foo@bar');
         $parsedRoute = $this->parser->parse($route);
-        $this->assertEquals('#^.*$#', $parsedRoute->getHostRegex());
+        $this->assertSame('#^.*$#', $parsedRoute->getHostRegex());
     }
 
     /**
@@ -105,7 +105,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
                 )
             )
         );
-        $this->assertEquals('123', $parsedRoute->getDefaultValue('blah'));
+        $this->assertSame('123', $parsedRoute->getDefaultValue('blah'));
     }
 
     /**
@@ -218,7 +218,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
                 )
             )
         );
-        $this->assertEquals('23', $parsedRoute->getDefaultValue('foo'));
+        $this->assertSame('23', $parsedRoute->getDefaultValue('foo'));
     }
 
     /**
@@ -313,7 +313,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     {
         $route = new Route(['get'], '', 'foo@bar');
         $parsedRoute = $this->parser->parse($route);
-        $this->assertEquals('#^.*$#', $parsedRoute->getPathRegex());
+        $this->assertSame('#^.*$#', $parsedRoute->getPathRegex());
     }
 
     /**
