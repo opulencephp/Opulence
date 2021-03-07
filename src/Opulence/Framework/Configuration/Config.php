@@ -23,7 +23,7 @@ class Config
      *
      * @param string $category The category of setting to get
      * @param string $setting The name of the setting to get
-     * @param null $default The default value if one does not exist
+     * @param mixed $default The default value if one does not exist
      * @return mixed The value of the setting
      */
     public static function get(string $category, string $setting, $default = null)
