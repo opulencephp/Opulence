@@ -66,11 +66,11 @@ class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
         /** @var SignedJwt $signedJwt */
         $signedJwt = SignedJwt::createFromString($tokenString);
         $payload = $signedJwt->getPayload();
-        $this->assertEquals('foo', $payload->getIssuer());
-        $this->assertEquals('bar', $payload->getAudience());
-        $this->assertEquals('principalId', $payload->getSubject());
-        $this->assertEquals((new DateTimeImmutable)->format('Y'), $payload->getValidFrom()->format('Y'));
-        $this->assertEquals((new DateTimeImmutable('+1 year'))->format('Y'), $payload->getValidTo()->format('Y'));
-        $this->assertEquals((new DateTimeImmutable)->format('Y'), $payload->getIssuedAt()->format('Y'));
+        $this->assertSame('foo', $payload->getIssuer());
+        $this->assertSame('bar', $payload->getAudience());
+        $this->assertSame('principalId', $payload->getSubject());
+        $this->assertSame((new DateTimeImmutable)->format('Y'), $payload->getValidFrom()->format('Y'));
+        $this->assertSame((new DateTimeImmutable('+1 year'))->format('Y'), $payload->getValidTo()->format('Y'));
+        $this->assertSame((new DateTimeImmutable)->format('Y'), $payload->getIssuedAt()->format('Y'));
     }
 }

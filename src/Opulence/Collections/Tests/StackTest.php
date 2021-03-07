@@ -53,11 +53,11 @@ class StackTest extends \PHPUnit\Framework\TestCase
      */
     public function testCounting() : void
     {
-        $this->assertEquals(0, $this->stack->count());
+        $this->assertSame(0, $this->stack->count());
         $this->stack->push('foo');
-        $this->assertEquals(1, $this->stack->count());
+        $this->assertSame(1, $this->stack->count());
         $this->stack->push('bar');
-        $this->assertEquals(2, $this->stack->count());
+        $this->assertSame(2, $this->stack->count());
     }
 
     /**
@@ -90,9 +90,9 @@ class StackTest extends \PHPUnit\Framework\TestCase
     public function testPeekReturnsTopValue() : void
     {
         $this->stack->push('foo');
-        $this->assertEquals('foo', $this->stack->peek());
+        $this->assertSame('foo', $this->stack->peek());
         $this->stack->push('bar');
-        $this->assertEquals('bar', $this->stack->peek());
+        $this->assertSame('bar', $this->stack->peek());
     }
 
     /**
@@ -102,9 +102,9 @@ class StackTest extends \PHPUnit\Framework\TestCase
     {
         $this->stack->push('foo');
         $this->stack->push('bar');
-        $this->assertEquals('bar', $this->stack->pop());
+        $this->assertSame('bar', $this->stack->pop());
         $this->assertEquals(['foo'], $this->stack->toArray());
-        $this->assertEquals('foo', $this->stack->pop());
+        $this->assertSame('foo', $this->stack->pop());
         $this->assertEquals([], $this->stack->toArray());
     }
 
@@ -123,8 +123,8 @@ class StackTest extends \PHPUnit\Framework\TestCase
     {
         $this->stack->push('foo');
         $this->stack->push('bar');
-        $this->assertEquals('bar', $this->stack->pop());
-        $this->assertEquals('foo', $this->stack->pop());
+        $this->assertSame('bar', $this->stack->pop());
+        $this->assertSame('foo', $this->stack->pop());
     }
 
     /**

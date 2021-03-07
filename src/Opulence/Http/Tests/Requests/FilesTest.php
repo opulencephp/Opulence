@@ -34,11 +34,11 @@ class FilesTest extends \PHPUnit\Framework\TestCase
         /** @var UploadedFile $file */
         $file = $files->get('foo');
         $this->assertInstanceOf(UploadedFile::class, $file);
-        $this->assertEquals('/path', $file->getPath());
-        $this->assertEquals('foo.txt', $file->getTempFilename());
-        $this->assertEquals(100, $file->getTempSize());
-        $this->assertEquals('text/plain', $file->getTempMimeType());
-        $this->assertEquals(UPLOAD_ERR_EXTENSION, $file->getError());
+        $this->assertSame('/path', $file->getPath());
+        $this->assertSame('foo.txt', $file->getTempFilename());
+        $this->assertSame(100, $file->getTempSize());
+        $this->assertSame('text/plain', $file->getTempMimeType());
+        $this->assertSame(UPLOAD_ERR_EXTENSION, $file->getError());
     }
 
     /**
@@ -58,10 +58,10 @@ class FilesTest extends \PHPUnit\Framework\TestCase
         /** @var UploadedFile $file */
         $file = $files->get('foo');
         $this->assertInstanceOf(UploadedFile::class, $file);
-        $this->assertEquals('/path', $file->getPath());
-        $this->assertEquals('foo.txt', $file->getTempFilename());
-        $this->assertEquals(100, $file->getTempSize());
-        $this->assertEquals('text/plain', $file->getTempMimeType());
-        $this->assertEquals(UPLOAD_ERR_EXTENSION, $file->getError());
+        $this->assertSame('/path', $file->getPath());
+        $this->assertSame('foo.txt', $file->getTempFilename());
+        $this->assertSame(100, $file->getTempSize());
+        $this->assertSame('text/plain', $file->getTempMimeType());
+        $this->assertSame(UPLOAD_ERR_EXTENSION, $file->getError());
     }
 }

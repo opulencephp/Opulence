@@ -77,7 +77,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDefaultValue()
     {
-        $this->assertEquals('bar', $this->option->getDefaultValue());
+        $this->assertSame('bar', $this->option->getDefaultValue());
     }
 
     /**
@@ -85,7 +85,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDescription()
     {
-        $this->assertEquals('Foo option', $this->option->getDescription());
+        $this->assertSame('Foo option', $this->option->getDescription());
     }
 
     /**
@@ -93,7 +93,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingName()
     {
-        $this->assertEquals('foo', $this->option->getName());
+        $this->assertSame('foo', $this->option->getName());
     }
 
     /**
@@ -101,7 +101,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingShortName()
     {
-        $this->assertEquals('f', $this->option->getShortName());
+        $this->assertSame('f', $this->option->getShortName());
     }
 
     /**

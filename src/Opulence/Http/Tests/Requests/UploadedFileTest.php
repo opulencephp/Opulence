@@ -88,7 +88,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
             __DIR__ . self::TEMP_FILENAME,
             100
         );
-        $this->assertEquals(UPLOAD_ERR_OK, $file->getError());
+        $this->assertSame(UPLOAD_ERR_OK, $file->getError());
     }
 
     /**
@@ -116,7 +116,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
             'text/plain',
             UPLOAD_ERR_EXTENSION
         );
-        $this->assertEquals(UPLOAD_ERR_EXTENSION, $file->getError());
+        $this->assertSame(UPLOAD_ERR_EXTENSION, $file->getError());
     }
 
     /**
@@ -130,7 +130,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
             100,
             'foo/bar'
         );
-        $this->assertEquals('text/plain', $file->getMimeType());
+        $this->assertSame('text/plain', $file->getMimeType());
     }
 
     /**
@@ -138,7 +138,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingPath()
     {
-        $this->assertEquals(__DIR__ . '/files', $this->file->getPath());
+        $this->assertSame(__DIR__ . '/files', $this->file->getPath());
     }
 
     /**
@@ -146,7 +146,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingTempExtension()
     {
-        $this->assertEquals('txt', $this->file->getTempExtension());
+        $this->assertSame('txt', $this->file->getTempExtension());
     }
 
     /**
@@ -154,7 +154,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingTempFilename()
     {
-        $this->assertEquals(__DIR__ . self::TEMP_FILENAME, $this->file->getTempFilename());
+        $this->assertSame(__DIR__ . self::TEMP_FILENAME, $this->file->getTempFilename());
     }
 
     /**
@@ -162,7 +162,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingTempMimeType()
     {
-        $this->assertEquals('text/plain', $this->file->getTempMimeType());
+        $this->assertSame('text/plain', $this->file->getTempMimeType());
     }
 
     /**
@@ -170,7 +170,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingTempSize()
     {
-        $this->assertEquals(100, $this->file->getTempSize());
+        $this->assertSame(100, $this->file->getTempSize());
     }
 
     /**
@@ -180,10 +180,10 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     {
         // Test specifying directory for target and a filename
         $this->file->move(__DIR__ . '/tmp', 'bar.txt');
-        $this->assertEquals('bar', file_get_contents(__DIR__ . '/tmp/bar.txt'));
+        $this->assertSame('bar', file_get_contents(__DIR__ . '/tmp/bar.txt'));
         // Test not specifying a name
         $this->file->move(__DIR__ . '/tmp');
-        $this->assertEquals('bar', file_get_contents(__DIR__ . '/tmp/UploadedFile.txt'));
+        $this->assertSame('bar', file_get_contents(__DIR__ . '/tmp/UploadedFile.txt'));
     }
 
     /**

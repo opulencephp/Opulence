@@ -73,7 +73,7 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
             ->method('resolve')
             ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters');
-        $this->assertEquals('bar', $view->getVar('foo'));
+        $this->assertSame('bar', $view->getVar('foo'));
     }
 
     /**
@@ -92,9 +92,9 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
             ->method('resolve')
             ->willReturn(__DIR__ . '/../files/TestWithCustomTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters');
-        $this->assertEquals('bar', $view->getVar('foo'));
+        $this->assertSame('bar', $view->getVar('foo'));
         $view = $this->viewFactory->createView('TestWithCustomTagDelimiters');
-        $this->assertEquals('bar', $view->getVar('foo'));
+        $this->assertSame('bar', $view->getVar('foo'));
     }
 
     /**
@@ -109,7 +109,7 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
             ->method('resolve')
             ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters.html');
-        $this->assertEquals('bar', $view->getVar('foo'));
+        $this->assertSame('bar', $view->getVar('foo'));
     }
 
     /**
@@ -124,7 +124,7 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
             ->method('resolve')
             ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters');
-        $this->assertEquals('bar', $view->getVar('foo'));
+        $this->assertSame('bar', $view->getVar('foo'));
     }
 
     /**
@@ -175,7 +175,7 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
             ->method('resolve')
             ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters.html');
-        $this->assertEquals('bar', $view->getVar('foo'));
+        $this->assertSame('bar', $view->getVar('foo'));
     }
 
     /**
@@ -192,7 +192,7 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
             ->method('resolve')
             ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters');
-        $this->assertEquals('bar', $view->getVar('foo'));
+        $this->assertSame('bar', $view->getVar('foo'));
     }
 
     /**
@@ -210,7 +210,7 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
             ->method('resolve')
             ->willReturn(__DIR__ . '/../files/TestWithDefaultTagDelimiters.html');
         $view = $this->viewFactory->createView('TestWithDefaultTagDelimiters');
-        $this->assertEquals('bar', $view->getVar('foo'));
-        $this->assertEquals('baz', $view->getVar('bar'));
+        $this->assertSame('bar', $view->getVar('foo'));
+        $this->assertSame('baz', $view->getVar('bar'));
     }
 }

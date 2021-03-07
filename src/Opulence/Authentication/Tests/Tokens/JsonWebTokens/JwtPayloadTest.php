@@ -87,7 +87,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertNull($this->payload->getAudience());
         $this->payload->setAudience('foo');
-        $this->assertEquals('foo', $this->payload->getAudience());
+        $this->assertSame('foo', $this->payload->getAudience());
     }
 
     /**
@@ -105,14 +105,14 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
             'iat' => null,
             'jti' => $this->payload->getId()
         ];
-        $this->assertEquals(
+        $this->assertSame(
             rtrim(strtr(base64_encode(json_encode($claims)), '+/', '-_'), '='),
             $this->payload->encode()
         );
         $this->payload->add('bar', 'baz');
         $claims['jti'] = $this->payload->getId();
         $claims['bar'] = 'baz';
-        $this->assertEquals(
+        $this->assertSame(
             rtrim(strtr(base64_encode(json_encode($claims)), '+/', '-_'), '='),
             $this->payload->encode()
         );
@@ -145,7 +145,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertNull($this->payload->getIssuer());
         $this->payload->setIssuer('foo');
-        $this->assertEquals('foo', $this->payload->getIssuer());
+        $this->assertSame('foo', $this->payload->getIssuer());
     }
 
     /**
@@ -155,7 +155,7 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertNull($this->payload->getSubject());
         $this->payload->setSubject('foo');
-        $this->assertEquals('foo', $this->payload->getSubject());
+        $this->assertSame('foo', $this->payload->getSubject());
     }
 
     /**
@@ -187,9 +187,9 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertNull($this->payload->get('foo'));
         $this->payload->add('foo', 'bar');
-        $this->assertEquals('bar', $this->payload->get('foo'));
+        $this->assertSame('bar', $this->payload->get('foo'));
         $this->payload->add('foo', 'baz');
-        $this->assertEquals('baz', $this->payload->get('foo'));
+        $this->assertSame('baz', $this->payload->get('foo'));
     }
 
     /**
@@ -217,8 +217,8 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
         $jti2 = $this->payload->getId();
         $this->payload->add('baz', 'blah');
         $jti3 = $this->payload->getId();
-        $this->assertEquals('theJti', $this->payload->getId());
-        $this->assertEquals('theJti', $this->payload->get('jti'));
+        $this->assertSame('theJti', $this->payload->getId());
+        $this->assertSame('theJti', $this->payload->get('jti'));
         $this->assertEquals($jti1, $jti2);
         $this->assertEquals($jti2, $jti3);
     }
@@ -238,8 +238,8 @@ class JwtPayloadTest extends \PHPUnit\Framework\TestCase
     public function testSettingId()
     {
         $this->payload->setId('foo');
-        $this->assertEquals('foo', $this->payload->get('jti'));
-        $this->assertEquals('foo', $this->payload->getId());
+        $this->assertSame('foo', $this->payload->get('jti'));
+        $this->assertSame('foo', $this->payload->getId());
     }
 
     /**

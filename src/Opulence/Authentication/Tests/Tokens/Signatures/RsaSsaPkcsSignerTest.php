@@ -46,7 +46,7 @@ class RsaSsaPkcsSignerTest extends \PHPUnit\Framework\TestCase
     public function testGettingAlgorithm()
     {
         $signer = new RsaSsaPkcsSigner(Algorithms::RSA_SHA512, 'public', 'private');
-        $this->assertEquals(Algorithms::RSA_SHA512, $signer->getAlgorithm());
+        $this->assertSame(Algorithms::RSA_SHA512, $signer->getAlgorithm());
     }
 
     /**

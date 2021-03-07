@@ -70,7 +70,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     {
         $route = new Route('get', '/{foo}', 'foo@bar');
         $this->assertFalse($route->usesCallable());
-        $this->assertEquals('foo@bar', $route->getController());
+        $this->assertSame('foo@bar', $route->getController());
     }
 
     /**
@@ -79,7 +79,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     public function testGettingControllerMethod()
     {
         $route = new Route('get', '/{foo}', 'foo@bar');
-        $this->assertEquals('bar', $route->getControllerMethod());
+        $this->assertSame('bar', $route->getControllerMethod());
     }
 
     /**
@@ -88,8 +88,8 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     public function testGettingControllerName()
     {
         $route = new Route('get', '/{foo}', 'foo@bar');
-        $this->assertEquals('foo', $route->getControllerName());
-        $this->assertEquals('foo@bar', $route->getController());
+        $this->assertSame('foo', $route->getControllerName());
+        $this->assertSame('foo@bar', $route->getController());
     }
 
     /**
@@ -143,7 +143,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     public function testGettingRawPath()
     {
         $route = new Route('get', '/foo/{id}', 'foo@bar');
-        $this->assertEquals('/foo/{id}', $route->getRawPath());
+        $this->assertSame('/foo/{id}', $route->getRawPath());
     }
 
     /**
@@ -164,7 +164,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
             'vars' => ['bar' => "\d+"]
         ];
         $route = new Route('get', '/foo', 'foo@bar', $options);
-        $this->assertEquals("\d+", $route->getVarRegex('bar'));
+        $this->assertSame("\d+", $route->getVarRegex('bar'));
     }
 
     /**
@@ -260,8 +260,8 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     {
         $route = new Route('get', '/{foo}', 'foo@bar');
         $route->setControllerMethod('blah');
-        $this->assertEquals('blah', $route->getControllerMethod());
-        $this->assertEquals('foo@blah', $route->getController());
+        $this->assertSame('blah', $route->getControllerMethod());
+        $this->assertSame('foo@blah', $route->getController());
     }
 
     /**
@@ -271,8 +271,8 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     {
         $route = new Route('get', '/{foo}', 'foo@bar');
         $route->setControllerName('blah');
-        $this->assertEquals('blah', $route->getControllerName());
-        $this->assertEquals('blah@bar', $route->getController());
+        $this->assertSame('blah', $route->getControllerName());
+        $this->assertSame('blah@bar', $route->getController());
     }
 
     /**
@@ -310,7 +310,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     {
         $route = new Route('get', '/{foo}', 'foo@bar');
         $route->setName('blah');
-        $this->assertEquals('blah', $route->getName());
+        $this->assertSame('blah', $route->getName());
     }
 
     /**
@@ -322,7 +322,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
             'name' => 'blah'
         ];
         $route = new Route('get', '/{foo}', 'foo@bar', $options);
-        $this->assertEquals('blah', $route->getName());
+        $this->assertSame('blah', $route->getName());
     }
 
     /**
@@ -332,7 +332,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     {
         $route = new Route('get', '/foo', 'foo@bar');
         $route->setRawHost('google.com');
-        $this->assertEquals('google.com', $route->getRawHost());
+        $this->assertSame('google.com', $route->getRawHost());
     }
 
     /**
@@ -344,7 +344,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
             'host' => 'google.com'
         ];
         $route = new Route('get', '/foo', 'foo@bar', $options);
-        $this->assertEquals('google.com', $route->getRawHost());
+        $this->assertSame('google.com', $route->getRawHost());
     }
 
     /**
@@ -354,7 +354,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     {
         $route = new Route('get', '/{foo}', 'foo@bar');
         $route->setRawPath('blah');
-        $this->assertEquals('blah', $route->getRawPath());
+        $this->assertSame('blah', $route->getRawPath());
     }
 
     /**
@@ -365,7 +365,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
         $route = new Route('get', '/{foo}', 'foo@bar');
         $route->setVarRegex('foo', "\d+");
         $this->assertEquals(['foo' => "\d+"], $route->getVarRegexes());
-        $this->assertEquals("\d+", $route->getVarRegex('foo'));
+        $this->assertSame("\d+", $route->getVarRegex('foo'));
     }
 
     /**

@@ -49,7 +49,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     public function testGettingExistingView()
     {
         $this->cache->set($this->view, 'foo');
-        $this->assertEquals('foo', $this->cache->get($this->view));
+        $this->assertSame('foo', $this->cache->get($this->view));
         $this->assertTrue($this->cache->has($this->view));
     }
 
@@ -82,8 +82,8 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
             ->method('getVars')
             ->willReturn(['bar' => 'blah']);
         $this->cache->set($view1, 'content');
-        $this->assertEquals('content', $this->cache->get($view1));
-        $this->assertEquals('content', $this->cache->get($view2));
+        $this->assertSame('content', $this->cache->get($view1));
+        $this->assertSame('content', $this->cache->get($view2));
         $this->assertTrue($this->cache->has($view1));
         $this->assertTrue($this->cache->has($view2));
     }

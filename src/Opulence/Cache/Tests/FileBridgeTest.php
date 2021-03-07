@@ -73,9 +73,9 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     {
         $this->bridge->set('foo', 11, 60);
         // Test using default value
-        $this->assertEquals(10, $this->bridge->decrement('foo'));
+        $this->assertSame(10, $this->bridge->decrement('foo'));
         // Test using a custom value
-        $this->assertEquals(5, $this->bridge->decrement('foo', 5));
+        $this->assertSame(5, $this->bridge->decrement('foo', 5));
     }
 
     /**
@@ -124,7 +124,7 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     public function testGettingSetValue()
     {
         $this->bridge->set('foo', 'bar', 60);
-        $this->assertEquals('bar', $this->bridge->get('foo'));
+        $this->assertSame('bar', $this->bridge->get('foo'));
     }
 
     /**
@@ -134,9 +134,9 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
     {
         $this->bridge->set('foo', 1, 60);
         // Test using default value
-        $this->assertEquals(2, $this->bridge->increment('foo'));
+        $this->assertSame(2, $this->bridge->increment('foo'));
         // Test using a custom value
-        $this->assertEquals(7, $this->bridge->increment('foo', 5));
+        $this->assertSame(7, $this->bridge->increment('foo', 5));
     }
 
     /**
@@ -147,6 +147,6 @@ class FileBridgeTest extends \PHPUnit\Framework\TestCase
         $bridge = new FileBridge(__DIR__ . '/tmp/');
         $bridge->set('foo', 'bar', 60);
         $this->assertFileExists(__DIR__ . '/tmp/' . md5('foo'));
-        $this->assertEquals('bar', $bridge->get('foo'));
+        $this->assertSame('bar', $bridge->get('foo'));
     }
 }

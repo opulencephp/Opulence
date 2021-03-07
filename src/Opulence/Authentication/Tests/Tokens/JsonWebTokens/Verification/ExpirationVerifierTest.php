@@ -53,7 +53,7 @@ class ExpirationVerifierTest extends \PHPUnit\Framework\TestCase
             ->method('getValidTo')
             ->willReturn($date);
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
-        $this->assertEquals(JwtErrorTypes::EXPIRED, $error);
+        $this->assertSame(JwtErrorTypes::EXPIRED, $error);
     }
 
     /**

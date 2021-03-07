@@ -45,7 +45,7 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new EqualsFieldRule();
-        $this->assertEquals('equalsField', $rule->getSlug());
+        $this->assertSame('equalsField', $rule->getSlug());
     }
 
     /**

@@ -44,13 +44,13 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testCSSFunction()
     {
         // Test a single value
-        $this->assertEquals(
+        $this->assertSame(
             '<link href="foo" rel="stylesheet">',
             $this->transpiler->callViewFunction('css', 'foo')
         );
 
         // Test multiple values
-        $this->assertEquals(
+        $this->assertSame(
             '<link href="foo" rel="stylesheet">' .
             "\n" .
             '<link href="bar" rel="stylesheet">',
@@ -64,7 +64,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testCharsetFunction()
     {
         $charset = 'utf-8';
-        $this->assertEquals(
+        $this->assertSame(
             '<meta charset="' . $charset . '">',
             $this->transpiler->callViewFunction('charset', $charset)
         );
@@ -76,7 +76,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testFaviconFunction()
     {
         $path = 'foo';
-        $this->assertEquals(
+        $this->assertSame(
             '<link href="' . $path . '" rel="shortcut icon">',
             $this->transpiler->callViewFunction('favicon', $path)
         );
@@ -89,7 +89,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     {
         $name = 'refresh';
         $value = 30;
-        $this->assertEquals(
+        $this->assertSame(
             '<meta http-equiv="' . $name . '" content="' . $value . '">',
             $this->transpiler->callViewFunction('httpEquiv', $name, $value)
         );
@@ -101,7 +101,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testHttpMethodInput()
     {
         $httpMethod = 'PUT';
-        $this->assertEquals(
+        $this->assertSame(
             '<input type="hidden" name="_method" value="' . $httpMethod . '">',
             $this->transpiler->callViewFunction('httpMethodInput', $httpMethod)
         );
@@ -113,7 +113,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testMetaDescriptionFunction()
     {
         $metaDescription = 'A&W is a root beer';
-        $this->assertEquals(
+        $this->assertSame(
             '<meta name="description" content="' . htmlentities($metaDescription) . '">',
             $this->transpiler->callViewFunction('metaDescription', $metaDescription)
         );
@@ -125,7 +125,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testMetaKeywordsFunction()
     {
         $metaKeywords = ['A&W', 'root beer'];
-        $this->assertEquals(
+        $this->assertSame(
             '<meta name="keywords" content="' . implode(',', array_map('htmlentities', $metaKeywords)) . '">',
             $this->transpiler->callViewFunction('metaKeywords', $metaKeywords)
         );
@@ -137,13 +137,13 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testScriptFunction()
     {
         // Test a single value
-        $this->assertEquals(
+        $this->assertSame(
             '<script type="text/javascript" src="foo"></script>',
             $this->transpiler->callViewFunction('script', 'foo')
         );
 
         // Test multiple values
-        $this->assertEquals(
+        $this->assertSame(
             '<script type="text/javascript" src="foo"></script>' .
             PHP_EOL .
             '<script type="text/javascript" src="bar"></script>',
@@ -151,13 +151,13 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
         );
 
         // Test a single value with a type
-        $this->assertEquals(
+        $this->assertSame(
             '<script type="text/ecmascript" src="foo"></script>',
             $this->transpiler->callViewFunction('script', 'foo', 'text/ecmascript')
         );
 
         // Test multiple values with a type
-        $this->assertEquals(
+        $this->assertSame(
             '<script type="text/ecmascript" src="foo"></script>' .
             PHP_EOL .
             '<script type="text/ecmascript" src="bar"></script>',
@@ -171,7 +171,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTitleFunction()
     {
         $title = 'A&W';
-        $this->assertEquals(
+        $this->assertSame(
             '<title>' . htmlentities($title) . '</title>',
             $this->transpiler->callViewFunction('pageTitle', $title)
         );

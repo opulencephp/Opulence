@@ -34,7 +34,7 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
     public function testAdding()
     {
         $this->collection->add('foo', 'bar');
-        $this->assertEquals('bar', $this->collection->get('foo'));
+        $this->assertSame('bar', $this->collection->get('foo'));
     }
 
     /**
@@ -52,9 +52,9 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
     public function testCount()
     {
         $this->collection->add('foo', 'bar');
-        $this->assertEquals(1, $this->collection->count());
+        $this->assertSame(1, $this->collection->count());
         $this->collection->add('bar', 'foo');
-        $this->assertEquals(2, $this->collection->count());
+        $this->assertSame(2, $this->collection->count());
     }
 
     /**
@@ -73,7 +73,7 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
     public function testGetting()
     {
         $this->collection->add('foo', 'bar');
-        $this->assertEquals('bar', $this->collection->get('foo'));
+        $this->assertSame('bar', $this->collection->get('foo'));
     }
 
     /**
@@ -81,7 +81,7 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAbsentVariableWithDefault()
     {
-        $this->assertEquals('blah', $this->collection->get('does not exist', 'blah'));
+        $this->assertSame('blah', $this->collection->get('does not exist', 'blah'));
     }
 
     /**
@@ -111,7 +111,7 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
     public function testGettingAsArray()
     {
         $this->collection->add('foo', 'bar');
-        $this->assertEquals('bar', $this->collection['foo']);
+        $this->assertSame('bar', $this->collection['foo']);
     }
 
     /**
@@ -150,7 +150,7 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
     public function testSetting()
     {
         $this->collection->set('foo', 'bar');
-        $this->assertEquals('bar', $this->collection->get('foo'));
+        $this->assertSame('bar', $this->collection->get('foo'));
     }
 
     /**
@@ -159,7 +159,7 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
     public function testSettingItem()
     {
         $this->collection['foo'] = 'bar';
-        $this->assertEquals('bar', $this->collection['foo']);
+        $this->assertSame('bar', $this->collection['foo']);
     }
 
     /**

@@ -23,7 +23,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     public function testGettingNonExistentValue()
     {
         $this->assertNull(Config::get('foo', 'bar'));
-        $this->assertEquals('baz', Config::get('foo', 'bar', 'baz'));
+        $this->assertSame('baz', Config::get('foo', 'bar', 'baz'));
         $this->assertFalse(Config::has('foo', 'bar'));
     }
 
@@ -33,10 +33,10 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     public function testSettingCategory()
     {
         Config::setCategory('foo', ['bar' => 'baz']);
-        $this->assertEquals('baz', Config::get('foo', 'bar'));
+        $this->assertSame('baz', Config::get('foo', 'bar'));
         $this->assertTrue(Config::has('foo', 'bar'));
         Config::setCategory('foo', ['dave' => 'young']);
-        $this->assertEquals('young', Config::get('foo', 'dave'));
+        $this->assertSame('young', Config::get('foo', 'dave'));
         $this->assertTrue(Config::has('foo', 'dave'));
     }
 
@@ -46,10 +46,10 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     public function testSettingSingleSetting()
     {
         Config::set('foo', 'bar', 'baz');
-        $this->assertEquals('baz', Config::get('foo', 'bar'));
+        $this->assertSame('baz', Config::get('foo', 'bar'));
         $this->assertTrue(Config::has('foo', 'bar'));
         Config::set('foo', 'bar', 'blah');
-        $this->assertEquals('blah', Config::get('foo', 'bar'));
+        $this->assertSame('blah', Config::get('foo', 'bar'));
         $this->assertTrue(Config::has('foo', 'bar'));
     }
 }

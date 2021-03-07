@@ -50,7 +50,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
         $this->pipeline->send('input')
             ->through($stages)
             ->then($callback);
-        $this->assertEquals('input123', $this->pipeline->execute());
+        $this->assertSame('input123', $this->pipeline->execute());
     }
 
     /**
@@ -79,7 +79,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
         ];
         $this->pipeline->send('input')
             ->through($stages);
-        $this->assertEquals('input12', $this->pipeline->execute());
+        $this->assertSame('input12', $this->pipeline->execute());
     }
 
     /**
@@ -90,7 +90,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
         $stages = [new Stage1(), new Stage2()];
         $this->pipeline->send('input')
             ->through($stages, 'run');
-        $this->assertEquals('input12', $this->pipeline->execute());
+        $this->assertSame('input12', $this->pipeline->execute());
     }
 
     /**
@@ -117,7 +117,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
         $this->pipeline->send('input')
             ->through($stages, 'run')
             ->then($callback);
-        $this->assertEquals('input123', $this->pipeline->execute());
+        $this->assertSame('input123', $this->pipeline->execute());
     }
 
     /**
@@ -132,7 +132,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
         ];
         $this->pipeline->send('input')
             ->through($stages);
-        $this->assertEquals('input1', $this->pipeline->execute());
+        $this->assertSame('input1', $this->pipeline->execute());
     }
 
     /**
@@ -143,7 +143,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
         $stages = [new Stage1()];
         $this->pipeline->send('input')
             ->through($stages, 'run');
-        $this->assertEquals('input1', $this->pipeline->execute());
+        $this->assertSame('input1', $this->pipeline->execute());
     }
 
     /**
@@ -161,7 +161,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
         ];
         $this->pipeline->send('input')
             ->through($stages);
-        $this->assertEquals('input1', $this->pipeline->execute());
+        $this->assertSame('input1', $this->pipeline->execute());
     }
 
     /**
@@ -183,7 +183,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
         $this->pipeline->send('input')
             ->through($stages, 'run')
             ->then($callback);
-        $this->assertEquals('input1', $this->pipeline->execute());
+        $this->assertSame('input1', $this->pipeline->execute());
     }
 
     /**
@@ -199,6 +199,6 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
         ];
         $this->pipeline->send('input')
             ->through($stages, 'run');
-        $this->assertEquals('input32', $this->pipeline->execute());
+        $this->assertSame('input32', $this->pipeline->execute());
     }
 }

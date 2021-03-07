@@ -29,7 +29,7 @@ class DriverTest extends \PHPUnit\Framework\TestCase
         $expectedResult = 'pgsql:host=' . $server->getHost() . ';dbname=' . $server->getDatabaseName() . ';'
             . 'port=' . $server->getPort() . ";options='--client_encoding=" . $server->getCharset() . "';"
             . 'sslmode=' . $sslMode . ';';
-        $this->assertEquals($expectedResult, $this->getDSN($driver, $server, ['sslmode' => $sslMode]));
+        $this->assertSame($expectedResult, $this->getDSN($driver, $server, ['sslmode' => $sslMode]));
     }
 
     /**
@@ -41,7 +41,7 @@ class DriverTest extends \PHPUnit\Framework\TestCase
         $driver = new Driver();
         $expectedResult = 'pgsql:host=' . $server->getHost() . ';dbname=' . $server->getDatabaseName() . ';'
             . 'port=' . $server->getPort() . ";options='--client_encoding=" . $server->getCharset() . "';";
-        $this->assertEquals($expectedResult, $this->getDSN($driver, $server));
+        $this->assertSame($expectedResult, $this->getDSN($driver, $server));
     }
 
     /**

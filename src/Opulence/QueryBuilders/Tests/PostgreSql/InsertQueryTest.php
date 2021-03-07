@@ -27,7 +27,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
         $query = new InsertQuery('users', ['name' => 'dave']);
         $query->returning('id')
             ->addReturning('name');
-        $this->assertEquals('INSERT INTO users (name) VALUES (?) RETURNING id, name', $query->getSql());
+        $this->assertSame('INSERT INTO users (name) VALUES (?) RETURNING id, name', $query->getSql());
         $this->assertEquals([
             ['dave', PDO::PARAM_STR]
         ], $query->getParameters());
@@ -44,7 +44,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
             ->returning('id')
             ->addReturning('name')
             ->addUnnamedPlaceholderValues([[2, \PDO::PARAM_INT]]);
-        $this->assertEquals('INSERT INTO users (name, email, is_val_even) VALUES (?, ?, (val + ?) % ?) RETURNING id, name',
+        $this->assertSame('INSERT INTO users (name, email, is_val_even) VALUES (?, ?, (val + ?) % ?) RETURNING id, name',
             $query->getSql());
         $this->assertSame([
             ['dave', PDO::PARAM_STR],
@@ -61,7 +61,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
     {
         $query = new InsertQuery('users', ['name' => 'dave']);
         $query->returning('id', 'name');
-        $this->assertEquals('INSERT INTO users (name) VALUES (?) RETURNING id, name', $query->getSql());
+        $this->assertSame('INSERT INTO users (name) VALUES (?) RETURNING id, name', $query->getSql());
         $this->assertEquals([
             ['dave', PDO::PARAM_STR]
         ], $query->getParameters());

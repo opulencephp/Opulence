@@ -36,7 +36,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     public function testDefaultAlgorithmIsSha256()
     {
         $header = new JwtHeader();
-        $this->assertEquals('HS256', $header->getAlgorithm());
+        $this->assertSame('HS256', $header->getAlgorithm());
     }
 
     /**
@@ -44,7 +44,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAlgorithm()
     {
-        $this->assertEquals('HS512', $this->header->getAlgorithm());
+        $this->assertSame('HS512', $this->header->getAlgorithm());
     }
 
     /**
@@ -68,7 +68,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     public function testGettingContentType()
     {
         $this->header->add('cty', 'JWT');
-        $this->assertEquals('JWT', $this->header->getContentType());
+        $this->assertSame('JWT', $this->header->getContentType());
     }
 
     /**
@@ -80,13 +80,13 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
             'typ' => 'JWT',
             'alg' => 'HS512'
         ];
-        $this->assertEquals(
+        $this->assertSame(
             rtrim(strtr(base64_encode(json_encode($headers)), '+/', '-_'), '='),
             $this->header->encode()
         );
         $this->header->add('foo', 'bar');
         $headers['foo'] = 'bar';
-        $this->assertEquals(
+        $this->assertSame(
             rtrim(strtr(base64_encode(json_encode($headers)), '+/', '-_'), '='),
             $this->header->encode()
         );
@@ -97,7 +97,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingTokenType()
     {
-        $this->assertEquals('JWT', $this->header->getTokenType());
+        $this->assertSame('JWT', $this->header->getTokenType());
     }
 
     /**
@@ -107,9 +107,9 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertNull($this->header->get('foo'));
         $this->header->add('foo', 'bar');
-        $this->assertEquals('bar', $this->header->get('foo'));
+        $this->assertSame('bar', $this->header->get('foo'));
         $this->header->add('foo', 'baz');
-        $this->assertEquals('baz', $this->header->get('foo'));
+        $this->assertSame('baz', $this->header->get('foo'));
     }
 
     /**
@@ -127,6 +127,6 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     public function testSettingNoneAlgorithm()
     {
         $this->header->add('alg', 'none');
-        $this->assertEquals('none', $this->header->getAlgorithm());
+        $this->assertSame('none', $this->header->getAlgorithm());
     }
 }

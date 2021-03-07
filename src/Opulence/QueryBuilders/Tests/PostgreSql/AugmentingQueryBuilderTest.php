@@ -25,7 +25,7 @@ class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
         $queryBuilder = new AugmentingQueryBuilder();
         $queryBuilder->returning('id')
             ->addReturning('name');
-        $this->assertEquals(' RETURNING id, name', $queryBuilder->getReturningClauseSql());
+        $this->assertSame(' RETURNING id, name', $queryBuilder->getReturningClauseSql());
     }
 
     /**
@@ -35,6 +35,6 @@ class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
     {
         $queryBuilder = new AugmentingQueryBuilder();
         $queryBuilder->returning('id');
-        $this->assertEquals(' RETURNING id', $queryBuilder->getReturningClauseSql());
+        $this->assertSame(' RETURNING id', $queryBuilder->getReturningClauseSql());
     }
 }

@@ -33,7 +33,7 @@ class IPAddressRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new IPAddressRule();
-        $this->assertEquals('ipAddress', $rule->getSlug());
+        $this->assertSame('ipAddress', $rule->getSlug());
     }
 
     /**

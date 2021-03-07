@@ -84,13 +84,13 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
     {
         $object1 = new MockObject('foo');
         $object2 = new MockObject('bar');
-        $this->assertEquals(0, (new ImmutableHashSet([]))->count());
+        $this->assertSame(0, (new ImmutableHashSet([]))->count());
         $setWithOneValue = new ImmutableHashSet([$object1]);
-        $this->assertEquals(1, $setWithOneValue->count());
+        $this->assertSame(1, $setWithOneValue->count());
         $setWithOneUniqueValue = new ImmutableHashSet([$object1, $object1]);
-        $this->assertEquals(1, $setWithOneUniqueValue->count());
+        $this->assertSame(1, $setWithOneUniqueValue->count());
         $setWithTwoalues = new ImmutableHashSet([$object1, $object2]);
-        $this->assertEquals(2, $setWithTwoalues->count());
+        $this->assertSame(2, $setWithTwoalues->count());
     }
 
     /**
@@ -107,7 +107,7 @@ class ImmutableHashSetTest extends \PHPUnit\Framework\TestCase
 
         foreach ($set as $key => $value) {
             // Make sure the hash keys aren't returned by the iterator
-            $this->assertTrue(is_int($key));
+            $this->assertIsInt($key);
             $actualValues[] = $value;
         }
 

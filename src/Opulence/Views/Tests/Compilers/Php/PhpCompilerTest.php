@@ -69,7 +69,7 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
             // Don't do anything
         }
 
-        $this->assertEquals($obStartLevel, ob_get_level());
+        $this->assertSame($obStartLevel, ob_get_level());
     }
 
     /**
@@ -85,6 +85,6 @@ class PhpCompilerTest extends \PHPUnit\Framework\TestCase
         $view->expects($this->any())
             ->method('getVars')
             ->willReturn(['foo' => 'Hello', 'bar' => 'world']);
-        $this->assertEquals('Hello, world', $this->compiler->compile($view));
+        $this->assertSame('Hello, world', $this->compiler->compile($view));
     }
 }

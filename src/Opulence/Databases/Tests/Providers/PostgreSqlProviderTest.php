@@ -72,7 +72,7 @@ class PostgreSqlProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingToSqlBoolean()
     {
-        $this->assertEquals('t', $this->provider->convertToSqlBoolean(true));
-        $this->assertEquals('f', $this->provider->convertToSqlBoolean(false));
+        $this->assertSame('t', $this->provider->convertToSqlBoolean(true));
+        $this->assertSame('f', $this->provider->convertToSqlBoolean(false));
     }
 }

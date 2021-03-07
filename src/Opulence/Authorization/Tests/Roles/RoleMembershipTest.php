@@ -37,7 +37,7 @@ class RoleMembershipTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingId()
     {
-        $this->assertEquals(1, $this->membership->getId());
+        $this->assertSame(1, $this->membership->getId());
     }
 
     /**
@@ -53,7 +53,7 @@ class RoleMembershipTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingUserId()
     {
-        $this->assertEquals(2, $this->membership->getSubjectId());
+        $this->assertSame(2, $this->membership->getSubjectId());
     }
 
     /**
@@ -62,6 +62,6 @@ class RoleMembershipTest extends \PHPUnit\Framework\TestCase
     public function testSettingId()
     {
         $this->membership->setId(23);
-        $this->assertEquals(23, $this->membership->getId());
+        $this->assertSame(23, $this->membership->getId());
     }
 }

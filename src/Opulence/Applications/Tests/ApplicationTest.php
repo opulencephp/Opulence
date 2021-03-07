@@ -175,7 +175,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     public function testGettingCustomVersion()
     {
         $application = new Application($this->createMock(ITaskDispatcher::class), 'foo');
-        $this->assertEquals('foo', $application->getVersion());
+        $this->assertSame('foo', $application->getVersion());
     }
 
     /**
@@ -316,7 +316,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->application->shutDown(function () use (&$shutdownValue) {
             $shutdownValue = 'baz';
         }));
-        $this->assertEquals('baz', $shutdownValue);
+        $this->assertSame('baz', $shutdownValue);
     }
 
     /**
@@ -334,7 +334,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->application->start(function () use (&$startValue) {
             $startValue = 'baz';
         }));
-        $this->assertEquals('baz', $startValue);
+        $this->assertSame('baz', $startValue);
     }
 
     /**
@@ -343,7 +343,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     public function testShutdownTaskThatReturnsSomething()
     {
         $this->application->start();
-        $this->assertEquals('foo', $this->application->shutDown(function () {
+        $this->assertSame('foo', $this->application->shutDown(function () {
             return 'foo';
         }));
     }
@@ -353,7 +353,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
      */
     public function testStartTaskThatReturnsSomething()
     {
-        $this->assertEquals('foo', $this->application->start(function () {
+        $this->assertSame('foo', $this->application->start(function () {
             return 'foo';
         }));
     }

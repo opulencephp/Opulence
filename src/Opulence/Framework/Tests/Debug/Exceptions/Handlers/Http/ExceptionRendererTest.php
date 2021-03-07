@@ -85,8 +85,8 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
             ->willReturn('bar');
         $this->renderer->render($ex);
         $this->assertInstanceOf(Response::class, $this->renderer->getResponse());
-        $this->assertEquals('bar', $this->renderer->getResponse()->getContent());
-        $this->assertEquals(404, $this->renderer->getResponse()->getStatusCode());
+        $this->assertSame('bar', $this->renderer->getResponse()->getContent());
+        $this->assertSame(404, $this->renderer->getResponse()->getStatusCode());
     }
 
     /**
@@ -98,8 +98,8 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
         $this->viewFactory->expects($this->never())
             ->method('hasView');
         $this->renderer->render($ex);
-        $this->assertEquals($ex->getMessage(), $this->renderer->getResponse()->getContent());
-        $this->assertEquals(404, $this->renderer->getResponse()->getStatusCode());
+        $this->assertSame($ex->getMessage(), $this->renderer->getResponse()->getContent());
+        $this->assertSame(404, $this->renderer->getResponse()->getStatusCode());
     }
 
     /**
@@ -114,8 +114,8 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
             ->with('errors/html/404')
             ->willReturn(false);
         $this->renderer->render($ex);
-        $this->assertEquals($ex->getMessage(), $this->renderer->getResponse()->getContent());
-        $this->assertEquals(404, $this->renderer->getResponse()->getStatusCode());
+        $this->assertSame($ex->getMessage(), $this->renderer->getResponse()->getContent());
+        $this->assertSame(404, $this->renderer->getResponse()->getStatusCode());
     }
 
     /**
@@ -131,8 +131,8 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
             ->with('errors/html/404')
             ->willReturn(false);
         $this->renderer->render($ex);
-        $this->assertEquals('Something went wrong', $this->renderer->getResponse()->getContent());
-        $this->assertEquals(404, $this->renderer->getResponse()->getStatusCode());
+        $this->assertSame('Something went wrong', $this->renderer->getResponse()->getContent());
+        $this->assertSame(404, $this->renderer->getResponse()->getStatusCode());
     }
 
     /**
@@ -168,7 +168,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
             ->willReturn('bar');
         $this->renderer->render($ex);
         $this->assertInstanceOf(JsonResponse::class, $this->renderer->getResponse());
-        $this->assertEquals(500, $this->renderer->getResponse()->getStatusCode());
+        $this->assertSame(500, $this->renderer->getResponse()->getStatusCode());
         $this->assertEquals(json_encode(['foo' => 'bar']), $this->renderer->getResponse()->getContent());
     }
 
@@ -193,8 +193,8 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
             ->with($view)
             ->willReturn('bar');
         $this->renderer->render($ex);
-        $this->assertEquals('bar', $this->renderer->getResponse()->getContent());
-        $this->assertEquals(500, $this->renderer->getResponse()->getStatusCode());
+        $this->assertSame('bar', $this->renderer->getResponse()->getContent());
+        $this->assertSame(500, $this->renderer->getResponse()->getStatusCode());
     }
 
     /**
@@ -209,8 +209,8 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
             ->with('errors/html/500')
             ->willReturn(false);
         $this->renderer->render($ex);
-        $this->assertEquals($ex->getMessage(), $this->renderer->getResponse()->getContent());
-        $this->assertEquals(500, $this->renderer->getResponse()->getStatusCode());
+        $this->assertSame($ex->getMessage(), $this->renderer->getResponse()->getContent());
+        $this->assertSame(500, $this->renderer->getResponse()->getStatusCode());
     }
 
     /**
@@ -226,8 +226,8 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
             ->with('errors/html/500')
             ->willReturn(false);
         $this->renderer->render($ex);
-        $this->assertEquals('Something went wrong', $this->renderer->getResponse()->getContent());
-        $this->assertEquals(500, $this->renderer->getResponse()->getStatusCode());
+        $this->assertSame('Something went wrong', $this->renderer->getResponse()->getContent());
+        $this->assertSame(500, $this->renderer->getResponse()->getStatusCode());
     }
 
     /**

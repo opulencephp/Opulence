@@ -34,7 +34,7 @@ class SecretTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingType()
     {
-        $this->assertEquals(SecretTypes::PASSWORD, $this->secret->getType());
+        $this->assertSame(SecretTypes::PASSWORD, $this->secret->getType());
     }
 
     /**
@@ -42,7 +42,7 @@ class SecretTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingValue()
     {
-        $this->assertEquals('foo', $this->secret->getValue());
+        $this->assertSame('foo', $this->secret->getValue());
     }
 
     /**
@@ -52,6 +52,6 @@ class SecretTest extends \PHPUnit\Framework\TestCase
     {
         $key = str_repeat('a', 32);
         $secret = new Secret(SecretTypes::KEY, $key);
-        $this->assertEquals($key, $secret->getValue());
+        $this->assertSame($key, $secret->getValue());
     }
 }

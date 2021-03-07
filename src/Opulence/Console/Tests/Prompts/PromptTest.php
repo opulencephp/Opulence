@@ -49,8 +49,8 @@ class PromptTest extends \PHPUnit\Framework\TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m", $questionText);
-        $this->assertEquals('Dave', $answer);
+        $this->assertSame("\033[37;44m{$question->getText()}\033[39;49m", $questionText);
+        $this->assertSame('Dave', $answer);
     }
 
     /**
@@ -63,9 +63,9 @@ class PromptTest extends \PHPUnit\Framework\TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . '  1) foo' . PHP_EOL . '  2) bar' . PHP_EOL . '  > ',
+        $this->assertSame("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . '  1) foo' . PHP_EOL . '  2) bar' . PHP_EOL . '  > ',
             $questionText);
-        $this->assertEquals('bar', $answer);
+        $this->assertSame('bar', $answer);
     }
 
     /**
@@ -78,9 +78,9 @@ class PromptTest extends \PHPUnit\Framework\TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . '  a) b' . PHP_EOL . '  c) d' . PHP_EOL . '  > ',
+        $this->assertSame("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . '  a) b' . PHP_EOL . '  c) d' . PHP_EOL . '  > ',
             $questionText);
-        $this->assertEquals('d', $answer);
+        $this->assertSame('d', $answer);
     }
 
     /**
@@ -94,9 +94,9 @@ class PromptTest extends \PHPUnit\Framework\TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . '  1) foo' . PHP_EOL . '  2) bar' . PHP_EOL . '  : ',
+        $this->assertSame("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . '  1) foo' . PHP_EOL . '  2) bar' . PHP_EOL . '  : ',
             $questionText);
-        $this->assertEquals('foo', $answer);
+        $this->assertSame('foo', $answer);
     }
 
     /**
@@ -109,8 +109,8 @@ class PromptTest extends \PHPUnit\Framework\TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m", $questionText);
-        $this->assertEquals('Dave', $answer);
+        $this->assertSame("\033[37;44m{$question->getText()}\033[39;49m", $questionText);
+        $this->assertSame('Dave', $answer);
     }
 
     /**
@@ -163,8 +163,8 @@ class PromptTest extends \PHPUnit\Framework\TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m", $questionText);
-        $this->assertEquals('unknown', $answer);
+        $this->assertSame("\033[37;44m{$question->getText()}\033[39;49m", $questionText);
+        $this->assertSame('unknown', $answer);
     }
 
     /**

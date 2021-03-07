@@ -23,7 +23,7 @@ class KeyValuePairTest extends \PHPUnit\Framework\TestCase
     public function testGettingKey() : void
     {
         $kvp = new KeyValuePair('foo', 'bar');
-        $this->assertEquals('foo', $kvp->getKey());
+        $this->assertSame('foo', $kvp->getKey());
     }
 
     /**
@@ -32,6 +32,6 @@ class KeyValuePairTest extends \PHPUnit\Framework\TestCase
     public function testGettingValue() : void
     {
         $kvp = new KeyValuePair('foo', 'bar');
-        $this->assertEquals('bar', $kvp->getValue());
+        $this->assertSame('bar', $kvp->getValue());
     }
 }

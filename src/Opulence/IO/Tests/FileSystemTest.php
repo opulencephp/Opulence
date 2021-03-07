@@ -45,7 +45,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
     {
         file_put_contents(__DIR__ . '/test.txt', 'foo');
         $this->fileSystem->append(__DIR__ . '/test.txt', ' bar');
-        $this->assertEquals('foo bar', $this->fileSystem->read(__DIR__ . '/test.txt'));
+        $this->assertSame('foo bar', $this->fileSystem->read(__DIR__ . '/test.txt'));
     }
 
     /**
@@ -77,7 +77,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
     {
         file_put_contents(__DIR__ . '/test.txt', 'foo');
         $this->assertTrue($this->fileSystem->copyFile(__DIR__ . '/test.txt', __DIR__ . '/test2.txt'));
-        $this->assertEquals('foo', $this->fileSystem->read(__DIR__ . '/test2.txt'));
+        $this->assertSame('foo', $this->fileSystem->read(__DIR__ . '/test2.txt'));
         @unlink(__DIR__ . '/test2.txt');
     }
 
@@ -123,7 +123,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingBasename()
     {
-        $this->assertEquals('foo.txt', $this->fileSystem->getBasename(__DIR__ . '/files/subdirectory/foo.txt'));
+        $this->assertSame('foo.txt', $this->fileSystem->getBasename(__DIR__ . '/files/subdirectory/foo.txt'));
         $this->expectException(FileSystemException::class);
         $this->fileSystem->getBasename(__DIR__ . '/doesnotexist.txt');
     }
@@ -155,7 +155,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDirectoryName()
     {
-        $this->assertEquals(__DIR__ . '/files/subdirectory',
+        $this->assertSame(__DIR__ . '/files/subdirectory',
             $this->fileSystem->getDirectoryName(__DIR__ . '/files/subdirectory/foo.txt'));
         $this->expectException(FileSystemException::class);
         $this->fileSystem->getDirectoryName(__DIR__ . '/doesnotexist.txt');
@@ -166,7 +166,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingExtension()
     {
-        $this->assertEquals('txt', $this->fileSystem->getExtension(__DIR__ . '/files/subdirectory/foo.txt'));
+        $this->assertSame('txt', $this->fileSystem->getExtension(__DIR__ . '/files/subdirectory/foo.txt'));
         $this->expectException(FileSystemException::class);
         $this->fileSystem->getExtension(__DIR__ . '/doesnotexist.txt');
     }
@@ -176,7 +176,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingFileName()
     {
-        $this->assertEquals('foo', $this->fileSystem->getFileName(__DIR__ . '/files/subdirectory/foo.txt'));
+        $this->assertSame('foo', $this->fileSystem->getFileName(__DIR__ . '/files/subdirectory/foo.txt'));
         $this->expectException(FileSystemException::class);
         $this->fileSystem->getFileName(__DIR__ . '/doesnotexist.txt');
     }
@@ -298,7 +298,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->fileSystem->move(__DIR__ . '/test.txt', __DIR__ . '/test2.txt'));
         $this->assertFalse($this->fileSystem->exists(__DIR__ . '/test.txt'));
         $this->assertTrue($this->fileSystem->exists(__DIR__ . '/test2.txt'));
-        $this->assertEquals('foo bar', $this->fileSystem->read(__DIR__ . '/test2.txt'));
+        $this->assertSame('foo bar', $this->fileSystem->read(__DIR__ . '/test2.txt'));
         @unlink(__DIR__ . '/test2.txt');
     }
 
@@ -308,7 +308,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
     public function testReadingFileThatDoesNotExist()
     {
         $this->expectException(FileSystemException::class);
-        $this->assertEquals('foo', $this->fileSystem->read(__DIR__ . '/doesnotexist.txt'));
+        $this->assertSame('foo', $this->fileSystem->read(__DIR__ . '/doesnotexist.txt'));
     }
 
     /**
@@ -317,7 +317,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
     public function testReadingFileThatExists()
     {
         file_put_contents(__DIR__ . '/test.txt', 'foo');
-        $this->assertEquals('foo', $this->fileSystem->read(__DIR__ . '/test.txt'));
+        $this->assertSame('foo', $this->fileSystem->read(__DIR__ . '/test.txt'));
     }
 
     /**
@@ -342,7 +342,7 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testWritingToFile()
     {
-        $this->assertTrue(is_numeric($this->fileSystem->write(__DIR__ . '/test.txt', 'foo bar')));
-        $this->assertEquals('foo bar', $this->fileSystem->read(__DIR__ . '/test.txt'));
+        $this->assertIsNumeric($this->fileSystem->write(__DIR__ . '/test.txt', 'foo bar'));
+        $this->assertSame('foo bar', $this->fileSystem->read(__DIR__ . '/test.txt'));
     }
 }

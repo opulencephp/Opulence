@@ -25,7 +25,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
         $charset = 'foo';
         $server = new Server();
         $server->setCharset($charset);
-        $this->assertEquals($charset, $server->getCharset());
+        $this->assertSame($charset, $server->getCharset());
     }
 
     /**
@@ -41,12 +41,12 @@ class ServerTest extends \PHPUnit\Framework\TestCase
             123,
             'charset'
         );
-        $this->assertEquals('127.0.0.1', $server->getHost());
-        $this->assertEquals('username', $server->getUsername());
-        $this->assertEquals('password', $server->getPassword());
-        $this->assertEquals('dbname', $server->getDatabaseName());
-        $this->assertEquals(123, $server->getPort());
-        $this->assertEquals('charset', $server->getCharset());
+        $this->assertSame('127.0.0.1', $server->getHost());
+        $this->assertSame('username', $server->getUsername());
+        $this->assertSame('password', $server->getPassword());
+        $this->assertSame('dbname', $server->getDatabaseName());
+        $this->assertSame(123, $server->getPort());
+        $this->assertSame('charset', $server->getCharset());
     }
 
     /**
@@ -57,7 +57,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
         $databaseName = 'dbname';
         $server = new Server();
         $server->setDatabaseName($databaseName);
-        $this->assertEquals($databaseName, $server->getDatabaseName());
+        $this->assertSame($databaseName, $server->getDatabaseName());
     }
 
     /**
@@ -67,7 +67,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     {
         $server = new Server();
         $server->setHost('127.0.0.1');
-        $this->assertEquals('127.0.0.1', $server->getHost());
+        $this->assertSame('127.0.0.1', $server->getHost());
     }
 
     /**
@@ -78,7 +78,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
         $password = 'bar';
         $server = new Server();
         $server->setPassword($password);
-        $this->assertEquals($password, $server->getPassword());
+        $this->assertSame($password, $server->getPassword());
     }
 
     /**
@@ -88,7 +88,7 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     {
         $server = new Server();
         $server->setPort(80);
-        $this->assertEquals(80, $server->getPort());
+        $this->assertSame(80, $server->getPort());
     }
 
     /**
@@ -99,6 +99,6 @@ class ServerTest extends \PHPUnit\Framework\TestCase
         $name = 'foo';
         $server = new Server();
         $server->setUsername($name);
-        $this->assertEquals($name, $server->getUsername());
+        $this->assertSame($name, $server->getUsername());
     }
 }

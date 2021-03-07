@@ -34,7 +34,7 @@ class AlphaNumericRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new AlphaNumericRule();
-        $this->assertEquals('alphaNumeric', $rule->getSlug());
+        $this->assertSame('alphaNumeric', $rule->getSlug());
     }
 
     /**

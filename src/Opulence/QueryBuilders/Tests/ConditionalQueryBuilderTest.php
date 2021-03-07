@@ -62,7 +62,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
         $queryBuilder->where("name = 'dave'")
             ->orWhere("email = 'foo@bar.com'")
             ->andWhere('awesome = true');
-        $this->assertEquals(" WHERE (name = 'dave') OR (email = 'foo@bar.com') AND (awesome = true)",
+        $this->assertSame(" WHERE (name = 'dave') OR (email = 'foo@bar.com') AND (awesome = true)",
             $queryBuilder->getClauseConditionSql('WHERE', $queryBuilder->getWhereConditions()));
     }
 

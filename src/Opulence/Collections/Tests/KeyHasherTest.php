@@ -36,7 +36,7 @@ class KeyHasherTest extends \PHPUnit\Framework\TestCase
     public function testArraysAreHashedToCorrectKey() : void
     {
         $array = ['foo'];
-        $this->assertEquals('__opulence:a:' . md5(serialize($array)), $this->keyHasher->getHashKey($array));
+        $this->assertSame('__opulence:a:' . md5(serialize($array)), $this->keyHasher->getHashKey($array));
     }
 
     /**
@@ -44,9 +44,9 @@ class KeyHasherTest extends \PHPUnit\Framework\TestCase
      */
     public function testScalarsAreHashedToCorrectKey() : void
     {
-        $this->assertEquals('__opulence:s:1', $this->keyHasher->getHashKey('1'));
-        $this->assertEquals('__opulence:i:1', $this->keyHasher->getHashKey(1));
-        $this->assertEquals('__opulence:f:1.1', $this->keyHasher->getHashKey(1.1));
+        $this->assertSame('__opulence:s:1', $this->keyHasher->getHashKey('1'));
+        $this->assertSame('__opulence:i:1', $this->keyHasher->getHashKey(1));
+        $this->assertSame('__opulence:f:1.1', $this->keyHasher->getHashKey(1.1));
     }
 
     /**
@@ -55,7 +55,7 @@ class KeyHasherTest extends \PHPUnit\Framework\TestCase
     public function testResourceIsHashedUsingItsStringValue() : void
     {
         $resource = fopen('php://temp', 'r+');
-        $this->assertEquals("__opulence:r:$resource", $this->keyHasher->getHashKey($resource));
+        $this->assertSame("__opulence:r:$resource", $this->keyHasher->getHashKey($resource));
     }
 
     /**
@@ -64,7 +64,7 @@ class KeyHasherTest extends \PHPUnit\Framework\TestCase
     public function testSerializableObjectIsHashedWithToStringMethod() : void
     {
         $object = new SerializableObject('foo');
-        $this->assertEquals('__opulence:so:foo', $this->keyHasher->getHashKey($object));
+        $this->assertSame('__opulence:so:foo', $this->keyHasher->getHashKey($object));
     }
 
     /**
@@ -73,6 +73,6 @@ class KeyHasherTest extends \PHPUnit\Framework\TestCase
     public function testUnserializableObjectIsHashedWithObjectHash() : void
     {
         $object = new UnserializableObject();
-        $this->assertEquals('__opulence:o:' . spl_object_hash($object), $this->keyHasher->getHashKey($object));
+        $this->assertSame('__opulence:o:' . spl_object_hash($object), $this->keyHasher->getHashKey($object));
     }
 }

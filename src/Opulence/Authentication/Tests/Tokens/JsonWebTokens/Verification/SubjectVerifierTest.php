@@ -51,7 +51,7 @@ class SubjectVerifierTest extends \PHPUnit\Framework\TestCase
             ->method('getSubject')
             ->willReturn('bar');
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
-        $this->assertEquals(JwtErrorTypes::SUBJECT_INVALID, $error);
+        $this->assertSame(JwtErrorTypes::SUBJECT_INVALID, $error);
     }
 
     /**

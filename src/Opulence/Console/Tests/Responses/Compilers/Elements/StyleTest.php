@@ -58,7 +58,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     public function testFormattingEmptyString()
     {
         $styles = new Style(Colors::RED, Colors::GREEN, [TextStyles::BOLD, TextStyles::UNDERLINE, TextStyles::BLINK]);
-        $this->assertEquals('', $styles->format(''));
+        $this->assertSame('', $styles->format(''));
     }
 
     /**
@@ -67,7 +67,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     public function testFormattingStringWithAllStyles()
     {
         $styles = new Style(Colors::RED, Colors::GREEN, [TextStyles::BOLD, TextStyles::UNDERLINE, TextStyles::BLINK]);
-        $this->assertEquals("\033[31;42;1;4;5mfoo\033[39;49;22;24;25m", $styles->format('foo'));
+        $this->assertSame("\033[31;42;1;4;5mfoo\033[39;49;22;24;25m", $styles->format('foo'));
     }
 
     /**
@@ -76,7 +76,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     public function testFormattingStringWithoutStyles()
     {
         $styles = new Style();
-        $this->assertEquals('foo', $styles->format('foo'));
+        $this->assertSame('foo', $styles->format('foo'));
     }
 
     /**
@@ -95,8 +95,8 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     public function testPassingColorsInConstructor()
     {
         $style = new Style(Colors::BLUE, Colors::GREEN);
-        $this->assertEquals(Colors::BLUE, $style->getForegroundColor());
-        $this->assertEquals(Colors::GREEN, $style->getBackgroundColor());
+        $this->assertSame(Colors::BLUE, $style->getForegroundColor());
+        $this->assertSame(Colors::GREEN, $style->getBackgroundColor());
     }
 
     /**
@@ -127,7 +127,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     {
         $style = new Style();
         $style->setBackgroundColor(Colors::GREEN);
-        $this->assertEquals(Colors::GREEN, $style->getBackgroundColor());
+        $this->assertSame(Colors::GREEN, $style->getBackgroundColor());
     }
 
     /**
@@ -137,7 +137,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     {
         $style = new Style();
         $style->setForegroundColor(Colors::BLUE);
-        $this->assertEquals(Colors::BLUE, $style->getForegroundColor());
+        $this->assertSame(Colors::BLUE, $style->getForegroundColor());
     }
 
     /**

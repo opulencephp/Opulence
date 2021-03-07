@@ -33,7 +33,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingId()
     {
-        $this->assertEquals(123, $this->client->getId());
+        $this->assertSame(123, $this->client->getId());
     }
 
     /**
@@ -41,7 +41,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingName()
     {
-        $this->assertEquals('foo', $this->client->getName());
+        $this->assertSame('foo', $this->client->getName());
     }
 
     /**
@@ -49,7 +49,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingSecret()
     {
-        $this->assertEquals('bar', $this->client->getSecret());
+        $this->assertSame('bar', $this->client->getSecret());
     }
 
     /**
@@ -58,7 +58,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     public function testSettingId()
     {
         $this->client->setId('new');
-        $this->assertEquals('new', $this->client->getId());
+        $this->assertSame('new', $this->client->getId());
     }
 
     /**
@@ -67,6 +67,6 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     public function testSettingName()
     {
         $this->client->setName('new');
-        $this->assertEquals('new', $this->client->getName());
+        $this->assertSame('new', $this->client->getName());
     }
 }

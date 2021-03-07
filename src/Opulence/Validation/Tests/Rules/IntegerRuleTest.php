@@ -35,7 +35,7 @@ class IntegerRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new IntegerRule();
-        $this->assertEquals('integer', $rule->getSlug());
+        $this->assertSame('integer', $rule->getSlug());
     }
 
     /**

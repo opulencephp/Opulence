@@ -48,7 +48,7 @@ class RequestHeadersTest extends \PHPUnit\Framework\TestCase
     public function testAddedNamesAreNormalized()
     {
         $this->headers->add('HTTP_FOO', 'fooval');
-        $this->assertEquals('fooval', $this->headers->get('foo'));
+        $this->assertSame('fooval', $this->headers->get('foo'));
         $this->assertTrue($this->headers->has('foo'));
     }
 
@@ -86,7 +86,7 @@ class RequestHeadersTest extends \PHPUnit\Framework\TestCase
     public function testSetNamesAreNormalized()
     {
         $this->headers->set('HTTP_FOO', 'fooval');
-        $this->assertEquals('fooval', $this->headers->get('foo'));
+        $this->assertSame('fooval', $this->headers->get('foo'));
         $this->assertTrue($this->headers->has('foo'));
     }
 

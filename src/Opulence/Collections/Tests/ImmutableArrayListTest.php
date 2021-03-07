@@ -53,9 +53,9 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     public function testCount() : void
     {
         $arrayList = new ImmutableArrayList(['foo']);
-        $this->assertEquals(1, $arrayList->count());
+        $this->assertSame(1, $arrayList->count());
         $arrayList = new ImmutableArrayList(['foo', 'bar']);
-        $this->assertEquals(2, $arrayList->count());
+        $this->assertSame(2, $arrayList->count());
     }
 
     /**
@@ -64,7 +64,7 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     public function testGetting() : void
     {
         $arrayList = new ImmutableArrayList(['foo']);
-        $this->assertEquals('foo', $arrayList->get(0));
+        $this->assertSame('foo', $arrayList->get(0));
     }
 
     /**
@@ -73,7 +73,7 @@ class ImmutableArrayListTest extends \PHPUnit\Framework\TestCase
     public function testGettingAsArray() : void
     {
         $arrayList = new ImmutableArrayList(['foo']);
-        $this->assertEquals('foo', $arrayList[0]);
+        $this->assertSame('foo', $arrayList[0]);
     }
 
     /**

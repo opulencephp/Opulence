@@ -34,7 +34,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingLine()
     {
-        $this->assertEquals(1, $this->token->getLine());
+        $this->assertSame(1, $this->token->getLine());
     }
 
     /**
@@ -42,7 +42,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingType()
     {
-        $this->assertEquals(TokenTypes::T_EXPRESSION, $this->token->getType());
+        $this->assertSame(TokenTypes::T_EXPRESSION, $this->token->getType());
     }
 
     /**
@@ -50,6 +50,6 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingValue()
     {
-        $this->assertEquals('foo', $this->token->getValue());
+        $this->assertSame('foo', $this->token->getValue());
     }
 }

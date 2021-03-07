@@ -160,7 +160,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         foreach ($allEntities as $entity) {
             if ($entity->getId() == $entityFromGetById->getId()) {
                 $this->assertSame($entityFromGetById, $entity);
-                $this->assertEquals($entityFromGetAll->getUsername(), $entityFromGetById->getUsername());
+                $this->assertSame($entityFromGetAll->getUsername(), $entityFromGetById->getUsername());
             }
         }
     }

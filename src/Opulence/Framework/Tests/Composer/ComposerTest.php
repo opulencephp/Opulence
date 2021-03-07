@@ -71,9 +71,9 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingFullyQualifiedClassName()
     {
-        $this->assertEquals('Opulence\\Bar', $this->composer->getFullyQualifiedClassName('Bar', 'Opulence'));
-        $this->assertEquals('Opulence\\Foo\\Bar', $this->composer->getFullyQualifiedClassName('Bar', 'Opulence\\Foo'));
-        $this->assertEquals('Opulence\\Bar', $this->composer->getFullyQualifiedClassName('Bar', 'Opulence\\'));
+        $this->assertSame('Opulence\\Bar', $this->composer->getFullyQualifiedClassName('Bar', 'Opulence'));
+        $this->assertSame('Opulence\\Foo\\Bar', $this->composer->getFullyQualifiedClassName('Bar', 'Opulence\\Foo'));
+        $this->assertSame('Opulence\\Bar', $this->composer->getFullyQualifiedClassName('Bar', 'Opulence\\'));
     }
 
     /**
@@ -81,7 +81,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingFullyQualifiedClassNameOfAFullyQualifiedClass()
     {
-        $this->assertEquals('Opulence\\Foo\\Bar',
+        $this->assertSame('Opulence\\Foo\\Bar',
             $this->composer->getFullyQualifiedClassName('Opulence\\Foo\\Bar', 'Opulence'));
     }
 
@@ -136,7 +136,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     public function testGettingPathFromClass()
     {
         $class = 'Opulence\\Foo\\Bar';
-        $this->assertEquals(
+        $this->assertSame(
             $this->psr4RootPath . DIRECTORY_SEPARATOR . 'Opulence' . DIRECTORY_SEPARATOR . 'Foo' . DIRECTORY_SEPARATOR . 'Bar.php',
             $this->composer->getClassPath($class)
         );
@@ -148,7 +148,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     public function testGettingPathFromClassInRootNamespace()
     {
         $class = 'Opulence\\Bar';
-        $this->assertEquals(
+        $this->assertSame(
             $this->psr4RootPath . DIRECTORY_SEPARATOR . 'Opulence' . DIRECTORY_SEPARATOR . 'Bar.php',
             $this->composer->getClassPath($class)
         );
@@ -178,7 +178,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingRootNamespace()
     {
-        $this->assertEquals('Opulence', $this->composer->getRootNamespace());
+        $this->assertSame('Opulence', $this->composer->getRootNamespace());
     }
 
     /**
@@ -212,7 +212,7 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
             $this->rootPath,
             $this->psr4RootPath
         );
-        $this->assertEquals('Opulence', $composer->getRootNamespace());
+        $this->assertSame('Opulence', $composer->getRootNamespace());
     }
 
     /**
@@ -220,6 +220,6 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingSingleProperty()
     {
-        $this->assertEquals('__name__', $this->composer->get('name'));
+        $this->assertSame('__name__', $this->composer->get('name'));
     }
 }

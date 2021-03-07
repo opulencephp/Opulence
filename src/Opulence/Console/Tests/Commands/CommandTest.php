@@ -130,7 +130,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDescription()
     {
-        $this->assertEquals('The foo command', $this->command->getDescription());
+        $this->assertSame('The foo command', $this->command->getDescription());
     }
 
     /**
@@ -138,7 +138,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingHelpText()
     {
-        $this->assertEquals("Bob Loblaw's Law Blog no habla Espanol", $this->command->getHelpText());
+        $this->assertSame("Bob Loblaw's Law Blog no habla Espanol", $this->command->getHelpText());
     }
 
     /**
@@ -146,7 +146,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingName()
     {
-        $this->assertEquals('foo', $this->command->getName());
+        $this->assertSame('foo', $this->command->getName());
     }
 
     /**
@@ -210,7 +210,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     public function testSettingArgumentValue()
     {
         $this->command->setArgumentValue('foo', 'bar');
-        $this->assertEquals('bar', $this->command->getArgumentValue('foo'));
+        $this->assertSame('bar', $this->command->getArgumentValue('foo'));
     }
 
     /**
@@ -221,6 +221,6 @@ class CommandTest extends \PHPUnit\Framework\TestCase
         $option = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'Foo command', 'bar');
         $this->command->addOption($option);
         $this->command->setOptionValue('foo', 'bar');
-        $this->assertEquals('bar', $this->command->getOptionValue('foo'));
+        $this->assertSame('bar', $this->command->getOptionValue('foo'));
     }
 }

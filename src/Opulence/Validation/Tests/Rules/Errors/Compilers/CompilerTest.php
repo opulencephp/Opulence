@@ -33,7 +33,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingTemplateWithArgPlaceholders()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'foo dave baz young',
             $this->compiler->compile(
                 'foo',
@@ -48,7 +48,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingTemplateWithArgPlaceholdersNotInSameOrderAsArgs()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'foo dave baz young',
             $this->compiler->compile(
                 'foo',
@@ -63,7 +63,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingTemplateWithFieldAndArgPlaceholders()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'foo the-field dave baz young',
             $this->compiler->compile(
                 'the-field',
@@ -78,7 +78,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingTemplateWithFieldPlaceholder()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'foo bar',
             $this->compiler->compile('foo', ':field bar')
         );
@@ -89,7 +89,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingTemplateWithLeftoverPlaceholders()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'foo dave',
             $this->compiler->compile('foo',
                 'foo :bar :baz',
@@ -103,7 +103,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCompilingTemplateWithNoPlaceholders()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'foo bar',
             $this->compiler->compile('foo', 'foo bar')
         );

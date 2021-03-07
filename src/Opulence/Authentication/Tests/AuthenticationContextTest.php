@@ -47,7 +47,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     public function testSettingStatusInConstructor()
     {
         $context = new AuthenticationContext(null, 'foo');
-        $this->assertEquals('foo', $context->getStatus());
+        $this->assertSame('foo', $context->getStatus());
     }
 
     /**
@@ -56,7 +56,7 @@ class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
     public function testSettingStatusInSetter()
     {
         $this->context->setStatus('foo');
-        $this->assertEquals('foo', $this->context->getStatus());
+        $this->assertSame('foo', $this->context->getStatus());
     }
 
     /**

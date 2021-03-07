@@ -35,7 +35,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     public function testAdding() : void
     {
         $this->arrayList->add('foo');
-        $this->assertEquals('foo', $this->arrayList->get(0));
+        $this->assertSame('foo', $this->arrayList->get(0));
     }
 
     /**
@@ -92,9 +92,9 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     public function testCount() : void
     {
         $this->arrayList->add('foo');
-        $this->assertEquals(1, $this->arrayList->count());
+        $this->assertSame(1, $this->arrayList->count());
         $this->arrayList->add('bar');
-        $this->assertEquals(2, $this->arrayList->count());
+        $this->assertSame(2, $this->arrayList->count());
     }
 
     /**
@@ -103,7 +103,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     public function testGetting() : void
     {
         $this->arrayList->add('foo');
-        $this->assertEquals('foo', $this->arrayList->get(0));
+        $this->assertSame('foo', $this->arrayList->get(0));
     }
 
     /**
@@ -142,7 +142,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     public function testGettingAsArray() : void
     {
         $this->arrayList->add('foo');
-        $this->assertEquals('foo', $this->arrayList[0]);
+        $this->assertSame('foo', $this->arrayList[0]);
     }
 
     /**
@@ -153,8 +153,8 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->arrayList->add('foo');
         $this->arrayList->add('bar');
         $this->arrayList->insert(1, 'baz');
-        $this->assertEquals('baz', $this->arrayList->get(1));
-        $this->assertEquals('bar', $this->arrayList->get(2));
+        $this->assertSame('baz', $this->arrayList->get(1));
+        $this->assertSame('bar', $this->arrayList->get(2));
         $this->assertEquals(['foo', 'baz', 'bar'], $this->arrayList->toArray());
     }
 
@@ -201,7 +201,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     {
         $this->arrayList->add('foo');
         $this->arrayList->removeValue('foo');
-        $this->assertEquals(0, $this->arrayList->count());
+        $this->assertSame(0, $this->arrayList->count());
         $this->assertFalse($this->arrayList->containsValue('foo'));
         $this->assertEquals([], $this->arrayList->toArray());
     }
@@ -213,7 +213,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     {
         $this->arrayList->add('foo');
         $this->arrayList->removeIndex(0);
-        $this->assertEquals(0, $this->arrayList->count());
+        $this->assertSame(0, $this->arrayList->count());
         $this->assertFalse($this->arrayList->containsValue('foo'));
         $this->assertEquals([], $this->arrayList->toArray());
     }
@@ -237,7 +237,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
         $this->arrayList->add('foo');
         $this->arrayList->add('bar');
         $this->arrayList[1] = 'baz';
-        $this->assertEquals('baz', $this->arrayList[1]);
+        $this->assertSame('baz', $this->arrayList[1]);
         $this->assertEquals(['foo', 'baz', 'bar'], $this->arrayList->toArray());
     }
 
@@ -276,7 +276,7 @@ class ArrayListTest extends \PHPUnit\Framework\TestCase
     {
         $this->arrayList->add('foo');
         unset($this->arrayList[0]);
-        $this->assertEquals(0, $this->arrayList->count());
+        $this->assertSame(0, $this->arrayList->count());
         $this->assertFalse($this->arrayList->containsValue('foo'));
         $this->assertEquals([], $this->arrayList->toArray());
     }

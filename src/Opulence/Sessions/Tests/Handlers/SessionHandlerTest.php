@@ -77,7 +77,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     public function testReadDataIsNotDecryptedWhenNotUsingEncrypter()
     {
         $this->handler->expects($this->any())->method('doRead')->will($this->returnValue('bar'));
-        $this->assertEquals('bar', $this->handler->read('foo'));
+        $this->assertSame('bar', $this->handler->read('foo'));
     }
 
     /**
@@ -89,7 +89,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->handler->setEncrypter($this->encrypter);
         $this->handler->expects($this->any())->method('doRead')->will($this->returnValue('foo'));
         $this->encrypter->expects($this->any())->method('decrypt')->will($this->returnValue('bar'));
-        $this->assertEquals('bar', $this->handler->read('baz'));
+        $this->assertSame('bar', $this->handler->read('baz'));
     }
 
     /**
@@ -102,7 +102,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->handler->expects($this->any())->method('doRead')->will($this->returnValue('foo'));
         $this->encrypter->expects($this->any())->method('decrypt')
             ->will($this->throwException(new SessionEncryptionException()));
-        $this->assertEquals(serialize([]), $this->handler->read('bar'));
+        $this->assertSame(serialize([]), $this->handler->read('bar'));
     }
 
     /**

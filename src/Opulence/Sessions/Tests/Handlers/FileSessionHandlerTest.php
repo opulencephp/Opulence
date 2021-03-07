@@ -108,7 +108,7 @@ class FileSessionHandlerTest extends \PHPUnit\Framework\TestCase
     public function testReadingSession()
     {
         $this->fileSystem->write(__DIR__ . '/' . self::$path . '/foo', 'bar');
-        $this->assertEquals('bar', $this->handler->read('foo'));
+        $this->assertSame('bar', $this->handler->read('foo'));
     }
 
     /**
@@ -117,6 +117,6 @@ class FileSessionHandlerTest extends \PHPUnit\Framework\TestCase
     public function testWritingSession()
     {
         $this->handler->write('foo', 'bar');
-        $this->assertEquals('bar', $this->fileSystem->read(__DIR__ . '/' . self::$path . '/foo'));
+        $this->assertSame('bar', $this->fileSystem->read(__DIR__ . '/' . self::$path . '/foo'));
     }
 }

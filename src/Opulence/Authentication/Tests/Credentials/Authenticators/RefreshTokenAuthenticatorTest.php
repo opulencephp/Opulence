@@ -85,7 +85,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $subject = null;
         $error = null;
         $this->assertFalse($this->authenticator->authenticate($credential, $subject, $error));
-        $this->assertEquals(AuthenticatorErrorTypes::CREDENTIAL_MISSING, $error);
+        $this->assertSame(AuthenticatorErrorTypes::CREDENTIAL_MISSING, $error);
     }
 
     /**
@@ -100,7 +100,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $subject = null;
         $error = null;
         $this->assertFalse($this->authenticator->authenticate($this->credential, $subject, $error));
-        $this->assertEquals(AuthenticatorErrorTypes::CREDENTIAL_INCORRECT, $error);
+        $this->assertSame(AuthenticatorErrorTypes::CREDENTIAL_INCORRECT, $error);
     }
 
     /**
@@ -118,7 +118,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $subject = null;
         $error = null;
         $this->assertFalse($this->authenticator->authenticate($this->credential, $subject, $error));
-        $this->assertEquals(AuthenticatorErrorTypes::CREDENTIAL_INCORRECT, $error);
+        $this->assertSame(AuthenticatorErrorTypes::CREDENTIAL_INCORRECT, $error);
     }
 
     /**
@@ -137,7 +137,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->authenticator->authenticate($this->credential, $subject));
         /** @var ISubject $subject */
         $this->assertInstanceOf(ISubject::class, $subject);
-        $this->assertEquals('Dave', $subject->getPrimaryPrincipal()->getId());
+        $this->assertSame('Dave', $subject->getPrimaryPrincipal()->getId());
         $this->assertEquals([$this->credential], $subject->getCredentials());
     }
 }

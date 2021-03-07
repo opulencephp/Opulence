@@ -69,7 +69,7 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
             ->method('decrypt')
             ->with('foo')
             ->willReturn('bar');
-        $this->assertEquals('bar', $this->sessionEncrypter->decrypt('foo'));
+        $this->assertSame('bar', $this->sessionEncrypter->decrypt('foo'));
     }
 
     /**
@@ -81,6 +81,6 @@ class SessionEncrypterTest extends \PHPUnit\Framework\TestCase
             ->method('encrypt')
             ->with('foo')
             ->willReturn('bar');
-        $this->assertEquals('bar', $this->sessionEncrypter->encrypt('foo'));
+        $this->assertSame('bar', $this->sessionEncrypter->encrypt('foo'));
     }
 }

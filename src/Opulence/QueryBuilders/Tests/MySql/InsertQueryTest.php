@@ -27,7 +27,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
         $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);
         $query->update(['name' => 'dave'])
             ->addUpdateColumnValues(['email' => 'foo@bar.com']);
-        $this->assertEquals('INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?',
+        $this->assertSame('INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?',
             $query->getSql());
         $this->assertEquals([
             ['dave', PDO::PARAM_STR],
@@ -41,7 +41,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
     public function testBasicQuery()
     {
         $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);
-        $this->assertEquals('INSERT INTO users (name, email) VALUES (?, ?)', $query->getSql());
+        $this->assertSame('INSERT INTO users (name, email) VALUES (?, ?)', $query->getSql());
         $this->assertEquals([
             ['dave', PDO::PARAM_STR],
             ['foo@bar.com', PDO::PARAM_STR]
@@ -61,7 +61,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
             ]);
         $query->update(['name' => 'dave'])
             ->addUpdateColumnValues(['email' => 'foo@bar.com']);
-        $this->assertEquals('INSERT INTO users (name, email, is_val_even) VALUES (?, ?, (val + ?) % ?) ON DUPLICATE KEY UPDATE name = ?, email = ?',
+        $this->assertSame('INSERT INTO users (name, email, is_val_even) VALUES (?, ?, (val + ?) % ?) ON DUPLICATE KEY UPDATE name = ?, email = ?',
             $query->getSql());
         $this->assertSame([
             ['dave', PDO::PARAM_STR],
@@ -78,7 +78,7 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
     {
         $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);
         $query->update(['name' => 'dave', 'email' => 'foo@bar.com']);
-        $this->assertEquals('INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?',
+        $this->assertSame('INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?',
             $query->getSql());
         $this->assertEquals([
             ['dave', PDO::PARAM_STR],

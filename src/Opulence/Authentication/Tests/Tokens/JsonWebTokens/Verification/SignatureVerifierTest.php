@@ -50,7 +50,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
             ->method('getSignature')
             ->willReturn('');
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
-        $this->assertEquals(JwtErrorTypes::SIGNATURE_INCORRECT, $error);
+        $this->assertSame(JwtErrorTypes::SIGNATURE_INCORRECT, $error);
     }
 
     /**
@@ -65,7 +65,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
             ->method('verify')
             ->willReturn(false);
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
-        $this->assertEquals(JwtErrorTypes::SIGNATURE_INCORRECT, $error);
+        $this->assertSame(JwtErrorTypes::SIGNATURE_INCORRECT, $error);
     }
 
     /**
@@ -90,7 +90,7 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
             ->method('getAlgorithm')
             ->willReturn(Algorithms::SHA384);
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
-        $this->assertEquals(JwtErrorTypes::SIGNATURE_ALGORITHM_MISMATCH, $error);
+        $this->assertSame(JwtErrorTypes::SIGNATURE_ALGORITHM_MISMATCH, $error);
     }
 
     /**

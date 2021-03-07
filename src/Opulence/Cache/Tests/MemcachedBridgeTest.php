@@ -75,9 +75,9 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
             ->with('dave:foo', 5)
             ->willReturn(5);
         // Test using default value
-        $this->assertEquals(10, $this->bridge->decrement('foo'));
+        $this->assertSame(10, $this->bridge->decrement('foo'));
         // Test using a custom value
-        $this->assertEquals(5, $this->bridge->decrement('foo', 5));
+        $this->assertSame(5, $this->bridge->decrement('foo', 5));
     }
 
     /**
@@ -134,7 +134,7 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('getResultCode')
             ->willReturn(0);
-        $this->assertEquals('bar', $this->bridge->get('foo'));
+        $this->assertSame('bar', $this->bridge->get('foo'));
     }
 
     /**
@@ -151,9 +151,9 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
             ->with('dave:foo', 5)
             ->willReturn(7);
         // Test using default value
-        $this->assertEquals(2, $this->bridge->increment('foo'));
+        $this->assertSame(2, $this->bridge->increment('foo'));
         // Test using a custom value
-        $this->assertEquals(7, $this->bridge->increment('foo', 5));
+        $this->assertSame(7, $this->bridge->increment('foo', 5));
     }
 
     /**
@@ -217,6 +217,6 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
             ->with('foo')
             ->willReturn($client);
         $bridge = new MemcachedBridge($memcached, 'foo');
-        $this->assertEquals('baz', $bridge->get('bar'));
+        $this->assertSame('baz', $bridge->get('bar'));
     }
 }

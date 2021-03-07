@@ -156,11 +156,11 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGeneratingHttpsUrl()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'https://foo.example.com/users',
             $this->generator->createFromName('secureHostNoParameters')
         );
-        $this->assertEquals(
+        $this->assertSame(
             '#^' . preg_quote('https://foo.example.com/users', '#') . '$#',
             $this->generator->createRegexFromName('secureHostNoParameters')
         );
@@ -172,7 +172,7 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testGeneratingUrlForNonExistentRoute()
     {
         $this->assertEmpty($this->generator->createFromName('foo'));
-        $this->assertEquals('#^.*$#', $this->generator->createRegexFromName('foo'));
+        $this->assertSame('#^.*$#', $this->generator->createRegexFromName('foo'));
     }
 
     /**
@@ -180,11 +180,11 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGeneratingUrlWithMultipleHostAndPathValues()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'http://foo.bar.example.com/users/23/profile/edit',
             $this->generator->createFromName('hostAndPathMultipleParameters', 'foo', 'bar', 23, 'edit')
         );
-        $this->assertEquals(
+        $this->assertSame(
             "#^http\://(?P<subdomain1>[^\/:]+)\.(?P<subdomain2>[^\/:]+)\.example\.com/users/(?P<userId>[^\/:]+)/profile/(?P<mode>[^\/:]+)$#",
             $this->generator->createRegexFromName('hostAndPathMultipleParameters')
         );
@@ -195,10 +195,10 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGeneratingUrlWithNoValues()
     {
-        $this->assertEquals('/users', $this->generator->createFromName('pathNoParameters'));
-        $this->assertEquals('http://example.com/users', $this->generator->createFromName('hostNoParameters'));
-        $this->assertEquals('#^/users$#', $this->generator->createRegexFromName('pathNoParameters'));
-        $this->assertEquals("#^http\://example\.com/users$#",
+        $this->assertSame('/users', $this->generator->createFromName('pathNoParameters'));
+        $this->assertSame('http://example.com/users', $this->generator->createFromName('hostNoParameters'));
+        $this->assertSame('#^/users$#', $this->generator->createRegexFromName('pathNoParameters'));
+        $this->assertSame("#^http\://example\.com/users$#",
             $this->generator->createRegexFromName('hostNoParameters'));
     }
 
@@ -207,14 +207,14 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGeneratingUrlWithOneValue()
     {
-        $this->assertEquals('/users/23', $this->generator->createFromName('pathOneParameter', 23));
-        $this->assertEquals(
+        $this->assertSame('/users/23', $this->generator->createFromName('pathOneParameter', 23));
+        $this->assertSame(
             'http://foo.example.com/users',
             $this->generator->createFromName('hostOneParameter', 'foo')
         );
-        $this->assertEquals("#^/users/(?P<userId>[^\/:]+)$#",
+        $this->assertSame("#^/users/(?P<userId>[^\/:]+)$#",
             $this->generator->createRegexFromName('pathOneParameter'));
-        $this->assertEquals(
+        $this->assertSame(
             "#^http\://(?P<subdomain>[^\/:]+)\.example\.com/users$#",
             $this->generator->createRegexFromName('hostOneParameter')
         );
@@ -225,11 +225,11 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGeneratingUrlWithOptionalHostVariable()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'http://example.com/users',
             $this->generator->createFromName('hostOptionalVariable')
         );
-        $this->assertEquals(
+        $this->assertSame(
             "#^http\://(?:(?P<subdomain>[^\/:]+))?example\.com/users$#",
             $this->generator->createRegexFromName('hostOptionalVariable')
         );
@@ -240,15 +240,15 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGeneratingUrlWithOptionalNestedSlashesAndPathVariables()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '/users',
             $this->generator->createFromName('pathOptionalNestedSlashesAndVariables')
         );
-        $this->assertEquals(
+        $this->assertSame(
             '/users/bar',
             $this->generator->createFromName('pathOptionalNestedSlashesAndVariables', 'bar')
         );
-        $this->assertEquals(
+        $this->assertSame(
             '/users/bar/baz',
             $this->generator->createFromName('pathOptionalNestedSlashesAndVariables', 'bar', 'baz')
         );
@@ -259,11 +259,11 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGeneratingUrlWithOptionalPathVariable()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '/users',
             $this->generator->createFromName('pathOptionalVariable')
         );
-        $this->assertEquals(
+        $this->assertSame(
             "#^/users(?:(?P<foo>[^\/:]+))?$#",
             $this->generator->createRegexFromName('pathOptionalVariable')
         );
@@ -274,11 +274,11 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGeneratingUrlWithOptionalSlashAndPathVariable()
     {
-        $this->assertEquals(
+        $this->assertSame(
             '/users',
             $this->generator->createFromName('pathOptionalSlashAndVariable')
         );
-        $this->assertEquals(
+        $this->assertSame(
             '/users/bar',
             $this->generator->createFromName('pathOptionalSlashAndVariable', 'bar')
         );
@@ -289,7 +289,7 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGeneratingUrlWithOptionalVariablesInPathAndHost()
     {
-        $this->assertEquals(
+        $this->assertSame(
             'http://example.com/users',
             $this->generator->createFromName('hostAndPathOptionalParameters')
         );
@@ -300,9 +300,9 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGeneratingUrlWithTwoValues()
     {
-        $this->assertEquals('/users/23/profile/edit',
+        $this->assertSame('/users/23/profile/edit',
             $this->generator->createFromName('pathTwoParameters', 23, 'edit'));
-        $this->assertEquals(
+        $this->assertSame(
             'http://foo.bar.example.com/users',
             $this->generator->createFromName('hostTwoParameters', 'foo', 'bar')
         );
@@ -340,6 +340,6 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testPassingNonArrayValue()
     {
-        $this->assertEquals('/users/23', $this->generator->createFromName('pathOneParameter', 23));
+        $this->assertSame('/users/23', $this->generator->createFromName('pathOneParameter', 23));
     }
 }

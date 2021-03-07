@@ -34,8 +34,8 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testGeneratingWithLength()
     {
         $id = $this->generator->generate(28);
-        $this->assertTrue(is_string($id));
-        $this->assertEquals(28, strlen($id));
+        $this->assertIsString($id);
+        $this->assertSame(28, strlen($id));
     }
 
     /**
@@ -44,8 +44,8 @@ class IdGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testGeneratingWithoutLength()
     {
         $id = $this->generator->generate();
-        $this->assertTrue(is_string($id));
-        $this->assertEquals(IdGenerator::DEFAULT_LENGTH, strlen($id));
+        $this->assertIsString($id);
+        $this->assertSame(IdGenerator::DEFAULT_LENGTH, strlen($id));
     }
 
     /**

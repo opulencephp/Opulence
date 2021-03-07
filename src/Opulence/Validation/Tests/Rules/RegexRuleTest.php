@@ -25,7 +25,7 @@ class RegexRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new RegexRule();
-        $this->assertEquals('regex', $rule->getSlug());
+        $this->assertSame('regex', $rule->getSlug());
     }
 
     /**

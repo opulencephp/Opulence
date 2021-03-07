@@ -22,7 +22,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingNonExistentVariable()
     {
-        $this->assertEquals('bar', Environment::getVar('foo', 'bar'));
+        $this->assertSame('bar', Environment::getVar('foo', 'bar'));
     }
 
     /**
@@ -31,9 +31,9 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     public function testGettingVariable()
     {
         Environment::setVar('baz', 'blah');
-        $this->assertEquals('blah', getenv('baz'));
-        $this->assertEquals('blah', $_ENV['baz']);
-        $this->assertEquals('blah', $_SERVER['baz']);
+        $this->assertSame('blah', getenv('baz'));
+        $this->assertSame('blah', $_ENV['baz']);
+        $this->assertSame('blah', $_SERVER['baz']);
     }
 
     /**
@@ -50,9 +50,9 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     public function testSettingVariable()
     {
         Environment::setVar('foo', 'bar');
-        $this->assertEquals('bar', getenv('foo'));
-        $this->assertEquals('bar', $_ENV['foo']);
-        $this->assertEquals('bar', $_SERVER['foo']);
+        $this->assertSame('bar', getenv('foo'));
+        $this->assertSame('bar', $_ENV['foo']);
+        $this->assertSame('bar', $_SERVER['foo']);
     }
 
     /**
@@ -61,7 +61,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     public function testSettingVariableInEnvironmentGlobalArray()
     {
         $_ENV['bar'] = 'baz';
-        $this->assertEquals('baz', Environment::getVar('bar'));
+        $this->assertSame('baz', Environment::getVar('bar'));
     }
 
     /**
@@ -70,7 +70,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     public function testSettingVariableInPutenv()
     {
         putenv('bar=baz');
-        $this->assertEquals('baz', Environment::getVar('bar'));
+        $this->assertSame('baz', Environment::getVar('bar'));
     }
 
     /**
@@ -79,7 +79,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     public function testSettingVariableInServerGlobalArray()
     {
         $_SERVER['bar'] = 'baz';
-        $this->assertEquals('baz', Environment::getVar('bar'));
+        $this->assertSame('baz', Environment::getVar('bar'));
     }
 
     /**
@@ -89,7 +89,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     {
         Environment::setVar('foo', 'bar');
         Environment::setVar('foo', 'baz');
-        $this->assertEquals('bar', Environment::getVar('foo'));
-        $this->assertEquals('bar', getenv('foo'));
+        $this->assertSame('bar', Environment::getVar('foo'));
+        $this->assertSame('bar', getenv('foo'));
     }
 }

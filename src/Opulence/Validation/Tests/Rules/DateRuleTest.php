@@ -39,7 +39,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new DateRule();
-        $this->assertEquals('date', $rule->getSlug());
+        $this->assertSame('date', $rule->getSlug());
     }
 
     /**

@@ -51,7 +51,7 @@ class IssuerVerifierTest extends \PHPUnit\Framework\TestCase
             ->method('getIssuer')
             ->willReturn('bar');
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
-        $this->assertEquals(JwtErrorTypes::ISSUER_INVALID, $error);
+        $this->assertSame(JwtErrorTypes::ISSUER_INVALID, $error);
     }
 
     /**

@@ -171,7 +171,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
             },
             ['foo']
         );
-        $this->assertEquals('foo', $result);
+        $this->assertSame('foo', $result);
     }
 
     /**
@@ -200,7 +200,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
             },
             ['foo']
         );
-        $this->assertEquals($this->concreteFoo . ':foo', $response);
+        $this->assertSame($this->concreteFoo . ':foo', $response);
     }
 
     /**
@@ -217,7 +217,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
                 return get_class($interface);
             }
         );
-        $this->assertEquals($this->concreteFoo, $response);
+        $this->assertSame($this->concreteFoo, $response);
     }
 
     /**
@@ -529,8 +529,8 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $instance2 = $this->container->resolve($this->constructorWithInterfacesAndPrimitives);
         $this->assertInstanceOf($this->constructorWithInterfacesAndPrimitives, $instance1);
         $this->assertSame($instance1, $instance2);
-        $this->assertEquals(23, $instance1->getId());
-        $this->assertEquals(23, $instance2->getId());
+        $this->assertSame(23, $instance1->getId());
+        $this->assertSame(23, $instance2->getId());
     }
 
     /**
@@ -568,7 +568,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         /** @var ConstructorWithMixOfConcreteClassesAndPrimitives $instance */
         $instance = $this->container->resolve($this->constructorWithConcreteClassesAndPrimitives);
         $this->assertInstanceOf($this->constructorWithConcreteClassesAndPrimitives, $instance);
-        $this->assertEquals(23, $instance->getId());
+        $this->assertSame(23, $instance->getId());
         $this->assertNotSame($instance, $this->container->resolve($this->constructorWithConcreteClassesAndPrimitives));
     }
 
@@ -582,7 +582,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $instance = $this->container->resolve($this->constructorWithConcreteClassesAndPrimitives);
         /** @var ConstructorWithMixOfConcreteClassesAndPrimitives $newInstance */
         $this->assertInstanceOf($this->constructorWithConcreteClassesAndPrimitives, $instance);
-        $this->assertEquals(23, $instance->getId());
+        $this->assertSame(23, $instance->getId());
         $this->assertSame($instance, $this->container->resolve($this->constructorWithConcreteClassesAndPrimitives));
     }
 
@@ -715,8 +715,8 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $instance2 = $this->container->resolve($this->constructorWithInterfacesAndPrimitives);
         $this->assertInstanceOf($this->constructorWithInterfacesAndPrimitives, $instance1);
         $this->assertSame($instance1, $instance2);
-        $this->assertEquals(23, $instance1->getId());
-        $this->assertEquals(23, $instance2->getId());
+        $this->assertSame(23, $instance1->getId());
+        $this->assertSame(23, $instance2->getId());
         $this->assertSame($instance1->getPerson(), $instance2->getPerson());
     }
 

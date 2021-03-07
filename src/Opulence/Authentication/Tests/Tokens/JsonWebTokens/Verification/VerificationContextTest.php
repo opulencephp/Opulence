@@ -58,7 +58,7 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     public function testSettingIssuer()
     {
         $this->context->setIssuer('foo');
-        $this->assertEquals('foo', $this->context->getIssuer());
+        $this->assertSame('foo', $this->context->getIssuer());
     }
 
     /**
@@ -78,6 +78,6 @@ class VerificationContextTest extends \PHPUnit\Framework\TestCase
     public function testSettingSubject()
     {
         $this->context->setSubject('foo');
-        $this->assertEquals('foo', $this->context->getSubject());
+        $this->assertSame('foo', $this->context->getSubject());
     }
 }

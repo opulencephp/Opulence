@@ -36,8 +36,8 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
      */
     public function testDumpAutoload()
     {
-        $this->assertEquals('composer dump-autoload ', $this->executableWithoutPHAR->dumpAutoload());
-        $this->assertEquals(
+        $this->assertSame('composer dump-autoload ', $this->executableWithoutPHAR->dumpAutoload());
+        $this->assertSame(
             '"' . PHP_BINARY . '" composer.phar dump-autoload ',
             $this->executableWithPHAR->dumpAutoload()
         );
@@ -48,8 +48,8 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
      */
     public function testDumpAutoloadWithOptions()
     {
-        $this->assertEquals('composer dump-autoload -o', $this->executableWithoutPHAR->dumpAutoload('-o'));
-        $this->assertEquals(
+        $this->assertSame('composer dump-autoload -o', $this->executableWithoutPHAR->dumpAutoload('-o'));
+        $this->assertSame(
             '"' . PHP_BINARY . '" composer.phar dump-autoload -o',
             $this->executableWithPHAR->dumpAutoload('-o')
         );
@@ -60,8 +60,8 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
      */
     public function testUpdate()
     {
-        $this->assertEquals('composer update ', $this->executableWithoutPHAR->update());
-        $this->assertEquals(
+        $this->assertSame('composer update ', $this->executableWithoutPHAR->update());
+        $this->assertSame(
             '"' . PHP_BINARY . '" composer.phar update ',
             $this->executableWithPHAR->update()
         );
@@ -72,8 +72,8 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
      */
     public function testUpdateWithOptions()
     {
-        $this->assertEquals('composer update --prefer-dist', $this->executableWithoutPHAR->update('--prefer-dist'));
-        $this->assertEquals(
+        $this->assertSame('composer update --prefer-dist', $this->executableWithoutPHAR->update('--prefer-dist'));
+        $this->assertSame(
             '"' . PHP_BINARY . '" composer.phar update --prefer-dist',
             $this->executableWithPHAR->update('--prefer-dist')
         );

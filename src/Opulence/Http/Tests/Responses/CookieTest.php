@@ -56,7 +56,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDomain()
     {
-        $this->assertEquals($this->domain, $this->cookie->getDomain());
+        $this->assertSame($this->domain, $this->cookie->getDomain());
     }
 
     /**
@@ -64,7 +64,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingExpiration()
     {
-        $this->assertEquals($this->expiration->format('U'), $this->cookie->getExpiration());
+        $this->assertSame($this->expiration->format('U'), (string)$this->cookie->getExpiration());
     }
 
     /**
@@ -88,7 +88,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingName()
     {
-        $this->assertEquals($this->name, $this->cookie->getName());
+        $this->assertSame($this->name, $this->cookie->getName());
     }
 
     /**
@@ -96,7 +96,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingPath()
     {
-        $this->assertEquals($this->path, $this->cookie->getPath());
+        $this->assertSame($this->path, $this->cookie->getPath());
     }
 
     /**
@@ -114,7 +114,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     {
         $time = time();
         $cookie = new Cookie($this->name, $this->value, $time);
-        $this->assertEquals($time, $cookie->getExpiration());
+        $this->assertSame($time, $cookie->getExpiration());
     }
 
     /**
@@ -131,7 +131,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     public function testSameSiteReturnsWhatIsSetInConstructor()
     {
         $cookie = new Cookie($this->name, $this->value, time() + 3600, '/', '', false, false, 'lax');
-        $this->assertEquals('lax', $cookie->getSameSite());
+        $this->assertSame('lax', $cookie->getSameSite());
     }
 
     /**
@@ -140,7 +140,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     public function testSettingDomain()
     {
         $this->cookie->setDomain('blah.com');
-        $this->assertEquals('blah.com', $this->cookie->getDomain());
+        $this->assertSame('blah.com', $this->cookie->getDomain());
     }
 
     /**
@@ -150,7 +150,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     {
         $expiration = new DateTime('+1 day');
         $this->cookie->setExpiration($expiration);
-        $this->assertEquals($expiration->format('U'), $this->cookie->getExpiration());
+        $this->assertSame($expiration->format('U'), (string)$this->cookie->getExpiration());
     }
 
     /**
@@ -177,7 +177,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     public function testSettingName()
     {
         $this->cookie->setName('blah');
-        $this->assertEquals('blah', $this->cookie->getName());
+        $this->assertSame('blah', $this->cookie->getName());
     }
 
     /**
@@ -186,7 +186,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     public function testSettingPath()
     {
         $this->cookie->setPath('blah');
-        $this->assertEquals('blah', $this->cookie->getPath());
+        $this->assertSame('blah', $this->cookie->getPath());
     }
 
     /**
@@ -195,7 +195,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     public function testSettingSameSite()
     {
         $this->cookie->setSameSite('strict');
-        $this->assertEquals('strict', $this->cookie->getSameSite());
+        $this->assertSame('strict', $this->cookie->getSameSite());
     }
 
     /**
@@ -204,6 +204,6 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     public function testSettingValue()
     {
         $this->cookie->setValue('blah');
-        $this->assertEquals('blah', $this->cookie->getValue());
+        $this->assertSame('blah', $this->cookie->getValue());
     }
 }

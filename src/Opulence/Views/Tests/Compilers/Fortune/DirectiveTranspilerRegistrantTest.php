@@ -51,7 +51,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingElse()
     {
         $this->view->setContents('<% else %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php else: ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -63,7 +63,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingElseIf()
     {
         $this->view->setContents('<% elseif(true) %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php elseif(true): ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -75,7 +75,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingEndFor()
     {
         $this->view->setContents('<% endfor %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php endfor; ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -87,7 +87,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingEndForeach()
     {
         $this->view->setContents('<% endforeach %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php endforeach; ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -99,7 +99,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingEndIf()
     {
         $this->view->setContents('<% endif %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php endif; ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -111,7 +111,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingEndPart()
     {
         $this->view->setContents('<% endpart %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php $__opulenceFortuneTranspiler->endPart(); ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -123,7 +123,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingEndWhile()
     {
         $this->view->setContents('<% endwhile %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php endwhile; ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -141,7 +141,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
             'bar',
             '<?php echo eval("?>" . array_shift($__opulenceParentContents)); ?>'
         ];
-        $this->assertEquals(
+        $this->assertSame(
             implode(PHP_EOL, $expected),
             $this->transpiler->transpile($this->view)
         );
@@ -153,7 +153,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingFor()
     {
         $this->view->setContents('<% for($i=0;$i<10;$i++) %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php for($i=0;$i<10;$i++): ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -165,7 +165,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingForElse()
     {
         $this->view->setContents('<% forelse %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php endforeach; if(array_pop($__opulenceForElseEmpty)): ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -177,7 +177,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingForIf()
     {
         $this->view->setContents('<% forif($foo as $bar) %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php if(!isset($__opulenceForElseEmpty)): $__opulenceForElseEmpty = []; endif;$__opulenceForElseEmpty[] = true;' .
             'foreach($foo as $bar):' .
             '$__opulenceForElseEmpty[count($__opulenceForElseEmpty) - 1] = false; ?>',
@@ -191,7 +191,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingForeach()
     {
         $this->view->setContents('<% foreach($foo as $bar) %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php foreach($foo as $bar): ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -203,7 +203,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingIf()
     {
         $this->view->setContents('<% if(true) %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php if(true): ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -222,7 +222,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView));';
         $code .= '}, []);';
         $code .= ' ?>';
-        $this->assertEquals(
+        $this->assertSame(
             "{$code}bar",
             $this->transpiler->transpile($this->view)
         );
@@ -241,7 +241,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView));';
         $code .= '}, ["foo" => "bar"]);';
         $code .= ' ?>';
-        $this->assertEquals(
+        $this->assertSame(
             "{$code}baz",
             $this->transpiler->transpile($this->view)
         );
@@ -260,7 +260,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView));';
         $code .= '}, compact("foo", "bar"));';
         $code .= ' ?>';
-        $this->assertEquals(
+        $this->assertSame(
             "{$code}baz",
             $this->transpiler->transpile($this->view)
         );
@@ -279,7 +279,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView));';
         $code .= '}, ["foo" => "bar"]);';
         $code .= ' ?>';
-        $this->assertEquals(
+        $this->assertSame(
             "{$code}baz",
             $this->transpiler->transpile($this->view)
         );
@@ -291,7 +291,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingParent()
     {
         $this->view->setContents('<% parent %>');
-        $this->assertEquals(
+        $this->assertSame(
             '__opulenceParentPlaceholder',
             $this->transpiler->transpile($this->view)
         );
@@ -303,7 +303,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingPart()
     {
         $this->view->setContents('<% part("foo") %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php $__opulenceFortuneTranspiler->startPart("foo"); ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -315,7 +315,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingShow()
     {
         $this->view->setContents('<% show("foo") %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php echo $__opulenceFortuneTranspiler->showPart("foo"); ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -327,7 +327,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingShowWithoutExpression()
     {
         $this->view->setContents('<% show %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php echo $__opulenceFortuneTranspiler->showPart(); ?>',
             $this->transpiler->transpile($this->view)
         );
@@ -339,7 +339,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
     public function testTranspilingWhile()
     {
         $this->view->setContents('<% while(true) %>');
-        $this->assertEquals(
+        $this->assertSame(
             '<?php while(true): ?>',
             $this->transpiler->transpile($this->view)
         );

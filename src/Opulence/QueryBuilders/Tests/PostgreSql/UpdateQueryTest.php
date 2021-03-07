@@ -27,7 +27,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->returning('id')
             ->addReturning('name');
-        $this->assertEquals('UPDATE users SET name = ? RETURNING id, name', $query->getSql());
+        $this->assertSame('UPDATE users SET name = ? RETURNING id, name', $query->getSql());
         $this->assertEquals([
             ['david', PDO::PARAM_STR]
         ], $query->getParameters());
@@ -47,7 +47,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
             ->returning('u.id')
             ->addReturning('u.name')
             ->addUnnamedPlaceholderValues([[2, PDO::PARAM_INT], [18175, PDO::PARAM_INT], 'foo@bar.com', 'dave']);
-        $this->assertEquals("UPDATE users AS u SET name = ?, email = ?, is_val_even = (val + ?) % ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer') RETURNING u.id, u.name",
+        $this->assertSame("UPDATE users AS u SET name = ?, email = ?, is_val_even = (val + ?) % ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer') RETURNING u.id, u.name",
             $query->getSql());
         $this->assertEquals([
             ['david', PDO::PARAM_STR],
@@ -67,7 +67,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
     {
         $query = new UpdateQuery('users', '', ['name' => 'david']);
         $query->returning('id');
-        $this->assertEquals('UPDATE users SET name = ? RETURNING id', $query->getSql());
+        $this->assertSame('UPDATE users SET name = ? RETURNING id', $query->getSql());
         $this->assertEquals([
             ['david', PDO::PARAM_STR]
         ], $query->getParameters());

@@ -33,7 +33,7 @@ class MiddlewareParametersTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingMiddlewareClassName()
     {
-        $this->assertEquals('foo', $this->parameters->getMiddlewareClassName());
+        $this->assertSame('foo', $this->parameters->getMiddlewareClassName());
     }
 
     /**

@@ -45,7 +45,7 @@ class RedisTest extends \PHPUnit\Framework\TestCase
                 'foo' => $foo
             ]
         );
-        $this->assertEquals('foo', $redis->get('baz'));
+        $this->assertSame('foo', $redis->get('baz'));
     }
 
     /**

@@ -23,7 +23,7 @@ class EmailRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new EmailRule();
-        $this->assertEquals('email', $rule->getSlug());
+        $this->assertSame('email', $rule->getSlug());
     }
 
     /**

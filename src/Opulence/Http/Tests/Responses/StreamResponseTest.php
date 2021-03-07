@@ -28,10 +28,10 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
         });
         ob_start();
         $response->sendContent();
-        $this->assertEquals('foo', ob_get_clean());
+        $this->assertSame('foo', ob_get_clean());
         ob_start();
         $response->sendContent();
-        $this->assertEquals('', ob_get_clean());
+        $this->assertSame('', ob_get_clean());
     }
 
     /**
@@ -42,7 +42,7 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
         $response = new StreamResponse();
         ob_start();
         $response->sendContent();
-        $this->assertEquals('', ob_get_clean());
+        $this->assertSame('', ob_get_clean());
     }
 
     /**
@@ -66,6 +66,6 @@ class StreamResponseTest extends \PHPUnit\Framework\TestCase
         });
         ob_start();
         $response->sendContent();
-        $this->assertEquals('foo', ob_get_clean());
+        $this->assertSame('foo', ob_get_clean());
     }
 }

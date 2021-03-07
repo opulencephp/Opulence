@@ -46,7 +46,7 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
     {
         $server1 = $this->getServerMock();
         $server2 = $this->getServerMock();
-        $this->assertTrue(in_array($this->strategy->select([$server1, $server2]), [$server1, $server2]));
+        $this->assertContains($this->strategy->select([$server1, $server2]), [$server1, $server2]);
     }
 
     /**
