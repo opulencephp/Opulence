@@ -58,14 +58,10 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
         $expectedMigration2 = $this->createMock(IMigration::class);
         $expectedMigration2->expects($this->once())
             ->method('down');
-        $this->migrationResolver->expects($this->at(0))
+        $this->migrationResolver->expects($this->exactly(2))
             ->method('resolve')
-            ->with('foo')
-            ->willReturn($expectedMigration1);
-        $this->migrationResolver->expects($this->at(1))
-            ->method('resolve')
-            ->with('bar')
-            ->willReturn($expectedMigration2);
+            ->withConsecutive(['foo'], ['bar'])
+            ->willReturnOnConsecutiveCalls($expectedMigration1, $expectedMigration2);
         $this->connection->expects($this->once())
             ->method('beginTransaction');
         $this->connection->expects($this->once())
@@ -143,14 +139,10 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
         $expectedMigration2 = $this->createMock(IMigration::class);
         $expectedMigration2->expects($this->once())
             ->method('up');
-        $this->migrationResolver->expects($this->at(0))
+        $this->migrationResolver->expects($this->exactly(2))
             ->method('resolve')
-            ->with('foo')
-            ->willReturn($expectedMigration1);
-        $this->migrationResolver->expects($this->at(1))
-            ->method('resolve')
-            ->with('bar')
-            ->willReturn($expectedMigration2);
+            ->withConsecutive(['foo'], ['bar'])
+            ->willReturnOnConsecutiveCalls($expectedMigration1, $expectedMigration2);
         $this->connection->expects($this->once())
             ->method('beginTransaction');
         $this->connection->expects($this->once())
@@ -180,7 +172,7 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
         $expectedMigration2->expects($this->once())
             ->method('up');
         // Since 'bar' is the only migration not run, it's the only migration that gets resolved
-        $this->migrationResolver->expects($this->at(0))
+        $this->migrationResolver->expects($this->once())
             ->method('resolve')
             ->with('bar')
             ->willReturn($expectedMigration2);
@@ -216,14 +208,10 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
         $expectedMigration2 = $this->createMock(IMigration::class);
         $expectedMigration2->expects($this->never())
             ->method('up');
-        $this->migrationResolver->expects($this->at(0))
+        $this->migrationResolver->expects($this->exactly(2))
             ->method('resolve')
-            ->with('foo')
-            ->willReturn($expectedMigration1);
-        $this->migrationResolver->expects($this->at(1))
-            ->method('resolve')
-            ->with('bar')
-            ->willReturn($expectedMigration2);
+            ->withConsecutive(['foo'], ['bar'])
+            ->willReturnOnConsecutiveCalls($expectedMigration1, $expectedMigration2);
         $this->connection->expects($this->once())
             ->method('beginTransaction');
         $this->connection->expects($this->once())
@@ -259,14 +247,10 @@ class MigratorTest extends \PHPUnit\Framework\TestCase
         $expectedMigration2 = $this->createMock(IMigration::class);
         $expectedMigration2->expects($this->never())
             ->method('down');
-        $this->migrationResolver->expects($this->at(0))
+        $this->migrationResolver->expects($this->exactly(2))
             ->method('resolve')
-            ->with('foo')
-            ->willReturn($expectedMigration1);
-        $this->migrationResolver->expects($this->at(1))
-            ->method('resolve')
-            ->with('bar')
-            ->willReturn($expectedMigration2);
+            ->withConsecutive(['foo'], ['bar'])
+            ->willReturnOnConsecutiveCalls($expectedMigration1, $expectedMigration2);
         $this->connection->expects($this->once())
             ->method('beginTransaction');
         $this->connection->expects($this->once())

@@ -57,7 +57,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     {
         file_put_contents($this->cachedRouteFilePath, 'foo');
         $this->cache->flush($this->cachedRouteFilePath);
-        $this->assertFileNotExists($this->cachedRouteFilePath);
+        $this->assertFileDoesNotExist($this->cachedRouteFilePath);
     }
 
     /**
@@ -66,7 +66,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     public function testRoutesAreCachedAfterMiss()
     {
         $router = $this->getRouter();
-        $this->assertFileNotExists($this->cachedRouteFilePath);
+        $this->assertFileDoesNotExist($this->cachedRouteFilePath);
         $routes = $this->cache->get($this->cachedRouteFilePath, $router, $this->rawRouteFilePath);
         $this->assertFileExists($this->cachedRouteFilePath);
         $this->assertEquals(base64_encode(serialize($routes)), file_get_contents($this->cachedRouteFilePath));

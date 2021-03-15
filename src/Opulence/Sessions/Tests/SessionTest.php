@@ -249,11 +249,18 @@ class SessionTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegenerateId()
     {
+        $i = 0;
         $generatedId = str_repeat(1, IIdGenerator::MIN_LENGTH);
         $idGenerator = $this->createMock(IIdGenerator::class);
-        $idGenerator->expects($this->at(0))->method('idIsValid')->willReturn(false);
-        $idGenerator->expects($this->at(2))->method('idIsValid')->willReturn(true);
-        $idGenerator->expects($this->at(4))->method('idIsValid')->willReturn(true);
+        $idGenerator->expects($this->any())->method('idIsValid')->willReturnCallback(function() use (&$i) {
+            $i++;
+
+            if ($i === 3 || $i === 5) {
+                return true;
+            }
+
+            return false;
+        });
         $idGenerator->expects($this->any())->method('generate')->willReturn($generatedId);
         $session = new Session(null, $idGenerator);
         $session->regenerateId();
@@ -300,11 +307,17 @@ class SessionTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingInvalidIdCausesNewIdToBeGenerated()
     {
+        $i = 0;
         $idGenerator = $this->createMock(IIdGenerator::class);
-        $idGenerator->expects($this->at(0))->method('idIsValid')->willReturn(false);
-        $idGenerator->expects($this->at(2))->method('idIsValid')->willReturn(true);
-        $idGenerator->expects($this->at(3))->method('idIsValid')->willReturn(false);
-        $idGenerator->expects($this->at(5))->method('idIsValid')->willReturn(true);
+        $idGenerator->expects($this->any())->method('idIsValid')->willReturnCallback(function() use (&$i) {
+            $i++;
+
+            if ($i === 3 || $i === 6) {
+                return true;
+            }
+
+            return false;
+        });
         $idGenerator->expects($this->any())->method('generate')->willReturn(str_repeat(1, IIdGenerator::MIN_LENGTH));
         $session = new Session(1, $idGenerator);
         $this->assertNotEquals(1, $session->getId());

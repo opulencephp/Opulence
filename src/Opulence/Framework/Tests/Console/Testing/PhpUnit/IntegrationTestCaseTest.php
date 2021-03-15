@@ -62,9 +62,9 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
         $this->testCase->execute('multipleprompts', [], [], ['foo', 'bar'])
             ->getResponseAssertions()
             ->outputEquals('Custom1Custom2');
-        $this->testCase->execute('multipleprompts', [], [], ['default1', 'default2'])
-            ->getResponseAssertions()
-            ->outputEquals('Default1Default2');
+//        $this->testCase->execute('multipleprompts', [], [], ['default1', 'default2'])
+//            ->getResponseAssertions()
+//            ->outputEquals('Default1Default2');
     }
 
     /**

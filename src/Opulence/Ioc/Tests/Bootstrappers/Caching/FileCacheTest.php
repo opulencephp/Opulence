@@ -89,7 +89,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     {
         file_put_contents($this->cachedRegistryFilePath, 'foo');
         $this->cache->flush();
-        $this->assertFileNotExists($this->cachedRegistryFilePath);
+        $this->assertFileDoesNotExist($this->cachedRegistryFilePath);
     }
 
     /**
@@ -104,7 +104,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
             'lazy' => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
         ]);
         $this->assertNull($cache->get());
-        $this->assertFileNotExists($this->cachedRegistryFilePath);
+        $this->assertFileDoesNotExist($this->cachedRegistryFilePath);
     }
 
     /**

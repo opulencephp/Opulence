@@ -92,12 +92,9 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->view->expects($this->any())
             ->method('getContents')
             ->willReturn('foo');
-        $this->view->expects($this->at(0))
+        $this->view->expects($this->exactly(2))
             ->method('getVars')
-            ->willReturn(['bar' => 'baz']);
-        $this->view->expects($this->at(1))
-            ->method('getVars')
-            ->willReturn(['wrong' => 'ahh']);
+            ->willReturn(['bar' => 'baz'], ['wrong' => 'ahh']);
         $this->cache->set($this->view, 'compiled', true);
         $this->assertFalse($this->cache->has($this->view, true));
     }
@@ -110,12 +107,6 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->view->expects($this->any())
             ->method('getContents')
             ->willReturn('foo');
-        $this->view->expects($this->at(0))
-            ->method('getVars')
-            ->willReturn(['bar' => 'baz']);
-        $this->view->expects($this->at(1))
-            ->method('getVars')
-            ->willReturn(['wrong' => 'ahh']);
         $this->cache->set($this->view, 'compiled', false);
         $this->assertTrue($this->cache->has($this->view, false));
     }
@@ -151,18 +142,6 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->view->expects($this->any())
             ->method('getContents')
             ->willReturn('foo');
-        $this->view->expects($this->at(0))
-            ->method('getVars')
-            ->willReturn(['bar1' => 'baz']);
-        $this->view->expects($this->at(1))
-            ->method('getVars')
-            ->willReturn(['bar1' => 'baz']);
-        $this->view->expects($this->at(2))
-            ->method('getVars')
-            ->willReturn(['bar2' => 'baz']);
-        $this->view->expects($this->at(3))
-            ->method('getVars')
-            ->willReturn(['bar2' => 'baz']);
         $this->cache->set($this->view, 'compiled1');
         $this->cache->set($this->view, 'compiled2');
         $this->cache->flush();
@@ -194,8 +173,8 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $cache->flush();
 
         $this->assertFileExists(__DIR__ . '/tmp/.gitignore');
-        $this->assertFileNotExists(__DIR__ . '/tmp/.gitignore_tmp');
-        $this->assertFileNotExists(__DIR__ . '/tmp/.gitkeep');
+        $this->assertFileDoesNotExist(__DIR__ . '/tmp/.gitignore_tmp');
+        $this->assertFileDoesNotExist(__DIR__ . '/tmp/.gitkeep');
     }
 
     /**
@@ -211,8 +190,8 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $cache->gc();
 
         $this->assertFileExists(__DIR__ . '/tmp/.gitignore');
-        $this->assertFileNotExists(__DIR__ . '/tmp/.gitignore_tmp');
-        $this->assertFileNotExists(__DIR__ . '/tmp/.gitkeep');
+        $this->assertFileDoesNotExist(__DIR__ . '/tmp/.gitignore_tmp');
+        $this->assertFileDoesNotExist(__DIR__ . '/tmp/.gitkeep');
     }
 
     /**

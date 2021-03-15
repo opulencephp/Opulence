@@ -132,11 +132,9 @@ abstract class IntegrationTestCase extends TestCase
     {
         $commandClassName = get_class($this->commandCollection->get($commandName));
 
-        foreach ($answers as $index => $answer) {
-            $this->prompt->expects($this->at($index))
-                ->method('ask')
-                ->willReturn($answer);
-        }
+        $this->prompt->expects($this->any())
+            ->method('ask')
+            ->willReturnOnConsecutiveCalls(...$answers);
 
         // Remake the command to have this latest binding
         $this->commandCollection->add($this->container->resolve($commandClassName), true);
