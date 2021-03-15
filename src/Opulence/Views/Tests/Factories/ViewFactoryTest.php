@@ -33,7 +33,7 @@ class ViewFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->viewNameResolver = $this->createMock(IViewNameResolver::class);
         $this->viewReader = $this->createMock(IViewReader::class);

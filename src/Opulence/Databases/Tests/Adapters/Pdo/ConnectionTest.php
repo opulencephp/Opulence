@@ -29,7 +29,7 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->provider = new Provider();
         $this->server = new Server();
@@ -39,7 +39,7 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         $this->pdo = null;
     }

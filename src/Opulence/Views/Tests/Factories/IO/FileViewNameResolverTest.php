@@ -24,7 +24,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up files before any of the tests are run
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         $tmpDir = self::getTmpFilePath();
         $tmpSubDir = self::getTmpFileSubDirPath();
@@ -48,7 +48,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Deletes files after the tests are run
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass() : void
     {
         $files = glob(self::getTmpFilePath() . '/*');
 
@@ -92,7 +92,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->resolver = new FileViewNameResolver();
     }

@@ -33,7 +33,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->cache = new FileCache();
         $this->cachedRouteFilePath = __DIR__ . '/files/' . FileCache::DEFAULT_CACHED_ROUTES_FILE_NAME;
@@ -43,7 +43,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tears down the tests
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         if (file_exists($this->cachedRouteFilePath)) {
             @unlink($this->cachedRouteFilePath);

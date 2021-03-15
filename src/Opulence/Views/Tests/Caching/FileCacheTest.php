@@ -29,7 +29,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some setup before any tests
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         if (!is_dir(__DIR__ . '/tmp')) {
             mkdir(__DIR__ . '/tmp');
@@ -39,7 +39,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Performs some garbage collection
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass() : void
     {
         $files = glob(__DIR__ . '/tmp/*');
 
@@ -54,7 +54,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->fileSystem = new FileSystem();
         $this->cache = new FileCache(__DIR__ . '/tmp', 3600);

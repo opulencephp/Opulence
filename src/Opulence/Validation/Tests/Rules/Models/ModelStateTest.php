@@ -32,7 +32,7 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->rules = $this->getMockBuilder(Rules::class)
             ->disableOriginalConstructor()

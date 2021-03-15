@@ -29,7 +29,7 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $methods = ['get', 'decrBy', 'del', 'flushAll', 'incrBy', 'setEx'];
         $this->client = $this->getMockBuilder(Client::class)

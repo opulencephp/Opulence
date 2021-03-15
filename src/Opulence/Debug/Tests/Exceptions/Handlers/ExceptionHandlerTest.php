@@ -31,7 +31,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->renderer = $this->createMock(IExceptionRenderer::class);
@@ -42,7 +42,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         restore_exception_handler();
     }

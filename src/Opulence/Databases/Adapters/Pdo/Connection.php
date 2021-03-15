@@ -11,7 +11,6 @@
 namespace Opulence\Databases\Adapters\Pdo;
 
 use Opulence\Databases\IConnection;
-use Opulence\Databases\IStatement;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Server;
 use PDO;
@@ -21,7 +20,7 @@ use PDOException;
  * Defines an extension of the PDO library with lazy-connection
  * In other words, a database connection is only made if we absolutely need to, which gives us a performance gain
  */
-class Connection extends PDO implements IConnection
+class Connection implements IConnection
 {
     /** The name of the PDOStatement class to use */
     const PDO_STATEMENT_CLASS = 'Statement';
@@ -43,6 +42,9 @@ class Connection extends PDO implements IConnection
      * @var int
      */
     private $transactionCounter = 0;
+
+    /** @var PDO */
+    protected $pdo;
 
     /**
      * @param Provider $provider The database provider this connection uses
@@ -69,8 +71,8 @@ class Connection extends PDO implements IConnection
     {
         $this->connect();
 
-        if (!$this->transactionCounter++) {
-            return parent::beginTransaction();
+        if (!$this->pdo->transactionCounter++) {
+            return $this->pdo->beginTransaction();
         }
 
         return true;
@@ -86,7 +88,7 @@ class Connection extends PDO implements IConnection
     public function commit()
     {
         if (!--$this->transactionCounter) {
-            return parent::commit();
+            return $this->pdo->commit();
         }
 
         return true;
@@ -100,7 +102,7 @@ class Connection extends PDO implements IConnection
     {
         $this->connect();
 
-        return parent::errorCode();
+        return $this->pdo->errorCode();
     }
 
     /**
@@ -111,7 +113,7 @@ class Connection extends PDO implements IConnection
     {
         $this->connect();
 
-        return parent::errorInfo();
+        return $this->pdo->errorInfo();
     }
 
     /**
@@ -122,7 +124,7 @@ class Connection extends PDO implements IConnection
     {
         $this->connect();
 
-        return parent::exec($statement);
+        return $this->pdo->exec($statement);
     }
 
     /**
@@ -133,7 +135,7 @@ class Connection extends PDO implements IConnection
     {
         $this->connect();
 
-        return parent::getAttribute($attribute);
+        return $this->pdo->getAttribute($attribute);
     }
 
     /**
@@ -160,7 +162,7 @@ class Connection extends PDO implements IConnection
     {
         $this->connect();
 
-        return parent::inTransaction();
+        return $this->pdo->inTransaction();
     }
 
     /**
@@ -171,7 +173,7 @@ class Connection extends PDO implements IConnection
     {
         $this->connect();
 
-        return parent::lastInsertId($sequenceName);
+        return $this->pdo->lastInsertId($sequenceName);
     }
 
     /**
@@ -183,7 +185,7 @@ class Connection extends PDO implements IConnection
     {
         $this->connect();
 
-        return parent::prepare($statement, $driverOptions);
+        return $this->pdo->prepare($statement, $driverOptions);
     }
 
     /**
@@ -194,7 +196,7 @@ class Connection extends PDO implements IConnection
     {
         $this->connect();
 
-        return parent::query($statement);
+        return $this->pdo->query($statement);
     }
 
     /**
@@ -205,7 +207,7 @@ class Connection extends PDO implements IConnection
     {
         $this->connect();
 
-        return parent::quote($string, $parameterType);
+        return $this->pdo->quote($string, $parameterType);
     }
 
     /**
@@ -215,7 +217,7 @@ class Connection extends PDO implements IConnection
     public function rollBack()
     {
         if ($this->transactionCounter >= 0) {
-            return parent::rollBack();
+            return $this->pdo->rollBack();
         }
 
         $this->transactionCounter = 0;
@@ -231,7 +233,7 @@ class Connection extends PDO implements IConnection
     {
         $this->connect();
 
-        return parent::setAttribute($attribute, $value);
+        return $this->pdo->setAttribute($attribute, $value);
     }
 
     /**
@@ -241,20 +243,22 @@ class Connection extends PDO implements IConnection
      */
     private function connect()
     {
-        if (!$this->isConnected) {
-            parent::__construct(
-                $this->dsn,
-                $this->server->getUsername(),
-                $this->server->getPassword(),
-                $this->driverOptions
-            );
-            parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            parent::setAttribute(
-                PDO::ATTR_STATEMENT_CLASS,
-                [__NAMESPACE__ . '\\' . self::PDO_STATEMENT_CLASS, [$this]]
-            );
-
-            $this->isConnected = true;
+        if ($this->isConnected) {
+            return;
         }
+
+        $this->pdo = new PDO(
+            $this->dsn,
+            $this->server->getUsername(),
+            $this->server->getPassword(),
+            $this->driverOptions
+        );
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->pdo->setAttribute(
+            PDO::ATTR_STATEMENT_CLASS,
+            [__NAMESPACE__ . '\\' . self::PDO_STATEMENT_CLASS, [$this]]
+        );
+
+        $this->isConnected = true;
     }
 }

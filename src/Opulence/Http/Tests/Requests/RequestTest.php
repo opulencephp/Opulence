@@ -40,7 +40,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up all of the tests
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$cookieClone = $_COOKIE;
         self::$serverClone = $_SERVER;
@@ -51,7 +51,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->request = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV);
     }
@@ -59,7 +59,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         $_COOKIE = self::$cookieClone;
         $_SERVER = self::$serverClone;

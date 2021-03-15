@@ -25,7 +25,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->condition = $this->createMock(ICondition::class);
         $this->condition->expects($this->any())

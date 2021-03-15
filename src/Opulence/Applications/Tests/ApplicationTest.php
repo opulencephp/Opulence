@@ -29,7 +29,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->dispatcher = $this->createMock(ITaskDispatcher::class);
         $this->application = new Application($this->dispatcher);

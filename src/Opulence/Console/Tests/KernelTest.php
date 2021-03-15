@@ -42,7 +42,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->compiler = new CommandCompiler();
         $this->commands = new CommandCollection($this->compiler);

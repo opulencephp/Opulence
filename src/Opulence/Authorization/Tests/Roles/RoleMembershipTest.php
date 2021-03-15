@@ -26,7 +26,7 @@ class RoleMembershipTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->role = new Role(1, 'foo');
         $this->membership = new RoleMembership(1, 2, $this->role);

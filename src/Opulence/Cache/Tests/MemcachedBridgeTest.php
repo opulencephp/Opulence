@@ -29,7 +29,7 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $methods = ['decrement', 'delete', 'flush', 'get', 'getResultCode', 'increment', 'set'];
         $this->client = $this->getMockBuilder(Client::class)

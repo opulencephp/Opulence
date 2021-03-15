@@ -101,7 +101,7 @@ abstract class IntegrationTestCase extends TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->requestParser = new ArrayListParser();
         $this->commandCollection = $this->container->resolve(CommandCollection::class);

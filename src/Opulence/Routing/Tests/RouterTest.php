@@ -46,7 +46,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         /** @var IDependencyResolver|\PHPUnit_Framework_MockObject_MockObject $dependencyResolver */
         $dependencyResolver = $this->createMock(IDependencyResolver::class);

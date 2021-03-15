@@ -17,14 +17,17 @@ use PDOStatement;
 /**
  * Defines an extension of PDOStatement
  */
-class Statement extends PDOStatement implements IStatement
+class Statement implements IStatement
 {
+    /** @var PDOStatement */
+    protected $pdoStatement;
+
     /**
      * We need this because PDO is expecting a private/protected constructor in PDOStatement
      */
     protected function __construct()
     {
-        // Don't do anything
+        $this->pdoStatement = new PDOStatement();
     }
 
     /**
@@ -32,7 +35,7 @@ class Statement extends PDOStatement implements IStatement
      */
     public function bindParam($parameter, &$variable, $dataType = PDO::PARAM_STR, $length = null, $driverOptions = null)
     {
-        return parent::bindParam($parameter, $variable, $dataType, $length, $driverOptions);
+        return $this->pdoStatement->bindParam($parameter, $variable, $dataType, $length, $driverOptions);
     }
 
     /**
@@ -40,7 +43,7 @@ class Statement extends PDOStatement implements IStatement
      */
     public function bindValue($parameter, $value, $dataType = PDO::PARAM_STR)
     {
-        return parent::bindValue($parameter, $value, $dataType);
+        return $this->pdoStatement->bindValue($parameter, $value, $dataType);
     }
 
     /**
@@ -77,7 +80,7 @@ class Statement extends PDOStatement implements IStatement
      */
     public function execute($parameters = null)
     {
-        return parent::execute($parameters);
+        return $this->pdoStatement->execute($parameters);
     }
 
     /**
@@ -86,18 +89,18 @@ class Statement extends PDOStatement implements IStatement
     public function fetch($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE, $cursorOrientation = null, $cursorOffset = null)
     {
         if ($fetchStyle === null && $cursorOrientation === null && $cursorOffset === null) {
-            return parent::fetch();
+            return $this->pdoStatement->fetch();
         }
 
         if ($cursorOrientation === null && $cursorOffset === null) {
-            return parent::fetch($fetchStyle);
+            return $this->pdoStatement->fetch($fetchStyle);
         }
 
         if ($cursorOffset === null) {
-            return parent::fetch($fetchStyle, $cursorOrientation);
+            return $this->pdoStatement->fetch($fetchStyle, $cursorOrientation);
         }
 
-        return parent::fetch($fetchStyle, $cursorOrientation, $cursorOffset);
+        return $this->pdoStatement->fetch($fetchStyle, $cursorOrientation, $cursorOffset);
     }
 
     /**
@@ -106,18 +109,18 @@ class Statement extends PDOStatement implements IStatement
     public function fetchAll($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE, $fetchArgument = null, $ctorArgs = null)
     {
         if ($fetchStyle === null && $fetchArgument === null && $ctorArgs === null) {
-            return parent::fetchAll();
+            return $this->pdoStatement->fetchAll();
         }
 
         if ($fetchArgument === null && $ctorArgs === null) {
-            return parent::fetchAll($fetchStyle);
+            return $this->pdoStatement->fetchAll($fetchStyle);
         }
 
         if ($ctorArgs === null) {
-            return parent::fetchAll($fetchStyle, $fetchArgument);
+            return $this->pdoStatement->fetchAll($fetchStyle, $fetchArgument);
         }
 
-        return parent::fetchAll($fetchStyle, $fetchArgument, $ctorArgs);
+        return $this->pdoStatement->fetchAll($fetchStyle, $fetchArgument, $ctorArgs);
     }
 
     /**
@@ -125,7 +128,7 @@ class Statement extends PDOStatement implements IStatement
      */
     public function fetchColumn($columnNumber = 0)
     {
-        return parent::fetchColumn($columnNumber);
+        return $this->pdoStatement->fetchColumn($columnNumber);
     }
 
     /**
@@ -134,13 +137,53 @@ class Statement extends PDOStatement implements IStatement
     public function setFetchMode($fetchMode, $arg2 = null, $arg3 = null)
     {
         if ($arg2 === null && $arg3 === null) {
-            return parent::setFetchMode($fetchMode);
+            return $this->pdoStatement->setFetchMode($fetchMode);
         }
 
         if ($arg3 === null) {
-            return parent::setFetchMode($fetchMode, $arg2);
+            return $this->pdoStatement->setFetchMode($fetchMode, $arg2);
         }
 
-        return parent::setFetchMode($fetchMode, $arg2, $arg3);
+        return $this->pdoStatement->setFetchMode($fetchMode, $arg2, $arg3);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function closeCursor()
+    {
+        return $this->pdoStatement->closeCursor();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function columnCount()
+    {
+        return $this->pdoStatement->columnCount();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function errorCode()
+    {
+        return $this->pdoStatement->errorCode();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function errorInfo()
+    {
+        return $this->pdoStatement->errorInfo();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rowCount()
+    {
+        return $this->pdoStatement->rowCount();
     }
 }

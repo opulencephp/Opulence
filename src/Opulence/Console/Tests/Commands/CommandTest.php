@@ -40,7 +40,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->commandCollection = new CommandCollection(new CommandCompiler());
         $this->commandCollection->add(new HappyHolidayCommand($this->commandCollection));

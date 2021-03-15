@@ -26,7 +26,7 @@ class BootstrapperResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->resolver = new BootstrapperResolver();
     }

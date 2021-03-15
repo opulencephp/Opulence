@@ -32,7 +32,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->roleRepository = $this->createMock(IRoleRepository::class);
         $this->roleMembershipRepository = $this->createMock(IRoleMembershipRepository::class);

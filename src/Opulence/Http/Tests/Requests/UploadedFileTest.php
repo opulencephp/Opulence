@@ -28,7 +28,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Tears down the class
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass() : void
     {
         $files = glob(__DIR__ . '/tmp/*');
 
@@ -44,7 +44,7 @@ class UploadedFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->file = new MockUploadedFile(
             __DIR__ . self::UPLOADED_FILE_FILENAME,

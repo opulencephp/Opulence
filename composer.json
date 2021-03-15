@@ -29,7 +29,7 @@
     ]
   },
   "require": {
-    "php": "^7.1",
+    "php": "^7.3 || ^8.0",
     "ext-openssl": "*",
     "ext-mbstring": "*",
     "jeremeamia/superclosure": "~2.2",
@@ -39,7 +39,10 @@
     "ext-pdo": "*",
     "phpredis/phpredis": "3.0.*",
     "predis/predis": "1.1.*@dev",
-    "phpunit/phpunit": "~7.0"
+    "phpunit/phpunit": "~9.0"
+  },
+  "suggest": {
+    "ext-pdo": "Allows database access"
   },
   "repositories": [
     {

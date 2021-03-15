@@ -14,6 +14,11 @@ use InvalidArgumentException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use ReflectionClass;
+use ReflectionException;
+
+if (!defined('T_NAME_QUALIFIED')) {
+    define('T_NAME_QUALIFIED', 'T_NAME_QUALIFIED');
+}
 
 /**
  * Defines the migration file finder
@@ -25,7 +30,7 @@ class FileMigrationFinder
      *
      * @param string|array $paths The path or list of paths to search
      * @return string[] The list of all migration class names
-     * @throws InvalidArgumentException Thrown if the paths are not a string or array
+     * @throws InvalidArgumentException|ReflectionException Thrown if the paths are not a string or array
      */
     public function findAll($paths) : array
     {
@@ -96,7 +101,7 @@ class FileMigrationFinder
 
                     // Collect all the namespace parts and separators
                     while (isset($tokens[++$i][1])) {
-                        if (in_array($tokens[$i][0], [T_NS_SEPARATOR, T_STRING])) {
+                        if (in_array($tokens[$i][0], [T_NS_SEPARATOR, T_STRING, T_NAME_QUALIFIED])) {
                             $namespace .= $tokens[$i][1];
                         }
                     }

@@ -29,7 +29,7 @@ class BootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->resolver = $this->createMock(IBootstrapperResolver::class);
         $this->factory = new BootstrapperRegistryFactory($this->resolver);

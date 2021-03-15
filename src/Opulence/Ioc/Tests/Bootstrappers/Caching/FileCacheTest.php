@@ -65,7 +65,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->cachedRegistryFilePath = __DIR__ . '/files/cachedRegistry.json';
         $this->cache = new FileCache($this->cachedRegistryFilePath);
@@ -75,7 +75,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tears down the tests
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         if (file_exists($this->cachedRegistryFilePath)) {
             @unlink($this->cachedRegistryFilePath);
