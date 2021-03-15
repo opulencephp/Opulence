@@ -305,7 +305,7 @@ class Container implements IContainer
         foreach ($unresolvedParameters as $parameter) {
             $resolvedParameter = null;
 
-            $className = ReflectionHelper::getClassName($parameter);
+            $className = ReflectionHelper::getParameterClassName($parameter);
 
             if (is_null($className) || !(class_exists($className) || interface_exists($className))) {
                 // The parameter is a primitive

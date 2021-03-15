@@ -19,7 +19,29 @@ use ReflectionParameter;
  */
 class ReflectionHelper
 {
-    public static function getClassName(ReflectionParameter $parameter) : ?string
+    /**
+     * @param ReflectionParameter $parameter
+     * @return string|null
+     */
+    public static function getParameterClassName(ReflectionParameter $parameter) : ?string
+    {
+        $typeName = static::getParameterTypeName($parameter);
+        if (null === $typeName) {
+            return null;
+        }
+
+        if (class_exists($typeName) || interface_exists($typeName)) {
+            return $typeName;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param ReflectionParameter $parameter
+     * @return string|null
+     */
+    public static function getParameterTypeName(ReflectionParameter $parameter) : ?string
     {
         $parameterType = $parameter->getType();
         if ($parameterType === null) {

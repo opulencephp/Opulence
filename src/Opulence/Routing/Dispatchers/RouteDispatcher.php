@@ -181,8 +181,7 @@ class RouteDispatcher implements IRouteDispatcher
 
         // Match the route variables to the method parameters
         foreach ($reflectionParameters as $parameter) {
-
-            $className = ReflectionHelper::getClassName($parameter);
+            $className = ReflectionHelper::getParameterClassName($parameter);
 
             if ($acceptObjectParameters && $className !== null) {
                 $resolvedParameters[$parameter->getPosition()] = $this->dependencyResolver->resolve($className);
