@@ -83,7 +83,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-1.1": "1.1.x-dev"
+      "dev-1.2": "1.2.x-dev"
     }
   },
   "minimum-stability": "dev"

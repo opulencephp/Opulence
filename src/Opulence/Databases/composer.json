@@ -26,12 +26,12 @@
     ]
   },
   "require": {
-    "php": "^7.1",
+    "php": "^7.3 || ^8.0",
     "ext-pdo": "*"
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "1.1.x-dev"
+      "dev-master": "1.2.x-dev"
     }
   },
   "minimum-stability": "dev"
