@@ -35,7 +35,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->userRepository = $this->createMock(IUserRepository::class);
         $this->roleRepository = $this->createMock(IRoleRepository::class);
@@ -51,14 +51,10 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $this->roleRepository->expects($this->once())
             ->method('getRoleNamesForSubject')
             ->willReturn(['role']);
-        $this->credential->expects($this->at(0))
+        $this->credential->expects($this->exactly(2))
             ->method('getValue')
-            ->with('username')
-            ->willReturn('foo');
-        $this->credential->expects($this->at(1))
-            ->method('getValue')
-            ->with('password')
-            ->willReturn('password');
+            ->withConsecutive(['username'], ['password'])
+            ->willReturnOnConsecutiveCalls('foo', 'password');
         $user = $this->createMock(IUser::class);
         $user->expects($this->once())
             ->method('getHashedPassword')
@@ -84,14 +80,10 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
      */
     public function testIncorrectPasswordReturnsFalse()
     {
-        $this->credential->expects($this->at(0))
+        $this->credential->expects($this->exactly(2))
             ->method('getValue')
-            ->with('username')
-            ->willReturn('foo');
-        $this->credential->expects($this->at(1))
-            ->method('getValue')
-            ->with('password')
-            ->willReturn('bar');
+            ->withConsecutive(['username'], ['password'])
+            ->willReturnOnConsecutiveCalls('foo', 'password');
         $user = $this->createMock(IUser::class);
         $user->expects($this->once())
             ->method('getHashedPassword')
@@ -111,14 +103,10 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
      */
     public function testNonExistentUsernameReturnsFalse()
     {
-        $this->credential->expects($this->at(0))
+        $this->credential->expects($this->exactly(2))
             ->method('getValue')
-            ->with('username')
-            ->willReturn('foo');
-        $this->credential->expects($this->at(1))
-            ->method('getValue')
-            ->with('password')
-            ->willReturn('bar');
+            ->withConsecutive(['username'], ['password'])
+            ->willReturnOnConsecutiveCalls('foo', 'password');
         $this->userRepository->expects($this->once())
             ->method('getByUsername')
             ->with('foo')
@@ -134,14 +122,10 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnsetPasswordCredentialReturnsFalse()
     {
-        $this->credential->expects($this->at(0))
+        $this->credential->expects($this->exactly(2))
             ->method('getValue')
-            ->with('username')
-            ->willReturn('foo');
-        $this->credential->expects($this->at(1))
-            ->method('getValue')
-            ->with('password')
-            ->willReturn(null);
+            ->withConsecutive(['username'], ['password'])
+            ->willReturnOnConsecutiveCalls('foo', null);
         $subject = null;
         $error = null;
         $this->assertFalse($this->authenticator->authenticate($this->credential, $subject, $error));
@@ -153,14 +137,10 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnsetUsernameCredentialReturnsFalse()
     {
-        $this->credential->expects($this->at(0))
+        $this->credential->expects($this->exactly(2))
             ->method('getValue')
-            ->with('username')
-            ->willReturn(null);
-        $this->credential->expects($this->at(1))
-            ->method('getValue')
-            ->with('password')
-            ->willReturn('foo');
+            ->withConsecutive(['username'], ['password'])
+            ->willReturnOnConsecutiveCalls(null, 'password');
         $subject = null;
         $error = null;
         $this->assertFalse($this->authenticator->authenticate($this->credential, $subject, $error));

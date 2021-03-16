@@ -26,7 +26,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->bridge = $this->createMock(ICacheBridge::class);
         $this->handler = new CacheSessionHandler($this->bridge, 123);

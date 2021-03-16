@@ -13,6 +13,7 @@ namespace Opulence\Routing\Dispatchers;
 use Closure;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
+use Opulence\Ioc\ReflectionHelper;
 use Opulence\Routing\Controller;
 use Opulence\Routing\Middleware\IMiddleware;
 use Opulence\Routing\Middleware\MiddlewareParameters;
@@ -180,8 +181,9 @@ class RouteDispatcher implements IRouteDispatcher
 
         // Match the route variables to the method parameters
         foreach ($reflectionParameters as $parameter) {
-            if ($acceptObjectParameters && $parameter->getClass() !== null) {
-                $className = $parameter->getClass()->getName();
+            $className = ReflectionHelper::getParameterClassName($parameter);
+
+            if ($acceptObjectParameters && $className !== null) {
                 $resolvedParameters[$parameter->getPosition()] = $this->dependencyResolver->resolve($className);
             } elseif (isset($pathVars[$parameter->getName()])) {
                 // There is a value set in the route

@@ -28,7 +28,7 @@ class ContainerDependencyResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->container = $this->createMock(IContainer::class);
         $this->dependencyResolver = new ContainerDependencyResolver($this->container);

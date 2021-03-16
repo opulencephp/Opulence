@@ -27,7 +27,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $xssFilter = new XssFilter();
         /** @var ICache|\PHPUnit_Framework_MockObject_MockObject $cache */

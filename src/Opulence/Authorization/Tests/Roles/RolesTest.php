@@ -32,7 +32,7 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     /**
      * Tests up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->roleRepository = $this->createMock(IRoleRepository::class);
         $this->roleMembershipRepository = $this->createMock(IRoleMembershipRepository::class);
@@ -172,19 +172,13 @@ class RolesTest extends \PHPUnit\Framework\TestCase
             new RoleMembership(4, 2, new Role(5, 'bar')),
             new RoleMembership(6, 2, new Role(7, 'baz'))
         ];
-        $this->roleMembershipRepository->expects($this->at(0))
+        $this->roleMembershipRepository->expects($this->once())
             ->method('getBySubjectId')
             ->with(2)
             ->willReturn($memberships);
-        $this->roleMembershipRepository->expects($this->at(1))
+        $this->roleMembershipRepository->expects($this->exactly(3))
             ->method('delete')
-            ->with($memberships[0]);
-        $this->roleMembershipRepository->expects($this->at(2))
-            ->method('delete')
-            ->with($memberships[1]);
-        $this->roleMembershipRepository->expects($this->at(3))
-            ->method('delete')
-            ->with($memberships[2]);
+            ->withConsecutive([$memberships[0]], [$memberships[1]], [$memberships[2]]);
         $this->roles->removeAllRolesFromSubject(2);
     }
 
@@ -198,16 +192,13 @@ class RolesTest extends \PHPUnit\Framework\TestCase
             new RoleMembership(4, 2, new Role(5, 'bar')),
             new RoleMembership(6, 2, new Role(7, 'baz'))
         ];
-        $this->roleMembershipRepository->expects($this->at(0))
+        $this->roleMembershipRepository->expects($this->once())
             ->method('getBySubjectId')
             ->with(2)
             ->willReturn($memberships);
-        $this->roleMembershipRepository->expects($this->at(1))
+        $this->roleMembershipRepository->expects($this->exactly(2))
             ->method('delete')
-            ->with($memberships[0]);
-        $this->roleMembershipRepository->expects($this->at(2))
-            ->method('delete')
-            ->with($memberships[1]);
+            ->withConsecutive([$memberships[0]], [$memberships[1]]);
         $this->roles->removeRolesFromSubject(2, ['foo', 'bar']);
     }
 

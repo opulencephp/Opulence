@@ -29,7 +29,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->dispatcher = $this->createMock(ITaskDispatcher::class);
         $this->application = new Application($this->dispatcher);
@@ -40,18 +40,15 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
      */
     public function testApplicationIsNotShutdownTwice()
     {
-        $this->dispatcher->expects($this->at(0))
+        $this->dispatcher
+            ->expects($this->exactly(4))
             ->method('dispatch')
-            ->with(TaskTypes::PRE_START);
-        $this->dispatcher->expects($this->at(1))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_START);
-        $this->dispatcher->expects($this->at(2))
-            ->method('dispatch')
-            ->with(TaskTypes::PRE_SHUTDOWN);
-        $this->dispatcher->expects($this->at(3))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_SHUTDOWN);
+            ->withConsecutive(
+                [TaskTypes::PRE_START],
+                [TaskTypes::POST_START],
+                [TaskTypes::PRE_SHUTDOWN],
+                [TaskTypes::POST_SHUTDOWN],
+            );
         $this->application->start();
         $this->application->shutDown();
         $this->application->shutDown();
@@ -62,12 +59,10 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
      */
     public function testApplicationIsNotStartedTwice()
     {
-        $this->dispatcher->expects($this->at(0))
+        $this->dispatcher
+            ->expects($this->exactly(2))
             ->method('dispatch')
-            ->with(TaskTypes::PRE_START);
-        $this->dispatcher->expects($this->at(1))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_START);
+            ->withConsecutive([TaskTypes::PRE_START], [TaskTypes::POST_START]);
         $this->application->start();
         $this->application->start();
     }
@@ -78,10 +73,13 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     public function testBadPostShutdownTask()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->dispatcher->expects($this->at(3))
+        $this->dispatcher->expects($this->any())
             ->method('dispatch')
-            ->with(TaskTypes::POST_SHUTDOWN)
-            ->will($this->throwException(new InvalidArgumentException('foo')));
+            ->willReturnCallback(function($arg){
+                if ($arg === TaskTypes::POST_SHUTDOWN) {
+                    throw new InvalidArgumentException('foo');
+                }
+            });
         $this->assertNull($this->application->start());
         $this->assertNull($this->application->shutDown());
         $this->assertFalse($this->application->isRunning());
@@ -93,9 +91,13 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     public function testBadPostStartTask()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->dispatcher->expects($this->at(1))
+        $this->dispatcher->expects($this->any())
             ->method('dispatch')
-            ->will($this->throwException(new InvalidArgumentException('foo')));
+            ->willReturnCallback(function($arg){
+                if ($arg === TaskTypes::POST_START) {
+                    throw new InvalidArgumentException('foo');
+                }
+            });
         $this->assertNull($this->application->start());
         $this->assertFalse($this->application->isRunning());
     }
@@ -106,10 +108,13 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     public function testBadPreShutdownTask()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->dispatcher->expects($this->at(2))
+        $this->dispatcher->expects($this->any())
             ->method('dispatch')
-            ->with(TaskTypes::PRE_SHUTDOWN)
-            ->will($this->throwException(new InvalidArgumentException('foo')));
+            ->willReturnCallback(function($arg) {
+                if ($arg === TaskTypes::PRE_SHUTDOWN) {
+                    throw new InvalidArgumentException('foo');
+                }
+            });
         $this->assertNull($this->application->start());
         $this->assertNull($this->application->shutDown());
         $this->assertFalse($this->application->isRunning());
@@ -194,18 +199,14 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringPostShutdownTask()
     {
-        $this->dispatcher->expects($this->at(0))
+        $this->dispatcher->expects($this->exactly(4))
             ->method('dispatch')
-            ->with(TaskTypes::PRE_START);
-        $this->dispatcher->expects($this->at(1))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_START);
-        $this->dispatcher->expects($this->at(2))
-            ->method('dispatch')
-            ->with(TaskTypes::PRE_SHUTDOWN);
-        $this->dispatcher->expects($this->at(3))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_SHUTDOWN);
+            ->withConsecutive(
+                [TaskTypes::PRE_START],
+                [TaskTypes::POST_START],
+                [TaskTypes::PRE_SHUTDOWN],
+                [TaskTypes::POST_SHUTDOWN],
+            );
         $this->application->start();
         $this->application->shutDown();
     }
@@ -215,12 +216,12 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringPostStartTask()
     {
-        $this->dispatcher->expects($this->at(0))
+        $this->dispatcher->expects($this->exactly(2))
             ->method('dispatch')
-            ->with(TaskTypes::PRE_START);
-        $this->dispatcher->expects($this->at(1))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_START);
+            ->withConsecutive(
+                [TaskTypes::PRE_START],
+                [TaskTypes::POST_START],
+            );
         $this->application->start();
     }
 
@@ -229,18 +230,14 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringPreAndPostShutdownTasks()
     {
-        $this->dispatcher->expects($this->at(0))
+        $this->dispatcher->expects($this->exactly(4))
             ->method('dispatch')
-            ->with(TaskTypes::PRE_START);
-        $this->dispatcher->expects($this->at(1))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_START);
-        $this->dispatcher->expects($this->at(2))
-            ->method('dispatch')
-            ->with(TaskTypes::PRE_SHUTDOWN);
-        $this->dispatcher->expects($this->at(3))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_SHUTDOWN);
+            ->withConsecutive(
+                [TaskTypes::PRE_START],
+                [TaskTypes::POST_START],
+                [TaskTypes::PRE_SHUTDOWN],
+                [TaskTypes::POST_SHUTDOWN],
+            );
         $this->application->start();
         $this->application->shutDown();
     }
@@ -250,12 +247,12 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringPreAndPostStartTasks()
     {
-        $this->dispatcher->expects($this->at(0))
+        $this->dispatcher->expects($this->exactly(2))
             ->method('dispatch')
-            ->with(TaskTypes::PRE_START);
-        $this->dispatcher->expects($this->at(1))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_START);
+            ->withConsecutive(
+                [TaskTypes::PRE_START],
+                [TaskTypes::POST_START],
+            );
         $this->application->start();
     }
 
@@ -264,18 +261,14 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringPreShutdownTask()
     {
-        $this->dispatcher->expects($this->at(0))
+        $this->dispatcher->expects($this->exactly(4))
             ->method('dispatch')
-            ->with(TaskTypes::PRE_START);
-        $this->dispatcher->expects($this->at(1))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_START);
-        $this->dispatcher->expects($this->at(2))
-            ->method('dispatch')
-            ->with(TaskTypes::PRE_SHUTDOWN);
-        $this->dispatcher->expects($this->at(3))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_SHUTDOWN);
+            ->withConsecutive(
+                [TaskTypes::PRE_START],
+                [TaskTypes::POST_START],
+                [TaskTypes::PRE_SHUTDOWN],
+                [TaskTypes::POST_SHUTDOWN],
+            );
         $this->application->start();
         $this->application->shutDown();
     }
@@ -285,12 +278,12 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringPreStartTask()
     {
-        $this->dispatcher->expects($this->at(0))
+        $this->dispatcher->expects($this->exactly(2))
             ->method('dispatch')
-            ->with(TaskTypes::PRE_START);
-        $this->dispatcher->expects($this->at(1))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_START);
+            ->withConsecutive(
+                [TaskTypes::PRE_START],
+                [TaskTypes::POST_START],
+            );
         $this->application->start();
     }
 
@@ -299,18 +292,14 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringShutdownTask()
     {
-        $this->dispatcher->expects($this->at(0))
+        $this->dispatcher->expects($this->exactly(4))
             ->method('dispatch')
-            ->with(TaskTypes::PRE_START);
-        $this->dispatcher->expects($this->at(1))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_START);
-        $this->dispatcher->expects($this->at(2))
-            ->method('dispatch')
-            ->with(TaskTypes::PRE_SHUTDOWN);
-        $this->dispatcher->expects($this->at(3))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_SHUTDOWN);
+            ->withConsecutive(
+                [TaskTypes::PRE_START],
+                [TaskTypes::POST_START],
+                [TaskTypes::PRE_SHUTDOWN],
+                [TaskTypes::POST_SHUTDOWN],
+            );
         $this->application->start();
         $shutdownValue = null;
         $this->assertNull($this->application->shutDown(function () use (&$shutdownValue) {
@@ -324,12 +313,12 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringStartTask()
     {
-        $this->dispatcher->expects($this->at(0))
+        $this->dispatcher->expects($this->exactly(2))
             ->method('dispatch')
-            ->with(TaskTypes::PRE_START);
-        $this->dispatcher->expects($this->at(1))
-            ->method('dispatch')
-            ->with(TaskTypes::POST_START);
+            ->withConsecutive(
+                [TaskTypes::PRE_START],
+                [TaskTypes::POST_START],
+            );
         $startValue = '';
         $this->assertNull($this->application->start(function () use (&$startValue) {
             $startValue = 'baz';

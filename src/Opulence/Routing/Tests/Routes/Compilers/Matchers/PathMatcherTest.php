@@ -29,7 +29,7 @@ class PathMatcherTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->matcher = new PathMatcher();
         $this->request = $this->getMockBuilder(Request::class)

@@ -38,7 +38,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);
         /** @var ErrorTemplateRegistry|\PHPUnit_Framework_MockObject_MockObject $errorTemplateRegistry */
@@ -106,14 +106,10 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     public function testRulePassResultsAreRespected()
     {
         $rules = $this->getRules();
-        $rules->expects($this->at(0))
+        $rules->expects($this->exactly(2))
             ->method('pass')
-            ->with('bar', ['baz' => 'blah'])
-            ->willReturn(true);
-        $rules->expects($this->at(1))
-            ->method('pass')
-            ->with('dave', ['is' => 'awesome'])
-            ->willReturn(false);
+            ->withConsecutive(['bar', ['baz' => 'blah']], ['dave', ['is' => 'awesome']])
+            ->willReturnOnConsecutiveCalls(true, false);
         $this->rulesFactory->expects($this->exactly(2))
             ->method('createRules')
             ->willReturn($rules);

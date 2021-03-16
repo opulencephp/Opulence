@@ -23,7 +23,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->parameters = new Collection([]);
     }

@@ -29,7 +29,7 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->encrypterWithPassword = new Encrypter(new Password('abcdefghijklmnoq'));
         $this->encrypterWithKey = new Encrypter(new Key(str_repeat('a', 32)));

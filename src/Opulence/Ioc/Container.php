@@ -134,7 +134,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function hasBinding(string $interface) : bool
+    public function hasBinding(string $interface): bool
     {
         if ($this->currentTarget !== self::$emptyTarget
             && $this->hasTargetedBinding($interface, $this->currentTarget)
@@ -238,7 +238,7 @@ class Container implements IContainer
      * @param string|null $target The target whose bindings we're checking
      * @return bool True if the targeted binding exists, otherwise false
      */
-    protected function hasTargetedBinding(string $interface, string $target = null) : bool
+    protected function hasTargetedBinding(string $interface, string $target = null): bool
     {
         return isset($this->bindings[$target][$interface]);
     }
@@ -299,18 +299,20 @@ class Container implements IContainer
         $class,
         array $unresolvedParameters,
         array $primitives
-    ) : array {
+    ): array {
         $resolvedParameters = [];
 
         foreach ($unresolvedParameters as $parameter) {
             $resolvedParameter = null;
 
-            if ($parameter->getClass() === null) {
+            $className = ReflectionHelper::getParameterClassName($parameter);
+
+            if (is_null($className) || !(class_exists($className) || interface_exists($className))) {
                 // The parameter is a primitive
                 $resolvedParameter = $this->resolvePrimitive($parameter, $primitives);
             } else {
                 // The parameter is an object
-                $parameterClassName = $parameter->getClass()->getName();
+                $parameterClassName = $className;
 
                 /**
                  * We need to first check if the input class is a target for the parameter
@@ -318,8 +320,8 @@ class Container implements IContainer
                  * Otherwise, attempt to resolve it universally
                  */
                 if ($class !== null && $this->hasTargetedBinding($parameterClassName, $class)) {
-                    $resolvedParameter = $this->for($class, function (IContainer $container) use ($parameter) {
-                        return $container->resolve($parameter->getClass()->getName());
+                    $resolvedParameter = $this->for($class, function (IContainer $container) use ($parameterClassName) {
+                        return $container->resolve($parameterClassName);
                     });
                 } else {
                     $resolvedParameter = $this->resolve($parameterClassName);

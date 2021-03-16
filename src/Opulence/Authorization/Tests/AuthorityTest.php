@@ -28,7 +28,7 @@ class AuthorityTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->permissionRegistry = new PermissionRegistry();
         $this->roles = $this->createMock(IRoles::class);

@@ -28,7 +28,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->exceptionHandler = $this->getMockBuilder(IExceptionHandler::class)
             ->disableOriginalConstructor()
@@ -39,7 +39,7 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Does some housekeeping before ending the tests
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         restore_error_handler();
     }

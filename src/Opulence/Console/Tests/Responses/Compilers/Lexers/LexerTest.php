@@ -26,7 +26,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->lexer = new Lexer();
     }

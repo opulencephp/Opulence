@@ -65,7 +65,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->cachedRegistryFilePath = __DIR__ . '/files/cachedRegistry.json';
         $this->cache = new FileCache($this->cachedRegistryFilePath);
@@ -75,7 +75,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /**
      * Tears down the tests
      */
-    public function tearDown()
+    public function tearDown() : void
     {
         if (file_exists($this->cachedRegistryFilePath)) {
             @unlink($this->cachedRegistryFilePath);
@@ -89,7 +89,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     {
         file_put_contents($this->cachedRegistryFilePath, 'foo');
         $this->cache->flush();
-        $this->assertFileNotExists($this->cachedRegistryFilePath);
+        $this->assertFileDoesNotExist($this->cachedRegistryFilePath);
     }
 
     /**
@@ -104,7 +104,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
             'lazy' => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
         ]);
         $this->assertNull($cache->get());
-        $this->assertFileNotExists($this->cachedRegistryFilePath);
+        $this->assertFileDoesNotExist($this->cachedRegistryFilePath);
     }
 
     /**

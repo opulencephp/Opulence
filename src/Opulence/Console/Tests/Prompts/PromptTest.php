@@ -33,7 +33,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->response = new Response(new Compiler(new Lexer(), new Parser()));
         $this->paddingFormatter = new PaddingFormatter();

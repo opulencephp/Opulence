@@ -23,7 +23,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->client = new Client(123, 'foo', 'bar');
     }

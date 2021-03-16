@@ -28,7 +28,7 @@ class AudienceVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->jwt = $this->getMockBuilder(SignedJwt::class)
             ->disableOriginalConstructor()

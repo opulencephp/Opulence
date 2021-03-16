@@ -30,7 +30,7 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->registry = new IdAccessorRegistry();
         $this->registry->registerIdAccessors(
@@ -53,15 +53,12 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     public function testEntityInterfaceAccessorsAutomaticallySet()
     {
         $entity = $this->createMock(IEntity::class);
-        $entity->expects($this->at(0))
+        $entity->expects($this->exactly(2))
             ->method('getId')
-            ->willReturn(1);
-        $entity->expects($this->at(1))
+            ->willReturnOnConsecutiveCalls(1, 2);
+        $entity->expects($this->once())
             ->method('setId')
             ->with(2);
-        $entity->expects($this->at(2))
-            ->method('getId')
-            ->willReturn(2);
         $this->assertEquals(1, $this->registry->getEntityId($entity));
         $this->registry->setEntityId($entity, 2);
         $this->assertEquals(2, $this->registry->getEntityId($entity));

@@ -27,7 +27,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->parsedRoute = new ParsedRoute(new Route('GET', '/', 'foo@bar'));
         $this->compiledRoute = new CompiledRoute($this->parsedRoute, true, ['foo' => 'bar']);

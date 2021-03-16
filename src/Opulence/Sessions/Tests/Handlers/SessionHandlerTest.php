@@ -28,7 +28,7 @@ class SessionHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->handler = $this->getMockForAbstractClass(SessionHandler::class);
         $this->encrypter = $this->createMock(ISessionEncrypter::class);

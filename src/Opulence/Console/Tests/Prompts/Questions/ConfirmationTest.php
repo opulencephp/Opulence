@@ -23,7 +23,7 @@ class ConfirmationTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->question = new Confirmation('Is Dave cool (yn)');
     }

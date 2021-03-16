@@ -29,7 +29,7 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $methods = ['decrement', 'delete', 'flush', 'get', 'getResultCode', 'increment', 'set'];
         $this->client = $this->getMockBuilder(Client::class)
@@ -51,12 +51,9 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfKeyExists()
     {
-        $this->client->expects($this->at(0))
+        $this->client->expects($this->exactly(2))
             ->method('get')
-            ->willReturn(false);
-        $this->client->expects($this->at(1))
-            ->method('get')
-            ->willReturn('bar');
+            ->willReturnOnConsecutiveCalls(false, 'bar');
         $this->assertFalse($this->bridge->has('foo'));
         $this->assertTrue($this->bridge->has('foo'));
     }
@@ -66,14 +63,10 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testDecrementingReturnsCorrectValues()
     {
-        $this->client->expects($this->at(0))
+        $this->client->expects($this->exactly(2))
             ->method('decrement')
-            ->with('dave:foo', 1)
-            ->willReturn(10);
-        $this->client->expects($this->at(1))
-            ->method('decrement')
-            ->with('dave:foo', 5)
-            ->willReturn(5);
+            ->withConsecutive(['dave:foo', 1], ['dave:foo', 5])
+            ->willReturnOnConsecutiveCalls(10, 5);
         // Test using default value
         $this->assertEquals(10, $this->bridge->decrement('foo'));
         // Test using a custom value
@@ -142,14 +135,10 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testIncrementingReturnsCorrectValues()
     {
-        $this->client->expects($this->at(0))
+        $this->client->expects($this->exactly(2))
             ->method('increment')
-            ->with('dave:foo', 1)
-            ->willReturn(2);
-        $this->client->expects($this->at(1))
-            ->method('increment')
-            ->with('dave:foo', 5)
-            ->willReturn(7);
+            ->withConsecutive(['dave:foo', 1], ['dave:foo', 5])
+            ->willReturnOnConsecutiveCalls(2, 7);
         // Test using default value
         $this->assertEquals(2, $this->bridge->increment('foo'));
         // Test using a custom value

@@ -38,7 +38,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);
         $this->errorTemplateRegistry = $this->createMock(ErrorTemplateRegistry::class);
@@ -164,22 +164,14 @@ class RulesTest extends \PHPUnit\Framework\TestCase
      */
     public function testConditionalRulesErrorsAreAdded()
     {
-        $this->errorTemplateRegistry->expects($this->at(0))
+        $this->errorTemplateRegistry->expects($this->exactly(2))
             ->method('getErrorTemplate')
-            ->with('the-field', 'equals')
-            ->willReturn('equals template');
-        $this->errorTemplateRegistry->expects($this->at(1))
-            ->method('getErrorTemplate')
-            ->with('the-field', 'email')
-            ->willReturn('email template');
-        $this->errorTemplateCompiler->expects($this->at(0))
+            ->withConsecutive(['the-field', 'equals'], ['the-field', 'email'])
+            ->willReturnOnConsecutiveCalls('equals template', 'email template');
+        $this->errorTemplateCompiler->expects($this->exactly(2))
             ->method('compile')
-            ->with('the-field', 'equals template', [])
-            ->willReturn('equals error');
-        $this->errorTemplateCompiler->expects($this->at(1))
-            ->method('compile')
-            ->with('the-field', 'email template', [])
-            ->willReturn('email error');
+            ->withConsecutive(['the-field', 'equals template', []], ['the-field', 'email template', []])
+            ->willReturnOnConsecutiveCalls('equals error', 'email error');
         $this->rules->condition(function () {
             return true;
         });
@@ -269,22 +261,14 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         $rule2->expects($this->once())
             ->method('passes')
             ->willReturn(true);
-        $this->ruleExtensionRegistry->expects($this->at(0))
+        $this->ruleExtensionRegistry->expects($this->exactly(2))
             ->method('hasRule')
-            ->with('foo')
+            ->withConsecutive(['foo'], ['bar'])
             ->willReturn(true);
-        $this->ruleExtensionRegistry->expects($this->at(1))
+        $this->ruleExtensionRegistry->expects($this->exactly(2))
             ->method('getRule')
-            ->with('foo')
-            ->willReturn($rule1);
-        $this->ruleExtensionRegistry->expects($this->at(2))
-            ->method('hasRule')
-            ->with('bar')
-            ->willReturn(true);
-        $this->ruleExtensionRegistry->expects($this->at(3))
-            ->method('getRule')
-            ->with('bar')
-            ->willReturn($rule2);
+            ->withConsecutive(['foo'], ['bar'])
+            ->willReturnOnConsecutiveCalls($rule1, $rule2);
         $this->rules->foo();
         $this->rules->bar();
         $this->assertTrue($this->rules->pass('blah', [], true));
@@ -304,22 +288,14 @@ class RulesTest extends \PHPUnit\Framework\TestCase
             ->willReturn(false);
         $rule2->expects($this->never())
             ->method('passes');
-        $this->ruleExtensionRegistry->expects($this->at(0))
+        $this->ruleExtensionRegistry->expects($this->exactly(2))
             ->method('hasRule')
-            ->with('foo')
+            ->withConsecutive(['foo'], ['bar'])
             ->willReturn(true);
-        $this->ruleExtensionRegistry->expects($this->at(1))
+        $this->ruleExtensionRegistry->expects($this->exactly(2))
             ->method('getRule')
-            ->with('foo')
-            ->willReturn($rule1);
-        $this->ruleExtensionRegistry->expects($this->at(2))
-            ->method('hasRule')
-            ->with('bar')
-            ->willReturn(true);
-        $this->ruleExtensionRegistry->expects($this->at(3))
-            ->method('getRule')
-            ->with('bar')
-            ->willReturn($rule2);
+            ->withConsecutive(['foo'], ['bar'])
+            ->willReturn($rule1, $rule2);
         $this->rules->foo();
         $this->rules->bar();
         $this->assertFalse($this->rules->pass('blah', [], true));

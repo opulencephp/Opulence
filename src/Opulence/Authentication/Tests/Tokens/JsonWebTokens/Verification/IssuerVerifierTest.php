@@ -30,7 +30,7 @@ class IssuerVerifierTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->verifier = new IssuerVerifier('foo');
         $this->jwt = $this->getMockBuilder(SignedJwt::class)

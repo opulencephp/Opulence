@@ -32,7 +32,7 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up the tests
      */
-    public function setUp()
+    public function setUp() : void
     {
         $this->rules = $this->getMockBuilder(Rules::class)
             ->disableOriginalConstructor()
@@ -53,15 +53,9 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     public function testInvalidModel()
     {
         $user = new User(1, 'Dave', 'foo');
-        $this->validator->expects($this->at(0))
+        $this->validator->expects($this->exactly(3))
             ->method('field')
-            ->with('id');
-        $this->validator->expects($this->at(1))
-            ->method('field')
-            ->with('name');
-        $this->validator->expects($this->at(2))
-            ->method('field')
-            ->with('email');
+            ->withConsecutive(['id'], ['name'], ['email']);
         $this->validator->expects($this->once())
             ->method('isValid')
             ->with([
@@ -87,15 +81,9 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
     public function testValidModel()
     {
         $user = new User(1, 'Dave', 'foo@bar.com');
-        $this->validator->expects($this->at(0))
+        $this->validator->expects($this->exactly(3))
             ->method('field')
-            ->with('id');
-        $this->validator->expects($this->at(1))
-            ->method('field')
-            ->with('name');
-        $this->validator->expects($this->at(2))
-            ->method('field')
-            ->with('email');
+            ->withConsecutive(['id'], ['name'], ['email']);
         $this->validator->expects($this->once())
             ->method('isValid')
             ->with([
