@@ -4,8 +4,8 @@
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
- * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ * @copyright Copyright (C) 2021 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/1.2/LICENSE.md
  */
 
 // We have to override the built-in functions in the library's namespace

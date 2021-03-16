@@ -24,7 +24,7 @@
     ]
   },
   "require": {
-    "php": "^7.1"
+    "php": "^7.3 || ^8.0"
   },
   "suggest": {
     "opulence/memcached": "Required for Memcached cache",
@@ -32,7 +32,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "1.1.x-dev"
+      "dev-master": "1.2.x-dev"
     }
   },
   "minimum-stability": "dev"

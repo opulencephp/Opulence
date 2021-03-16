@@ -24,8 +24,8 @@
     ]
   },
   "require": {
-    "php": "^7.1",
-    "opulence/http": "1.1.*",
+    "php": "^7.3 || ^8.0",
+    "opulence/http": "1.2.*",
     "jeremeamia/superclosure": "~2.2"
   },
   "suggest": {
@@ -35,7 +35,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "1.1.x-dev"
+      "dev-master": "1.2.x-dev"
     }
   },
   "minimum-stability": "dev"

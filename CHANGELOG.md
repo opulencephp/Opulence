@@ -1,3 +1,15 @@
+<h2>v1.2.0 (2021-3-15)</h2>
+
+<h3>General</h3>
+
+* Updated to require PHP 7.3
+* Added support for PHP 8.0
+* Updated to use PHPUnit 9.5
+
+<h3>Databases</h3>
+
+* `Connection` and `Statement` now compose `PDO` rather than extend it
+
 <h2>v1.1.13 (2020-4-5)</h2>
 
 <h3>HTTP</h3>
