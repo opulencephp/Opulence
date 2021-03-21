@@ -11,8 +11,7 @@
 namespace Opulence\Routing\Routes;
 
 use Opulence\Http\Requests\RequestMethods;
-use SuperClosure\Analyzer\AstAnalyzer;
-use SuperClosure\Serializer;
+use Opis\Closure\SerializableClosure;
 
 /**
  * Defines a list of routes that can be used by a router
@@ -70,13 +69,12 @@ class RouteCollection
      */
     public function __sleep() : array
     {
-        $serializer = new Serializer(new AstAnalyzer());
-
         foreach ($this->routes as $method => $routesByMethod) {
             /** @var ParsedRoute $route */
             foreach ($routesByMethod as $route) {
                 if ($route->usesCallable()) {
-                    $route->setControllerCallable($serializer->serialize($route->getController()));
+                    $wrapper = new SerializableClosure($route->getController());
+                    $route->setControllerCallable(serialize($wrapper));
                 }
             }
         }
@@ -89,13 +87,12 @@ class RouteCollection
      */
     public function __wakeup()
     {
-        $serializer = new Serializer(new AstAnalyzer());
-
         foreach ($this->routes as $method => $routesByMethod) {
             /** @var ParsedRoute $route */
             foreach ($routesByMethod as $route) {
                 if ($route->usesCallable()) {
-                    $route->setControllerCallable($serializer->unserialize($route->getController()));
+                    $wrapper = unserialize($route->getController());
+                    $route->setControllerCallable($wrapper->getClosure());
                 }
             }
         }
