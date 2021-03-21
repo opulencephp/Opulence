@@ -26,7 +26,7 @@
   "require": {
     "php": "^7.3 || ^8.0",
     "opulence/http": "1.2.*",
-    "jeremeamia/superclosure": "~2.2"
+    "opis/closure": "~3.6"
   },
   "suggest": {
     "opulence/ioc": "Required if you use the ContainerDependencyResolver",
