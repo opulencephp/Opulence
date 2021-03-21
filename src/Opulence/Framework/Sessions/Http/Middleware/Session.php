@@ -30,6 +30,8 @@ abstract class Session implements IMiddleware
     protected $session = null;
     /** @var SessionHandlerInterface The session handler used by the application */
     protected $sessionHandler = null;
+    /** @var string */
+    protected $savePath = '';
 
     /**
      * @param ISession $session The session used by the application
@@ -39,6 +41,14 @@ abstract class Session implements IMiddleware
     {
         $this->session = $session;
         $this->sessionHandler = $sessionHandler;
+    }
+
+    /**
+     * @param string $savePath
+     */
+    public function setSavePath(string $savePath) : void
+    {
+        $this->savePath = $savePath;
     }
 
     /**
@@ -87,7 +97,7 @@ abstract class Session implements IMiddleware
     {
         $this->gc();
         $this->session->setId($request->getCookies()->get($this->session->getName()));
-        $this->sessionHandler->open(null, $this->session->getName());
+        $this->sessionHandler->open($this->savePath, $this->session->getName());
         $sessionVars = @unserialize($this->sessionHandler->read($this->session->getId()));
 
         if ($sessionVars === false) {
