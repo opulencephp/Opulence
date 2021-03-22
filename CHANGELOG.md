@@ -1,3 +1,13 @@
+<h2>v1.2.1 (2021-3-22)</h2>
+
+<h3>Routing</h3>
+
+* Updated to use `opis/closure` over `jeremeamia/superclosure` for serializing closure routes
+
+<h3>Sessions</h3>
+
+* Fixed bug that prevented sessions from being opened
+
 <h2>v1.2.0 (2021-3-15)</h2>
 
 <h3>General</h3>
@@ -236,8 +246,8 @@
 
 <h3>Views</h3>
 * Added optional `$checkVars` parameter to `Opulence\Views\Caching\ICache::get()`, `has()`, and `set()`
-  * Previously, Opulence was incorrectly caching views by including the variables' values, which made it relatively useless when used in the Fortune transpiler
-  * Now, this parameter defaults to `false`.  To enable caching a view by its variables` values, simply set it to `true` in the various cache methods.
+    * Previously, Opulence was incorrectly caching views by including the variables' values, which made it relatively useless when used in the Fortune transpiler
+    * Now, this parameter defaults to `false`.  To enable caching a view by its variables` values, simply set it to `true` in the various cache methods.
 
 <h2>v1.0.3 (2017-01-02)</h2>
 
@@ -312,9 +322,9 @@
 * Removed `Opulence\Events\Event` and `Opulence\Events\IEvent`
 * Renamed `Opulence\Events\Dispatchers\EventDispatcher` to `SynchronousEventDispatcher`
 * Changed `Opulence\Events\Dispatchers\IEventDispatcher` to have only a single method:  `dispatch($eventName, $event)`
-  * `$event` is no longer restricted to only being an `IEvent` - it can be a POPO
-  * Events' propagation can no longer be stopped, which is for the best, architecturally
-  * This will make it much easier to add asynchronous event handling in the future with things like Azure Service Bus
+    * `$event` is no longer restricted to only being an `IEvent` - it can be a POPO
+    * Events' propagation can no longer be stopped, which is for the best, architecturally
+    * This will make it much easier to add asynchronous event handling in the future with things like Azure Service Bus
 
 <h2>v1.0.0-beta7 (2016-09-22)</h2>
 
@@ -324,16 +334,16 @@
 
 <h3>Deprecated</h3>
 * The Environment library was slimmed down, and some recently-made-irrelevant classes were marked as deprecated:
-  * `Opulence\Environments\Hosts\HostName`
-  * `Opulence\Environments\Hosts\HostRegex`
-  * `Opulence\Environments\Hosts\IHost`
-  * `Opulence\Environments\Resolvers\EnvironmentResolver`
-  * `Opulence\Environments\Resolvers\IEnvironmentResolver`
+    * `Opulence\Environments\Hosts\HostName`
+    * `Opulence\Environments\Hosts\HostRegex`
+    * `Opulence\Environments\Hosts\IHost`
+    * `Opulence\Environments\Resolvers\EnvironmentResolver`
+    * `Opulence\Environments\Resolvers\IEnvironmentResolver`
 
 <h3>Environments</h3>
 * Made all `Opulence\Environments\Environment` methods static
 * Removed `Opulence\Environments\Environment::getName()` and `setName()`
-  * Instead, simply read the variable that's holding that data, eg `Environment::getVar("ENV_NAME")`
+    * Instead, simply read the variable that's holding that data, eg `Environment::getVar("ENV_NAME")`
 
 <h3>Sessions</h3>
 * Improved speed of session garbage collection (issue #21)
@@ -349,19 +359,19 @@ This release consolidated bootstrappers into the `Ioc` library.  This makes them
 
 <h3>Ioc</h3>
 * Added the following:
-  * `Opulence\Ioc\Bootstrappers\Caching\FileCache`
-  * `Opulence\Ioc\Bootstrappers\Caching\ICache`
-  * `Opulence\Ioc\Bootstrappers\Dispatchers\BootstrapperDispatcher`
-  * `Opulence\Ioc\Bootstrappers\Dispatchers\IBootstrapperDispatcher`
-  * `Opulence\Ioc\Bootstrappers\Factories\BootstrapperRegistryFactory`
-  * `Opulence\Ioc\Bootstrappers\Factories\CachedBootstrapperRegistryFactory`
-  * `Opulence\Ioc\Bootstrappers\Factories\IBootstrapperRegistryFactory`
-  * `Opulence\Ioc\Bootstrappers\Bootstrapper`
-  * `Opulence\Ioc\Bootstrappers\BootstrapperRegistry`
-  * `Opulence\Ioc\Bootstrappers\BootstrapperResolver`
-  * `Opulence\Ioc\Bootstrappers\IBootstrapperRegistry`
-  * `Opulence\Ioc\Bootstrappers\IBootstrapperResolver`
-  * `Opulence\Ioc\Bootstrappers\ILazyBootstrapper`
+    * `Opulence\Ioc\Bootstrappers\Caching\FileCache`
+    * `Opulence\Ioc\Bootstrappers\Caching\ICache`
+    * `Opulence\Ioc\Bootstrappers\Dispatchers\BootstrapperDispatcher`
+    * `Opulence\Ioc\Bootstrappers\Dispatchers\IBootstrapperDispatcher`
+    * `Opulence\Ioc\Bootstrappers\Factories\BootstrapperRegistryFactory`
+    * `Opulence\Ioc\Bootstrappers\Factories\CachedBootstrapperRegistryFactory`
+    * `Opulence\Ioc\Bootstrappers\Factories\IBootstrapperRegistryFactory`
+    * `Opulence\Ioc\Bootstrappers\Bootstrapper`
+    * `Opulence\Ioc\Bootstrappers\BootstrapperRegistry`
+    * `Opulence\Ioc\Bootstrappers\BootstrapperResolver`
+    * `Opulence\Ioc\Bootstrappers\IBootstrapperRegistry`
+    * `Opulence\Ioc\Bootstrappers\IBootstrapperResolver`
+    * `Opulence\Ioc\Bootstrappers\ILazyBootstrapper`
 * Removed `Bootstrapper::initialize()` functionality because it doesn't serve a purpose anymore
 
 <h3>Query Builders</h3>
@@ -371,18 +381,19 @@ This release consolidated bootstrappers into the `Ioc` library.  This makes them
 
 <h3>Deprecated</h3>
 If Opulence ever moves to a standard HTTP request/response implementation, the `Routing` library shouldn't have any more dependencies on the Opulence `Http` library.  However, it still would have one because middleware previously existed in the `Http` library.  So, to potentially future-proof Opulence in the case that it adopts standardized request/response objects (not that we plan on doing so yet), the following classes are being deprecated:
-  * Deprecated `Opulence\Http\Middleware\IMiddleware` in favor of `Opulence\Routing\Middleware\IMiddleware`
-  * Deprecated `Opulence\Http\Middleware\MiddlewareParameters` in favor of `Opulence\Routing\Middleware\MiddlewareParameters`
-  * Deprecated `Opulence\Http\Middleware\ParameterizedMiddleware` in favor of `Opulence\Routing\Middleware\ParameterizedMiddleware`
+
+* Deprecated `Opulence\Http\Middleware\IMiddleware` in favor of `Opulence\Routing\Middleware\IMiddleware`
+* Deprecated `Opulence\Http\Middleware\MiddlewareParameters` in favor of `Opulence\Routing\Middleware\MiddlewareParameters`
+* Deprecated `Opulence\Http\Middleware\ParameterizedMiddleware` in favor of `Opulence\Routing\Middleware\ParameterizedMiddleware`
 
 <h2>v1.0.0-beta4 (2016-06-30)</h2>
 
 <h3>Backwards Incompatibilities</h3>
 * `Opulence\Cryptography\Encryption\Encrypter` no longer accepts a string as the encryption key (issue #13)
-  * An `Opulence\Cryptography\Encryption\Keys\Secret` is now passed in (`Key` and `Password` both extend `Secret`)
-  * Now, a key derivation function is run on it to generate encryption and authentication keys from the secret
+    * An `Opulence\Cryptography\Encryption\Keys\Secret` is now passed in (`Key` and `Password` both extend `Secret`)
+    * Now, a key derivation function is run on it to generate encryption and authentication keys from the secret
 * Increased encryption key length stored in `ENCRYPTION_KEY` environment variable from 16 bytes to 32 bytes
-  * To fix this, rerun `php apex encryption:generatekey` to create a new, suitably-long encryption key
+    * To fix this, rerun `php apex encryption:generatekey` to create a new, suitably-long encryption key
 
 <h3>Deprecated</h3>
 Deprecated names of various dispatcher classes in favor of more descriptive `{Model}Dispatcher` class names:
@@ -398,10 +409,10 @@ Deprecated names of various dispatcher classes in favor of more descriptive `{Mo
 
 <h3>Cryptography</h3>
 * `Opulence\Cryptography\Encryption\Encrypter` no longer accepts a string as the encryption key (issue #13)
-  * An `Opulence\Cryptography\Encryption\Keys\Secret` is now passed in (`Key` and `Password` both extend `Secret`)
-  * Now, a key derivation function is run on it to generate encryption and authentication keys from the secret
-  * Added `Opulence\Cryptography\Encryption\Keys\IKeyDeriver` and `Pbkdf2KeyDeriver`
-  * Added `Opulence\Cryptography\Encryption\Keys\Secret`, `Key`, and `Password`
+    * An `Opulence\Cryptography\Encryption\Keys\Secret` is now passed in (`Key` and `Password` both extend `Secret`)
+    * Now, a key derivation function is run on it to generate encryption and authentication keys from the secret
+    * Added `Opulence\Cryptography\Encryption\Keys\IKeyDeriver` and `Pbkdf2KeyDeriver`
+    * Added `Opulence\Cryptography\Encryption\Keys\Secret`, `Key`, and `Password`
 * Changed default cipher from `AES-128-CBC` to `AES-256-CTR`
 * Locked down cipher selection to `AES` ciphers in `CBC` or `CTR` modes
 * Updated `Opulence\Cryptography\Encryption\Encrypter` to use `random_bytes()` rather than `openssl_random_pseudo_bytes()` (issue #12)
@@ -415,17 +426,17 @@ Deprecated names of various dispatcher classes in favor of more descriptive `{Mo
 
 <h3>Backwards Incompatibilities</h3>
 * Passing by reference has been removed from all repositories and data mappers because it is not needed anymore.  The following methods have been updated to now pass by value:
-  * `Opulence\Authentication\Clients\Orm\IClientRepository::add()`, `IClientRepository::delete()`
-  * `Opulence\Authentication\Credentials\Orm\IJwtRepository::add()`, `IJwtRepository::delete()`
-  * `Opulence\Authentication\Tokens\Orm\IJwtRepository::add()`, `IJwtRepository::delete()`
-  * `Opulence\Authentication\Users\Orm\IUserRepository::add()`, `IUserRepository::delete()`
-  * `Opulence\Authorization\Roles\Orm\IRoleMembershipRepository::add()`, `IRoleMembershipRepository::delete()`
-  * `Opulence\Authorization\Roles\Orm\IRoleRepository::add()`, `IRoleRepository::delete()`
-  * `Opulence\Orm\ChangeTracking\IChangeTracker::startTracking()`, `ChangeTracker::startTracking()`
-  * `Opulence\Orm\DataMappers\IDataMapper::add()`, `IDataMapper::delete()`, `IDataMapper::update()`
-  * `Opulence\Orm\DataMappers\CachedSqlDataMapper::add()`, `CachedSqlDataMapper::delete()`, `CachedSqlDataMapper::update()`
-  * `Opulence\Orm\Repositories\IRepository::add()`, `IRepository::delete()`
-  * `Opulence\Orm\Repositories\Repository::add()`, `Repository::delete()`
+    * `Opulence\Authentication\Clients\Orm\IClientRepository::add()`, `IClientRepository::delete()`
+    * `Opulence\Authentication\Credentials\Orm\IJwtRepository::add()`, `IJwtRepository::delete()`
+    * `Opulence\Authentication\Tokens\Orm\IJwtRepository::add()`, `IJwtRepository::delete()`
+    * `Opulence\Authentication\Users\Orm\IUserRepository::add()`, `IUserRepository::delete()`
+    * `Opulence\Authorization\Roles\Orm\IRoleMembershipRepository::add()`, `IRoleMembershipRepository::delete()`
+    * `Opulence\Authorization\Roles\Orm\IRoleRepository::add()`, `IRoleRepository::delete()`
+    * `Opulence\Orm\ChangeTracking\IChangeTracker::startTracking()`, `ChangeTracker::startTracking()`
+    * `Opulence\Orm\DataMappers\IDataMapper::add()`, `IDataMapper::delete()`, `IDataMapper::update()`
+    * `Opulence\Orm\DataMappers\CachedSqlDataMapper::add()`, `CachedSqlDataMapper::delete()`, `CachedSqlDataMapper::update()`
+    * `Opulence\Orm\Repositories\IRepository::add()`, `IRepository::delete()`
+    * `Opulence\Orm\Repositories\Repository::add()`, `Repository::delete()`
 
 <h3>Deprecated</h3>
 * `Opulence\Cryptography\Utilities\Strings`
@@ -471,7 +482,7 @@ Deprecated names of various dispatcher classes in favor of more descriptive `{Mo
 
 <h3>Backwards Incompatibilities</h3>
 * Rewrote directory structure under `Opulence\Framework` to support eventual splitting of its subdirectories into their own repositories
-  * This will make is possible to, for example, use a library's bootstrapper without having to download all the other bootstrappers
+    * This will make is possible to, for example, use a library's bootstrapper without having to download all the other bootstrappers
 * Moved `Opulence\Framework\Bootstrappers\Authentication\AuthenticationBootstrapper` to `Opulence\Framework\Authentication\Bootstrappers\AuthenticationBootstrapper`
 * Moved `Opulence\Framework\Bootstrappers\Authorization\AuthorizationBootstrapper` to `Opulence\Framework\Authorization\Bootstrappers\AuthorizationBootstrapper`
 * Moved `Opulence\Framework\Bootstrappers\Console\Commands\CommandsBootstrapper` to `Opulence\Framework\Console\Bootstrappers\CommandsBootstrapper`
@@ -551,19 +562,19 @@ Deprecated names of various dispatcher classes in favor of more descriptive `{Mo
 
 <h3>IoC</h3>
 * Completely rewrote IoC container to specify binding scope when you bind to the container rather than when you resolve something from it
-  * For example, before, to get a singleton, you'd call `$container->bind($interface, $singletonClass)`, and then `$container->makeShared($interface)`
-  * Now, you call `$container->bindSingleton($interface, $singletonClass)`, and then `$container->resolve($interface)` to resolve an instance
+    * For example, before, to get a singleton, you'd call `$container->bind($interface, $singletonClass)`, and then `$container->makeShared($interface)`
+    * Now, you call `$container->bindSingleton($interface, $singletonClass)`, and then `$container->resolve($interface)` to resolve an instance
 * To bind a factory that will return the instance to bind, use `$container->bindFactory($interface, $factory)` method
 * To bind an instance of an object, use `$container->bindInstance($interface, $instance)`
 * To bind a prototype (non-singleton) class, use `$container->bindPrototype($interface, $prototypeClass)`
-  * Useful for interfaces previously resolve using `$container->makeNew($interface)`
+    * Useful for interfaces previously resolve using `$container->makeNew($interface)`
 * To bind a singleton (shared) class, use `$container->bindSingleton($interface, $singletonClass)`
-  * Useful for interfaces previously resolved using `$container->makeShared($interface)`
+    * Useful for interfaces previously resolved using `$container->makeShared($interface)`
 * To specify a targeted binding, use `$container->for($targetClass, $callback)->bindSingleton($interface, $singletonClass)`
-  * The callback should contain all bindings and resolutions that are targeted
-  * The only methods that are targetable are `bindFactory()`, `bindInstance()`, `bindPrototype()`, `bindSingleton()`, `hasBinding()`, `resolve()`, and `unbind()`
+    * The callback should contain all bindings and resolutions that are targeted
+    * The only methods that are targetable are `bindFactory()`, `bindInstance()`, `bindPrototype()`, `bindSingleton()`, `hasBinding()`, `resolve()`, and `unbind()`
 * To specify primitive values, do so when you bind to the container, eg `$container->bindSingleton($interface, $singletonClass, $arrayOfPrimitives)`
-  * You no longer specify primitives when resolving dependencies - only when you bind them
+    * You no longer specify primitives when resolving dependencies - only when you bind them
 * To call a closure, use `$container->callClosure($closure, $arrayOfPrimitives)`
 * To call a method, use `$container->callMethod($instance, $methodName, $arrayOfPrimitives)`
 * To check if an interface has a binding, use `$container->hasBinding($interface)`
@@ -715,14 +726,14 @@ Deprecated names of various dispatcher classes in favor of more descriptive `{Mo
 * Removed `$method` and `$path` parameters from `Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase::route()`
 * Added `Opulence\Framework\Testing\PhpUnit\Http\RequestBuilder`
 * Added following methods to `Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase`:
-  * `assertResponseJsonEquals()`
-  * `delete()`
-  * `get()`
-  * `head()`
-  * `options()`
-  * `patch()`
-  * `post()`
-  * `put()`
+    * `assertResponseJsonEquals()`
+    * `delete()`
+    * `get()`
+    * `head()`
+    * `options()`
+    * `patch()`
+    * `post()`
+    * `put()`
 * All assertions in `Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase` and `Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase` now return `$this` for method chaining
 
 <h2>v1.0.0-alpha25</h2>
@@ -1054,7 +1065,7 @@ Deprecated names of various dispatcher classes in favor of more descriptive `{Mo
 <h3>Views</h3>
 * Added ability to use `<% show %>` directive to both end the current part and show it
 * Changed `Opulence\Views\Factories\ViewFactory::registerBuilder()` to accept a closure that accepts an `Opulence\Views\IVew` parameter and returns the built view
-  * This differs from before when the closure would simply return an instance of `Opulence\Views\Factories\IViewBuilder`
+    * This differs from before when the closure would simply return an instance of `Opulence\Views\Factories\IViewBuilder`
 
 <h2>v0.6.12</h2>
 
@@ -1228,15 +1239,15 @@ Deprecated names of various dispatcher classes in favor of more descriptive `{Mo
 <h3>Applications</h3>
 * Added `Bootstrapper::shutdown()` to handle any cleaning up that needs to be done on application shutdown
 * Removed logger from `Application` constructor
-  * Removed `getLogger()`, `setIoCContainer()`, and `setLogger()`
+    * Removed `getLogger()`, `setIoCContainer()`, and `setLogger()`
 * Removed `RDev\Applications\Application::registerPreStartTask()`, `registerPostStartTask()`, `registerPreShutdownTask()`, and `registerPostShutdownTask()`
 * Added `RDev\Tasks\Dispatchers\Dispatcher`
-  * This now handles pre/post-start and -shutdown tasks
+    * This now handles pre/post-start and -shutdown tasks
 * Added ability to lazy-load bootstrappers by implementing `RDev\Applications\Bootstrappers\ILazyBootstrapper`
 * Removed `Application::registerBootstrapper()` and `Application::registerBootstrappersTask()`
-  * Added `RDev\Applications\Bootstrappers\IBootstrapperRegistry` and `BootstrapperRegistry` to act as the bootstrapper registry
-  * Added `RDev\Applications\Bootstrappers\Dispatcher\IDispatcher` and `Dispatcher` to actually dispatch bootstrappers
-  * Added `RDev\Applications\Bootstrappers\IO\BootstrapperIO` to read bootstrappers from storage
+    * Added `RDev\Applications\Bootstrappers\IBootstrapperRegistry` and `BootstrapperRegistry` to act as the bootstrapper registry
+    * Added `RDev\Applications\Bootstrappers\Dispatcher\IDispatcher` and `Dispatcher` to actually dispatch bootstrappers
+    * Added `RDev\Applications\Bootstrappers\IO\BootstrapperIO` to read bootstrappers from storage
 
 <h3>Authentication</h3>
 * `RDev\Authentication\Credentials\Credentials` renamed to `RDev\Authentication\Credentials\CredentialCollection`
@@ -1281,8 +1292,8 @@ Deprecated names of various dispatcher classes in favor of more descriptive `{Mo
 
 <h3>Framework</h3>
 * Added CSRF token checking
-  * Added `RDev\Framework\HTTP\CSRFTokenChecker`
-  * Added `RDev\Framework\HTTP\Middleware\CheckCSRFToken`
+    * Added `RDev\Framework\HTTP\CSRFTokenChecker`
+    * Added `RDev\Framework\HTTP\Middleware\CheckCSRFToken`
 * All commands in `RDev\Framework\Console\Commands` appended with "Command"
 * `RDev\Framework\Tests\Console\ApplicationTestCase::getCommands()` renamed to `getCommandCollection()`
 * Added `RDev\Framework\Bootstrappers\HTTP\Sessions\Session`
@@ -1308,39 +1319,39 @@ Deprecated names of various dispatcher classes in favor of more descriptive `{Mo
 * Added `CompiledRoute::getPathVariable()`
 * Fixed type-hint for `Router::getMatchedRoute()` to return type `CompiledRoute`
 * Controller/method names are now passed into the `Route` constructor directly rather than through the options array
-  * The following methods in `RDev\Routing\Router` have been changed to accept `$path`, `$controller`, and `$options`:
-    * `any()`
-    * `delete()`
-    * `get()`
-    * `head()`
-    * `options()`
-    * `patch()`
-    * `post()`
-    * `put()`
-  * `Router::multiple()` now accepts `$methods`, `$path`, `$controller`, and `$options`
+    * The following methods in `RDev\Routing\Router` have been changed to accept `$path`, `$controller`, and `$options`:
+        * `any()`
+        * `delete()`
+        * `get()`
+        * `head()`
+        * `options()`
+        * `patch()`
+        * `post()`
+        * `put()`
+    * `Router::multiple()` now accepts `$methods`, `$path`, `$controller`, and `$options`
 * Opened up routing to also accept non-RDev controllers
 
 <h3>Sessions</h3>
 * Removed session from the application and bootstrapper constructors
-  * Removed `Application::getSession()` and `Application::setSession()`
+    * Removed `Application::getSession()` and `Application::setSession()`
 * Added the following methods to `ISession` and `Session`:
-  * `ageFlashData()`
-  * `delete()`
-  * `flash()`
-  * `flush()`
-  * `get()`
-  * `getAll()`
-  * `getId()`
-  * `getName()`
-  * `has()`
-  * `hasStarted()`
-  * `reflash()`
-  * `regenerateId()`
-  * `set()`
-  * `setId()`
-  * `setMany()`
-  * `setName()`
-  * `start()`
+    * `ageFlashData()`
+    * `delete()`
+    * `flash()`
+    * `flush()`
+    * `get()`
+    * `getAll()`
+    * `getId()`
+    * `getName()`
+    * `has()`
+    * `hasStarted()`
+    * `reflash()`
+    * `regenerateId()`
+    * `set()`
+    * `setId()`
+    * `setMany()`
+    * `setName()`
+    * `start()`
 * Added `FileSessionHandler`
 * Added `ISession::getId()` and `ISession::setId()`
 * Removed `User` and `Credentials` from `ISession` and `Session`
