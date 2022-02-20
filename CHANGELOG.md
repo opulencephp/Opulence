@@ -2,6 +2,7 @@
 
 <h3>General</h3>
 
+* Updated to use GitHub Actions instead of Travis CI
 * Updated class signatures to work in PHP 8.1
 * Updated CI to test with PHP 8.1
 
