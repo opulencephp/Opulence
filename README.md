@@ -1,5 +1,5 @@
 # Opulence
-[![Build Status](https://travis-ci.com/opulencephp/Opulence.svg)](https://travis-ci.com/opulencephp/Opulence)
+<a href="https://github.com/opulencephp/Opulence/actions"><img src="https://github.com/opulencephp/Opulence/workflows/ci/badge.svg"></a>
 [![Latest Stable Version](https://poser.pugx.org/opulence/opulence/v/stable.svg)](https://packagist.org/packages/opulence/opulence)
 [![Latest Unstable Version](https://poser.pugx.org/opulence/opulence/v/unstable.svg)](https://packagist.org/packages/opulence/opulence)
 [![License](https://poser.pugx.org/opulence/opulence/license.svg)](https://packagist.org/packages/opulence/opulence)
@@ -18,7 +18,7 @@ composer create-project opulence/project --prefer-dist
 For complete documentation, <a href="https://www.opulencephp.com" target="_blank">visit the official website</a>.
 
 ## Requirements
-* PHP 7.3
+* PHP >= 7.3
 * OpenSSL
 * mbstring
 
