@@ -80,11 +80,11 @@ class RunAppLocallyCommand extends Command
         $response->writeln("Running at http://$domain:$port");
         $command = sprintf(
             '%s -S %s:%d -t %s %s',
-            PHP_BINARY,
+            '"' . PHP_BINARY . '"',
             $domain,
             $port,
-            $this->getOptionValue('docroot'),
-            $this->getOptionValue('router')
+            '"' . $this->getOptionValue('docroot') . '"',
+            '"' . $this->getOptionValue('router') . '"'
         );
         passthru($command);
     }

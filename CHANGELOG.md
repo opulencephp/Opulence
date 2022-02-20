@@ -1,3 +1,15 @@
+<h2>v1.2.2 (?)</h2>
+
+<h3>General</h3>
+
+* Updated to use GitHub Actions instead of Travis CI
+* Updated class signatures to work in PHP 8.1
+* Updated CI to test with PHP 8.1
+
+<h3>Console</h3>
+
+* Fixed bug when running an app locally with spaces in the path
+
 <h2>v1.2.1 (2021-3-22)</h2>
 
 <h3>Routing</h3>

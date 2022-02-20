@@ -54,7 +54,7 @@ abstract class Parser implements IParser
             $nextToken = array_shift($remainingTokens);
 
             // Check if the next token is also an option
-            if (mb_substr($nextToken, 0, 1) === '-' || empty($nextToken)) {
+            if (mb_substr($nextToken ?? '', 0, 1) === '-' || empty($nextToken)) {
                 // The option must have not had a value, so put the next token back
                 array_unshift($remainingTokens, $nextToken);
 

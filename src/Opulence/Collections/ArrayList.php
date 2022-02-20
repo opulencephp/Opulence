@@ -125,33 +125,34 @@ class ArrayList implements IList
     /**
      * @inheritdoc
      */
-    public function offsetExists($index) : bool
+    public function offsetExists($offset) : bool
     {
-        return array_key_exists($index, $this->values);
+        return array_key_exists($offset, $this->values);
     }
 
     /**
      * @inheritdoc
      */
-    public function offsetGet($index)
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
-        return $this->get($index);
+        return $this->get($offset);
     }
 
     /**
      * @inheritdoc
      */
-    public function offsetSet($index, $value) : void
+    public function offsetSet($offset, $value) : void
     {
-        $this->insert($index, $value);
+        $this->insert($offset, $value);
     }
 
     /**
      * @inheritdoc
      */
-    public function offsetUnset($index) : void
+    public function offsetUnset($offset) : void
     {
-        $this->removeIndex($index);
+        $this->removeIndex($offset);
     }
 
     /**

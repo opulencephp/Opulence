@@ -1,0 +1,38 @@
+name: ci
+on:
+    push:
+    pull_request:
+    schedule:
+        - cron: '0 0 * * *'
+jobs:
+    ci:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: true
+            matrix:
+                include:
+                    - php: '7.3'
+                      stability: prefer-stable
+                    - php: '7.4'
+                      stability: prefer-stable
+                    - php: '8.0'
+                      stability: prefer-stable
+                    - php: '8.1'
+                      stability: prefer-stable
+        name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
+        steps:
+            - name: Check Out Code
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - name: Set Up PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  extensions: curl, dom, libxml, mbstring, memcached, pcntl, xdebug, zip
+                  tools: composer:v2
+                  coverage: xdebug
+            - name: Install Dependencies
+              run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-progress
+            - name: Run Tests
+              run: vendor/bin/phpunit --verbose

@@ -110,6 +110,7 @@ class Collection implements ArrayAccess, Countable
     /**
      * @inheritdoc
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->get($offset, null);
@@ -118,7 +119,7 @@ class Collection implements ArrayAccess, Countable
     /**
      * @inheritdoc
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value) : void
     {
         $this->set($offset, $value);
     }
@@ -126,7 +127,7 @@ class Collection implements ArrayAccess, Countable
     /**
      * @inheritdoc
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset) : void
     {
         $this->remove($offset);
     }

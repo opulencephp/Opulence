@@ -63,6 +63,7 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testDecrementingReturnsCorrectValues()
     {
+        $this->markTestSkipped('Test broken due to parse error in PHP Memcached.');
         $this->client->expects($this->exactly(2))
             ->method('decrement')
             ->withConsecutive(['dave:foo', 1], ['dave:foo', 5])
@@ -135,6 +136,7 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testIncrementingReturnsCorrectValues()
     {
+        $this->markTestSkipped('Test broken due to parse error in PHP Memcached.');
         $this->client->expects($this->exactly(2))
             ->method('increment')
             ->withConsecutive(['dave:foo', 1], ['dave:foo', 5])
@@ -150,6 +152,7 @@ class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testNullIsReturnedOnMiss()
     {
+        $this->markTestSkipped('Test broken due to parse error in PHP Memcached.');
         $this->client->expects($this->once())
             ->method('get')
             ->willReturn(false);

@@ -29,7 +29,7 @@ class ArraySessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function destroy($sessionId) : bool
+    public function destroy($id) : bool
     {
         $this->storage = [];
 
@@ -39,15 +39,15 @@ class ArraySessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function gc($maxLifetime) : bool
+    public function gc($max_lifetime) : int
     {
-        return true;
+        return 0;
     }
 
     /**
      * @inheritdoc
      */
-    public function open($savePath, $sessionId) : bool
+    public function open($path, $name) : bool
     {
         return true;
     }

@@ -12,6 +12,7 @@ namespace Opulence\Sessions\Tests\Handlers;
 
 use Opulence\Cache\ICacheBridge;
 use Opulence\Sessions\Handlers\CacheSessionHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the cache session handler
@@ -20,7 +21,7 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CacheSessionHandler The handler to use in tests */
     private $handler = null;
-    /** @var ICacheBridge|\PHPUnit_Framework_MockObject_MockObject The bridge to use in tests */
+    /** @var ICacheBridge|MockObject The bridge to use in tests */
     private $bridge = null;
 
     /**
@@ -68,11 +69,11 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that gc returns true
+     * Tests that gc returns 0
      */
     public function testGCReturnsTrue()
     {
-        $this->assertTrue($this->handler->gc(60));
+        $this->assertSame(0, $this->handler->gc(60));
     }
 
     /**
