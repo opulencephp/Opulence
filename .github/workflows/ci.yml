@@ -36,3 +36,13 @@ jobs:
               run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-progress
             - name: Run Tests
               run: vendor/bin/phpunit --verbose
+            - name: Split Subtrees
+              if: matrix.php == '7.3' && (github.ref == 'refs/heads/1.2' || startswith(github.ref, 'refs/tags/'))
+              env:
+                  SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+              run: |
+                  mkdir -p ~/.ssh
+                  ssh-keyscan github.com >> ~/.ssh/known_hosts
+                  ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+                  ssh-add - <<< "${{ secrets.ci-ssh-key }}"
+                  bash bin/split.sh ${{ github.ref }}
