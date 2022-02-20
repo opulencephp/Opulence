@@ -1,9 +1,6 @@
 <phpunit
         bootstrap="vendor/autoload.php"
-        colors="true"
-        convertErrorsToExceptions="true"
-        convertNoticesToExceptions="true"
-        convertWarningsToExceptions="true">
+        colors="true">
     <testsuite name="Opulence Tests">
         <directory>src/Opulence/Applications/Tests</directory>
         <directory>src/Opulence/Authentication/Tests</directory>
