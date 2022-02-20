@@ -613,7 +613,7 @@ class Request
      */
     public function isJson() : bool
     {
-        return preg_match("/application\/json/i", $this->headers->get('CONTENT_TYPE')) === 1;
+        return preg_match("/application\/json/i", $this->headers->get('CONTENT_TYPE') ?? '') === 1;
     }
 
     /**
@@ -810,8 +810,8 @@ class Request
          * don't bother and just let users look the data up in the raw body.
          */
         if (
-            (mb_strpos($this->headers->get('CONTENT_TYPE'), 'application/x-www-form-urlencoded') === 0
-                || mb_strpos($this->headers->get('CONTENT_TYPE'), 'multipart/form-data') === 0) &&
+            (mb_strpos($this->headers->get('CONTENT_TYPE') ?? '', 'application/x-www-form-urlencoded') === 0
+                || mb_strpos($this->headers->get('CONTENT_TYPE') ?? '', 'multipart/form-data') === 0) &&
             in_array($this->method, [RequestMethods::PUT, RequestMethods::PATCH, RequestMethods::DELETE])
         ) {
             if ($this->originalMethodCollection === null) {

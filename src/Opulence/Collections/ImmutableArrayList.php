@@ -84,23 +84,24 @@ class ImmutableArrayList implements IImmutableList
     /**
      * @inheritdoc
      */
-    public function offsetExists($index) : bool
+    public function offsetExists($offset) : bool
     {
-        return array_key_exists($index, $this->values);
+        return array_key_exists($offset, $this->values);
     }
 
     /**
      * @inheritdoc
      */
-    public function offsetGet($index)
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
-        return $this->get($index);
+        return $this->get($offset);
     }
 
     /**
      * @inheritdoc
      */
-    public function offsetSet($index, $value) : void
+    public function offsetSet($offset, $value) : void
     {
         throw new RuntimeException('Cannot set values in ' . self::class);
     }
@@ -108,7 +109,7 @@ class ImmutableArrayList implements IImmutableList
     /**
      * @inheritdoc
      */
-    public function offsetUnset($index) : void
+    public function offsetUnset($offset) : void
     {
         throw new RuntimeException('Cannot unset values in ' . self::class);
     }

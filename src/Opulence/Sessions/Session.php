@@ -152,37 +152,38 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function offsetExists($key) : bool
+    public function offsetExists($offset) : bool
     {
-        return $this->has($key);
+        return $this->has($offset);
     }
 
     /**
      * @inheritdoc
      */
-    public function offsetGet($key)
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
-        return $this->get($key);
+        return $this->get($offset);
     }
 
     /**
      * @inheritdoc
      */
-    public function offsetSet($key, $value)
+    public function offsetSet($offset, $value) : void
     {
-        if ($key === null) {
+        if ($offset === null) {
             throw new InvalidArgumentException('Key cannot be empty');
         }
 
-        $this->set($key, $value);
+        $this->set($offset, $value);
     }
 
     /**
      * @inheritdoc
      */
-    public function offsetUnset($key)
+    public function offsetUnset($offset) : void
     {
-        unset($this->vars[$key]);
+        unset($this->vars[$offset]);
     }
 
     /**

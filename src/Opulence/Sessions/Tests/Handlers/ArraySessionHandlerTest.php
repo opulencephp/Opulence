@@ -41,7 +41,7 @@ class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
      */
     public function testGarbageCollection()
     {
-        $this->assertTrue($this->handler->gc(-1));
+        $this->assertSame(0, $this->handler->gc(-1));
     }
 
     /**

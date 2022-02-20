@@ -150,9 +150,9 @@ class HashTable implements IDictionary
      * @inheritdoc
      * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function offsetExists($key) : bool
+    public function offsetExists($offset) : bool
     {
-        return $this->containsKey($key);
+        return $this->containsKey($offset);
     }
 
     /**
@@ -160,27 +160,28 @@ class HashTable implements IDictionary
      * @throws OutOfBoundsException Thrown if the key could not be found
      * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function offsetGet($key)
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
-        return $this->get($key);
+        return $this->get($offset);
     }
 
     /**
      * @inheritdoc
      * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function offsetSet($key, $value) : void
+    public function offsetSet($offset, $value) : void
     {
-        $this->add($key, $value);
+        $this->add($offset, $value);
     }
 
     /**
      * @inheritdoc
      * @throws RuntimeException Thrown if the value's key could not be calculated
      */
-    public function offsetUnset($key) : void
+    public function offsetUnset($offset) : void
     {
-        $this->removeKey($key);
+        $this->removeKey($offset);
     }
 
     /**

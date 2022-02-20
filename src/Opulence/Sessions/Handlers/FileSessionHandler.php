@@ -37,9 +37,9 @@ class FileSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function destroy($sessionId) : bool
+    public function destroy($id) : bool
     {
-        @unlink("{$this->path}/$sessionId");
+        @unlink("{$this->path}/$id");
 
         return true;
     }
@@ -47,25 +47,27 @@ class FileSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function gc($maxLifetime) : bool
+    public function gc($max_lifetime) : int
     {
         $sessionFiles = glob($this->path . '/*', GLOB_NOSORT);
-        $limit = time() - $maxLifetime;
+        $limit = time() - $max_lifetime;
+        $numDeletedSessions = 0;
 
         foreach ($sessionFiles as $sessionFile) {
             $lastModified = filemtime($sessionFile);
             if ($lastModified < $limit) {
                 @unlink($sessionFile);
+                $numDeletedSessions++;
             }
         }
 
-        return true;
+        return $numDeletedSessions;
     }
 
     /**
      * @inheritdoc
      */
-    public function open($savePath, $sessionId) : bool
+    public function open($path, $name) : bool
     {
         return true;
     }
