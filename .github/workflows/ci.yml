@@ -35,4 +35,4 @@ jobs:
             - name: Install Dependencies
               run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-progress
             - name: Run Tests
-              run: vendor/bin/phpunit
+              run: vendor/bin/phpunit --verbose
