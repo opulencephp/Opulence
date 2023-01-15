@@ -1,3 +1,9 @@
+<h2>v1.2.3 (2023-1-23)</h2>
+
+<h3>General</h3>
+
+* Updated PSR logger to support newer versions of PHP
+
 <h2>v1.2.2 (2022-2-20)</h2>
 
 <h3>General</h3>
