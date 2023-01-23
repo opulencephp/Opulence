@@ -33,7 +33,7 @@
     "ext-openssl": "*",
     "ext-mbstring": "*",
     "opis/closure": "~3.6",
-    "psr/log": "~1.0"
+    "psr/log": "~1.0 || ^2.0 || ^3.0"
   },
   "require-dev": {
     "ext-pdo": "*",
